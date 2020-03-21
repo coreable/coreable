@@ -15,3 +15,10 @@
 ## Access Server
 
 [http://localhost:3000/graphql](http://localhost:3000/graphql)
+
+## Fix broken docker
+
+```
+docker-compose down
+docker rm -fv $(docker ps -aq)
+```

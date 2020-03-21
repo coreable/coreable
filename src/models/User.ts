@@ -1,6 +1,8 @@
-import { Model, DataTypes, literal } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize';
 import { Industry } from './Industry'; 
+import { Group } from './Group';
+import { Team } from './Team';
 
 export class User extends Model {
   public userID!: number;
@@ -8,7 +10,7 @@ export class User extends Model {
   public lastName!: string;
   public email!: string;
   public industryID!: number;
-  public cognitoID!: string;
+  public password!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -48,5 +50,4 @@ export default User.init({
   'sequelize': sequelize
 });
 
-// Relations
-User.hasOne(Industry, { sourceKey: 'industryID', foreignKey: 'industryID' });
+User.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'indusryID' } });

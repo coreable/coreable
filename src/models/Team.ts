@@ -25,6 +25,5 @@ export default Team.init({
   'sequelize': sequelize
 });
 
-// Relations
-Team.hasOne(User, { sourceKey: 'userID', foreignKey: 'userID' });
-Team.hasOne(Group, { sourceKey: 'groupID', foreignKey: 'groupID' });
+Team.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'userID' } });
+Team.belongsTo(Group, { foreignKey: { name: 'groupID', allowNull: false, field: 'groupID' } });

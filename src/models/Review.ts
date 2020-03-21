@@ -145,6 +145,5 @@ export default Review.init({
   'sequelize': sequelize
 });
 
-// Relations
-Review.hasOne(User, { sourceKey: 'subjectID', foreignKey: 'userID' });
-Review.hasOne(User, { sourceKey: 'comppletedBy', foreignKey: 'userID' });
+Review.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'subjectID' } });
+Review.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'completedBy' } });

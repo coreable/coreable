@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize';
+import { User } from './User';
 
 export class Industry extends Model {
   public industryID!: number;

@@ -12,15 +12,12 @@ export const generator = new Promise((resolve, reject) => {
     resolve();
   })
   .then(() => {
-    return sequelize.query('CREATE DATABASE IF NOT EXISTS `COREABLE`;');
-  })
-  .then(() => {
     // Drop the database tables and rebuild
     return sequelize.sync({ force: true });
   })
   .then(() => {
     // Industry
-    _.times(5, () => {
+    _.times(6, () => {
       return Industry.create({
         industryName: Faker.company.companyName(),
       });
@@ -30,37 +27,37 @@ export const generator = new Promise((resolve, reject) => {
     // Users
     _.times(15, () => {
       const industryID = Math.floor(Math.random() * (5-1) + 1);
-      return User.create({
-        firstName: Faker.name.firstName(),
-        lastName: Faker.name.lastName(),
-        email: Faker.internet.email(),
-        industryID: industryID,
-        cognitoID: Faker.random.alphaNumeric(5)
-      });
+      // return User.create({
+      //   firstName: Faker.name.firstName(),
+      //   lastName: Faker.name.lastName(),
+      //   email: Faker.internet.email(),
+      //   industryID: industryID,
+      //   cognitoID: Faker.random.alphaNumeric(5)
+      // });
     });
   })
   .then(() => {
     // Groups
     _.times(5, () => {
-      const groupLeader = Math.floor(Math.random() * (15-1) + 1);
-      const industryID = Math.floor(Math.random() * (5-1) + 1);
-      return Group.create({
-        teamName: Faker.company.companyName(),
-        groupLeader: groupLeader,
-        inviteCode: Faker.random.alphaNumeric(5),
-        industryID: industryID
-      });
+      // const groupLeader = Math.floor(Math.random() * (15-1) + 1);
+      // const industryID = Math.floor(Math.random() * (5-1) + 1);
+      // return Group.create({
+      //   teamName: Faker.company.companyName(),
+      //   groupLeader: groupLeader,
+      //   inviteCode: Faker.random.alphaNumeric(5),
+      //   industryID: industryID
+      // });
     })
   })
   .then(() => {
     // Teams
     _.times(10, () => {
-      const groupID = Math.floor(Math.random() * (5-1) + 1);
-      const userID = Math.floor(Math.random() * (15-1) + 1);
-      return Team.create({
-        userID: userID,
-        groupID: groupID
-      });
+      // const groupID = Math.floor(Math.random() * (5-1) + 1);
+      // const userID = Math.floor(Math.random() * (15-1) + 1);
+      // return Team.create({
+      //   userID: userID,
+      //   groupID: groupID
+      // });
     });
   })
   .catch((err) => reject(err))

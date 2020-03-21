@@ -2,6 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize';
 import { User } from './User';
 import { Industry } from './Industry';
+import { Team } from './Team';
 
 export class Group extends Model {
   public groupID!: number;
@@ -26,7 +27,7 @@ export default Group.init({
   },
   'groupLeader': {
     'type': DataTypes.INTEGER.UNSIGNED,
-    'allowNull': false
+    'allowNull': false,
   },
   'inviteCode': {
     'type': DataTypes.STRING,
@@ -42,5 +43,5 @@ export default Group.init({
 });
 
 // Relations
-Group.hasOne(User, { sourceKey: 'groupLeader', foreignKey: 'userID' });
-Group.hasOne(Industry, { sourceKey: 'industryID', foreignKey: 'industryID' });
+Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
+Group.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'groupLeader' } });

@@ -5,6 +5,7 @@ import { Schema } from './api/Schema';
 // Server
 export const app: Application = express();
 
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.disable('x-powered-by');
@@ -15,6 +16,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+// GraphQL init
 app.use('/graphql', GraphHTTP({
   schema: Schema,
   pretty: true,

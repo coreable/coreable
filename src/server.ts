@@ -3,28 +3,27 @@ import { app } from './app';
 import { sequelize } from './sequelize';
 import * as config from './config/config.json';
 
-// Data Generator
-import { generator } from './data/generator';
-
-// import models
-import * as User from './models/User';
+// init models and sync database
 import * as Industry from './models/Industry';
+import * as User from './models/User';
 import * as Group from './models/Group';
 import * as Team from './models/Team';
+import * as Review from './models/Review';
 
-// init models
 User.default;
 Industry.default;
 Group.default;
 Team.default;
+Review.default;
+
+// Data Generator
+import { generator } from './data/generator';
 
 // run server
 (async () => {
-  await sequelize.authenticate();
   if (process.env.NODE_ENV === "development") {
     generator.then(() => console.log('done'));
   }
-  createServer(app).listen(config.HTTP.PORT, () => console.log(`Server running on port ${config.HTTP.PORT}`));
+  await sequelize.authenticate();
+  createServer(app).listen(config.HTTP.PORT, () => console.log(`Server running on http://localhost:${config.HTTP.PORT}`));
 })();
-
-console.log(process.env.NODE_ENV);
