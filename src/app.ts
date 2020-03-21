@@ -18,5 +18,5 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/graphql', GraphHTTP({
   schema: Schema,
   pretty: true,
-  graphiql: true
+  graphiql: process.env.NODE_ENV == 'development' ? true : false
 }));
