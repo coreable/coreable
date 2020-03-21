@@ -12,6 +12,9 @@ export const generator = new Promise((resolve, reject) => {
     resolve();
   })
   .then(() => {
+    return sequelize.query('CREATE DATABASE IF NOT EXISTS `COREABLE`;');
+  })
+  .then(() => {
     // Drop the database tables and rebuild
     return sequelize.sync({ force: true });
   })
