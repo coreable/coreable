@@ -2,7 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize';
 import { User } from './User';
 
-class Review extends Model {
+export class Review extends Model {
   public reviewID!: number;
   public subjectID!: number;
   public completedBy!: number;
@@ -145,5 +145,5 @@ export default Review.init({
   'sequelize': sequelize
 });
 
-Review.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'subjectID' } });
-Review.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'completedBy' } });
+Review.belongsTo(User, { foreignKey: { name: 'subjectID', allowNull: false, field: 'userID' } });
+Review.belongsTo(User, { foreignKey: { name: 'completedBy', allowNull: false, field: 'userID' } });

@@ -44,4 +44,4 @@ export default Group.init({
 
 // Relations
 Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
-Group.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'groupLeader' } });
+Group.belongsTo(User, { foreignKey: { name: 'groupLeader', allowNull: false, field: 'userID' } });

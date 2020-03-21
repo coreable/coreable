@@ -22,7 +22,7 @@ import { generator } from './data/generator';
 // run server
 (async () => {
   if (process.env.NODE_ENV === "development") {
-    generator.then(() => console.log('done'));
+    await generator();
   }
   await sequelize.authenticate();
   createServer(app).listen(config.HTTP.PORT, () => console.log(`Server running on http://localhost:${config.HTTP.PORT}`));

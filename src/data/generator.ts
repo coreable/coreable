@@ -4,62 +4,104 @@ import { Industry } from '../models/Industry';
 import { User } from '../models/User';
 import { Group } from '../models/Group';
 import { Team } from '../models/Team';
+import { Review } from '../models/Review';
 import { sequelize } from '../sequelize';
 
-export const generator = new Promise((resolve, reject) => {
-  let p = new Promise((resolve) => {
-    // Start the chain
-    resolve();
-  })
-  .then(() => {
-    // Drop the database tables and rebuild
-    return sequelize.sync({ force: true });
-  })
-  .then(() => {
-    // Industry
-    _.times(6, () => {
-      return Industry.create({
-        industryName: Faker.company.companyName(),
+export async function generator() {
+  await sequelize.sync({ force: true });
+  let promises: any = [];
+  
+  // Industry
+  _.times(5, () => {
+    promises.push(function () {
+      return Industry.create({ industryName: Faker.company.companyName() })
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // User
+  _.times(20, () => {
+    promises.push(function () {
+      return User.create({
+        firstName: Faker.name.firstName(),
+        lastName: Faker.name.lastName(),
+        email: Faker.internet.email(),
+        industryID: Faker.random.number({min: 1, max: 5}),
+        cognitoID: Faker.random.alphaNumeric(5)
       });
     });
-  })
-  .then(() => {
-    // Users
-    _.times(15, () => {
-      const industryID = Math.floor(Math.random() * (5-1) + 1);
-      // return User.create({
-      //   firstName: Faker.name.firstName(),
-      //   lastName: Faker.name.lastName(),
-      //   email: Faker.internet.email(),
-      //   industryID: industryID,
-      //   cognitoID: Faker.random.alphaNumeric(5)
-      // });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+  
+  // Group
+  _.times(5, () => {
+    promises.push(function() {
+      return Group.create({
+        teamName: Faker.company.companyName(),
+        groupLeader: Faker.random.number({min: 1, max: 15}),
+        inviteCode: Faker.random.alphaNumeric(5),
+        industryID: Faker.random.number({min: 1, max: 5})
+      })
     });
-  })
-  .then(() => {
-    // Groups
-    _.times(5, () => {
-      // const groupLeader = Math.floor(Math.random() * (15-1) + 1);
-      // const industryID = Math.floor(Math.random() * (5-1) + 1);
-      // return Group.create({
-      //   teamName: Faker.company.companyName(),
-      //   groupLeader: groupLeader,
-      //   inviteCode: Faker.random.alphaNumeric(5),
-      //   industryID: industryID
-      // });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Team
+  _.times(20, () => {
+    promises.push(function() {
+      return Team.create({
+        userID: Faker.random.number({min: 1, max: 15}),
+        groupID: Faker.random.number({min: 1, max: 5}),
+      });
     })
-  })
-  .then(() => {
-    // Teams
-    _.times(10, () => {
-      // const groupID = Math.floor(Math.random() * (5-1) + 1);
-      // const userID = Math.floor(Math.random() * (15-1) + 1);
-      // return Team.create({
-      //   userID: userID,
-      //   groupID: groupID
-      // });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Review
+  _.times(30, () => {
+    promises.push(function() {
+      return Review.create({
+        subjectID: Faker.random.number({min: 1, max: 15}),
+        completedBy: Faker.random.number({min: 1, max: 15}),
+        emotionalResponse: Faker.random.number({min: 1, max: 100}),
+        empathy: Faker.random.number({min: 1, max: 100}),
+        managesOwn: Faker.random.number({min: 1, max: 100}),
+        faith: Faker.random.number({min: 1, max: 100}),
+        cooperatively: Faker.random.number({min: 1, max: 100}),
+        positiveBelief: Faker.random.number({min: 1, max: 100}),
+        resilienceFeedback: Faker.random.number({min: 1, max: 100}),
+        calm: Faker.random.number({min: 1, max: 100}),
+        change: Faker.random.number({min: 1, max: 100}),
+        newIdeas: Faker.random.number({min: 1, max: 100}),
+        workDemands: Faker.random.number({min: 1, max: 100}),
+        proactive: Faker.random.number({min: 1, max: 100}),
+        influences: Faker.random.number({min: 1, max: 100}),
+        clearInstructions: Faker.random.number({min: 1, max: 100}),
+        preventsMisunderstandings: Faker.random.number({min: 1, max: 100}),
+        easilyExplainsComplexIdeas: Faker.random.number({min: 1, max: 100}),
+        openToShare: Faker.random.number({min: 1, max: 100}),
+        tone: Faker.random.number({min: 1, max: 100}),
+        crossTeam: Faker.random.number({min: 1, max: 100}),
+        distractions: Faker.random.number({min: 1, max: 100}),
+        eyeContact: Faker.random.number({min: 1, max: 100}),
+        signifiesInterest: Faker.random.number({min: 1, max: 100}),
+        verbalAttentiveFeedback: Faker.random.number({min: 1, max: 100})
+      });
     });
-  })
-  .catch((err) => reject(err))
-  .then(() => resolve());
-});
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+}
+
+async function inSequence(tasks: Promise<any>[]) {
+  return await tasks.reduce(async (promise: Promise<any>, task: any) => await promise.then(task), Promise.resolve())
+}
