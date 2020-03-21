@@ -1,5 +1,9 @@
 # Coreable Back End
 
+## Install dependancies
+
+`npm i`
+
 ## Start the SQL Server
 
 `docker-compose up`
