@@ -8,6 +8,5 @@
   },
   "HTTP": {
     "PORT": 3000
-  },
-  "ENV": "DEVELOPMENT"
+  }
 }

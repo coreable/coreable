@@ -21,11 +21,10 @@ Team.default;
 // run server
 (async () => {
   await sequelize.authenticate();
-  if (config.ENV === "DEVELOPMENT") {
+  if (process.env.NODE_ENV === "development") {
     generator.then(() => console.log('done'));
   }
   createServer(app).listen(config.HTTP.PORT, () => console.log(`Server running on port ${config.HTTP.PORT}`));
 })();
 
-
-console.log(process.argv);
+console.log(process.env.NODE_ENV);

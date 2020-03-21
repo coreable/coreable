@@ -1,0 +1,12 @@
+{
+    "DATABASE": {
+        "HOST": "localhost",
+        "PORT": 3306,
+        "SCHEMA": "coreable",
+        "USERNAME": "root",
+        "PASSWORD": "example"
+    },
+    "HTTP": {
+        "PORT": 3000
+    }
+}

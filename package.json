@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
-    "start": "npm run build && node build/server.js"
+    "start": "npm run build && NODE_ENV=production node build/server.js"
   },
   "keywords": [],
   "author": "",
