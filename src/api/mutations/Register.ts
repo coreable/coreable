@@ -33,7 +33,7 @@ export default {
     }) as any;
     const session: Session = {
       token: user ? encodeJWT({ id: user.id, email: user.email, root: user.root }) : null,
-      userID: user.userID
+      userID: user ? user.userID : null
     };
     return { user, session };
   }

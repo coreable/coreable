@@ -19,7 +19,7 @@ export default {
     const isValid: boolean = await user.login(args.password);
     const session: Session = {
       token: isValid ? encodeJWT({ id: user.id, email: user.email, root: user.root }) : null,
-      userID: user.userID
+      userID: isValid ? user.userID : null
     };
     return { user, session };
   }

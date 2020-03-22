@@ -31,8 +31,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use((req: Request, res: Response, next: NextFunction) => {
   const AUTH: string = req.headers.AUTHORIZATION as any;
   if (AUTH) {
-    const USER = decodeJWT(AUTH);
-    req.USER = USER;
+    try {
+      req.USER = decodeJWT(AUTH);
+    } catch (err) {
+      req.USER = null;
+    }
   }
   next();
 });
