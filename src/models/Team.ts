@@ -1,5 +1,4 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-import { sequelize } from '../lib/sequelize';
 import { User } from './User';
 import { Group } from './Group';
 

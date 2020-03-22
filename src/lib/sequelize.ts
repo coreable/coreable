@@ -30,7 +30,7 @@ Group.default(sequelize);
 Team.default(sequelize);
 Review.default(sequelize);
 
-// add cache (5*60=5mins)
+// register cache with sequelize models (5*60=5mins)
 sequelize._cache = new SequelizeSimpleCache({
   User: { ttl: 5 * 60, limit: 50 },
   Industry: { ttl: 5 * 60, limit: 50 },
@@ -40,8 +40,10 @@ sequelize._cache = new SequelizeSimpleCache({
 }, {
   debug: process.env.NODE_ENV === "development" ? true : false
 });
- 
-// Replace the default models with the cache functions
+
+// Replace the default model methods with the cache functions
+// Caching can explicitly be bypassed like this:
+// Model.noCache().findOne(...);
 sequelize.models['Industry'] = sequelize._cache.init(sequelize.modelManager.addModel(Industry.Industry));
 sequelize.models['User'] = sequelize._cache.init(sequelize.modelManager.addModel(User.User));
 sequelize.models['Group'] = sequelize._cache.init(sequelize.modelManager.addModel(Group.Group));

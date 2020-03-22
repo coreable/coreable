@@ -1,5 +1,4 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-import { sequelize } from '../lib/sequelize';
 import { User } from './User';
 import { Industry } from './Industry';
 
@@ -45,6 +44,6 @@ export default (sequelize: Sequelize) => {
   // Relations
   Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
   Group.belongsTo(User, { foreignKey: { name: 'groupLeaderID', allowNull: false, field: 'userID' } });
-  
+
   return Group;
 }

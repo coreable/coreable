@@ -2,6 +2,9 @@ const md5 = require('md5');
 const { inspect } = require('util');
 const assert = require('assert');
 
+/**
+ * [SequelizeSimpleCache](https://github.com/frankthelen/sequelize-simple-cache)
+ */
 export class SequelizeSimpleCache {
   config: any;
   debug: any;
@@ -68,7 +71,7 @@ export class SequelizeSimpleCache {
     const { name: type } = model;
     // setup caching for this model
     const config = this.config[type];
-    let cache: any;
+    let cache: Map<any, any>;
     if (config) {
       cache = new Map();
       this.cache[type] = cache;
