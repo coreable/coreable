@@ -9,7 +9,7 @@ import { Industry } from '../../models/Industry';
 
 export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectType({
   name: 'IndustryQuery',
-  description: 'This represents a Industry',
+  description: 'This represents an Industry',
   fields: () => {
     return {
       'industryID': {

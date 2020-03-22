@@ -9,9 +9,10 @@ import {
 import { UserResolver } from './User';
 import { TeamResolver } from './Team';
 import { Group } from '../../models/Group';
+import { IndustryResolver } from './Industry';
 
 export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
-  name: 'GroupQuery',
+  name: 'GroupResolver',
   description: 'This represents a Group',
   fields: () => {
     return {
@@ -21,16 +22,24 @@ export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
           return group.groupID;
         }
       },
-      'teamName': {
+      'groupName': {
         type: GraphQLString,
         resolve(group) {
-          return group.teamName;
+          return group.groupName;
+        }
+      },
+      'groupLeaderID': {
+        type: GraphQLInt,
+        resolve(group) {
+          return group.groupLeaderID;
         }
       },
       'groupLeader': {
-        type: GraphQLList(UserResolver),
-        resolve(group: any) {
-          return sequelize.models.User.findAll({ where: { userID: group.groupLeader }})
+        description: 'The full details of the leader of the group',
+        type: UserResolver,
+        resolve(group, args) {
+          args.userID = group.groupLeaderID;
+          return sequelize.models.User.findOne({ where: args });
         }
       },
       'industryID': {
@@ -39,10 +48,28 @@ export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
           return group.industryID;
         }
       },
+      'industry': {
+        description: 'The full industry details for the group',
+        type: IndustryResolver,
+        args: {
+          industryID: {
+            type: GraphQLInt
+          },
+          industryName: {
+            type: GraphQLString
+          }
+        },
+        resolve(group, args) {
+          args.industryID = group.industryID;
+          return sequelize.models.Industry.findOne({ where: args });
+        }
+      },
       'team': {
+        description: 'The members of the group',
         type: GraphQLList(TeamResolver),
-        resolve(group: any) {
-          return sequelize.models.Team.findAll({ where: { groupID: group.groupID } });
+        resolve(group, args) {
+          args.groupID = group.groupID;
+          return sequelize.models.Team.findAll({ where: args });
         }
       }
     }

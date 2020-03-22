@@ -9,7 +9,7 @@ import {
 import { Review } from '../../models/Review';
 
 export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
-  name: 'ReviewQuery',
+  name: 'ReviewResolver',
   description: 'The representation of a Review',
   fields: () => {
     return {

@@ -41,8 +41,8 @@ export async function generator() {
   _.times(5, () => {
     promises.push(function() {
       return Group.create({
-        teamName: Faker.company.companyName(),
-        groupLeader: Faker.random.number({min: 1, max: 15}),
+        groupName: Faker.company.companyName(),
+        groupLeaderID: Faker.random.number({min: 1, max: 15}),
         inviteCode: Faker.random.alphaNumeric(5),
         industryID: Faker.random.number({min: 1, max: 5})
       })

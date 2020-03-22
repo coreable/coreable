@@ -7,7 +7,7 @@ export const sequelize = new Sequelize(
   config.DATABASE.USERNAME, //username
   config.DATABASE.PASSWORD, //password
   {
-    'dialect': 'mysql',
+    'dialect': config.DATABASE.DIALECT as 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | undefined,
     'host': config.DATABASE.HOST,
     'port': config.DATABASE.PORT,
   }

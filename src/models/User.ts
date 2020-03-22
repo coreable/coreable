@@ -15,9 +15,7 @@ export class User extends Model {
   public lastName!: string;
   public email!: string;
   public industryID!: number;
-  public cognitoID!: number;
   public password!: string;
-  public JWT!: string;
   public root!: boolean;
 
   public readonly createdAt!: Date;
@@ -52,10 +50,6 @@ export default User.init({
     'type': DataTypes.INTEGER.UNSIGNED,
     'allowNull': true
   },
-  'cognitoID': {
-    'type': DataTypes.STRING,
-    'allowNull': true
-  },
   'password': {
     'type': DataTypes.STRING,
     'allowNull': true
@@ -82,8 +76,4 @@ User.beforeCreate((user, options) => {
 
 User.prototype.login = async function(payload) {
   return checkPassword(payload, this.password);
-}
-
-User.prototype.logout = async function(token) {
-  
 }

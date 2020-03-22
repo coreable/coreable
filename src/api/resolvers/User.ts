@@ -8,12 +8,11 @@ import {
 } from 'graphql';
 
 import { IndustryResolver } from './Industry';
-import { TeamResolver } from './Team';
-import { ReviewResolver } from './Review';
 import { User } from '../../models/User';
+import { TeamResolver } from './Team';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
-  name: 'UserQuery',
+  name: 'UserResolver',
   description: 'This represents a User',
   fields: () => {
     return {
@@ -47,12 +46,6 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return user.industryID;
         }
       },
-      'cognitoID': {
-        type: GraphQLString,
-        resolve(user) {
-          return user.cognitoID;
-        }
-      },
       'root': {
         type: GraphQLBoolean,
         resolve(user) {
@@ -65,24 +58,25 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return user.getIndustry();
         }
       },
-      'team': {
+      'teams': {
         type: GraphQLList(TeamResolver),
-        resolve(user: any) {
-          return sequelize.models.Team.findAll({ where: { userID: user.dataValues.userID } });
+        resolve(user: any, args: any) {
+          args.userID = user.userID;
+          return sequelize.models.Team.findAll({ where: args });
         }
       },
-      'reviewsFromPeers': {
-        type: GraphQLList(ReviewResolver),
-        resolve(user: any) {
-          return sequelize.models.Review.findAll({ where: { subjectID: user.userID } });
-        }
-      },
-      'reviewsForPeers': {
-        type: GraphQLList(ReviewResolver),
-        resolve(user: any) {
-          return sequelize.models.Review.findAll({ where: { completedBy: user.userID } });
-        }
-      }
+      // 'reviewsFromPeers': {
+      //   type: GraphQLList(ReviewResolver),
+      //   resolve(user: any) {
+      //     return sequelize.models.Review.findAll({ where: { subjectID: user.userID } });
+      //   }
+      // },
+      // 'reviewsForPeers': {
+      //   type: GraphQLList(ReviewResolver),
+      //   resolve(user: any) {
+      //     return sequelize.models.Review.findAll({ where: { completedBy: user.userID } });
+      //   }
+      // }
     }
   }
 });

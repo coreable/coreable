@@ -6,8 +6,8 @@ import { Team } from './Team';
 
 export class Group extends Model {
   public groupID!: number;
-  public teamName!: string;
-  public groupLeader!: number;
+  public groupName!: string;
+  public groupLeaderID!: number;
   public inviteCode!: string;
   public industryID!: number;
 
@@ -21,11 +21,11 @@ export default Group.init({
     'primaryKey': true,
     'autoIncrement': true
   },
-  'teamName': {
+  'groupName': {
     'type': DataTypes.STRING,
     'allowNull': false
   },
-  'groupLeader': {
+  'groupLeaderID': {
     'type': DataTypes.INTEGER.UNSIGNED,
     'allowNull': false,
   },
@@ -44,4 +44,4 @@ export default Group.init({
 
 // Relations
 Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
-Group.belongsTo(User, { foreignKey: { name: 'groupLeader', allowNull: false, field: 'userID' } });
+Group.belongsTo(User, { foreignKey: { name: 'groupLeaderID', allowNull: false, field: 'userID' } });

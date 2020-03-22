@@ -9,10 +9,9 @@ import {
 import { GroupResolver } from './Group';
 import { UserResolver } from './User';
 import { Team } from '../../models/Team';
-import { ReviewResolver } from './Review';
 
 export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
-  name: 'TeamQuery',
+  name: 'TeamResolver',
   description: 'This represents a Team',
   fields: () => {
     return {
@@ -29,21 +28,32 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
         }
       },
       'group': {
-        type: GraphQLList(GroupResolver),
-        resolve(team: any) {
-          return sequelize.models.Group.findAll({ where: { groupID: team.groupID } });
+        description: 'Gets the full details of the group from the groupID',
+        type: GroupResolver,
+        resolve(team, args) {
+          args.groupID = team.groupID
+          return sequelize.models.Group.findOne({ where: args });
         }
       },
       'user': {
-        type: GraphQLList(UserResolver),
-        resolve(team: any) {
-          return sequelize.models.User.findAll({ where: { userID: team.userID } })
+        description: 'Gets the full details of the user from the UserID',
+        type: UserResolver,
+        args: {
+          firstName: {
+            type: GraphQLString
+          },
+          lastName: {
+            type: GraphQLString
+          },
+          email: {
+            type: GraphQLString
+          }
+        },
+        resolve(team, args) {
+          args.userID = team.userID;
+          return sequelize.models.User.findOne({ where: args });
         }
       },
-      // 'teamReviews': {
-      //   type: new GraphQLList(ReviewResolver),
-        
-      // }
     }
   }
 });

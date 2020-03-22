@@ -4,7 +4,8 @@
     "PORT": 3306,
     "SCHEMA": "COREABLE",
     "USERNAME": "root",
-    "PASSWORD": "example"
+    "PASSWORD": "example",
+    "DIALECT": "mysql"
   },
   "HTTP": {
     "PORT": 3000

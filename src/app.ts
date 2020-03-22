@@ -20,12 +20,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.disable('x-powered-by');
 
+// Security CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 });
 
+// JWT Authorization
 app.use((req: Request, res: Response, next: NextFunction) => {
   const AUTH: string = req.headers.AUTHORIZATION as any;
   if (AUTH) {
