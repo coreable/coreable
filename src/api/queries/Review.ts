@@ -11,7 +11,7 @@ export default {
     subjectID: {
       type: GraphQLInt,
     },
-    completedBy: {
+    completedByID: {
       type: GraphQLInt,
     }
   },

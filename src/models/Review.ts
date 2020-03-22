@@ -5,7 +5,7 @@ import { User } from './User';
 export class Review extends Model {
   public reviewID!: number;
   public subjectID!: number;
-  public completedBy!: number;
+  public completedByID!: number;
 
   // Review
   public emotionalResponse!: number;
@@ -46,7 +46,7 @@ export default Review.init({
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false
   },
-  'completedBy': {
+  'completedByID': {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false
   },
@@ -148,4 +148,4 @@ export default Review.init({
 });
 
 Review.belongsTo(User, { foreignKey: { name: 'subjectID', allowNull: false, field: 'userID' } });
-Review.belongsTo(User, { foreignKey: { name: 'completedBy', allowNull: false, field: 'userID' } });
+Review.belongsTo(User, { foreignKey: { name: 'completedByID', allowNull: false, field: 'userID' } });

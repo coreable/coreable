@@ -7,6 +7,7 @@ import {
 } from 'graphql';
 
 import { Review } from '../../models/Review';
+import { UserResolver } from './User';
 
 export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
   name: 'ReviewResolver',
@@ -25,10 +26,22 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.subjectID;
         }
       },
-      'completedBy': {
+      'subject': {
+        type: UserResolver,
+        resolve(review) {
+          return sequelize.models.User.findOne({ where: { userID: review.subjectID }});
+        }
+      },
+      'completedByID': {
         type: GraphQLInt,
         resolve(review) {
-          return review.completedBy
+          return review.completedByID;
+        }
+      },
+      'completedBy': {
+        type: UserResolver,
+        resolve(review) {
+          return sequelize.models.User.findOne({ where: { userID: review.completedByID }});
         }
       },
       'emotionalResponse': {

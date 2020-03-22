@@ -70,7 +70,7 @@ export async function generator() {
     promises.push(function() {
       return Review.create({
         subjectID: Faker.random.number({min: 1, max: 15}),
-        completedBy: Faker.random.number({min: 1, max: 15}),
+        completedByID: Faker.random.number({min: 1, max: 15}),
         emotionalResponse: Faker.random.number({min: 1, max: 100}),
         empathy: Faker.random.number({min: 1, max: 100}),
         managesOwn: Faker.random.number({min: 1, max: 100}),
