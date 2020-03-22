@@ -2,8 +2,6 @@ import { sequelize } from '../../sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
-  GraphQLString,
-  GraphQLList,
 } from 'graphql';
 
 import { Review } from '../../models/Review';

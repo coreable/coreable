@@ -3,7 +3,6 @@ import {
   GraphQLObjectType,
   GraphQLInt,
   GraphQLString,
-  GraphQLList
 } from 'graphql';
 
 import { GroupResolver } from './Group';

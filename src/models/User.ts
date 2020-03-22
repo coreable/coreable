@@ -1,8 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize';
 import { Industry } from './Industry'; 
-import { Group } from './Group';
-import { Team } from './Team';
 
 import {
   generatePasswordHash,

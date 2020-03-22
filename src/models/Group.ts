@@ -2,7 +2,6 @@ import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../sequelize';
 import { User } from './User';
 import { Industry } from './Industry';
-import { Team } from './Team';
 
 export class Group extends Model {
   public groupID!: number;
