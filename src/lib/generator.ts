@@ -5,7 +5,7 @@ import { User } from '../models/User';
 import { Group } from '../models/Group';
 import { Team } from '../models/Team';
 import { Review } from '../models/Review';
-import { sequelize } from '../sequelize';
+import { sequelize } from './sequelize';
 
 export async function generator() {
   await sequelize.sync({ force: true });

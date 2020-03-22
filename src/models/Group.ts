@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../sequelize';
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import { sequelize } from '../lib/sequelize';
 import { User } from './User';
 import { Industry } from './Industry';
 
@@ -14,33 +14,37 @@ export class Group extends Model {
   public readonly updatedAt!: Date;
 }
 
-export default Group.init({
-  'groupID': {
-    'type': DataTypes.INTEGER.UNSIGNED,
-    'primaryKey': true,
-    'autoIncrement': true
-  },
-  'groupName': {
-    'type': DataTypes.STRING,
-    'allowNull': false
-  },
-  'groupLeaderID': {
-    'type': DataTypes.INTEGER.UNSIGNED,
-    'allowNull': false,
-  },
-  'inviteCode': {
-    'type': DataTypes.STRING,
-    'allowNull': false,
-  },
-  'industryID': {
-    'type': DataTypes.INTEGER.UNSIGNED,
-    'allowNull': false
-  }
-}, {
-  'tableName': 'GROUP',
-  'sequelize': sequelize
-});
+export default (sequelize: Sequelize) => {
+  Group.init({
+    'groupID': {
+      'type': DataTypes.INTEGER.UNSIGNED,
+      'primaryKey': true,
+      'autoIncrement': true
+    },
+    'groupName': {
+      'type': DataTypes.STRING,
+      'allowNull': false
+    },
+    'groupLeaderID': {
+      'type': DataTypes.INTEGER.UNSIGNED,
+      'allowNull': false,
+    },
+    'inviteCode': {
+      'type': DataTypes.STRING,
+      'allowNull': false,
+    },
+    'industryID': {
+      'type': DataTypes.INTEGER.UNSIGNED,
+      'allowNull': false
+    }
+  }, {
+    'tableName': 'GROUP',
+    'sequelize': sequelize
+  });
 
-// Relations
-Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
-Group.belongsTo(User, { foreignKey: { name: 'groupLeaderID', allowNull: false, field: 'userID' } });
+  // Relations
+  Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
+  Group.belongsTo(User, { foreignKey: { name: 'groupLeaderID', allowNull: false, field: 'userID' } });
+  
+  return Group;
+}

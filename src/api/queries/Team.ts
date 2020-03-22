@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLInt } from "graphql";
-import { sequelize } from "../../sequelize";
+import { sequelize } from "../../lib/sequelize";
 import { TeamResolver } from "../resolvers/Team";
 
 export default {

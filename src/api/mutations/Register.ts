@@ -2,7 +2,7 @@ import { UserSessionResolver } from "../resolvers/UserSession";
 import { GraphQLNonNull, GraphQLString, GraphQLInt } from "graphql";
 import { Session } from "../../models/Session";
 import { encodeJWT } from "../../lib/hash";
-import { sequelize } from "../../sequelize";
+import { sequelize } from "../../lib/sequelize";
 
 export default {
   type: UserSessionResolver,

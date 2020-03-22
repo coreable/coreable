@@ -1,4 +1,4 @@
-import { sequelize } from '../../sequelize';
+import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
