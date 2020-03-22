@@ -38,7 +38,7 @@ sequelize._cache = new SequelizeSimpleCache({
   Team: { ttl: 5 * 60, limit: 50 },
   Review: { ttl: 5 * 60, limit: 50 },
 }, {
-  debug: process.env.NODE_ENV === "development" ? true : false
+  debug: process.env.NODE_ENV === "development" ? true : false // debug output
 });
 
 // Replace the default model methods with the cache functions
