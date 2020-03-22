@@ -29,7 +29,7 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
             type: new GraphQLNonNull(GraphQLString)
           },
           industryID: {
-            type: new GraphQLNonNull(GraphQLInt)
+            type: GraphQLInt
           },
           password: {
             type: new GraphQLNonNull(GraphQLString)
