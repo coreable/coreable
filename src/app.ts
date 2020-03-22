@@ -1,6 +1,16 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import GraphHTTP from 'express-graphql';
 import { Schema } from './api/Schema';
+import { decodeJWT } from './lib/hash';
+
+// A hack to add the JWT decoded token to the request object
+declare global {
+  namespace Express {
+    interface Request {
+      USER: any;
+    }
+  }
+}
 
 // Server
 export const app: Application = express();
@@ -13,6 +23,15 @@ app.disable('x-powered-by');
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const AUTH: string = req.headers.AUTHORIZATION as any;
+  if (AUTH) {
+    const USER = decodeJWT(AUTH);
+    req.USER = USER;
+  }
   next();
 });
 

@@ -3,7 +3,8 @@ import {
   GraphQLObjectType,
   GraphQLInt,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLBoolean
 } from 'graphql';
 
 import { IndustryResolver } from './Industry';
@@ -50,6 +51,12 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: GraphQLString,
         resolve(user) {
           return user.cognitoID;
+        }
+      },
+      'root': {
+        type: GraphQLBoolean,
+        resolve(user) {
+          return user.root;
         }
       },
       'industry': {

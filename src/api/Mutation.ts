@@ -46,7 +46,7 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
           const expiresAt: Date = new Date();
           expiresAt.setDate(expiresAt.getDate() + 30);
           const session: Session = {
-            token: user ? encodeJWT({ id: user.id, email: user.email }) : null,
+            token: user ? encodeJWT({ id: user.id, email: user.email, root: user.root }) : null,
             expiresAt: expiresAt,
             userID: user.userID
           };
@@ -69,7 +69,7 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
           const expiresAt: Date = new Date();
           expiresAt.setDate(expiresAt.getDate() + 30);
           const session: Session = {
-            token: isValid ? encodeJWT({ id: user.id, email: user.email }) : null,
+            token: isValid ? encodeJWT({ id: user.id, email: user.email, root: user.root }) : null,
             expiresAt: expiresAt,
             userID: user.userID
           };
