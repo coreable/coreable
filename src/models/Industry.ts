@@ -18,7 +18,8 @@ export default Industry.init({
   },
   'industryName': {
     'type': DataTypes.STRING,
-    'allowNull': false
+    'allowNull': false,
+    'unique': true
   }
 }, {
   'tableName': 'INDUSTRY',

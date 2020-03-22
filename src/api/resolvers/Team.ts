@@ -8,9 +8,11 @@ import {
 
 import { GroupResolver } from './Group';
 import { UserResolver } from './User';
+import { Team } from '../../models/Team';
+import { ReviewResolver } from './Review';
 
-export const TeamResolver: GraphQLObjectType = new GraphQLObjectType({
-  name: 'Team',
+export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
+  name: 'TeamQuery',
   description: 'This represents a Team',
   fields: () => {
     return {
@@ -28,16 +30,20 @@ export const TeamResolver: GraphQLObjectType = new GraphQLObjectType({
       },
       'group': {
         type: GraphQLList(GroupResolver),
-        resolve(team) {
-          return sequelize.models.Group.findAll({ where: { groupID: team.dataValues.groupID } });
+        resolve(team: any) {
+          return sequelize.models.Group.findAll({ where: { groupID: team.groupID } });
         }
       },
       'user': {
         type: GraphQLList(UserResolver),
-        resolve(team) {
-          return sequelize.models.User.findAll({ where: { userID: team.dataValues.userID } })
+        resolve(team: any) {
+          return sequelize.models.User.findAll({ where: { userID: team.userID } })
         }
-      }
+      },
+      // 'teamReviews': {
+      //   type: new GraphQLList(ReviewResolver),
+        
+      // }
     }
   }
 });

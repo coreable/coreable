@@ -15,6 +15,8 @@ export class Review extends Model {
   public cooperatively!: number;
   public positiveBelief!: number;
   public resilienceFeedback!: number;
+  public calm!: number;
+  public change!: number;
   public newIdeas!: number;
   public workDemands!: number;
   public proactive!: number;
@@ -100,7 +102,7 @@ export default Review.init({
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: true
   },
-  'clearInsructions': {
+  'clearInstructions': {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: true
   },

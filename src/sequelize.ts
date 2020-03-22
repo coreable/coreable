@@ -1,6 +1,7 @@
 import { Sequelize, Model } from 'sequelize';
 import * as config from './config/config.json';
 
+// export database
 export const sequelize = new Sequelize(
   config.DATABASE.SCHEMA, //database
   config.DATABASE.USERNAME, //username

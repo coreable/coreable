@@ -8,5 +8,6 @@
   },
   "HTTP": {
     "PORT": 3000
-  }
+  },
+  "JWT_SECRET": "HIDE_THIS_SECRET"
 }

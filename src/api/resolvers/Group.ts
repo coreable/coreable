@@ -8,9 +8,10 @@ import {
 
 import { UserResolver } from './User';
 import { TeamResolver } from './Team';
+import { Group } from '../../models/Group';
 
-export const GroupResolver: GraphQLObjectType = new GraphQLObjectType({
-  name: 'Group',
+export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
+  name: 'GroupQuery',
   description: 'This represents a Group',
   fields: () => {
     return {
@@ -28,8 +29,8 @@ export const GroupResolver: GraphQLObjectType = new GraphQLObjectType({
       },
       'groupLeader': {
         type: GraphQLList(UserResolver),
-        resolve(group) {
-          return sequelize.models.User.findAll({ where: { userID: group.dataValues.groupLeader }})
+        resolve(group: any) {
+          return sequelize.models.User.findAll({ where: { userID: group.groupLeader }})
         }
       },
       'industryID': {
@@ -40,8 +41,8 @@ export const GroupResolver: GraphQLObjectType = new GraphQLObjectType({
       },
       'team': {
         type: GraphQLList(TeamResolver),
-        resolve(group) {
-          return sequelize.models.Team.findAll({ where: { groupID: group.dataValues.groupID } });
+        resolve(group: any) {
+          return sequelize.models.Team.findAll({ where: { groupID: group.groupID } });
         }
       }
     }

@@ -5,8 +5,10 @@ import {
   GraphQLString
 } from 'graphql';
 
-export const IndustryResolver: GraphQLObjectType = new GraphQLObjectType({
-  name: 'Industry',
+import { Industry } from '../../models/Industry';
+
+export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectType({
+  name: 'IndustryQuery',
   description: 'This represents a Industry',
   fields: () => {
     return {

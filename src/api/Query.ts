@@ -11,6 +11,7 @@ import { UserResolver } from "./resolvers/User";
 import { IndustryResolver } from './resolvers/Industry';
 import { GroupResolver } from './resolvers/Group';
 import { TeamResolver } from './resolvers/Team';
+import { ReviewResolver } from './resolvers/Review';
 
 export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Query',
@@ -65,6 +66,9 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
           },
           industryID: {
             type: GraphQLInt
+          },
+          inviteCode: {
+            type: GraphQLString
           }
         },
         resolve(root, args) {
@@ -83,6 +87,23 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
         },
         resolve(root, args) {
           return sequelize.models.Team.findAll({ where: args });
+        }
+      },
+      'review': {
+        type: new GraphQLList(ReviewResolver),
+        args: {
+          reviewID: {
+            type: GraphQLInt,
+          },
+          subjectID: {
+            type: GraphQLInt,
+          },
+          completedBy: {
+            type: GraphQLInt,
+          }
+        },
+        resolve(root, args) {
+          return sequelize.models.Review.findAll({ where: args });
         }
       }
     };

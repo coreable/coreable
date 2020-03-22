@@ -29,7 +29,7 @@ export async function generator() {
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
         industryID: Faker.random.number({min: 1, max: 5}),
-        cognitoID: Faker.random.alphaNumeric(5)
+        // cognitoID: Faker.random.alphaNumeric(5)
       });
     });
   });
