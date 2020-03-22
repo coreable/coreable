@@ -1,5 +1,5 @@
 {
-  "name": "after",
+  "name": "coreable",
   "version": "1.0.0",
   "description": "",
   "main": "build/server.js",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Copyright (c) Coreable",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.30",
