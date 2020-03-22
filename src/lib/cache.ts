@@ -1,6 +1,6 @@
-const md5 = require('md5');
-const { inspect } = require('util');
-const assert = require('assert');
+import md5 from 'md5';
+import { inspect } from 'util';
+import assert from 'assert';
 
 /**
  * [SequelizeSimpleCache](https://github.com/frankthelen/sequelize-simple-cache)
