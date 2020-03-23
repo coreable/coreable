@@ -4,9 +4,9 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Session } from '../../models/Session';
+import { JsonWebToken } from '../../models/JsonWebToken';
 
-export const JsonWebTokenResolver: GraphQLObjectType<Session> = new GraphQLObjectType({
+export const JsonWebTokenResolver: GraphQLObjectType<JsonWebToken> = new GraphQLObjectType({
   name: 'JsonWebTokenResolver',
   description: 'This represents a JsonWebTokenResolver',
   fields: () => {

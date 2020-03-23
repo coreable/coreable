@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
 import jwt, { Secret } from 'jsonwebtoken';
 import * as config from '../config/config.json';
+import { promisify } from 'util';
+
+// Turn the JWT callback into a promise for async/await
+// const asyncSign = promisify(jwt.sign); // Broken [Github issue](https://github.com/auth0/node-jsonwebtoken/issues/705)
+const asyncVerify = promisify(jwt.verify);
 
 const JWT_SECRET: Secret = config.JWT_SECRET;
 const ROUNDS: number = 10;
@@ -32,11 +37,17 @@ export async function checkPassword(plainTextPassword: string, hash: string) {
 /* JWT */
 
 // Sign a JWT.  Pass in an object, which will be publicly visible.
-export function encodeJWT(payload: string | object | Buffer): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
+export function encodeJWT(payload: string | object | Buffer): Promise<unknown> {
+  return new Promise((resolve, reject) => {
+    jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' }, (err, token) => {
+      if (err) return reject(err);
+      else return resolve(token);
+    });
+  });
 }
-// Verify a JWT.  Note:  This can throw an error if the token is invalid,
+
+// Verify a JWT. Note:  This can throw an error if the token is invalid,
 // so always catch it!
-export function decodeJWT(token: string) {
-  return jwt.verify(token, JWT_SECRET);
+export function decodeJWT(token: string): Promise<unknown> {
+  return asyncVerify(token, JWT_SECRET);
 }
