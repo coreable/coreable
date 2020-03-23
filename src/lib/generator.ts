@@ -54,7 +54,7 @@ export async function generator() {
   });
 
   // Team
-  _.times(5, () => {
+  _.times(20, () => {
     promises.push(function() {
       return Team.create({
         userID: Faker.random.number({min: 1, max: 15}),
@@ -105,5 +105,5 @@ export async function generator() {
 
 // Completes an array of functions that return promises in sequence
 export async function inSequence(tasks: Promise<any>[]) {
-  return await tasks.reduce(async (promise: Promise<any>, task: any) => await promise.then(task), Promise.resolve())
+  return await tasks.reduce(async (promise: Promise<any>, task: any) => await promise.then(task).catch(() => Promise.resolve()), Promise.resolve())
 }
