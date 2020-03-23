@@ -31,6 +31,6 @@ export const sync = (sequelize: Sequelize) => {
 export const associate = () => {
   Team.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'userID' } });
   Team.belongsTo(Group, { foreignKey: { name: 'groupID', allowNull: false, field: 'groupID' } });
-  
+
   return Team;
 }

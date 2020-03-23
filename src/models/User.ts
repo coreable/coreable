@@ -88,8 +88,9 @@ export const sync = (sequelize: Sequelize) => {
 export const assosciate = () => {
   User.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: true, field: 'industryID' } });
   User.belongsToMany(Group, { through: Team, foreignKey: 'userID' });
+  User.hasMany(Team, { foreignKey: 'userID' });
   User.hasMany(Review, { foreignKey: 'subjectID' });
   User.hasMany(Review, { foreignKey: 'completedByID' });
-  
+
   return User;
 }
