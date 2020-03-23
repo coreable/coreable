@@ -7,6 +7,7 @@ import { Team } from '../models/Team';
 import { Review } from '../models/Review';
 import { sequelize } from './sequelize';
 
+// Generates fake data for the database
 export async function generator() {
   await sequelize.sync({ force: true });
   let promises: any = [];
@@ -102,6 +103,7 @@ export async function generator() {
   });
 }
 
-async function inSequence(tasks: Promise<any>[]) {
+// Completes an array of functions that return promises in sequence
+export async function inSequence(tasks: Promise<any>[]) {
   return await tasks.reduce(async (promise: Promise<any>, task: any) => await promise.then(task), Promise.resolve())
 }
