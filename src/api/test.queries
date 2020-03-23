@@ -1,9 +1,11 @@
-register(email:"bob@bob.com", password:"bob", firstName:"bob", lastName: "bob") {
-  session {
-    token
-  }
-  user {
-    userID
+mutation {
+  register(email:"bob@bob.com", password:"bob", firstName:"bob", lastName: "bob") {
+    session {
+      token
+    }
+    user {
+      userID
+    }
   }
 }
 

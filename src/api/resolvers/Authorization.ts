@@ -1,15 +1,13 @@
 import { GraphQLObjectType, GraphQLInt, GraphQLString } from "graphql";
+import { JsonWebTokenResolver } from "./JsonWebToken";
 
-import { SessionResolver } from "../resolvers/Session";
-import { UserResolver } from "../resolvers/User";
-
-export const UserSessionResolver: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UserSessionReslver',
-  description: 'Authentication, the union join of User and Session to return both JWT and user details',
+export const AuthorizationResolver: GraphQLObjectType = new GraphQLObjectType({
+  name: 'AuthorizationResolver',
+  description: 'Authorization, the union join of User and JsonWebToken',
   fields: () => {
     return {
       'session': {
-        type: SessionResolver,
+        type: JsonWebTokenResolver,
         resolve(userSession) {
           return userSession.session;
         }

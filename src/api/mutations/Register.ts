@@ -1,11 +1,11 @@
-import { UserSessionResolver } from "../resolvers/UserSession";
+import { AuthorizationResolver } from "../resolvers/Authorization";
 import { GraphQLNonNull, GraphQLString, GraphQLInt } from "graphql";
 import { Session } from "../../models/Session";
 import { encodeJWT } from "../../lib/hash";
 import { sequelize } from "../../lib/sequelize";
 
 export default {
-  type: UserSessionResolver,
+  type: AuthorizationResolver,
   args: {
     firstName: {
       type: new GraphQLNonNull(GraphQLString)
@@ -33,7 +33,7 @@ export default {
     }) as any;
     const session: Session = {
       token: user ? encodeJWT({ userID: user.userID, email: user.email, root: user.root }) : null,
-      userID: user ? user.userID : null
+      userID: user ? user.userID : null,
     };
     return { user, session };
   }

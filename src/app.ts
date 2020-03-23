@@ -38,9 +38,9 @@ app.use(async(req: Request, res: Response, next: NextFunction) => {
       req.JWT = decodeJWT(JWT_TOKEN); // Decode for server sided use only
       res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
       req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] }); // Scaffolding for Security
-      if (!req.USER) throw new Error("Database & Cache discrepancy");
+      if (!req.USER) throw new Error("Database, Cache or Client Header discrepancy");
     } catch (err) {
-      process.env.NODE_ENV == 'development' ? console.error({ name:err.name, message: err.message }) : null;
+      process.env.NODE_ENV == 'development' ? console.error({ name: err.name, message: err.message }) : null;
       req.JWT = null; // Null for server sided use only
       res.removeHeader('JWT'); // Remove JWT from server response
     }
@@ -57,7 +57,7 @@ app.use('/graphql', GraphHTTP({
 
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err); 
+  process.env.NODE_ENV == 'development' ? console.error({ name: err.name, message: err.message }) : null;
   return res.status(500).json(err);
 });
 

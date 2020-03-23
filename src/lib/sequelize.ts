@@ -30,6 +30,7 @@ Group.sync(sequelize);
 Team.sync(sequelize);
 Review.sync(sequelize);
 
+// Create foreign key constraints on models
 Industry.assosciate();
 User.assosciate();
 Group.assosciate();

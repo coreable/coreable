@@ -1,11 +1,11 @@
-import { UserSessionResolver } from "../resolvers/UserSession";
+import { AuthorizationResolver } from "../resolvers/Authorization";
 import { GraphQLNonNull, GraphQLString } from "graphql";
 import { Session } from "../../models/Session";
 import { encodeJWT } from "../../lib/hash";
 import { sequelize } from "../../lib/sequelize";
 
 export default {
-  type: UserSessionResolver,
+  type: AuthorizationResolver,
   args: {
     email: {
       type: new GraphQLNonNull(GraphQLString)
