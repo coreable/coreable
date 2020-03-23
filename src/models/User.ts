@@ -1,10 +1,13 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import { Industry } from './Industry';
-
+import { Team } from './Team';
 import {
   generatePasswordHash,
   checkPassword
 } from '../lib/hash';
+import { Group } from './Group';
+import { Review } from './Review';
+
 
 export class User extends Model {
   public userID!: number;
@@ -21,7 +24,7 @@ export class User extends Model {
   public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
-export default (sequelize: Sequelize) => {
+export const sync = (sequelize: Sequelize) => {
   User.init({
     'userID': {
       'type': DataTypes.INTEGER.UNSIGNED,
@@ -46,7 +49,11 @@ export default (sequelize: Sequelize) => {
     },
     'industryID': {
       'type': DataTypes.INTEGER.UNSIGNED,
-      'allowNull': true
+      'allowNull': true,
+      'references': {
+        'model': Industry, 
+        'key': 'industryID'
+      }
     },
     'password': {
       'type': DataTypes.STRING,
@@ -61,8 +68,6 @@ export default (sequelize: Sequelize) => {
     'tableName': 'USER',
     'sequelize': sequelize
   });
-  // Relations
-  User.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: true, field: 'indusryID' } });
 
   // Hooks
   User.beforeCreate((user, options) => {
@@ -77,5 +82,14 @@ export default (sequelize: Sequelize) => {
     return checkPassword(payload, this.password);
   }
 
+  return User;
+}
+
+export const assosciate = () => {
+  User.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: true, field: 'industryID' } });
+  User.belongsToMany(Group, { through: Team, foreignKey: 'userID' });
+  User.hasMany(Review, { foreignKey: 'subjectID' });
+  User.hasMany(Review, { foreignKey: 'completedByID' });
+  
   return User;
 }

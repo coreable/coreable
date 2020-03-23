@@ -10,7 +10,7 @@ export class Team extends Model {
   public readonly updatedAt!: Date;
 }
 
-export default (sequelize: Sequelize) => {
+export const sync = (sequelize: Sequelize) => {
   Team.init({
     'userID': {
       'type': DataTypes.INTEGER.UNSIGNED,
@@ -25,9 +25,12 @@ export default (sequelize: Sequelize) => {
     'sequelize': sequelize
   });
 
-  // Relations
+  return Team;
+}
+
+export const associate = () => {
   Team.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'userID' } });
   Team.belongsTo(Group, { foreignKey: { name: 'groupID', allowNull: false, field: 'groupID' } });
-
+  
   return Team;
 }

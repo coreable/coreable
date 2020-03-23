@@ -32,7 +32,7 @@ export default {
       password: args.password
     }) as any;
     const session: Session = {
-      token: user ? encodeJWT({ id: user.id, email: user.email, root: user.root }) : null,
+      token: user ? encodeJWT({ userID: user.userID, email: user.email, root: user.root }) : null,
       userID: user ? user.userID : null
     };
     return { user, session };

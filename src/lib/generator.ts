@@ -54,7 +54,7 @@ export async function generator() {
   });
 
   // Team
-  _.times(20, () => {
+  _.times(5, () => {
     promises.push(function() {
       return Team.create({
         userID: Faker.random.number({min: 1, max: 15}),

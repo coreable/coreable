@@ -14,13 +14,13 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
     return {
       'industryID': {
         type: GraphQLInt,
-        resolve(industry) {
+        resolve(industry, args, context) {
           return industry.industryID;
         }
       },
       'industryName': {
         type: GraphQLString,
-        resolve(industry) {
+        resolve(industry, args, context) {
           return industry.industryName;
         }
       }

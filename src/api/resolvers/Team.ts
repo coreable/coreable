@@ -16,20 +16,20 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
     return {
       'groupID': {
         type: GraphQLInt,
-        resolve(team) {
+        resolve(team, args, context) {
           return team.groupID;
         }
       },
       'userID': {
         type: GraphQLInt,
-        resolve(team) {
+        resolve(team, args, context) {
           return team.userID;
         }
       },
       'group': {
         description: 'Gets the full details of the group from the groupID',
         type: GroupResolver,
-        resolve(team, args) {
+        resolve(team, args, context) {
           args.groupID = team.groupID
           return sequelize.models.Group.findOne({ where: args });
         }
@@ -48,7 +48,7 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
             type: GraphQLString
           }
         },
-        resolve(team, args) {
+        resolve(team, args, context) {
           args.userID = team.userID;
           return sequelize.models.User.findOne({ where: args });
         }

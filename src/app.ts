@@ -2,12 +2,15 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import GraphHTTP from 'express-graphql';
 import { Schema } from './api/Schema';
 import { decodeJWT } from './lib/hash';
+import { sequelize } from './lib/sequelize';
+import { Team } from './models/Team';
 
 // A hack to add the JWT decoded token to the request object
 declare global {
   namespace Express {
     interface Request {
-      USER: any;
+      JWT: any; // Decoded JWT for server sided Use
+      USER: any // User object from the database
     }
   }
 }
@@ -28,15 +31,18 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // JWT Authorization
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use(async(req: Request, res: Response, next: NextFunction) => {
   const JWT_TOKEN: string | undefined = req.header("JWT");
   if (JWT_TOKEN) {
     try {
-      req.USER = decodeJWT(JWT_TOKEN); // Decode for server sided use only
+      req.JWT = decodeJWT(JWT_TOKEN); // Decode for server sided use only
       res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
+      req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team, where: { userID: req.JWT.userID } }] });
+      console.log(req.USER);
+      if (!req.USER) throw new Error("Database & Cache discrepancy");
     } catch (err) {
       process.env.NODE_ENV == 'development' ? console.error({ name:err.name, message: err.message }) : null;
-      req.USER = null; // Null for server sided use only
+      req.JWT = null; // Null for server sided use only
       res.removeHeader('JWT'); // Remove JWT from server response
     }
   }

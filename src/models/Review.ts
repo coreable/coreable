@@ -30,12 +30,12 @@ export class Review extends Model {
   public eyeContact!: number;
   public signifiesInterest!: number;
   public verbalAttentiveFeedback!: number;
-    
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-export default (sequelize: Sequelize) => {
+export const sync = (sequelize: Sequelize) => {
   Review.init({
     'reviewID': {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -74,7 +74,7 @@ export default (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
     },
-    'resilienceFeedback' :{
+    'resilienceFeedback': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
     },
@@ -147,7 +147,10 @@ export default (sequelize: Sequelize) => {
     'sequelize': sequelize
   });
 
-  // Relations
+  return Review;
+}
+
+export const assosciate = () => {
   Review.belongsTo(User, { foreignKey: { name: 'subjectID', allowNull: false, field: 'userID' } });
   Review.belongsTo(User, { foreignKey: { name: 'completedByID', allowNull: false, field: 'userID' } });
 

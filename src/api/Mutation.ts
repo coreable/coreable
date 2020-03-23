@@ -11,7 +11,7 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
   description: 'This is the root mutation',
   fields: () => {
     return {
-      'registerUser': RegisterMutation,
+      'register': RegisterMutation,
       'login': LoginMutation
     }
   }

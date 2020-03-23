@@ -18,33 +18,33 @@ export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
     return {
       'groupID': {
         type: GraphQLInt,
-        resolve(group) {
+        resolve(group, args, context) {
           return group.groupID;
         }
       },
       'groupName': {
         type: GraphQLString,
-        resolve(group) {
+        resolve(group, args, context) {
           return group.groupName;
         }
       },
       'groupLeaderID': {
         type: GraphQLInt,
-        resolve(group) {
+        resolve(group, args, context) {
           return group.groupLeaderID;
         }
       },
       'groupLeader': {
         description: 'The full details of the leader of the group',
         type: UserResolver,
-        resolve(group, args) {
+        resolve(group, args, context) {
           args.userID = group.groupLeaderID;
           return sequelize.models.User.findOne({ where: args });
         }
       },
       'industryID': {
         type: GraphQLInt,
-        resolve(group) {
+        resolve(group, args, context) {
           return group.industryID;
         }
       },
@@ -59,7 +59,7 @@ export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
             type: GraphQLString
           }
         },
-        resolve(group, args) {
+        resolve(group, args, context) {
           args.industryID = group.industryID;
           return sequelize.models.Industry.findOne({ where: args });
         }
@@ -67,7 +67,7 @@ export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
       'team': {
         description: 'The members of the group',
         type: GraphQLList(TeamResolver),
-        resolve(group, args) {
+        resolve(group, args, context) {
           args.groupID = group.groupID;
           return sequelize.models.Team.findAll({ where: args });
         }

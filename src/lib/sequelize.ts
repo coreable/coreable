@@ -24,11 +24,17 @@ import * as Team from '../models/Team';
 import * as Review from '../models/Review';
 
 // Init models
-Industry.default(sequelize);
-User.default(sequelize);
-Group.default(sequelize);
-Team.default(sequelize);
-Review.default(sequelize);
+Industry.sync(sequelize);
+User.sync(sequelize);
+Group.sync(sequelize);
+Team.sync(sequelize);
+Review.sync(sequelize);
+
+Industry.assosciate();
+User.assosciate();
+Group.assosciate();
+Team.associate();
+Review.assosciate();
 
 // register cache with sequelize models (5*60=5mins)
 sequelize._cache = new SequelizeSimpleCache({

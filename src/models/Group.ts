@@ -1,6 +1,7 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import { User } from './User';
 import { Industry } from './Industry';
+import { Team } from './Team';
 
 export class Group extends Model {
   public groupID!: number;
@@ -13,7 +14,7 @@ export class Group extends Model {
   public readonly updatedAt!: Date;
 }
 
-export default (sequelize: Sequelize) => {
+export const sync = (sequelize: Sequelize) => {
   Group.init({
     'groupID': {
       'type': DataTypes.INTEGER.UNSIGNED,
@@ -41,9 +42,13 @@ export default (sequelize: Sequelize) => {
     'sequelize': sequelize
   });
 
-  // Relations
-  Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
-  Group.belongsTo(User, { foreignKey: { name: 'groupLeaderID', allowNull: false, field: 'userID' } });
-
   return Group;
+}
+
+export const assosciate = () => {
+    Group.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: false, field: 'industryID' }});
+    Group.belongsTo(User, { foreignKey: { name: 'groupLeaderID', allowNull: false, field: 'userID' } });
+    Group.belongsToMany(User, { through: Team, foreignKey: 'groupID' });
+    
+    return Group;
 }

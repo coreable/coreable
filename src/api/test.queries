@@ -1,0 +1,14 @@
+register(email:"bob@bob.com", password:"bob", firstName:"bob", lastName: "bob") {
+  session {
+    token
+  }
+  user {
+    userID
+  }
+}
+
+query {
+	user(userID: 1) {
+    userID
+  }
+}
