@@ -1,10 +1,37 @@
 mutation {
-  register(email:"bob@bob.com", password:"bob", firstName:"bob", lastName: "bob") {
-    session {
-      token
+  register(email:"bob@bob.com", password:"bobbob", firstName:"bob", lastName: "bob") {
+    error{
+      path
+      code
+      message
     }
-    user {
-      userID
+    auth {
+      user {
+        userID
+        email
+      }
+      session {
+        token
+      }
+    }
+  }
+}
+
+mutation {
+	login(email:"bob@bob.com", password: "bobbob") {
+    error {
+      message
+      path
+      code
+    }
+    auth {
+      user {
+        userID
+        email
+      }
+      session {
+        token
+      }
     }
   }
 }

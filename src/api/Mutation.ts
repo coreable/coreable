@@ -5,6 +5,7 @@ import {
 
 import RegisterMutation from './mutations/Register';
 import LoginMutation from './mutations/Login';
+import JoinGroupMutation from './mutations/JoinGroup';
 
 export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Mutation',
@@ -12,7 +13,8 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
   fields: () => {
     return {
       'register': RegisterMutation,
-      'login': LoginMutation
+      'login': LoginMutation,
+      'joinGroup': JoinGroupMutation
     }
   }
 });

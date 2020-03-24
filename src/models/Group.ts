@@ -32,6 +32,7 @@ export const sync = (sequelize: Sequelize) => {
     'inviteCode': {
       'type': DataTypes.STRING,
       'allowNull': false,
+      'unique': true
     },
     'industryID': {
       'type': DataTypes.INTEGER.UNSIGNED,

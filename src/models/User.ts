@@ -57,7 +57,7 @@ export const sync = (sequelize: Sequelize) => {
     },
     'password': {
       'type': DataTypes.STRING,
-      'allowNull': true
+      'allowNull': true,
     },
     'root': {
       'type': DataTypes.BOOLEAN,

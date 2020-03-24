@@ -7,10 +7,10 @@ import {
   GraphQLBoolean
 } from 'graphql';
 
-import { IndustryResolver } from './Industry';
 import { User } from '../../models/User';
 import { TeamResolver } from './Team';
 import { ReviewResolver } from './Review';
+import { IndustryResolver } from './Industry';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',

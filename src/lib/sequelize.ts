@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { SequelizeSimpleCache } from './cache';
+import SequelizeSimpleCache from 'sequelize-simple-cache';
 import * as config from '../config/config.json';
 
 // A hack to assign more properties to the library
