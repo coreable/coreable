@@ -14,7 +14,8 @@ const sequelize = new sqlcache(config.DATABASE.SCHEMA, //database
     'dialect': config.DATABASE.DIALECT as 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | undefined,
     'host': config.DATABASE.HOST,
     'port': config.DATABASE.PORT,
-});
+  }
+);
 
 // Import models
 import * as Industry from '../models/Industry';

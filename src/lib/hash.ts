@@ -10,9 +10,11 @@ const asyncVerify = promisify(jwt.verify);
 const JWT_SECRET: Secret = config.JWT_SECRET;
 const ROUNDS: number = 10;
 
+/* Password Hashing */
+
 // Generate a password hash, using the bcrypt library.  We wrap this in a
 // Promise to avoid using bcrypt's default callbacks
-export async function generatePasswordHash(plainTextPassword: string) {
+export function generatePasswordHash(plainTextPassword: string) {
   return new Promise<string>((resolve, reject) => {
     bcrypt.genSalt(ROUNDS, (saltError: Error, salt: string) => {
       if (saltError) return reject(saltError);
@@ -25,7 +27,7 @@ export async function generatePasswordHash(plainTextPassword: string) {
 }
 
 // Check a hashed password
-export async function checkPassword(plainTextPassword: string, hash: string) {
+export function checkPassword(plainTextPassword: string, hash: string) {
   return new Promise<boolean>((resolve, reject) => (
     bcrypt.compare(plainTextPassword, hash, (e: Error, doesMatch: boolean) => {
       if (e) return reject(e);
