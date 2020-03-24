@@ -82,13 +82,13 @@ export default {
           errors.push({ code: err.original.code, message: err.original.sqlMessage, path: '_' });
         }
       } else {
-        errors.push({ code: 'ER_ACCESS_RESTRICTED', message: `User with userID ${context.USER.userID} tried to add user with userID ${user.userID} to group with groupID ${group.groupID} with being group leader or manager`, path: 'JWT' });
+        errors.push({ code: 'ER_ACCESS_RESTRICTED', message: `User with userID ${context.USER.userID} tried to add user with userID ${user.userID} to group with groupID ${group.groupID} without being group leader or manager`, path: 'JWT' });
       }
     }
     return {
       'user': !errors.length ? user : null,
       'group': !errors.length ? group : null,
-      'error': errors
+      'error': errors.length > 0 ? errors : null
     };
   }
 }

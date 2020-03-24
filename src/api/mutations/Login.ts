@@ -21,7 +21,7 @@ export default {
         'error': {
           type: new GraphQLList(ErrorResolver),
           resolve(result) {
-            return result.errors;
+            return result.error;
           }
         }
       }
@@ -38,7 +38,7 @@ export default {
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     let user;
-    let correctPassword: boolean = false;
+    let isCorrectPassword: boolean = false;
     let session: JsonWebToken = {};
     if (context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User already authenticated'});
@@ -50,8 +50,8 @@ export default {
       }
     }
     if (!errors.length) {
-      correctPassword = await user.login(args.password);
-      if (!correctPassword) {
+      isCorrectPassword = await user.login(args.password);
+      if (!isCorrectPassword) {
         errors.push({ code: 'ER_AUTH_FAILURE', path: 'password', message: 'Password invalid' });
       }
     }
@@ -66,7 +66,7 @@ export default {
         'user': user,
         'session': session
       } : null,
-      'errors': errors
+      'error': errors.length > 0 ? errors : null
     };
   }
 }

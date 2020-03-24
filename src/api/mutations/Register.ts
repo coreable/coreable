@@ -89,7 +89,7 @@ export default {
         'user': user, 
         'session': session
       } : null,
-      'error': errors
+      'error': errors.length > 0 ? errors : null
     }
   }
 }
