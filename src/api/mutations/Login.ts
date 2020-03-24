@@ -8,7 +8,7 @@ import { CoreableError } from "../../models/Error";
 
 export default {
   type: new GraphQLObjectType({
-    name: 'Login', 
+    name: 'LoginMutation', 
     description: 'Login Mutation Return Values',
     fields: () => {
       return {

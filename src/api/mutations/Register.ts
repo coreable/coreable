@@ -17,7 +17,7 @@ import { CoreableError } from "../../models/Error";
 
 export default {
   type: new GraphQLObjectType({
-    name: 'Register', 
+    name: 'RegisterMutation', 
     description: 'Register Mutation Return Values',
     fields: () => {
       return {
@@ -58,11 +58,11 @@ export default {
     let user;
     let session: JsonWebToken = {};
     if (context.USER) {
-      errors.push({ code: 'AUTH_FAILURE', path: 'JWT' , message: 'User is already logged in'});
+      errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User is already logged in'});
     }
     if (!errors.length) {
       if (args.password.length < 6) {
-        errors.push({ code: 'PASSWORD_LENGTH', path: 'password', message: 'Password does not meet minimum length requirements' });
+        errors.push({ code: 'ER_PASSWORD_LENGTH', path: 'password', message: 'Password does not meet minimum length requirements' });
       }
     }
     if (!errors.length) {

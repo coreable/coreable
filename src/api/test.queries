@@ -36,6 +36,32 @@ mutation {
   }
 }
 
+mutation {
+  joinGroup(userID: 1, inviteCode:"t9pog") {
+    user {
+      firstName
+      teams {
+        group {
+          groupName
+        }
+      }
+    }
+    group {
+      groupName,
+      team {
+        user {
+        	firstName 
+        }
+      }
+    }
+    error {
+      code
+      message
+      path
+    }
+  }
+}
+
 query {
 	user(userID: 1) {
     userID

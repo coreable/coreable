@@ -51,13 +51,13 @@ export default {
     if (!errors.length) {
       user = await sequelize.models.User.findOne({ where: { userID: args.userID }, include: [{ model: Group }] }) as any;
       if (!user) {
-        errors.push({ code: 'ER_USER', message: `Unable to locate user with userID ${args.userID}`, path: 'userID' });
+        errors.push({ code: 'ER_USER_UNKNOWN', message: `Unable to locate user with userID ${args.userID}`, path: 'userID' });
       }
     }
     if (!errors.length) {
       group = await sequelize.models.Group.findOne({ where: { inviteCode: args.inviteCode } });
       if (!group) {
-        errors.push({ code: 'ER_GROUP', message: `Unable to locate group with inviteCode ${args.inviteCode}`, path: 'inviteCode' });
+        errors.push({ code: 'ER_GROUP_UNKNOWN', message: `Unable to locate group with inviteCode ${args.inviteCode}`, path: 'inviteCode' });
       }
     }
     if (!errors.length) {
@@ -75,14 +75,14 @@ export default {
       }
     }
     if (!errors.length) {
-      if (user.userID === context.USER.userID || context.USER.root === true || context.USER.userID === group.groupLeaderID) {
+      if (user.userID === context.USER.userID || context.USER.root === true) {
         try {
           await user.addGroup(group.groupID);
         } catch (err) {
           errors.push({ code: err.original.code, message: err.original.sqlMessage, path: '_' });
         }
       } else {
-        errors.push({ code: 'ER_ACCESS_RESTRICTED', message: `User with userID ${context.USER.userID} tried to add user with userID ${user.userID} to group with groupID ${group.groupID} without being group leader or manager`, path: 'JWT' });
+        errors.push({ code: 'ER_ACCESS_RESTRICTED', message: `User with userID ${context.USER.userID} tried to add user with userID ${user.userID} to group with groupID ${group.groupID} without being manager`, path: 'JWT' });
       }
     }
     return {
