@@ -17,8 +17,8 @@ import { GroupResolver } from "../resolvers/Group";
 
 export default {
   type: new GraphQLObjectType({
-    name: 'JoinGroupMutation', 
-    description: 'JoinGroup Mutation Return Values',
+    name: 'LeaveGroupMutation', 
+    description: 'LeaveGroup Mutation Return Values',
     fields: () => {
       return {
         'user': {
@@ -46,7 +46,7 @@ export default {
     userID: {
       type: new GraphQLNonNull(GraphQLInt)
     },
-    inviteCode: {
+    groupID: {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
@@ -64,7 +64,7 @@ export default {
       }
     }
     if (!errors.length) {
-      group = await sequelize.models.Group.findOne({ where: { inviteCode: args.inviteCode } });
+      group = await sequelize.models.Group.findOne({ where: { groupID: args.groupID } });
       if (!group) {
         errors.push({ code: 'ER_GROUP_UNKNOWN', message: `Unable to locate group with inviteCode ${args.inviteCode}`, path: 'inviteCode' });
       }

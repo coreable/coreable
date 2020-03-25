@@ -5,8 +5,8 @@ import {
   GraphQLObjectType,
   GraphQLList
  } from "graphql";
+ 
 import { encodeJWT } from "../../lib/hash";
-
 import { sequelize } from "../../lib/sequelize";
 
 import { ErrorResolver } from "../resolvers/Error";

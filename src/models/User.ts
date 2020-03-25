@@ -1,13 +1,13 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
-import { Industry } from './Industry';
-import { Team } from './Team';
 import {
   generatePasswordHash,
   checkPassword
 } from '../lib/hash';
+
 import { Group } from './Group';
 import { Review } from './Review';
-
+import { Industry } from './Industry';
+import { Team } from './Team';
 
 export class User extends Model {
   public userID!: number;
@@ -21,7 +21,7 @@ export class User extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public logout: ((token: any) => Promise<void>) | undefined;
-  public login: ((payload: string) => Promise<boolean>) | undefined;
+  public login: ((payload: string) => Promise<(payload: string, password: string) => Promise<boolean>>) | undefined;
 }
 
 export const sync = (sequelize: Sequelize) => {
@@ -70,15 +70,15 @@ export const sync = (sequelize: Sequelize) => {
   });
 
   // Hooks
-  User.beforeCreate((user, options) => {
-    return generatePasswordHash(user.password).then((hash) => {
+  User.beforeCreate(async (user: User) => {
+    return await generatePasswordHash(user.password).then((hash) => {
       user.password = hash;
     }).catch((err) => {
       throw err
     });
   });
 
-  User.prototype.login = async function (payload) {
+  User.prototype.login = async function(payload: string) {
     return checkPassword(payload, this.password);
   }
 

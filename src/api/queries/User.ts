@@ -1,5 +1,11 @@
-import { GraphQLList, GraphQLInt, GraphQLString } from "graphql";
+import {
+  GraphQLList,
+  GraphQLInt,
+  GraphQLString
+} from "graphql";
+
 import { sequelize } from "../../lib/sequelize";
+
 import { UserResolver } from "../resolvers/User";
 
 export default {

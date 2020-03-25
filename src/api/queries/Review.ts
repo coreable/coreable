@@ -1,5 +1,10 @@
-import { GraphQLList, GraphQLInt, GraphQLString } from "graphql";
+import { 
+  GraphQLList,
+  GraphQLInt
+} from "graphql";
+
 import { sequelize } from "../../lib/sequelize";
+
 import { ReviewResolver } from "../resolvers/Review";
 
 export default {

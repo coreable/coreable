@@ -40,7 +40,7 @@ app.use(async(req: Request, res: Response, next: NextFunction) => {
       req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] }); // Scaffolding for Security
       if (!req.USER) throw new Error("Database, Cache or Client Header discrepancy");
     } catch (err) {
-      process.env.NODE_ENV == 'development' ? console.error({ name: err.name, message: err.message }) : null;
+      process.env.NODE_ENV == 'development' ? console.error({ code: err.name, message: err.message, path: 'src/app.ts' }) : null;
       req.JWT = null; // Null for server sided use only
       res.removeHeader('JWT'); // Remove JWT from server response
     }

@@ -30,6 +30,7 @@ export async function generator() {
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
         industryID: Faker.random.number({min: 1, max: 5}),
+        password: Faker.random.alphaNumeric(10)
         // cognitoID: Faker.random.alphaNumeric(5)
       });
     });

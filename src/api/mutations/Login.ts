@@ -1,10 +1,18 @@
-import { AuthorizationResolver } from "../resolvers/Authorization";
-import { GraphQLNonNull, GraphQLString, GraphQLObjectType, GraphQLList } from "graphql";
+import { 
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLObjectType,
+  GraphQLList
+} from "graphql";
+
 import { JsonWebToken } from "../../models/JsonWebToken";
+import { CoreableError } from "../../models/Error";
+
 import { encodeJWT } from "../../lib/hash";
 import { sequelize } from "../../lib/sequelize";
+
 import { ErrorResolver } from "../resolvers/Error";
-import { CoreableError } from "../../models/Error";
+import { AuthorizationResolver } from "../resolvers/Authorization";
 
 export default {
   type: new GraphQLObjectType({
