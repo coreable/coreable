@@ -71,27 +71,30 @@ export default {
     }
     if (!errors.length) {
       if (user.userID === group.groupLeaderID) {
-        errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is already in ${group.groupID}`, path: 'userID'});
+        errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is group leader of group with groupID ${group.groupID}`, path: 'userID'});
       }
     }
     if (!errors.length) {
+      let isInGroup = false;
       for (const ug of user.Groups) {
         if (ug.groupID === group.groupID) {
-          console.log(ug);
-          errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is already in group with groupID ${group.groupID}`, path: 'userID'});
+          isInGroup = true;
           break;
         }
+      }
+      if (!isInGroup) {
+        errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is not in group with groupID ${group.groupID}`, path: 'userID'});
       }
     }
     if (!errors.length) {
       if (user.userID === context.USER.userID || context.USER.root === true) {
         try {
-          await user.addGroup(group.groupID);
+          await user.removeGroup(group.groupID);
         } catch (err) {
           errors.push({ code: err.original.code, message: err.original.sqlMessage, path: '_' });
         }
       } else {
-        errors.push({ code: 'ER_ACCESS_RESTRICTED', message: `User with userID ${context.USER.userID} tried to add user with userID ${user.userID} to group with groupID ${group.groupID} without being manager`, path: 'JWT' });
+        errors.push({ code: 'ER_ACCESS_RESTRICTED', message: `User with userID ${context.USER.userID} tried to remove user with userID ${user.userID} from group with groupID ${group.groupID} without being manager`, path: 'JWT' });
       }
     }
     return {

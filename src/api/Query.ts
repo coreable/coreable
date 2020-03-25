@@ -8,6 +8,7 @@ import IndustryQuery from './queries/Industry';
 import GroupQuery from './queries/Group';
 import ReviewQuery from './queries/Review';
 import TeamQuery from './queries/Team';
+import APIQuery from './queries/API';
 
 export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Query',
@@ -18,7 +19,8 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
       'industry': IndustryQuery,
       'group': GroupQuery,
       'review': ReviewQuery,
-      'team': TeamQuery
+      'team': TeamQuery,
+      'API': APIQuery
     }
   }
 });

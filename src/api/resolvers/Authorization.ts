@@ -29,6 +29,12 @@ export const AuthorizationResolver: GraphQLObjectType = new GraphQLObjectType({
                 resolve(user, args, context) {
                   return user.email
                 }
+              },
+              'firstName': {
+                type: GraphQLString,
+                resolve(user, args, context) {
+                  return user.firstName;
+                }
               }
             }
           }

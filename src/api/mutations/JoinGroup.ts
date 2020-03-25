@@ -77,7 +77,6 @@ export default {
     if (!errors.length) {
       for (const ug of user.Groups) {
         if (ug.groupID === group.groupID) {
-          console.log(ug);
           errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is already in group with groupID ${group.groupID}`, path: 'userID'});
           break;
         }
