@@ -1,14 +1,13 @@
-import { 
-  GraphQLList,
+import {
   GraphQLInt
 } from "graphql";
 
 import { sequelize } from "../../lib/sequelize";
-
-import { ReviewResolver } from "../resolvers/Review";
+import { ReviewSingletonCommand } from "../resolvers/command/singletons/ReviewSingletonCommand";
+import { CoreableError } from "../../models/CoreableError";
 
 export default {
-  type: new GraphQLList(ReviewResolver),
+  type: ReviewSingletonCommand,
   args: {
     reviewID: {
       type: GraphQLInt,
@@ -20,7 +19,14 @@ export default {
       type: GraphQLInt,
     }
   },
-  resolve(root: any, args: any) {
-    return sequelize.models.Review.findAll({ where: args });
+  async resolve(root: any, args: any) {
+    let errors: CoreableError[] = [];
+    let review = await sequelize.models.Review.findAll({ where: args });
+    return {
+      'result': !errors.length ? {
+        'review': review
+      }: null,
+      'errors': errors.length > 0 ? errors : null
+    }
   }
 }

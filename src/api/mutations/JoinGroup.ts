@@ -2,46 +2,17 @@ import {
   GraphQLNonNull,
   GraphQLString,
   GraphQLInt,
-  GraphQLList,
-  GraphQLObjectType
 } from "graphql";
 
 import { sequelize } from "../../lib/sequelize";
 
 import { Group } from "../../models/Group";
 
-import { UserResolver } from "../resolvers/User";
-import { ErrorResolver } from "../resolvers/Error";
-import { CoreableError } from "../../models/Error";
-import { GroupResolver } from "../resolvers/Group";
+import { CoreableError } from "../../models/CoreableError";
+import { UserGroupCompositeCommand } from "../resolvers/command/composite/UserGroupCompositeCommand";
 
 export default {
-  type: new GraphQLObjectType({
-    name: 'JoinGroupMutation', 
-    description: 'JoinGroup Mutation Return Values',
-    fields: () => {
-      return {
-        'user': {
-          type: UserResolver,
-          resolve(result) {
-            return result.user;
-          }
-        },
-        'group': {
-          type: GroupResolver,
-          resolve(result) {
-            return result.group
-          }
-        },
-        'error': {
-          type: new GraphQLList(ErrorResolver),
-          resolve(result) {
-            return result.error;
-          }
-        }
-      }
-    }
-  }),
+  type: UserGroupCompositeCommand,
   args: {
     userID: {
       type: new GraphQLNonNull(GraphQLInt)
@@ -55,7 +26,7 @@ export default {
     let user;
     let group;
     if (!context.USER) {
-      errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
+      errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
       user = await sequelize.models.User.findOne({ where: { userID: args.userID }, include: [{ model: Group }] }) as any;
@@ -94,9 +65,11 @@ export default {
       }
     }
     return {
-      'user': !errors.length ? user : null,
-      'group': !errors.length ? group : null,
-      'error': errors.length > 0 ? errors : null
+      'result': !errors.length ? {
+        'user': user,
+        'group': group,
+      } : null,
+      'errors': errors.length > 0 ? errors : null
     };
   }
 }

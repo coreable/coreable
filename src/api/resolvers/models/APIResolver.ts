@@ -2,7 +2,7 @@ import { GraphQLObjectType, GraphQLString } from "graphql";
 
 export const APIResolver: GraphQLObjectType = new GraphQLObjectType({
   name: 'APIResolver',
-  description: 'API',
+  description: 'API Resolver to test server status',
   fields: () => {
     return {
       'time': {

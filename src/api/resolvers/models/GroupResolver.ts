@@ -1,4 +1,4 @@
-import { sequelize } from '../../lib/sequelize';
+import { sequelize } from '../../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
@@ -6,10 +6,10 @@ import {
   GraphQLList
 } from 'graphql';
 
-import { UserResolver } from './User';
-import { TeamResolver } from './Team';
-import { Group } from '../../models/Group';
-import { IndustryResolver } from './Industry';
+import { Group } from '../../../models/Group';
+import { UserResolver } from './UserResolver';
+import { TeamResolver } from './TeamResolver';
+import { IndustryResolver } from './IndustryResolver';
 
 export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
   name: 'GroupResolver',
@@ -35,7 +35,6 @@ export const GroupResolver: GraphQLObjectType<Group> = new GraphQLObjectType({
         }
       },
       'groupLeader': {
-        description: 'The full details of the leader of the group',
         type: UserResolver,
         resolve(group, args, context) {
           args.userID = group.groupLeaderID;

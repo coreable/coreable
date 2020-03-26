@@ -102,9 +102,16 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
+
+  return true;
 }
 
 // Completes an array of functions that return promises in sequence
+// Two Examples
+// let arr = [
+//   () => new Promise(),
+//   () => { return new Promise() },
+// ];
 export async function inSequence(tasks: Promise<any>[]) {
   return await tasks.reduce(async (promise: Promise<any>, task: any) => await promise.then(task).catch(() => Promise.resolve()), Promise.resolve())
 }

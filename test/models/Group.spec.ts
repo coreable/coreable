@@ -1,27 +1,31 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { CoreableError } from '../../src/models/Error';
+import { Group } from '../../src/models/Group';
 
-describe('Group Model', () => {
-  let coreableError: CoreableError;
+describe('Group Model [Group.ts]', () => {
+  let group: Group;
   before((done) => {
-    coreableError = new CoreableError();
+    group = new Group();
     return done();
   });
 
-  it('can set code to 123', () => {
-    coreableError.code = "123";
-    return expect(coreableError.code).to.equal("123");
+  it('can set groupID to 1', () => {
+    group.groupID = 1;
+    return expect(group.groupID).to.equal(1);
   });
 
-  it('can set path to field', () => {
-    coreableError.path = "field";
-    return expect(coreableError.path).to.equal("field");
+  it('can set groupLeaderID to 9', () => {
+    group.groupLeaderID = 9;
+    return expect(group.groupLeaderID).to.equal(9);
   });
 
-  it('can set message to unit testing', () => {
-    coreableError.message = "unit testing";
-    return expect(coreableError.message).to.equal("unit testing");
+  it('can set the inviteCode to \"unit testing\"', () => {
+    group.inviteCode = "unit testing";
+    return expect(group.inviteCode).to.equal("unit testing");
   });
 
+  it('can set the groupName to \"unit testing\"', () => {
+    group.groupName = "unit testing";
+    return expect(group.groupName).to.equal("unit testing");
+  });
 });

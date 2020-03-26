@@ -21,7 +21,7 @@ export class User extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public logout: ((token: any) => Promise<void>) | undefined;
-  public login: ((payload: string) => Promise<(payload: string, password: string) => Promise<boolean>>) | undefined;
+  public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
 export const sync = (sequelize: Sequelize) => {

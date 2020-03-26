@@ -1,15 +1,14 @@
+import { sequelize } from "../../lib/sequelize";
 import {
-  GraphQLList,
   GraphQLInt,
   GraphQLString
 } from "graphql";
 
-import { sequelize } from "../../lib/sequelize";
-
-import { GroupResolver } from "../resolvers/Group";
+import { GroupSingletonCommand } from "../resolvers/command/singletons/GroupSingletonCommand";
+import { CoreableError } from "../../models/CoreableError";
 
 export default {
-  type: new GraphQLList(GroupResolver),
+  type: GroupSingletonCommand,
   args: {
     groupID: {
       type: GraphQLInt
@@ -27,7 +26,14 @@ export default {
       type: GraphQLString
     }
   },
-  resolve(root: any, args: any) {
-    return sequelize.models.Group.findAll({ where: args });
+  async resolve(root: any, args: any) {
+    let errors: CoreableError[] = [];
+    let group = await sequelize.models.Group.findAll({ where: args });
+    return {
+      'result': !errors.length ? {
+        'group': group
+      } : null,
+      'errors': errors.length > 0 ? errors : null
+    }
   }
 }

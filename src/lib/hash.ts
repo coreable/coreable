@@ -4,8 +4,8 @@ import * as config from '../config/config.json';
 import { promisify } from 'util';
 import { resolve } from 'bluebird';
 
-const JWT_SECRET: Secret = config.JWT_SECRET;
-const ROUNDS: number = 10;
+export const JWT_SECRET: Secret = config.JWT_SECRET;
+export const ROUNDS: number = 10;
 
 /* Password Hashing */
 
@@ -24,15 +24,19 @@ export function generatePasswordHash(plainTextPassword: string) {
 }
 
 // Check a hashed password
-const asyncBcryptCompare = (plainTextPassword: string, hash: string) => promisify(bcrypt.compare);
 export function checkPassword(plainTextPassword: string, hash: string) {
-  return asyncBcryptCompare(plainTextPassword, hash);
+  return new Promise<boolean>((resolve, reject) => (
+    bcrypt.compare(plainTextPassword, hash, (e: Error, doesMatch: boolean) => {
+      if (e) return reject(e);
+      return resolve(doesMatch);
+    })
+  ));
 }
 
 /* JWT */
 
 // Encode a JWT
-export function encodeJWT(payload: string | object | Buffer) {
+export function encodeJWT(payload: string | object | Buffer): Promise<string> {
   return new Promise((resolve, reject) => {
     jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' }, (err, token) => {
       if (err) return reject(err);
@@ -44,6 +48,11 @@ export function encodeJWT(payload: string | object | Buffer) {
 // Verify a JWT. 
 // Note:  This can throw an error if the token is invalid, wrap it in a try catch
 const asyncVerify = promisify(jwt.verify);
-export function decodeJWT(token: string) {
-  return asyncVerify(token, JWT_SECRET);
+export function decodeJWT(token: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, JWT_SECRET, (err, obj) => {
+      if (err) return reject(err);
+      resolve(obj);
+    });
+  });
 }

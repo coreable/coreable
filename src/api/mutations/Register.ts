@@ -9,33 +9,12 @@ import {
 import { encodeJWT } from "../../lib/hash";
 import { sequelize } from "../../lib/sequelize";
 
-import { ErrorResolver } from "../resolvers/Error";
-import { AuthorizationResolver } from "../resolvers/Authorization";
-
 import { JsonWebToken } from "../../models/JsonWebToken";
-import { CoreableError } from "../../models/Error";
+import { CoreableError } from "../../models/CoreableError";
+import { UserJWTCompositeCommand } from "../resolvers/command/composite/UserJWTCompositeCommand";
 
 export default {
-  type: new GraphQLObjectType({
-    name: 'RegisterMutation', 
-    description: 'Register Mutation Return Values',
-    fields: () => {
-      return {
-        'auth': {
-          type: AuthorizationResolver,
-          resolve(result) {
-            return result.auth;
-          }
-        },
-        'error': {
-          type: new GraphQLList(ErrorResolver),
-          resolve(result) {
-            return result.error;
-          }
-        }
-      }
-    }
-  }),
+  type: UserJWTCompositeCommand,
   args: {
     firstName: {
       type: new GraphQLNonNull(GraphQLString)
@@ -85,11 +64,11 @@ export default {
       };
     }
     return {
-      'auth': !errors.length ? {
+      'result': !errors.length ? {
         'user': user, 
         'session': session
       } : null,
-      'error': errors.length > 0 ? errors : null
+      'errors': errors.length > 0 ? errors : null
     }
   }
 }

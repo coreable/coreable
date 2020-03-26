@@ -1,6 +1,7 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import { User } from './User';
 import { Group } from './Group';
+import { Review } from './Review';
 
 export class Team extends Model {
   public userID!: number;
@@ -31,6 +32,7 @@ export const sync = (sequelize: Sequelize) => {
 export const associate = () => {
   Team.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'userID' } });
   Team.belongsTo(Group, { foreignKey: { name: 'groupID', allowNull: false, field: 'groupID' } });
+  Team.hasMany(Review);
 
   return Team;
 }

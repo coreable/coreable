@@ -1,13 +1,13 @@
-import { sequelize } from '../../lib/sequelize';
+import { sequelize } from '../../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
   GraphQLString,
 } from 'graphql';
 
-import { GroupResolver } from './Group';
-import { UserResolver } from './User';
-import { Team } from '../../models/Team';
+import { GroupResolver } from './GroupResolver';
+import { UserResolver } from './UserResolver';
+import { Team } from '../../../models/Team';
 
 export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   name: 'TeamResolver',

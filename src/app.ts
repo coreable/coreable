@@ -21,12 +21,12 @@ const app: Application = express();
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.disable('x-powered-by');
 
 // Security CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.removeHeader('X-Powered-By');
   next();
 });
 

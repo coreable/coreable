@@ -1,14 +1,15 @@
 mutation {
-  register(email:"bob@bob.com", password:"bobbob", firstName:"bob", lastName: "bob") {
-    error{
-      path
+  register(firstName:"bob", lastName: "bob", email: "bob@bob.com", password:"bobbob") {
+    errors{
       code
+      path
       message
     }
-    auth {
+    result {
       user {
-        userID
         email
+        firstName
+        userID
       }
       session {
         token

@@ -1,11 +1,11 @@
-import { sequelize } from '../../lib/sequelize';
+import { sequelize } from '../../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
 } from 'graphql';
 
-import { Review } from '../../models/Review';
-import { UserResolver } from './User';
+import { Review } from '../../../models/Review';
+import { UserResolver } from './UserResolver';
 
 export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
   name: 'ReviewResolver',

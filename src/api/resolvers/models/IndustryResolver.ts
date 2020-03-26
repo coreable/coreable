@@ -4,7 +4,7 @@ import {
   GraphQLString
 } from 'graphql';
 
-import { Industry } from '../../models/Industry';
+import { Industry } from '../../../models/Industry';
 
 export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectType({
   name: 'IndustryResolver',

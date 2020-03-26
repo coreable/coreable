@@ -1,9 +1,8 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { CoreableError } from '../../src/models/Error';
+import { CoreableError } from '../../src/models/CoreableError';
 
-
-describe('Error Model', () => {
+describe('Error Model [Error.ts]', () => {
   let coreableError: CoreableError;
   before((done) => {
     coreableError = new CoreableError();
