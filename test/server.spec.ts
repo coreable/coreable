@@ -2,6 +2,7 @@ import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
 import { server } from '../src/server';
 import chaiHttp from 'chai-http';
+import { User } from '../src/models/User';
 
 chai.use(chaiHttp);
 
@@ -10,6 +11,10 @@ describe('HTTP server [server.ts]', () => {
 
   before(async() => {
     return await server.load;
+  });
+
+  after(async() => {
+    return await User.destroy({ where: { 'email': 'unt@test.com' }});
   });
 
   it('should start a HTTP server', async() => {
@@ -26,8 +31,9 @@ describe('HTTP server [server.ts]', () => {
 
   it('should register a user', async() => {
     const res = await chai.request(server).post('/graphQL').send({
-      query: `mutation {
-        register(firstName:"bob", lastName: "bob", email: "bob@bob.com", password:"bobbob") {
+      query: 
+      `mutation {
+        register(firstName:"unit", lastName: "test", email: "unt@test.com", password:"unittest") {
           errors{
             code,
             path,
@@ -51,8 +57,9 @@ describe('HTTP server [server.ts]', () => {
 
   it('should login with the user', async() => {
     const res = await chai.request(server).post('/graphQL').send({
-      query: `mutation {
-        login(email:"bob@bob.com", password: "bobbob") {
+      query: 
+      `mutation {
+        login(email:"unt@test.com", password: "unittest") {
           errors {
             message,
             path,

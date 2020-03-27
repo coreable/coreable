@@ -2,7 +2,7 @@ import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
 import { Team } from '../../src/models/Team';
 
-describe('Team Model [Team.ts]', () => {
+describe('Team Model [models/Team.ts]', () => {
   let team: Team;
   before((done) => {
     team = new Team();

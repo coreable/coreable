@@ -2,7 +2,7 @@ import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
 import { Industry } from '../../src/models/Industry';
 
-describe('Industry Model [Industry.ts]', () => {
+describe('Industry Model [models/Industry.ts]', () => {
   let industry: Industry;
   before((done) => {
     industry = new Industry();

@@ -153,6 +153,7 @@ export const sync = (sequelize: Sequelize) => {
 export const assosciate = () => {
   Review.belongsTo(User, { foreignKey: { name: 'subjectID', allowNull: false, field: 'userID' } });
   Review.belongsTo(User, { foreignKey: { name: 'completedByID', allowNull: false, field: 'userID' } });
+  // Review.hasMany(Team, { through: User, foreignKey: '' })
 
   return Review;
 }

@@ -3,7 +3,7 @@ import chai, { expect, assert } from 'chai';
 import { sequelize } from '../../src/lib/sequelize';
 import * as User from '../../src/models/User';
 
-describe('Team Model [Team.ts]', () => {
+describe('Team Model [models/Team.ts]', () => {
   let user: User.User;
   before(async () => {
     user = new User.User();

@@ -2,7 +2,7 @@ import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
 import { Group } from '../../src/models/Group';
 
-describe('Group Model [Group.ts]', () => {
+describe('Group Model [models/Group.ts]', () => {
   let group: Group;
   before((done) => {
     group = new Group();

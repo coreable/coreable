@@ -2,7 +2,7 @@ import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
 import { JsonWebToken } from '../../src/models/JsonWebToken';
 
-describe('Json Web Token Model [JsonWebToken.ts]', () => {
+describe('Json Web Token Model [models/JsonWebToken.ts]', () => {
   let token: JsonWebToken;
   before((done) => {
     token = new JsonWebToken();

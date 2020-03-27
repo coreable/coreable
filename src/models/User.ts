@@ -71,11 +71,11 @@ export const sync = (sequelize: Sequelize) => {
 
   // Hooks
   User.beforeCreate(async (user: User) => {
-    return await generatePasswordHash(user.password).then((hash) => {
-      user.password = hash;
-    }).catch((err) => {
-      throw err
-    });
+    try {
+      user.password = await generatePasswordHash(user.password);
+    } catch (err) {
+      throw err;
+    }
   });
 
   User.prototype.login = async function(payload: string) {
@@ -88,9 +88,9 @@ export const sync = (sequelize: Sequelize) => {
 export const assosciate = () => {
   User.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: true, field: 'industryID' } });
   User.belongsToMany(Group, { through: Team, foreignKey: 'userID' });
-  User.hasMany(Team, { foreignKey: 'userID' });
-  User.hasMany(Review, { foreignKey: 'subjectID' });
-  User.hasMany(Review, { foreignKey: 'completedByID' });
+  User.hasMany(Team, { foreignKey: 'userID', sourceKey: 'userID' });
+  User.hasMany(Review, { foreignKey: 'subjectID', sourceKey: 'userID' });
+  User.hasMany(Review, { foreignKey: 'completedByID', sourceKey: 'userID' });
 
   return User;
 }

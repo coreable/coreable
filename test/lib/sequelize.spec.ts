@@ -4,7 +4,7 @@ import { sqlcache, sequelize } from '../../src/lib/sequelize';
 import { Sequelize } from 'sequelize';
 import SequelizeSimpleCache from 'sequelize-simple-cache';
 
-describe('Sequelize (DAO) (ORM) [sequelize.ts]', () => {
+describe('Sequelize (DAO) (ORM) [lib/sequelize.ts]', () => {
 
   before(async() => {
     return await sequelize.authenticate();

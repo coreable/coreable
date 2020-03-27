@@ -2,7 +2,7 @@ import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
 import { Review } from '../../src/models/Review';
 
-describe('Review Model [Review.ts]', () => {
+describe('Review Model [models/Review.ts]', () => {
   let review: Review;
   before((done) => {
     review = new Review();

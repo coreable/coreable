@@ -3,6 +3,7 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
+import MeQuery from './queries/Me';
 import UserQuery from './queries/User';
 import IndustryQuery from './queries/Industry';
 import GroupQuery from './queries/Group';
@@ -15,6 +16,7 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   description: 'This is the root query',
   fields: () => {
     return {
+      'me': MeQuery,
       'user': UserQuery,
       'industry': IndustryQuery,
       'group': GroupQuery,

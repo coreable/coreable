@@ -32,7 +32,7 @@ export default {
     if (!errors.length) {
       user = await sequelize.models.User.findOne({ where: { email: args.email } }) as any;
       if (!user) {
-        errors.push({ code: 'ER_AUTH_FAILURE', path: 'email', message: `No user found with email ${args.email}` });
+        errors.push({ code: 'ER_USER_UNKNOWN', path: 'email', message: `No user found with email ${args.email}` });
       }
     }
     if (!errors.length) {

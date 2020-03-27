@@ -4,7 +4,7 @@
 
 `npm i`
 
-## Start the SQL Server
+## For development start the SQL Server
 
 `docker-compose up`
 

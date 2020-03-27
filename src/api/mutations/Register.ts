@@ -1,9 +1,7 @@
 import {
   GraphQLNonNull,
   GraphQLString,
-  GraphQLInt, 
-  GraphQLObjectType,
-  GraphQLList
+  GraphQLInt
  } from "graphql";
  
 import { encodeJWT } from "../../lib/hash";

@@ -3,7 +3,7 @@ import chai, { expect, assert } from 'chai';
 
 import { generatePasswordHash, ROUNDS, JWT_SECRET, checkPassword, encodeJWT, decodeJWT } from '../../src/lib/hash';
 
-describe('Hashing & JWT [hash.ts]', () => {
+describe('Hashing & JWT [lib/hash.ts]', () => {
   let rounds = ROUNDS;
   let secret = JWT_SECRET;
   let user = { userID: 1, email: "unit@test.com" };
