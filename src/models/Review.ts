@@ -1,12 +1,13 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import { User } from './User';
 
-export class Review extends Model {
-  public reviewID!: number;
-  public subjectID!: number;
-  public completedByID!: number;
+class Review extends Model {
+  // PK
+  public reviewID!: string;
+  // FK
+  public userID!: string;
+  public submittedByID!: string;
 
-  // Review
   public emotionalResponse!: number;
   public empathy!: number;
   public managesOwn!: number;
@@ -30,24 +31,26 @@ export class Review extends Model {
   public eyeContact!: number;
   public signifiesInterest!: number;
   public verbalAttentiveFeedback!: number;
+  // ??????
+  public stage!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-export const sync = (sequelize: Sequelize) => {
+const sync = (sequelize: Sequelize) => {
   Review.init({
     'reviewID': {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true
+      defaultValue: DataTypes.UUIDV4
     },
-    'subjectID': {
-      type: DataTypes.INTEGER.UNSIGNED,
+    'userID': {
+      type: DataTypes.UUID,
       allowNull: false
     },
-    'completedByID': {
-      type: DataTypes.INTEGER.UNSIGNED,
+    'submittedByID': {
+      type: DataTypes.UUID,
       allowNull: false
     },
     'emotionalResponse': {
@@ -141,6 +144,10 @@ export const sync = (sequelize: Sequelize) => {
     'verbalAttentiveFeedback': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
+    },
+    'stage': {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false
     }
   }, {
     'tableName': 'REVIEW',
@@ -150,10 +157,18 @@ export const sync = (sequelize: Sequelize) => {
   return Review;
 }
 
-export const assosciate = () => {
-  Review.belongsTo(User, { foreignKey: { name: 'subjectID', allowNull: false, field: 'userID' } });
-  Review.belongsTo(User, { foreignKey: { name: 'completedByID', allowNull: false, field: 'userID' } });
-  // Review.hasMany(Team, { through: User, foreignKey: '' })
-
+let ReviewResultsUser;
+let ReviewSubmittedUser;
+const assosciate = () => {
+  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'userID', targetKey: 'userID', as: 'reviewResults' });
+  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submittedByID', targetKey: 'userID', as: 'reviewSubmitted' });
   return Review;
 }
+
+export {
+  sync,
+  assosciate,
+  ReviewResultsUser,
+  ReviewSubmittedUser,
+  Review,
+};

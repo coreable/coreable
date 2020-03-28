@@ -10,13 +10,13 @@ describe('Review Model [models/Review.ts]', () => {
   });
 
   it('can set subjectID to 1', () => {
-    review.subjectID = 1;
-    return expect(review.subjectID).to.equal(1);
+    review.userID = '1';
+    return expect(review.userID).to.equal('1');
   });
 
   it('can set compeltedBy to 2', () => {
-    review.completedByID = 2;
-    return expect(review.completedByID).to.equal(2);
+    review.submittedByID = '2';
+    return expect(review.submittedByID).to.equal('2');
   });
 
   it('can set calm to 3', () => {

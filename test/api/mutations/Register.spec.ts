@@ -1,6 +1,6 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { server } from '../../../src/server';
+import { server } from '../../../src/lib/startup';
 import chaiHttp from 'chai-http';
 import { User } from '../../../src/models/User';
 

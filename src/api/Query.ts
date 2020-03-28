@@ -4,12 +4,13 @@ import {
 } from "graphql";
 
 import MeQuery from './queries/Me';
-import UserQuery from './queries/User';
-import IndustryQuery from './queries/Industry';
-import GroupQuery from './queries/Group';
-import ReviewQuery from './queries/Review';
-import TeamQuery from './queries/Team';
-import APIQuery from './queries/API';
+import UserObjectQuery from './queries/object/User';
+import UserListQuery from './queries/list/User';
+import ReviewObjectQuery from './queries/object/Review';
+import ReviewListQuery from './queries/list/Review';
+import TeamObjectQuery from './queries/object/Team';
+import TeamListQuery from './queries/list/Team';
+import APIObjectQuery from './queries/API';
 
 export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Query',
@@ -17,12 +18,13 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   fields: () => {
     return {
       'me': MeQuery,
-      'user': UserQuery,
-      'industry': IndustryQuery,
-      'group': GroupQuery,
-      'review': ReviewQuery,
-      'team': TeamQuery,
-      'API': APIQuery
+      'user': UserObjectQuery,
+      'users': UserListQuery,
+      'reviews': ReviewListQuery,
+      'review': ReviewObjectQuery,
+      'team': TeamObjectQuery,
+      'teams': TeamListQuery,
+      'API': APIObjectQuery
     }
   }
 });

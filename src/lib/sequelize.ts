@@ -2,12 +2,17 @@ import { Sequelize } from 'sequelize';
 import SequelizeSimpleCache from 'sequelize-simple-cache';
 import * as config from '../config/config.json';
 
-// A hack to assign more properties to the library
-const sqlcache = Object.assign(Sequelize);
-// assign the Sequelize constructor to new library object
-sqlcache.prototype.constructor = Sequelize;
-// create the DAO with the Sequelize constructor
-const sequelize = new sqlcache(
+import * as User from '../models/User';
+import * as Team from '../models/Team';
+import * as Review from '../models/Review';
+import * as Subject from '../models/Subject';
+import * as Manager from '../models/Manager';
+import * as Billing from '../models/Billing';
+
+const _sequelize = Object.assign(Sequelize);
+_sequelize.prototype.constructor = Sequelize;
+
+const sequelize = new _sequelize(
   config.DATABASE.SCHEMA,   // DATABASE
   config.DATABASE.USERNAME, // USERNAME
   config.DATABASE.PASSWORD, // PASSWORD
@@ -15,36 +20,28 @@ const sequelize = new sqlcache(
     'dialect': config.DATABASE.DIALECT as 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | undefined,
     'host': config.DATABASE.HOST,
     'port': config.DATABASE.PORT,
-    'logging': process.env.NODE_ENV === 'development' ? true : false 
+    'logging': process.env.NODE_ENV === 'development' ? console.log : false 
   }
 );
 
-// Import models
-import * as Industry from '../models/Industry';
-import * as User from '../models/User';
-import * as Group from '../models/Group';
-import * as Team from '../models/Team';
-import * as Review from '../models/Review';
-
-sqlcache.sync = (async () => {
-  // Init models
-  Industry.sync(sequelize);
+_sequelize.sync = (async () => {
   User.sync(sequelize);
-  Group.sync(sequelize);
   Team.sync(sequelize);
   Review.sync(sequelize);
+  Subject.sync(sequelize);
+  Manager.sync(sequelize);
+  // Billing.sync(sequelize);
 })();
 
-sqlcache.assosciate = (async () => {
-  // Create foreign key constraints on models
-  Industry.assosciate();
+_sequelize.assosciate = (async () => {
   User.assosciate();
-  Group.assosciate();
-  Team.associate();
+  Team.assosciate();
   Review.assosciate();
+  Subject.assosciate();
+  Manager.assosciate();
+  // Billing.assosciate();
 })();
 
-// register cache with sequelize models (5*60=5mins)
 sequelize._cache = new SequelizeSimpleCache({
   User: { ttl: 5 * 60, limit: 50 },
   Industry: { ttl: 5 * 60, limit: 50 },
@@ -52,21 +49,12 @@ sequelize._cache = new SequelizeSimpleCache({
   Team: { ttl: 5 * 60, limit: 50 },
   Review: { ttl: 5 * 60, limit: 50 },
 }, {
-  debug: process.env.NODE_ENV === "development" ? true : false // debug output
+  debug: process.env.NODE_ENV === "development" ? true : false
 });
 
-sqlcache.replace = (async () => {
-  // Replace the default model methods with the cache functions
-  // Caching can explicitly be bypassed like this:
-  // Model.noCache().findOne(...);
-  sequelize.models['Industry'] = sequelize._cache.init(sequelize.modelManager.addModel(Industry.Industry));
+_sequelize.replace = (async () => {
   sequelize.models['User'] = sequelize._cache.init(sequelize.modelManager.addModel(User.User));
-  sequelize.models['Group'] = sequelize._cache.init(sequelize.modelManager.addModel(Group.Group));
   sequelize.models['Team'] = sequelize._cache.init(sequelize.modelManager.addModel(Team.Team));
-  sequelize.models['Review'] = sequelize._cache.init(sequelize.modelManager.addModel(Review.Review));
 })();
 
-export {
-  sequelize,
-  sqlcache
-};
+export { sequelize };

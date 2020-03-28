@@ -1,34 +1,31 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes, Sequelize, BelongsToMany } from 'sequelize';
 import {
   generatePasswordHash,
   checkPassword
 } from '../lib/hash';
-
-import { Group } from './Group';
-import { Review } from './Review';
-import { Industry } from './Industry';
 import { Team } from './Team';
+import { Review } from './Review';
 
-export class User extends Model {
-  public userID!: number;
+class User extends Model {
+  // PK
+  public userID!: string;
+  
   public firstName!: string;
   public lastName!: string;
   public email!: string;
-  public industryID!: number;
   public password!: string;
-  public root!: boolean;
-
+ 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public logout: ((token: any) => Promise<void>) | undefined;
   public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
-export const sync = (sequelize: Sequelize) => {
+const sync = (sequelize: Sequelize) => {
   User.init({
     'userID': {
-      'type': DataTypes.INTEGER.UNSIGNED,
-      'autoIncrement': true,
+      'type': DataTypes.UUID,
+      'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
     'firstName': {
@@ -47,22 +44,9 @@ export const sync = (sequelize: Sequelize) => {
         'isEmail': true
       }
     },
-    'industryID': {
-      'type': DataTypes.INTEGER.UNSIGNED,
-      'allowNull': true,
-      'references': {
-        'model': Industry, 
-        'key': 'industryID'
-      }
-    },
     'password': {
       'type': DataTypes.STRING,
       'allowNull': true,
-    },
-    'root': {
-      'type': DataTypes.BOOLEAN,
-      'allowNull': true,
-      'defaultValue': false
     }
   }, {
     'tableName': 'USER',
@@ -85,12 +69,21 @@ export const sync = (sequelize: Sequelize) => {
   return User;
 }
 
-export const assosciate = () => {
-  User.belongsTo(Industry, { foreignKey: { name: 'industryID', allowNull: true, field: 'industryID' } });
-  User.belongsToMany(Group, { through: Team, foreignKey: 'userID' });
-  User.hasMany(Team, { foreignKey: 'userID', sourceKey: 'userID' });
-  User.hasMany(Review, { foreignKey: 'subjectID', sourceKey: 'userID' });
-  User.hasMany(Review, { foreignKey: 'completedByID', sourceKey: 'userID' });
-
+let UserTeam: BelongsToMany<User, Team>;
+let UserReviewResults;
+let UserReviewSubbmitted;
+const assosciate = () => {
+  UserTeam = User.belongsToMany(Team, { through: 'USER_TEAM', sourceKey: 'userID', foreignKey: 'userID' });
+  UserReviewResults = User.hasMany(Review, { foreignKey: 'userID', as: 'reviewResults' });
+  UserReviewSubbmitted= User.hasMany(Review, { foreignKey: 'submittedByID', as: 'reviewSubmitted' });
   return User;
+}
+
+export {
+  User,
+  sync,
+  assosciate,
+  UserTeam,
+  UserReviewResults,
+  UserReviewSubbmitted
 }

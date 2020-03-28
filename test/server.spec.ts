@@ -1,6 +1,6 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { server } from '../src/server';
+import server from '../src/';
 import chaiHttp from 'chai-http';
 import { User } from '../src/models/User';
 
@@ -10,10 +10,10 @@ describe('HTTP server [server.ts]', () => {
   let sessionToken: string;
 
   before(async() => {
-    return await server.load;
+    return await server;
   });
 
-  after(async() => {
+  after(async() => { 
     return await User.destroy({ where: { 'email': 'unt@test.com' }});
   });
 

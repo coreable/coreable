@@ -1,24 +1,31 @@
 import { Model, DataTypes, Sequelize } from 'sequelize';
 import { User } from './User';
-import { Group } from './Group';
-import { Review } from './Review';
+import { Subject } from './Subject';
 
-export class Team extends Model {
-  public userID!: number;
-  public groupID!: number;
+class Team extends Model {
+  // PK
+  public teamID!: string;
+
+  public teamName!: string;
+  public inviteCode!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-export const sync = (sequelize: Sequelize) => {
+const sync = (sequelize: Sequelize) => {
   Team.init({
-    'userID': {
-      'type': DataTypes.INTEGER.UNSIGNED,
+    'teamID': {
+      'type': DataTypes.UUID,
+      'defaultValue': DataTypes.UUIDV4,
+      'primaryKey': true
+    },
+    'teamName': {
+      'type': DataTypes.STRING,
       'allowNull': false
     },
-    'groupID': {
-      'type': DataTypes.INTEGER.UNSIGNED,
+    'inviteCode': {
+      'type': DataTypes.STRING,
       'allowNull': false
     }
   }, {
@@ -29,9 +36,18 @@ export const sync = (sequelize: Sequelize) => {
   return Team;
 }
 
-export const associate = () => {
-  Team.belongsTo(User, { foreignKey: { name: 'userID', allowNull: false, field: 'userID' } });
-  Team.belongsTo(Group, { foreignKey: { name: 'groupID', allowNull: false, field: 'groupID' } });
-
+let TeamUser;
+let TeamSubject;
+const assosciate = () => {
+  TeamUser = Team.belongsToMany(User, { through: 'USER_TEAM', sourceKey: 'teamID', foreignKey: 'teamID' });
+  TeamSubject = Team.belongsToMany(Subject, { through: 'TEAM_SUBJECT', sourceKey: 'teamID', foreignKey: 'teamID' });
   return Team;
+}
+
+export {
+  sync,
+  assosciate,
+  TeamUser,
+  TeamSubject,
+  Team
 }

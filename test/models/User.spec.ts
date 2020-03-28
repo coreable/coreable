@@ -31,14 +31,13 @@ describe('Team Model [models/Team.ts]', () => {
     return expect(user.password).to.equal("password");
   });
 
-  it('can set root to false', () => {
-    user.root = false;
-    return expect(user.root).to.equal(false);
+  it('has a hashed passsowrd', () => {
+    return expect(user.password).to.not.equal("password");
   });
 
   it('can set userID to 1', () => {
-    user.userID = 1;
-    return expect(user.userID).to.equal(1);
+    user.userID = '1';
+    return expect(user.userID).to.equal('1');
   });
 
   

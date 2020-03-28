@@ -1,16 +1,17 @@
 import {
   GraphQLInt,
-  GraphQLString
+  GraphQLString,
+  GraphQLFloat
 } from "graphql";
 
-import { APISingletonCommand } from "../resolvers/command/singletons/APISingletonCommand";
 import { CoreableError } from "../../models/CoreableError";
+import { APICommand } from "../command/API";
 
 export default {
-  type: APISingletonCommand,
+  type: APICommand,
   args: {
     time: {
-      type: GraphQLInt
+      type: GraphQLFloat
     },
     mode: {
       type: GraphQLString
@@ -19,13 +20,13 @@ export default {
   resolve(root: any, args: any) {
     let errors: CoreableError[] = [];
     if (process.env.NODE_ENV !== "production") {
-      errors.push({ code: "ER_NODE_ENV", path: "NODE.JS", message: "WARNING: Node.JS is not running in production version! Do not ship this mode" });
+      errors.push({ code: "ER_NODE_ENV", path: "NODE.JS", message: `WARNING: Node.JS is running in ${process.env.NODE_ENV} mode! Do not ship this mode` });
     }
     return {
       'result': {
         'API': {
           'time': Date.now(),
-          'mode': process.env.NODE_ENV
+          'env': process.env.NODE_ENV
         }
       },
       'errors': errors.length > 0 ? errors : null

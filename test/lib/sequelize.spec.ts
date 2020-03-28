@@ -1,6 +1,6 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { sqlcache, sequelize } from '../../src/lib/sequelize';
+import { sequelize } from '../../src/lib/sequelize';
 import { Sequelize } from 'sequelize';
 import SequelizeSimpleCache from 'sequelize-simple-cache';
 
@@ -66,12 +66,12 @@ describe('SequelizeSimpleCache (sequelize._cache)', () => {
   });
 });
 
-describe('Sequelize Assosciations [sequelize.ts]', () => {
-  before(async() => {
-    return await sequelize.authenticate();
-  });
+// describe('Sequelize Assosciations [sequelize.ts]', () => {
+//   before(async() => {
+//     return await sequelize.authenticate();
+//   });
 
-  // it('sdfsf', () => {
-  //   console.log(sequelize);
-  // })
-});
+//   // it('sdfsf', () => {
+//   //   console.log(sequelize);
+//   // })
+// });

@@ -3,16 +3,14 @@ import {
   GraphQLString
 } from "graphql";
 
-import { JsonWebToken } from "../../models/JsonWebToken";
 import { CoreableError } from "../../models/CoreableError";
 
 import { encodeJWT } from "../../lib/hash";
 import { sequelize } from "../../lib/sequelize";
-
-import { UserJWTCompositeCommand } from "../resolvers/command/composite/UserJWTCompositeCommand";
+import { SessionObjectCommand } from "../command/object/Session";
 
 export default {
-  type: UserJWTCompositeCommand,
+  type: SessionObjectCommand,
   args: {
     email: {
       type: new GraphQLNonNull(GraphQLString)
@@ -23,14 +21,14 @@ export default {
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let user;
+    let user: any;
     let isCorrectPassword: boolean = false;
-    let session: JsonWebToken = {};
+    let token: string | undefined;
     if (context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User already authenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findOne({ where: { email: args.email } }) as any;
+      user = await sequelize.models.User.findOne({ where: { email: args.email } });
       if (!user) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: 'email', message: `No user found with email ${args.email}` });
       }
@@ -42,15 +40,12 @@ export default {
       }
     }
     if (!errors.length) {
-      session = {
-        token: await encodeJWT({ userID: user.userID, email: user.email }),
-        userID: user.userID
-      };
+      token = await encodeJWT({ userID: user.userID, email: user.email });
     }
     return {
       'result': !errors.length ? { 
         'user': user,
-        'session': session
+        'token': token
       } : null,
       'errors': errors.length > 0 ? errors : null
     };

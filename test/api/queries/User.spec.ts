@@ -1,6 +1,6 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { server } from '../../../src/server';
+import { server } from '../../../src/lib/startup';
 import chaiHttp from 'chai-http';
 import { User } from '../../../src/models/User';
 import { userInfo } from 'os';
@@ -84,7 +84,7 @@ describe('User Query [api/queries/User.ts]', () => {
     return expect(res.body.data.user.result).to.exist;
   });
 
-  it('should notify a user with an invalid email doesn\'t exist', async() => {
+  it('should not return a user with an invalid email', async() => {
     const res = await chai.request(server).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `query {

@@ -1,6 +1,6 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import { server } from '../../../src/server';
+import { server } from '../../../src/lib/startup';
 import chaiHttp from 'chai-http';
 import { User } from '../../../src/models/User';
 
@@ -43,7 +43,8 @@ describe('Login Mutation [api/mutations/Login.ts]', () => {
 
   it('should login with a valid email and password', async() => {
     const res = await chai.request(server).post('/graphQL').send({
-      query: `mutation {
+      query: 
+      `mutation {
         login(email:"unit@test.com", password: "unittest") {
           errors {
             message,

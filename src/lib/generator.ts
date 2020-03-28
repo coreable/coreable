@@ -1,53 +1,30 @@
 import _ from 'lodash';
 import Faker from 'faker';
-import { Industry } from '../models/Industry';
 import { User } from '../models/User';
-import { Group } from '../models/Group';
 import { Team } from '../models/Team';
 import { Review } from '../models/Review';
 import { sequelize } from './sequelize';
+import { Subject } from '../models/Subject';
+
+export const userIDs: string[] = [];
+export const teamIDs: string[] = [];
+export const reviewIDs: string[] = [];
+export const subjectIDs: string[] = [];
 
 // Generates fake data for the database
 export async function generator() {
   await sequelize.sync({ force: true });
   let promises: any = [];
-  
-  // Industry
-  _.times(5, () => {
-    promises.push(function () {
-      return Industry.create({ industryName: Faker.company.companyName() })
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
 
   // User
-  _.times(20, () => {
+  _.times(20, (i) => {
     promises.push(function () {
       return User.create({
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
-        industryID: Faker.random.number({min: 1, max: 5}),
         password: Faker.random.alphaNumeric(10)
-        // cognitoID: Faker.random.alphaNumeric(5)
-      });
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
-  
-  // Group
-  _.times(5, () => {
-    promises.push(function() {
-      return Group.create({
-        groupName: Faker.company.companyName(),
-        groupLeaderID: Faker.random.number({min: 1, max: 15}),
-        inviteCode: Faker.random.alphaNumeric(5),
-        industryID: Faker.random.number({min: 1, max: 5})
-      })
+      }).then((user) => userIDs.push(user.userID));
     });
   });
   await inSequence(promises).then(() => {
@@ -56,23 +33,40 @@ export async function generator() {
 
   // Team
   _.times(20, () => {
-    promises.push(function() {
+    promises.push(function () {
       return Team.create({
-        userID: Faker.random.number({min: 1, max: 15}),
-        groupID: Faker.random.number({min: 1, max: 5}),
-      });
+        teamName: Faker.commerce.productName(),
+        inviteCode: Faker.random.alphaNumeric(5)
+      }).then((team) => teamIDs.push(team.teamID));
     })
   });
   await inSequence(promises).then(() => {
     promises = [];
   });
 
+  // Add user to team
+  _.times(10, (i) => {
+    promises.push(function () {
+      return new Promise((resolve, reject) => {
+        return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
+          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({min: 0, max: 19})] }}).then((team: any) => {
+            return user.addTeam(team).then(() => resolve());
+          })
+        });
+      })
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
   // Review
-  _.times(30, () => {
+  _.times(30, (i) => {
     promises.push(function() {
       return Review.create({
-        subjectID: Faker.random.number({min: 1, max: 15}),
-        completedByID: Faker.random.number({min: 1, max: 15}),
+        userID: userIDs[Faker.random.number({ min: 0, max: 19 })],
+        submittedByID: userIDs[Faker.random.number({ min: 0, max: 19 })],
+        stage: Faker.random.number({min: 1, max: 3}),
         emotionalResponse: Faker.random.number({min: 1, max: 100}),
         empathy: Faker.random.number({min: 1, max: 100}),
         managesOwn: Faker.random.number({min: 1, max: 100}),
@@ -96,7 +90,35 @@ export async function generator() {
         eyeContact: Faker.random.number({min: 1, max: 100}),
         signifiesInterest: Faker.random.number({min: 1, max: 100}),
         verbalAttentiveFeedback: Faker.random.number({min: 1, max: 100})
-      });
+      }).then((review) => reviewIDs.push(review.reviewID));
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Create subject
+  _.times(10, (i) => {
+    promises.push(function () {
+      return Subject.create({
+        subjectName: Faker.name.jobTitle()
+      }).then((subject) => subjectIDs.push(subject.subjectID));
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // add team to subject
+  _.times(10, (i) => {
+    promises.push(function () {
+      return new Promise((resolve, reject) => {
+        return Subject.findOne({ where: { subjectID: subjectIDs[i] } }).then((subject: any) => {
+          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({min: 0, max: 19})] }}).then((team: any) => {
+            return subject.addTeam(team).then(() => resolve());
+          })
+        });
+      })
     });
   });
   await inSequence(promises).then(() => {

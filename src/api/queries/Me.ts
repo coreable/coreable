@@ -1,16 +1,11 @@
-import {
-  GraphQLInt,
-  GraphQLString,
-} from "graphql";
-
 import { sequelize } from "../../lib/sequelize";
 
-import { Team } from "../../models/Team";
 import { CoreableError } from "../../models/CoreableError";
-import { UserSingletonCommand } from "../resolvers/command/singletons/UserSingletonCommand";
+import { UserObjectCommand } from "../command/object/User";
+import { Team } from "../../models/Team";
 
 export default {
-  type: UserSingletonCommand, 
+  type: UserObjectCommand, 
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     let user;
@@ -18,8 +13,8 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findAll({ where: { userID: context.USER.userID } , include: [{ model: Team }] });
-      if (!user || !user.length) {
+      user = await sequelize.models.User.findOne({ where: { userID: context.USER.userID } , include: [{ model: Team }] });
+      if (!user) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: `${args}`, message: `No user found with args ${args}` });
       }
     }

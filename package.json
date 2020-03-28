@@ -1,8 +1,8 @@
 {
   "name": "coreable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "build/server.js",
+  "main": "build/index.js",
   "scripts": {
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
