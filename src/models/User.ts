@@ -14,7 +14,9 @@ class User extends Model {
   public lastName!: string;
   public email!: string;
   public password!: string;
- 
+  public passwordResetToken!: string;
+  public passwordResetExpiry!: Date
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public logout: ((token: any) => Promise<void>) | undefined;
@@ -47,6 +49,14 @@ const sync = (sequelize: Sequelize) => {
     'password': {
       'type': DataTypes.STRING,
       'allowNull': true,
+    },
+    'passwordResetToken': {
+      'type': DataTypes.STRING,
+      'allowNull': true
+    },
+    'passwordResetExpiry': {
+      'type': DataTypes.DATE,
+      'allowNull': true
     }
   }, {
     'tableName': 'USER',

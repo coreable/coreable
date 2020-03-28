@@ -3,6 +3,7 @@ import GraphHTTP from 'express-graphql';
 import { Schema } from '../api/Schema';
 import { decodeJWT } from './hash';
 import { sequelize } from './sequelize';
+import { Team } from '../models/Team';
 
 // A hack to add the JWT decoded token to the request object
 declare global {
@@ -36,7 +37,7 @@ app.use(async(req: Request, res: Response, next: NextFunction) => {
     try {
       req.JWT = await decodeJWT(JWT_TOKEN); // Decode for server sided use only
       res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
-      req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID } }); // Scaffolding for Security
+      req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] }); // Scaffolding for Security
       if (!req.USER) {
         throw new Error("Database, Cache or Client Header discrepancy");
       }

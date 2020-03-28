@@ -27,6 +27,10 @@ const sync = (sequelize: Sequelize) => {
     'inviteCode': {
       'type': DataTypes.STRING,
       'allowNull': false
+    },
+    'subjectID': {
+      'type': DataTypes.UUID,
+      'allowNull': false
     }
   }, {
     'tableName': 'TEAM',
@@ -40,7 +44,7 @@ let TeamUser;
 let TeamSubject;
 const assosciate = () => {
   TeamUser = Team.belongsToMany(User, { through: 'USER_TEAM', sourceKey: 'teamID', foreignKey: 'teamID' });
-  TeamSubject = Team.belongsToMany(Subject, { through: 'TEAM_SUBJECT', sourceKey: 'teamID', foreignKey: 'teamID' });
+  TeamSubject = Team.belongsTo(Subject, { foreignKey: 'subjectID' });
   return Team;
 }
 

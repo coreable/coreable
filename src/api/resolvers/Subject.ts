@@ -23,6 +23,12 @@ export const TeamResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
         resolve(subject, args, context) {
           return subject.subjectName;
         }
+      },
+      'state': {
+        type: GraphQLInt,
+        resolve(subject, args, context) {
+          return subject.state;
+        }
       }
     }
   }

@@ -31,72 +31,6 @@ export async function generator() {
     promises = [];
   });
 
-  // Team
-  _.times(20, () => {
-    promises.push(function () {
-      return Team.create({
-        teamName: Faker.commerce.productName(),
-        inviteCode: Faker.random.alphaNumeric(5)
-      }).then((team) => teamIDs.push(team.teamID));
-    })
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
-
-  // Add user to team
-  _.times(10, (i) => {
-    promises.push(function () {
-      return new Promise((resolve, reject) => {
-        return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
-          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({min: 0, max: 19})] }}).then((team: any) => {
-            return user.addTeam(team).then(() => resolve());
-          })
-        });
-      })
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
-
-  // Review
-  _.times(30, (i) => {
-    promises.push(function() {
-      return Review.create({
-        userID: userIDs[Faker.random.number({ min: 0, max: 19 })],
-        submittedByID: userIDs[Faker.random.number({ min: 0, max: 19 })],
-        stage: Faker.random.number({min: 1, max: 3}),
-        emotionalResponse: Faker.random.number({min: 1, max: 100}),
-        empathy: Faker.random.number({min: 1, max: 100}),
-        managesOwn: Faker.random.number({min: 1, max: 100}),
-        faith: Faker.random.number({min: 1, max: 100}),
-        cooperatively: Faker.random.number({min: 1, max: 100}),
-        positiveBelief: Faker.random.number({min: 1, max: 100}),
-        resilienceFeedback: Faker.random.number({min: 1, max: 100}),
-        calm: Faker.random.number({min: 1, max: 100}),
-        change: Faker.random.number({min: 1, max: 100}),
-        newIdeas: Faker.random.number({min: 1, max: 100}),
-        workDemands: Faker.random.number({min: 1, max: 100}),
-        proactive: Faker.random.number({min: 1, max: 100}),
-        influences: Faker.random.number({min: 1, max: 100}),
-        clearInstructions: Faker.random.number({min: 1, max: 100}),
-        preventsMisunderstandings: Faker.random.number({min: 1, max: 100}),
-        easilyExplainsComplexIdeas: Faker.random.number({min: 1, max: 100}),
-        openToShare: Faker.random.number({min: 1, max: 100}),
-        tone: Faker.random.number({min: 1, max: 100}),
-        crossTeam: Faker.random.number({min: 1, max: 100}),
-        distractions: Faker.random.number({min: 1, max: 100}),
-        eyeContact: Faker.random.number({min: 1, max: 100}),
-        signifiesInterest: Faker.random.number({min: 1, max: 100}),
-        verbalAttentiveFeedback: Faker.random.number({min: 1, max: 100})
-      }).then((review) => reviewIDs.push(review.reviewID));
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
-
   // Create subject
   _.times(10, (i) => {
     promises.push(function () {
@@ -109,13 +43,27 @@ export async function generator() {
     promises = [];
   });
 
-  // add team to subject
+  // Team
+  _.times(20, () => {
+    promises.push(function () {
+      return Team.create({
+        teamName: Faker.commerce.productName(),
+        inviteCode: Faker.random.alphaNumeric(5),
+        subjectID: subjectIDs[Faker.random.number({ min: 0, max: 9 })]
+      }).then((team) => teamIDs.push(team.teamID));
+    })
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Add user to team
   _.times(10, (i) => {
     promises.push(function () {
       return new Promise((resolve, reject) => {
-        return Subject.findOne({ where: { subjectID: subjectIDs[i] } }).then((subject: any) => {
-          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({min: 0, max: 19})] }}).then((team: any) => {
-            return subject.addTeam(team).then(() => resolve());
+        return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
+          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({ min: 0, max: 19 })] } }).then((team: any) => {
+            return user.addTeam(team).then(() => resolve());
           })
         });
       })
@@ -124,6 +72,59 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
+
+  // Review
+  _.times(30, (i) => {
+    promises.push(function () {
+      return Review.create({
+        userID: userIDs[Faker.random.number({ min: 0, max: 19 })],
+        submittedByID: userIDs[Faker.random.number({ min: 0, max: 19 })],
+        stage: Faker.random.number({ min: 1, max: 3 }),
+        emotionalResponse: Faker.random.number({ min: 1, max: 100 }),
+        empathy: Faker.random.number({ min: 1, max: 100 }),
+        managesOwn: Faker.random.number({ min: 1, max: 100 }),
+        faith: Faker.random.number({ min: 1, max: 100 }),
+        cooperatively: Faker.random.number({ min: 1, max: 100 }),
+        positiveBelief: Faker.random.number({ min: 1, max: 100 }),
+        resilienceFeedback: Faker.random.number({ min: 1, max: 100 }),
+        calm: Faker.random.number({ min: 1, max: 100 }),
+        change: Faker.random.number({ min: 1, max: 100 }),
+        newIdeas: Faker.random.number({ min: 1, max: 100 }),
+        workDemands: Faker.random.number({ min: 1, max: 100 }),
+        proactive: Faker.random.number({ min: 1, max: 100 }),
+        influences: Faker.random.number({ min: 1, max: 100 }),
+        clearInstructions: Faker.random.number({ min: 1, max: 100 }),
+        preventsMisunderstandings: Faker.random.number({ min: 1, max: 100 }),
+        easilyExplainsComplexIdeas: Faker.random.number({ min: 1, max: 100 }),
+        openToShare: Faker.random.number({ min: 1, max: 100 }),
+        tone: Faker.random.number({ min: 1, max: 100 }),
+        crossTeam: Faker.random.number({ min: 1, max: 100 }),
+        distractions: Faker.random.number({ min: 1, max: 100 }),
+        eyeContact: Faker.random.number({ min: 1, max: 100 }),
+        signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
+        verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
+      }).then((review) => reviewIDs.push(review.reviewID));
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // // add team to subject
+  // _.times(10, (i) => {
+  //   promises.push(function () {
+  //     return new Promise((resolve, reject) => {
+  //       return Subject.findOne({ where: { subjectID: subjectIDs[i] } }).then((subject: any) => {
+  //         return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({min: 0, max: 19})] }}).then((team: any) => {
+  //           return subject.addTeam(team).then(() => resolve());
+  //         })
+  //       });
+  //     })
+  //   });
+  // });
+  // await inSequence(promises).then(() => {
+  //   promises = [];
+  // });
 
   return true;
 }
