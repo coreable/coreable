@@ -1,22 +1,95 @@
+import { sequelize } from "../../lib/sequelize";
 import { 
   GraphQLNonNull,
-  GraphQLString
+  GraphQLString,
+  GraphQLInt
 } from "graphql";
 
-import { CoreableError } from "../../models/CoreableError";
-
-import { sequelize } from "../../lib/sequelize";
 import { ReviewObjectCommand } from "../command/object/Review";
+import { CoreableError } from "../../models/CoreableError";
 import { Team } from "../../models/Team";
+import { Review } from "../../models/Review";
 
 export default {
   type: ReviewObjectCommand,
   args: {
     userID: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The user being reviewed'
     },
     teamID: {
-      type: new GraphQLNonNull(GraphQLString)
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The team they have in common'
+    },
+    // Reviews 
+    emotionalReponse: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    empathy: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    managesOwn: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    faith: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    cooperatively: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    positiveBelief: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    resilienceFeedback: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    calm: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    change: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    newIdeas: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    workDemands: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    proactive: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    influences: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    clearInstructions: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    preventsMisunderstandings: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    easilyExplainsComplexIdeas: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    openToShare: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    tone: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    crossTeam: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    distractions: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    eyeContact: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    signifiesInterest: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    verbalAttentiveFeedback: {
+      type: new GraphQLNonNull(GraphQLInt),
     }
   },
   async resolve(root: any, args: any, context: any) {
@@ -57,15 +130,45 @@ export default {
     }
     if (!errors.length) {
       subject = await userCommonTeam.getSubject();
-      if (!userCommonTeam) {
-        errors.push({ code: 'ER_SUBJECT_UNKNOWN', path: 'teamID', message: `Logged in user with user id ${userSubmittingReview.userID} and user being reviewed with user ID ${userBeingReviewed.userID} have no common team with teamID ${args.teamID}` });
+      if (!subject) {
+        errors.push({ code: 'ER_SUBJECT_UNKNOWN', path: 'teamID', message: `Team with teamID ${userCommonTeam.teamID} belongs to no subject!` });
       }
     }
     if (!errors.length) {
       let hasCompleted = await sequelize.models.Review.findOne({ where: { userID: userBeingReviewed.userID, submittedByID: userSubmittingReview.userID, stage: subject.stage }});
-      if (hasCompleted) {
+      if (!!hasCompleted) {
         errors.push({ code: 'ER_REVIEW_COMPLETE', path: 'userID', message: `user with userID ${userSubmittingReview.userID} has already submitted a reivew on user with user ID ${userBeingReviewed.userID} for stage ${subject.stage}` });
       }
+    }
+    if (!errors.length) {
+      review = await Review.create({
+        userID: userBeingReviewed.userID,
+        submittedByID: userSubmittingReview.userID,
+        stage: subject.stage,
+        emotionalReponse: args.emotionalReponse,
+        empathy: args.empathy,
+        managesOwn: args.managesOwn,
+        faith: args.faith,
+        cooperatively: args.cooperatively,
+        positiveBelief: args.positiveBelief,
+        resilienceFeedback: args.resilienceFeedback,
+        calm: args.calm,
+        change: args.change,
+        newIdeas: args.newIdeas,
+        workDemands: args.workDemans,
+        proactive: args.proactive,
+        influences: args.influences,
+        clearInstructions: args.clearInstructions,
+        preventsMisunderstandings: args.preventsMisunderstandings,
+        easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
+        openToShare: args.openToShare,
+        tone: args.tone,
+        crossTeam: args.crossTeam,
+        distractions: args.distractions,
+        eyeContact: args.eyeContact,
+        signifiesInterest: args.signifiesInterest,
+        verbalAttentiveFeedback: args.verbalAttentiveFeedback
+      });
     }
     return {
       'result': !errors.length ? {

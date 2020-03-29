@@ -45,7 +45,7 @@ export default {
           lastName: args.lastName,
           email: args.email.toLowerCase(),
           password: args.password
-        }) as any;
+        });
       } catch (err) {
         errors.push({ code: err.original.code, message: err.original.sqlMessage, path: 'email' });
       }

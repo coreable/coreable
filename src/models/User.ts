@@ -84,8 +84,8 @@ let UserReviewResults;
 let UserReviewSubbmitted;
 const assosciate = () => {
   UserTeam = User.belongsToMany(Team, { through: 'USER_TEAM', sourceKey: 'userID', foreignKey: 'userID' });
-  UserReviewResults = User.hasMany(Review, { foreignKey: 'userID', as: 'reviewResults' });
-  UserReviewSubbmitted= User.hasMany(Review, { foreignKey: 'submittedByID', as: 'reviewSubmitted' });
+  UserReviewResults = User.hasMany(Review, { foreignKey: 'userID', as: 'ReviewResults' });
+  UserReviewSubbmitted = User.hasMany(Review, { foreignKey: 'submittedByID', as: 'ReviewSubmitted' });
   return User;
 }
 

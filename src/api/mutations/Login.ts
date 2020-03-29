@@ -28,7 +28,7 @@ export default {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User already authenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findOne({ where: { email: args.email } });
+      user = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() } });
       if (!user) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: 'email', message: `No user found with email ${args.email}` });
       }

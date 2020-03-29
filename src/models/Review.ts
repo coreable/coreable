@@ -160,8 +160,8 @@ const sync = (sequelize: Sequelize) => {
 let ReviewResultsUser;
 let ReviewSubmittedUser;
 const assosciate = () => {
-  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'userID', targetKey: 'userID', as: 'reviewResults' });
-  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submittedByID', targetKey: 'userID', as: 'reviewSubmitted' });
+  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'userID', targetKey: 'userID', as: 'ReviewResults' });
+  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submittedByID', targetKey: 'userID', as: 'ReviewSubmitted' });
   return Review;
 }
 
