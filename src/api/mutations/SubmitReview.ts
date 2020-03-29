@@ -94,14 +94,18 @@ export default {
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let userSubmittingReview: any = context.USER;
+    let userSubmittingReview: any;
+    let userSubmittingReviewTeams: any;
     let userBeingReviewed: any;
     let review: any;
     let userCommonTeam: any;
     let subject: any;
-    
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
+    }
+    if (!errors.length) {
+      userSubmittingReview = context.USER;
+      userSubmittingReview.Teams = userSubmittingReview.getTeams(); // We do this in case the cache isn't updated
     }
     if (!errors.length) {
       userBeingReviewed = await sequelize.models.User.findOne({ where: { email: args.userID }, include: [{ model: Team }] });

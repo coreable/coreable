@@ -5,14 +5,12 @@ chai.use(chaiHttp);
 
 import { User } from '../../../src/models/User';
 import { app } from '../../../src/lib/express';
-import { Team } from '../../../src/models/Team';
 
-describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
+describe('Register [src/api/mutations/Register.ts]', () => {
   let sessionToken: any;
-  let team: any;
 
   before(async() => {
-    const user = await User.create({
+    await User.create({
       firstName: 'unit',
       lastName: 'test',
       email: 'unit@test.com',
@@ -39,119 +37,117 @@ describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
       }`
     });
     sessionToken = res.body.data.login.data.token;
-    team = await Team.findOne();
     return;
   });
 
   after(async() => {
-    return await User.destroy({
+    await User.destroy({
       where: {
         firstName: 'unit',
         lastName: 'test',
         email: 'unit@test.com',
       }
     });
+    await User.destroy({
+      where: {
+        firstName: 'unit2',
+        lastName: 'test2',
+        email: 'unit2@test2.com',
+      }
+    });
+    return;
   });
 
-  it('should let an authenticated user join a team they\'re not in', async() => {
-    const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
+  it('should deny an already authenticated user from registering', async() => {
+    const res = await chai.request(app).post('/graphql').set('JWT', sessionToken).send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "${team.inviteCode}") {
+        register(email:"unit2@test2.com", firstName: "unit2", lastName: "test2", password: "unittest2") {
           data {
             user {
               firstName
               email
-              teams {
-                teamName
-              }
+              userID
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('data').and.not.have.property('errors');
+    expect(res.body.data.register).to.have.property('errors').and.not.have.property('data');
   });
 
-  it('should deny an unauthenticated user joining a team', async() => {
-    const res = await chai.request(app).post('/graphQL').set('JWT', 'unittest').send({
+  it('should allow an unauthenticated user to register with a unique email', async() => {
+    const res = await chai.request(app).post('/graphql').send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "${team.inviteCode}") {
+        register(email:"unit2@test2.com", firstName: "unit2", lastName: "test2", password: "unittest2") {
           data {
             user {
               firstName
               email
-              teams {
-                teamName
-              }
+              userID
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.register).to.have.property('data').and.not.have.property('errors');
   });
 
-  it('should deny an authenticated user joining an unknown team', async() => {
-    const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
+  it('should reject an unauthenticated user to register with a unique email but a short password', async() => {
+    const res = await chai.request(app).post('/graphql').send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "unittest") {
+        register(email:"unit2@test2.com", firstName: "unit2", lastName: "test2", password: "unit") {
           data {
             user {
               firstName
               email
-              teams {
-                teamName
-              }
+              userID
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.register).to.have.property('errors').and.not.have.property('data');
   });
 
-  it('should not let an authenticated user join a team they\'re already in', async() => {
-    const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
+  it('should reject an unauthenticated user to register with a non unique email', async() => {
+    const res = await chai.request(app).post('/graphql').send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "${team.inviteCode}") {
+        register(email:"unit@test.com", firstName: "unit", lastName: "test", password: "unittest") {
           data {
             user {
               firstName
               email
-              teams {
-                teamName
-              }
+              userID
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.register).to.have.property('errors').and.not.have.property('data');
   });
-
 
 });

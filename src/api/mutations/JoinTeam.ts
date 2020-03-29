@@ -18,34 +18,33 @@ export default {
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let user: any = context.USER;
-    let team: any;
+    let user: any;
+    let userTeams: any;
+    let targetTeam: any;
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
     }
-    // if (!errors.length) {
-    //   user = await sequelize.models.User.findOne({ where: { 'userID': args.userID }, include: [{ model: Team }] });
-    //   if (!user) {
-    //     errors.push({ code: 'ER_USER_UNKNOWN', message: `Unable to locate user with userID ${args.userID}`, path: `userID` });
-    //   }
-    // }
     if (!errors.length) {
-      team = await sequelize.models.Team.findOne({ where: { 'inviteCode': args.inviteCode } });
-      if (!team) {
-        errors.push({ code: 'ER_GROUP_UNKNOWN', message: `Unable to locate group with inviteCode ${args.inviteCode}`, path: 'inviteCode' });
+      user = context.USER;
+      userTeams = await user.getTeams();
+    }
+    if (!errors.length) {
+      targetTeam = await sequelize.models.Team.findOne({ where: { 'inviteCode': args.inviteCode } });
+      if (!targetTeam) {
+        errors.push({ code: 'ER_TEAM_UNKNOWN', message: `Unable to locate team with inviteCode ${args.inviteCode}`, path: 'inviteCode' });
       }
     }
     if (!errors.length) {
-      for (const teams of user.Teams) {
-        if (teams.teamID === team.groupID) {
-          errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is already in team with teamID ${team.teamID}`, path: 'userID' });
+      for (const userTeam of userTeams) {
+        if (userTeam.teamID === targetTeam.teamID) {
+          errors.push({ code: 'ER_USER_IN_TEAM', message: `User with userID ${user.userID} is already in team with teamID ${targetTeam.teamID}`, path: 'userID' });
           break;
         }
       }
     }
     if (!errors.length) {
       try {
-        await user.addTeam(team);
+        await user.addTeam(targetTeam);
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': '_' });
       }
