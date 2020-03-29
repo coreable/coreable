@@ -15,7 +15,6 @@ server.startup = (async () => {
       await generator();
     }
   }
-  return true;
-})();
+})().then(() => true);
 
 export { server };
