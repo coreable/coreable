@@ -11,10 +11,10 @@ export const APICommand: GraphQLObjectType = new GraphQLObjectType({
   description: 'APICommand',
   fields: () => {
     return {
-      'result': {
+      'data': {
         type: APIMediator,
         resolve(value) {
-          return value.result;
+          return value.data;
         }
       },
       'errors': {

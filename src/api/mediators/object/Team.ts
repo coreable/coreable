@@ -12,8 +12,8 @@ export const TeamObjectMediator: GraphQLObjectType = new GraphQLObjectType({
     return {
       'team': {
         type: TeamResolver,
-        resolve(result) {
-          return result.team;
+        resolve(data) {
+          return data.team;
         }
       }
     }

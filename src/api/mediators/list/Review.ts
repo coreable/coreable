@@ -12,8 +12,8 @@ export const ReviewListMediator: GraphQLObjectType = new GraphQLObjectType({
     return {
       'review': {
         type: new GraphQLList(ReviewResolver),
-        resolve(result) {
-          return result.review;
+        resolve(data) {
+          return data.review;
         }
       }
     }

@@ -10,14 +10,14 @@ export const SessionObjectMediator: GraphQLObjectType = new GraphQLObjectType({
     return {
       'user': {
         type: SessionResolver,
-        resolve(UserSession) {
-          return UserSession.user;
+        resolve(data) {
+          return data.user;
         }
       },
       'token': {
         type: GraphQLString,
-        resolve(UserSession) {
-          return UserSession.token;
+        resolve(data) {
+          return data.token;
         }
       }
     }

@@ -41,8 +41,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       },
       'teams': {
         type: GraphQLList(TeamResolver),
-        resolve(user: any, args: any, context: any) {
-          console.log(context);
+        resolve(user: any, args, context) {
           return user.getTeams();
         }
       },

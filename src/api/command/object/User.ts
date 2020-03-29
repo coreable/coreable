@@ -10,10 +10,10 @@ export const UserObjectCommand: GraphQLObjectType = new GraphQLObjectType({
   description: 'UserObjectCommand',
   fields: () => {
     return {
-      'result': {
+      'data': {
         type: UserObjectMediator,
         resolve(value) {
-          return value.result;
+          return value.data;
         }
       },
       'errors': {

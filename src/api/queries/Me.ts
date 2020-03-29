@@ -19,7 +19,7 @@ export default {
       }
     }
     return {
-      'result': !errors.length ? {
+      'data': !errors.length ? {
         'user': user
       } : null,
       'errors': errors.length > 0 ? errors : null

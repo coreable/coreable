@@ -1,9 +1,9 @@
 import mocha, { describe, it } from 'mocha';
 import chai, { expect, assert } from 'chai';
-import server from '../src/server';
 import chaiHttp from 'chai-http';
-
 chai.use(chaiHttp);
+
+import server from '../src/server';
 
 describe('Server [src/server.ts]', () => {
 

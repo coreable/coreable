@@ -12,8 +12,8 @@ export const APIMediator: GraphQLObjectType = new GraphQLObjectType({
     return {
       'API': {
         type: APIResolver,
-        resolve(result) {
-          return result.API;
+        resolve(data) {
+          return data.API;
         }
       }
     }

@@ -43,7 +43,7 @@ export default {
       token = await encodeJWT({ userID: user.userID, email: user.email });
     }
     return {
-      'result': !errors.length ? { 
+      'data': !errors.length ? { 
         'user': user,
         'token': token
       } : null,

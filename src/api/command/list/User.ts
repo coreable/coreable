@@ -11,10 +11,10 @@ export const UserListCommand: GraphQLObjectType = new GraphQLObjectType({
   description: 'UserListCommand',
   fields: () => {
     return {
-      'result': {
+      'data': {
         type: UserListMediator,
         resolve(value) {
-          return value.result;
+          return value.data;
         }
       },
       'errors': {

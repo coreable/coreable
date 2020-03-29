@@ -44,7 +44,7 @@ let TeamUser;
 let TeamSubject;
 const assosciate = () => {
   TeamUser = Team.belongsToMany(User, { through: 'USER_TEAM', sourceKey: 'teamID', foreignKey: 'teamID' });
-  TeamSubject = Team.belongsTo(Subject, { foreignKey: 'subjectID' });
+  TeamSubject = Team.belongsTo(Subject, { foreignKey: 'subjectID', targetKey: 'subjectID' });
   return Team;
 }
 

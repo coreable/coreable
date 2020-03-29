@@ -11,8 +11,8 @@ export const UserObjectMediator: GraphQLObjectType = new GraphQLObjectType({
     return {
       'user': {
         type: UserResolver,
-        resolve(result) {
-          return result.user;
+        resolve(data) {
+          return data.user;
         }
       }
     }

@@ -171,7 +171,7 @@ export default {
       });
     }
     return {
-      'result': !errors.length ? {
+      'data': !errors.length ? {
         'review': review
       }: null,
       'errors': errors.length > 0 ? errors : null

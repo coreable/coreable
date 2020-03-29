@@ -11,10 +11,10 @@ export const ReviewListCommand: GraphQLObjectType = new GraphQLObjectType({
   description: 'ReviewListCommand',
   fields: () => {
     return {
-      'result': {
+      'data': {
         type: ReviewListMediator,
         resolve(value) {
-          return value.result;
+          return value.data;
         }
       },
       'errors': {

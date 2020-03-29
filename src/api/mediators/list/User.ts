@@ -11,8 +11,8 @@ export const UserListMediator: GraphQLObjectType = new GraphQLObjectType({
     return {
       'user': {
         type: new GraphQLList(UserResolver),
-        resolve(result) {
-          return result.user;
+        resolve(data) {
+          return data.user;
         }
       }
     }

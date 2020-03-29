@@ -11,10 +11,10 @@ export const SessionObjectCommand: GraphQLObjectType = new GraphQLObjectType({
   description: 'SessionObjectCommand',
   fields: () => {
     return {
-      'result': {
+      'data': {
         type: SessionObjectMediator,
         resolve(value) {
-          return value.result;
+          return value.data;
         }
       },
       'errors': {

@@ -35,7 +35,7 @@ const sync = (sequelize: Sequelize) => {
 let SubjectTeam;
 let SubjectManager;
 const assosciate = () => {
-  SubjectTeam = Subject.hasMany(Team);
+  SubjectTeam = Subject.hasMany(Team, { sourceKey: 'subjectID', foreignKey: 'subjectID' });
   SubjectManager = Subject.belongsToMany(Manager, { through: 'MANAGER_SUBJECT', sourceKey: 'subjectID', foreignKey: 'subjectID' });
   return Subject;
 }

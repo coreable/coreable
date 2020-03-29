@@ -20,7 +20,7 @@ export default {
     let errors: CoreableError[] = [];
     let team = await sequelize.models.Team.findAll({ where: args });
     return {
-      'result': !errors.length ? {
+      'data': !errors.length ? {
         'team': team
       } : null,
       'errors': errors.length > 0 ? errors : null

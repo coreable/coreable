@@ -36,7 +36,7 @@ export default {
       }
     }
     if (!errors.length) {
-      for (const teams of user.Team) {
+      for (const teams of user.Teams) {
         if (teams.teamID === team.groupID) {
           errors.push({ code: 'ER_USER_IN_GROUP', message: `User with userID ${user.userID} is already in team with teamID ${team.teamID}`, path: 'userID' });
           break;
@@ -45,14 +45,14 @@ export default {
     }
     if (!errors.length) {
       try {
-        user = await user.addTeam(team);
+        await user.addTeam(team);
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': '_' });
       }
     }
     return {
-      'result': !errors.length ? {
-        'user': user
+      'data': !errors.length ? {
+        'user': await sequelize.models.User.findOne({ where: { userID: context.USER.userID } })
       } : null,
       'errors': errors.length > 0 ? errors : null
     };

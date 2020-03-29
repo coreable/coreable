@@ -23,7 +23,7 @@ export default {
     let errors: CoreableError[] = [];
     let review = await sequelize.models.Review.findAll({ where: args });
     return {
-      'result': !errors.length ? {
+      'data': !errors.length ? {
         'review': review
       }: null,
       'errors': errors.length > 0 ? errors : null

@@ -11,10 +11,10 @@ export const TeamListCommand: GraphQLObjectType = new GraphQLObjectType({
   description: 'TeamListCommand',
   fields: () => {
     return {
-      'result': {
+      'data': {
         type: TeamListMediator,
         resolve(value) {
-          return value.result;
+          return value.data;
         }
       },
       'errors': {

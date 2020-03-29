@@ -23,7 +23,7 @@ export default {
       errors.push({ code: "ER_NODE_ENV", path: "NODE.JS", message: `WARNING: Node.JS is running in ${process.env.NODE_ENV} mode! Do not ship this mode` });
     }
     return {
-      'result': {
+      'data': {
         'API': {
           'time': Date.now(),
           'env': process.env.NODE_ENV
