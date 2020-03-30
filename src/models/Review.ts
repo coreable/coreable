@@ -32,7 +32,7 @@ class Review extends Model {
   public signifiesInterest!: number;
   public verbalAttentiveFeedback!: number;
   // ??????
-  public stage!: number;
+  public state!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -145,9 +145,13 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: true
     },
-    'stage': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
+    'state': {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 0,
+        max: 3
+      }
     }
   }, {
     'tableName': 'REVIEW',

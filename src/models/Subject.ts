@@ -23,6 +23,15 @@ const sync = (sequelize: Sequelize) => {
     'subjectName': {
       'type': DataTypes.STRING,
       'allowNull': false
+    },
+    'state': {
+      'type': DataTypes.INTEGER,
+      'defaultValue': 1,
+      'allowNull': false,
+      'validate': {
+        'min': 1,
+        'max': 3
+      }
     }
   }, {
     'tableName': 'SUBJECT',

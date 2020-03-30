@@ -35,7 +35,8 @@ export async function generator() {
   _.times(10, (i) => {
     promises.push(function () {
       return Subject.create({
-        subjectName: Faker.name.jobTitle()
+        subjectName: Faker.name.jobTitle(),
+        state: Faker.random.number({ min: 0, max: 3 })
       }).then((subject) => subjectIDs.push(subject.subjectID));
     });
   });
@@ -62,7 +63,7 @@ export async function generator() {
     promises.push(function () {
       return new Promise((resolve, reject) => {
         return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
-          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({ min: 0, max: 19 })] } }).then((team: any) => {
+          return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({ min: 0, max: 15 })] } }).then((team: any) => {
             return user.addTeam(team).then(() => resolve());
           })
         });
@@ -74,12 +75,12 @@ export async function generator() {
   });
 
   // Review
-  _.times(30, (i) => {
+  _.times(10, (i) => {
     promises.push(function () {
       return Review.create({
         userID: userIDs[Faker.random.number({ min: 0, max: 19 })],
         submittedByID: userIDs[Faker.random.number({ min: 0, max: 19 })],
-        stage: Faker.random.number({ min: 1, max: 3 }),
+        state: Faker.random.number({ min: 1, max: 3 }),
         emotionalResponse: Faker.random.number({ min: 1, max: 100 }),
         empathy: Faker.random.number({ min: 1, max: 100 }),
         managesOwn: Faker.random.number({ min: 1, max: 100 }),
@@ -109,22 +110,6 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
-
-  // // add team to subject
-  // _.times(10, (i) => {
-  //   promises.push(function () {
-  //     return new Promise((resolve, reject) => {
-  //       return Subject.findOne({ where: { subjectID: subjectIDs[i] } }).then((subject: any) => {
-  //         return Team.findOne({ where: { teamID: teamIDs[Faker.random.number({min: 0, max: 19})] }}).then((team: any) => {
-  //           return subject.addTeam(team).then(() => resolve());
-  //         })
-  //       });
-  //     })
-  //   });
-  // });
-  // await inSequence(promises).then(() => {
-  //   promises = [];
-  // });
 
   return true;
 }

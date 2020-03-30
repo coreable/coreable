@@ -37,7 +37,11 @@ app.use(async(req: Request, res: Response, next: NextFunction) => {
     try {
       req.JWT = await decodeJWT(JWT_TOKEN); // Decode for server sided use only
       res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
-      req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID } }); // Scaffolding for Security
+      if (process.env.NODE_ENV !== "test") {
+        req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] }); 
+      } else if (process.env.NODE_ENV === "test") {
+        req.USER = await sequelize.models.User.noCache().findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] });
+      }
       if (!req.USER) {
         throw new Error("Database, Cache or Client Header discrepancy");
       }

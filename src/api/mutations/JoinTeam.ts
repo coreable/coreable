@@ -45,7 +45,6 @@ export default {
       try {
         await user.addTeam(targetTeam);
       } catch (err) {
-        console.log(err);
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
       }
     }

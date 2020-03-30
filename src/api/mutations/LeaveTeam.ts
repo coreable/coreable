@@ -35,8 +35,6 @@ export default {
     }
     if (!errors.length) {
       let isInGroup = false;
-      // console.log(userTeams);
-      // console.log(targetTeam.teamID);
       for (const userTeam of userTeams) {
         if (userTeam.teamID === targetTeam.teamID) {
           isInGroup = true;

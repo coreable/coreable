@@ -94,42 +94,36 @@ export default {
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let userSubmittingReview: any;
-    let userSubmittingReviewTeams: any;
     let userBeingReviewed: any;
-    let review: any;
     let userCommonTeam: any;
     let subject: any;
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
     }
     if (!errors.length) {
-      userSubmittingReview = context.USER;
-      userSubmittingReview.Teams = userSubmittingReview.getTeams(); // We do this in case the cache isn't updated
-    }
-    if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.findOne({ where: { email: args.userID }, include: [{ model: Team }] });
+      userBeingReviewed = await sequelize.models.User.findOne({ where: { userID: args.userID }, include: [{ model: Team }] });
+      if (process.env.NODE_ENV === "test") {
+        userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { userID: args.userID }, include: [{ model: Team }] });
+      }
       if (!userBeingReviewed) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: 'userID', message: `No user found with userID ${args.userID}` });
       }
     }
     if (!errors.length) {
-      const map: any = {};
-      for (let i = 0; i < userSubmittingReview.Teams.length; i++) {
-        let element = userSubmittingReview.Teams[i];
-        if (!map[element]) {
-          map[userSubmittingReview.Teams[i]] = true;
+      let map: any = {};
+      for (const userTeam of context.USER.Teams) {
+        if (!map[userTeam.teamID]) {
+          map[userTeam.teamID] = userTeam.teamID;
         }
       }
-      for (let i = 0; i < userBeingReviewed.Teams.length; i++) {
-        let element = userBeingReviewed.Teams[i];
-        if (map[element] && element.teamID === args.teamID) {
-          userCommonTeam = element;
+      for (const userTeam of userBeingReviewed.Teams) {
+        if (map[userTeam.teamID] && map[userTeam.teamID] === args.teamID) {
+          userCommonTeam = userTeam;
           break;
         }
       }
       if (!userCommonTeam) {
-        errors.push({ code: 'ER_TEAM_UNKOWN', path: 'teamID', message: `Logged in user with user id ${userSubmittingReview.userID} and user being reviewed with user ID ${userBeingReviewed.userID} have no common team with teamID ${args.teamID}` });
+        errors.push({ code: 'ER_TEAM_UNKNOWN', path: 'teamID', message: `Logged in user with user id ${context.USER.userID} and user being reviewed with user ID ${args.userID} have no common team with teamID ${args.teamID}` });
       }
     }
     if (!errors.length) {
@@ -139,17 +133,25 @@ export default {
       }
     }
     if (!errors.length) {
-      let hasCompleted = await sequelize.models.Review.findOne({ where: { userID: userBeingReviewed.userID, submittedByID: userSubmittingReview.userID, stage: subject.stage }});
-      if (!!hasCompleted) {
-        errors.push({ code: 'ER_REVIEW_COMPLETE', path: 'userID', message: `user with userID ${userSubmittingReview.userID} has already submitted a reivew on user with user ID ${userBeingReviewed.userID} for stage ${subject.stage}` });
+      let hasCompleted = await sequelize.models.Review.findOne(
+        {
+          where: {
+            userID: args.userID,
+            submittedByID: context.USER.userID,
+            state: subject.state
+          }
+        }
+      );
+      if (hasCompleted) {
+        errors.push({ code: 'ER_REVIEW_COMPLETE', path: 'userID', message: `user with userID ${context.USER.userID} has already submitted a reivew on user with user ID ${args.userID} for stage ${subject.stage}` });
       }
     }
     if (!errors.length) {
       try {
-        review = await Review.create({
-          userID: userBeingReviewed.userID,
-          submittedByID: userSubmittingReview.userID,
-          stage: subject.stage,
+        await Review.create({
+          userID: args.userID,
+          submittedByID: context.USER.userID,
+          state: subject.state,
           emotionalReponse: args.emotionalReponse,
           empathy: args.empathy,
           managesOwn: args.managesOwn,
@@ -180,7 +182,7 @@ export default {
     }
     return {
       'data': !errors.length ? {
-        'review': review
+        'review': await sequelize.models.Review.findOne({ where: { userID: args.userID, submittedByID: context.USER.userID, state: subject.state }})
       }: null,
       'errors': errors.length > 0 ? errors : null
     };
