@@ -151,7 +151,7 @@ const sync = (sequelize: Sequelize) => {
     }
   }, {
     'tableName': 'REVIEW',
-    'sequelize': sequelize
+    'sequelize': sequelize,
   });
 
   return Review;

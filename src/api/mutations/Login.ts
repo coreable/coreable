@@ -40,7 +40,11 @@ export default {
       }
     }
     if (!errors.length) {
-      token = await encodeJWT({ userID: user.userID, email: user.email });
+      try {
+        token = await encodeJWT({ userID: user.userID, email: user.email });
+      } catch (err) {
+        errors.push({ code: err.code, path: 'JWT', message: err.message });
+      }
     }
     return {
       'data': !errors.length ? { 

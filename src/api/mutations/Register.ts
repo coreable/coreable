@@ -39,6 +39,12 @@ export default {
       }
     }
     if (!errors.length) {
+      const isRegistered = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() }});
+      if (isRegistered) {
+        errors.push({ code: 'ER_EMAIL_INUSE', path: 'email', message: `A user has already registered with email address ${args.email.toLowerCase()}` });
+      }
+    }
+    if (!errors.length) {
       try {
         user = await sequelize.models.User.create({
           firstName: args.firstName,
@@ -47,7 +53,7 @@ export default {
           password: args.password
         });
       } catch (err) {
-        errors.push({ code: err.original.code, message: err.original.sqlMessage, path: 'email' });
+        errors.push({ code: err.original.code, message: err.original.sqlMessage, path: 'SQL' });
       }
     }
     if (!errors.length) {

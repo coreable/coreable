@@ -6,10 +6,14 @@ chai.use(chaiHttp);
 import { User } from '../../../src/models/User';
 import { app } from '../../../src/lib/express';
 import { Team } from '../../../src/models/Team';
+import { Op } from 'sequelize';
 
-describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
+describe('LeaveTeam [src/api/mutations/LeaveTeam.ts]', () => {
   let sessionToken: any;
-  let team: any;
+  // let user: any;
+  // let userTeams: any;
+  let targetTeam: any;
+  let notTargetTeam: any;
 
   before(async() => {
     const res1 = await chai.request(app).post('/graphql').send({
@@ -33,7 +37,30 @@ describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
       }`
     });
     sessionToken = res1.body.data.register.data.token;
-    team = await Team.findOne();
+    targetTeam = await Team.findOne();
+    notTargetTeam = await Team.findOne({ where: { teamID: { [Op.not]: targetTeam.teamID }} });
+    const res3 = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
+      query: 
+      `mutation {
+        joinTeam(inviteCode: "${targetTeam.inviteCode}") {
+          data {
+            user {
+              firstName
+              email
+              teams {
+                teamID
+                teamName
+              }
+            }
+          }
+          errors {
+            path
+            code
+            message
+          }
+        }
+      }`
+    });
     return;
   });
 
@@ -47,41 +74,15 @@ describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
     return;
   });
 
-  it('should let an authenticated user join a team they\'re not in', async() => {
-    const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
-      query: 
-      `mutation {
-        joinTeam(inviteCode: "${team.inviteCode}") {
-          data {
-            user {
-              firstName
-              email
-              teams {
-                teamID
-                teamName
-              }
-            }
-          }
-          errors {
-            path
-            code
-            message
-          }
-        }
-      }`
-    });
-    return expect(res.body.data.joinTeam).to.have.property('data').and.not.have.property('errors');
-  });
-
-  it('should deny an unauthenticated user joining a team', async() => {
+  it('should reject an unauthenticated user', async() => {
     const res = await chai.request(app).post('/graphQL').set('JWT', 'unittest').send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "${team.inviteCode}") {
+        leaveTeam(teamID: "${targetTeam.teamID}") {
           data {
             user {
               firstName
-              email
+              userID
               teams {
                 teamID
                 teamName
@@ -89,25 +90,25 @@ describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.leaveTeam).to.have.property('errors').and.not.have.property('data');
   });
 
-  it('should deny an authenticated user joining an unknown team', async() => {
+  it('should reject an authenticated user leaving an unknown team', async() => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "unittest") {
+        leaveTeam(teamID: "unittest") {
           data {
             user {
               firstName
-              email
+              userID
               teams {
                 teamID
                 teamName
@@ -115,25 +116,25 @@ describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.leaveTeam).to.have.property('errors').and.not.have.property('data');
   });
 
-  it('should not let an authenticated user join a team they\'re already in', async() => {
+  it('should reject an authenticated user leaving a team they\'re not in', async() => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {
-        joinTeam(inviteCode: "${team.inviteCode}") {
+        leaveTeam(teamID: "${notTargetTeam.teamID}") {
           data {
             user {
               firstName
-              email
+              userID
               teams {
                 teamID
                 teamName
@@ -141,14 +142,41 @@ describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
             }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.leaveTeam).to.have.property('errors').and.not.have.property('data');
+  });
+
+  it('should allow an authenticated user to leave a team they\'re in', async() => {
+    const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
+      query: 
+      `mutation {
+        leaveTeam(teamID: "${targetTeam.teamID}") {
+          data {
+            user {
+              firstName
+              userID
+              teams {
+                teamID
+                teamName
+              }
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    console.log(res.body.data.leaveTeam.errors);
+    return expect(res.body.data.leaveTeam).to.have.property('data').and.not.have.property('errors');
   });
 
 

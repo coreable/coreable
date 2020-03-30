@@ -61,7 +61,7 @@ const sync = (sequelize: Sequelize) => {
     }
   }, {
     'tableName': 'BILLING',
-    'sequelize': sequelize
+    'sequelize': sequelize,
   });
 
   return Billing;

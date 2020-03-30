@@ -26,7 +26,7 @@ const sync = (sequelize: Sequelize) => {
     }
   }, {
     'tableName': 'SUBJECT',
-    'sequelize': sequelize
+    'sequelize': sequelize,
   });
 
   return Subject;

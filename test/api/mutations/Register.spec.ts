@@ -10,50 +10,42 @@ describe('Register [src/api/mutations/Register.ts]', () => {
   let sessionToken: any;
 
   before(async() => {
-    await User.create({
-      firstName: 'unit',
-      lastName: 'test',
-      email: 'unit@test.com',
-      password: 'unittest'
-    });
-    const res = await chai.request(app).post('/graphql').send({
+    const res1 = await chai.request(app).post('/graphql').send({
       query: 
       `mutation {
-        login(email:"unit@test.com", password: "unittest") {
-          errors {
-            message
-            path
-            code
-          }
+        register(email:"unit@test.com", firstName: "unit", lastName: "test", password: "unittest") {
           data {
             user {
-              userID
-              email
               firstName
+              email
+              userID
             }
             token
+          }
+          errors {
+            code
+            path
+            message
           }
         }
       }`
     });
-    sessionToken = res.body.data.login.data.token;
-    return;
+    sessionToken = res1.body.data.register.data.token;
+    return true;
   });
 
   after(async() => {
     await User.destroy({
       where: {
-        firstName: 'unit',
-        lastName: 'test',
         email: 'unit@test.com',
-      }
+      },
+      force: true
     });
     await User.destroy({
       where: {
-        firstName: 'unit2',
-        lastName: 'test2',
         email: 'unit2@test2.com',
-      }
+      },
+      force: true
     });
     return;
   });
@@ -78,7 +70,7 @@ describe('Register [src/api/mutations/Register.ts]', () => {
         }
       }`
     });
-    expect(res.body.data.register).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.register).to.have.property('errors').and.not.have.property('data');
   });
 
   it('should allow an unauthenticated user to register with a unique email', async() => {

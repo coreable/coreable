@@ -34,7 +34,7 @@ const sync = (sequelize: Sequelize) => {
     }
   }, {
     'tableName': 'TEAM',
-    'sequelize': sequelize
+    'sequelize': sequelize,
   });
 
   return Team;

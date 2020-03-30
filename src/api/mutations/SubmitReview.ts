@@ -145,34 +145,38 @@ export default {
       }
     }
     if (!errors.length) {
-      review = await Review.create({
-        userID: userBeingReviewed.userID,
-        submittedByID: userSubmittingReview.userID,
-        stage: subject.stage,
-        emotionalReponse: args.emotionalReponse,
-        empathy: args.empathy,
-        managesOwn: args.managesOwn,
-        faith: args.faith,
-        cooperatively: args.cooperatively,
-        positiveBelief: args.positiveBelief,
-        resilienceFeedback: args.resilienceFeedback,
-        calm: args.calm,
-        change: args.change,
-        newIdeas: args.newIdeas,
-        workDemands: args.workDemans,
-        proactive: args.proactive,
-        influences: args.influences,
-        clearInstructions: args.clearInstructions,
-        preventsMisunderstandings: args.preventsMisunderstandings,
-        easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
-        openToShare: args.openToShare,
-        tone: args.tone,
-        crossTeam: args.crossTeam,
-        distractions: args.distractions,
-        eyeContact: args.eyeContact,
-        signifiesInterest: args.signifiesInterest,
-        verbalAttentiveFeedback: args.verbalAttentiveFeedback
-      });
+      try {
+        review = await Review.create({
+          userID: userBeingReviewed.userID,
+          submittedByID: userSubmittingReview.userID,
+          stage: subject.stage,
+          emotionalReponse: args.emotionalReponse,
+          empathy: args.empathy,
+          managesOwn: args.managesOwn,
+          faith: args.faith,
+          cooperatively: args.cooperatively,
+          positiveBelief: args.positiveBelief,
+          resilienceFeedback: args.resilienceFeedback,
+          calm: args.calm,
+          change: args.change,
+          newIdeas: args.newIdeas,
+          workDemands: args.workDemans,
+          proactive: args.proactive,
+          influences: args.influences,
+          clearInstructions: args.clearInstructions,
+          preventsMisunderstandings: args.preventsMisunderstandings,
+          easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
+          openToShare: args.openToShare,
+          tone: args.tone,
+          crossTeam: args.crossTeam,
+          distractions: args.distractions,
+          eyeContact: args.eyeContact,
+          signifiesInterest: args.signifiesInterest,
+          verbalAttentiveFeedback: args.verbalAttentiveFeedback
+        });
+      } catch (err) {
+        errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
+      }
     }
     return {
       'data': !errors.length ? {

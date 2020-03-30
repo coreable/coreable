@@ -10,43 +10,36 @@ describe('Login [src/api/mutations/Login.ts]', () => {
   let sessionToken: any;
 
   before(async() => {
-    await User.create({
-      firstName: 'unit',
-      lastName: 'test',
-      email: 'unit@test.com',
-      password: 'unittest'
-    });
-    const res = await chai.request(app).post('/graphql').send({
+    const res1 = await chai.request(app).post('/graphql').send({
       query: 
       `mutation {
-        login(email:"unit@test.com", password: "unittest") {
-          errors {
-            message
-            path
-            code
-          }
+        register(email:"unit@test.com", firstName: "unit", lastName: "test", password: "unittest") {
           data {
             user {
-              userID
-              email
               firstName
+              email
+              userID
             }
             token
+          }
+          errors {
+            code
+            path
+            message
           }
         }
       }`
     });
-    sessionToken = res.body.data.login.data.token;
+    sessionToken = res1.body.data.register.data.token;
     return;
   });
   
   after(async() => {
     await User.destroy({
       where: {
-        firstName: 'unit',
-        lastName: 'test',
         email: 'unit@test.com',
-      }
+      },
+      force: true
     });
     return;
   });
