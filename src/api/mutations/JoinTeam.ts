@@ -17,16 +17,16 @@ export default {
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let user: any;
-    let userTeams: any;
+    // let user: any;
+    // let userTeams: any;
     let targetTeam: any;
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
     }
-    if (!errors.length) {
-      user = context.USER;
-      userTeams = await user.getTeams();
-    }
+    // if (!errors.length) {
+    //   user = context.USER;
+    //   userTeams = await user.getTeams();
+    // }
     if (!errors.length) {
       targetTeam = await sequelize.models.Team.findOne({ where: { 'inviteCode': args.inviteCode } });
       if (!targetTeam) {
@@ -34,16 +34,16 @@ export default {
       }
     }
     if (!errors.length) {
-      for (const userTeam of userTeams) {
+      for (const userTeam of context.USER.Teams) {
         if (userTeam.teamID === targetTeam.teamID) {
-          errors.push({ code: 'ER_USER_IN_TEAM', message: `User with userID ${user.userID} is already in team with teamID ${targetTeam.teamID}`, path: 'userID' });
+          errors.push({ code: 'ER_USER_IN_TEAM', message: `User with userID ${context.USER.userID} is already in team with teamID ${targetTeam.teamID}`, path: 'userID' });
           break;
         }
       }
     }
     if (!errors.length) {
       try {
-        await user.addTeam(targetTeam);
+        await context.USER.addTeam(targetTeam);
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
       }

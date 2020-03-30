@@ -10,7 +10,7 @@
     "test": "rimraf ./.nyc_output && NODE_ENV=test nyc mocha --recursive --timeout 10000 -r ts-node/register \"test/**/*.spec.ts\""
   },
   "keywords": [],
-  "author": "",
+  "author": "Jake Walklate [svnty]",
   "license": "Copyright (c) Coreable",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

@@ -1,22 +1,31 @@
 # Coreable Back End
 
-## Install dependancies
+### Install dependancies
 
 `npm i`
 
-## Start the SQL Server
+### Start the SQL Server
 
 `docker-compose up`
 
-## Start the server
+### Start the server
 
 `npm run start:dev`
 
-## Access Server
+### Run unit tests
+
+`npm test`
+
+### Build for production
+
+`npm run build`
+
+### Access Server
 
 [http://localhost:3000/graphql](http://localhost:3000/graphql)
 
-## Fix broken docker
+
+### Fix broken docker
 
 If docker says the port is already in use
 
@@ -24,7 +33,3 @@ If docker says the port is already in use
 docker-compose down
 docker rm -fv $(docker ps -aq)
 ```
-
-## Run unit tests
-
-`npm test`
