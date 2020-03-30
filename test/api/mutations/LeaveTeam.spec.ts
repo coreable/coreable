@@ -175,7 +175,6 @@ describe('LeaveTeam [src/api/mutations/LeaveTeam.ts]', () => {
         }
       }`
     });
-    console.log(res.body.data.leaveTeam.errors);
     return expect(res.body.data.leaveTeam).to.have.property('data').and.not.have.property('errors');
   });
 

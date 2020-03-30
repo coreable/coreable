@@ -44,17 +44,20 @@ _sequelize.assosciate = (async () => {
 
 sequelize._cache = new SequelizeSimpleCache({
   User: { ttl: 5 * 60, limit: 50 },
-  Industry: { ttl: 5 * 60, limit: 50 },
-  Group: { ttl: 5 * 60, limit: 50 },
   Team: { ttl: 5 * 60, limit: 50 },
   Review: { ttl: 5 * 60, limit: 50 },
+  Subject: { ttl: 5 * 60, limit: 50 },
+  Manager: { ttl: 5 * 60, limit: 50 },
 }, {
-  debug: process.env.NODE_ENV === "development" ? true : false
+  debug: process.env.NODE_ENV === "development" ? console.log : false
 });
 
 _sequelize.replace = (async () => {
   sequelize.models['User'] = sequelize._cache.init(sequelize.modelManager.addModel(User.User));
   sequelize.models['Team'] = sequelize._cache.init(sequelize.modelManager.addModel(Team.Team));
+  sequelize.models['Review'] = sequelize._cache.init(sequelize.modelManager.addModel(Review.Review));
+  sequelize.models['Subject'] = sequelize._cache.init(sequelize.modelManager.addModel(Subject.Subject));
+  sequelize.models['Manager'] = sequelize._cache.init(sequelize.modelManager.addModel(Manager.Manager));
 })();
 
 export { sequelize };
