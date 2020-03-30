@@ -24,3 +24,7 @@ If docker says the port is already in use
 docker-compose down
 docker rm -fv $(docker ps -aq)
 ```
+
+## Run unit tests
+
+`npm test`

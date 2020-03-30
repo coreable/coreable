@@ -10,8 +10,6 @@ import { Op } from 'sequelize';
 
 describe('LeaveTeam [src/api/mutations/LeaveTeam.ts]', () => {
   let sessionToken: any;
-  // let user: any;
-  // let userTeams: any;
   let targetTeam: any;
   let notTargetTeam: any;
 

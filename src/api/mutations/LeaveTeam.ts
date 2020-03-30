@@ -5,7 +5,6 @@ import {
   GraphQLInt,
 } from "graphql";
 
-import { Team } from "../../models/Team";
 import { CoreableError } from "../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
 

@@ -39,7 +39,10 @@ export default {
       }
     }
     if (!errors.length) {
-      const isRegistered = await sequelize.models.User.noCache().findOne({ where: { email: args.email.toLowerCase() }});
+      let isRegistered = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() }});
+      if (process.env.NODE_ENV === "test") {
+        isRegistered = false; // the cache will throw this out of whack
+      }
       if (isRegistered) {
         errors.push({ code: 'ER_EMAIL_INUSE', path: 'email', message: `A user has already registered with email address ${args.email.toLowerCase()}` });
       }

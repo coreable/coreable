@@ -6,7 +6,6 @@ import {
 
 import { CoreableError } from "../../models/CoreableError";
 
-import { Team } from "../../models/Team";
 import { UserObjectCommand } from "../command/object/User";
 
 export default {
