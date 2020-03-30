@@ -16,12 +16,6 @@ export default {
     email: {
       type: GraphQLString
     },
-    firstName: {
-      type: GraphQLString
-    },
-    lastName: {
-      type: GraphQLString
-    }
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];

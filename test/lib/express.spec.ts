@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 import { User } from '../../src/models/User';
 import { app } from '../../src/lib/express';
 
-describe('Express [src/express.ts]', () => {
+describe('Express [src/lib/express.ts]', () => {
   let sessionToken: any;
 
   before(async() => {
