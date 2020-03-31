@@ -11,6 +11,7 @@ export const userIDs: string[] = [];
 export const teamIDs: string[] = [];
 export const reviewIDs: string[] = [];
 export const subjectIDs: string[] = [];
+export const managerIDs: string[] = [];
 
 // Generates fake data for the database
 export async function generator() {
@@ -19,13 +20,14 @@ export async function generator() {
 
   // User
   _.times(15, (i) => {
-    promises.push(function () {
-      return User.create({
+    promises.push(async function () {
+      const user: any = await User.create({
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
         password: Faker.random.alphaNumeric(10)
-      }).then((user) => userIDs.push(user.userID));
+      });
+      return userIDs.push(user.userID);
     });
   });
   await inSequence(promises).then(() => {
@@ -34,11 +36,12 @@ export async function generator() {
 
   // Create subject
   _.times(10, (i) => {
-    promises.push(function () {
-      return Subject.create({
+    promises.push(async function () {
+      const subject = await Subject.create({
         subjectName: Faker.name.jobTitle(),
         state: Faker.random.number({ min: 0, max: 3 })
-      }).then((subject) => subjectIDs.push(subject.subjectID));
+      });
+      return subjectIDs.push(subject.subjectID);
     });
   });
   await inSequence(promises).then(() => {
@@ -47,12 +50,13 @@ export async function generator() {
 
   // Team
   _.times(10, () => {
-    promises.push(function () {
-      return Team.create({
+    promises.push(async function () {
+      const team = await Team.create({
         teamName: Faker.commerce.productName(),
         inviteCode: Faker.random.alphaNumeric(5),
         subjectID: subjectIDs[Faker.random.number({ min: 0, max: 9 })]
-      }).then((team) => teamIDs.push(team.teamID));
+      });
+      return teamIDs.push(team.teamID);
     })
   });
   await inSequence(promises).then(() => {
@@ -62,15 +66,9 @@ export async function generator() {
   // Add user to team
   _.times(10, (i) => {
     promises.push(async function () {
-      return User.findOne({ where: { userID: userIDs[i] } }).then(async (user: any) => {
-        let teamID: any;
-        do {
-          teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })]
-        } while (!teamID);
-        return Team.findOne({ where: { teamID: teamID } }).then(async (team: any) => {
-          return await user.addTeam(team);
-        });
-      });
+      const user: any = await User.findOne({ where: { userID: userIDs[i] } });
+      const team = await Team.findOne({ where: { teamID: teamIDs[Faker.random.number({ min: 0, max: 9 })] } });
+      return await user.addTeam(team);
     });
   });
   await inSequence(promises).then(() => {
@@ -79,8 +77,8 @@ export async function generator() {
 
   // Review
   _.times(10, (i) => {
-    promises.push(function () {
-      return Review.create({
+    promises.push(async function () {
+      const review = await Review.create({
         userID: userIDs[Faker.random.number({ min: 0, max: 14 })],
         submittedByID: userIDs[Faker.random.number({ min: 0, max: 14 })],
         state: Faker.random.number({ min: 1, max: 3 }),
@@ -107,7 +105,8 @@ export async function generator() {
         eyeContact: Faker.random.number({ min: 1, max: 100 }),
         signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
         verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
-      }).then((review) => reviewIDs.push(review.reviewID));
+      });
+      return reviewIDs.push(review.reviewID);
     });
   });
   await inSequence(promises).then(() => {
@@ -116,19 +115,19 @@ export async function generator() {
 
   // Managers
   _.times(5, (i) => {
-    promises.push(function () {
-      return Manager.create({
+    promises.push(async function () {
+      const manager = await Manager.create({
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
         password: Faker.random.alphaNumeric(10)
-      }).then((manager) => userIDs.push(manager.managerID));
+      });
+      return managerIDs.push(manager.managerID);
     });
   });
   await inSequence(promises).then(() => {
     promises = [];
   });
-
 
   return true;
 }
