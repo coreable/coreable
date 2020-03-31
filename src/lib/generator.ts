@@ -61,18 +61,16 @@ export async function generator() {
 
   // Add user to team
   _.times(10, (i) => {
-    promises.push(function () {
-      return new Promise((resolve, reject) => {
-        return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
-          let teamID: any;
-          do {
-            teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })]
-          } while (!teamID);
-          return Team.findOne({ where: { teamID: teamID } }).then((team: any) => {
-            return user.addTeam(team).then(() => resolve()).catch(() => reject());
-          }).catch(() => reject());
-        }).catch(() => reject());
-      })
+    promises.push(async function () {
+      return User.findOne({ where: { userID: userIDs[i] } }).then(async (user: any) => {
+        let teamID: any;
+        do {
+          teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })]
+        } while (!teamID);
+        return Team.findOne({ where: { teamID: teamID } }).then(async (team: any) => {
+          return await user.addTeam(team);
+        });
+      });
     });
   });
   await inSequence(promises).then(() => {

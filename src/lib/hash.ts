@@ -1,8 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 import * as config from '../config/config.json';
-import { promisify } from 'util';
-import { resolve } from 'bluebird';
 
 export const JWT_SECRET: Secret = config.JWT_SECRET;
 export const ROUNDS: number = 10;
@@ -47,7 +45,6 @@ export function encodeJWT(payload: string | object | Buffer): Promise<string> {
 
 // Verify a JWT. 
 // Note:  This can throw an error if the token is invalid, wrap it in a try catch
-const asyncVerify = promisify(jwt.verify);
 export function decodeJWT(token: string): Promise<any> {
   return new Promise((resolve, reject) => {
     jwt.verify(token, JWT_SECRET, (err, obj) => {
