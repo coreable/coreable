@@ -7,7 +7,7 @@ import { User } from '../../../src/models/User';
 import { app } from '../../../src/lib/express';
 import { Team } from '../../../src/models/Team';
 
-describe('JoinTeam [src/api/mutations/JoinTeam.ts]', () => {
+describe('JoinTeam Mutation [src/api/mutations/JoinTeam.ts]', () => {
   let sessionToken: any;
   let team: any;
 

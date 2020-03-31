@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 import { User } from '../../../src/models/User';
 import { app } from '../../../src/lib/express';
 
-describe('Login [src/api/mutations/Login.ts]', () => {
+describe('Login Mutation [src/api/mutations/Login.ts]', () => {
   let sessionToken: any;
 
   before(async() => {

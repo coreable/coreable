@@ -8,7 +8,7 @@ import { app } from '../../../src/lib/express';
 import { Team } from '../../../src/models/Team';
 import { Review } from '../../../src/models/Review';
 
-describe('SubmitReview [src/api/mutations/SubmitReview.ts]', () => {
+describe('SubmitReview Mutation [src/api/mutations/SubmitReview.ts]', () => {
   let user1ID: any;
   let session1Token: any;
   let user2ID: any;

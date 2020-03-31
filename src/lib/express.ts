@@ -61,10 +61,6 @@ app.use('/graphql', GraphHTTP({
   graphiql: process.env.NODE_ENV == 'development'
 }));
 
-// app.use('/', (req: Request, res: Response, next: NextFunction) => {
-//   return res.status(200).end();
-// });
-
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   process.env.NODE_ENV == 'development' ? console.error({ name: err.name, message: err.message }) : null;

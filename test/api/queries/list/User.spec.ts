@@ -6,7 +6,7 @@ import { User } from '../../../../src/models/User';
 
 chai.use(chaiHttp); 
 
-describe('User Object Query [api/queries/object/User.ts]', () => { 
+describe('User List Query [api/queries/list/User.ts]', () => { 
   let sessionToken: string;
 
   before(async() => {
@@ -42,70 +42,49 @@ describe('User Object Query [api/queries/object/User.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', 'fakeSession').send({
       query: 
       `query {
-        user {
+        users {
           data {
             user {
               firstName
-            } 
+            }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.user).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.users).to.have.property('errors').and.not.have.property('data');
   });
 
   it('should accept an authenticated user', async() => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `query {
-        user(email: "unit@test.com") {
+        users {
           data {
             user {
               firstName
-            } 
+            }
           }
           errors {
-            path
             code
+            path
             message
           }
         }
       }`
     });
-    return expect(res.body.data.user).to.have.property('data').and.not.have.property('errors');
-  });
-
-  it('reject an authenticated user with no query parameter', async() => {
-    const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
-      query: 
-      `query {
-        user {
-          data {
-            user {
-              firstName
-            } 
-          }
-          errors {
-            path
-            code
-            message
-          }
-        }
-      }`
-    });
-    return expect(res.body.data.user).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.users).to.have.property('data').and.not.have.property('errors');
   });
 
   it('should notify a user with an invalid email doesn\'t exist', async() => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `query {
-        user(email: "aaaaaa") {
+        users(email: "aaaaaa") {
           data {
             user {
               firstName
@@ -119,7 +98,7 @@ describe('User Object Query [api/queries/object/User.ts]', () => {
         }
       }`
     });
-    return expect(res.body.data.user).to.have.property('errors').and.not.have.property('data');
+    return expect(res.body.data.users).to.have.property('errors').and.not.have.property('data');
   });
 
 });

@@ -18,7 +18,7 @@ export async function generator() {
   let promises: any = [];
 
   // User
-  _.times(20, (i) => {
+  _.times(15, (i) => {
     promises.push(function () {
       return User.create({
         firstName: Faker.name.firstName(),
@@ -46,7 +46,7 @@ export async function generator() {
   });
 
   // Team
-  _.times(20, () => {
+  _.times(10, () => {
     promises.push(function () {
       return Team.create({
         teamName: Faker.commerce.productName(),
@@ -83,8 +83,8 @@ export async function generator() {
   _.times(10, (i) => {
     promises.push(function () {
       return Review.create({
-        userID: userIDs[Faker.random.number({ min: 0, max: 19 })],
-        submittedByID: userIDs[Faker.random.number({ min: 0, max: 19 })],
+        userID: userIDs[Faker.random.number({ min: 0, max: 14 })],
+        submittedByID: userIDs[Faker.random.number({ min: 0, max: 14 })],
         state: Faker.random.number({ min: 1, max: 3 }),
         emotionalResponse: Faker.random.number({ min: 1, max: 100 }),
         empathy: Faker.random.number({ min: 1, max: 100 }),
@@ -116,8 +116,8 @@ export async function generator() {
     promises = [];
   });
 
-  // User
-  _.times(20, (i) => {
+  // Managers
+  _.times(5, (i) => {
     promises.push(function () {
       return Manager.create({
         firstName: Faker.name.firstName(),

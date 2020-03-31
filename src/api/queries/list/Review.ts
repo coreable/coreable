@@ -1,6 +1,6 @@
 import { sequelize } from "../../../lib/sequelize";
 import {
-  GraphQLString
+  GraphQLString, GraphQLInt
 } from "graphql";
 
 import { CoreableError } from "../../../models/CoreableError";
@@ -18,11 +18,21 @@ export default {
     },
     submittedByID: {
       type: GraphQLString,
+    },
+    limit: {
+      type: GraphQLInt
+    },
+    offset: {
+      type: GraphQLInt
     }
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     let review: any;
+    let limit = args.limit;
+    let offset = args.offset;
+    delete args.offset;
+    delete args.limit;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
@@ -32,7 +42,7 @@ export default {
       }
     }
     if (!errors.length) {
-      review = await sequelize.models.Review.findAll({ where: args, include: [{ model: User, as: 'SubmittedBy' }, { model: User, as: 'User' }] });
+      review = await sequelize.models.Review.findAll({ where: args, include: [{ model: User, as: 'SubmittedBy' }, { model: User, as: 'User' }], limit: limit, offset: offset });
       if (!review.length) {
         errors.push({ code: 'ER_REVIEW_UNKNOWN', message: `A review with args ${args} could not be found`, path: 'args' });
       }

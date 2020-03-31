@@ -18,11 +18,21 @@ export default {
     },
     state: {
       type: GraphQLInt
+    },
+    limit: {
+      type: GraphQLInt
+    },
+    offset: {
+      type: GraphQLInt
     }
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     let subject: any;
+    let limit = args.limit;
+    let offset = args.offset;
+    delete args.offset;
+    delete args.limit;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
@@ -32,7 +42,7 @@ export default {
       }
     }
     if (!errors.length) {
-      subject = await sequelize.models.Subject.findAll({ where: args });
+      subject = await sequelize.models.Subject.findAll({ where: args, limit: limit, offset: offset });
       if (!subject) {
         errors.push({ code: 'ER_SUBJECT_UNKNOWN', message: `A subject with args ${args} could not be found`, path: 'args' });
       }

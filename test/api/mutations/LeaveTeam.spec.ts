@@ -8,7 +8,7 @@ import { app } from '../../../src/lib/express';
 import { Team } from '../../../src/models/Team';
 import { Op } from 'sequelize';
 
-describe('LeaveTeam [src/api/mutations/LeaveTeam.ts]', () => {
+describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
   let sessionToken: any;
   let targetTeam: any;
   let notTargetTeam: any;
