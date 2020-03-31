@@ -1,6 +1,7 @@
 import { Model, Sequelize, DataTypes } from "sequelize";
 import { Subject } from "./Subject";
 import { Billing } from "./Billing";
+import { generatePasswordHash, checkPassword } from "../lib/hash";
 
 class Manager extends Model {
   // PK
@@ -9,9 +10,13 @@ class Manager extends Model {
   public email!: string;
   public firstName!: string;
   public lastName!: string;
+  public password!: string;
+  public passwordResetToken!: string;
+  public passwordResetExpiry!: Date
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+  public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
 const sync = (sequelize: Sequelize) => {
@@ -31,15 +36,42 @@ const sync = (sequelize: Sequelize) => {
     },
     'firstName': {
       'type': DataTypes.STRING,
+      'allowNull': false
     },
     'lastName': {
       'type': DataTypes.STRING,
+      'allowNull': false
+    },
+    'password': {
+      'type': DataTypes.STRING,
+      'allowNull': true,
+    },
+    'passwordResetToken': {
+      'type': DataTypes.STRING,
+      'allowNull': true
+    },
+    'passwordResetExpiry': {
+      'type': DataTypes.DATE,
+      'allowNull': true
     }
   }, {
     'tableName': 'MANAGER',
     'sequelize': sequelize,
   });
-  
+
+  // Hooks
+  Manager.beforeCreate(async (manager: Manager) => {
+    try {
+      manager.password = await generatePasswordHash(manager.password);
+    } catch (err) {
+      throw err;
+    }
+  });
+
+  Manager.prototype.login = async function(payload: string) {
+    return checkPassword(payload, this.password);
+  }
+
   return Manager;
 }
 

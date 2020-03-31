@@ -5,6 +5,7 @@ import { Team } from '../models/Team';
 import { Review } from '../models/Review';
 import { sequelize } from './sequelize';
 import { Subject } from '../models/Subject';
+import { Manager } from '../models/Manager';
 
 export const userIDs: string[] = [];
 export const teamIDs: string[] = [];
@@ -63,7 +64,7 @@ export async function generator() {
     promises.push(function () {
       return new Promise((resolve, reject) => {
         return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
-          let teamID: any ;
+          let teamID: any;
           do {
             teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })]
           } while (!teamID);
@@ -114,6 +115,22 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
+
+  // User
+  _.times(20, (i) => {
+    promises.push(function () {
+      return Manager.create({
+        firstName: Faker.name.firstName(),
+        lastName: Faker.name.lastName(),
+        email: Faker.internet.email(),
+        password: Faker.random.alphaNumeric(10)
+      }).then((manager) => userIDs.push(manager.managerID));
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
 
   return true;
 }

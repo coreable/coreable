@@ -1,0 +1,24 @@
+query {
+  review(reviewID: "") {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      review {
+        userID
+        submittedByID
+        verbalAttentiveFeedback
+        user {
+          email
+          userID
+        }
+        submittedBy {
+          email
+          userID
+        }
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
-import { GraphQLObjectType, GraphQLInt, GraphQLString } from "graphql";
+import { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLBoolean } from "graphql";
+import { Manager } from "../../models/Manager";
 
 export const SessionResolver = new GraphQLObjectType({
   name: 'SessionResolver',
@@ -21,6 +22,12 @@ export const SessionResolver = new GraphQLObjectType({
         type: GraphQLString,
         resolve(user, args, context) {
           return user.firstName;
+        }
+      },
+      'manager': {
+        type: GraphQLBoolean,
+        resolve(user, args, context) {
+          return user instanceof Manager;
         }
       }
     }

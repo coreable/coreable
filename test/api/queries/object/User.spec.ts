@@ -3,7 +3,6 @@ import chai, { expect, assert } from 'chai';
 import { app } from '../../../../src/lib/express';
 import chaiHttp from 'chai-http';
 import { User } from '../../../../src/models/User';
-import { userInfo } from 'os';
 
 chai.use(chaiHttp); 
 
@@ -64,7 +63,7 @@ describe('User Query [api/queries/object/User.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `query {
-        user {
+        user(email: "unit@test.com") {
           data {
             user {
               firstName

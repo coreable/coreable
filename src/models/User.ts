@@ -9,17 +9,16 @@ import { Review } from './Review';
 class User extends Model {
   // PK
   public userID!: string;
-  
+
+  public email!: string;
   public firstName!: string;
   public lastName!: string;
-  public email!: string;
   public password!: string;
   public passwordResetToken!: string;
   public passwordResetExpiry!: Date
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-  public logout: ((token: any) => Promise<void>) | undefined;
   public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 

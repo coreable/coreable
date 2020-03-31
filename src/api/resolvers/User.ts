@@ -1,15 +1,13 @@
 import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
-  GraphQLInt,
   GraphQLString,
   GraphQLList,
-  GraphQLBoolean
 } from 'graphql';
 
 import { User } from '../../models/User';
 import { TeamResolver } from './Team';
-
+ 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
   description: 'This represents a User',
@@ -44,7 +42,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         resolve(user: any, args, context) {
           return user.Teams;
         }
-      },
+      }
       // 'reviewSelf': {
       //   type: ReviewResolver,
       //   async resolve(user: any, args: any, context: any) {
