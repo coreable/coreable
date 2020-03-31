@@ -6,6 +6,7 @@ import {
 } from 'graphql';
 
 import { Review } from '../../models/Review';
+import { UserResolver } from './User';
 
 export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
   name: 'ReviewResolver',
@@ -24,10 +25,22 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.userID;
         }
       },
+      'user': {
+        type: UserResolver,
+        resolve(review, args, context) {
+          return review.User;
+        }
+      },
       'submittedByID': {
         type: GraphQLString,
         resolve(review, args, context) {
           return review.submittedByID;
+        }
+      },
+      'submittedBy': {
+        type: UserResolver,
+        resolve(review, args, context) {
+          return review.SubmittedBy;
         }
       },
       'emotionalResponse': {

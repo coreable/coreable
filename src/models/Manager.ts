@@ -39,7 +39,7 @@ const sync = (sequelize: Sequelize) => {
     'tableName': 'MANAGER',
     'sequelize': sequelize,
   });
-
+  
   return Manager;
 }
 

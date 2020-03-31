@@ -10,7 +10,7 @@ import { API } from '../../models/API';
 
 export const APIResolver: GraphQLObjectType<API> = new GraphQLObjectType({
   name: 'APIResolver',
-  description: 'This represents the API',
+  description: 'This an API test/query point',
   fields: () => {
     return {
       'time': {

@@ -3,6 +3,8 @@ import { User } from './User';
 import { Subject } from './Subject';
 
 class Team extends Model {
+  [x: string]: any;
+
   // PK
   public teamID!: string;
 
@@ -11,6 +13,7 @@ class Team extends Model {
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+  
 }
 
 const sync = (sequelize: Sequelize) => {

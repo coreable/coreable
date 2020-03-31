@@ -7,7 +7,7 @@ import {
 
 import { Billing } from '../../models/Billing';
 
-export const TeamResolver: GraphQLObjectType<Billing> = new GraphQLObjectType({
+export const BillingResolver: GraphQLObjectType<Billing> = new GraphQLObjectType({
   name: 'BillingResolver',
   description: 'This represents Billing',
   fields: () => {

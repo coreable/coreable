@@ -1,7 +1,7 @@
 import { GraphQLObjectType, GraphQLInt, GraphQLString } from "graphql";
 
 export const SessionResolver = new GraphQLObjectType({
-  name: 'Session',
+  name: 'SessionResolver',
   description: 'Accessible after authentication',
   fields: () => {
     return {

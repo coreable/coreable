@@ -1,7 +1,9 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Model, DataTypes, Sequelize, BelongsTo } from 'sequelize';
 import { User } from './User';
 
 class Review extends Model {
+  [x: string]: any;
+
   // PK
   public reviewID!: string;
   // FK
@@ -161,11 +163,11 @@ const sync = (sequelize: Sequelize) => {
   return Review;
 }
 
-let ReviewResultsUser;
-let ReviewSubmittedUser;
+let ReviewResultsUser: BelongsTo<Review, User> ;
+let ReviewSubmittedUser: BelongsTo<Review, User>;
 const assosciate = () => {
-  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'userID', targetKey: 'userID', as: 'ReviewResults' });
-  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submittedByID', targetKey: 'userID', as: 'ReviewSubmitted' });
+  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'userID', targetKey: 'userID', as: 'User' });
+  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submittedByID', targetKey: 'userID', as: 'SubmittedBy' });
   return Review;
 }
 

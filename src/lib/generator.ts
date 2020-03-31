@@ -63,14 +63,14 @@ export async function generator() {
     promises.push(function () {
       return new Promise((resolve, reject) => {
         return User.findOne({ where: { userID: userIDs[i] } }).then((user: any) => {
-          let teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })];
-          if (!teamID) {
-            teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })];
-          }
+          let teamID: any ;
+          do {
+            teamID = teamIDs[Faker.random.number({ min: 0, max: 15 })]
+          } while (!teamID);
           return Team.findOne({ where: { teamID: teamID } }).then((team: any) => {
-            return user.addTeam(team).then(() => resolve());
-          });
-        });
+            return user.addTeam(team).then(() => resolve()).catch(() => reject());
+          }).catch(() => reject());
+        }).catch(() => reject());
       })
     });
   });

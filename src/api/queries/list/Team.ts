@@ -5,6 +5,7 @@ import {
 
 import { CoreableError } from "../../../models/CoreableError";
 import { TeamListCommand } from "../../command/list/Team";
+import { Subject } from "../../../models/Subject";
 
 export default {
   type: TeamListCommand,
@@ -18,7 +19,21 @@ export default {
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let team = await sequelize.models.Team.findAll({ where: args });
+    let team: any;
+    if (!context.USER) {
+      errors.push({ code: 'ER_UNAUTH', message: 'User unauthenticated', path: 'JWT' });
+    }
+    if (!errors.length) {
+      if (!args.teamID && !args.teamName) {
+        errors.push({ code: 'ER_ARGS', message: 'a teamId or a teamName must be passed as arguments', path: 'args' });
+      }
+    }
+    if (!errors.length) {
+      team = await sequelize.models.Team.findAll({ where: args, include: [{ model: Subject }] });
+      if (!team) {
+        errors.push({ code: 'ER_TEAM_UNKNOWN', message: `Unable to find a team with args ${args}`, path: 'args' });
+      }
+    }
     return {
       'data': !errors.length ? {
         'team': team

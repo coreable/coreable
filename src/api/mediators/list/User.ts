@@ -2,6 +2,7 @@ import {
   GraphQLObjectType, 
   GraphQLList
 } from "graphql";
+
 import { UserResolver } from "../../resolvers/User";
 
 export const UserListMediator: GraphQLObjectType = new GraphQLObjectType({

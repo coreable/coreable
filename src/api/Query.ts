@@ -10,6 +10,8 @@ import ReviewObjectQuery from './queries/object/Review';
 import ReviewListQuery from './queries/list/Review';
 import TeamObjectQuery from './queries/object/Team';
 import TeamListQuery from './queries/list/Team';
+import SubjectObjectQuery from './queries/object/Subject';
+import SubjectListQuery from './queries/list/Subject';
 import APIObjectQuery from './queries/API';
 
 export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
@@ -24,7 +26,9 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
       'review': ReviewObjectQuery,
       'team': TeamObjectQuery,
       'teams': TeamListQuery,
-      'API': APIObjectQuery
+      'subject': SubjectObjectQuery,
+      'subjects': SubjectListQuery,
+      'API': APIObjectQuery,
     }
   }
 });

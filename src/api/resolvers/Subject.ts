@@ -7,7 +7,7 @@ import {
 
 import { Subject } from '../../models/Subject';
 
-export const TeamResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
+export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
   name: 'SubjectResolver',
   description: 'This represents a Subject',
   fields: () => {

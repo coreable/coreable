@@ -6,6 +6,7 @@ import {
 
 import { CoreableError } from "../../../models/CoreableError";
 import { UserListCommand } from "../../command/list/User";
+import { Team } from "../../../models/Team";
 
 export default {
   type: UserListCommand, 
@@ -30,7 +31,7 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findAll({ where: args });
+      user = await sequelize.models.User.findAll({ where: args, include: [{ model: Team }] });
       if (!user.length) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: `${args}`, message: `No user found with args ${args}` });
       }

@@ -3,7 +3,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import { TeamResolver } from "../../resolvers/Billing";
+import { TeamResolver } from "../../resolvers/Team";
 
 export const TeamListMediator: GraphQLObjectType = new GraphQLObjectType({
   name: 'TeamListMediator',

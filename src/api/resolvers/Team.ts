@@ -6,6 +6,7 @@ import {
 } from 'graphql';
 
 import { Team } from '../../models/Team';
+import { SubjectResolver } from './Subject';
 
 export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   name: 'TeamResolver',
@@ -28,6 +29,12 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
         type: GraphQLString,
         resolve(team, args, context) {
           return team.inviteCode;
+        }
+      },
+      'subject': {
+        type: SubjectResolver,
+        resolve(team, args, context) {
+          return team.Subject;
         }
       }
     }
