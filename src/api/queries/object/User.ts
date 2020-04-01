@@ -31,7 +31,7 @@ export default {
     }
     if (!errors.length) {
       user = await sequelize.models.User.findOne(
-        { 
+        {
           where: args,
           include: [
             { model: Team, as: 'teams' },

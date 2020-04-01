@@ -42,13 +42,13 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
         if (process.env.NODE_ENV === "test") {
           req.USER = await sequelize.models.User.noCache().findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams' }] });
         } else {
-          req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams' }] });
+          req.USER = await sequelize.models.User.noCache().findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams' }] });
         }
       } else if (req.JWT.manager) {
         if (process.env.NODE_ENV === "test") {
           req.USER = await sequelize.models.Manager.noCache().findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
         } else {
-          req.USER = await sequelize.models.Manager.findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
+          req.USER = await sequelize.models.Manager.noCache().findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
         }
       }
       if (!req.USER) {

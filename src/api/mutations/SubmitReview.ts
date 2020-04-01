@@ -10,6 +10,7 @@ import { CoreableError } from "../../models/CoreableError";
 import { Team } from "../../models/Team";
 import { Review } from "../../models/Review";
 import { User } from "../../models/User";
+import { Manager } from "../../models/Manager";
 
 export default {
   type: ReviewObjectCommand,
@@ -100,6 +101,11 @@ export default {
     let subject: any;
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
+    }
+    if (!errors.length) {
+      if (context.USER instanceof Manager) {
+        errors.push({ code: 'ER_MANAGER', message: 'Managers can not submit reviews', path: 'JWT' });
+      }
     }
     if (!errors.length) {
       userBeingReviewed = await sequelize.models.User.findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });

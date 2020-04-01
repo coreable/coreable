@@ -43,11 +43,11 @@ _sequelize.assosciate = (async () => {
 })();
 
 sequelize._cache = new SequelizeSimpleCache({
-  User: { ttl: 5 * 60, limit: 50 },
-  Team: { ttl: 5 * 60, limit: 50 },
-  Review: { ttl: 5 * 60, limit: 50 },
-  Subject: { ttl: 5 * 60, limit: 50 },
-  Manager: { ttl: 5 * 60, limit: 50 },
+  User: { ttl: 15, limit: 50 },
+  Team: { ttl: 15, limit: 50 },
+  Review: { ttl: 15, limit: 50 },
+  Subject: { ttl: 15, limit: 50 },
+  Manager: { ttl: 15, limit: 50 },
 }, {
   debug: process.env.NODE_ENV === "development" ? console.log : false
 });

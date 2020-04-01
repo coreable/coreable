@@ -1,3 +1,4 @@
+import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLString,
@@ -10,6 +11,9 @@ import { Manager } from '../../models/Manager';
 import { TeamResolver } from './Team';
 import { ReviewResolver } from './Review';
 import { SubjectResolver } from './Subject';
+import { Op } from 'sequelize';
+import { Team } from '../../models/Team';
+import { Review } from '../../models/Review';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
@@ -80,6 +84,48 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             return user.submissions;
           }
           return null;
+        }
+      },
+      'pending': {
+        type: new GraphQLList(UserResolver),
+        async resolve(user, args, context) {
+          if (user instanceof Manager) {
+            return null;
+          }
+          // put all team members in a map
+          let teamMembers: any = {};
+          for (const teams of user.teams) {
+            teams.users = await (teams as any).getUsers();
+            for (const users of teams.users) {
+              if (!teamMembers[users._id]) {
+                teamMembers[users._id] = false;
+              }
+            }
+          }
+          // set the map value to true if we've reviewed them
+          let reviews = await sequelize.models.Review.noCache().findAll({ where: { submitter_id: user._id } });
+          for (const review of reviews) {
+            if (teamMembers[review.receiver_id]) {
+              teamMembers[review.receiver_id] = true;
+            }
+          }
+          // if the map value is false, push the user ID to an array
+          let pendingMemberIDs: string[] = [];
+          for (const userID in teamMembers) {
+            if (teamMembers[userID] !== true) {
+              pendingMemberIDs.push(userID);
+            }
+          }
+          return sequelize.models.User.findAll(
+            { 
+              where: { _id: { [Op.in]: pendingMemberIDs } },
+              include: [
+                { model: Team, as: 'teams' },
+                { model: Review, as: 'reviews', exclude: ['submitter_id'] },
+                { model: Review, as: 'submissions', exclude: ['receiver_id'] }
+              ]
+            }
+          );
         }
       }
     }

@@ -16,7 +16,7 @@ export default {
     }
     if (!errors.length) {
       if (!context.USER.manager) {
-        user = await sequelize.models.User.findOne(
+        user = await sequelize.models.User.noCache().findOne(
           {
             where:  { _id: context.USER._id } ,
             include: [
@@ -27,7 +27,7 @@ export default {
           }
         );
       } else if (context.USER.manager) {
-        user = await sequelize.models.Manager.findOne(
+        user = await sequelize.models.Manager.noCache().findOne(
           {
             where:  { _id: context.USER._id } ,
             include: [

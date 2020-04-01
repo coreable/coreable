@@ -6,6 +6,7 @@ import {
 import { TeamObjectCommand } from "../../command/object/Team";
 import { CoreableError } from "../../../models/CoreableError";
 import { Subject } from "../../../models/Subject";
+import { Manager } from "../../../models/Manager";
 
 export default {
   type: TeamObjectCommand,
@@ -22,6 +23,11 @@ export default {
     let team: any;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', message: 'User unauthenticated', path: 'JWT' });
+    }
+    if (!errors.length) {
+      if (!(context.USER instanceof Manager)) {
+        errors.push({ code: 'ER_UNAUTH', message: 'Unauthorised access', path: 'JWT' });
+      }
     }
     if (!errors.length) {
       if (!args._id && !args.name) {

@@ -6,6 +6,7 @@ import { sequelize } from "../../../lib/sequelize";
 import { CoreableError } from "../../../models/CoreableError";
 import { ReviewObjectCommand } from "../../command/object/Review";
 import { User } from "../../../models/User";
+import { Manager } from "../../../models/Manager";
 
 export default {
   type: ReviewObjectCommand,
@@ -25,6 +26,11 @@ export default {
     let review: any;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
+    }
+    if (!errors.length) {
+      if (!(context.USER instanceof Manager)) {
+        errors.push({ code: 'ER_UNAUTH', message: 'Unauthorised access', path: 'JWT' });
+      }
     }
     if (!errors.length) {
       if (!args._id && !args.receiver_id && !args.submitter_id) {

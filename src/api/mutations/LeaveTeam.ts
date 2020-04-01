@@ -7,6 +7,7 @@ import {
 import { CoreableError } from "../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
 import { Team } from "../../models/Team";
+import { Manager } from "../../models/Manager";
 
 export default {
   type: UserObjectCommand,
@@ -20,6 +21,11 @@ export default {
     let targetTeam: any;
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
+    }
+    if (!errors.length) {
+      if (context.USER instanceof Manager) {
+        errors.push({ code: 'ER_MANAGER', message: 'Managers can not leave teams', path: 'JWT' });
+      }
     }
     if (!errors.length) {
       targetTeam = await sequelize.models.Team.findOne({ where: { _id: args.team_id }});

@@ -7,6 +7,7 @@ import {
 import { CoreableError } from "../../../models/CoreableError";
 import { ReviewListCommand } from "../../command/list/Review";
 import { User } from "../../../models/User";
+import { Manager } from "../../../models/Manager";
 
 export default {
   type: ReviewListCommand,
@@ -36,6 +37,11 @@ export default {
     delete args.limit;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
+    }
+    if (!errors.length) {
+      if (!(context.USER instanceof Manager)) {
+        errors.push({ code: 'ER_UNAUTH', message: 'Unauthorised access', path: 'JWT' });
+      }
     }
     if (!errors.length) {
       if (!args._id && !args.receiver_id && !args.submitter_id) {
