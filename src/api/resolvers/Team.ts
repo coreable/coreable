@@ -1,8 +1,6 @@
-import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
-  GraphQLInt,
-  GraphQLString,
+  GraphQLString
 } from 'graphql';
 
 import { Team } from '../../models/Team';
@@ -13,16 +11,16 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   description: 'This represents a Team',
   fields: () => {
     return {
-      'teamID': {
+      '_id': {
         type: GraphQLString,
         resolve(team, args, context) {
-          return team.teamID;
+          return team._id;
         }
       },
-      'teamName': {
+      'name': {
         type: GraphQLString,
         resolve(team, args, context) {
-          return team.teamName;
+          return team.name;
         }
       },
       'inviteCode': {
@@ -34,7 +32,7 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
       'subject': {
         type: SubjectResolver,
         resolve(team, args, context) {
-          return team.Subject;
+          return team.subject;
         }
       }
     }

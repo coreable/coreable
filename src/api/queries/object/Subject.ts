@@ -1,6 +1,5 @@
 import {
-  GraphQLString,
-  GraphQLInt
+  GraphQLString
 } from "graphql";
 
 import { sequelize } from "../../../lib/sequelize";
@@ -10,10 +9,10 @@ import { SubjectObjectCommand } from "../../command/object/Subject";
 export default {
   type: SubjectObjectCommand,
   args: {
-    subjectID: {
+    _id: {
       type: GraphQLString,
     },
-    subjectName: {
+    name: {
       type: GraphQLString,
     }
   },
@@ -24,8 +23,8 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      if (!args.subjectID && !args.subjectName) {
-        errors.push({ code: 'ER_ARGS', message: 'A subjectID or a subjectName must be passed as arguments', path: 'args' });
+      if (!args._id && !args.name) {
+        errors.push({ code: 'ER_ARGS', message: 'A Subject _id or name must be passed as arguments', path: 'args' });
       }
     }
     if (!errors.length) {

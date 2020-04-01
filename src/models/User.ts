@@ -8,7 +8,7 @@ import { Review } from './Review';
 
 class User extends Model {
   // PK
-  public userID!: string;
+  public _id!: string;
 
   public email!: string;
   public firstName!: string;
@@ -20,11 +20,14 @@ class User extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public login: ((payload: string) => Promise<boolean>) | undefined;
+  public teams!: [Team];
+  public submissions!: [Review];
+  public reviews!: [Review];
 }
 
 const sync = (sequelize: Sequelize) => {
   User.init({
-    'userID': {
+    '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
@@ -80,11 +83,11 @@ const sync = (sequelize: Sequelize) => {
 
 let UserTeam: BelongsToMany<User, Team>;
 let UserReviewResults;
-let UserReviewSubbmitted;
+let UserReviewSubmitted;
 const assosciate = () => {
-  UserTeam = User.belongsToMany(Team, { through: 'USER_TEAM', sourceKey: 'userID', foreignKey: 'userID' });
-  UserReviewResults = User.hasMany(Review, { foreignKey: 'userID', as: 'Use' });
-  UserReviewSubbmitted = User.hasMany(Review, { foreignKey: 'submittedByID', as: 'SubmittedBy' });
+  UserTeam = User.belongsToMany(Team, { through: 'USER_TEAM', sourceKey: '_id', foreignKey: 'user_id', as: 'teams' });
+  UserReviewResults = User.hasMany(Review, { sourceKey: '_id' ,foreignKey: 'receiver_id', as: 'reviews' });
+  UserReviewSubmitted = User.hasMany(Review, { sourceKey: '_id', foreignKey: 'submitter_id', as: 'submissions' });
   return User;
 }
 
@@ -94,5 +97,5 @@ export {
   assosciate,
   UserTeam,
   UserReviewResults,
-  UserReviewSubbmitted
+  UserReviewSubmitted
 }

@@ -1,5 +1,4 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';;
 import { generator } from '../../src/lib/generator';
 
 describe('Test Data Generator [src/lib/generator.ts]', () => {

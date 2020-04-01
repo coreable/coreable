@@ -7,11 +7,12 @@ import {
 import { CoreableError } from "../../../models/CoreableError";
 import { UserListCommand } from "../../command/list/User";
 import { Team } from "../../../models/Team";
+import { Review } from "../../../models/Review";
 
 export default {
   type: UserListCommand, 
   args: {
-    userID: {
+    _id: {
       type: GraphQLString
     },
     email: {
@@ -41,7 +42,18 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findAll({ where: args, include: [{ model: Team }], limit: limit, offset: offset });
+      user = await sequelize.models.User.findAll(
+        { 
+          where: args,
+          include: [
+            { model: Team, as: 'teams' },
+            { model: Review, as: 'reviews', exclude: ['receiver_id'] },
+            { model: Review, as: 'submissions', exclude: ['submitter_id'] }
+          ],
+          limit: limit,
+          offset: offset
+        }
+      );
       if (!user.length) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: `${args}`, message: `No user found with args ${args}` });
       }

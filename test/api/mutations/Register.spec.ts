@@ -1,5 +1,5 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
@@ -18,7 +18,7 @@ describe('Register Mutation [src/api/mutations/Register.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }
@@ -59,7 +59,7 @@ describe('Register Mutation [src/api/mutations/Register.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
           }
           errors {
@@ -82,7 +82,7 @@ describe('Register Mutation [src/api/mutations/Register.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
           }
           errors {
@@ -105,7 +105,7 @@ describe('Register Mutation [src/api/mutations/Register.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
           }
           errors {
@@ -128,7 +128,7 @@ describe('Register Mutation [src/api/mutations/Register.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
           }
           errors {

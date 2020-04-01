@@ -1,4 +1,3 @@
-import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
@@ -12,16 +11,16 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
   description: 'This represents a Subject',
   fields: () => {
     return {
-      'subjectID': {
+      '_id': {
         type: GraphQLString,
         resolve(subject, args, context) {
-          return subject.subjectID;
+          return subject._id;
         }
       },
-      'subjectName': {
+      'name': {
         type: GraphQLString,
         resolve(subject, args, context) {
-          return subject.subjectName;
+          return subject.name;
         }
       },
       'state': {

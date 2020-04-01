@@ -2,13 +2,14 @@ import { Model, DataTypes, Sequelize, BelongsTo } from 'sequelize';
 import { User } from './User';
 
 class Review extends Model {
-  [x: string]: any;
-
   // PK
-  public reviewID!: string;
+  public _id!: string;
+
   // FK
-  public userID!: string;
-  public submittedByID!: string;
+  public receiver_id!: string;
+  public receiver!: User;
+  public submitter_id!: string;
+  public submitter!: User;
 
   public emotionalResponse!: number;
   public empathy!: number;
@@ -42,16 +43,16 @@ class Review extends Model {
 
 const sync = (sequelize: Sequelize) => {
   Review.init({
-    'reviewID': {
+    '_id': {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    'userID': {
+    'receiver_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
-    'submittedByID': {
+    'submitter_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -166,8 +167,8 @@ const sync = (sequelize: Sequelize) => {
 let ReviewResultsUser: BelongsTo<Review, User> ;
 let ReviewSubmittedUser: BelongsTo<Review, User>;
 const assosciate = () => {
-  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'userID', targetKey: 'userID', as: 'User' });
-  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submittedByID', targetKey: 'userID', as: 'SubmittedBy' });
+  ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'receiver_id', targetKey: '_id', as: 'receiver' });
+  ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submitter_id', targetKey: '_id', as: 'submitter' });
   return Review;
 }
 

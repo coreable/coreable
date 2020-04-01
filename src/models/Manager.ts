@@ -1,11 +1,11 @@
 import { Model, Sequelize, DataTypes } from "sequelize";
 import { Subject } from "./Subject";
-import { Billing } from "./Billing";
+// import { Billing } from "./Billing";
 import { generatePasswordHash, checkPassword } from "../lib/hash";
 
 class Manager extends Model {
   // PK
-  public managerID!: string;
+  public _id!: string;
 
   public email!: string;
   public firstName!: string;
@@ -17,11 +17,12 @@ class Manager extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public login: ((payload: string) => Promise<boolean>) | undefined;
+  public subjects!: [Subject];
 }
 
 const sync = (sequelize: Sequelize) => {
   Manager.init({
-    'managerID': {
+    '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
@@ -76,9 +77,9 @@ const sync = (sequelize: Sequelize) => {
 }
 
 let ManagerSubject;
-let ManagerBilling;
+// let ManagerBilling;
 const assosciate = () => {
-  ManagerSubject = Manager.belongsToMany(Subject, { through: 'MANAGER_SUBJECT', sourceKey: 'managerID', foreignKey: 'managerID' });
+  ManagerSubject = Manager.belongsToMany(Subject, { through: 'MANAGER_SUBJECT', sourceKey: '_id', foreignKey: 'manager_id', as: 'subjects' });
   // ManagerBilling = Manager.belongsToMany(Billing, { through: 'MANAGER_BILLING', sourceKey: 'managerID', foreignKey: 'managerID' });
   return Manager;
 }
@@ -88,5 +89,5 @@ export {
   sync,
   assosciate,
   ManagerSubject,
-  ManagerBilling
+  // ManagerBilling
 }

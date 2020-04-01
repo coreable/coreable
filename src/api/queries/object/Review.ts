@@ -10,13 +10,13 @@ import { User } from "../../../models/User";
 export default {
   type: ReviewObjectCommand,
   args: {
-    reviewID: {
+    _id: {
       type: GraphQLString,
     },
-    userID: {
+    receiver_id: {
       type: GraphQLString,
     },
-    submittedByID: {
+    submitter_id: {
       type: GraphQLString,
     }
   },
@@ -27,12 +27,12 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      if (!args.reviewID && !args.userID && !args.submittedByID) {
-        errors.push({ code: 'ER_ARGS', message: 'A reviewID, a userID or a submittedByID must be passed as arguments', path: 'args' });
+      if (!args._id && !args.receiver_id && !args.submitter_id) {
+        errors.push({ code: 'ER_ARGS', message: 'A Review _id, a receiver_id or a submitter_id must be passed as arguments', path: 'args' });
       }
     }
     if (!errors.length) {
-      review = await sequelize.models.Review.findOne({ where: args, include: [{ model: User, as: 'SubmittedBy' }, { model: User, as: 'User' }] });
+      review = await sequelize.models.Review.findOne({ where: args, include: [{ model: User, as: 'submitter' }, { model: User, as: 'receiver' }] });
       if (!review) {
         errors.push({ code: 'ER_REVIEW_UNKNOWN', message: `A review with args ${args} could not be found`, path: 'args' });
       }

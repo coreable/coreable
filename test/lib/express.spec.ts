@@ -1,5 +1,5 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
@@ -18,7 +18,7 @@ describe('Express [src/lib/express.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }

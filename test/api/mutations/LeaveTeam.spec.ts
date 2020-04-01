@@ -1,5 +1,5 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
@@ -22,7 +22,7 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }
@@ -36,8 +36,8 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
     });
     sessionToken = res1.body.data.register.data.token;
     targetTeam = await Team.findOne();
-    notTargetTeam = await Team.findOne({ where: { teamID: { [Op.not]: targetTeam.teamID }} });
-    const res3 = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
+    notTargetTeam = await Team.findOne({ where: { _id: { [Op.not]: targetTeam._id }} });
+    await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {
         joinTeam(inviteCode: "${targetTeam.inviteCode}") {
@@ -46,8 +46,8 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
               firstName
               email
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -76,14 +76,14 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', 'unittest').send({
       query: 
       `mutation {
-        leaveTeam(teamID: "${targetTeam.teamID}") {
+        leaveTeam(team_id: "${targetTeam._id}") {
           data {
             user {
               firstName
-              userID
+              _id
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -102,14 +102,14 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {
-        leaveTeam(teamID: "unittest") {
+        leaveTeam(team_id: "unittest") {
           data {
             user {
               firstName
-              userID
+              _id
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -128,14 +128,14 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {
-        leaveTeam(teamID: "${notTargetTeam.teamID}") {
+        leaveTeam(team_id: "${notTargetTeam._id}") {
           data {
             user {
               firstName
-              userID
+              _id
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -154,14 +154,14 @@ describe('LeaveTeam Mutation [src/api/mutations/LeaveTeam.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {
-        leaveTeam(teamID: "${targetTeam.teamID}") {
+        leaveTeam(team_id: "${targetTeam._id}") {
           data {
             user {
               firstName
-              userID
+              _id
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }

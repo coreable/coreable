@@ -1,6 +1,5 @@
 import { 
-  GraphQLObjectType, 
-  GraphQLList
+  GraphQLObjectType,
 } from "graphql";
 import { UserResolver } from "../../resolvers/User";
 

@@ -1,6 +1,5 @@
 import { 
-  GraphQLObjectType, 
-  GraphQLList
+  GraphQLObjectType
 } from "graphql";
 
 import { APIResolver } from "../resolvers/API"

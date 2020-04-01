@@ -10,10 +10,10 @@ import { Subject } from "../../../models/Subject";
 export default {
   type: TeamListCommand,
   args: {
-    teamID: {
+    _id: {
       type: GraphQLString,
     },
-    teamName: {
+    name: {
       type: GraphQLString
     },
     limit: {
@@ -34,12 +34,12 @@ export default {
       errors.push({ code: 'ER_UNAUTH', message: 'User unauthenticated', path: 'JWT' });
     }
     if (!errors.length) {
-      if (!args.teamID && !args.teamName) {
-        errors.push({ code: 'ER_ARGS', message: 'a teamId or a teamName must be passed as arguments', path: 'args' });
+      if (!args._id && !args.name) {
+        errors.push({ code: 'ER_ARGS', message: 'a _id or a name must be passed as arguments', path: 'args' });
       }
     }
     if (!errors.length) {
-      team = await sequelize.models.Team.findAll({ where: args, include: [{ model: Subject }], limit: limit, offset: offset });
+      team = await sequelize.models.Team.findAll({ where: args, include: [{ model: Subject, as: 'subjects' }], limit: limit, offset: offset });
       if (!team) {
         errors.push({ code: 'ER_TEAM_UNKNOWN', message: `Unable to find a team with args ${args}`, path: 'args' });
       }

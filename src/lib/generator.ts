@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { times } from 'lodash';
 import Faker from 'faker';
 import { User } from '../models/User';
 import { Team } from '../models/Team';
@@ -18,16 +18,16 @@ export async function generator() {
   await sequelize.sync({ force: true });
   let promises: any = [];
 
-  // User
-  _.times(15, (i) => {
+  // User (don't make this 10.)
+  times(15, (i) => {
     promises.push(async function () {
-      const user: any = await User.create({
+      const user = await User.create({
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
         password: Faker.random.alphaNumeric(10)
       });
-      return userIDs.push(user.userID);
+      return userIDs.push(user._id);
     });
   });
   await inSequence(promises).then(() => {
@@ -35,13 +35,13 @@ export async function generator() {
   });
 
   // Create subject
-  _.times(10, (i) => {
+  times(10, (i) => {
     promises.push(async function () {
       const subject = await Subject.create({
-        subjectName: Faker.name.jobTitle(),
+        name: Faker.name.jobTitle(),
         state: Faker.random.number({ min: 0, max: 3 })
       });
-      return subjectIDs.push(subject.subjectID);
+      return subjectIDs.push(subject._id);
     });
   });
   await inSequence(promises).then(() => {
@@ -49,14 +49,14 @@ export async function generator() {
   });
 
   // Team
-  _.times(10, () => {
+  times(10, () => {
     promises.push(async function () {
       const team = await Team.create({
-        teamName: Faker.commerce.productName(),
+        name: Faker.commerce.productName(),
         inviteCode: Faker.random.alphaNumeric(5),
-        subjectID: subjectIDs[Faker.random.number({ min: 0, max: 9 })]
+        subject_id: subjectIDs[Faker.random.number({ min: 0, max: 9 })]
       });
-      return teamIDs.push(team.teamID);
+      return teamIDs.push(team._id);
     })
   });
   await inSequence(promises).then(() => {
@@ -64,10 +64,10 @@ export async function generator() {
   });
 
   // Add user to team
-  _.times(10, (i) => {
+  times(10, (i) => {
     promises.push(async function () {
-      const user: any = await User.findOne({ where: { userID: userIDs[i] } });
-      const team = await Team.findOne({ where: { teamID: teamIDs[Faker.random.number({ min: 0, max: 9 })] } });
+      const user: any = await User.findOne({ where: { _id: userIDs[i] } });
+      const team: any = await Team.findOne({ where: { _id: teamIDs[Faker.random.number({ min: 0, max: 9 })] } });
       return await user.addTeam(team);
     });
   });
@@ -76,11 +76,11 @@ export async function generator() {
   });
 
   // Review
-  _.times(10, (i) => {
+  times(10, (i) => {
     promises.push(async function () {
       const review = await Review.create({
-        userID: userIDs[Faker.random.number({ min: 0, max: 14 })],
-        submittedByID: userIDs[Faker.random.number({ min: 0, max: 14 })],
+        receiver_id: userIDs[Faker.random.number({ min: 0, max: 14 })],
+        submitter_id: userIDs[Faker.random.number({ min: 0, max: 14 })],
         state: Faker.random.number({ min: 1, max: 3 }),
         emotionalResponse: Faker.random.number({ min: 1, max: 100 }),
         empathy: Faker.random.number({ min: 1, max: 100 }),
@@ -106,7 +106,7 @@ export async function generator() {
         signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
         verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
       });
-      return reviewIDs.push(review.reviewID);
+      return reviewIDs.push(review._id);
     });
   });
   await inSequence(promises).then(() => {
@@ -114,7 +114,7 @@ export async function generator() {
   });
 
   // Managers
-  _.times(5, (i) => {
+  times(5, (i) => {
     promises.push(async function () {
       const manager = await Manager.create({
         firstName: Faker.name.firstName(),
@@ -122,7 +122,7 @@ export async function generator() {
         email: Faker.internet.email(),
         password: Faker.random.alphaNumeric(10)
       });
-      return managerIDs.push(manager.managerID);
+      return managerIDs.push(manager._id);
     });
   });
   await inSequence(promises).then(() => {

@@ -3,27 +3,27 @@ import { User } from './User';
 import { Subject } from './Subject';
 
 class Team extends Model {
-  [x: string]: any;
-
   // PK
-  public teamID!: string;
+  public _id!: string;
 
-  public teamName!: string;
+  public name!: string;
   public inviteCode!: string;
+  public subject_id!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-  
+  public subject!: Subject;
+  public users!: [User];
 }
 
 const sync = (sequelize: Sequelize) => {
   Team.init({
-    'teamID': {
+    '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
-    'teamName': {
+    'name': {
       'type': DataTypes.STRING,
       'allowNull': false
     },
@@ -31,7 +31,7 @@ const sync = (sequelize: Sequelize) => {
       'type': DataTypes.STRING,
       'allowNull': false
     },
-    'subjectID': {
+    'subject_id': {
       'type': DataTypes.UUID,
       'allowNull': false
     }
@@ -46,8 +46,8 @@ const sync = (sequelize: Sequelize) => {
 let TeamUser;
 let TeamSubject;
 const assosciate = () => {
-  TeamUser = Team.belongsToMany(User, { through: 'USER_TEAM', sourceKey: 'teamID', foreignKey: 'teamID' });
-  TeamSubject = Team.belongsTo(Subject, { foreignKey: 'subjectID', targetKey: 'subjectID' });
+  TeamUser = Team.belongsToMany(User, { through: 'USER_TEAM', sourceKey: '_id', foreignKey: 'team_id', as: 'users' });
+  TeamSubject = Team.belongsTo(Subject, { targetKey: '_id', foreignKey: 'subject_id', as: 'subject' });
   return Team;
 }
 

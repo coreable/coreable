@@ -1,5 +1,5 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import { app } from '../../../../src/lib/express';
 import chaiHttp from 'chai-http';
 import { User } from '../../../../src/models/User';
@@ -18,7 +18,7 @@ describe('User Object Query [api/queries/object/User.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }
@@ -42,7 +42,7 @@ describe('User Object Query [api/queries/object/User.ts]', () => {
     const res = await chai.request(app).post('/graphQL').set('JWT', 'fakeSession').send({
       query: 
       `query {
-        user {
+        user (email: "unit@test.com") {
           data {
             user {
               firstName

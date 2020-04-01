@@ -1,6 +1,5 @@
 import { 
-  GraphQLObjectType, 
-  GraphQLList
+  GraphQLObjectType
 } from "graphql";
 
 import { TeamResolver } from "../../resolvers/Team";

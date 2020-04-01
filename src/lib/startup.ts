@@ -17,5 +17,4 @@ server.startup = (async () => {
   }
 })().then(() => true);
 
-
 export { server };

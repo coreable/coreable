@@ -8,6 +8,7 @@ import { CoreableError } from "../../models/CoreableError";
 import { encodeJWT } from "../../lib/hash";
 import { sequelize } from "../../lib/sequelize";
 import { SessionObjectCommand } from "../command/object/Session";
+import { Manager } from "../../models/Manager";
 
 export default {
   type: SessionObjectCommand,
@@ -30,6 +31,9 @@ export default {
     if (!errors.length) {
       user = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() } });
       if (!user) {
+        user = await sequelize.models.Manager.findOne({ where: { email: args.email.toLowerCase() }});
+      }
+      if (!user) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: 'email', message: `No user found with email ${args.email}` });
       }
     }
@@ -41,7 +45,7 @@ export default {
     }
     if (!errors.length) {
       try {
-        token = await encodeJWT({ userID: user.userID, email: user.email });
+        token = await encodeJWT({ _id: user._id, email: user.email, manager: user instanceof Manager });
       } catch (err) {
         errors.push({ code: err.code, path: 'JWT', message: err.message });
       }

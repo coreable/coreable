@@ -1,13 +1,16 @@
 import { Model, Sequelize, DataTypes } from "sequelize";
 import { Team } from "./Team";
-import { User } from "./User";
+// import { User } from "./User";
 import { Manager } from "./Manager";
 
 class Subject extends Model {
   // PK
-  public subjectID!: string;
-  public subjectName!: string;
+  public _id!: string;
+   
+  public name!: string;
   public state!: number;
+  public managers!: [Manager];
+  public teams!: [Team];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -15,12 +18,12 @@ class Subject extends Model {
 
 const sync = (sequelize: Sequelize) => {
   Subject.init({
-    'subjectID': {
+    '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
-    'subjectName': {
+    'name': {
       'type': DataTypes.STRING,
       'allowNull': false
     },
@@ -44,8 +47,8 @@ const sync = (sequelize: Sequelize) => {
 let SubjectTeam;
 let SubjectManager;
 const assosciate = () => {
-  SubjectTeam = Subject.hasMany(Team, { sourceKey: 'subjectID', foreignKey: 'subjectID' });
-  SubjectManager = Subject.belongsToMany(Manager, { through: 'MANAGER_SUBJECT', sourceKey: 'subjectID', foreignKey: 'subjectID' });
+  SubjectTeam = Subject.hasMany(Team, { sourceKey: '_id', foreignKey: 'subject_id', as: 'teams' });
+  SubjectManager = Subject.belongsToMany(Manager, { through: 'MANAGER_SUBJECT', sourceKey: '_id', foreignKey: 'subject_id', as: 'managers' });
   return Subject;
 }
 

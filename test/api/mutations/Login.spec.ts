@@ -1,5 +1,5 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
@@ -18,7 +18,7 @@ describe('Login Mutation [src/api/mutations/Login.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }
@@ -56,7 +56,7 @@ describe('Login Mutation [src/api/mutations/Login.ts]', () => {
           }
           data {
             user {
-              userID
+              _id
               email
               firstName
             }
@@ -80,7 +80,7 @@ describe('Login Mutation [src/api/mutations/Login.ts]', () => {
           }
           data {
             user {
-              userID
+              _id
               email
               firstName
             }
@@ -104,7 +104,7 @@ describe('Login Mutation [src/api/mutations/Login.ts]', () => {
           }
           data {
             user {
-              userID
+              _id
               email
               firstName
             }
@@ -128,7 +128,7 @@ describe('Login Mutation [src/api/mutations/Login.ts]', () => {
           }
           data {
             user {
-              userID
+              _id
               email
               firstName
             }

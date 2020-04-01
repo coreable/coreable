@@ -1,4 +1,8 @@
-import { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLBoolean } from "graphql";
+import { 
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLBoolean
+} from "graphql";
 import { Manager } from "../../models/Manager";
 
 export const SessionResolver = new GraphQLObjectType({
@@ -6,10 +10,10 @@ export const SessionResolver = new GraphQLObjectType({
   description: 'Accessible after authentication',
   fields: () => {
     return {
-      'userID': {
+      '_id': {
         type: GraphQLString,
         resolve(user, args, context) {
-          return user.userID;
+          return user._id;
         }
       },
       'email': {

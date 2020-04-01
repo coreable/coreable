@@ -1,5 +1,5 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
@@ -20,7 +20,7 @@ describe('JoinTeam Mutation [src/api/mutations/JoinTeam.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }
@@ -57,8 +57,8 @@ describe('JoinTeam Mutation [src/api/mutations/JoinTeam.ts]', () => {
               firstName
               email
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -83,8 +83,8 @@ describe('JoinTeam Mutation [src/api/mutations/JoinTeam.ts]', () => {
               firstName
               email
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -109,8 +109,8 @@ describe('JoinTeam Mutation [src/api/mutations/JoinTeam.ts]', () => {
               firstName
               email
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }
@@ -135,8 +135,8 @@ describe('JoinTeam Mutation [src/api/mutations/JoinTeam.ts]', () => {
               firstName
               email
               teams {
-                teamID
-                teamName
+                _id
+                name
               }
             }
           }

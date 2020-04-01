@@ -7,7 +7,7 @@ import * as Team from '../models/Team';
 import * as Review from '../models/Review';
 import * as Subject from '../models/Subject';
 import * as Manager from '../models/Manager';
-import * as Billing from '../models/Billing';
+// import * as Billing from '../models/Billing';
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;

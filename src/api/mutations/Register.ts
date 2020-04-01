@@ -1,7 +1,6 @@
 import {
   GraphQLNonNull,
-  GraphQLString,
-  GraphQLInt
+  GraphQLString
  } from "graphql";
  
 import { encodeJWT } from "../../lib/hash";
@@ -60,7 +59,7 @@ export default {
       }
     }
     if (!errors.length) {
-      token = await encodeJWT({ userID: user.userID, email: user.email });
+      token = await encodeJWT({ _id: user._id, email: user.email, manager: false });
     }
     return {
       'data': !errors.length ? {

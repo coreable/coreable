@@ -1,5 +1,4 @@
 import {
-  GraphQLInt,
   GraphQLString,
   GraphQLFloat
 } from "graphql";

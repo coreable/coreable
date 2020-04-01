@@ -9,15 +9,16 @@ import { ReviewObjectCommand } from "../command/object/Review";
 import { CoreableError } from "../../models/CoreableError";
 import { Team } from "../../models/Team";
 import { Review } from "../../models/Review";
+import { User } from "../../models/User";
 
 export default {
   type: ReviewObjectCommand,
   args: {
-    userID: {
+    receiver_id: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The user being reviewed'
     },
-    teamID: {
+    team_id: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The team they have in common'
     },
@@ -101,56 +102,56 @@ export default {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
     }
     if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.findOne({ where: { userID: args.userID }, include: [{ model: Team }] });
-      if (process.env.NODE_ENV === "test") {
-        userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { userID: args.userID }, include: [{ model: Team }] });
-      }
+      userBeingReviewed = await sequelize.models.User.findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });
+      // if (process.env.NODE_ENV === "test") {
+      //   userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });
+      // }
       if (!userBeingReviewed) {
-        errors.push({ code: 'ER_USER_UNKNOWN', path: 'userID', message: `No user found with userID ${args.userID}` });
+        errors.push({ code: 'ER_USER_UNKNOWN', path: '_id', message: `No user found with _id ${args.receiver_id}` });
       }
     }
     if (!errors.length) {
       let map: any = {};
-      for (const userTeam of context.USER.Teams) {
-        if (!map[userTeam.teamID]) {
-          map[userTeam.teamID] = userTeam.teamID;
+      for (const userTeam of context.USER.teams) {
+        if (!map[userTeam._id]) {
+          map[userTeam._id] = userTeam._id;
         }
       }
-      for (const userTeam of userBeingReviewed.Teams) {
-        if (map[userTeam.teamID] && map[userTeam.teamID] === args.teamID) {
+      for (const userTeam of userBeingReviewed.teams) {
+        if (map[userTeam._id] && map[userTeam._id] === args.team_id) {
           userCommonTeam = userTeam;
           break;
         }
       }
       if (!userCommonTeam) {
-        errors.push({ code: 'ER_TEAM_UNKNOWN', path: 'teamID', message: `Logged in user with user id ${context.USER.userID} and user being reviewed with user ID ${args.userID} have no common team with teamID ${args.teamID}` });
+        errors.push({ code: 'ER_TEAM_UNKNOWN', path: '_id', message: `Logged in user with _id ${context.USER._id} and user being reviewed with _id ${args.receiver_id} have no common team with _id ${args.team_id}` });
       }
     }
     if (!errors.length) {
       subject = await userCommonTeam.getSubject();
       if (!subject) {
-        errors.push({ code: 'ER_SUBJECT_UNKNOWN', path: 'teamID', message: `Team with teamID ${userCommonTeam.teamID} belongs to no subject!` });
+        errors.push({ code: 'ER_SUBJECT_UNKNOWN', path: '_id', message: `Team with _id ${userCommonTeam._id} belongs to no subject!` });
       }
     }
     if (!errors.length) {
       let hasCompleted = await sequelize.models.Review.findOne(
         {
           where: {
-            userID: args.userID,
-            submittedByID: context.USER.userID,
+            receiver_id: args.receiver_id,
+            submitter_id: context.USER._id,
             state: subject.state
           }
         }
       );
       if (hasCompleted) {
-        errors.push({ code: 'ER_REVIEW_COMPLETE', path: 'userID', message: `user with userID ${context.USER.userID} has already submitted a reivew on user with user ID ${args.userID} for stage ${subject.stage}` });
+        errors.push({ code: 'ER_REVIEW_COMPLETE', path: '_id', message: `user with _id ${context.USER._id} has already submitted a reivew on user with _id ${args.receiver_id} for state ${subject.state}` });
       }
     }
     if (!errors.length) {
       try {
         await Review.create({
-          userID: args.userID,
-          submittedByID: context.USER.userID,
+          receiver_id: args.receiver_id,
+          submitter_id: context.USER._id,
           state: subject.state,
           emotionalReponse: args.emotionalReponse,
           empathy: args.empathy,
@@ -182,7 +183,19 @@ export default {
     }
     return {
       'data': !errors.length ? {
-        'review': await sequelize.models.Review.findOne({ where: { userID: args.userID, submittedByID: context.USER.userID, state: subject.state }})
+        'review': await sequelize.models.Review.findOne(
+          { 
+            where: { 
+              receiver_id: args.receiver_id,
+              submitter_id: context.USER._id,
+              state: subject.state 
+            }, 
+            include: [
+              { model: User, as: 'receiver' },
+              { model: User, as: 'submitter' }
+            ] 
+          }
+        )
       }: null,
       'errors': errors.length > 0 ? errors : null
     };

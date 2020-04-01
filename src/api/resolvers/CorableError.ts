@@ -1,4 +1,7 @@
-import { GraphQLObjectType, GraphQLString } from "graphql";
+import { 
+  GraphQLObjectType,
+  GraphQLString
+} from "graphql";
 import { CoreableError } from "../../models/CoreableError";
 
 export const CoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({

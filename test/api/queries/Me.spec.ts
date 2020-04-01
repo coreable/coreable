@@ -1,9 +1,8 @@
-import mocha, { describe, it } from 'mocha';
-import chai, { expect, assert } from 'chai';
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
 import { app } from '../../../src/lib/express';
 import chaiHttp from 'chai-http';
 import { User } from '../../../src/models/User';
-import { userInfo } from 'os';
 
 chai.use(chaiHttp); 
 
@@ -19,7 +18,7 @@ describe('Me Query [api/queries/Me.ts]', () => {
             user {
               firstName
               email
-              userID
+              _id
             }
             token
           }

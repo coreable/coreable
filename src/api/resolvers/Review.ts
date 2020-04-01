@@ -1,4 +1,3 @@
-import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLInt,
@@ -13,34 +12,34 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
   description: 'The representation of a Review',
   fields: () => {
     return {
-      'reviewID': {
+      '_id': {
         type: GraphQLString,
         resolve(review, args, context) {
-          return review.reviewID;
+          return review._id;
         }
       },
-      'userID': {
+      'receiver_id': {
         type: GraphQLString,
         resolve(review, args, context) {
-          return review.userID;
+          return review.receiver_id;
         }
       },
-      'user': {
+      'receiver': {
         type: UserResolver,
         resolve(review, args, context) {
-          return review.User;
+          return review.receiver;
         }
       },
-      'submittedByID': {
+      'submitter_id': {
         type: GraphQLString,
         resolve(review, args, context) {
-          return review.submittedByID;
+          return review.submitter_id;
         }
       },
-      'submittedBy': {
+      'submitter': {
         type: UserResolver,
         resolve(review, args, context) {
-          return review.SubmittedBy;
+          return review.submitter;
         }
       },
       'emotionalResponse': {

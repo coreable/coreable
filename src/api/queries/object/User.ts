@@ -1,17 +1,17 @@
 import { sequelize } from "../../../lib/sequelize";
 import {
-  GraphQLInt,
   GraphQLString,
 } from "graphql";
 
 import { CoreableError } from "../../../models/CoreableError";
 import { UserObjectCommand } from "../../command/object/User";
 import { Team } from "../../../models/Team";
+import { Review } from "../../../models/Review";
 
 export default {
   type: UserObjectCommand, 
   args: {
-    userID: {
+    _id: {
       type: GraphQLString
     },
     email: {
@@ -25,12 +25,21 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      if (!args.userID && !args.email) {
-        errors.push({ code: 'ER_ARGS', message: 'A userID or email must be provided as arguments', path: 'args' });
+      if (!args._id && !args.email) {
+        errors.push({ code: 'ER_ARGS', message: 'A User _id or email must be provided as arguments', path: 'args' });
       }
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findOne({ where: args, include: [{ model: Team }] });
+      user = await sequelize.models.User.findOne(
+        { 
+          where: args,
+          include: [
+            { model: Team, as: 'teams' },
+            { model: Review, as: 'reviews', exclude: ['submitter_id'] },
+            { model: Review, as: 'submissions', exclude: ['receiver_id'] }
+          ]
+        }
+      );
       if (!user) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: `${args}`, message: `No user found with args ${args}` });
       }

@@ -4,6 +4,7 @@ import { Schema } from '../api/Schema';
 import { decodeJWT } from './hash';
 import { sequelize } from './sequelize';
 import { Team } from '../models/Team';
+import { Subject } from '../models/Subject';
 
 // A hack to add the JWT decoded token to the request object
 declare global {
@@ -31,16 +32,24 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // JWT Authorization
-app.use(async(req: Request, res: Response, next: NextFunction) => {
+app.use(async (req: Request, res: Response, next: NextFunction) => {
   const JWT_TOKEN: string | undefined = req.header("JWT");
   if (JWT_TOKEN) {
     try {
       req.JWT = await decodeJWT(JWT_TOKEN); // Decode for server sided use only
       res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
-      if (process.env.NODE_ENV !== "test") {
-        req.USER = await sequelize.models.User.findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] }); 
-      } else if (process.env.NODE_ENV === "test") {
-        req.USER = await sequelize.models.User.noCache().findOne({ where: { userID: req.JWT.userID }, include: [{ model: Team }] });
+      if (!req.JWT.manager) {
+        if (process.env.NODE_ENV === "test") {
+          req.USER = await sequelize.models.User.noCache().findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams' }] });
+        } else {
+          req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams' }] });
+        }
+      } else if (req.JWT.manager) {
+        if (process.env.NODE_ENV === "test") {
+          req.USER = await sequelize.models.Manager.noCache().findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
+        } else {
+          req.USER = await sequelize.models.Manager.findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
+        }
       }
       if (!req.USER) {
         throw new Error("Database, Cache or Client Header discrepancy");

@@ -10,10 +10,10 @@ import { SubjectListCommand } from "../../command/list/Subject";
 export default {
   type: SubjectListCommand,
   args: {
-    subjectID: {
+    _id: {
       type: GraphQLString,
     },
-    subjectName: {
+    name: {
       type: GraphQLString,
     },
     state: {
@@ -37,8 +37,8 @@ export default {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      if (!args.subjectID && !args.subjectName && !args.state) {
-        errors.push({ code: 'ER_ARGS', message: 'A subjectID, a subjectName or state must be passed as arguments', path: 'args' });
+      if (!args._id && !args.name && !args.state) {
+        errors.push({ code: 'ER_ARGS', message: 'A Subject _id, name or state must be passed as arguments', path: 'args' });
       }
     }
     if (!errors.length) {
