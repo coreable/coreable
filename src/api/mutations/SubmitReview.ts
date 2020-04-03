@@ -108,10 +108,7 @@ export default {
       }
     }
     if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });
-      // if (process.env.NODE_ENV === "test") {
-      //   userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });
-      // }
+      userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });
       if (!userBeingReviewed) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: '_id', message: `No user found with _id ${args.receiver_id}` });
       }
@@ -137,6 +134,12 @@ export default {
       subject = await userCommonTeam.getSubject();
       if (!subject) {
         errors.push({ code: 'ER_SUBJECT_UNKNOWN', path: '_id', message: `Team with _id ${userCommonTeam._id} belongs to no subject!` });
+      }
+      if ((args.receiver_id === context.USER._id) && subject.state !== 1) {
+        errors.push({ code: 'ER_REFLECTION_STATE', path: 'subject', message: `A user can only submit a reflection review during subject state 1` });
+      }
+      if (subject.state === 4) {
+        errors.push({ code: 'ER_SUBJECT_STATE', path: 'subject', message: `A user can only submit a review during subject states 1, 2 or 3` });
       }
     }
     if (!errors.length) {

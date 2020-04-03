@@ -8,6 +8,7 @@ import { CoreableError } from "../../../models/CoreableError";
 import { UserListCommand } from "../../command/list/User";
 import { Team } from "../../../models/Team";
 import { Review } from "../../../models/Review";
+import { Manager } from "../../../models/Manager";
 
 export default {
   type: UserListCommand, 
@@ -40,6 +41,11 @@ export default {
     delete args.limit;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
+    }
+    if (!errors.length) {
+      if (!(context.USER instanceof Manager)) {
+        errors.push({ code: 'ER_UNAUTH', message: 'Unauthorised access', path: 'JWT' });
+      }
     }
     if (!errors.length) {
       user = await sequelize.models.User.findAll(

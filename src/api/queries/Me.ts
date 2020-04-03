@@ -37,7 +37,7 @@ export default {
         );
       }
       if (!user) {
-        errors.push({ code: 'ER_USER_UNKNOWN', path: `${args}`, message: `No user found with args ${args}` });
+        errors.push({ code: 'ER_USER_UNKNOWN', path: `${args}`, message: `No user found with _id ${context.USER._id}` });
       }
     }
     return {

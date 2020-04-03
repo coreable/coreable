@@ -152,8 +152,8 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        min: 0,
-        max: 3
+        min: 1,
+        max: 4
       }
     }
   }, {

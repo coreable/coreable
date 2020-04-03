@@ -25,7 +25,7 @@ export async function generator() {
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         email: Faker.internet.email(),
-        password: Faker.random.alphaNumeric(10)
+        password: 'unittest'
       });
       return userIDs.push(user._id);
     });

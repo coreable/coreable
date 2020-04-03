@@ -117,7 +117,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             }
           }
           return sequelize.models.User.findAll(
-            { 
+            {
               where: { _id: { [Op.in]: pendingMemberIDs } },
               include: [
                 { model: Team, as: 'teams' },
@@ -126,6 +126,12 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
               ]
             }
           );
+        },
+        'reflection': {
+          type: ReviewResolver,
+          resolve(user: any, args: any, context: any) {
+            return sequelize.models.Review.findOne({ where: { submitter_id: user._id, receiver_id: user._id, state: 1 }});
+          }
         }
       }
     }
