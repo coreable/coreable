@@ -8,7 +8,7 @@ import MeQuery from './queries/Me';
 // import UserListQuery from './queries/list/User';
 // import ReviewObjectQuery from './queries/object/Review';
 // import ReviewListQuery from './queries/list/Review';
-// import TeamObjectQuery from './queries/object/Team';
+import TeamObjectQuery from './queries/object/Team';
 // import TeamListQuery from './queries/list/Team';
 // import SubjectObjectQuery from './queries/object/Subject';
 // import SubjectListQuery from './queries/list/Subject';
@@ -24,7 +24,7 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
       // 'users': UserListQuery,
       // 'reviews': ReviewListQuery,
       // 'review': ReviewObjectQuery,
-      // 'team': TeamObjectQuery,
+      'team': TeamObjectQuery,
       // 'teams': TeamListQuery,
       // 'subject': SubjectObjectQuery,
       // 'subjects': SubjectListQuery,

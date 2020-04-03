@@ -6,7 +6,7 @@ import {
 import { TeamObjectCommand } from "../../command/object/Team";
 import { CoreableError } from "../../../models/CoreableError";
 import { Subject } from "../../../models/Subject";
-import { Manager } from "../../../models/Manager";
+import { User } from "../../../models/User";
 
 export default {
   type: TeamObjectCommand,
@@ -25,17 +25,12 @@ export default {
       errors.push({ code: 'ER_UNAUTH', message: 'User unauthenticated', path: 'JWT' });
     }
     if (!errors.length) {
-      if (!(context.USER instanceof Manager)) {
-        errors.push({ code: 'ER_UNAUTH', message: 'Unauthorised access', path: 'JWT' });
-      }
-    }
-    if (!errors.length) {
       if (!args._id && !args.name) {
         errors.push({ code: 'ER_ARGS', message: 'a Team _id or a name must be passed as arguments', path: 'args' });
       }
     }
     if (!errors.length) {
-      team = await sequelize.models.Team.findOne({ where: args, include: [{ model: Subject, as: 'subjects' }] });
+      team = await sequelize.models.Team.findOne({ where: args, include: [{ model: Subject, as: 'subjects' }, { model: User, as: 'users' }] });
       if (!team) {
         errors.push({ code: 'ER_TEAM_UNKNOWN', message: `Unable to find a team with args ${args}`, path: 'args' });
       }

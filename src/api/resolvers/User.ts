@@ -48,7 +48,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: GraphQLList(TeamResolver),
         resolve(user: any, args, context) {
           if (user instanceof User) {
-            return user.teams;
+            if (context.USER._id === user._id || context.USER instanceof Manager) {
+              return user.teams;
+            }
           }
           return null;
         }
@@ -57,7 +59,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(SubjectResolver),
         resolve(user: any, args, context) {
           if (user instanceof Manager) {
-            return user.subjects;
+            if (context.USER._id === user._id || context.USER instanceof Manager) {
+              return user.subjects;
+            }
           }
           return null;
         }
@@ -72,7 +76,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(ReviewResolver),
         resolve(user: any, args, context) {
           if (user instanceof User) {
-            return user.reviews;
+            if (context.USER._id === user._id || context.USER instanceof Manager) {
+              return user.reviews;
+            }
           }
           return null;
         }
@@ -81,7 +87,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(ReviewResolver),
         resolve(user: any, args, context) {
           if (user instanceof User) {
-            return user.submissions;
+            if (context.USER._id === user._id || context.USER instanceof Manager) {
+              return user.submissions;
+            }
           }
           return null;
         }
@@ -90,6 +98,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(UserResolver),
         async resolve(user, args, context) {
           if (user instanceof Manager) {
+            return null;
+          }
+          if (context.USER._id !== user._id && !(context.USER instanceof Manager)) {
             return null;
           }
           // put all team members in a map

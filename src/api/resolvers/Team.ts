@@ -1,10 +1,12 @@
 import {
   GraphQLObjectType,
-  GraphQLString
+  GraphQLString,
+  GraphQLList
 } from 'graphql';
 
 import { Team } from '../../models/Team';
 import { SubjectResolver } from './Subject';
+import { UserResolver } from './User';
 
 export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   name: 'TeamResolver',
@@ -33,6 +35,12 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
         type: SubjectResolver,
         resolve(team, args, context) {
           return team.subject;
+        }
+      },
+      'users': {
+        type: new GraphQLList(UserResolver),
+        resolve(team, args, context) {
+          return team.users;
         }
       }
     }
