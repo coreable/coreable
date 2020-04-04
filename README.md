@@ -19,13 +19,18 @@
 ###### Documentation
 
 `npm run docz:dev   // Run the documentation`
+
 `npm run doc:build  // Build the documentation`
+
 `npm run docz:serve // Serve the documentation for production`
 
 ###### GraphQL
 `npm run api:dev   // Run the GraphQL API`
+
 `npm run api:build // Build the GraphQL API`
+
 `npm run api:serve // Serve the GraphQL API for production`
+
 `npm run api:test  // Run the unit tests with Instanbul, Mocha and Chai`
 
 
