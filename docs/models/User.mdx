@@ -29,6 +29,8 @@ menu: Models
 > |submissions|[[Review](/docs/models/Review.mdx)]|yes|The reviews this user has submit|
 > |reviews|[[Review](/docs/models/Review.mdx)]|yes|The reviews this user has received|
 > |reflection|[[Review](/docs/models/Review.mdx)]|yes|The review this user submitted on theirself|
+> |updatedAt|Date|yes|When the record was last modified|
+> |createdAt|Date|yes|When the record was created|
 
 ## MySQL Table
 
@@ -41,6 +43,8 @@ menu: Models
 > |lastName|string|no|Their last name|
 > |passwordResetToken|string|yes|A randomly generate token, emailed to them to reset their password with|
 > |passwordResetExpiry|date|yes|The date and time the password reset token expires|
+> |updatedAt|datettime|no|When the record was last modified|
+> |createdAt|datetime|no|When the record was created|
 
 ## Assosciations
 

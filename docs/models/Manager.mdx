@@ -26,18 +26,22 @@ menu: Models
 > |passwordResetToken|string|yes|A randomly generate token, emailed to them to reset their password|
 > |passwordResetExpiry|date|yes|The date and time the password reset token expires|
 > |subjects|[[Subject](/docs/models/Subject.mdx)]|yes|This subjects this manager manages|
+> |updatedAt|datetime|yes|When the record was last modified|
+> |createdAt|datetime|yes|When the record was created|
 
 ## MySQL Table
 
 > |Field|Type|Nullable?|Description|
 > |--|--|--|--|
-> |_id|string|no|The managers ID|
-> |email|string|no|A `unique` email|
-> |password|string|no|A password hash|
-> |firstName|string|no|Their first name|
-> |lastName|string|no|Their last name|
-> |passwordResetToken|string|yes|A randomly generate token, emailed to them to reset their password with|
-> |passwordResetExpiry|date|yes|The date and time the password reset token expires|
+> |_id|char(36)|no|The managers ID|
+> |email|varchar(255)|no|A `unique` email|
+> |password|varchar(255)|no|A password hash|
+> |firstName|varchar(255)|no|Their first name|
+> |lastName|varchar(255)|no|Their last name|
+> |passwordResetToken|varchar(255)|yes|A randomly generate token, emailed to them to reset their password with|
+> |passwordResetExpiry|datetime|yes|The date and time the password reset token expires|
+> |updatedAt|datetime|no|When the record was last modified|
+> |createdAt|datetime|no|When the record was created|
 
 ## Assosciations
 

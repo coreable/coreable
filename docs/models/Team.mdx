@@ -24,15 +24,19 @@ menu: Models
 > |subject_id|string|yes|The id of the subject the team belongs to|
 > |subject|[Subject](/docs/models/Subject.mdx)|yes|The subject the team belongs to|
 > |users|[[User](/docs/models/User.mdx)]|yes|The users in the team|
+> |updatedAt|Date|yes|When the record was last modified|
+> |createdAt|Date|yes|When the record was created|
 
 ## MySQL Table
 
 > |Field|Type|Nullable?|Description|
 > |--|--|--|--|
-> |_id|string|no|The teams ID|
-> |name|string|no|The teams name|
-> |inviteCode|string|no|The code users use to join the team|
-> |subject_id|string|yes|The id of the subject the team belongs to|
+> |_id|char(36)|no|The teams ID|
+> |name|varchar(255)|no|The teams name|
+> |inviteCode|varchar(255)|no|The code users use to join the team|
+> |subject_id|char(36)|yes|The id of the subject the team belongs to|
+> |updatedAt|datettime|no|When the record was last modified|
+> |createdAt|datetime|no|When the record was created|
 
 ## Assosciations
 

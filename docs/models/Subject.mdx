@@ -23,14 +23,18 @@ menu: Models
 > |state|number|yes|The state the subject is in|
 > |managers|[[Manager](/docs/models/Manager.mdx)]|yes|The managers of the subject|
 > |teams|[[Team](/docs/models/Team.mdx)]|yes|The teams the subject has|
+> |updatedAt|Date|yes|When the record was last modified|
+> |createdAt|Date|yes|When the record was created|
 
 ## MySQL Table
 
 > |Field|Type|Nullable?|Description|
 > |--|--|--|--|
-> |_id|string|no|The subject ID|
-> |name|string|no|The name of the subject (min 1, max 3)|
-> |state|unsigned integer|no|The state the subject is in|
+> |_id|char(36)|no|The subject ID|
+> |name|varchar(255)|no|The name of the subject (min 1, max 3)|
+> |state|int|no|The state the subject is in|
+> |updatedAt|datettime|no|When the record was last modified|
+> |createdAt|datetime|no|When the record was created|
 
 ## Assosciations
 

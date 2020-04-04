@@ -47,38 +47,42 @@ menu: Models
 > |verbalAttentiveFeedback|number|yes|0 to 100|
 > |workDemands|number|yes|0 to 100|
 > |state|number|yes|0 to 100|
+> |updatedAt|Date|yes|When the record was last modified|
+> |createdAt|Date|yes|When the record was created|
 
 ## MySQL Table
 
 > |Field|Type|Nullable?|Description|
 > |--|--|--|--|
-> |_id|string|no|The review ID|
-> |receiver_id|string|no|The ID of the user who received the review|
-> |submitter_id|string|no|The ID of the user who submitted the review|
-> |calm|unsigned integer|no|0 to 100|
-> |change|unsigned integer|no|0 to 100|
-> |clearInstructions|unsigned integer|no|0 to 100|
-> |cooperatively|unsigned integer|no|0 to 100|
-> |crossTeam|unsigned integer|no|0 to 100|
-> |distractions|unsigned integer|no|0 to 100|
-> |easilyExplainsComplexIdeas|unsigned integer|no|0 to 100|
-> |emotionalResponse|unsigned integer|no|0 to 100|
-> |empathy|unsigned integer|no|0 to 100|
-> |eyeContact|unsigned integer|no|0 to 100|
-> |faith|unsigned integer|no|0 to 100|
-> |influences|unsigned integer|no|0 to 100|
-> |managesOwn|unsigned integer|no|0 to 100|
-> |newIdeas|unsigned integer|no|0 to 100|
-> |openToShare|unsigned integer|no|0 to 100|
-> |positiveBelief|unsigned integer|no|0 to 100|
-> |preventsMisunderstandings|unsigned integer|no|0 to 100|
-> |proactive|unsigned integer|no|0 to 100|
-> |resilienceFeedback|unsigned integer|no|0 to 100|
-> |signifiesInterest|unsigned integer|no|0 to 100|
-> |tone|unsigned integer|no|0 to 100|
-> |verbalAttentiveFeedback|unsigned integer|no|0 to 100|
-> |workDemands|unsigned integer|no|0 to 100|
-> |state|unsigned integer|no|0 to 100|
+> |_id|char(26)|no|The review ID|
+> |receiver_id|char(36)|no|The ID of the user who received the review|
+> |submitter_id|char(36)|no|The ID of the user who submitted the review|
+> |calm|int unsigned|no|0 to 100|
+> |change|int unsigned|no|0 to 100|
+> |clearInstructions|int unsigned|no|0 to 100|
+> |cooperatively|int unsigned|no|0 to 100|
+> |crossTeam|int unsignedno|0 to 100|
+> |distractions|int unsignedno|0 to 100|
+> |easilyExplainsComplexIdeas|int unsigned|no|0 to 100|
+> |emotionalResponse|int unsigned|no|0 to 100|
+> |empathy|int unsigned|no|0 to 100|
+> |eyeContact|int unsigned|no|0 to 100|
+> |faith|int unsigned|no|0 to 100|
+> |influences|int unsigned|no|0 to 100|
+> |managesOwn|int unsigned|no|0 to 100|
+> |newIdeas|int unsigned|no|0 to 100|
+> |openToShare|int unsigned|no|0 to 100|
+> |positiveBelief|int unsigned|no|0 to 100|
+> |preventsMisunderstandings|int unsigned|no|0 to 100|
+> |proactive|int unsigned|no|0 to 100|
+> |resilienceFeedback|int unsigned|no|0 to 100|
+> |signifiesInterest|int unsigned|no|0 to 100|
+> |tone|int unsigned|no|0 to 100|
+> |verbalAttentiveFeedback|int unsigned|no|0 to 100|
+> |workDemands|int unsigned|no|0 to 100|
+> |state|int unsigned|no|0 to 100|
+> |updatedAt|datetime|no|When the record was last modified|
+> |createdAt|datetime|no|When the record was created|
 
 ## Assosciations
 
