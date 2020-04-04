@@ -108,7 +108,7 @@ export default {
       }
     }
     if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams' }] });
+      userBeingReviewed = await sequelize.models.User.noCache().findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
       if (!userBeingReviewed) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: '_id', message: `No user found with _id ${args.receiver_id}` });
       }

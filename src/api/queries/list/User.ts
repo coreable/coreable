@@ -52,7 +52,7 @@ export default {
         { 
           where: args,
           include: [
-            { model: Team, as: 'teams' },
+            { model: Team, as: 'teams', exclude: ['inviteCode'] },
             { model: Review, as: 'reviews', exclude: ['receiver_id'] },
             { model: Review, as: 'submissions', exclude: ['submitter_id'] }
           ],

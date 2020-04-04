@@ -23,6 +23,7 @@ class User extends Model {
   public teams!: [Team];
   public submissions!: [Review];
   public reviews!: [Review];
+  public reflection!: Review;
 }
 
 const sync = (sequelize: Sequelize) => {

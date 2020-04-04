@@ -13,7 +13,7 @@ import { ReviewResolver } from './Review';
 import { SubjectResolver } from './Subject';
 import { Op } from 'sequelize';
 import { Team } from '../../models/Team';
-import { Review } from '../../models/Review';
+// import { Review } from '../../models/Review';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
@@ -131,18 +131,21 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             {
               where: { _id: { [Op.in]: pendingMemberIDs } },
               include: [
-                { model: Team, as: 'teams' },
-                { model: Review, as: 'reviews', exclude: ['submitter_id'] },
-                { model: Review, as: 'submissions', exclude: ['receiver_id'] }
+                { model: Team, as: 'teams', exclude: ['inviteCode'] },
+                // { model: Review, as: 'reviews', exclude: ['submitter_id'] },
+                // { model: Review, as: 'submissions', exclude: ['receiver_id'] }
               ]
             }
           );
-        },
-        'reflection': {
-          type: ReviewResolver,
-          resolve(user: any, args: any, context: any) {
-            return sequelize.models.Review.findOne({ where: { submitter_id: user._id, receiver_id: user._id, state: 1 }});
+        }
+      },
+      'reflection': {
+        type: ReviewResolver,
+        resolve(user: any, args: any, context: any) {
+          if (user instanceof User) {
+            return sequelize.models.Review.findOne({ where: { submitter_id: user._id, receiver_id: user._id, state: 1 } });
           }
+          return null;
         }
       }
     }

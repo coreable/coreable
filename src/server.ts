@@ -9,9 +9,11 @@ export default (
     return createServer(app).listen(
       config.HTTP.PORT, () => 
       process.env.NODE_ENV === 'development' ? console.log(
-        `View GraphiQL, an in-browser IDE, to explore your site's data and schema
+        `
+        View GraphiQL, an in-browser IDE, to explore your site's data and schema
 
-          http://localhost:${config.HTTP.PORT}/graphql`
+          http://localhost:${config.HTTP.PORT}/graphql
+        `
       ) : null
     );
   }

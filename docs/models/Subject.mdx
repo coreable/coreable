@@ -1,0 +1,48 @@
+---
+name: Subject
+route: /docs/models/subject
+menu: Models
+---
+
+# Subject
+
+## Declaration
+
+> class Subject
+
+## Description
+
+> A subject that a manager creates, the subject has the state that reviews are submitted during
+
+## Fields
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|yes|The subject ID|
+> |name|string|yes|The name of the subject|
+> |state|number|yes|The state the subject is in|
+> |managers|[Manager]|yes|The managers of the subject|
+> |teams|[Team]|yes|The teams the subject has|
+
+## MySQL Table
+
+> ### Subject
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|no|The subject ID|
+> |name|string|no|The name of the subject (min 1, max 3)|
+> |state|unsigned integer|no|The state the subject is in|
+
+## Assosciations
+
+> A subject has many managers (via table `MANAGER_SUBJECT`)
+>
+> A subject belongs to many teams
+
+## Methods
+
+> None
+
+## Hooks
+
+> None

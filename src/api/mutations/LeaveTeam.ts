@@ -54,7 +54,7 @@ export default {
     }
     return {
       'data': !errors.length ? {
-        'user': await sequelize.models.User.findOne({ where: { _id: context.USER._id }, include: [{ model: Team, as: 'teams' }] }),
+        'user': await sequelize.models.User.findOne({ where: { _id: context.USER._id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] }),
       } : null,
       'errors': errors.length > 0 ? errors : null
     };

@@ -1,0 +1,49 @@
+---
+name: Team
+route: /docs/models/team
+menu: Models
+---
+
+# Team
+
+## Declaration
+
+> class Team
+
+## Description
+
+> A team that links users together
+
+## Fields
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|yes|The teams ID|
+> |name|string|yes|The teams name|
+> |inviteCode|string|yes|The code users use to join the team|
+> |subject_id|string|yes|The id of the subject the team belongs to|
+> |subject|Subject|yes|The subject the team belongs to|
+> |users|[User]|yes|The users in the team|
+
+## MySQL Table
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|no|The teams ID|
+> |name|string|no|The teams name|
+> |inviteCode|string|no|The code users use to join the team|
+> |subject_id|string|yes|The id of the subject the team belongs to|
+
+## Assosciations
+
+> A team has many users (via table `USER_TEAM`)
+>
+> A team belongs to a subject (via key `subject_id`)
+
+## Methods
+
+> None
+
+## Hooks
+
+> None

@@ -31,7 +31,7 @@ export default {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User already authenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() }, include: [{ model: Team, as: 'teams' }] });
+      user = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
       if (!user) {
         user = await sequelize.models.Manager.findOne({ where: { email: args.email.toLowerCase() }, include: [{ model: Subject, as: 'subjects' }] });
       }

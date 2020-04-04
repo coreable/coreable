@@ -1,0 +1,69 @@
+---
+name: Login
+route: /docs/mutations/login
+menu: Mutations
+---
+
+# Login
+
+## Declaration
+
+> login() {}
+
+## Description
+
+> The method to log a user in and compare a password.
+
+## Pre Conditons
+
+> The user must not be logged in
+
+## Parameters
+
+> | Field | Type  | Required? |
+> |:-:|:-:|:-:|
+> | email | String | Yes |
+> | password | String | Yes |
+
+## Shell 
+
+```graphql
+mutation {
+  login(email: "", password: "") {
+
+  }
+}
+```
+
+## Example
+
+###### Note 1
+
+> The token is the most important return value
+> 
+> The token must be sent in the header as 'JWT' with every GET or POST request
+
+###### Note 2
+
+> Data is purposefully hidden, only 4 fields from the user are visible after a correct password
+
+```graphql
+mutation {
+  login (email: "", password: "") {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      user {
+        _id
+        email	
+        manager
+        firstName
+      }
+      token
+    }
+  }
+}
+```

@@ -150,6 +150,12 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.crossTeam;
         }
       },
+      'resilienceFeedback': {
+        type: GraphQLInt,
+        resolve(review, args, context) {
+          return review.resilienceFeedback;
+        }
+      },
       'distractions': {
         type: GraphQLInt,
         resolve(review, args, context) {

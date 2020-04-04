@@ -11,29 +11,29 @@ class Review extends Model {
   public submitter_id!: string;
   public submitter!: User;
 
-  public emotionalResponse!: number;
-  public empathy!: number;
-  public managesOwn!: number;
-  public faith!: number;
-  public cooperatively!: number;
-  public positiveBelief!: number;
-  public resilienceFeedback!: number;
   public calm!: number;
   public change!: number;
-  public newIdeas!: number;
-  public workDemands!: number;
-  public proactive!: number;
-  public influences!: number;
   public clearInstructions!: number;
-  public preventsMisunderstandings!: number;
-  public easilyExplainsComplexIdeas!: number;
-  public openToShare!: number;
-  public tone!: number;
+  public cooperatively!: number;
   public crossTeam!: number;
   public distractions!: number;
+  public easilyExplainsComplexIdeas!: number;
+  public emotionalResponse!: number;
+  public empathy!: number;
   public eyeContact!: number;
+  public faith!: number;
+  public influences!: number;
+  public managesOwn!: number;
+  public newIdeas!: number;
+  public openToShare!: number;
+  public positiveBelief!: number;
+  public preventsMisunderstandings!: number;
+  public proactive!: number;
+  public resilienceFeedback!: number;
   public signifiesInterest!: number;
+  public tone!: number;
   public verbalAttentiveFeedback!: number;
+  public workDemands!: number;  
   // ??????
   public state!: number;
 

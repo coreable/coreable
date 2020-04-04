@@ -1,0 +1,53 @@
+---
+name: API
+route: /docs/queries/api
+menu: Queries
+---
+
+# API
+
+## Declaration
+
+> API {}
+
+## Description
+
+> An unprotected end point of the API to return the server time and server environment
+
+## Pre Conditions
+
+> None
+
+## Parameters
+
+> None
+
+## Shell
+
+```graphql
+query {
+  API {
+
+  }
+}
+``` 
+
+## Example
+
+```graphql
+query {
+  API {
+    data {
+      API {
+        env
+        time
+      }
+    }
+    errors {
+      code
+      path
+      message
+    }
+  }
+}
+```

@@ -1,0 +1,95 @@
+---
+name: Review
+route: /docs/models/review
+menu: Models
+---
+
+# Review
+
+## Declaration
+
+> class Review
+
+## Description
+
+> A review that has been entered into the system by a user to assess a team members soft skills
+
+## Fields
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|yes|The review ID|
+> |receiver_id|string|yes|The ID of the user who received the review|
+> |receiver|User|yes|The user who received the review|
+> |submitter_id|string|yes|The ID of the user who submitted the review|
+> |submitter|User|yes|The user who submitted the review|
+> |calm|number|yes|0 to 100|
+> |change|number|yes|0 to 100|
+> |clearInstructions|number|yes|0 to 100|
+> |cooperatively|number|yes|0 to 100|
+> |crossTeam|number|yes|0 to 100|
+> |distractions|number|yes|0 to 100|
+> |easilyExplainsComplexIdeas|number|yes|0 to 100|
+> |emotionalResponse|number|yes|0 to 100|
+> |empathy|number|yes|0 to 100|
+> |eyeContact|number|yes|0 to 100|
+> |faith|number|yes|0 to 100|
+> |influences|number|yes|0 to 100|
+> |managesOwn|number|yes|0 to 100|
+> |newIdeas|number|yes|0 to 100|
+> |openToShare|number|yes|0 to 100|
+> |positiveBelief|number|yes|0 to 100|
+> |preventsMisunderstandings|number|yes|0 to 100|
+> |proactive|number|yes|0 to 100|
+> |resilienceFeedback|number|yes|0 to 100|
+> |signifiesInterest|number|yes|0 to 100|
+> |tone|number|yes|0 to 100|
+> |verbalAttentiveFeedback|number|yes|0 to 100|
+> |workDemands|number|yes|0 to 100|
+> |state|number|yes|0 to 100|
+
+## MySQL Table
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|no|The review ID|
+> |receiver_id|string|no|The ID of the user who received the review|
+> |submitter_id|string|no|The ID of the user who submitted the review|
+> |calm|unsigned integer|no|0 to 100|
+> |change|unsigned integer|no|0 to 100|
+> |clearInstructions|unsigned integer|no|0 to 100|
+> |cooperatively|unsigned integer|no|0 to 100|
+> |crossTeam|unsigned integer|no|0 to 100|
+> |distractions|unsigned integer|no|0 to 100|
+> |easilyExplainsComplexIdeas|unsigned integer|no|0 to 100|
+> |emotionalResponse|unsigned integer|no|0 to 100|
+> |empathy|unsigned integer|no|0 to 100|
+> |eyeContact|unsigned integer|no|0 to 100|
+> |faith|unsigned integer|no|0 to 100|
+> |influences|unsigned integer|no|0 to 100|
+> |managesOwn|unsigned integer|no|0 to 100|
+> |newIdeas|unsigned integer|no|0 to 100|
+> |openToShare|unsigned integer|no|0 to 100|
+> |positiveBelief|unsigned integer|no|0 to 100|
+> |preventsMisunderstandings|unsigned integer|no|0 to 100|
+> |proactive|unsigned integer|no|0 to 100|
+> |resilienceFeedback|unsigned integer|no|0 to 100|
+> |signifiesInterest|unsigned integer|no|0 to 100|
+> |tone|unsigned integer|no|0 to 100|
+> |verbalAttentiveFeedback|unsigned integer|no|0 to 100|
+> |workDemands|unsigned integer|no|0 to 100|
+> |state|unsigned integer|no|0 to 100|
+
+## Assosciations
+
+> A review belongs to a user (via key `receiver_id`)
+>
+> A review belongs to a user (via key `submitter_id`)
+
+## Methods
+
+> None
+
+## Hooks
+
+> None

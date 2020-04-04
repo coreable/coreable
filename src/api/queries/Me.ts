@@ -21,10 +21,14 @@ export default {
           {
             where:  { _id: context.USER._id },
             include: [
-              { model: Team, as: 'teams', include: [
+              {
+                model: Team,
+                as: 'teams', 
+                include: [
                   { model: Subject, as: 'subject' },
                   { model: User, as: 'users' }
-                ] 
+                ], 
+                exclude: ['inviteCode']
               },
               { model: Review, as: 'reviews', exclude: ['submitter_id'] },
               { model: Review, as: 'submissions', exclude: ['receiver_id'] }

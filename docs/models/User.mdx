@@ -1,0 +1,55 @@
+---
+name: User
+route: /docs/models/user
+menu: Models
+---
+
+# User
+
+## Declaration
+
+> class User
+
+## Description
+
+> A user who has registered in the system
+
+## Fields
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|yes|The users ID|
+> |email|string|yes|A `unique` email|
+> |password|string|yes|A password hash|
+> |firstName|string|yes|Their first name|
+> |lastName|string|yes|Their last name|
+> |passwordResetToken|string|yes|A randomly generate token, emailed to them to reset their password|
+> |passwordResetExpiry|date|yes|The date and time the password reset token expires|
+
+## MySQL Table
+
+> |Field|Type|Nullable?|Description|
+> |--|--|--|--|
+> |_id|string|no|The users ID|
+> |email|string|no|A `unique` email|
+> |password|string|no|A password hash|
+> |firstName|string|no|Their first name|
+> |lastName|string|no|Their last name|
+> |passwordResetToken|string|yes|A randomly generate token, emailed to them to reset their password with|
+> |passwordResetExpiry|date|yes|The date and time the password reset token expires|
+
+## Assosciations
+
+> A user has many teams (via table `USER_TEAM`)
+
+## Methods
+
+> |Function|Description|Return Type|
+> |--|--|--|
+> |login(password) { ... } |Compares an input password to the hashed password|boolean|
+
+## Hooks
+
+> |Hook|Description|Return Type|
+> |--|--|--|
+> |BeforeCreate|Takes the input password, encrypts it and stores the hash value automatically|void|

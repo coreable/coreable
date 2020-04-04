@@ -4,7 +4,7 @@
 ### Installing the dependancies
 
   
-`npm i`
+`npm install`
 
   
 ### Start the SQL Server with docker-compose
@@ -25,6 +25,7 @@
 `npm run docz:serve // Serve the documentation for production`
 
 ###### GraphQL
+
 `npm run api:dev   // Run the GraphQL API`
 
 `npm run api:build // Build the GraphQL API`

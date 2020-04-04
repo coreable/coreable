@@ -1,0 +1,71 @@
+---
+name: Register
+route: /docs/mutations/register
+menu: Mutations
+---
+
+# Register
+
+## Declaration
+
+> register() {}
+
+## Description
+
+> The method to register a user
+
+## Pre Conditons
+
+> The user must not be logged in
+
+## Parameters
+
+> | Field | Type  | Required? |
+> |:-:|:-:|:-:|
+> | email | String | Yes |
+> | password | String | Yes |
+> | firstName | String | Yes |
+> | lastName | String | Yes |
+
+## Shell 
+
+```graphql
+mutation {
+  register(email: "", password: "", firstName: "", lastName: "") {
+
+  }
+}
+```
+
+## Example
+
+###### Note 1
+
+> The token is the most important return value
+> 
+> The token must be sent in the header as 'JWT' with every GET or POST request
+
+###### Note 2
+
+> Data is purposefully hidden, only 4 fields from the user are visible after a registration of a new account
+
+```graphql
+mutation {
+  register(email: "", password: "", firstName: "", lastName: "") {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      user {
+        _id
+        email	
+        manager
+        firstName
+      }
+      token
+    }
+  }
+}
+```
