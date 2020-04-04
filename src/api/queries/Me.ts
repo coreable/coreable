@@ -5,6 +5,7 @@ import { UserObjectCommand } from "../command/object/User";
 import { Team } from "../../models/Team";
 import { Review } from "../../models/Review";
 import { Subject } from "../../models/Subject";
+import { User } from "../../models/User";
 
 export default {
   type: UserObjectCommand, 
@@ -18,9 +19,13 @@ export default {
       if (!context.USER.manager) {
         user = await sequelize.models.User.noCache().findOne(
           {
-            where:  { _id: context.USER._id } ,
+            where:  { _id: context.USER._id },
             include: [
-              { model: Team, as: 'teams' },
+              { model: Team, as: 'teams', include: [
+                  { model: Subject, as: 'subject' },
+                  { model: User, as: 'users' }
+                ] 
+              },
               { model: Review, as: 'reviews', exclude: ['submitter_id'] },
               { model: Review, as: 'submissions', exclude: ['receiver_id'] }
             ]

@@ -4,7 +4,9 @@ import { app } from '../../../src/lib/express';
 import chaiHttp from 'chai-http';
 import { User } from '../../../src/models/User';
 
-chai.use(chaiHttp); 
+chai.use(chaiHttp);
+
+import { sequelize } from '../../../src/lib/sequelize';
 
 describe('Me Query [api/queries/Me.ts]', () => { 
   let sessionToken: string;
@@ -33,6 +35,11 @@ describe('Me Query [api/queries/Me.ts]', () => {
     sessionToken = res.body.data.register.data.token;
     return;
   });
+
+  beforeEach(() => {
+    sequelize.models.User.clearCacheAll();
+  });
+
 
   after(async() => {
     return await User.destroy({ where: { 'email': 'unit@test.com' }});

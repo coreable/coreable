@@ -4,6 +4,7 @@ import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
 import { User } from '../../src/models/User';
+import { sequelize } from '../../src/lib/sequelize';
 import { app } from '../../src/lib/express';
 
 describe('Express [src/lib/express.ts]', () => {
@@ -32,6 +33,10 @@ describe('Express [src/lib/express.ts]', () => {
     });
     sessionToken = res1.body.data.register.data.token;
     return;
+  });
+
+  beforeEach(() => {
+    sequelize.models.User.clearCacheAll();
   });
 
   after(async() => {

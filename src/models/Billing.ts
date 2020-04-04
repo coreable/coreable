@@ -1,5 +1,5 @@
 import { Model, Sequelize, DataTypes } from "sequelize";
-import { Manager } from "./Manager";
+// import { Manager } from "./Manager";
 
 class Billing extends Model {
   // PK

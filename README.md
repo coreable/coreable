@@ -1,4 +1,4 @@
-# Coreable Back End
+# Coreable GraphQL API Back End
 
 ### Install dependancies
 
@@ -18,7 +18,7 @@
 
 ### Build for production
 
-`npm run build`
+`npm run api:build`
 
 ### Access Server
 

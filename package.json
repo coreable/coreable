@@ -4,10 +4,13 @@
   "description": "",
   "main": "build/server.js",
   "scripts": {
-    "start:dev": "nodemon",
-    "build": "rimraf ./build && tsc",
-    "start": "npm run build && NODE_ENV=production node build/server.js",
-    "test": "rimraf ./.nyc_output && NODE_ENV=test nyc mocha --recursive --timeout 10000 -r ts-node/register \"test/**/*.spec.ts\""
+    "docz:dev": "docz dev --src='./docs'",
+    "docz:build": "rimraf ./.docz && docz build --src='./docs'",
+    "docz:serve": "npm run docz:build && docz serve",
+    "api:dev": "nodemon",
+    "api:build": "rimraf ./build/src && tsc -p ./src/tsconfig.json",
+    "api:start": "npm run api:build && NODE_ENV=production node ./build/src/server.js",
+    "api:test": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./test/tsconfig.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"test/**/*.spec.ts\""
   },
   "keywords": [],
   "author": "Jake Walklate [svnty]",
@@ -26,6 +29,7 @@
     "@types/validator": "^12.0.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
+    "docz": "^2.3.0",
     "faker": "^4.1.0",
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
@@ -43,6 +47,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mysql2": "^2.1.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "sequelize": "^5.21.5",
     "sequelize-simple-cache": "^1.1.1"
   }

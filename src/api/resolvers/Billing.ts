@@ -1,7 +1,5 @@
-import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
-  GraphQLInt,
   GraphQLString,
 } from 'graphql';
 

@@ -24,7 +24,7 @@ export default {
       description: 'The team they have in common'
     },
     // Reviews 
-    emotionalReponse: {
+    emotionalResponse: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     empathy: {
@@ -162,7 +162,7 @@ export default {
           receiver_id: args.receiver_id,
           submitter_id: context.USER._id,
           state: subject.state,
-          emotionalReponse: args.emotionalReponse,
+          emotionalResponse: args.emotionalResponse,
           empathy: args.empathy,
           managesOwn: args.managesOwn,
           faith: args.faith,
