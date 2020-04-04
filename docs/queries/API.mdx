@@ -32,13 +32,23 @@ query {
 }
 ``` 
 
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | //  | Comment  | 
+
 ## Example
 
 ```graphql
 query {
   API {
     data {
-      API {
+      API { # =>{API}
         env
         time
       }

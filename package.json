@@ -1,7 +1,7 @@
 {
   "name": "coreable",
   "version": "1.0.1",
-  "description": "",
+  "description": "Coreable Back End GraphQL API",
   "main": "build/server.js",
   "scripts": {
     "docz:dev": "docz dev --src='./docs' --port=3001",
