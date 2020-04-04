@@ -1,0 +1,80 @@
+---
+name: Leave Team
+route: /docs/mutations/leaveteam
+menu: Mutations
+---
+
+# LeaveTeam
+
+## Declaration
+
+> leaveTeam() {}
+
+## Description
+
+> The method used by a logged in user to leave a team they're in
+
+## Pre Conditons
+
+> The user must be logged in
+>
+> The user must be a member of the team
+>
+> You must have the team_id
+
+## Parameters
+
+> | Field | Type  | Required? |
+> |:-:|:-:|:-:|
+> | team_id | String | Yes |
+
+## Shell 
+
+```graphql
+mutation {
+  joinTeam(team_id: "") {
+
+  }
+}
+```
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | //  | Comment  |
+
+## Example
+
+```graphql
+mutation {
+  leaveTeam(team_id: "") {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      _id
+      firstName
+      lastName
+      email
+      manager # // Will always be false
+      teams {
+        _id
+        name
+        # inviteCode
+      }
+      # reviews {}
+      # reflection {}
+      # subjects {}
+      # submissions {}
+      # pending {}
+    }
+  }
+}
+```

@@ -1,0 +1,167 @@
+---
+name: SubmitReview
+route: /docs/mutations/submitreview
+menu: Mutations
+---
+
+# SubmitReview
+
+## Declaration
+
+> submitReview() {}
+
+## Description
+
+> The method used to submit a review coming from the logged in user, targeted at one of their team members
+ 
+## Pre Conditons
+
+> The user must be logged in
+>
+> The user must have a common team with the user being reviewed
+>
+> There must be only 1 review completed per stage on a user
+
+## Parameters
+
+> | Field | Type  | Required? |
+> |:-:|:-:|:-:|
+> | inviteCode | String | Yes |
+
+## Shell 
+
+```graphql
+mutation {
+  submitReview(
+    receiver_id: "", 
+    team_id: "", 
+    emotionalResponse: 0, 
+    empathy: 0,
+  	managesOwn: 0,
+  	faith: 0,
+  	cooperatively: 0,
+  	positiveBelief: 0,
+  	resilienceFeedback: 0,
+  	calm: 0,
+  	change: 0,
+  	newIdeas: 0,
+  	workDemands: 0,
+  	proactive: 0,
+  	influences: 0,
+  	clearInstructions: 0,
+  	preventsMisunderstandings: 0,
+  	easilyExplainsComplexIdeas: 0,
+  	openToShare: 0,
+  	tone: 0,
+  	crossTeam: 0,
+  	distractions: 0,
+  	eyeContact: 0,
+  	signifiesInterest: 0,
+  	verbalAttentiveFeedback: 0) {
+    
+  }
+}
+```
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | //  | Comment  |
+
+## Example
+
+```graphql
+mutation {
+  submitReview(
+    receiver_id: "", 
+    team_id: "", 
+    emotionalResponse: 0, 
+    empathy: 0,
+  	managesOwn: 0,
+  	faith: 0,
+  	cooperatively: 0,
+  	positiveBelief: 0,
+  	resilienceFeedback: 0,
+  	calm: 0,
+  	change: 0,
+  	newIdeas: 0,
+  	workDemands: 0,
+  	proactive: 0,
+  	influences: 0,
+  	clearInstructions: 0,
+  	preventsMisunderstandings: 0,
+  	easilyExplainsComplexIdeas: 0,
+  	openToShare: 0,
+  	tone: 0,
+  	crossTeam: 0,
+  	distractions: 0,
+  	eyeContact: 0,
+  	signifiesInterest: 0,
+  	verbalAttentiveFeedback: 0) {
+    errors {
+      path
+      code
+      message
+    }
+    data {
+      review {
+        receiver {
+          _id
+          firstName
+          lastName
+          email
+          manager # // Always false
+          # teams {}
+          # reviews {}
+          # submissions {}
+          # reflection {}
+          # subjects {}
+          # pending {}
+        }
+        receiver_id
+        submitter {
+          _id
+          firstName
+          lastName
+          email
+          manager # // Always false
+          # teams {}
+          # reviews {}
+          # submissions {}
+          # reflection {}
+          # subjects {}
+          # pending {}
+        }
+        submitter_id
+        emotionalResponse
+        empathy
+        managesOwn
+        faith
+        cooperatively
+        positiveBelief
+        calm
+        change
+        newIdeas
+        workDemands
+        proactive
+        clearInstructions
+        preventsMisunderstandings
+        easilyExplainsComplexIdeas
+        openToShare
+        tone
+        crossTeam
+        resilienceFeedback
+        distractions
+        eyeContact
+        signifiesInterest
+        verbalAttentiveFeedback
+      }
+    }
+  }
+}
+```

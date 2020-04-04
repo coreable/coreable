@@ -1,0 +1,82 @@
+---
+name: JoinTeam
+route: /docs/mutations/jointeam
+menu: Mutations
+---
+
+# JoinTeam
+
+## Declaration
+
+> joinTeam() {}
+
+## Description
+
+> The method used by a logged in user to join an team with an invite code
+ 
+## Pre Conditons
+
+> The user must be logged in
+>
+> The user must not already be a member of the team
+>
+> The invite code must be correct
+
+## Parameters
+
+> | Field | Type  | Required? |
+> |:-:|:-:|:-:|
+> | inviteCode | String | Yes |
+
+## Shell 
+
+```graphql
+mutation {
+  joinTeam(inviteCode: "") {
+
+  }
+}
+```
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | //  | Comment  |
+
+## Example
+
+```graphql
+mutation {
+  joinTeam(inviteCode: "") {
+    errors {
+      code	
+      path
+      message
+    }
+    data {
+      user {
+        _id
+        firstName
+        lastName
+        email
+        manager # // Will always be false
+        teams {
+          _id
+          name
+          # inviteCode
+        }
+        # reviews {}
+        # reflection {}
+        # subjects {}
+        # submissions {}
+        # pending {}
+      }
+    }
+  }
+}
+```
