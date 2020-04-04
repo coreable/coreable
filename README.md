@@ -16,7 +16,7 @@
 ### Command Line Interface Actions
 
   
-###### Documentation
+###### Documentation [http://localhost:3001/](http://localhost:3001/)
 
 `npm run docz:dev   // Run the documentation`
 
@@ -24,7 +24,7 @@
 
 `npm run docz:serve // Serve the documentation for production`
 
-###### GraphQL
+###### GraphQL [http://localhost:3000/graphql](http://localhost:3000/graphql)
 
 `npm run api:dev   // Run the GraphQL API`
 
@@ -33,11 +33,6 @@
 `npm run api:serve // Serve the GraphQL API for production`
 
 `npm run api:test  // Run the unit tests with Instanbul, Mocha and Chai`
-
-
-### Accessing the API Server
-
-[http://localhost:3000/graphql](http://localhost:3000/graphql)
 
 
 #### Fix broken docker
