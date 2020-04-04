@@ -25,6 +25,10 @@ menu: Models
 > |lastName|string|yes|Their last name|
 > |passwordResetToken|string|yes|A randomly generate token, emailed to them to reset their password|
 > |passwordResetExpiry|date|yes|The date and time the password reset token expires|
+> |teams|[[Team](/docs/models/team)]|yes|The teams this user is a member of|
+> |submissions|[[Review](/docs/models/review)]|yes|The reviews this user has submit|
+> |reviews|[[Review](/docs/models/review)]|yes|The reviews this user has received|
+> |reflection|[[Review](/docs/models/review)]|yes|The review this user submitted on theirself|
 
 ## MySQL Table
 
@@ -40,7 +44,11 @@ menu: Models
 
 ## Assosciations
 
-> A user has many teams (via table `USER_TEAM`)
+> A user belongs to many teams (on table `USER_TEAM` via key `_id` as `user_id`)
+>
+> A user has many reviews (on table `REVIEW` via key `_id` as `submitter_id`)
+>
+> A user has many reviews (on table `REVIEW` via key `_id` as `receiver_id`)
 
 ## Methods
 

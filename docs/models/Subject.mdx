@@ -21,8 +21,8 @@ menu: Models
 > |_id|string|yes|The subject ID|
 > |name|string|yes|The name of the subject|
 > |state|number|yes|The state the subject is in|
-> |managers|[Manager]|yes|The managers of the subject|
-> |teams|[Team]|yes|The teams the subject has|
+> |managers|[[Manager](/docs/models/manager)]|yes|The managers of the subject|
+> |teams|[[Team](/docs/models/team)]|yes|The teams the subject has|
 
 ## MySQL Table
 
@@ -37,7 +37,7 @@ menu: Models
 
 > A subject has many managers (via table `MANAGER_SUBJECT`)
 >
-> A subject belongs to many teams
+> A subject belongs to many teams (on table `TEAM` via key `_id` as `submitter_id`)
 
 ## Methods
 

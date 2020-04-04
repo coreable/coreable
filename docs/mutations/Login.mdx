@@ -37,6 +37,16 @@ mutation {
 }
 ```
 
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | # //  | Comment  |
+
 ## Example
 
 ###### Note 1
@@ -58,13 +68,13 @@ mutation {
       message
     }
     data {
-      user {
+      user { # =>{User}
         _id
         email	
         manager
         firstName
       }
-      token
+      token # // JsonWebToken
     }
   }
 }

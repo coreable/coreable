@@ -22,8 +22,8 @@ menu: Models
 > |name|string|yes|The teams name|
 > |inviteCode|string|yes|The code users use to join the team|
 > |subject_id|string|yes|The id of the subject the team belongs to|
-> |subject|Subject|yes|The subject the team belongs to|
-> |users|[User]|yes|The users in the team|
+> |subject|[Subject](/docs/models/subject)|yes|The subject the team belongs to|
+> |users|[[User](/docs/models/user)]|yes|The users in the team|
 
 ## MySQL Table
 
@@ -36,7 +36,7 @@ menu: Models
 
 ## Assosciations
 
-> A team has many users (via table `USER_TEAM`)
+> A team has many users (on table `USER_TEAM` via key `_id` as `team_id`)
 >
 > A team belongs to a subject (via key `subject_id`)
 

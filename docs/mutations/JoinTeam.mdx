@@ -46,7 +46,17 @@ mutation {
 > | # field {}  | Subquery always returns null |
 > | # =>[Class]  | Subquery returns a list  |
 > | # =>{Class}  | Subquery returns an object  |
-> | //  | Comment  |
+> | # //  | Comment  |
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | # //  | Comment  |
 
 ## Example
 
@@ -59,16 +69,17 @@ mutation {
       message
     }
     data {
-      user {
+      user { # =>{User}
         _id
         firstName
         lastName
         email
         manager # // Will always be false
-        teams {
+        teams { # =>[Team]
           _id
           name
           # inviteCode
+          # users {}
         }
         # reviews {}
         # reflection {}
