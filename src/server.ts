@@ -8,7 +8,7 @@ export default (
     await server.startup;
     return createServer(app).listen(
       config.HTTP.PORT, () => 
-      process.env.NODE_ENV === 'development' ? console.log(
+      process.env.NODE_ENV === 'development' ? console.log("\x1b[31m",
         `
         View GraphiQL, an in-browser IDE, to explore your site's data and schema
 
