@@ -9,7 +9,7 @@
     "docz:serve": "npm run docz:build && docz serve",
     "api:dev": "nodemon",
     "api:build": "rimraf ./build/src && tsc -p ./src/tsconfig.json",
-    "api:start": "npm run api:build && NODE_ENV=production node ./build/src/server.js",
+    "api:serve": "npm run api:build && NODE_ENV=production node ./build/src/server.js",
     "api:test": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./test/tsconfig.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"test/**/*.spec.ts\""
   },
   "keywords": [],
