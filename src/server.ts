@@ -13,7 +13,7 @@ export default (
         View GraphiQL, an in-browser IDE, to explore your site's data and schema
 
           http://localhost:${config.HTTP.PORT}/graphql
-        `
+        `, "\x1b[37m"
       ) : null
     );
   }

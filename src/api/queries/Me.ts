@@ -2,10 +2,12 @@ import { sequelize } from "../../lib/sequelize";
 
 import { CoreableError } from "../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
-import { Team } from "../../models/Team";
-import { Review } from "../../models/Review";
+// import { Team } from "../../models/Team";
+// import { Review } from "../../models/Review";
 import { Subject } from "../../models/Subject";
+import { Team } from "../../models/Team";
 import { User } from "../../models/User";
+// import { User } from "../../models/User";
 
 export default {
   type: UserObjectCommand, 
@@ -29,9 +31,7 @@ export default {
                   { model: User, as: 'users' }
                 ], 
                 exclude: ['inviteCode']
-              },
-              { model: Review, as: 'reviews', exclude: ['submitter_id'] },
-              { model: Review, as: 'submissions', exclude: ['receiver_id'] }
+              }
             ]
           }
         );
