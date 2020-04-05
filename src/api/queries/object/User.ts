@@ -6,6 +6,8 @@ import {
 import { CoreableError } from "../../../models/CoreableError";
 import { UserObjectCommand } from "../../command/object/User";
 import { Team } from "../../../models/Team";
+import { Subject } from "../../../models/Subject";
+import { User } from "../../../models/User";
 
 export default {
   type: UserObjectCommand, 
@@ -33,7 +35,12 @@ export default {
         {
           where: args,
           include: [
-            { model: Team, as: 'teams', exclude: ['inviteCode'] }
+            { model: Team, as: 'teams', 
+            include: [
+              { model: Subject, as: 'subject' },
+              { model: User, as: 'users' }
+            ], 
+            exclude: ['inviteCode'] }
           ]
         }
       );

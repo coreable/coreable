@@ -6,6 +6,7 @@ import { Team } from '../models/Team';
 import { sequelize } from './sequelize';
 import { Subject } from '../models/Subject';
 import { Review } from '../models/Review';
+import { Manager } from '../models/Manager';
 // import { Manager } from '../models/Manager';
 
 export const userIDs: string[] = [];
@@ -273,26 +274,25 @@ export async function generator() {
     });
     return reviewIDs.push(review._id);
   });
-
   await inSequence(promises).then(() => {
     promises = [];
   });
 
-  // // Managers
-  // times(5, (i) => {
-  //   promises.push(async function () {
-  //     const manager = await Manager.create({
-  //       firstName: Faker.name.firstName(),
-  //       lastName: Faker.name.lastName(),
-  //       email: Faker.internet.email(),
-  //       password: Faker.random.alphaNumeric(10)
-  //     });
-  //     return managerIDs.push(manager._id);
-  //   });
-  // });
-  // await inSequence(promises).then(() => {
-  //   promises = [];
-  // });
+  // Managers
+  times(3, (i) => {
+    promises.push(async function () {
+      const manager = await Manager.create({
+        firstName: `manager ${i}`,
+        lastName: `$manager ${i}`,
+        email: `m${i}@${i}.com`,
+        password: 'unittest'
+      });
+      return managerIDs.push(manager._id);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
 
   return true;
 }

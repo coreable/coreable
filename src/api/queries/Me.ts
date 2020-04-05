@@ -1,21 +1,23 @@
 import { sequelize } from "../../lib/sequelize";
 
 import { CoreableError } from "../../models/CoreableError";
-import { UserObjectCommand } from "../command/object/User";
 import { Subject } from "../../models/Subject";
 import { Team } from "../../models/Team";
 import { User } from "../../models/User";
+import { MeCommand } from "../command/Me";
+import { Manager } from "../../models/Manager";
 
 export default {
-  type: UserObjectCommand, 
+  type: MeCommand, 
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     let user;
+    let manager;
     if (!context.USER) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     if (!errors.length) {
-      if (!context.USER.manager) {
+      if (context.USER instanceof User) {
         user = await sequelize.models.User.noCache().findOne(
           {
             where:  { _id: context.USER._id },
@@ -32,8 +34,8 @@ export default {
             ]
           }
         );
-      } else if (context.USER.manager) {
-        user = await sequelize.models.Manager.noCache().findOne(
+      } else if (context.USER instanceof Manager) {
+        manager = await sequelize.models.Manager.noCache().findOne(
           {
             where:  { _id: context.USER._id } ,
             include: [
@@ -48,7 +50,8 @@ export default {
     }
     return {
       'data': !errors.length ? {
-        'user': user
+        'user': user,
+        'manager': manager
       } : null,
       'errors': errors.length > 0 ? errors : null
     }

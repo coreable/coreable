@@ -40,7 +40,7 @@ query {
 > | # field {}  | Subquery always returns null |
 > | # =>[Class]  | Subquery returns a list  |
 > | # =>{Class}  | Subquery returns an object  |
-> | //  | Comment  |
+> | # //  | Comment  |
 
 ## Example
 
@@ -53,22 +53,50 @@ query {
       message
     }
     data {
-      user { # =>{User}
+      user { # =>{User} 
         _id
         firstName
         lastName
         email
-        manager
         teams { # =>[Team]
           _id
           # inviteCode
           name
+          average { # =>{Review}
+            # _id
+            # receiver {}
+            # receiver_id
+            # submitter {}
+            # submitter_id
+            calm
+            change
+            clearInstructions
+            cooperatively
+            crossTeam
+            distractions
+            easilyExplainsComplexIdeas
+            emotionalResponse
+            empathy
+            eyeContact
+            faith
+            influences
+            managesOwn
+            newIdeas
+            openToShare
+            positiveBelief
+            preventsMisunderstandings
+            proactive
+            resilienceFeedback
+            signifiesInterest
+            tone
+            verbalAttentiveFeedback
+            workDemands
+          }
           users { # =>[User] // The users in the team
             _id
             firstName
             lastName
             email
-            manager
             # team {}
             # subjects {}
             # reviews {}
@@ -79,9 +107,9 @@ query {
         }
         reviews { # =>[Review]
           # submitter_id
-          # submitter =>{User}
+          # submitter {}
           receiver_id
-          # receiver =>{User}
+          # receiver {}
           calm
           change
           clearInstructions
@@ -108,9 +136,9 @@ query {
         }
         submissions { # =>[Review]
           submitter_id
-          # submitter # =>{User}
+          # submitter {}
           # receiver_id
-          # receiver =>{User}
+          # receiver {}
           calm
           change
           clearInstructions
@@ -137,9 +165,9 @@ query {
         }
         reflection { # =>{Review}
           submitter_id
-          # submitter # =>{User}
+          # submitter {}
           receiver_id
-          # receiver =>{User}
+          # receiver {}
           calm
           change
           clearInstructions
@@ -169,11 +197,12 @@ query {
           firstName
           lastName
           email
-          manager
           teams { # =>[Team]
             _id
             # inviteCode
             name
+            # average {}
+            # users {}
           }
           # subjects {}
           # reviews {}
@@ -181,10 +210,163 @@ query {
           # reflection {}
           # pending {}
         }
-        subjects { # =>[Subject] // Managers only
+      }
+      manager { # =>{Manager}
+        _id
+        firstName
+        lastName
+        email
+        subjects { # => [Subject]
           _id
-          name
           state
+          teams { # =>[Team]
+            _id
+            inviteCode
+            name
+            average { # =>{Review}
+              # _id
+              # receiver {}
+              # receiver_id
+              # submitter {}
+              # submitter_id
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            users { # =>[User]
+              _id
+              firstName
+              lastName
+              email
+              # teams {}
+              # subjects {}
+              reviews { # =>[Review]
+                # submitter_id
+                # submitter =>{User}
+                receiver_id
+                # receiver =>{User}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              submissions { # =>[Review]
+                submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              reflection { # =>{Review}
+                submitter_id
+                # submitter {}
+                receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              pending { # =>[User]
+                _id
+                firstName
+                lastName
+                email
+                teams { # =>[Team]
+                  _id
+                  # inviteCode
+                  name
+                  # users {}
+                  # average {}
+                }
+                # subjects {}
+                # reviews {}
+                # submissions {}
+                # reflection {}
+                # pending {}
+              }
+            }
+          }
         }
       }
     }

@@ -2,15 +2,13 @@ import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLList,
-  GraphQLBoolean,
+  GraphQLList
 } from 'graphql';
 
 import { User } from '../../models/User';
 import { Manager } from '../../models/Manager';
 import { TeamResolver } from './Team';
 import { ReviewResolver } from './Review';
-import { SubjectResolver } from './Subject';
 import { Op } from 'sequelize';
 import { Team } from '../../models/Team';
 import { Subject } from '../../models/Subject';
@@ -47,40 +45,18 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'teams': {
         type: GraphQLList(TeamResolver),
         resolve(user: any, args, context) {
-          if (user instanceof User) {
-            if (context.USER._id === user._id || context.USER instanceof Manager) {
-              return user.teams;
-            }
+          if (context.USER._id === user._id || context.USER instanceof Manager) {
+            return user.teams;
           }
           return null;
-        }
-      },
-      'subjects': {
-        type: new GraphQLList(SubjectResolver),
-        async resolve(user: any, args, context) {
-          if (user instanceof Manager) {
-            if (context.USER._id === user._id || context.USER instanceof Manager) {
-              user.subjects = await (user as any).getSubjects({ model: Subject });
-              return user.subjects;
-            }
-          }
-          return null;
-        }
-      },
-      'manager': {
-        type: GraphQLBoolean,
-        resolve(user: any, args, context) {
-          return user instanceof Manager;
         }
       },
       'reviews': {
         type: new GraphQLList(ReviewResolver),
         async resolve(user: any, args, context) {
-          if (user instanceof User) {
-            if (context.USER._id === user._id || context.USER instanceof Manager) {
-              user.reviews = await sequelize.models.Review.findAll({ exclude: ['submitter_id'], where: {receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
-              return user.reviews;
-            }
+          if (context.USER._id === user._id || context.USER instanceof Manager) {
+            user.reviews = await sequelize.models.Review.findAll({ exclude: ['submitter_id'], where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
+            return user.reviews;
           }
           return null;
         }
@@ -88,11 +64,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'submissions': {
         type: new GraphQLList(ReviewResolver),
         async resolve(user: any, args, context) {
-          if (user instanceof User) {
-            if (context.USER._id === user._id || context.USER instanceof Manager) {
-              user.submissions = await sequelize.models.Review.findAll({ exclude: ['receiver_id'], where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } } });
-              return user.submissions;
-            }
+          if (context.USER._id === user._id || context.USER instanceof Manager) {
+            user.submissions = await sequelize.models.Review.findAll({ exclude: ['receiver_id'], where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } } });
+            return user.submissions;
           }
           return null;
         }
@@ -103,14 +77,14 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           // if the user retrieved is not the logged in user
           // and the logged in user is not manager
           // or the user being retrieved is a manager
-          if ((context.USER._id !== user._id && 
-              !(context.USER instanceof Manager)) || 
-              user instanceof Manager) {
+          if ((context.USER._id !== user._id &&
+            !(context.USER instanceof Manager)) ||
+            user instanceof Manager) {
             return null;
           }
 
           // add all the users team members id's to a map
-          const teams = await (user as any).getTeams({ model: Team, include: [ { model: Subject, as: 'subject' }, { model: User, as: 'users' } ], exclude: ['inviteCode'] });
+          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], exclude: ['inviteCode'] });
           let teamMembers: any = {};
           for (const team of teams) {
             for (const member of team.users) {
@@ -122,7 +96,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
 
           // if the user has reviewed a team member in the map
           // set the team members value to true
-          const reviews = await sequelize.models.Review.findAll({ where: { submitter_id: user._id }});
+          const reviews = await sequelize.models.Review.findAll({ where: { submitter_id: user._id } });
           for (const review of reviews) {
             if (teamMembers[review.receiver_id]) {
               teamMembers[review.receiver_id] = true;
@@ -150,14 +124,11 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'reflection': {
         type: ReviewResolver,
         async resolve(user: any, args: any, context: any) {
-          if (user instanceof User) {
-            user.reflection = await sequelize.models.Review.findOne({ where: { receiver_id: user._id, submitter_id: user._id } });
-            if (!user.reflection) {
-              return null;
-            }
-            return user.reflection;
+          user.reflection = await sequelize.models.Review.findOne({ where: { receiver_id: user._id, submitter_id: user._id } });
+          if (!user.reflection) {
+            return null;
           }
-          return null;
+          return user.reflection;
         }
       }
     }

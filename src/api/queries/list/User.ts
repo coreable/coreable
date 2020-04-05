@@ -8,6 +8,8 @@ import { CoreableError } from "../../../models/CoreableError";
 import { UserListCommand } from "../../command/list/User";
 import { Team } from "../../../models/Team";
 import { Manager } from "../../../models/Manager";
+import { Subject } from "../../../models/Subject";
+import { User } from "../../../models/User";
 
 export default {
   type: UserListCommand, 
@@ -48,10 +50,15 @@ export default {
     }
     if (!errors.length) {
       user = await sequelize.models.User.findAll(
-        { 
+        {
           where: args,
           include: [
-            { model: Team, as: 'teams', exclude: ['inviteCode'] }
+            { model: Team, as: 'teams',
+            include: [
+              { model: Subject, as: 'subject' },
+              { model: User, as: 'users' }
+            ], 
+            exclude: ['inviteCode'] }
           ],
           limit: limit,
           offset: offset
