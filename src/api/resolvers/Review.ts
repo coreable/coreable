@@ -1,6 +1,6 @@
 import {
   GraphQLObjectType,
-  GraphQLInt,
+  GraphQLFloat,
   GraphQLString,
 } from 'graphql';
 
@@ -43,139 +43,139 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         }
       },
       'emotionalResponse': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.emotionalResponse;
         }
       },
       'empathy': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.empathy;
         }
       },
       'managesOwn': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.managesOwn;
         }
       },
       'faith': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.faith;
         }
       },
       'cooperatively': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.cooperatively;
         }
       },
       'positiveBelief': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.positiveBelief;
         }
       },
       'calm': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.calm;
         }
       },
       'change': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.change;
         }
       },
       'newIdeas': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.newIdeas;
         }
       },
       'workDemands': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.workDemands;
         }
       },
       'proactive': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.proactive;
         }
       },
       'influences': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.proactive;
         }
       },
       'clearInstructions': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.proactive;
         }
       },
       'preventsMisunderstandings': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.preventsMisunderstandings;
         }
       },
       'easilyExplainsComplexIdeas': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.easilyExplainsComplexIdeas;
         }
       },
       'openToShare': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.openToShare;
         }
       },
       'tone': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.tone;
         }
       },
       'crossTeam': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.crossTeam;
         }
       },
       'resilienceFeedback': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.resilienceFeedback;
         }
       },
       'distractions': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.distractions;
         }
       },
       'eyeContact': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.eyeContact;
         }
       },
       'signifiesInterest': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.signifiesInterest;
         }
       },
       'verbalAttentiveFeedback': {
-        type: GraphQLInt,
+        type: GraphQLFloat,
         resolve(review, args, context) {
           return review.verbalAttentiveFeedback;
         }

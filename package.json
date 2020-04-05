@@ -7,10 +7,12 @@
     "docz:dev": "docz dev --src='./docs' --port=3001",
     "docz:build": "rimraf ./.docz && docz build --src='./docs'",
     "docz:serve": "docz serve",
+    "docz:deploy": "",
     "api:dev": "nodemon",
     "api:build": "rimraf ./build/src && tsc -p ./src/tsconfig.json",
     "api:serve": "NODE_ENV=production node ./build/src/server.js",
-    "api:test": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./test/tsconfig.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"test/**/*.spec.ts\""
+    "api:test": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./test/tsconfig.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"test/**/*.spec.ts\"",
+    "api:deploy": ""
   },
   "keywords": [],
   "author": "Jake Walklate [svnty]",
