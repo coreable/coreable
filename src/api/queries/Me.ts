@@ -2,12 +2,9 @@ import { sequelize } from "../../lib/sequelize";
 
 import { CoreableError } from "../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
-// import { Team } from "../../models/Team";
-// import { Review } from "../../models/Review";
 import { Subject } from "../../models/Subject";
 import { Team } from "../../models/Team";
 import { User } from "../../models/User";
-// import { User } from "../../models/User";
 
 export default {
   type: UserObjectCommand, 

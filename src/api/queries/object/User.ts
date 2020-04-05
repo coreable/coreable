@@ -6,7 +6,6 @@ import {
 import { CoreableError } from "../../../models/CoreableError";
 import { UserObjectCommand } from "../../command/object/User";
 import { Team } from "../../../models/Team";
-import { Review } from "../../../models/Review";
 
 export default {
   type: UserObjectCommand, 
@@ -34,9 +33,7 @@ export default {
         {
           where: args,
           include: [
-            { model: Team, as: 'teams', exclude: ['inviteCode'] },
-            { model: Review, as: 'reviews', exclude: ['submitter_id'] },
-            { model: Review, as: 'submissions', exclude: ['receiver_id'] }
+            { model: Team, as: 'teams', exclude: ['inviteCode'] }
           ]
         }
       );

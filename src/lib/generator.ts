@@ -23,9 +23,9 @@ export async function generator() {
   times(3, (i) => {
     promises.push(async function () {
       const user = await User.create({
-        firstName: `${i}`,
-        lastName: `${i}`,
-        email: `${i}@${i}.com`,
+        firstName: `user ${i}`,
+        lastName: `user ${i}`,
+        email: `u${i}@${i}.com`,
         password: 'unittest'
       });
       return userIDs.push(user._id);
@@ -39,7 +39,7 @@ export async function generator() {
   times(2, (i) => {
     promises.push(async function () {
       const subject = await Subject.create({
-        name: `${i}`,
+        name: `subject ${i}`,
         state: Faker.random.number({ min: 0, max: 3 })
       });
       return subjectIDs.push(subject._id);
@@ -53,8 +53,8 @@ export async function generator() {
   times(2, (i) => {
     promises.push(async function () {
       const team = await Team.create({
-        name: `${i}`,
-        inviteCode: `${i}`,
+        name: `team ${i}`,
+        inviteCode: `team${i}`,
         subject_id: `${subjectIDs[i]}`
       });
       return teamIDs.push(team._id);
@@ -180,6 +180,72 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: userIDs[2],
       submitter_id: userIDs[1],
+      state: Faker.random.number({ min: 1, max: 3 }),
+      emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
+      empathy: Faker.random.number({ min: 1, max: 99 }),
+      managesOwn: Faker.random.number({ min: 1, max: 99 }),
+      faith: Faker.random.number({ min: 1, max: 99 }),
+      cooperatively: Faker.random.number({ min: 1, max: 99 }),
+      positiveBelief: Faker.random.number({ min: 1, max: 99 }),
+      resilienceFeedback: Faker.random.number({ min: 1, max: 99 }),
+      calm: Faker.random.number({ min: 1, max: 99 }),
+      change: Faker.random.number({ min: 1, max: 99 }),
+      newIdeas: Faker.random.number({ min: 1, max: 99 }),
+      workDemands: Faker.random.number({ min: 1, max: 99 }),
+      proactive: Faker.random.number({ min: 1, max: 100 }),
+      influences: Faker.random.number({ min: 1, max: 100 }),
+      clearInstructions: Faker.random.number({ min: 1, max: 100 }),
+      preventsMisunderstandings: Faker.random.number({ min: 1, max: 100 }),
+      easilyExplainsComplexIdeas: Faker.random.number({ min: 1, max: 100 }),
+      openToShare: Faker.random.number({ min: 1, max: 100 }),
+      tone: Faker.random.number({ min: 1, max: 100 }),
+      crossTeam: Faker.random.number({ min: 1, max: 100 }),
+      distractions: Faker.random.number({ min: 1, max: 100 }),
+      eyeContact: Faker.random.number({ min: 1, max: 100 }),
+      signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
+      verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
+    });
+    return reviewIDs.push(review._id);
+  });
+
+  // User 2 reviews User 1
+  promises.push(async function () {
+    const review = await Review.create({
+      receiver_id: userIDs[1],
+      submitter_id: userIDs[2],
+      state: Faker.random.number({ min: 1, max: 3 }),
+      emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
+      empathy: Faker.random.number({ min: 1, max: 99 }),
+      managesOwn: Faker.random.number({ min: 1, max: 99 }),
+      faith: Faker.random.number({ min: 1, max: 99 }),
+      cooperatively: Faker.random.number({ min: 1, max: 99 }),
+      positiveBelief: Faker.random.number({ min: 1, max: 99 }),
+      resilienceFeedback: Faker.random.number({ min: 1, max: 99 }),
+      calm: Faker.random.number({ min: 1, max: 99 }),
+      change: Faker.random.number({ min: 1, max: 99 }),
+      newIdeas: Faker.random.number({ min: 1, max: 99 }),
+      workDemands: Faker.random.number({ min: 1, max: 99 }),
+      proactive: Faker.random.number({ min: 1, max: 100 }),
+      influences: Faker.random.number({ min: 1, max: 100 }),
+      clearInstructions: Faker.random.number({ min: 1, max: 100 }),
+      preventsMisunderstandings: Faker.random.number({ min: 1, max: 100 }),
+      easilyExplainsComplexIdeas: Faker.random.number({ min: 1, max: 100 }),
+      openToShare: Faker.random.number({ min: 1, max: 100 }),
+      tone: Faker.random.number({ min: 1, max: 100 }),
+      crossTeam: Faker.random.number({ min: 1, max: 100 }),
+      distractions: Faker.random.number({ min: 1, max: 100 }),
+      eyeContact: Faker.random.number({ min: 1, max: 100 }),
+      signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
+      verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
+    });
+    return reviewIDs.push(review._id);
+  });
+
+  // User 2 reviews User 2
+  promises.push(async function () {
+    const review = await Review.create({
+      receiver_id: userIDs[2],
+      submitter_id: userIDs[2],
       state: Faker.random.number({ min: 1, max: 3 }),
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),

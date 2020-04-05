@@ -14,8 +14,6 @@ import { SubjectResolver } from './Subject';
 import { Op } from 'sequelize';
 import { Team } from '../../models/Team';
 import { Subject } from '../../models/Subject';
-// import { Review } from '../../models/Review';
-// import { Review } from '../../models/Review';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
@@ -102,13 +100,16 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'pending': {
         type: new GraphQLList(UserResolver),
         async resolve(user, args, context) {
-          if (user instanceof Manager) {
-            return null;
-          }
-          if (context.USER._id !== user._id && !(context.USER instanceof Manager)) {
+          // if the user retrieved is not the logged in user
+          // and the logged in user is not manager
+          // or the user being retrieved is a manager
+          if ((context.USER._id !== user._id && 
+              !(context.USER instanceof Manager)) || 
+              user instanceof Manager) {
             return null;
           }
 
+          // add all the users team members id's to a map
           const teams = await (user as any).getTeams({ model: Team, include: [ { model: Subject, as: 'subject' }, { model: User, as: 'users' } ], exclude: ['inviteCode'] });
           let teamMembers: any = {};
           for (const team of teams) {
@@ -119,6 +120,8 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             }
           }
 
+          // if the user has reviewed a team member in the map
+          // set the team members value to true
           const reviews = await sequelize.models.Review.findAll({ where: { submitter_id: user._id }});
           for (const review of reviews) {
             if (teamMembers[review.receiver_id]) {
@@ -126,6 +129,8 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             }
           }
 
+          // if the team member in a map isn't true
+          // the team member hasnt been reviewed
           const pending = [];
           for (const member in teamMembers) {
             if (teamMembers[member] !== true) {
@@ -133,6 +138,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             }
           }
 
+          // return all the users needing review
           return sequelize.models.User.findAll(
             {
               where: { _id: { [Op.in]: pending } },

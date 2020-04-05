@@ -7,7 +7,6 @@ import {
 import { CoreableError } from "../../../models/CoreableError";
 import { UserListCommand } from "../../command/list/User";
 import { Team } from "../../../models/Team";
-import { Review } from "../../../models/Review";
 import { Manager } from "../../../models/Manager";
 
 export default {
@@ -52,9 +51,7 @@ export default {
         { 
           where: args,
           include: [
-            { model: Team, as: 'teams', exclude: ['inviteCode'] },
-            { model: Review, as: 'reviews', exclude: ['receiver_id'] },
-            { model: Review, as: 'submissions', exclude: ['submitter_id'] }
+            { model: Team, as: 'teams', exclude: ['inviteCode'] }
           ],
           limit: limit,
           offset: offset
