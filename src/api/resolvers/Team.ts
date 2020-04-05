@@ -1,7 +1,8 @@
 import {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLFloat
 } from 'graphql';
 
 import { Team } from '../../models/Team';
@@ -44,8 +45,51 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
           return team.users;
         }
       },
-      'average': {
-        type: ReviewResolver,
+      'report': {
+        type: new GraphQLObjectType({
+          name: 'TeamAverageReport',
+          fields: () => {
+            return {
+              'average': {
+                type: ReviewResolver,
+                resolve(average, args, context) {
+                  return average;
+                }
+              },
+              'sorted': {
+                type: new GraphQLList(new GraphQLObjectType({
+                  name: 'TeamSortedAverageArray',
+                  fields: () => {
+                    return {
+                      'field': {
+                        type: GraphQLString,
+                        resolve(sortable, args, context) {
+                          return sortable[0];
+                        }
+                      },
+                      'value': {
+                        type: GraphQLFloat,
+                        resolve(sortable, args, context) {
+                          return sortable[1];
+                        }
+                      }
+                    }
+                  }
+                })),
+                resolve(average, args, context) {
+                  const sortable = [];
+                  for (const field in average) {
+                    sortable.push([field, average[field]]);
+                  }
+                  sortable.sort((a, b) => {
+                    return a[1] - b[1]
+                  });
+                  return sortable;
+                }
+              }
+            }
+          }
+        }),
         async resolve(team, args, context) {
           const averageReview: any = {
             calm: 0,

@@ -61,36 +61,41 @@ query {
         teams { # =>[Team]
           _id
           # inviteCode
-          name
-          average { # =>{Review} # // Teams average scoring
-            # _id
-            # receiver {}
-            # receiver_id
-            # submitter {}
-            # submitter_id
-            calm
-            change
-            clearInstructions
-            cooperatively
-            crossTeam
-            distractions
-            easilyExplainsComplexIdeas
-            emotionalResponse
-            empathy
-            eyeContact
-            faith
-            influences
-            managesOwn
-            newIdeas
-            openToShare
-            positiveBelief
-            preventsMisunderstandings
-            proactive
-            resilienceFeedback
-            signifiesInterest
-            tone
-            verbalAttentiveFeedback
-            workDemands
+          report {
+            average { # =>{Review} # // Teams average scoring
+              # _id
+              # receiver {}
+              # receiver_id
+              # submitter {}
+              # submitter_id
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+              value
+              field
+            }
           }
           users { # =>[User] // The users in the team
             _id
@@ -107,6 +112,7 @@ query {
         }
         reviews {
           default { # =>[Review] # // A list of reviews
+            _id
             # submitter_id
             # submitter {}
             receiver_id
@@ -137,6 +143,11 @@ query {
           }
           report {
             average { # =>{Review}
+              # _id
+              # receiver_id
+              # receiver {}
+              # submitter_id
+              # submitter {}
               calm
               change
               clearInstructions
@@ -168,6 +179,7 @@ query {
           }
         }
         submissions { # =>[Review]
+          _id
           submitter_id
           # submitter {}
           # receiver_id
@@ -197,6 +209,7 @@ query {
           workDemands
         }
         reflection { # =>{Review}
+          _id
           submitter_id
           # submitter {}
           receiver_id
@@ -234,7 +247,7 @@ query {
             _id
             # inviteCode
             name
-            # average {}
+            # report {}
             # users {}
           }
           # subjects {}
@@ -256,35 +269,41 @@ query {
             _id
             inviteCode
             name
-            average { # =>{Review} # // Teams average scoring
-              # _id
-              # receiver {}
-              # receiver_id
-              # submitter {}
-              # submitter_id
-              calm
-              change
-              clearInstructions
-              cooperatively
-              crossTeam
-              distractions
-              easilyExplainsComplexIdeas
-              emotionalResponse
-              empathy
-              eyeContact
-              faith
-              influences
-              managesOwn
-              newIdeas
-              openToShare
-              positiveBelief
-              preventsMisunderstandings
-              proactive
-              resilienceFeedback
-              signifiesInterest
-              tone
-              verbalAttentiveFeedback
-              workDemands
+            report {
+              average { # =>{Review} # // Teams average scoring
+                # _id
+                # receiver {}
+                # receiver_id
+                # submitter {}
+                # submitter_id
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+                value
+                field
+              }
             }
             users { # =>[User]
               _id
@@ -295,6 +314,7 @@ query {
               # subjects {}
               reviews { 
                 default { # =>[Review] # // A list of reviews
+                  _id
                   # submitter_id
                   # submitter {}
                   receiver_id
@@ -325,6 +345,11 @@ query {
                 }
                 report {
                   average { # =>{Review}
+                    # _id
+                    # receiver {}
+                    # receiver_id
+                    # submitter {}
+                    # submitter_id
                     calm
                     change
                     clearInstructions
@@ -349,13 +374,14 @@ query {
                     verbalAttentiveFeedback
                     workDemands
                   }
-                  sortedAverages { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+                  sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
                     value
                     field
                   }
                 }
               }
               submissions { # =>[Review]
+                _id
                 submitter_id
                 # submitter {}
                 # receiver_id
@@ -385,6 +411,7 @@ query {
                 workDemands
               }
               reflection { # =>{Review}
+                _id
                 submitter_id
                 # submitter {}
                 receiver_id
@@ -423,7 +450,7 @@ query {
                   # inviteCode
                   name
                   # users {}
-                  # average {}
+                  # report {}
                 }
                 # subjects {}
                 # reviews {}
