@@ -105,12 +105,12 @@ query {
             # pending {}
           }
         }
-        reviews { 
-          default { # =>[Review]
+        reviews {
+          default { # =>[Review] # // A list of reviews
             # submitter_id
-            # submitter =>{User}
+            # submitter {}
             receiver_id
-            # receiver =>{User}
+            # receiver
             calm
             change
             clearInstructions
@@ -135,34 +135,36 @@ query {
             verbalAttentiveFeedback
             workDemands
           }
-          average { # =>{Review} # // Users average rating from team members
-            # submitter_id
-            # submitter =>{User}
-            # receiver_id
-            # receiver =>{User}
-            calm
-            change
-            clearInstructions
-            cooperatively
-            crossTeam
-            distractions
-            easilyExplainsComplexIdeas
-            emotionalResponse
-            empathy
-            eyeContact
-            faith
-            influences
-            managesOwn
-            newIdeas
-            openToShare
-            positiveBelief
-            preventsMisunderstandings
-            proactive
-            resilienceFeedback
-            signifiesInterest
-            tone
-            verbalAttentiveFeedback
-            workDemands
+          report {
+            average { # =>{Review}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sortedAverages { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+              value
+              field
+            }
           }
         }
         submissions { # =>[Review]
@@ -247,7 +249,7 @@ query {
         firstName
         lastName
         email
-        subjects { # => [Subject]
+        subjects { # =>[Subject]
           _id
           state
           teams { # =>[Team]
@@ -292,11 +294,11 @@ query {
               # teams {}
               # subjects {}
               reviews { 
-                default { # =>[Review]
+                default { # =>[Review] # // A list of reviews
                   # submitter_id
-                  # submitter =>{User}
+                  # submitter {}
                   receiver_id
-                  # receiver =>{User}
+                  # receiver
                   calm
                   change
                   clearInstructions
@@ -321,34 +323,36 @@ query {
                   verbalAttentiveFeedback
                   workDemands
                 }
-                average { # =>{Review} # // User average rating from team members
-                  # submitter_id
-                  # submitter =>{User}
-                  # receiver_id
-                  # receiver =>{User}
-                  calm
-                  change
-                  clearInstructions
-                  cooperatively
-                  crossTeam
-                  distractions
-                  easilyExplainsComplexIdeas
-                  emotionalResponse
-                  empathy
-                  eyeContact
-                  faith
-                  influences
-                  managesOwn
-                  newIdeas
-                  openToShare
-                  positiveBelief
-                  preventsMisunderstandings
-                  proactive
-                  resilienceFeedback
-                  signifiesInterest
-                  tone
-                  verbalAttentiveFeedback
-                  workDemands
+                report {
+                  average { # =>{Review}
+                    calm
+                    change
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    emotionalResponse
+                    empathy
+                    eyeContact
+                    faith
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    preventsMisunderstandings
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    tone
+                    verbalAttentiveFeedback
+                    workDemands
+                  }
+                  sortedAverages { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+                    value
+                    field
+                  }
                 }
               }
               submissions { # =>[Review]

@@ -2,7 +2,8 @@ import { sequelize } from '../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLFloat
 } from 'graphql';
 
 import { User } from '../../models/User';
@@ -56,10 +57,53 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           name: 'UserReviewSplit',
           fields: () => {
             return {
-              'average': {
-                type: ReviewResolver,
+              'report': {
+                type: new GraphQLObjectType({
+                  name: 'UserReportSplit',
+                  fields: () => {
+                    return {
+                      'average': {
+                        type: ReviewResolver,
+                        resolve(average, args, context) {
+                          return average;
+                        }
+                      },
+                      'sorted': {
+                        type: new GraphQLList(new GraphQLObjectType({
+                          name: 'UserSortedAverageArray',
+                          fields: () => {
+                            return {
+                              'field': {
+                                type: GraphQLString,
+                                resolve(sortable, args, context) {
+                                  return sortable[0];
+                                }
+                              },
+                              'value': {
+                                type: GraphQLFloat,
+                                resolve(sortable, args, context) {
+                                  return sortable[1];
+                                }
+                              }
+                            }
+                          }
+                        })),
+                        resolve(average, args, context) {
+                          const sortable = [];
+                          for (const field in average) {
+                            sortable.push([field, average[field]]);
+                          }
+                          sortable.sort((a, b) => {
+                            return a[1] - b[1]
+                          });
+                          return sortable;
+                        }
+                      }
+                    }
+                  }
+                }),
                 resolve(reviews, args, context) {
-                  const averageReview: any = {
+                  const average: any = {
                     calm: 0,
                     change: 0,
                     clearInstructions: 0,
@@ -86,35 +130,35 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                   };
                   let counter = 0;
                   for (const review of reviews) {
-                    averageReview.calm += review.calm;
-                    averageReview.change += review.change;
-                    averageReview.clearInstructions += review.clearInstructions;
-                    averageReview.cooperatively += review.cooperatively;
-                    averageReview.crossTeam += review.crossTeam;
-                    averageReview.distractions += review.distractions;
-                    averageReview.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
-                    averageReview.emotionalResponse += review.emotionalResponse;
-                    averageReview.empathy += review.empathy;
-                    averageReview.eyeContact += review.eyeContact;
-                    averageReview.faith += review.faith;
-                    averageReview.influences += review.influences;
-                    averageReview.managesOwn += review.managesOwn;
-                    averageReview.newIdeas += review.newIdeas;
-                    averageReview.openToShare += review.openToShare;
-                    averageReview.positiveBelief += review.positiveBelief;
-                    averageReview.preventsMisunderstandings += review.preventsMisunderstandings;
-                    averageReview.proactive += review.proactive;
-                    averageReview.resilienceFeedback += review.resilienceFeedback;
-                    averageReview.signifiesInterest += review.signifiesInterest;
-                    averageReview.tone += review.tone;
-                    averageReview.verbalAttentiveFeedback += review.verbalAttentiveFeedback;
-                    averageReview.workDemands += review.workDemands;
+                    average.calm += review.calm;
+                    average.change += review.change;
+                    average.clearInstructions += review.clearInstructions;
+                    average.cooperatively += review.cooperatively;
+                    average.crossTeam += review.crossTeam;
+                    average.distractions += review.distractions;
+                    average.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
+                    average.emotionalResponse += review.emotionalResponse;
+                    average.empathy += review.empathy;
+                    average.eyeContact += review.eyeContact;
+                    average.faith += review.faith;
+                    average.influences += review.influences;
+                    average.managesOwn += review.managesOwn;
+                    average.newIdeas += review.newIdeas;
+                    average.openToShare += review.openToShare;
+                    average.positiveBelief += review.positiveBelief;
+                    average.preventsMisunderstandings += review.preventsMisunderstandings;
+                    average.proactive += review.proactive;
+                    average.resilienceFeedback += review.resilienceFeedback;
+                    average.signifiesInterest += review.signifiesInterest;
+                    average.tone += review.tone;
+                    average.verbalAttentiveFeedback += review.verbalAttentiveFeedback;
+                    average.workDemands += review.workDemands;
                     counter++;
                   }
-                  for (const key in averageReview) {
-                    averageReview[key] = averageReview[key] / counter;
+                  for (const key in average) {
+                    average[key] = average[key] / counter;
                   }
-                  return averageReview;
+                  return average;
                 }
               },
               'default': {
