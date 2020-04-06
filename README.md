@@ -40,9 +40,9 @@ Make sure you have the proxy connected to the google cloud SQL server
 
 `./cloud_sql_proxy -instances=<INSTANCE_CONNECTION_NAME>=tcp:1433`
 
-###### Deploy to AWS
+###### Deploy to Google cloud [http://coreable.appspot.com](http://coreable.appspot.com)
 
-`npm run deploy // Build for production and deploy to Google Cloud`
+`npm run deploy // Build for production and deploy to Google cloud`
 
 #### Fix broken docker
 
