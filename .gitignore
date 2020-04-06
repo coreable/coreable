@@ -1,7 +1,6 @@
 .DS_Store
 /node_modules/
-/agile/
 /build/
-/api/test.queries
 /.nyc_output/
 /.docz/
+/src/config/config.json
