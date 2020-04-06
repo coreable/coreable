@@ -11,9 +11,12 @@ server.prototype.constructor = Server;
 server.startup = (async () => {
   if (process.env.NODE_ENV === "development") {
     await sequelize.sync({ force: true });
-    if (config.DATABASE.HOST === "localhost") {
+    if (config.DATABASE[process.env["NODE_ENV"]].HOST === "localhost") {
       await generator();
     }
+  }
+  if (process.env.NODE_ENV === "production") {
+    await sequelize.authenticate();
   }
 })().then(() => true);
 

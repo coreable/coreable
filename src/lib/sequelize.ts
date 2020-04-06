@@ -12,15 +12,23 @@ import * as Manager from '../models/Manager';
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
 
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      NODE_ENV: 'development' | 'production' | 'test';
+    }
+  }
+}
+
 const sequelize = new _sequelize(
-  config.DATABASE.SCHEMA,   // DATABASE
-  config.DATABASE.USERNAME, // USERNAME
-  config.DATABASE.PASSWORD, // PASSWORD
+  config.DATABASE[process.env["NODE_ENV"]].SCHEMA,   // DATABASE
+  config.DATABASE[process.env["NODE_ENV"]].USERNAME, // USERNAME
+  config.DATABASE[process.env["NODE_ENV"]].PASSWORD, // PASSWORD
   {
-    'dialect': config.DATABASE.DIALECT as 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | undefined,
-    'host': config.DATABASE.HOST,
-    'port': config.DATABASE.PORT,
-    'logging': process.env.NODE_ENV === 'development' ? console.log : false 
+    'dialect': config.DATABASE[process.env["NODE_ENV"]].DIALECT as 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | undefined,
+    'host': config.DATABASE[process.env["NODE_ENV"]].HOST,
+    'port': config.DATABASE[process.env["NODE_ENV"]].PORT,
+    'logging': console.log
   }
 );
 

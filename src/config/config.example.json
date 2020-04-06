@@ -1,0 +1,32 @@
+{
+  "DATABASE": {
+    "development": {
+      "HOST": "",
+      "PORT": 0,
+      "SCHEMA": "",
+      "USERNAME": "",
+      "PASSWORD": "",
+      "DIALECT": ""
+    },
+    "test": {
+      "HOST": "",
+      "PORT": 0,
+      "SCHEMA": "",
+      "USERNAME": "",
+      "PASSWORD": "",
+      "DIALECT": ""
+    },
+    "production" : {
+      "HOST": "",
+      "PORT": 0,
+      "SCHEMA": "",
+      "USERNAME": "",
+      "PASSWORD": "",
+      "DIALECT": ""
+    }
+  },
+  "HTTP": {
+    "PORT": 8000
+  },
+  "JWT_SECRET": ""
+}
