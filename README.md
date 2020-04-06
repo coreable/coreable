@@ -42,7 +42,7 @@ Make sure you have the proxy connected to the google cloud SQL server
 
 ###### Deploy to AWS
 
-`npm run api:deploy // Build production API and deploy to AWS lambda`
+`npm run deploy // Build for production and deploy to Google Cloud`
 
 #### Fix broken docker
 
