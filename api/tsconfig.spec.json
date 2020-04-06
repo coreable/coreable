@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "./",
-    "outDir": "../build/api/test",
+    "outDir": "../dist/api/test",
     "resolveJsonModule": true
   },
   "include": ["**/*.spec.ts"],
