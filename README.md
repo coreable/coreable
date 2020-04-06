@@ -34,6 +34,13 @@
 
 `npm run api:test  // Run the unit tests with Instanbul, Mocha and Chai`
 
+
+###### Before running unit tests
+
+Make sure you have the proxy connected to the google cloud SQL server
+
+`./cloud_sql_proxy -instances=<INSTANCE_CONNECTION_NAME>=tcp:1433`
+
 ###### Deploy to AWS
 
 `npm run api:deploy // Build production API and deploy to AWS lambda`
