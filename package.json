@@ -1,8 +1,8 @@
 {
   "name": "coreable",
   "version": "1.0.1",
-  "description": "Coreable Back End GraphQL API",
-  "main": "build/server.js",
+  "description": "Coreable",
+  "main": "ecosystem.config.js",
   "engines": {
     "node": "12.x"
   },
@@ -24,7 +24,12 @@
     "stop": "pm2 stop all"
   },
   "keywords": [],
-  "author": "Jake Walklate [svnty]",
+  "contributors": [
+    "Jake Walklate <jakewalklate@gmail.com> (https://svnty.dev/)",
+    "Hans Eh <Hanslee358@gmail.com> (https://github.com/0fficialkj)",
+    "Peter Binns <binnspeter@icloud.com>"
+  ],
+  "author": "Coreable",
   "license": "Copyright (c) Coreable",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

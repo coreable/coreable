@@ -6,4 +6,9 @@
     "resolveJsonModule": true
   },
   "include": ["**/*.spec.ts"],
+  "exclude": [
+    "graphql",
+    "lib",
+    "models"
+  ]
 }
