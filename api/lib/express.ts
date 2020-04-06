@@ -60,9 +60,9 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 app.use('/graphql', GraphHTTP({
   schema: Schema,
   pretty: true,
-  graphiql: process.env.NODE_ENV == 'development' ? true : true
+  graphiql: process.env.NODE_ENV == 'development'
 }));
-  
+
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   process.env.NODE_ENV == 'development' ? console.error({ name: err.name, message: err.message }) : null;

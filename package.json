@@ -15,8 +15,13 @@
     "api:build": "rimraf ./build/api && tsc -p ./api/tsconfig.json",
     "api:serve": "NODE_ENV=production node ./build/api/server.js",
     "api:test": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
-    "api:deploy": "npm run api:build && gcloud app deploy",
-    "start": "pm2 start"
+    "react:dev": "",
+    "react:build": "",
+    "react:serve": "",
+    "react:test": "",
+    "deploy": "npm run api:build && npm run react:build && gcloud app deploy",
+    "start": "pm2 start",
+    "stop": "pm2 stop all"
   },
   "keywords": [],
   "author": "Jake Walklate [svnty]",
