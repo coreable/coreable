@@ -1,0 +1,16 @@
+runtime: nodejs
+env: flex
+
+manual_scaling:
+  instances: 1
+
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+env_variables:
+  NODE_ENV: "production"
+
+beta_settings:
+  cloud_sql_instances: coreable:us-central1:coreable

@@ -34,6 +34,9 @@
 
 `npm run api:test  // Run the unit tests with Instanbul, Mocha and Chai`
 
+###### Deploy to AWS
+
+`npm run api:deploy // Build production API and deploy to AWS lambda`
 
 #### Fix broken docker
 

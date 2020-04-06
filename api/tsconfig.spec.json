@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "../build/test",
+    "resolveJsonModule": true
+  },
+  "include": ["**/*.spec.ts"],
+}

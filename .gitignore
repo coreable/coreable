@@ -3,4 +3,7 @@
 /build/
 /.nyc_output/
 /.docz/
-/src/config/config.json
+/api/config/config.json
+/.serverless/
+cloud_sql_proxy
+cloud_sql_proxy.txt
