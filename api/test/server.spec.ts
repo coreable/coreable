@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import server from './server';
+import server from '../server';
 
 describe('Server [api/server.ts]', () => {
 

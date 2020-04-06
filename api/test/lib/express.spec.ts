@@ -3,9 +3,9 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { User } from '../models/User';
-import { sequelize } from './sequelize';
-import { app } from './express';
+import { User } from '../../models/User';
+import { sequelize } from '../../lib/sequelize';
+import { app } from '../../lib/express';
 
 describe('Express [api/lib/express.ts]', () => {
   let sessionToken: any;

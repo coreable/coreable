@@ -3,9 +3,9 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { User } from '../../models/User';
-import { app } from '../../lib/express';
-import { Team } from '../../models/Team';
+import { User } from '../../../models/User';
+import { app } from '../../../lib/express';
+import { Team } from '../../../models/Team';
 import { Op } from 'sequelize';
 
 describe('LeaveTeam Mutation [api/graphql/mutations/LeaveTeam.ts]', () => {

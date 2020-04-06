@@ -3,7 +3,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { generatePasswordHash, checkPassword, encodeJWT, decodeJWT } from './hash';
+import { generatePasswordHash, checkPassword, encodeJWT, decodeJWT } from '../../lib/hash';
 
 describe('Hashing & JWT [api/lib/hash.ts]', () => {
   let user = { _id: 1, email: "unit@test.com", manager: false };

@@ -3,9 +3,9 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { User } from '../../models/User';
-import { app } from '../../lib/express';
-import { Team } from '../../models/Team';
+import { User } from '../../../models/User';
+import { app } from '../../../lib/express';
+import { Team } from '../../../models/Team';
 
 describe('JoinTeam Mutation [api/graphql/mutations/JoinTeam.ts]', () => {
   let sessionToken: any;

@@ -3,10 +3,10 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { User } from '../../models/User';
-import { app } from '../../lib/express';
-import { Team } from '../../models/Team';
-import { Review } from '../../models/Review';
+import { User } from '../../../models/User';
+import { app } from '../../../lib/express';
+import { Team } from '../../../models/Team';
+import { Review } from '../../../models/Review';
 
 describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => {
   let user1ID: any;

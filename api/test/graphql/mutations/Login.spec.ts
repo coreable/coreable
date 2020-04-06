@@ -3,8 +3,8 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { User } from '../../models/User';
-import { app } from '../../lib/express';
+import { User } from '../../../models/User';
+import { app } from '../../../lib/express';
 
 describe('Login Mutation [api/graphql/mutations/Login.ts]', () => {
   let sessionToken: any;

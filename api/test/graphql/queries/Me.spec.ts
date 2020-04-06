@@ -1,12 +1,12 @@
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
-import { app } from '../../lib/express';
+import { app } from '../../../lib/express';
 import chaiHttp from 'chai-http';
-import { User } from '../../models/User';
+import { User } from '../../../models/User';
 
 chai.use(chaiHttp);
 
-import { sequelize } from '../../lib/sequelize';
+import { sequelize } from '../../../lib/sequelize';
 
 describe('Me Query [api/queries/Me.ts]', () => { 
   let sessionToken: string;
