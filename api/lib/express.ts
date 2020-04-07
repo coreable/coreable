@@ -5,6 +5,8 @@ import { decodeJWT } from './hash';
 import { sequelize } from './sequelize';
 import { Team } from '../models/Team';
 import { Subject } from '../models/Subject';
+import { join } from 'path';
+import cors from 'cors';
 
 // A hack to add the JWT decoded token to the request object
 declare global {
@@ -24,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.set('trust proxy', true);
 app.disable('x-powered-by');
+app.use(cors());
 
 // Security CORS
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -60,8 +63,31 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 app.use('/graphql', GraphHTTP({
   schema: Schema,
   pretty: true,
-  graphiql: process.env.NODE_ENV == 'development'
+  graphiql: process.env.NODE_ENV == 'development' ? true : true
 }));
+
+app.get('/', express.static(join(__dirname + '/../public')));
+app.get('/docs', (req, res, next) => {
+  try {
+    if (!req.JWT.manager) {
+      throw new Error("Unauthenticated");
+    }
+  } catch (err) {
+    return res.status(403).redirect('/');
+  }
+  return express.static(join(__dirname + '/../docs'));
+});
+app.use(express.static(join(__dirname + '/../public/')));
+app.use((req, res, next) => {
+  try {
+    if (!req.JWT.manager) {
+      throw new Error("Unauthenticated");
+    }
+  } catch (err) {
+    return res.status(403).end();
+  }
+  return express.static(join(__dirname + '/../docs/'))
+});
 
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

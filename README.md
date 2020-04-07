@@ -6,8 +6,10 @@
   
 `npm install`
 
+`curl https://sdk.cloud.google.com | bash // Install Google Cloud CLI`
+
   
-### Start the SQL Server with docker-compose
+### Start the local SQL Server with docker-compose
 
 
 `docker-compose up`
