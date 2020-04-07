@@ -14,14 +14,14 @@ Coreable source code.
 
 import { times } from 'lodash';
 import Faker from 'faker';
+
+import { sequelize } from './sequelize';
+
 import { User } from '../models/User';
 import { Team } from '../models/Team';
-// import { Review } from '../models/Review';
-import { sequelize } from './sequelize';
 import { Subject } from '../models/Subject';
 import { Review } from '../models/Review';
 import { Manager } from '../models/Manager';
-// import { Manager } from '../models/Manager';
 
 export const userIDs: string[] = [];
 export const teamIDs: string[] = [];
@@ -307,8 +307,6 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
-
-  
 
   return true;
 }

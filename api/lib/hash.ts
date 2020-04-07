@@ -52,7 +52,7 @@ export function encodeJWT(payload: string | object | Buffer): Promise<string> {
   return new Promise((resolve, reject) => {
     sign(payload, JWT_SECRET, { expiresIn: '30d' }, (err, token) => {
       if (err) return reject(err);
-      else return resolve(token);
+      return resolve(token);
     });
   });
 }
@@ -63,7 +63,7 @@ export function decodeJWT(token: string): Promise<any> {
   return new Promise((resolve, reject) => {
     verify(token, JWT_SECRET, (err, obj) => {
       if (err) return reject(err);
-      resolve(obj);
+      return resolve(obj);
     });
   });
 }
