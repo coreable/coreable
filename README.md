@@ -83,7 +83,7 @@ Running the API in development mode with a MySQL server on localhost specified i
 
 In the root directory of the repository run in the terminal `npm run react:dev`
 
-### Docz
+### Documentation
 
 In the root directory of the repository run in the terminal `npm run docz:dev`
 
