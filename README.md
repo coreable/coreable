@@ -21,7 +21,7 @@ curl https://sdk.cloud.google.com | bash
 
 While developing and working on the coreable API or Web SPA it may be necessary to start an instance of MySQL server to avoid remote connections to the cloud. Running the API in development mode will use the database settings specified in the development object of the `api/config/config.json` file, _you may need to create this file yourself_.
 
-For the purposes of development, I have the development host set to localhost and the port set to 3306. 
+I have the development host set to localhost and the port set to 3306. 
 
 ###### /api/config/config.json
 
@@ -125,7 +125,7 @@ Docz don't need testing
 
 ## Deploying to Google Cloud
 
-Make sure the application does not crash at run time for any reason. **IMPORTANT**
+Make sure the application does not crash at run time for any reason. **IMPORTANT**!
 
 In the root directory of the repository run in the terminal `npm run deploy`. **THIS WILL TAKE SOMET TIME**. Be prepared to wait 20 minutes!
 
