@@ -1,6 +1,6 @@
 import { Server } from 'http';
 import { sequelize } from './sequelize';
-// import { generator } from './generator';
+import { generator } from './generator';
 import * as config from '../config/config.json';
 
 // server
@@ -11,8 +11,8 @@ server.prototype.constructor = Server;
 server.startup = (async () => {
   if (process.env.NODE_ENV === "development") {
     if (config.DATABASE[process.env["NODE_ENV"]].host === "localhost") {
-      // await sequelize.sync({ force: true });
-      // await generator();
+      await sequelize.sync({ force: true });
+      await generator();
     }
   }
   if (process.env.NODE_ENV === "production") {

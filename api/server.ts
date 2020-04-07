@@ -3,7 +3,7 @@ import { app } from './lib/express';
 import { createServer, Server } from 'http';
 import * as config from './config/config.json';
 
-let link = 
+let link =
 `
 View GraphiQL, an in-browser IDE, to explore your site's data and schema
 

@@ -18,7 +18,7 @@
     "react:build": "npm run build --prefix ./react/ && mv ./react/build ./dist/public",
     "react:test": "npm run test --prefix ./react/",
     "deploy": "rimraf ./dist && npm run api:build && npm run react:build && npm run docz:build && gcloud app deploy",
-    "pm2": "pm2-runtime start ecosystem.config.js --env production",
+    "pm2": "pm2-runtime start ecosystem.config.js --env development",
     "start": "node ./dist/server.js"
   },
   "keywords": [],
