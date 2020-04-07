@@ -27,7 +27,7 @@
     "Peter Binns <binnspeter@icloud.com>"
   ],
   "author": "Coreable",
-  "license": "Copyright (c) Coreable",
+  "license": "Copyright (c) 2020 Coreable",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.30",
