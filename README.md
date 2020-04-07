@@ -129,7 +129,7 @@ Make sure the application does not crash at run time for any reason. **IMPORTANT
 
 In the root directory of the repository run in the terminal `npm run deploy`. **THIS WILL TAKE SOMET TIME**. Be prepared to wait 20 minutes!
 
-`npm run deploy` remove the `/dist` folder, then will compile the react application, API and documentation all to the `/dist/` folder and upload it to Google Cloud.
+In the root directory of the repository in the terminal run `npm run deploy` this will remove the `/dist` folder then will compile the react application, API and documentation all to the `/dist/` folder and upload it to Google Cloud.
 
 
 ## If docker-compose says the port is already in use
