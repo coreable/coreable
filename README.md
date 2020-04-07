@@ -21,8 +21,6 @@ curl https://sdk.cloud.google.com | bash
 
 While developing and working on the coreable API or Web SPA it may be necessary to start an instance of MySQL server to avoid remote connections to the cloud. Running the API in development mode will use the database settings specified in the development object of the `api/config/config.json` file, _you may need to create this file yourself_.
 
-I have the development host set to localhost and the port set to 3306. 
-
 ###### /api/config/config.json
 
 ```json
