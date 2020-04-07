@@ -72,38 +72,56 @@ docker-compose up
 
 The database is ready for connection.
 
+## Building for Development
 
-## Running the API server for development
+### API
 
 In the root directory of the repository run in the terminal `npm run api:dev`. 
 
 Running the API in development mode with a MySQL server on localhost specified in the config.json file will fill the database with generated data for testing purposes. 
 
-## Running react for development
+
+### React
 
 In the root directory of the repository run in the terminal `npm run react:dev`
 
-## Running the documentation for development
+### Docz
 
 In the root directory of the repository run in the terminal `npm run docz:dev`
 
-## Building the API
+## Building for Production
+
+### API
 
 In the root directory of the repository run in the terminal `npm run api:build`
 
 This will compile all the files in the `/api/` directory, excluding the mocha & chai tests, to the output directory of `/dist/`. 
 
-## Building React
+### React
 
 In the root directory of the repository run in the terminal `npm run api:build`
 
 This will compile all the files in the `/react/src/` and `/react/public` directory, excluding the tests, to the output directory of `/dist/public`. 
 
-## Building the documentation
+### Documentation
 
 In the root directory of the repository run in the terminal `npm run docz:build`
 
 This will compile all the files in the `/docs/` directory to the output directory of `/dist/docs`. 
+
+## Running Unit Tests
+
+### API
+
+In the root directory of the repository run in the terminal `npm run api:test`
+
+### React
+
+In the root directory of the repository run in the terminal `npm run react:test`
+
+### Documentation
+
+Docz don't need testing
 
 ## Deploying to Google Cloud
 
