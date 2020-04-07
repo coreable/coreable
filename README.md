@@ -34,7 +34,7 @@
 
 `npm run api:test  // Run the unit tests with Instanbul, Mocha and Chai`
 
-###### Before running unit tests or development services
+###### Connecting a local development instance to google SQL
 
 Make sure you have the proxy connected to the google cloud SQL server
 
