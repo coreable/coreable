@@ -34,7 +34,7 @@ e.         in any other manner and through any medium whatsoever commercially ex
 
 
 
-f.         disassemble, reverse engineer, decompile, modify or alter the Software including, without limitation, creating or developing extra or add-on levels for the Software;
+f.         disassemble, reverse engineer, decompile, modify or alter the Software including, without limitation, creating or developing extra or add-ons for the Software;
 
 
 
