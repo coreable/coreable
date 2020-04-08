@@ -1,10 +1,10 @@
-import { describe, it } from 'mocha';;
-import { generator } from '../../lib/generator';
+// import { describe, it } from 'mocha';;
+// import { generator } from '../../lib/generator';
 
-describe('Test Data Generator [api/lib/generator.ts]', () => {
+// describe('Test Data Generator [api/lib/generator.ts]', () => {
 
-  it('should generate fake data and insert it into the database', async() => {
-    return await generator();
-  });
+//   it('should generate fake data and insert it into the database', async() => {
+//     return await generator();
+//   });
 
-});
+// });

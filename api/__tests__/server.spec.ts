@@ -15,6 +15,4 @@ describe('Server [api/server.ts]', () => {
     return expect(server).to.exist;
   });
 
-
-
 });
