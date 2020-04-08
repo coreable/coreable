@@ -1,5 +1,7 @@
 # COREABLE
 
+[![buddy pipeline](https://app.buddy.works/coreable/coreable/pipelines/pipeline/249362/badge.svg?token=252cdbde644b14054bdafb973256abc7284acd646c277e9f4ac8a5367f196bfb "buddy pipeline")](https://app.buddy.works/coreable/coreable/pipelines/pipeline/249362)
+
 ## Getting Started
 
 1. Install the project dependancies by opening a terminal in the projects directory and `npm install`

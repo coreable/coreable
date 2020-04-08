@@ -2,6 +2,7 @@
   "name": "coreable",
   "version": "1.0.1",
   "description": "Coreable",
+  "private": false,
   "main": "ecosystem.config.js",
   "engines": {
     "node": "12.x"
