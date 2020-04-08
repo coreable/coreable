@@ -7,3 +7,4 @@
 cloud_sql_proxy
 cloud_sql_proxy.txt
 /react/node_modules
+.env.production
