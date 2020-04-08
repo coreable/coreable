@@ -20,7 +20,7 @@
     "serve:api": "node ./dist/server.js",
     "serve:web": "",
     "pipeline:api": "npm install && NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
-    "pipeline:web": "npm install --prefix ./react/ && npm run build --prefix ./react/ && mv ./react/build ./dist/public",
+    "pipeline:web": "npm install --prefix ./react/ && npm run test --prefix ./react/",
     "deploy": "rimraf ./dist && npm run build:api && npm run build:docz && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
     "start": "NODE_ENV=production node ./server.js",
     "clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"
