@@ -29,15 +29,30 @@ config = config.parsed;
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
 
+process.env.MYSQL_PORT = Number.parseInt(process.env.MYSQL_PORT as string) as any;
+
+console.log(  {
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  dialect: 'mysql',
+  host: process.env.MYSQL_HOST,
+  port: Number.parseInt(process.env.MYSQL_PORT as string),
+  logging: process.env.NODE_ENV === "development" ? console.log : console.log,
+  dialectOptions: {
+    socketPath: process.env.MYSQL_SOCKETPATH
+  }
+})
+
 const sequelize = new _sequelize(
-  process.env.MYSQL_DATABASE,
-  process.env.MYSQL_USERNAME,
-  process.env.MYSQL_PASSWORD,
   {
+    username: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
     dialect: 'mysql',
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
-    logging: process.env.NODE_ENV === "development" ? console.log : false,
+    logging: process.env.NODE_ENV === "development" ? console.log : console.log,
     dialectOptions: {
       socketPath: process.env.MYSQL_SOCKETPATH
     }

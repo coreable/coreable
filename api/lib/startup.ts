@@ -26,6 +26,9 @@ server.startup = (async () => {
     await sequelize.sync({ force: true });
     await generator();
   }
+  if (process.env.NODE_ENV === "development") {
+    await sequelize.sync({ force: false });
+  }
   if (process.env.NODE_ENV === "production") {
     await sequelize.authenticate();
   }

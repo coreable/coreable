@@ -57,7 +57,7 @@ While developing and working on the coreable API or Web SPA it may be necessary 
 
 Everything inside and including the `<less than and greater than>` signs should be replaced with correct production configuration values, all values that are null are null on purpose and should be left null.  
 
-This configuration file for a development environment matches the `docker-compose.yml` file in the root of the coreable directory. To begin a MySQL server, open the terminal and being a docker container with `docker-compose up`. This will use the docker-compose.yml file as a configuration to being the database service.
+This configuration file for a development environment matches the `docker-compose.yml` file in the root of the coreable directory. To begin a MySQL server, open the terminal and being a docker container with `docker-compose up -d`. This will use the docker-compose.yml file as a configuration to being the database service.
 
 **NOTE**: Docker must be installed.
 
