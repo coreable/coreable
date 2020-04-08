@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import { genSalt, compare, hash } from 'bcrypt';
 import { Secret, verify, sign } from 'jsonwebtoken';

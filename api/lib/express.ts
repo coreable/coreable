@@ -34,6 +34,9 @@ declare global {
       JWT: { _id: string; email: string; manager: boolean; }; // Decoded JWT for server sided use
       USER: User | Manager; // User/Manager object from the database
     }
+    interface Application {
+      startup: Promise<boolean>;
+    }
   }
 }
 

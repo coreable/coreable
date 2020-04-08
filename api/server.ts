@@ -27,13 +27,12 @@ declare global {
 }
 
 // Being API source code
-import { server } from './lib/startup';
-import { app } from './lib/express';
+import { app } from './lib/startup';
 import { createServer, Server } from 'http';
 
 export default (
   async(): Promise<Server> => {
-    await server.startup;
+    await app.startup;
     return createServer(app).listen(
       process.env.PORT, () => {
         if (process.env.NODE_ENV === "development") {
