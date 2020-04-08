@@ -4,18 +4,16 @@
 
 ## Getting Started
 
-1. Install the project dependancies by opening a terminal in the projects directory and `npm install`
-2. Change directories to the react folder and install the dependancies with `npm install` 
-3. Install the Google Cloud SDK Command Line Interface tools with `curl https://sdk.cloud.google.com | bash`
+1. Clone the project
+2. Install project dependencies
+3. Create your own branch and begin hacking
 
 ###### terminal 
 
 ```bash
 git clone https://github.com/coreable/coreable.git
 cd coreable
-npm install
-npm install --prefix ./react/
-curl https://sdk.cloud.google.com | bash
+npm install && npm install --prefix ./react/
 ```
 
 ## Creating a local MySQL instance for development

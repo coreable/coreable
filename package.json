@@ -8,7 +8,7 @@
     "node": "12.x"
   },
   "scripts": {
-    "dev:docz": "docz dev --src='./docs' --port=8080",
+    "dev:docz": "docz dev --src='./docs' --port=8081",
     "dev:api": "nodemon -e .js,.ts --watch api --exec \"NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.json' ts-node ./api/server.ts\"",
     "dev:web": "npm run start --prefix ./react/",
     "test:api": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
