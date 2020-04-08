@@ -212,11 +212,11 @@ export default {
               receiver_id: args.receiver_id,
               submitter_id: context.USER._id,
               state: subject.state 
-            }, 
+            }, // TODO: is this a security flaw? Is it necessary (If not it should be deleted)?
             include: [
               { model: User, as: 'receiver' },
               { model: User, as: 'submitter' }
-            ] 
+            ]
           }
         )
       }: null,
