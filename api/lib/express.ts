@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import express, { Application, Request, Response, NextFunction } from 'express';
 import GraphHTTP from 'express-graphql';
@@ -81,10 +81,12 @@ app.use('/graphql', GraphHTTP({
   graphiql: process.env.NODE_ENV == 'development' ? true : true
 }));
 
-app.get('/', express.static(join(__dirname + '/../public')));
-app.get('/docs', express.static(join(__dirname + '/../docs')));
-app.use(express.static(join(__dirname + '/../public/')));
-app.use(express.static(join(__dirname + '/../docs/')));
+if (process.env.NODE_ENV === "production") {
+  app.get('/', express.static(join(__dirname + '/../public')));
+  app.get('/docs', express.static(join(__dirname + '/../docs')));
+  app.use(express.static(join(__dirname + '/../public/')));
+  app.use(express.static(join(__dirname + '/../docs/')));
+}
 
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
