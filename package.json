@@ -71,7 +71,6 @@
     "mysql2": "^2.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "sequelize": "^5.21.6",
-    "sequelize-simple-cache": "^1.1.1"
+    "sequelize": "^5.21.6"
   }
 }

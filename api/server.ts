@@ -12,9 +12,11 @@ Coreable source code.
 ===========================================================================
 */
 
-import { server } from './lib/startup';
-import { app } from './lib/express';
-import { createServer, Server } from 'http';
+// Import config from /env/*.env to the node environment variables
+// Configuration done before importing any other components
+import dotenv from 'dotenv';
+import { resolve } from 'path';
+dotenv.config({ path: resolve(__dirname + `/env/${process.env.NODE_ENV}.env`) });
 
 declare global {
   namespace NodeJS {
@@ -23,6 +25,11 @@ declare global {
     }
   }
 }
+
+// Being API source code
+import { server } from './lib/startup';
+import { app } from './lib/express';
+import { createServer, Server } from 'http';
 
 export default (
   async(): Promise<Server> => {

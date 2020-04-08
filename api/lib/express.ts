@@ -53,11 +53,12 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
   if (JWT_TOKEN) {
     try {
       req.JWT = await decodeJWT(JWT_TOKEN); // Decode for server sided use only
-      res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
+      res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client via HTTP
       switch (req.JWT.manager) {
         case true:
           req.USER = await sequelize.models.Manager.findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
           break;
+        case false:
         default:
           req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
         break;
@@ -69,8 +70,8 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
       if (process.env.NODE_ENV === 'development') {
         console.error({ code: err.name, message: err.message, path: 'api/lib/express.ts' });
       }
-      delete req.JWT;
-      res.removeHeader('JWT'); // Remove JWT from server response
+      delete req.JWT; // Remove Server sided JWT
+      res.removeHeader('JWT'); // Remove JWT from HTTP response
     }
   }
   next();

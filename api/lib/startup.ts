@@ -38,6 +38,7 @@ server.startup = (async () => {
       await sequelize.sync({ force: false });
       break;
     default:
+      await sequelize.authenticate();
       break;
   }
 })().then(() => true);
