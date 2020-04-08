@@ -1,0 +1,89 @@
+.facet-container {
+    height: 272pt;
+    width: 494pt;
+    background: white;
+    border-radius: 8pt;
+    margin: 0 auto;
+    margin-bottom: 18pt;
+    padding-top: 32pt;
+
+}
+
+.facet-name{
+    color: black;
+    font-size: 24pt;
+}
+
+.container {
+    /* height: 100%; */
+    width: 100%;
+    padding-top: 12pt;
+    margin: 0;
+}
+
+h1 {
+    color: black;
+}
+
+p {
+    color: rgb(112,112,112);
+}
+
+.rating {
+    -webkit-appearance: none;
+    height: 24pt;
+    width: 380pt;
+    border-radius: 4pt;
+    background-color: rgb(214, 214, 214);
+    background: linear-gradient(90deg, rgb(66, 113, 249) 20%, rgb(214, 214, 214) 20%);
+    padding: 0;
+}
+
+.rating::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    height: 24pt;
+    width: 8pt;
+    border-radius: 4pt;
+    background: rgb(66, 113, 249);
+}
+
+
+
+.rating:focus {
+    outline: none;
+}
+
+.facet-heading {
+    color: rgb(66, 113, 249);
+    margin-top: 24pt;
+    margin-bottom: 0pt;
+}
+
+.facet-info {
+    margin-bottom: 31pt;
+    margin-top: 5pt;
+}
+
+
+/* this is a shortcut method to center the element div */
+.element-div {
+    position: relative;
+    transform: translateX(25%);
+}
+
+.survey-members {
+    background: rgb(66, 113, 249);
+    width: 72pt;
+    height: 32pt;
+    border-radius: 4pt;
+    margin-left: 56pt;
+}
+
+.member {
+    margin: 0 auto;
+    transform: translateY(50%);
+    color: white;
+    font-size: 14pt;
+}
