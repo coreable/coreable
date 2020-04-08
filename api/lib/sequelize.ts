@@ -29,7 +29,7 @@ const sequelize = new _sequelize(
   process.env.MYSQL_PASSWORD,
   {
     dialect: 'mysql',
-    host: process.env.MYQL_HOST,
+    host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
     logging: process.env.NODE_ENV === "development" ? console.log : false,
     dialectOptions: {

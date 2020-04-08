@@ -42,6 +42,8 @@ View GraphiQL, an in-browser IDE, to explore your site's data and schema
   http://localhost:${process.env.PORT}/graphql
 `;
 
+console.log(process.env.MYSQL_HOST);
+
 export default (
   async(): Promise<Server> => {
     await server.startup;
