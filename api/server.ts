@@ -26,7 +26,6 @@ declare global {
   }
 }
 
-// Being API source code
 import { app } from './lib/startup';
 import { createServer, Server } from 'http';
 
@@ -36,7 +35,7 @@ export default (
     return createServer(app).listen(
       process.env.PORT, () => {
         if (process.env.NODE_ENV === "development") {
-          console.log("\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m");
+          console.log("\n", "\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m", "\n");
         }
       }
     );
