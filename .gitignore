@@ -14,4 +14,4 @@ cloud_sql_proxy
 /react/node_modules
 
 # Google Cloud SQL password
-**/.env.production
+**/production.env

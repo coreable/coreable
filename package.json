@@ -7,19 +7,19 @@
     "node": "12.x"
   },
   "scripts": {
-    "docz:dev": "docz dev --src='./docs' --port=8080",
-    "docz:build": "rimraf ./.docz && docz build --src='./docs' && mv ./.docz/dist ./dist/docs",
-    "docz:serve": "docz serve",
-    "api:dev": "nodemon -e .js,.ts --watch api --exec \"NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.json' ts-node ./api/server.ts\"",
-    "api:build": "tsc -p ./api/tsconfig.json",
-    "api:serve": "node ./dist/server.js",
-    "api:test:nyc": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
-    "api:test:pipeline": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
-    "react:dev": "npm run start --prefix ./react/",
-    "react:build": "npm run build --prefix ./react/ && mv ./react/build ./dist/public",
-    "react:test": "npm run test --prefix ./react/",
+    "dev:docz": "docz dev --src='./docs' --port=8080",
+    "dev:api": "nodemon -e .js,.ts --watch api --exec \"NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.json' ts-node ./api/server.ts\"",
+    "dev:web": "npm run start --prefix ./react/",
+    "test:api": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
+    "test:web": "npm run test --prefix ./react/",
+    "build:docz": "rimraf ./.docz && docz build --src='./docs' && mv ./.docz/dist ./dist/docs",
+    "build:api": "tsc -p ./api/tsconfig.json",
+    "build:web": "npm run build --prefix ./react/ && mv ./react/build ./dist/public",
+    "serve:docz": "docz serve",
+    "serve:api": "node ./dist/server.js",
+    "pipeline:api": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
     "start": "NODE_ENV=production node ./dist/server.js",
-    "package:clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"
+    "clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc-output"
   },
   "keywords": [],
   "contributors": [

@@ -10,19 +10,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
-
-/**
- * Author: Jake Walklate <jakewalklate@gmail.com> (svnty)
- * Date: Tue 7 Apr 2020
- * Purpose: The application access layer to perform create, read, update and delete database
- * operations for Coreable's web and mobile applications.
- */
+*/
 
 import { server } from './lib/startup';
 import { app } from './lib/express';
 import { createServer, Server } from 'http';
-// import dotenv from 'dotenv';
 
 declare global {
   namespace NodeJS {
@@ -32,23 +24,13 @@ declare global {
   }
 }
 
-// const env: string = `./env/.env.${process.env.NODE_ENV}`;
-// dotenv.config({ path: env });
-
-let link =
-`
-View GraphiQL, an in-browser IDE, to explore your site's data and schema
-
-  http://localhost:${process.env.PORT}/graphql
-`;
-
 export default (
   async(): Promise<Server> => {
     await server.startup;
     return createServer(app).listen(
       process.env.PORT, () => {
         if (process.env.NODE_ENV === "development") {
-          console.log("\x1b[31m", link, "\x1b[37m");
+          console.log("\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m");
         }
       }
     );

@@ -54,11 +54,13 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
       req.JWT = await decodeJWT(JWT_TOKEN); // Decode for server sided use only
       res.setHeader('JWT', JWT_TOKEN); // return (non-decoded) JWT token to client
-      if (req.JWT.manager !== true) {
-        req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
-      }
-      if (req.JWT.manager === true) {
-        req.USER = await sequelize.models.Manager.findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
+      switch (req.JWT.manager) {
+        case true:
+          req.USER = await sequelize.models.Manager.findOne({ where: { _id: req.JWT._id }, include: [{ model: Subject, as: 'subjects' }] });
+          break;
+        default:
+          req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
+        break;
       }
       if (!req.USER) {
         throw new Error("Database, Cache or Client Header discrepancy");
@@ -82,6 +84,7 @@ app.use('/graphql', GraphHTTP({
 }));
 
 if (process.env.NODE_ENV === "production") {
+  // TODO: Restrict /docs/ access to developers and coreable people
   app.get('/', express.static(join(__dirname + '/../public')));
   app.get('/docs', express.static(join(__dirname + '/../docs')));
   app.use(express.static(join(__dirname + '/../public/')));

@@ -17,47 +17,13 @@ npm install
 curl https://sdk.cloud.google.com | bash
 ```
 
-## Creating a config.json for MySQL
+## Creating a local MySQL instance for development
 
-While developing and working on the coreable API or Web SPA it may be necessary to start an instance of MySQL server to avoid remote connections to the cloud. Running the API in development mode will use the database settings specified in the development object of the `api/config/config.json` file, _you may need to create this file yourself_.
+While developing and working on the coreable API or Web SPA it may be necessary to start an instance of MySQL server to avoid remote connections to the cloud. Running the API in development mode will use the database settings specified in the development object of the `/api/env/development.env` file.
 
-###### /api/config/config.json
+Make sure the credentials in the `/api/env/development.env` correctly match the credentials in the `/docker-compose.yml` file in the root directory.
 
-```json
-{
-  "DATABASE": {
-    "development": {
-      "host": "localhost",
-      "port": 3306,
-      "database": "COREABLE",
-      "username": "root",
-      "password": "example",
-      "dialect": "mysql",
-      "dialectOptions": {
-        "socketPath": null
-      }
-    },
-    "production": {
-      "host": null,
-      "port": null,
-      "database": "COREABLE",
-      "username": "root",
-      "password": "<GOOGLE CLOUD MYSQL PASSWORD>",
-      "dialect": "mysql",
-      "dialectOptions": {
-	    "socketPath": "/cloudsql/<GOOGLE CLOUD MYSQL INSTANCE NAME>"
-      }
-  },
-  "HTTP": {
-    "PORT": 8080
-  },
-  "JWT_SECRET": "<JSON WEB TOKEN SECRET>" 
-}
-```
-
-Everything inside and including the `<less than and greater than>` signs should be replaced with correct production configuration values, all values that are null are null on purpose and should be left null.  
-
-This configuration file for a development environment matches the `docker-compose.yml` file in the root of the coreable directory. To begin a MySQL server, open the terminal and being a docker container with `docker-compose up -d`. This will use the docker-compose.yml file as a configuration to being the database service.
+To begin a MySQL server, open the terminal and being a docker container with `docker-compose up -d`. This will use the docker-compose.yml file as a configuration to being the database service.
 
 **NOTE**: Docker must be installed.
 
