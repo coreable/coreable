@@ -18,6 +18,7 @@
     "serve:docz": "docz serve",
     "serve:api": "node ./dist/server.js",
     "pipeline:api": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
+    "pipeline:web": "npm run test:web",
     "start": "NODE_ENV=production node ./dist/server.js",
     "clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc-output"
   },
