@@ -18,7 +18,8 @@
     "react:build": "npm run build --prefix ./react/ && mv ./react/build ./dist/public",
     "react:test": "npm run test --prefix ./react/",
     "deploy": "rimraf ./dist && npm run api:build && npm run react:build && npm run docz:build && gcloud app deploy",
-    "start": "node ./dist/server.js"
+    "start": "node ./dist/server.js",
+    "package:update": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"
   },
   "keywords": [],
   "contributors": [
