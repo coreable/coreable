@@ -12,8 +12,7 @@
 git clone https://github.com/coreable/coreable.git
 cd coreable
 npm install
-cd react
-npm install
+npm install --prefix ./react/
 curl https://sdk.cloud.google.com | bash
 ```
 
@@ -40,36 +39,33 @@ The database is ready for connection.
 
 ### API
 
-In the root directory of the repository run in the terminal `npm run api:dev`. 
-
-Running the API in development mode with a MySQL server on localhost specified in the config.json file will fill the database with generated data for testing purposes. 
-
+`npm run dev:api`
 
 ### React
 
-In the root directory of the repository run in the terminal `npm run react:dev`
+`npm run dev:web`
 
 ### Documentation
 
-In the root directory of the repository run in the terminal `npm run docz:dev`
+`npm run dev:docz`
 
 ## Building for Production
 
 ### API
 
-In the root directory of the repository run in the terminal `npm run api:build`
+`npm run build:api`
 
 This will compile all the files in the `/api/` directory, excluding the mocha & chai tests, to the output directory of `/dist/`. 
 
 ### React
 
-In the root directory of the repository run in the terminal `npm run api:build`
+`npm run build:web`
 
 This will compile all the files in the `/react/src/` and `/react/public` directory, excluding the tests, to the output directory of `/dist/public`. 
 
 ### Documentation
 
-In the root directory of the repository run in the terminal `npm run docz:build`
+`npm run build:docz`
 
 This will compile all the files in the `/docs/` directory to the output directory of `/dist/docs`. 
 
@@ -77,11 +73,11 @@ This will compile all the files in the `/docs/` directory to the output director
 
 ### API
 
-In the root directory of the repository run in the terminal `npm run api:test`
+`npm run test:api`
 
 ### React
 
-In the root directory of the repository run in the terminal `npm run react:test`
+`npm run test:web`
 
 ### Documentation
 
@@ -89,12 +85,13 @@ Docz don't need testing
 
 ## Deploying to Google Cloud
 
-Make sure the application does not crash at run time for any reason. **IMPORTANT**!
+Ensure all tests run and application functions as expected
 
-In the root directory of the repository run in the terminal `npm run deploy`. **THIS WILL TAKE SOMET TIME**. Be prepared to wait 20 minutes!
+Create a pull request from your branch to the pre-master branch
 
-In the root directory of the repository in the terminal run `npm run deploy` this will remove the `/dist` folder then will compile the react application, API and documentation all to the `/dist/` folder and upload it to Google Cloud.
+Wait for a code-review, when everyone has signed off create a pull request from pre-master to master
 
+buddy.works will deploy the master branch to google cloud
 
 ## If docker-compose says the port is already in use
 
