@@ -1,0 +1,30 @@
+{
+  "DATABASE": {
+    "development": {
+      "host": "localhost",
+      "port": 3306,
+      "database": "COREABLE",
+      "username": "root",
+      "password": "example",
+      "dialect": "mysql",
+      "dialectOptions": {
+        "socketPath": null
+      }
+    },
+    "production" : {
+      "host": null,
+      "port": null,
+      "database": "COREABLE",
+      "username": "root",
+      "password": "Io9BFIek07gJhOI8",
+      "dialect": "mysql",
+      "dialectOptions": {
+        "socketPath": "/cloudsql/coreable:us-central1:coreable"
+      }
+    }
+  },
+  "HTTP": {
+    "PORT": 8080
+  },
+  "JWT_SECRET": "HIDE_THIS_SECRET"
+}

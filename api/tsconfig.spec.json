@@ -5,7 +5,7 @@
     "outDir": "../dist/api/test",
     "resolveJsonModule": true
   },
-  "include": ["**/*.spec.ts"],
+  "include": ["**/*.spec.ts", "**/*.json"],
   "exclude": [
     "graphql",
     "lib",
