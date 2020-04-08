@@ -13,13 +13,14 @@
     "api:dev": "nodemon -e .js,.ts --watch api --exec \"NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.json' ts-node ./api/server.ts\"",
     "api:build": "tsc -p ./api/tsconfig.json",
     "api:serve": "NODE_ENV=production node ./dist/server.js",
-    "api:test": "rimraf ./.nyc_output && NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
+    "api:test:code-coverage": "rimraf ./.nyc_output && NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
+    "api:test": "NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 10000 -r ts-node/register \"api/**/*.spec.ts\"",
     "react:dev": "npm run start --prefix ./react/",
     "react:build": "npm run build --prefix ./react/ && mv ./react/build ./dist/public",
     "react:test": "npm run test --prefix ./react/",
     "deploy": "rimraf ./dist && npm run api:build && npm run react:build && npm run docz:build && gcloud app deploy",
     "start": "node ./dist/server.js",
-    "package:update": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"
+    "package:clean:install": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output && npm i"
   },
   "keywords": [],
   "contributors": [
