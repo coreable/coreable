@@ -22,18 +22,18 @@ Coreable source code.
 import { server } from './lib/startup';
 import { app } from './lib/express';
 import { createServer, Server } from 'http';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      NODE_ENV: 'development' | 'production' | 'test';
+      NODE_ENV: 'development' | 'production' | 'test' | 'pipeline';
     }
   }
 }
 
-const env: string = `.env.${process.env.NODE_ENV}`;
-dotenv.config({ path: env });
+// const env: string = `./env/.env.${process.env.NODE_ENV}`;
+// dotenv.config({ path: env });
 
 let link =
 `

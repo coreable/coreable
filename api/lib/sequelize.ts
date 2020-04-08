@@ -21,28 +21,14 @@ import * as Subject from '../models/Subject';
 import * as Manager from '../models/Manager';
 
 import dotenv from 'dotenv';
+import { resolve } from 'path';
 
-const env: string = `.env.${process.env.NODE_ENV}`;
+const env: string = resolve(__dirname + `/../env/${process.env.NODE_ENV}.env`);
 let config: any = dotenv.config({ path: env });
 config = config.parsed;
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
-
-process.env.MYSQL_PORT = Number.parseInt(process.env.MYSQL_PORT as string) as any;
-
-console.log(  {
-  username: process.env.MYSQL_USERNAME,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  dialect: 'mysql',
-  host: process.env.MYSQL_HOST,
-  port: Number.parseInt(process.env.MYSQL_PORT as string),
-  logging: process.env.NODE_ENV === "development" ? console.log : console.log,
-  dialectOptions: {
-    socketPath: process.env.MYSQL_SOCKETPATH
-  }
-})
 
 const sequelize = new _sequelize(
   {
@@ -52,7 +38,7 @@ const sequelize = new _sequelize(
     dialect: 'mysql',
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
-    logging: process.env.NODE_ENV === "development" ? console.log : console.log,
+    logging: process.env.NODE_ENV === "development" ? console.log : null,
     dialectOptions: {
       socketPath: process.env.MYSQL_SOCKETPATH
     }

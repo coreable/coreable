@@ -22,15 +22,23 @@ server.prototype.constructor = Server;
 
 // run the startup config
 server.startup = (async () => {
-  if (process.env.NODE_ENV === "test") {
-    await sequelize.sync({ force: true });
-    await generator();
-  }
-  if (process.env.NODE_ENV === "development") {
-    await sequelize.sync({ force: false });
-  }
-  if (process.env.NODE_ENV === "production") {
-    await sequelize.authenticate();
+  switch (process.env.NODE_ENV) {
+    case "production":
+      await sequelize.authenticate();
+      break;
+    case "pipeline":
+      await sequelize.sync({ force: true });
+      await generator();
+      break;
+    case "test":
+      await sequelize.sync({ force: true });
+      await generator();
+      break;
+    case "development":
+      await sequelize.sync({ force: false });
+      break;
+    default:
+      break;
   }
 })().then(() => true);
 
