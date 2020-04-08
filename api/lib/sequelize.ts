@@ -20,6 +20,12 @@ import * as Review from '../models/Review';
 import * as Subject from '../models/Subject';
 import * as Manager from '../models/Manager';
 
+import dotenv from 'dotenv';
+
+const env: string = `.env.${process.env.NODE_ENV}`;
+let config: any = dotenv.config({ path: env });
+config = config.parsed;
+
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
 
