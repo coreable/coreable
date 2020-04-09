@@ -50,7 +50,7 @@ describe('JoinTeam Mutation [api/graphql/mutations/JoinTeam.ts]', () => {
     return await user.removeTeam(team);
   });
 
-  it('should let an authenticated user join a team they\'re not in', async() => {
+  it('should allow an authenticated user join a team they\'re not in', async() => {
     const res = await chai.request(server).post('/graphQL').set('JWT', sessionToken).send({
       query: 
       `mutation {

@@ -16,7 +16,7 @@ describe('Hashing & JWT [api/lib/hash.ts]', () => {
     return;
   })
 
-  it('should hash a password', async() => {
+  it('should allow a password to be hashed', async() => {
     return expect(hash).to.not.equal(password);
   });
 
@@ -30,12 +30,12 @@ describe('Hashing & JWT [api/lib/hash.ts]', () => {
     return expect(isValidPassword).to.be.false;
   });
 
-  it('should encode an object to JWT', async() => {
+  it('should allow an object to be encoded to JWT', async() => {
     JWT = await encodeJWT(user);
     return expect(JWT).to.be.a('string').but.not.an('object');
   });
 
-  it('should decode a JWT to object', async() => {
+  it('should allow a valid a JWT to be decoded to an object', async() => {
     try {
       JWT = await decodeJWT(JWT);
     } catch (err) {
@@ -44,7 +44,7 @@ describe('Hashing & JWT [api/lib/hash.ts]', () => {
     return expect(JWT).to.be.a('object').but.not.a('string');
   });
 
-  it('should reject a fake JWT', async() => {
+  it('should reject a fake JWT from being decoded', async() => {
     let fakeJWT = 'unittest';
     try {
       fakeJWT = await decodeJWT(fakeJWT);
