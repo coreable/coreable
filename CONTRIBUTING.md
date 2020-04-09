@@ -14,6 +14,8 @@ test(when adding missing tests) ...
 chore(maintain) ...
 ```
 
+### 
+
 1. Use present tense "change" not "changed"
 2. No dot (.) at the end
 3. Don't capitalize the first letter

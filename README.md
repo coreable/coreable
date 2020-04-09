@@ -82,12 +82,3 @@ This will compile all the files in the `/docs/` directory to the output director
 ### Documentation
 
 Docz don't need testing
-
-## If docker-compose says the port is already in use
-
-###### terminal
-
-```bash
-docker-compose down
-docker rm -fv $(docker ps -aq)
-```
