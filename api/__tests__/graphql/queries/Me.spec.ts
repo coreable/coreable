@@ -35,8 +35,8 @@ describe('Me Query [api/queries/Me.ts]', () => {
     return;
   });
 
-  it('should deny an unauthenticated user', async() => {
-    const res = await chai.request(server).post('/graphQL').set('JWT', 'fakeSession').send({
+  it('should reject an unauthenticated user', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', 'unittest').send({
       query: 
       `query {
         me {

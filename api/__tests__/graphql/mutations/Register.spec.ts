@@ -44,7 +44,7 @@ describe('Register Mutation [api/graphql/mutations/Register.ts]', () => {
     return;
   });
 
-  it('should deny an already authenticated user from registering', async() => {
+  it('should reject an already authenticated user from registering', async() => {
     const res = await chai.request(server).post('/graphql').set('JWT', sessionToken).send({
       query: 
       `mutation {

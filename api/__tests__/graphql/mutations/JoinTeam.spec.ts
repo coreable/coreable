@@ -1,155 +1,158 @@
-// import { describe, it } from 'mocha';
-// import chai, { expect } from 'chai';
-// import chaiHttp from 'chai-http';
-// chai.use(chaiHttp);
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
 
-// import { User } from '../../../models/User';
-// import { app } from '../../../lib/express';
-// import { Team } from '../../../models/Team';
+import { server } from '../../../server';
+import { User } from '../../../models/User';
+import { Team } from '../../../models/Team';
 
-// describe('JoinTeam Mutation [api/graphql/mutations/JoinTeam.ts]', () => {
-//   let sessionToken: any;
-//   let team: any;
+import { Op } from 'sequelize';
 
-//   before(async() => {
-//     const res1 = await chai.request(app).post('/graphql').send({
-//       query: 
-//       `mutation {
-//         register(email:"unit@test.com", firstName: "unit", lastName: "test", password: "unittest") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               _id
-//             }
-//             token
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     sessionToken = res1.body.data.register.data.token;
-//     team = await Team.findOne();
-//     return;
-//   });
+describe('JoinTeam Mutation [api/graphql/mutations/JoinTeam.ts]', () => {
+  let sessionToken: any;
+  let team: any;
+  let user: any;
 
-//   after(async() => {
-//     await User.destroy({
-//       where: {
-//         email: 'unit@test.com',
-//       },
-//       force: true
-//     });
-//     return;
-//   });
+  before(async() => {
+    await server._done;
+    const res1 = await chai.request(server).post('/graphql').send({
+      query: 
+      `mutation {
+        login(email:"u0@0.com", password: "unittest") {
+          data {
+            user {
+              firstName
+              email
+              _id
+            }
+            token
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    sessionToken = res1.body.data.login.data.token;
+    user = await User.findOne({ where: { email: 'u0@0.com' }, include: [{ model: Team, as: 'teams' }] });
+    let teamIds = [];
+    for (const teams of user.teams) {
+      teamIds.push(teams._id);
+    }
+    team = await Team.findOne({ where: { _id: { [Op.notIn]: teamIds } }});
+    return;
+  });
 
-//   it('should let an authenticated user join a team they\'re not in', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
-//       query: 
-//       `mutation {
-//         joinTeam(inviteCode: "${team.inviteCode}") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               teams {
-//                 _id
-//                 name
-//               }
-//             }
-//           }
-//           errors {
-//             path
-//             code
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.joinTeam).to.have.property('data').and.not.have.property('errors');
-//   });
+  after(async() => {
+    return await user.removeTeam(team);
+  });
 
-//   it('should deny an unauthenticated user joining a team', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', 'unittest').send({
-//       query: 
-//       `mutation {
-//         joinTeam(inviteCode: "${team.inviteCode}") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               teams {
-//                 _id
-//                 name
-//               }
-//             }
-//           }
-//           errors {
-//             path
-//             code
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
-//   });
+  it('should let an authenticated user join a team they\'re not in', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', sessionToken).send({
+      query: 
+      `mutation {
+        joinTeam(inviteCode: "${team.inviteCode}") {
+          data {
+            user {
+              firstName
+              email
+              teams {
+                _id
+                name
+              }
+            }
+          }
+          errors {
+            path
+            code
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.joinTeam).to.have.property('data').and.not.have.property('errors');
+  });
 
-//   it('should deny an authenticated user joining an unknown team', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
-//       query: 
-//       `mutation {
-//         joinTeam(inviteCode: "unittest") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               teams {
-//                 _id
-//                 name
-//               }
-//             }
-//           }
-//           errors {
-//             path
-//             code
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
-//   });
+  it('should reject an unauthenticated user joining a team', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', 'unittest').send({
+      query: 
+      `mutation {
+        joinTeam(inviteCode: "${team.inviteCode}") {
+          data {
+            user {
+              firstName
+              email
+              teams {
+                _id
+                name
+              }
+            }
+          }
+          errors {
+            path
+            code
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+  });
 
-//   it('should not let an authenticated user join a team they\'re already in', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', sessionToken).send({
-//       query: 
-//       `mutation {
-//         joinTeam(inviteCode: "${team.inviteCode}") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               teams {
-//                 _id
-//                 name
-//               }
-//             }
-//           }
-//           errors {
-//             path
-//             code
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
-//   });
+  it('should reject an authenticated user joining an unknown team', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', sessionToken).send({
+      query: 
+      `mutation {
+        joinTeam(inviteCode: "unittest") {
+          data {
+            user {
+              firstName
+              email
+              teams {
+                _id
+                name
+              }
+            }
+          }
+          errors {
+            path
+            code
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+  });
+
+  it('should reject an authenticated user join a team they\'re already in', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', sessionToken).send({
+      query: 
+      `mutation {
+        joinTeam(inviteCode: "${team.inviteCode}") {
+          data {
+            user {
+              firstName
+              email
+              teams {
+                _id
+                name
+              }
+            }
+          }
+          errors {
+            path
+            code
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.joinTeam).to.have.property('errors').and.not.have.property('data');
+  });
 
 
-// });
+});
