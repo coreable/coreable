@@ -83,16 +83,6 @@ This will compile all the files in the `/docs/` directory to the output director
 
 Docz don't need testing
 
-## Deploying to Google Cloud
-
-Ensure all tests run and application functions as expected
-
-Create a pull request from your branch to the pre-master branch
-
-Wait for a code-review, when everyone has signed off create a pull request from pre-master to master
-
-buddy.works will deploy the master branch to google cloud
-
 ## If docker-compose says the port is already in use
 
 ###### terminal
