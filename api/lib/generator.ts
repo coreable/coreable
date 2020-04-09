@@ -52,7 +52,7 @@ export async function generator() {
     promises.push(async function () {
       const subject = await Subject.create({
         name: `subject ${i}`,
-        state: Faker.random.number({ min: 0, max: 3 })
+        state: Faker.random.number({ min: 1, max: 3 })
       });
       return subjectIDs.push(subject._id);
     });
@@ -62,12 +62,12 @@ export async function generator() {
   });
 
   // Create Team
-  times(2, (i) => {
+  times(3, (i) => {
     promises.push(async function () {
       const team = await Team.create({
         name: `team ${i}`,
         inviteCode: `team${i}`,
-        subject_id: `${subjectIDs[i]}`
+        subject_id: `${subjectIDs[Faker.random.number({ min: 0, max: 1 })]}`
       });
       return teamIDs.push(team._id);
     })

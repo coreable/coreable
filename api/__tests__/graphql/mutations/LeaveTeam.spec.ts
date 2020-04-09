@@ -43,7 +43,8 @@ describe('LeaveTeam Mutation [api/graphql/mutations/LeaveTeam.ts]', () => {
       teamIds.push(teams._id);
     }
     targetTeam = await Team.findOne({ where: { _id: { [Op.notIn]: teamIds } }});
-    notTargetTeam = await Team.findOne({ where: { _id: { [Op.not]: targetTeam._id }} });
+    teamIds.push(targetTeam._id);
+    notTargetTeam = await Team.findOne({ where: { _id: { [Op.notIn]: teamIds }} });
     return await user.addTeam(targetTeam);
   });
 
