@@ -15,8 +15,6 @@ Coreable source code.
 import { times } from 'lodash';
 import Faker from 'faker';
 
-import { sequelize } from './sequelize';
-
 import { User } from '../models/User';
 import { Team } from '../models/Team';
 import { Subject } from '../models/Subject';
@@ -31,7 +29,6 @@ export const managerIDs: string[] = [];
 
 // Generates fake data for the database
 export async function generator() {
-  await sequelize.sync({ force: true });
   let promises: any = [];
 
   // Create User

@@ -12,13 +12,14 @@ Coreable source code.
 ===========================================================================
 */
 
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response, NextFunction, urlencoded, json, static as expressStatic } from 'express';
 import GraphHTTP from 'express-graphql';
 import { join } from 'path';
 import cors from 'cors';
 
 import { Schema } from '../graphql/Schema';
 
+import { config } from '../config/config';
 import { decodeJWT } from './hash';
 import { sequelize } from './sequelize';
 
@@ -35,17 +36,17 @@ declare global {
       USER: User | Manager; // User/Manager object from the database
     }
     interface Application {
-      startup: Promise<boolean>;
+      _startup: Promise<boolean>;
     }
   }
 }
-
+ 
 // Server
 const app: Application = express();
 
 // Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(urlencoded({ extended: true }));
+app.use(json());
 app.set('trust proxy', true);
 app.disable('x-powered-by');
 app.use(cors());
@@ -70,7 +71,7 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
         throw new Error("Database, Cache or Client Header discrepancy");
       }
     } catch (err) {
-      if (process.env.NODE_ENV === 'development') {
+      if (config.NODE_ENV === 'development') {
         console.error({ code: err.name, message: err.message, path: 'api/lib/express.ts' });
       }
       delete req.JWT; // Remove Server sided JWT
@@ -83,21 +84,23 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 // GraphQL
 app.use('/graphql', GraphHTTP({
   schema: Schema,
-  pretty: true,
-  graphiql: process.env.NODE_ENV == 'development' ? true : true
+  pretty: config.NODE_ENV == 'development' ? true : true,
+  graphiql: config.NODE_ENV == 'development' ? true : true
 }));
 
-if (process.env.NODE_ENV === "production") {
+if (config.NODE_ENV === "production") {
   // TODO: Restrict /docs/ access to developers and coreable people
-  app.get('/', express.static(join(__dirname + '/../public')));
-  app.get('/docs', express.static(join(__dirname + '/../docs')));
-  app.use(express.static(join(__dirname + '/../public/')));
-  app.use(express.static(join(__dirname + '/../docs/')));
+  app.get('/', expressStatic(join(__dirname + '/../public')));
+  app.get('/docs', expressStatic(join(__dirname + '/../docs')));
+  app.use(expressStatic(join(__dirname + '/../public/')));
+  app.use(expressStatic(join(__dirname + '/../docs/')));
 }
 
 // Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  process.env.NODE_ENV == 'development' ? console.error({ name: err.name, message: err.message }) : null;
+  if (config.NODE_ENV === 'development') {
+    console.error({ name: err.name, message: err.message, path: '/api/lib/express.ts' });
+  }
   return res.status(500).json(err);
 });
 

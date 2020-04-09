@@ -15,17 +15,12 @@ Coreable source code.
 import { app } from './express';
 import { sequelize } from './sequelize';
 import { generator } from './generator';
+import { config } from '../config/config';
 
 // run the startup config
-app.startup = (async () => {
-  switch (process.env.NODE_ENV) {
-    case "production":
-      await sequelize.authenticate();
-      break;
+app._startup = (async () => {
+  switch (config.NODE_ENV) {
     case "pipeline":
-      await sequelize.sync({ force: true });
-      await generator();
-      break;
     case "test":
       await sequelize.sync({ force: true });
       await generator();
@@ -33,6 +28,7 @@ app.startup = (async () => {
     case "development":
       await sequelize.sync({ force: false });
       break;
+    case "production":
     default:
       await sequelize.authenticate();
       break;

@@ -14,8 +14,9 @@ Coreable source code.
 
 import { genSalt, compare, hash } from 'bcrypt';
 import { Secret, verify, sign } from 'jsonwebtoken';
+import { config } from '../config/config';
 
-export const JWT_SECRET: Secret = process.env.JWT_SECRET as string;
+export const JWT_SECRET: Secret = config.JWT_SECRET as string;
 export const ROUNDS: number = 10;
 
 /* Password Hashing */

@@ -12,11 +12,9 @@ Coreable source code.
 ===========================================================================
 */
 
-// Import config from /env/*.env to the node environment variables
-// Configuration done before importing any other components
-import dotenv from 'dotenv';
-import { resolve } from 'path';
-dotenv.config({ path: resolve(__dirname + `/env/${process.env.NODE_ENV}.env`) });
+import { config } from './config/config';
+import { app } from './lib/startup';
+import { createServer } from 'http';
 
 declare global {
   namespace NodeJS {
@@ -26,18 +24,14 @@ declare global {
   }
 }
 
-import { app } from './lib/startup';
-import { createServer, Server } from 'http';
+const server: any = createServer(app);
 
-export default (
-  async(): Promise<Server> => {
-    await app.startup;
-    return createServer(app).listen(
-      process.env.PORT, () => {
-        if (process.env.NODE_ENV === "development") {
-          console.log("\n", "\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m", "\n");
-        }
-      }
-    );
+server._done = (async() => {
+  await app._startup;
+})().then(() => server.listen(config.PORT, () => {
+  if (config.NODE_ENV === "development") {
+    console.log("\n", "\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m", "\n");
   }
-)();
+})).then(() => true);
+
+export { server };
