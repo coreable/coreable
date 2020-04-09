@@ -14,13 +14,13 @@ test(when adding missing tests) ...
 chore(maintain) ...
 ```
 
-### 
+######  Styling 
 
 1. Use present tense "change" not "changed"
 2. No dot (.) at the end
 3. Don't capitalize the first letter
 
-# Staging
+###### Staging
 
 1. Create your own branch
 2. Create a pull request from your branch to the `pre-master`
