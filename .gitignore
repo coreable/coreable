@@ -2,6 +2,7 @@
 
 # Weird Mac OS thing
 **/.DS_Store
+**/package-lock.json
 
 # API FOLDERS 
 **/node_modules/
