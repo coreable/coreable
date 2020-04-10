@@ -96,7 +96,7 @@ describe('Login Mutation [api/graphql/mutations/Login.ts]', () => {
     const res = await chai.request(server).post('/graphql').send({
       query: 
       `mutation {
-        login(email:"u4@4.com", password: "unittest") {
+        login(email:"u99@99.com", password: "unittest") {
           errors {
             message
             path

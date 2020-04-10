@@ -14,7 +14,7 @@ describe('Hashing & JWT [api/lib/hash.ts]', () => {
   before(async() => {
     hash = await generatePasswordHash(password);
     return;
-  })
+  });
 
   it('should allow a password to be hashed', async() => {
     return expect(hash).to.not.equal(password);
