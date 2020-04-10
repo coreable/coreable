@@ -1,0 +1,56 @@
+.facet-container {
+    height: 272pt;
+    width: 494pt;
+    background: white;
+    border-radius: 8pt;
+    margin: 9pt;
+
+}
+
+.self-score-container {
+    height: 100%;
+    width: 100%;
+    padding-top: 20pt;
+    justify-content: left !important;
+    padding: 0 30pt;
+    margin-top: 72pt;
+}
+
+p {
+    color: rgb(112,112,112);
+}
+.self-score-slider {
+    -webkit-appearance: none;
+    height: 16pt;
+    width: 380pt;
+    border-radius: 2pt;
+    background: rgb(66, 113, 249);
+    padding: 2pt;
+}
+
+.self-score-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    /* height: 16pt;
+    cursor: pointer;
+    height: 24pt;
+    width: 2pt;
+    border-radius: 4pt;
+    background: rgb(66, 113, 249); */
+}
+
+.self-score-slider:focus {
+    outline: none;
+}
+
+.facet-heading {
+    color: rgb(66, 113, 249);
+    margin-top: 24pt;
+    margin-bottom: 0pt;
+}
+
+.facet-info {
+    margin-bottom: 31pt;
+    margin-top: 5pt;
+}
+

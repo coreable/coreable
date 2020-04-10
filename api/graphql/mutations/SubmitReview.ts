@@ -152,9 +152,6 @@ export default {
       if ((args.receiver_id === context.USER._id) && subject.state !== 1) {
         errors.push({ code: 'ER_REFLECTION_STATE', path: 'subject', message: `A user can only submit a reflection review during subject state 1` });
       }
-      if (subject.state === 4) {
-        errors.push({ code: 'ER_SUBJECT_STATE', path: 'subject', message: `A user can only submit a review during subject states 1, 2 or 3` });
-      }
     }
     if (!errors.length) {
       let hasCompleted = await sequelize.models.Review.findOne(

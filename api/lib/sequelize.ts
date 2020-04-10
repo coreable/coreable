@@ -13,6 +13,7 @@ Coreable source code.
 */ 
 
 import { Sequelize } from 'sequelize';
+import { config } from '../config/config';
 
 import * as User from '../models/User';
 import * as Team from '../models/Team';
@@ -20,31 +21,24 @@ import * as Review from '../models/Review';
 import * as Subject from '../models/Subject';
 import * as Manager from '../models/Manager';
 
-import dotenv from 'dotenv';
-import { resolve } from 'path';
-
-const env: string = resolve(__dirname + `/../env/${process.env.NODE_ENV}.env`);
-let config: any = dotenv.config({ path: env });
-config = config.parsed;
-
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
 
 const sequelize = new _sequelize(
   {
-    username: process.env.MYSQL_USERNAME,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    username: config.MYSQL_USERNAME,
+    password: config.MYSQL_PASSWORD,
+    database: config.MYSQL_DATABASE,
     dialect: 'mysql',
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT,
-    logging: process.env.NODE_ENV === "development" ? console.log : null,
+    host: config.MYSQL_HOST,
+    port: config.MYSQL_PORT,
+    logging: config.NODE_ENV === "development" ? console.log : null,
     dialectOptions: {
-      socketPath: process.env.MYSQL_SOCKETPATH
+      socketPath: config.MYSQL_SOCKETPATH
     }
   }
 );
- 
+
 _sequelize.sync = (async () => {
   User.sync(sequelize);
   Team.sync(sequelize);
