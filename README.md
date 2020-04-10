@@ -13,7 +13,7 @@
 ```bash
 git clone https://github.com/coreable/coreable.git
 cd coreable
-npm install && npm install --prefix ./react/
+npm install
 ```
 
 ## Creating a local MySQL instance for development
