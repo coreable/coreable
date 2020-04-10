@@ -4,6 +4,10 @@
   "description": "Coreable",
   "private": false,
   "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coreable/coreable.git"
+  },
   "engines": {
     "node": "12.x"
   },
@@ -12,15 +16,14 @@
     "dev:api": "nodemon -e .js,.ts --watch api --exec \"NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.json' ts-node ./api/server.ts\"",
     "dev:web": "react-app-rewired start",
     "test:api": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
-    "test:web": "npm run test --prefix ./react/",
+    "test:web": "react-app-rewired test",
     "build:docz": "rimraf ./.docz && docz build --src='./docs' && mv ./.docz/dist ./dist/docs",
     "build:api": "tsc -p ./api/tsconfig.json",
     "build:web": "react-app-rewired build",
     "serve:docz": "docz serve",
     "serve:api": "node ./dist/server.js",
-    "install:docz": "",
-    "pipeline:api": "npm install && NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
-    "pipeline:web": "npm install --prefix ./react/ && npm run test --prefix ./react/",
+    "pipeline:api": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
+    "pipeline:web": "CI=true react-app-rewired test",
     "deploy": "rimraf ./dist && rimraf ./.docz && npm run build:api && npm run build:docz && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
     "start": "NODE_ENV=production node ./server.js",
     "clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"
@@ -34,6 +37,7 @@
   "author": "Coreable",
   "license": "Copyright (c) 2020 Coreable",
   "devDependencies": {
+    "@testing-library/react": "^10.0.2",
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.30",
     "@types/chai": "^4.2.11",

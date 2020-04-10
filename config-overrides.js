@@ -13,5 +13,9 @@ module.exports = {
     paths.appHtml = path.resolve(__dirname, 'react/public/index.html');
     paths.appBuild = path.resolve(__dirname, 'dist/public');
     return paths;
+  },
+  jest: function(config) {
+    config.CI = true;
+    return config;
   }
 }

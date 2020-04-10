@@ -82,3 +82,9 @@ This will compile all the files in the `/docs/` directory to the output director
 ### Documentation
 
 Docz don't need testing
+
+
+
+##### Fix node-gyp or fsevents
+
+[https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md](https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md)
