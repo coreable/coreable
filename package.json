@@ -51,7 +51,7 @@
     "create-react-app": "^3.4.1",
     "docz": "^2.3.1",
     "mocha": "^7.1.1",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.3",
     "nyc": "^15.0.1",
     "rimraf": "^3.0.2",
     "ts-node": "^8.7.0",
