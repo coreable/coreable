@@ -3,23 +3,22 @@
   "version": "1.0.1",
   "description": "Coreable",
   "private": false,
-  "main": "ecosystem.config.js",
+  "main": "server.js",
   "engines": {
     "node": "12.x"
   },
   "scripts": {
     "dev:docz": "docz dev --src='./docs' --port=8081",
     "dev:api": "nodemon -e .js,.ts --watch api --exec \"NODE_ENV=development TS_NODE_PROJECT='./api/tsconfig.json' ts-node ./api/server.ts\"",
-    "dev:web": "npm run start --prefix ./react/",
+    "dev:web": "NODE_PATH=./react npx react-scripts start",
     "test:api": "rimraf ./.nyc_output && NODE_ENV=test TS_NODE_PROJECT='./api/tsconfig.spec.json' nyc mocha --recursive --timeout 10000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
     "test:web": "npm run test --prefix ./react/",
-    "test:docz": "echo \"Docz don't need testing\"",
-    "build:docz": "rimraf ./.docz && docz build --src='./docs' && mkdir ./dist && mv ./.docz/dist ./dist/docs",
+    "build:docz": "rimraf ./.docz && docz build --src='./docs' && mv ./.docz/dist ./dist/docs",
     "build:api": "tsc -p ./api/tsconfig.json",
-    "build:web": "npm run build --prefix ./react/ && mkdir ./dist && mv ./react/build ./dist/public",
+    "build:web": "npm run build --prefix ./react/ && mv ./react/build ./dist/public",
     "serve:docz": "docz serve",
     "serve:api": "node ./dist/server.js",
-    "serve:web": "",
+    "install:docz": "",
     "pipeline:api": "npm install && NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
     "pipeline:web": "npm install --prefix ./react/ && npm run test --prefix ./react/",
     "deploy": "rimraf ./dist && npm run build:api && npm run build:docz && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
@@ -49,7 +48,6 @@
     "@types/validator": "^13.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "create-react-app": "^3.4.1",
     "docz": "^2.3.1",
     "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
@@ -61,6 +59,7 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
+    "create-react-app": "^3.4.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
@@ -71,6 +70,8 @@
     "mysql2": "^2.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.1",
     "sequelize": "^5.21.6"
   }
 }

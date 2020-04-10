@@ -84,16 +84,20 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 // GraphQL
 app.use('/graphql', GraphHTTP({
   schema: Schema,
-  pretty: config.NODE_ENV == 'development' ? true : true,
-  graphiql: config.NODE_ENV == 'development' ? true : true
+  pretty: config.NODE_ENV === 'development' ? true : true,
+  graphiql: config.NODE_ENV === 'development' ? true : true
 }));
-
+ 
 if (config.NODE_ENV === "production") {
   // TODO: Restrict /docs/ access to developers and coreable people
-  app.get('/', expressStatic(join(__dirname + '/../public')));
-  app.get('/docs', expressStatic(join(__dirname + '/../docs')));
   app.use(expressStatic(join(__dirname + '/../public/')));
   app.use(expressStatic(join(__dirname + '/../docs/')));
+  app.get('/docs/*', (req, res) => {
+    res.sendFile(join(__dirname + '/../docs/index.html'));
+  });
+  app.get('/*', (req, res) => {
+    res.sendFile(join(__dirname + '/../public/index.html'));
+  });
 }
 
 // Error handling
