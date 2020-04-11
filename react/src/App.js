@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+
+
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -21,6 +23,7 @@ import Flexibility from './components/SelfReview/Flexibility/Flexibility';
 import Resilience from './components/SelfReview/Resilience/Resilience';
 
 import ThankYou from './components/SelfReview/ThankYou';
+
 
 class App extends Component {
 
@@ -82,6 +85,7 @@ class App extends Component {
         <Route exact path="/thank-you" component={ThankYou}/>
         </div>
       </Router>
+
     );
   }
 }

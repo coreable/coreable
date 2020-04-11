@@ -6,13 +6,17 @@ import {
     Link  } from 'react-router-dom';
 import Setup from '../Setup';
 
+//apollo / graphQl
+import { graphql } from 'react-apollo';
+import {flowRight} from 'lodash';
+
+
 // export class Login extends Component {
 export function Login(props) {
     // render() {
 
         const [email, setEmail] = useState("");
         const [password, setPassword] = useState("");
-        const [border, setBorder] = useState("");
         
 
         function validateForm() {
@@ -21,7 +25,16 @@ export function Login(props) {
         
         function handleSubmit(event) {
             event.preventDefault();
+            this.props.loginMutation({
+                variables: {
+                    email: this.state.email,
+                    password: this.state.password
+                },
+                //this code is for the app to refresh the page after onSubmit
+                // refetchQueries: [{query: loginMutation}]
+            })
         }
+
 
         return (
             <div className="login-page">
@@ -32,6 +45,7 @@ export function Login(props) {
 
                 <div> 
                     <div className="form">
+                        {/* <form onSubmit={() => { handleSubmit(); queryAPI()}} className="form-group"> */}
                         <form onSubmit={handleSubmit} className="form-group">
                             <label htmlFor="username"> Email </label>
                             <input 
@@ -53,10 +67,12 @@ export function Login(props) {
 
                             {/* <label htmlFor="teamCode"> Team code </label>
                             <input type="text" className="input-text" placeholder="GHDK0402"/> */}
+                            {/* <Link to="/setup"> <button type="button" className="btn-login" disabled={!validateForm()} > Login </button> </Link> */}
+                            <button type="submit" className="btn-login" disabled={!validateForm()} > Login </button>
+                            <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link>
+                            <a className="forgotPassword" href=""> Forgot password </a>
                         </form>
-                        <Link to="/setup"> <button type="button" className="btn-login" disabled={!validateForm()} > Login </button> </Link>
-                        <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link>
-                        <a className="forgotPassword" href=""> Forgot password </a>
+
                     </div>
                 </div>
             </div>
@@ -65,4 +81,8 @@ export function Login(props) {
     }
 // }
 
-export default Login;
+//binding GraphQl with this component
+export default (Login);
+
+
+ 
