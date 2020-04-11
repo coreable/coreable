@@ -8,17 +8,17 @@ import { Manager } from '../../../models/Manager';
 import { Subject } from '../../../models/Subject';
 
 describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.ts]', () => {
-  let session_m0: any;
+  let session_m1: any;
   let session_u0: any;
-  let manager0: any;
-  let subject0: any;
+  let manager1: any;
+  let subject1: any;
 
   before(async() => {
     await server._done;
     const res = await chai.request(server).post('/graphql').set('JWT', '').send({
       query:
       `mutation {
-        login(email:"m0@0.com", password: "unittest") {
+        login(email:"m1@1.com", password: "unittest") {
           data {
             user {
               firstName
@@ -35,7 +35,7 @@ describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.
         }
       }`
     });
-    session_m0 = res.body.data.login.data.token;
+    session_m1 = res.body.data.login.data.token;
     const res1 = await chai.request(server).post('/graphql').set('JWT', '').send({
       query:
       `mutation {
@@ -57,22 +57,22 @@ describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.
       }`
     });
     session_u0 = res1.body.data.login.data.token;
-    manager0 = await Manager.findOne({ where: { _id: res.body.data.login.data.user._id }, include: [{ model: Subject, as: 'subjects' }] });
-    subject0 = manager0.subjects[0];
+    manager1 = await Manager.findOne({ where: { _id: res.body.data.login.data.user._id }, include: [{ model: Subject, as: 'subjects' }] });
+    subject1 = manager1.subjects[0];
     return;
   });
 
   after(async() => {
-    return await subject0.update({
+    return await subject1.update({
       state: 2
     });
   });
 
   it('should let a manager change their subjects state to 1', async() => {
-    const res = await chai.request(server).post('/graphql').set('JWT', session_m0).send({
+    const res = await chai.request(server).post('/graphql').set('JWT', session_m1).send({
       query:
       `mutation {
-        changeSubjectState(state: 1, subject_id: "${subject0._id}") {
+        changeSubjectState(state: 1, subject_id: "${subject1._id}") {
           data {
             subject {
               state
@@ -92,10 +92,10 @@ describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.
   });
 
   it('should reject a manager from trying to change their subjects state to 4', async() => {
-    const res = await chai.request(server).post('/graphql').set('JWT', session_m0).send({
+    const res = await chai.request(server).post('/graphql').set('JWT', session_m1).send({
       query:
       `mutation {
-        changeSubjectState(state: 4, subject_id: "${subject0._id}") {
+        changeSubjectState(state: 4, subject_id: "${subject1._id}") {
           data {
             subject {
               state
@@ -115,7 +115,7 @@ describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.
   });
 
   it('should reject a manager from trying to change an unknown subjects state to 2', async() => {
-    const res = await chai.request(server).post('/graphql').set('JWT', session_m0).send({
+    const res = await chai.request(server).post('/graphql').set('JWT', session_m1).send({
       query:
       `mutation {
         changeSubjectState(state: 2, subject_id: "unittest") {
@@ -141,7 +141,7 @@ describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.
     const res = await chai.request(server).post('/graphql').set('JWT', 'unittest').send({
       query:
       `mutation {
-        changeSubjectState(state: 4, subject_id: "${subject0._id}") {
+        changeSubjectState(state: 4, subject_id: "${subject1._id}") {
           data {
             subject {
               state
@@ -164,7 +164,7 @@ describe('ChangeSubjectState Mutation [api/graphql/mutations/ChangeSubjectState.
     const res = await chai.request(server).post('/graphql').set('JWT', session_u0).send({
       query:
       `mutation {
-        changeSubjectState(state: 4, subject_id: "${subject0._id}") {
+        changeSubjectState(state: 4, subject_id: "${subject1._id}") {
           data {
             subject {
               state

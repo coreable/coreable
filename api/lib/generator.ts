@@ -48,7 +48,7 @@ export async function generator() {
   });
 
   // Create Subject
-  times(2, (i) => {
+  times(3, (i) => {
     promises.push(async function () {
       const subject = await Subject.create({
         name: `subject ${i}`,
@@ -67,7 +67,7 @@ export async function generator() {
       const team = await Team.create({
         name: `team ${i}`,
         inviteCode: `team${i}`,
-        subject_id: `${subjects[Faker.random.number({ min: 0, max: 1 })]._id}`
+        subject_id: `${subjects[i]._id}`
       });
       return teams.push(team);
     })
