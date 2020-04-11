@@ -76,8 +76,8 @@ export async function generator() {
     promises = [];
   });
 
-  // Add users to first team
-  // u3@3.com is not in any team
+  // Add users to team0
+  // u3@3.com & u4@4.com are not in any team
   times(3, (i) => {
     promises.push(async function () {
       const user: any = await User.findOne({ where: { _id: users[i]._id } });
@@ -305,6 +305,18 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
+
+  // Add manager0 to subject0
+  // Add manager1 to subject1
+  times(2, (i) => {
+    promises.push(async function() {
+      (managers[i] as any).addSubject(subjects[i]);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
 
   return true;
 }

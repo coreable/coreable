@@ -20,7 +20,6 @@ import {
 
 import { CoreableError } from "../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
-import { Team } from "../../models/Team";
 import { Manager } from "../../models/Manager";
 
 export default {
@@ -61,14 +60,14 @@ export default {
     }
     if (!errors.length) {
       try {
-        await context.USER.removeTeam(targetTeam);
+        context.USER = await context.USER.removeTeam(targetTeam);
       } catch (err) {
         errors.push({ code: err.original.code, message: err.original.sqlMessage, path: 'SQL' });
       }
     }
     return {
       'data': !errors.length ? {
-        'user': await sequelize.models.User.findOne({ where: { _id: context.USER._id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] }),
+        'user': context.USER
       } : null,
       'errors': errors.length > 0 ? errors : null
     };
