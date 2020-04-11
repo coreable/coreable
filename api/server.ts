@@ -12,9 +12,9 @@ Coreable source code.
 ===========================================================================
 */
 
-import { server } from './lib/startup';
-import { app } from './lib/express';
-import { createServer, Server } from 'http';
+import { config } from './config/config';
+import { app } from './lib/startup';
+import { createServer } from 'http';
 
 declare global {
   namespace NodeJS {
@@ -24,15 +24,14 @@ declare global {
   }
 }
 
-export default (
-  async(): Promise<Server> => {
-    await server.startup;
-    return createServer(app).listen(
-      process.env.PORT, () => {
-        if (process.env.NODE_ENV === "development") {
-          console.log("\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m");
-        }
-      }
-    );
+const server: any = createServer(app);
+
+server._done = (async() => {
+  await app._startup;
+})().then(() => server.listen(config.PORT, () => {
+  if (config.NODE_ENV === "development") {
+    console.log("\n", "\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m", "\n");
   }
-)();
+})).then(() => true);
+
+export { server };

@@ -1,0 +1,50 @@
+.self-review {
+    position: absolute;
+    /* use top to position something absolutely */
+    top: 48pt;
+    bottom: 0;
+    width: 100%;
+    background: rgb(250,250,250);
+    padding: 0 30pt;
+    height: 1500px;
+    margin: 0 auto;
+}
+
+form {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.two-columns {
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-content: center;
+}
+
+.btn-before {
+    margin: 9pt;
+    height: 40pt;
+    width: 200pt;
+    border-radius: 8pt;
+    background: rgb(255,255,255);
+    font-size: 16pt;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-next {
+    margin: 9pt;
+    height: 40pt;
+    width: 200pt;
+    border-radius: 8pt;
+    background: rgb(66, 113, 249);
+    color: white;
+    font-size: 16pt;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-before:focus, .btn-next:focus {
+    outline: none;
+}

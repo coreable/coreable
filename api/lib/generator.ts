@@ -15,27 +15,24 @@ Coreable source code.
 import { times } from 'lodash';
 import Faker from 'faker';
 
-import { sequelize } from './sequelize';
-
 import { User } from '../models/User';
 import { Team } from '../models/Team';
 import { Subject } from '../models/Subject';
 import { Review } from '../models/Review';
 import { Manager } from '../models/Manager';
 
-export const userIDs: string[] = [];
-export const teamIDs: string[] = [];
-export const reviewIDs: string[] = [];
-export const subjectIDs: string[] = [];
-export const managerIDs: string[] = [];
+const users: User[] = [];
+const teams: Team[] = [];
+const reviews: Review[] = [];
+const subjects: Subject[] = [];
+const managers: Manager[] = [];
 
 // Generates fake data for the database
 export async function generator() {
-  await sequelize.sync({ force: true });
   let promises: any = [];
 
   // Create User
-  times(3, (i) => {
+  times(5, (i) => {
     promises.push(async function () {
       const user = await User.create({
         firstName: `user ${i}`,
@@ -43,7 +40,7 @@ export async function generator() {
         email: `u${i}@${i}.com`,
         password: 'unittest'
       });
-      return userIDs.push(user._id);
+      return users.push(user);
     });
   });
   await inSequence(promises).then(() => {
@@ -55,9 +52,9 @@ export async function generator() {
     promises.push(async function () {
       const subject = await Subject.create({
         name: `subject ${i}`,
-        state: Faker.random.number({ min: 0, max: 3 })
+        state: 2
       });
-      return subjectIDs.push(subject._id);
+      return subjects.push(subject);
     });
   });
   await inSequence(promises).then(() => {
@@ -65,25 +62,26 @@ export async function generator() {
   });
 
   // Create Team
-  times(2, (i) => {
+  times(3, (i) => {
     promises.push(async function () {
       const team = await Team.create({
         name: `team ${i}`,
         inviteCode: `team${i}`,
-        subject_id: `${subjectIDs[i]}`
+        subject_id: `${subjects[Faker.random.number({ min: 0, max: 1 })]._id}`
       });
-      return teamIDs.push(team._id);
+      return teams.push(team);
     })
   });
   await inSequence(promises).then(() => {
     promises = [];
   });
 
-  // Add users to first team
+  // Add users to team0
+  // u3@3.com & u4@4.com are not in any team
   times(3, (i) => {
     promises.push(async function () {
-      const user: any = await User.findOne({ where: { _id: userIDs[i] } });
-      const team: any = await Team.findOne({ where: { _id: teamIDs[0] } });
+      const user: any = await User.findOne({ where: { _id: users[i]._id } });
+      const team: any = await Team.findOne({ where: { _id: teams[0]._id } });
       return await user.addTeam(team);
     });
   });
@@ -94,9 +92,9 @@ export async function generator() {
   // User 0 reviews themself
   promises.push(async function () {
     const review = await Review.create({
-      receiver_id: userIDs[0],
-      submitter_id: userIDs[0],
-      state: Faker.random.number({ min: 1, max: 3 }),
+      receiver_id: users[0]._id,
+      submitter_id: users[0]._id,
+      state: 1,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
       managesOwn: Faker.random.number({ min: 1, max: 99 }),
@@ -121,15 +119,15 @@ export async function generator() {
       signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
       verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
     });
-    return reviewIDs.push(review._id);
+    return reviews.push(review);
   });
 
   // User 0 reviews User 1
   promises.push(async function () {
     const review = await Review.create({
-      receiver_id: userIDs[1],
-      submitter_id: userIDs[0],
-      state: Faker.random.number({ min: 1, max: 3 }),
+      receiver_id: users[1]._id,
+      submitter_id: users[0]._id,
+      state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
       managesOwn: Faker.random.number({ min: 1, max: 99 }),
@@ -154,15 +152,15 @@ export async function generator() {
       signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
       verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
     });
-    return reviewIDs.push(review._id);
+    return reviews.push(review);
   });
 
   // User 1 reviews User 0
   promises.push(async function () {
     const review = await Review.create({
-      receiver_id: userIDs[0],
-      submitter_id: userIDs[1],
-      state: Faker.random.number({ min: 1, max: 3 }),
+      receiver_id: users[0]._id,
+      submitter_id: users[1]._id,
+      state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
       managesOwn: Faker.random.number({ min: 1, max: 99 }),
@@ -187,15 +185,15 @@ export async function generator() {
       signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
       verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
     });
-    return reviewIDs.push(review._id);
+    return reviews.push(review);
   });
 
   // User 1 reviews User 2
   promises.push(async function () {
     const review = await Review.create({
-      receiver_id: userIDs[2],
-      submitter_id: userIDs[1],
-      state: Faker.random.number({ min: 1, max: 3 }),
+      receiver_id: users[2]._id,
+      submitter_id: users[1]._id,
+      state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
       managesOwn: Faker.random.number({ min: 1, max: 99 }),
@@ -220,15 +218,15 @@ export async function generator() {
       signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
       verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
     });
-    return reviewIDs.push(review._id);
+    return reviews.push(review);
   });
 
   // User 2 reviews User 1
   promises.push(async function () {
     const review = await Review.create({
-      receiver_id: userIDs[1],
-      submitter_id: userIDs[2],
-      state: Faker.random.number({ min: 1, max: 3 }),
+      receiver_id: users[1]._id,
+      submitter_id: users[2]._id,
+      state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
       managesOwn: Faker.random.number({ min: 1, max: 99 }),
@@ -253,15 +251,15 @@ export async function generator() {
       signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
       verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
     });
-    return reviewIDs.push(review._id);
+    return reviews.push(review);
   });
 
   // User 2 reviews User 2
   promises.push(async function () {
     const review = await Review.create({
-      receiver_id: userIDs[2],
-      submitter_id: userIDs[2],
-      state: Faker.random.number({ min: 1, max: 3 }),
+      receiver_id: users[2]._id,
+      submitter_id: users[2]._id,
+      state: 1,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
       managesOwn: Faker.random.number({ min: 1, max: 99 }),
@@ -286,7 +284,7 @@ export async function generator() {
       signifiesInterest: Faker.random.number({ min: 1, max: 100 }),
       verbalAttentiveFeedback: Faker.random.number({ min: 1, max: 100 })
     });
-    return reviewIDs.push(review._id);
+    return reviews.push(review);
   });
   await inSequence(promises).then(() => {
     promises = [];
@@ -301,12 +299,24 @@ export async function generator() {
         email: `m${i}@${i}.com`,
         password: 'unittest'
       });
-      return managerIDs.push(manager._id);
+      return managers.push(manager);
     });
   });
   await inSequence(promises).then(() => {
     promises = [];
   });
+
+  // Add manager0 to subject0
+  // Add manager1 to subject1
+  times(2, (i) => {
+    promises.push(async function() {
+      (managers[i] as any).addSubject(subjects[i]);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
 
   return true;
 }

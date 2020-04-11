@@ -78,8 +78,8 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                     return {
                       'average': {
                         type: ReviewResolver,
-                        resolve(average, args, context) {
-                          return average;
+                        resolve(reviews, args, context) {
+                          return reviews.average;
                         }
                       },
                       'sorted': {
@@ -89,23 +89,23 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                             return {
                               'field': {
                                 type: GraphQLString,
-                                resolve(sortable, args, context) {
-                                  return sortable[0];
+                                resolve(sorted, args, context) {
+                                  return sorted[0];
                                 }
                               },
                               'value': {
                                 type: GraphQLFloat,
-                                resolve(sortable, args, context) {
-                                  return sortable[1];
+                                resolve(sorted, args, context) {
+                                  return sorted[1];
                                 }
                               }
                             }
                           }
                         })),
-                        resolve(average, args, context) {
+                        resolve(reviews, args, context) {
                           const sortable = [];
-                          for (const field in average) {
-                            sortable.push([field, average[field]]);
+                          for (const field in reviews.average) {
+                            sortable.push([field, reviews.average[field]]);
                           }
                           sortable.sort((a, b) => {
                             return a[1] - b[1]
@@ -172,7 +172,10 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                   for (const key in average) {
                     average[key] = average[key] / counter;
                   }
-                  return average;
+                  return {
+                    'reviews': reviews,
+                    'average': average
+                  };
                 }
               },
               'default': {

@@ -1,296 +1,212 @@
-// import { describe, it } from 'mocha';
-// import chai, { expect } from 'chai';
-// import chaiHttp from 'chai-http';
-// chai.use(chaiHttp);
+import { describe, it } from 'mocha';
+import chai, { expect } from 'chai';
+import chaiHttp from 'chai-http';
+chai.use(chaiHttp);
 
-// import { User } from '../../../models/User';
-// import { app } from '../../../lib/express';
-// import { Team } from '../../../models/Team';
-// import { Review } from '../../../models/Review';
+import { User } from '../../../models/User';
+import { server } from '../../../server';
+import { Team } from '../../../models/Team';
+import { Review } from '../../../models/Review';
+import { Op } from 'sequelize';
 
-// describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => {
-//   let user1ID: any;
-//   let session1Token: any;
-//   let user2ID: any;
-//   let session2Token: any;
-//   let commonTeam: any;
-//   let user3ID: any;
+describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => {
+  let user0: any;
+  let u0_id: any;
+  let session_u0: any;
+  let user1: any;
+  let u1_id: any;
+  let user3: any;
+  let user4: any;
+  let team0: any;
+  let review_ids: string[] = [];
 
-//   before(async() => {
-//     const res1 = await chai.request(app).post('/graphql').send({
-//       query: 
-//       `mutation {
-//         register(email:"unit@test.com", firstName: "unit", lastName: "test", password: "unittest") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               _id
-//             }
-//             token
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     session1Token = res1.body.data.register.data.token;
-//     user1ID = res1.body.data.register.data.user._id;
-//     const res2 = await chai.request(app).post('/graphql').send({
-//       query: 
-//       `mutation {
-//         register(email:"unit2@test2.com", firstName: "unit2", lastName: "test2", password: "unittest2") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               _id
-//             }
-//             token
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     session2Token = res2.body.data.register.data.token;
-//     user2ID = res2.body.data.register.data.user._id;
-//     const res3 = await chai.request(app).post('/graphql').send({
-//       query: 
-//       `mutation {
-//         register(email:"unit3@test3.com", firstName: "unit3", lastName: "test3", password: "unittest3") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               _id
-//             }
-//             token
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     user3ID = res3.body.data.register.data.user._id;
+  before(async() => {
+    await server._done;
+    const res0 = await chai.request(server).post('/graphql').send({
+      query: 
+      `mutation {
+        login(email:"u0@0.com", password: "unittest") {
+          data {
+            user {
+              firstName
+              email
+              _id
+            }
+            token
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    session_u0 = res0.body.data.login.data.token;
+    u0_id = res0.body.data.login.data.user._id;
+    user0 = await User.findOne({ where: { _id: u0_id }, include: [{ model: Team, as: 'teams' }] });
 
-//     commonTeam = await Team.findOne();
-//     await chai.request(app).post('/graphQL').set('JWT', session1Token).send({
-//       query: 
-//       `mutation {
-//         joinTeam(inviteCode: "${commonTeam.inviteCode}") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               teams {
-//                 _id
-//                 name
-//               }
-//             }
-//           }
-//           errors {
-//             path
-//             code
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     await chai.request(app).post('/graphQL').set('JWT', session2Token).send({
-//       query: 
-//       `mutation {
-//         joinTeam(inviteCode: "${commonTeam.inviteCode}") {
-//           data {
-//             user {
-//               firstName
-//               email
-//               teams {
-//                 _id
-//                 name
-//               }
-//             }
-//           }
-//           errors {
-//             path
-//             code
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return true;
-//   });
+    const res1 = await chai.request(server).post('/graphql').send({
+      query: 
+      `mutation {
+        login(email:"u1@1.com", password: "unittest") {
+          data {
+            user {
+              firstName
+              email
+              _id
+            }
+            token
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    u1_id = res1.body.data.login.data.user._id;
+    user1 = await User.findOne({ where: { _id: u1_id }, include: [{ model: Team, as: 'teams' }] });
 
-//   after(async() => {
-//     await User.destroy({
-//       where: {
-//         email: 'unit@test.com',
-//       },
-//       force: true
-//     });
-//     await User.destroy({
-//       where: {
-//         email: 'unit2@test2.com',
-//       },
-//       force: true
-//     });
-//     await User.destroy({
-//       where: {
-//         email: 'unit3@test3.com',
-//       },
-//       force: true
-//     });
-//     await Review.destroy({
-//       where: {
-//         receiver_id: user2ID,
-//         submitter_id: user1ID
-//       }
-//     });
-//     return;
-//   });
+    team0 = user0.teams[0];
 
-//   it('should accept a valid review from 2 users with a common team without an already existing review for the subjects state', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', session1Token).send({
-//       query:
-//       `mutation {
-//         submitReview(receiver_id: "${user2ID}", team_id: "${commonTeam._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalReponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
-//           data {
-//             review {
-//               submitter_id
-//               receiver_id
-//               _id
-//             }
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.submitReview).to.have.property('data').and.not.have.property('errors');
-//   });
+    user3 = await User.findOne({ where: { email: 'u3@3.com' }, include: [{ model: Team, as: 'teams' }] });
 
-//   it('should reject an unauthenticated user', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', 'unittest').send({
-//       query:
-//       `mutation {
-//         submitReview(receiver_id: "${user2ID}", team_id: "${commonTeam._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalReponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
-//           data {
-//             review {
-//               submitter_id
-//               receiver_id
-//               _id
-//             }
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
-//   });
+    if (user0.teams[0]._id !== user1.teams[0]._id) {
+      throw new Error("User 0 and User 1 are not in team0!");
+    }
 
-//   it('should reject a review against an unknown user', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', session1Token).send({
-//       query:
-//       `mutation {
-//         submitReview(receiver_id: "unittest", team_id: "${commonTeam._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalReponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
-//           data {
-//             review {
-//               submitter_id
-//               receiver_id
-//               _id
-//             }
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
-//   });
+    return true;
+  });
 
-//   it('should reject a review against a user when there is no common team', async() => {
-//     const res = await chai.request(app).post('/graphQL').set('JWT', session1Token).send({
-//       query:
-//       `mutation {
-//         submitReview(receiver_id: "${user3ID}", team_id: "${commonTeam._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalReponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
-//           data {
-//             review {
-//               submitter_id
-//               receiver_id
-//               _id
-//             }
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
-//   });
+  after(async() => {
+    await user4.removeTeam(team0);
+    return await Review.destroy({
+      where: {
+        _id: {
+          [Op.in]: review_ids
+        }
+      }
+    });
+  });
 
-//   it('should reject a review if one has already been submitted for the subjects state', async() => {
-//     await chai.request(app).post('/graphQL').set('JWT', session1Token).send({
-//       query:
-//       `mutation {
-//         submitReview(receiver_id: "${user2ID}", team_id: "${commonTeam._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalReponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
-//           data {
-//             review {
-//               submitter_id
-//               receiver_id
-//               _id
-//             }
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     const res2 = await chai.request(app).post('/graphQL').set('JWT', session1Token).send({
-//       query:
-//       `mutation {
-//         submitReview(receiver_id: "${user2ID}", team_id: "${commonTeam.team_id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalReponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
-//           data {
-//             review {
-//               submitter_id
-//               receiver_id
-//               _id
-//             }
-//           }
-//           errors {
-//             code
-//             path
-//             message
-//           }
-//         }
-//       }`
-//     });
-//     return expect(res2.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
-//   });
+  it('should accept a valid review on a user with a common team without an already existing review for the subjects state', async() => {
+    user4 = await User.findOne({ where: { email: 'u4@4.com' }});
+    await user4.addTeam(team0);
+    const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
+      query:
+      `mutation {
+        submitReview(receiver_id: "${user4._id}", team_id: "${team0._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+          data {
+            review {
+              submitter_id
+              receiver_id
+              _id
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    review_ids.push(res.body.data.submitReview.data.review._id);
+    return expect(res.body.data.submitReview).to.have.property('data').and.not.have.property('errors');
+  });
+ 
+  it('should reject an unauthenticated user', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', 'unittest').send({
+      query:
+      `mutation {
+        submitReview(receiver_id: "${user1._id}", team_id: "${team0._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+          data {
+            review {
+              submitter_id
+              receiver_id
+              _id
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
+  });
 
-// });
+  it('should reject a review against an unknown user', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
+      query:
+      `mutation {
+        submitReview(receiver_id: "unittest", team_id: "${team0._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+          data {
+            review {
+              submitter_id
+              receiver_id
+              _id
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
+  });
+
+  it('should reject a review against a user when there is no common team', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
+      query:
+      `mutation {
+        submitReview(receiver_id: "${user3._id}", team_id: "${team0._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+          data {
+            review {
+              submitter_id
+              receiver_id
+              _id
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
+  });
+
+  it('should reject a review if one has already been submitted for the subjects state', async() => {
+    const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
+      query:
+      `mutation {
+        submitReview(receiver_id: "${user1._id}", team_id: "${team0._id}", signifiesInterest: 1, calm: 1, faith: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, preventsMisunderstandings: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+          data {
+            review {
+              submitter_id
+              receiver_id
+              _id
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }`
+    });
+    return expect(res.body.data.submitReview).to.have.property('errors').and.not.have.property('data');
+  });
+
+});
