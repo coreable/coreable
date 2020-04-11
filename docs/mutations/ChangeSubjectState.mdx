@@ -1,0 +1,265 @@
+---
+name: ChangeSubjectState
+route: /docs/mutations/ChangeSubjectState.mdx
+menu: Mutations
+---
+
+# ChangeSubjectState
+
+## Declaration
+
+> changeSubjectState() {}
+
+## Description
+
+> The method used by managers to change the state of a subject to 1, 2 or 3
+
+## Preconditions
+
+> The user logged in must be a manager
+> 
+> The user must be a manager of that subject
+>
+> The state must be either 1, 2 or 3
+
+## Parameters
+
+> | Field | Type  | Required? |
+> |:-:|:-:|:-:|
+> | subject_id | String | Yes |
+> | state | Number | Yes |
+
+## Shell 
+
+```graphql
+mutation {
+  changeSubjectState(subject_id: "", state: 0) {
+
+  }
+}
+```
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # =>[Class]  | Subquery returns a list  |
+> | # =>{Class}  | Subquery returns an object  |
+> | # //  | Comment  |
+
+## Example
+
+```graphql
+mutation {
+  changeSubjectState(subject_id: "", state: 0) {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      subject { # =>{Subject}
+        _id
+        state
+        teams { # =>[Team]
+          _id
+          inviteCode
+          name
+          report {
+            average { # =>{Review} # // Teams average scoring
+              # _id
+              # receiver {}
+              # receiver_id
+              # submitter {}
+              # submitter_id
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+              value
+              field
+            }
+          }
+          users { # =>[User]
+            _id
+            firstName
+            lastName
+            email
+            # teams {}
+            # subjects {}
+            reviews { 
+              default { # =>[Review] # // A list of reviews
+                _id
+                # submitter_id
+                # submitter {}
+                receiver_id
+                # receiver
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              report {
+                average { # =>{Review}
+                  # _id
+                  # receiver {}
+                  # receiver_id
+                  # submitter {}
+                  # submitter_id
+                  calm
+                  change
+                  clearInstructions
+                  cooperatively
+                  crossTeam
+                  distractions
+                  easilyExplainsComplexIdeas
+                  emotionalResponse
+                  empathy
+                  eyeContact
+                  faith
+                  influences
+                  managesOwn
+                  newIdeas
+                  openToShare
+                  positiveBelief
+                  preventsMisunderstandings
+                  proactive
+                  resilienceFeedback
+                  signifiesInterest
+                  tone
+                  verbalAttentiveFeedback
+                  workDemands
+                }
+                sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+                  value
+                  field
+                }
+              }
+            }
+            submissions { # =>[Review]
+              _id
+              submitter_id
+              # submitter {}
+              # receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            reflection { # =>{Review}
+              _id
+              submitter_id
+              # submitter {}
+              receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            pending { # =>[User]
+              _id
+              firstName
+              lastName
+              email
+              teams { # =>[Team]
+                _id
+                # inviteCode
+                name
+                # users {}
+                # report {}
+              }
+              # subjects {}
+              # reviews {}
+              # submissions {}
+              # reflection {}
+              # pending {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
