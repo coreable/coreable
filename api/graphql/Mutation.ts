@@ -22,6 +22,7 @@ import LoginMutation from './mutations/Login';
 import JoinTeamMutation from './mutations/JoinTeam';
 import LeaveTeamMutation from './mutations/LeaveTeam';
 import SubmitReviewMutation from './mutations/SubmitReview';
+import ChangeSubjectStateMutation from './mutations/ChangeSubjectState';
 
 export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Mutation',
@@ -32,7 +33,8 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
       'login': LoginMutation,
       'joinTeam': JoinTeamMutation,
       'leaveTeam': LeaveTeamMutation,
-      'submitReview': SubmitReviewMutation
+      'submitReview': SubmitReviewMutation,
+      'changeSubjectState': ChangeSubjectStateMutation
     }
   }
 });

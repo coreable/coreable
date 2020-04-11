@@ -23,7 +23,6 @@ import { ReviewObjectCommand } from "../command/object/Review";
 import { CoreableError } from "../../models/CoreableError";
 import { Team } from "../../models/Team";
 import { Review } from "../../models/Review";
-import { User } from "../../models/User";
 import { Manager } from "../../models/Manager";
 
 export default {
@@ -183,7 +182,7 @@ export default {
           calm: args.calm,
           change: args.change,
           newIdeas: args.newIdeas,
-          workDemands: args.workDemans,
+          workDemands: args.workDemands,
           proactive: args.proactive,
           influences: args.influences,
           clearInstructions: args.clearInstructions,
@@ -204,16 +203,13 @@ export default {
     return {
       'data': !errors.length ? {
         'review': await sequelize.models.Review.findOne(
-          { 
+          {
             where: { 
               receiver_id: args.receiver_id,
               submitter_id: context.USER._id,
               state: subject.state 
-            }, // TODO: is this a security flaw? Is it necessary (If not it should be deleted)?
-            include: [
-              { model: User, as: 'receiver' },
-              { model: User, as: 'submitter' }
-            ]
+            }, 
+            exclude: ['receiver_id']
           }
         )
       }: null,

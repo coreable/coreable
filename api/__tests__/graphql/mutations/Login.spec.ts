@@ -3,7 +3,6 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { User } from '../../../models/User';
 import { server } from '../../../server';
 
 describe('Login Mutation [api/graphql/mutations/Login.ts]', () => {
@@ -32,15 +31,6 @@ describe('Login Mutation [api/graphql/mutations/Login.ts]', () => {
       }`
     });
     sessionToken = res1.body.data.login.data.token;
-    return;
-  });
-  
-  after(async() => {
-    await User.destroy({
-      where: {
-        email: 'unit@test.com',
-      }
-    });
     return;
   });
 
