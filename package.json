@@ -19,7 +19,7 @@
     "test:web": "react-app-rewired test",
     "build:docz": "rimraf ./.docz && docz build --src='./docs' && mv ./.docz/dist ./dist/docs",
     "build:api": "tsc -p ./api/tsconfig.json",
-    "build:web": "react-app-rewired build",
+    "build:web": "CI=false react-app-rewired build",
     "serve:docz": "docz serve",
     "serve:api": "node ./dist/server.js",
     "pipeline:api": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
