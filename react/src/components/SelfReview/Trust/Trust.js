@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link  } from 'react-router-dom';
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link  } from 'react-router-dom';
 import TrustFacet from './TrustFacet';
 
 class Trust extends Component {
@@ -41,7 +41,7 @@ class Trust extends Component {
 
     render() {
 
-        let {trustFacets: trustFacets} = this.props
+        let {trustFacets} = this.props
         let {facetScore} = this.props
         let {userName} = this.props
 
@@ -62,7 +62,7 @@ class Trust extends Component {
  
                     {/* <Link to="/flexibility"><button className="btn-next"> Next </button> <br/> </Link> */}
                     <button className="btn-next" onClick={this.continue}> Next </button> <br/>
-                    <a onClick={this.back}>Back</a>
+                    <a href={this.back} onClick={this.back}>Back</a>
 
 
                 </form>

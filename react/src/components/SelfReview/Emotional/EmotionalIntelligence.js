@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import EmotionalFacet from './EmotionalFacet';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link  } from 'react-router-dom';
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link  } from 'react-router-dom';
 
 class EmotionalIntelligence extends Component {
 
@@ -58,7 +58,7 @@ class EmotionalIntelligence extends Component {
                     
                     {/* <Link to="/initiative"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
                     <button className="btn-next" onClick={this.continue}> Next </button> <br/>
-                    <a>Back</a>
+                    <a href="/">Back</a>
 
 
                 </form>
