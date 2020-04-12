@@ -58,6 +58,8 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "apollo-boost": "^0.4.7",
+    "apollo-link-context": "^1.0.20",
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -69,6 +71,7 @@
     "lodash": "^4.17.15",
     "mysql2": "^2.1.0",
     "react": "^16.13.1",
+    "react-apollo": "^3.1.4",
     "react-dom": "^16.13.1",
     "sequelize": "^5.21.6",
     "sequelize-simple-cache": "^1.1.1"
