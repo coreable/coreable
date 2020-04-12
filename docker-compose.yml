@@ -13,3 +13,7 @@ services:
       - '3306:3306'
     expose:
       - '3306'
+
+# If docker says the port is already in use
+# docker-compose down
+# docker rm -fv $(docker ps -aq)
