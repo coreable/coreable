@@ -1,10 +1,12 @@
 # COREABLE
 
+[![buddy pipeline](https://app.buddy.works/coreable/coreable/pipelines/pipeline/249362/badge.svg?token=252cdbde644b14054bdafb973256abc7284acd646c277e9f4ac8a5367f196bfb "buddy pipeline")](https://app.buddy.works/coreable/coreable/pipelines/pipeline/249362)
+
 ## Getting Started
 
-1. Install the project dependancies by opening a terminal in the projects directory and `npm install`
-2. Change directories to the react folder and install the dependancies with `npm install` 
-3. Install the Google Cloud SDK Command Line Interface tools with `curl https://sdk.cloud.google.com | bash`
+1. Clone the project
+2. Install project dependencies
+3. Create your own branch and begin hacking
 
 ###### terminal 
 
@@ -12,9 +14,6 @@
 git clone https://github.com/coreable/coreable.git
 cd coreable
 npm install
-cd react
-npm install
-curl https://sdk.cloud.google.com | bash
 ```
 
 ## Creating a local MySQL instance for development
@@ -31,7 +30,7 @@ To begin a MySQL server, open the terminal and being a docker container with `do
 
 ```bash
 cd coreable
-docker-compose up
+docker-compose up -d
 ```
 
 The database is ready for connection.
@@ -40,36 +39,33 @@ The database is ready for connection.
 
 ### API
 
-In the root directory of the repository run in the terminal `npm run api:dev`. 
-
-Running the API in development mode with a MySQL server on localhost specified in the config.json file will fill the database with generated data for testing purposes. 
-
+`npm run dev:api`
 
 ### React
 
-In the root directory of the repository run in the terminal `npm run react:dev`
+`npm run dev:web`
 
 ### Documentation
 
-In the root directory of the repository run in the terminal `npm run docz:dev`
+`npm run dev:docz`
 
 ## Building for Production
 
 ### API
 
-In the root directory of the repository run in the terminal `npm run api:build`
+`npm run build:api`
 
 This will compile all the files in the `/api/` directory, excluding the mocha & chai tests, to the output directory of `/dist/`. 
 
 ### React
 
-In the root directory of the repository run in the terminal `npm run api:build`
+`npm run build:web`
 
 This will compile all the files in the `/react/src/` and `/react/public` directory, excluding the tests, to the output directory of `/dist/public`. 
 
 ### Documentation
 
-In the root directory of the repository run in the terminal `npm run docz:build`
+`npm run build:docz`
 
 This will compile all the files in the `/docs/` directory to the output directory of `/dist/docs`. 
 
@@ -77,30 +73,16 @@ This will compile all the files in the `/docs/` directory to the output director
 
 ### API
 
-In the root directory of the repository run in the terminal `npm run api:test`
+`npm run test:api`
 
 ### React
 
-In the root directory of the repository run in the terminal `npm run react:test`
+`npm run test:web`
 
 ### Documentation
 
 Docz don't need testing
 
-## Deploying to Google Cloud
+##### Fix node-gyp or fsevents
 
-Make sure the application does not crash at run time for any reason. **IMPORTANT**!
-
-In the root directory of the repository run in the terminal `npm run deploy`. **THIS WILL TAKE SOMET TIME**. Be prepared to wait 20 minutes!
-
-In the root directory of the repository in the terminal run `npm run deploy` this will remove the `/dist` folder then will compile the react application, API and documentation all to the `/dist/` folder and upload it to Google Cloud.
-
-
-## If docker-compose says the port is already in use
-
-###### terminal
-
-```bash
-docker-compose down
-docker rm -fv $(docker ps -aq)
-```
+[https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md](https://github.com/nodejs/node-gyp/blob/master/macOS_Catalina.md)

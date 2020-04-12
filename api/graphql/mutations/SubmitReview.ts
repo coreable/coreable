@@ -23,7 +23,6 @@ import { ReviewObjectCommand } from "../command/object/Review";
 import { CoreableError } from "../../models/CoreableError";
 import { Team } from "../../models/Team";
 import { Review } from "../../models/Review";
-import { User } from "../../models/User";
 import { Manager } from "../../models/Manager";
 
 export default {
@@ -152,9 +151,6 @@ export default {
       if ((args.receiver_id === context.USER._id) && subject.state !== 1) {
         errors.push({ code: 'ER_REFLECTION_STATE', path: 'subject', message: `A user can only submit a reflection review during subject state 1` });
       }
-      if (subject.state === 4) {
-        errors.push({ code: 'ER_SUBJECT_STATE', path: 'subject', message: `A user can only submit a review during subject states 1, 2 or 3` });
-      }
     }
     if (!errors.length) {
       let hasCompleted = await sequelize.models.Review.findOne(
@@ -186,7 +182,7 @@ export default {
           calm: args.calm,
           change: args.change,
           newIdeas: args.newIdeas,
-          workDemands: args.workDemans,
+          workDemands: args.workDemands,
           proactive: args.proactive,
           influences: args.influences,
           clearInstructions: args.clearInstructions,
@@ -207,16 +203,13 @@ export default {
     return {
       'data': !errors.length ? {
         'review': await sequelize.models.Review.findOne(
-          { 
+          {
             where: { 
               receiver_id: args.receiver_id,
               submitter_id: context.USER._id,
               state: subject.state 
-            }, // TODO: is this a security flaw? Is it necessary (If not it should be deleted)?
-            include: [
-              { model: User, as: 'receiver' },
-              { model: User, as: 'submitter' }
-            ]
+            }, 
+            exclude: ['receiver_id']
           }
         )
       }: null,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -26,10 +26,15 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem(JWT)
+  console.log(token)
   return {
     headers: {
       ...headers,
+<<<<<<< HEAD
       JWT: token ? token : null,
+=======
+      JWT: token ? token : "",
+>>>>>>> fb9ef445b3b78b057d93237c0a39a521340a3a58
     }
   }
 })
