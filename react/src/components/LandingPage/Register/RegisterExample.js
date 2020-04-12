@@ -1,10 +1,16 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import {
-    BrowserRouter as Router,
-    Route,
-    Link  } from 'react-router-dom';
+// import ReactDOM from "react-dom";
+// import {
+//     BrowserRouter as Router,
+//     Route,
+//     Link  } from 'react-router-dom';
 import '../Login/LoginExample.css';
+
+//apollo / graphQl
+import { Mutation } from 'react-apollo'
+import { JWT, USER_NAME, USERID } from '../../../constants'
+
+import { SIGNUP_MUTATION } from  '../../../Queries'
 
 function validate(email, password, firstname, lastname) {
   // true means invalid, so our conditions got reversed
@@ -74,6 +80,7 @@ class RegisterForm extends React.Component {
   render() {
     const errors = validate(this.state.email, this.state.password, this.state.firstname, this.state.lastname);
     const isDisabled = Object.keys(errors).some(x => errors[x]);
+    const { email, password, firstname, lastname} = this.state
 
     const shouldMarkError = field => {
       const hasError = errors[field];
@@ -94,7 +101,7 @@ class RegisterForm extends React.Component {
                         className={shouldMarkError("email") ? "error" : ""}
                         type="text"
                         placeholder="Enter email"
-                        value={this.state.email}
+                        value={email}
                         onChange={this.handleEmailChange}
                         onBlur={this.handleBlur("email")}
                         />
@@ -103,7 +110,7 @@ class RegisterForm extends React.Component {
                         className={shouldMarkError("password") ? "error" : ""}
                         type="password"
                         placeholder="Enter password"
-                        value={this.state.password}
+                        value={password}
                         onChange={this.handlePasswordChange}
                         onBlur={this.handleBlur("password")}
                         />
@@ -112,7 +119,7 @@ class RegisterForm extends React.Component {
                         className={shouldMarkError("firstname") ? "error" : ""}
                         type="text"
                         placeholder="Enter first name"
-                        value={this.state.firstname}
+                        value={firstname}
                         onChange={this.handleFirstnameChange}
                         onBlur={this.handleBlur("firstname")}
                         />
@@ -121,19 +128,57 @@ class RegisterForm extends React.Component {
                         className={shouldMarkError("lastname") ? "error" : ""}
                         type="text"
                         placeholder="Enter last name"
-                        value={this.state.lastname}
+                        value={lastname}
                         onChange={this.handleLastnameChange}
                         onBlur={this.handleBlur("lastname")}
                         />
                     {/* <button disabled={isDisabled}>Sign up</button> */}
-                    <Link to="/setup"> <button type="button" className="btn-login" disabled={isDisabled} > Login </button> </Link>
-                    <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link>
-                    <a className="forgotPassword" href=""> Forgot password </a>
+                    
+                    <Mutation
+                        mutation={SIGNUP_MUTATION}
+                        variables={{email, password, firstname, lastname }}
+                        onCompleted={data => this._confirm(data)}
+                    >
+                        {mutation => (
+                        <button type="button" className="btn-login" disabled={isDisabled} onClick={mutation}>
+                            Sign up
+                        </button>
+                        )}
+                    </Mutation>
+                    
+                    
+                    
+                    {/* <Link to="/setup"> <button type="button" className="btn-login" disabled={isDisabled} > Login </button> </Link>
+                    <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link> */}
+                    <a className="forgotPassword" href="/"> Forgot password </a>
                 </form>
             </div>
         </div>
     );
   }
+
+  _confirm = async data => {
+   
+    try {
+        const { token } = data.register.data
+        const { firstName, _id } = data.register.data.user
+        this._saveUserData({token, firstName, _id})
+        alert(`Thank you for signing up ${firstName}`)
+        this.props.history.push(`/setup`)
+      } 
+    catch {
+        alert('Invalid signup');
+    }
+  }
+  
+  _saveUserData = ({token, firstName, _id}) => {
+    localStorage.setItem(JWT, token)
+    localStorage.setItem(USER_NAME, firstName)
+    localStorage.setItem(USERID, _id)
+  }
+  
 }
+
+
 
 export default RegisterForm;

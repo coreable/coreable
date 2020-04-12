@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import FlexibilityFacet from './FlexibilityFacet';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link  } from 'react-router-dom';
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link  } from 'react-router-dom';
 
 class Flexibility extends Component {
 
@@ -61,7 +61,7 @@ class Flexibility extends Component {
                     
                     {/* <Link to="/Resilience"><button className="btn-next"> Next </button> <br/> </Link> */}
                     <button className="btn-next" onClick={this.continue}> Next </button> <br/>
-                    <a onClick={this.back}>Back</a>
+                    <a href={this.back} onClick={this.back}>Back</a>
 
 
                 </form>
