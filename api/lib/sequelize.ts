@@ -34,7 +34,9 @@ const sequelize = new _sequelize(
     port: config.MYSQL_PORT,
     logging: config.NODE_ENV === "development" ? console.log : null,
     dialectOptions: {
-      socketPath: config.MYSQL_SOCKETPATH
+      socketPath: config.MYSQL_SOCKETPATH,
+      supportBigNumbers: true,
+      decimalNumbers: true
     }
   }
 );
@@ -54,5 +56,9 @@ _sequelize.assosciate = (async () => {
   Subject.assosciate();
   Manager.assosciate();
 })();
+
+(async() => {
+  await sequelize.query(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
+})().then(() => true);
 
 export { sequelize };

@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import {
   GraphQLObjectType,
@@ -23,6 +23,9 @@ import { Team } from '../../models/Team';
 import { SubjectResolver } from './Subject';
 import { UserResolver } from './User';
 import { ReviewResolver } from './Review';
+import { sequelize } from '../../lib/sequelize';
+import { User } from '../../models/User';
+import { Review } from '../../models/Review';
 
 export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   name: 'TeamResolver',
@@ -93,7 +96,9 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
                 resolve(average, args, context) {
                   const sortable = [];
                   for (const field in average) {
-                    sortable.push([field, average[field]]);
+                    if (!isNaN(average[field])) {
+                      sortable.push([field, average[field]]);
+                    }
                   }
                   sortable.sort((a, b) => {
                     return a[1] - b[1]
@@ -105,65 +110,157 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
           }
         }),
         async resolve(team, args, context) {
-          const averageReview: any = {
-            calm: 0,
-            change: 0,
-            clearInstructions: 0,
-            cooperatively: 0,
-            crossTeam: 0,
-            distractions: 0,
-            easilyExplainsComplexIdeas: 0,
-            emotionalResponse: 0,
-            empathy: 0,
-            eyeContact: 0,
-            faith: 0,
-            influences: 0,
-            managesOwn: 0,
-            newIdeas: 0,
-            openToShare: 0,
-            positiveBelief: 0,
-            preventsMisunderstandings: 0,
-            proactive: 0,
-            resilienceFeedback: 0,
-            signifiesInterest: 0,
-            tone: 0,
-            verbalAttentiveFeedback: 0,
-            workDemands: 0
-          };
-          let counter = 0;
-          for (const user of team.users) {
-            user.reviews = await (user as any).getReviews();
-            for (const review of user.reviews) {
-              averageReview.calm += review.calm;
-              averageReview.change += review.change;
-              averageReview.clearInstructions += review.clearInstructions;
-              averageReview.cooperatively += review.cooperatively;
-              averageReview.crossTeam += review.crossTeam;
-              averageReview.distractions += review.distractions;
-              averageReview.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
-              averageReview.emotionalResponse += review.emotionalResponse;
-              averageReview.empathy += review.empathy;
-              averageReview.eyeContact += review.eyeContact;
-              averageReview.faith += review.faith;
-              averageReview.influences += review.influences;
-              averageReview.managesOwn += review.managesOwn;
-              averageReview.newIdeas += review.newIdeas;
-              averageReview.openToShare += review.openToShare;
-              averageReview.positiveBelief += review.positiveBelief;
-              averageReview.preventsMisunderstandings += review.preventsMisunderstandings;
-              averageReview.proactive += review.proactive;
-              averageReview.resilienceFeedback += review.resilienceFeedback;
-              averageReview.signifiesInterest += review.signifiesInterest;
-              averageReview.tone += review.tone;
-              averageReview.verbalAttentiveFeedback += review.verbalAttentiveFeedback;
-              averageReview.workDemands += review.workDemands;
-              counter++;
+          let averages = await sequelize.models.Team.findOne(
+            {
+              where: { _id: team._id },
+              group: ['_id'],
+              attributes: {
+                exclude: [
+                  '_id',
+                  'name',
+                  'inviteCode',
+                  'subject_id',
+                  'createdAt',
+                  'updatedAt',
+                ],
+                include: [
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.calm')),
+                    'calm'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.change')),
+                    'change'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.clearInstructions')),
+                    'clearInstructions'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.cooperatively')),
+                    'cooperatively'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.crossTeam')),
+                    'crossTeam'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.distractions')),
+                    'distractions'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.easilyExplainsComplexIdeas')),
+                    'easilyExplainsComplexIdeas'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.emotionalResponse')),
+                    'emotionalResponse'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.empathy')),
+                    'empathy'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.eyeContact')),
+                    'eyeContact'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.faith')),
+                    'faith'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.influences')),
+                    'influences'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.managesOwn')),
+                    'managesOwn'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.newIdeas')),
+                    'newIdeas'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.openToShare')),
+                    'openToShare'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.positiveBelief')),
+                    'positiveBelief'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.preventsMisunderstandings')),
+                    'preventsMisunderstandings'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.proactive')),
+                    'proactive'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.resilienceFeedback')),
+                    'resilienceFeedback'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.resilienceFeedback')),
+                    'resilienceFeedback'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.signifiesInterest')),
+                    'signifiesInterest'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('tone')),
+                    'tone'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.verbalAttentiveFeedback')),
+                    'verbalAttentiveFeedback'
+                  ],
+                  [
+                    sequelize.fn('avg',
+                      sequelize.col('users.reviews.workDemands')),
+                    'workDemands'
+                  ],
+                ]
+              },
+              include: [{
+                model: User,
+                as: 'users',
+                group: ['_id'],
+                include: [
+                  {
+                    model: Review,
+                    as: 'reviews',
+                    group: ['_id'],
+                  }
+                ]
+              }]
             }
-          }
-          for (const key in averageReview) {
-            averageReview[key] = averageReview[key] / counter;
-          }
-          return averageReview;
+          );
+          return averages.dataValues;
         }
       }
     }

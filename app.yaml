@@ -1,6 +1,10 @@
 runtime: nodejs
 env: flex
 
+actions:
+  promote_all_traffic: true
+  stop_previous_version: true
+
 manual_scaling:
   instances: 1
 
