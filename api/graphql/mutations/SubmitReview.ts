@@ -108,6 +108,8 @@ export default {
     }
   },
   async resolve(root: any, args: any, context: any) {
+    // @todo #1 Should reviews have a team ID and be team specific?
+    // @todo #2 Should self reviews be allowed after x amount of time and not per subject state? 
     let errors: CoreableError[] = [];
     let userBeingReviewed: any;
     let userCommonTeam: any;

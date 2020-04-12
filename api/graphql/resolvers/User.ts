@@ -208,9 +208,8 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'pending': {
         type: new GraphQLList(UserResolver),
         async resolve(user, args, context) {
-          // TODO: remove self if subject state isn't 1
-
-
+          // @todo #3 Remove self from pending if subject state isn't 1
+          
           // if the user retrieved is not the logged in user
           // and the logged in user is not manager
           // or the user being retrieved is a manager
