@@ -208,6 +208,9 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'pending': {
         type: new GraphQLList(UserResolver),
         async resolve(user, args, context) {
+          // TODO: remove self if subject state isn't 1
+
+
           // if the user retrieved is not the logged in user
           // and the logged in user is not manager
           // or the user being retrieved is a manager
@@ -250,7 +253,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return sequelize.models.User.findAll(
             {
               where: { _id: { [Op.in]: pending } },
-              include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }]
+              include: [{ model: Team, as: 'teams', exclude: ['inviteCode'], include: [{ model: Subject, as: 'subject' }] }]
             }
           );
         }
