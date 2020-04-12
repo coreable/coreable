@@ -68,9 +68,7 @@ describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => 
     });
     u1_id = res1.body.data.login.data.user._id;
     user1 = await User.findOne({ where: { _id: u1_id }, include: [{ model: Team, as: 'teams' }] });
-
     team0 = user0.teams[0];
-
     user3 = await User.findOne({ where: { email: 'u3@3.com' }, include: [{ model: Team, as: 'teams' }] });
 
     if (user0.teams[0]._id !== user1.teams[0]._id) {
