@@ -30,7 +30,7 @@ To begin a MySQL server, open the terminal and being a docker container with `do
 
 ```bash
 cd coreable
-docker-compose up
+docker-compose up -d
 ```
 
 The database is ready for connection.
