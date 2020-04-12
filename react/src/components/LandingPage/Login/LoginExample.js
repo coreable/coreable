@@ -143,7 +143,7 @@ class LoginForm extends React.Component {
 
 
   _confirm = async data => {
-   
+   console.log(data)
     try {
         const { token } = data.login.data
         const { firstName, _id } = data.login.data.user

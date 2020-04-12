@@ -7,7 +7,10 @@ import Trust from './Trust/Trust';
 import Flexibility from './Flexibility/Flexibility';
 import Resilience from './Resilience/Resilience';
 
-import {USER_NAME} from '../../constants';
+import {USER_NAME, JWT} from '../../constants';
+
+
+
 
 class SelfReview extends Component {
     
@@ -118,11 +121,15 @@ class SelfReview extends Component {
            showInfo : !showInfo
        })
     }
+      
+
 
     // handleRatingChange = (e) => this.setState({facetRating: e.target.value})
     // handleSliderChange = (e) => this.setState({slider: e.target.value})
 
     render() {
+
+
         
         const NAME = localStorage.getItem(USER_NAME)
         const {step} = this.state
