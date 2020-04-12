@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -8,17 +7,46 @@ import * as serviceWorker from './serviceWorker';
 //   BrowserRouter as Router,
 //   Route,
 //   Link  } from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
+
+//apollo
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { setContext } from 'apollo-link-context'
+import { JWT } from './constants'
+
+
+const httpLink = createHttpLink({
+  uri: 'https://coreable.appspot.com/graphql',
+  // credentials: 'same-origin'
+})
+
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem(JWT)
+  console.log(token)
+  return {
+    headers: {
+      ...headers,
+      JWT: token ? token : "",
+    }
+  }
+})
+
+
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+})
+
 
 ReactDOM.render(
-    <Router>
-      <App />
-    </Router>,
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
   document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+)
 serviceWorker.unregister();
-
