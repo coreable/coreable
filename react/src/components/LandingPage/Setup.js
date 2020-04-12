@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styles from './Login/Login.css';
 import {
-    BrowserRouter as Router,
-    Route,
     Link  } from 'react-router-dom';
 
 export class Setup extends Component {

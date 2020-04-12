@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
-  Route,
-  Link  } from 'react-router-dom';
+  Route
+  // Link  
+} from 'react-router-dom';
 import Toolbar from './components/Toolbar/Toolbar.js';
 import Backdrop from './components/Backdrop/Backdrop';
 import SideDrawer from './components/Sidedrawer/Sidedrawer';
-import Login from './components/LandingPage/Login/Login';
+// import Login from './components/LandingPage/Login/Login';
 import LandingPage from './components/LandingPage/LandingPage';
 import Register from './components/LandingPage/Register/Register';
 import Setup from './components/LandingPage/Setup';
@@ -71,7 +72,7 @@ class App extends Component {
         )}>     
         </Route> */}
 
-        <Route exact path="/login" component={Login} />
+        {/* <Route exact path="/login" component={Login} /> */}
         <Route exact path="/register" component={Register} />
         <Route exact path="/setup" component={Setup} />
         <Route exact path="/loginexample" component={LoginTest} />

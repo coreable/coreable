@@ -1,35 +1,33 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import {
-    BrowserRouter as Router,
-    Route,
     Link  } from 'react-router-dom';
 import './LoginExample.css';
 
 //apollo / graphQl
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 import { AUTH_TOKEN } from '../../../constants'
 
-const LOGIN_MUTATION = gql`
-    mutation LoginMutation($email: String!, $password: String!){
-        login(email:$email, password: $password) {
-            data {
-                user {
-                    firstName
-                    email
-                    _id
-                    }
-                token
-                }
-                errors {
-                    code
-                    path
-                    message
-                }
-        }
-  }
-`
+import { LOGIN_MUTATION } from '../../../Queries';
+
+// const LOGIN_MUTATION = gql`
+//     mutation LoginMutation($email: String!, $password: String!){
+//         login(email:$email, password: $password) {
+//             data {
+//                 user {
+//                     firstName
+//                     email
+//                     _id
+//                     }
+//                 token
+//                 }
+//                 errors {
+//                     code
+//                     path
+//                     message
+//                 }
+//         }
+//   }
+// `
 
 function validate(email, password) {
   // true means invalid, so our conditions got reversed
@@ -135,7 +133,7 @@ class LoginForm extends React.Component {
                     </Mutation>
                     
                     <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link>
-                    <a className="forgotPassword" href=""> Forgot password </a>
+                    <a className="forgotPassword" href="/"> Forgot password </a>
                 </form>
             </div>
         </div>
@@ -150,6 +148,7 @@ class LoginForm extends React.Component {
             this._saveUserData(token)
             // alert(`Welcome ${data.login.data.user.firstName}`)
             this.props.history.push(`/setup`)
+
       } catch {
         alert('Invalid login');
       }

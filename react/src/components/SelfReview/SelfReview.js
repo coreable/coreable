@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './SelfReview.css';
-import SelfScore  from './SelfScore/SelfScore';
+// import SelfScore  from './SelfScore/SelfScore';
 import EmotionalIntelligence from './Emotional/EmotionalIntelligence';
 import Initiative from './Initiative/Initiative';
 import Trust from './Trust/Trust';
@@ -223,16 +223,3 @@ export default SelfReview
 
 
 
- {/* place holder */}
-                {/* <SelfScore 
-                    facetRating={this.state.facetRating} 
-                    handleRatingChange={this.handleRatingChange} 
-                    slider={this.state.slider} 
-                    handleSliderChange={this.handleSliderChange}
-                /> */}
-                // <Facet 
-                //     facetRating={this.state.facetRating} 
-                //     handleRatingChange={this.handleRatingChange} 
-                //     slider={this.state.slider} 
-                //     handleSliderChange={this.handleSliderChange}
-                // />

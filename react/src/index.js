@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 //   BrowserRouter as Router,
 //   Route,
 //   Link  } from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 
 //apollo
 import { ApolloProvider } from 'react-apollo'

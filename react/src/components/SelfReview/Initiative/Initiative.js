@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import InitiativeFacet from './InitiavtiveFacet';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link  } from 'react-router-dom';
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link  } from 'react-router-dom';
 
 class Initiative extends Component {
 
@@ -63,7 +63,7 @@ class Initiative extends Component {
  
                     {/* <Link to="/Trust"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
                     <button className="btn-next" onClick={this.continue}> Next </button> <br/>
-                    <a onClick={this.back}>Back</a>
+                    <a href={this.back} onClick={this.back}>Back</a>
 
 
                 </form>
