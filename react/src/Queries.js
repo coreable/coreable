@@ -7,6 +7,7 @@ import gql from 'graphql-tag'
 
 
 //Mutations
+//Login
 const LOGIN_MUTATION = gql`
     mutation LoginMutation($email: String!, $password: String!){
         login(email:$email, password: $password) {
@@ -26,6 +27,8 @@ const LOGIN_MUTATION = gql`
         }
   }
 `
+
+//Signup
 const SIGNUP_MUTATION = gql`
     mutation SignUpMutation($email: String!, $password: String!, $firstname: String!, $lastname: String!){
         register(email: $email, password: $password, firstName: $firstname, lastName: $lastname) {
@@ -47,4 +50,30 @@ const SIGNUP_MUTATION = gql`
 }
 `
 
-export { LOGIN_MUTATION, SIGNUP_MUTATION } 
+
+//JoinTeam
+const JOIN_TEAM = gql`
+    mutation JoinTeam($inviteCode: String!){
+        joinTeam(inviteCode: $inviteCode) {
+            errors {
+              code	
+              path
+              message
+            }
+            data {
+              user { 
+                _id
+                firstName
+                lastName
+                email
+                teams { 
+                  _id
+                  name
+                }
+              }
+            }
+          }
+    }
+    `
+
+export { LOGIN_MUTATION, SIGNUP_MUTATION, JOIN_TEAM } 

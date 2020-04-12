@@ -5,7 +5,7 @@ import './LoginExample.css';
 
 //apollo / graphQl
 import { Mutation } from 'react-apollo'
-import { AUTH_TOKEN } from '../../../constants'
+import { JWT, USER_NAME, USERID } from '../../../constants'
 
 import { LOGIN_MUTATION } from '../../../Queries';
 
@@ -43,6 +43,7 @@ class LoginForm extends React.Component {
     this.state = {
       email: "",
       password: "",
+      name:"",
 
       touched: {
         email: false,
@@ -145,17 +146,23 @@ class LoginForm extends React.Component {
    
     try {
         const { token } = data.login.data
-            this._saveUserData(token)
-            // alert(`Welcome ${data.login.data.user.firstName}`)
-            this.props.history.push(`/setup`)
-
-      } catch {
+        const { firstName, _id } = data.login.data.user
+        this._saveUserData({token, firstName, _id})
+        // this._saveUserData(firstName)
+        // alert(`Welcome ${data.login.data.user.firstName}`)
+        this.setState({name: firstName})
+        alert(`${this.state.name}`)
+        this.props.history.push(`/setup`)
+      } 
+    catch {
         alert('Invalid login');
-      }
+    }
   }
   
-  _saveUserData = token => {
-    localStorage.setItem(AUTH_TOKEN, token)
+  _saveUserData = ({token, firstName, _id}) => {
+    localStorage.setItem(JWT, token)
+    localStorage.setItem(USER_NAME, firstName)
+    localStorage.setItem(USERID, _id)
   }
   
 }

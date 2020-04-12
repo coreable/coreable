@@ -7,6 +7,8 @@ import Trust from './Trust/Trust';
 import Flexibility from './Flexibility/Flexibility';
 import Resilience from './Resilience/Resilience';
 
+import {USER_NAME} from '../../constants';
+
 class SelfReview extends Component {
     
     state = {
@@ -90,7 +92,6 @@ class SelfReview extends Component {
                 info  : "Shares experience and guides" }
             ],
         showInfo : true,
-        userName : "Hans"
     }
 
     //go to next page via switch
@@ -122,7 +123,8 @@ class SelfReview extends Component {
     // handleSliderChange = (e) => this.setState({slider: e.target.value})
 
     render() {
-
+        
+        const NAME = localStorage.getItem(USER_NAME)
         const {step} = this.state
         
         switch(step) {
@@ -136,7 +138,7 @@ class SelfReview extends Component {
                                 emotionalFacets = {this.state.emotionalFacets}
                                 facetScore = {this.state.facetScore}
                                 nextStep = {this.nextStep}
-                                userName = {this.state.userName}
+                                userName = {NAME}
                             />
                         </form>
                     </div>
@@ -151,7 +153,7 @@ class SelfReview extends Component {
                                 facetScore = {this.state.facetScore}
                                 nextStep = {this.nextStep}
                                 prevStep = {this.prevStep} 
-                                userName = {this.state.userName}
+                                userName = {NAME}
                             />
                         </form>
                     </div>
@@ -166,7 +168,7 @@ class SelfReview extends Component {
                                 facetScore = {this.state.facetScore}
                                 nextStep = {this.nextStep}
                                 prevStep = {this.prevStep} 
-                                userName = {this.state.userName}
+                                userName = {NAME}
                             />
                         </form>
                     </div>
@@ -181,7 +183,7 @@ class SelfReview extends Component {
                                 facetScore = {this.state.facetScore}
                                 nextStep = {this.nextStep}
                                 prevStep = {this.prevStep} 
-                                userName = {this.state.userName}
+                                userName = {NAME}
                             />
                         </form>
                     </div>
@@ -196,7 +198,7 @@ class SelfReview extends Component {
                                 facetScore = {this.state.facetScore}
                                 nextStep = {this.nextStep}
                                 prevStep = {this.prevStep} 
-                                userName = {this.state.userName}
+                                userName = {NAME}
                             />
                         </form>
                     </div>

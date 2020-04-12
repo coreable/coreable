@@ -8,7 +8,7 @@ import '../Login/LoginExample.css';
 
 //apollo / graphQl
 import { Mutation } from 'react-apollo'
-import { AUTH_TOKEN } from '../../../constants'
+import { JWT, USER_NAME, USERID } from '../../../constants'
 
 import { SIGNUP_MUTATION } from  '../../../Queries'
 
@@ -161,16 +161,20 @@ class RegisterForm extends React.Component {
    
     try {
         const { token } = data.register.data
-            this._saveUserData(token)
-            alert(`Thank you for signing up ${data.register.data.user.firstName}`)
-            this.props.history.push(`/setup`)
-      } catch {
+        const { firstName, _id } = data.register.data.user
+        this._saveUserData({token, firstName, _id})
+        alert(`Thank you for signing up ${firstName}`)
+        this.props.history.push(`/setup`)
+      } 
+    catch {
         alert('Invalid signup');
-      }
+    }
   }
   
-  _saveUserData = token => {
-    localStorage.setItem(AUTH_TOKEN, token)
+  _saveUserData = ({token, firstName, _id}) => {
+    localStorage.setItem(JWT, token)
+    localStorage.setItem(USER_NAME, firstName)
+    localStorage.setItem(USERID, _id)
   }
   
 }
