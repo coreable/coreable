@@ -56,7 +56,7 @@ export default {
     }
     if (!errors.length) {
       try {
-        context.USER = await context.USER.addTeam(targetTeam);
+        context.USER.teams = await context.USER.addTeam(targetTeam);
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
       }

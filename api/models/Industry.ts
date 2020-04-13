@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import { Model, Sequelize, DataTypes } from "sequelize";
+import { Model, Sequelize, DataTypes, HasMany } from "sequelize";
 import { User } from "./User";
 
 class Industry extends Model {
@@ -45,12 +45,13 @@ const sync = (sequelize: Sequelize) => {
   return Industry;
 }
 
-let IndustryUser;
+let IndustryUser: HasMany<Industry, User>;
+
 const assosciate = () => {
-  // IndustryUser = Industry.belongsToMany(User, { through: 'USER_INDUSTRY', sourceKey: '_id', foreignKey: 'user_id', as: 'users' });
+  IndustryUser = Industry.hasMany(User, { sourceKey: '_id', foreignKey: 'industry_id', as: 'users' });
   return Industry;
 }
- 
+
 export {
   assosciate,
   sync,

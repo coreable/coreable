@@ -20,6 +20,7 @@ import * as Team from '../models/Team';
 import * as Review from '../models/Review';
 import * as Subject from '../models/Subject';
 import * as Manager from '../models/Manager';
+import * as Industry from '../models/Industry';
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
@@ -47,6 +48,7 @@ _sequelize.sync = (async () => {
   Review.sync(sequelize);
   Subject.sync(sequelize);
   Manager.sync(sequelize);
+  Industry.sync(sequelize);
 })();
 
 _sequelize.assosciate = (async () => {
@@ -55,6 +57,7 @@ _sequelize.assosciate = (async () => {
   Review.assosciate();
   Subject.assosciate();
   Manager.assosciate();
+  Industry.assosciate();
 })();
 
 (async() => {

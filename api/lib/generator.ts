@@ -20,7 +20,9 @@ import { Team } from '../models/Team';
 import { Subject } from '../models/Subject';
 import { Review } from '../models/Review';
 import { Manager } from '../models/Manager';
+import { Industry } from '../models/Industry';
 
+const industrys: Industry[] = [];
 const users: User[] = [];
 const teams: Team[] = [];
 const reviews: Review[] = [];
@@ -30,6 +32,18 @@ const managers: Manager[] = [];
 // Generates fake data for the database
 export async function generator() {
   let promises: any = [];
+
+  times(3, (i) => {
+    promises.push(async function() {
+      const industry = await Industry.create({
+        name: Faker.hacker.phrase()
+      });
+      return industrys.push(industry);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
 
   // Create User
   times(5, (i) => {
