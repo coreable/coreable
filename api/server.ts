@@ -19,10 +19,6 @@ import { createServer, Server } from 'http';
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      // Development for Localhost SQL
-      // Production for gcloud MySQL
-      // Test will drop all database tables and run test accounts
-      // Pipeline is the same as test but for CI/CD
       NODE_ENV: 'development' | 'production' | 'test' | 'pipeline';
     }
   }
