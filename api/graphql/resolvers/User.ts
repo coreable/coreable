@@ -60,10 +60,10 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'teams': {
         type: GraphQLList(TeamResolver),
         resolve(user: any, args, context) {
-          if (context.USER._id === user._id || context.USER instanceof Manager) {
+          // if (context.USER._id === user._id || context.USER instanceof Manager) {
             return user.teams;
-          }
-          return null;
+          // }
+          // return null;
         }
       },
       'reviews': {
@@ -220,7 +220,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           }
 
           // add all the users team members id's to a map
-          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], exclude: ['inviteCode'] });
+          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], attributes: { exclude:  ['inviteCode'] } });
           let teamMembers: any = {};
           for (const team of teams) {
             for (const member of team.users) {
@@ -252,7 +252,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return sequelize.models.User.findAll(
             {
               where: { _id: { [Op.in]: pending } },
-              include: [{ model: Team, as: 'teams', exclude: ['inviteCode'], include: [{ model: Subject, as: 'subject' }] }]
+              include: [{ model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] }, include: [{ model: Subject, as: 'subject' }] }]
             }
           );
         }

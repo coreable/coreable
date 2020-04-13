@@ -49,12 +49,14 @@ export default {
         {
           where: args,
           include: [
-            { model: Team, as: 'teams', 
-            include: [
-              { model: Subject, as: 'subject' },
-              { model: User, as: 'users' }
-            ], 
-            exclude: ['inviteCode'] }
+            {
+              model: Team, as: 'teams', 
+              include: [
+                { model: Subject, as: 'subject' },
+                { model: User, as: 'users' }
+              ], 
+              attributes: { exclude:  ['inviteCode'] }
+            }
           ]
         }
       );

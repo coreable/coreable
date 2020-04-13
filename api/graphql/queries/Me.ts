@@ -29,7 +29,7 @@ export default {
                   { model: Subject, as: 'subject' },
                   { model: User, as: 'users' }
                 ], 
-                exclude: ['inviteCode']
+                attributes: { exclude:  ['inviteCode'] }
               }
             ]
           }
