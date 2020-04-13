@@ -40,4 +40,3 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
     }
   }
 });
-

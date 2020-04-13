@@ -89,6 +89,16 @@ const sync = (sequelize: Sequelize) => {
     }
   });
 
+  User.beforeUpdate(async (user: any) => {
+    if (user._previousDataValues.password !== user.dataValues.password) {
+      try {
+        user.password = await generatePasswordHash(user.dataValues.password);
+      } catch (err) {
+        throw err;
+      }
+    }
+  });
+
   User.prototype.login = async function(payload: string) {
     return checkPassword(payload, this.password);
   }

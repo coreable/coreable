@@ -59,7 +59,7 @@ export default {
       }
     }
     if (!errors.length) {
-      isCorrectPassword = await user.login(args.password);
+      isCorrectPassword = await user.login(args.currentPassword);
       if (!isCorrectPassword) {
         errors.push({ code: 'ER_PASSWORD_CURRENT', path: 'password', message: 'Password invalid' });
       }
