@@ -110,6 +110,9 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
           }
         }),
         async resolve(team, args, context) {
+          // @todo #4 REMOVE PENDING TEAM AVERAGE FOR MANAGERS
+          // Subject -> Teams -> Useres -> Pending -> Teams -> Teams Average
+          // The pending shouldn't have teams average
           let averages = await sequelize.models.Team.findOne(
             {
               where: { _id: team._id },

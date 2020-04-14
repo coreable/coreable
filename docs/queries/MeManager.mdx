@@ -1,0 +1,481 @@
+---
+name: Me (as Manager)
+route: /docs/queries/MeManager.mdx
+menu: Queries
+---
+
+# me (as Manager)
+
+## Declaration
+
+> me {}
+
+## Description
+
+> The **me** query is the query from the users perspective. It returns information about the logged in user.
+
+## Pre Conditions
+
+> The user must be authenticated
+>
+> The user must be a manager
+
+## Parameters
+
+> None
+
+## Shell
+
+```graphql
+query {
+  me {
+
+  }
+}
+``` 
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # => [Class]  | Subquery returns a list  |
+> | # => {Class}  | Subquery returns an object  |
+> | # //  | Comment  |
+
+## Example
+
+```graphql
+query {
+  me {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      manager { # => {Manager}
+        _id
+        firstName
+        lastName
+        email
+        subjects { # => [Subject]
+          _id
+          state
+          name
+          report {
+            average { # => {Review}
+              # _id
+              # submitter_id
+              # submitter {}
+              # receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }]
+              field
+              value
+            }
+          }
+          teams { # => [Team]
+            _id
+            name
+            inviteCode
+            # subject {}
+            report {
+              average { # => {Review}
+                # _id
+                # submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              sorted { # => [{ field: '', value: 0 }]
+                field
+                value
+              }
+            }
+            users { # => [User]
+              _id
+              firstName
+              lastName
+              email
+              # teams {}
+              industry { # => {Industry}
+                _id
+                name
+                report {
+                  average { # => {Review}
+                    # _id
+                    # submitter_id
+                    # submitter {}
+                    # receiver_id
+                    # receiver {}
+                    calm
+                    change
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    emotionalResponse
+                    empathy
+                    eyeContact
+                    faith
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    preventsMisunderstandings
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    tone
+                    verbalAttentiveFeedback
+                    workDemands
+                  }
+                  sorted { # => [{ field: '', value: 0 }]
+                    field
+                    value
+                  }
+                }   
+              }
+              reviews {
+                default { # => [Review]
+                  _id
+                  submitter_id
+                  # submitter {}
+                  receiver_id
+                  # receiver {}
+                  calm
+                  change
+                  clearInstructions
+                  cooperatively
+                  crossTeam
+                  distractions
+                  easilyExplainsComplexIdeas
+                  emotionalResponse
+                  empathy
+                  eyeContact
+                  faith
+                  influences
+                  managesOwn
+                  newIdeas
+                  openToShare
+                  positiveBelief
+                  preventsMisunderstandings
+                  proactive
+                  resilienceFeedback
+                  signifiesInterest
+                  tone
+                  verbalAttentiveFeedback
+                  workDemands
+                }
+                report {
+                  average { # => {Review}
+                    # _id
+                    # submitter_id
+                    # submitter {}
+                    # receiver_id
+                    # receiver {}
+                    calm
+                    change
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    emotionalResponse
+                    empathy
+                    eyeContact
+                    faith
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    preventsMisunderstandings
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    tone
+                    verbalAttentiveFeedback
+                    workDemands
+                  }
+                  sorted { # => [{ field: '', value: 0 }]
+                    field
+                    value
+                  }
+                }
+              }
+              submissions { # => [Review]
+                _id
+                submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              pending { # => [User]
+                _id
+                firstName
+                lastName
+                email
+                reviews {
+                  default { # => [Review]
+                    _id
+                    # submitter_id
+                    # submitter {}
+                    receiver_id
+                    # receiver {}
+                    calm
+                    change
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    emotionalResponse
+                    empathy
+                    eyeContact
+                    faith
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    preventsMisunderstandings
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    tone
+                    verbalAttentiveFeedback
+                    workDemands
+                  }
+                  report {
+                    average { # => {Review}
+                      # _id
+                      # submitter_id
+                      # submitter {}
+                      # receiver_id
+                      # receiver {}
+                      calm
+                      change
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      emotionalResponse
+                      empathy
+                      eyeContact
+                      faith
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      preventsMisunderstandings
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      tone
+                      verbalAttentiveFeedback
+                      workDemands
+                    }
+                    sorted { # => [{ field: '', value: 0 }]
+                      field
+                      value
+                    }
+                  }
+                }
+                submissions { # => {Review}
+                  # _id
+                  submitter_id
+                  # submitter {}
+                  # receiver_id
+                  # receiver {}
+                  calm
+                  change
+                  clearInstructions
+                  cooperatively
+                  crossTeam
+                  distractions
+                  easilyExplainsComplexIdeas
+                  emotionalResponse
+                  empathy
+                  eyeContact
+                  faith
+                  influences
+                  managesOwn
+                  newIdeas
+                  openToShare
+                  positiveBelief
+                  preventsMisunderstandings
+                  proactive
+                  resilienceFeedback
+                  signifiesInterest
+                  tone
+                  verbalAttentiveFeedback
+                  workDemands
+                }
+                teams { # => [Team]
+                  _id
+                  name
+                  # inviteCode
+                  report {
+                    average { # => {Review}
+                      # _id
+                      # submitter_id
+                      # submitter {}
+                      # receiver_id
+                      # receiver {}
+                      calm
+                      change
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      emotionalResponse
+                      empathy
+                      eyeContact
+                      faith
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      preventsMisunderstandings
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      tone
+                      verbalAttentiveFeedback
+                      workDemands
+                    }
+                    sorted { # => [{ field: '', value: 0 }]
+                      field
+                      value
+                    }
+                  }
+                  subject { # => {Subject}
+                    _id
+                    name
+                    state
+                    report {
+                      average { # => {Review}
+                        # _id
+                        # submitter_id
+                        # submitter {}
+                        # receiver_id
+                        # receiver {}
+                        calm
+                        change
+                        clearInstructions
+                        cooperatively
+                        crossTeam
+                        distractions
+                        easilyExplainsComplexIdeas
+                        emotionalResponse
+                        empathy
+                        eyeContact
+                        faith
+                        influences
+                        managesOwn
+                        newIdeas
+                        openToShare
+                        positiveBelief
+                        preventsMisunderstandings
+                        proactive
+                        resilienceFeedback
+                        signifiesInterest
+                        tone
+                        verbalAttentiveFeedback
+                        workDemands
+                      }
+                      sorted { # => [{ field: '', value: 0 }]
+                        field
+                        value
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```

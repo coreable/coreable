@@ -1,10 +1,10 @@
 ---
-name: Me
-route: /docs/queries/Me.mdx
+name: Me (as User)
+route: /docs/queries/MeUser.mdx
 menu: Queries
 ---
 
-# me
+# me (as User)
 
 ## Declaration
 
@@ -61,6 +61,42 @@ query {
         industry { # => {Industry}
           _id
           name
+          report {
+            average { # => {Review}
+              # _id
+              # submitter_id
+              # submitter {}
+              # receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }]
+              field
+              value
+            }
+          }
         }
         teams { # => [Team]
           _id
@@ -70,6 +106,7 @@ query {
             _id
             name
             state
+            # teams {}
             report {
               average { # => {Review}
                 # _id
@@ -93,7 +130,7 @@ query {
                 newIdeas
                 openToShare
                 positiveBelief
-              preventsMisunderstandings
+                preventsMisunderstandings
                 proactive
                 resilienceFeedback
                 signifiesInterest
@@ -106,7 +143,6 @@ query {
                 value
               }
             }
-            # teams {}
           }
           report {
             average { # => {Review}
@@ -302,204 +338,6 @@ query {
           # submissions {}
           # reflection {}
           # pending {}
-        }
-      }
-      manager { # => {Manager}
-        _id
-        firstName
-        lastName
-        email
-        subjects { # => [Subject]
-          _id
-          state
-          name
-                    report {
-            average { # => {Review}
-              # _id
-              # submitter_id
-              # submitter {}
-              # receiver_id
-              # receiver {}
-              calm
-              change
-              clearInstructions
-              cooperatively
-              crossTeam
-              distractions
-              easilyExplainsComplexIdeas
-              emotionalResponse
-              empathy
-              eyeContact
-              faith
-              influences
-              managesOwn
-              newIdeas
-              openToShare
-              positiveBelief
-              preventsMisunderstandings
-              proactive
-              resilienceFeedback
-              signifiesInterest
-              tone
-              verbalAttentiveFeedback
-              workDemands
-            }
-            sorted { # => [{ field: '', value: 0 }]
-              field
-              value
-            }
-          }
-          teams { # => [Team]
-            _id
-            name
-            inviteCode
-            # subject {}
-            report {
-              average { # => {Review}
-                # _id
-                # submitter_id
-                # submitter {}
-                # receiver_id
-                # receiver {}
-                calm
-                change
-                clearInstructions
-                cooperatively
-                crossTeam
-                distractions
-                easilyExplainsComplexIdeas
-                emotionalResponse
-                empathy
-                eyeContact
-                faith
-                influences
-                managesOwn
-                newIdeas
-                openToShare
-                positiveBelief
-                preventsMisunderstandings
-                proactive
-                resilienceFeedback
-                signifiesInterest
-                tone
-                verbalAttentiveFeedback
-                workDemands
-              }
-              sorted { # => [{ field: '', value: 0 }]
-                field
-                value
-              }
-            }
-            users { # => [User]
-              _id
-              firstName
-              lastName
-              email
-              industry { # => {Industry}
-                _id
-                name
-              }
-              # teams {}
-              reviews {
-                default { # => [Review]
-                  _id
-                  submitter_id
-                  # submitter {}
-                  receiver_id
-                  # receiver {}
-                  calm
-                  change
-                  clearInstructions
-                  cooperatively
-                  crossTeam
-                  distractions
-                  easilyExplainsComplexIdeas
-                  emotionalResponse
-                  empathy
-                  eyeContact
-                  faith
-                  influences
-                  managesOwn
-                  newIdeas
-                  openToShare
-                  positiveBelief
-                  preventsMisunderstandings
-                  proactive
-                  resilienceFeedback
-                  signifiesInterest
-                  tone
-                  verbalAttentiveFeedback
-                  workDemands
-                }
-                report {
-                  average { # => {Review}
-                    # _id
-                    # submitter_id
-                    # submitter {}
-                    # receiver_id
-                    # receiver {}
-                    calm
-                    change
-                    clearInstructions
-                    cooperatively
-                    crossTeam
-                    distractions
-                    easilyExplainsComplexIdeas
-                    emotionalResponse
-                    empathy
-                    eyeContact
-                    faith
-                    influences
-                    managesOwn
-                    newIdeas
-                    openToShare
-                    positiveBelief
-                    preventsMisunderstandings
-                    proactive
-                    resilienceFeedback
-                    signifiesInterest
-                    tone
-                    verbalAttentiveFeedback
-                    workDemands
-                  }
-                  sorted { # => [{ field: '', value: 0 }]
-                    field
-                    value
-                  }
-                }
-              }
-              submissions { # => [Review]
-                _id
-                submitter_id
-                # submitter {}
-                # receiver_id
-                # receiver {}
-                calm
-                change
-                clearInstructions
-                cooperatively
-                crossTeam
-                distractions
-                easilyExplainsComplexIdeas
-                emotionalResponse
-                empathy
-                eyeContact
-                faith
-                influences
-                managesOwn
-                newIdeas
-                openToShare
-                positiveBelief
-                preventsMisunderstandings
-                proactive
-                resilienceFeedback
-                signifiesInterest
-                tone
-                verbalAttentiveFeedback
-                workDemands
-              }
-            }
-          }
         }
       }
     }
