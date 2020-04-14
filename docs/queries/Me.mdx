@@ -53,25 +53,27 @@ query {
       message
     }
     data {
-      user { # =>{User} 
+      user { # => {User}
         _id
         firstName
         lastName
         email
-        industry {
+        industry { # => {Industry}
           _id
           name
         }
-        teams { # =>[Team]
+        teams { # => [Team]
           _id
-          # inviteCode
+          name
+          inviteCode
+          subject { # => {Subject}
+            _id
+            name
+            state
+            # teams {}
+          }
           report {
-            average { # =>{Review} # // Teams average scoring
-              # _id
-              # receiver {}
-              # receiver_id
-              # submitter {}
-              # submitter_id
+            average { # => {Review}
               calm
               change
               clearInstructions
@@ -96,31 +98,21 @@ query {
               verbalAttentiveFeedback
               workDemands
             }
-            sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
-              value
+            sorted { # => [{ field: '', value: 0 }]
               field
+              value
             }
           }
-          users { # =>[User] // The users in the team
+          users { # => [User]
             _id
             firstName
             lastName
             email
             # industry {}
-            # team {}
+            # teams {}
             # reviews {}
             # submissions {}
             # reflection {}
-            # pending {}
-          }
-          subject { # =>[Subject]
-            _id
-            name
-            state
-            teams { # =>[Teams]
-              name
-              # users {}
-            }
           }
         }
         reviews {
@@ -185,7 +177,7 @@ query {
               verbalAttentiveFeedback
               workDemands
             }
-            sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
+            sorted { # => [{ field: '', value: 0 }]
               value
               field
             }
@@ -259,6 +251,12 @@ query {
           teams { # =>[Team]
             _id
             name
+            subject {
+              _id
+              name
+              state
+              # teams {}
+            }
             # inviteCode
             # report {}
             # users {}

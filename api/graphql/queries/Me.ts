@@ -41,7 +41,7 @@ export default {
           {
             where:  { _id: context.USER._id } ,
             include: [
-              { model: Subject, as: 'subjects' }
+              { model: Subject, as: 'subjects', include: [{ model: Team, as: 'teams' }] }
             ]
           }
         );

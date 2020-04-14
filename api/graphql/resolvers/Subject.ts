@@ -21,8 +21,8 @@ import {
 
 import { Subject } from '../../models/Subject';
 import { TeamResolver } from './Team';
-import { User } from '../../models/User';
-import { Manager } from '../../models/Manager';
+// import { User } from '../../models/User';
+// import { Manager } from '../../models/Manager';
 
 export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
   name: 'SubjectResolver',
@@ -50,11 +50,12 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
       'teams': {
         type: new GraphQLList(TeamResolver),
         resolve(subject, args, context) {
-          if (context.USER instanceof User) {
-            return (subject as any).getTeams();
-          } else if (context.USER instanceof Manager) {
-            return (subject as any).getTeams({ include: [{ model: User, as: 'users' }] });
-          }
+          return subject.teams;
+          // if (context.USER instanceof User) {
+          //   return (subject as any).getTeams();
+          // } else if (context.USER instanceof Manager) {
+          //   return (subject as any).getTeams({ include: [{ model: User, as: 'users' }] });
+          // }
         }
       }
     }
