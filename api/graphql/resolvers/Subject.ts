@@ -22,6 +22,8 @@ import {
 import { Subject } from '../../models/Subject';
 import { TeamResolver } from './Team';
 import { User } from '../../models/User';
+import { Op } from 'sequelize';
+import { Manager } from '../../models/Manager';
 
 export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
   name: 'SubjectResolver',
@@ -49,7 +51,17 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
       'teams': {
         type: new GraphQLList(TeamResolver),
         resolve(subject, args, context) {
-          return (subject as any).getTeams({ include: [{ model: User, as: 'users' }] });
+          if (context.USER instanceof User) {
+            // For users only return the teams the user is in for security
+            let teams_ids: string[] = [];
+            for (const team of context.USER.teams) {
+              teams_ids.push(team._id);
+            }
+            return (subject as any).getTeams({ where: { _id: { [Op.in]: teams_ids } }, include: [{ model: User, as: 'users' }] });
+          } else if (context.USER instanceof Manager) {
+            // Managers can see all teams and users in their subject
+            return (subject as any).getTeams({ include: [{ model: User, as: 'users' }] });
+          }
         }
       }
     }

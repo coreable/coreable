@@ -1,5 +1,6 @@
 import { config as dotenvConfig, DotenvConfigOutput } from 'dotenv';
 import { resolve } from 'path';
+
 export interface CoreableConfig {
   NODE_ENV: string;
   PORT: number;
@@ -11,9 +12,12 @@ export interface CoreableConfig {
   MYSQL_SOCKETPATH: string;
   JWT_SECRET: string;
 }
+
 const result: DotenvConfigOutput = dotenvConfig({ path: resolve(__dirname + `/env/${process.env.NODE_ENV}.env`) });
 if (result.error) {
   throw result.error;
 }
+
 const config: CoreableConfig = result.parsed as any;
+
 export { config };

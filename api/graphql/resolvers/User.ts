@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import { sequelize } from '../../lib/sequelize';
 import {
@@ -27,6 +27,7 @@ import { ReviewResolver } from './Review';
 import { Op } from 'sequelize';
 import { Team } from '../../models/Team';
 import { Subject } from '../../models/Subject';
+import { IndustryResolver } from './Industry';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
@@ -64,6 +65,12 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             return user.teams;
           // }
           // return null;
+        }
+      },
+      'industry': {
+        type: IndustryResolver,
+        resolve(user, args, context) {
+          return user.industry;
         }
       },
       'reviews': {
@@ -252,7 +259,14 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return sequelize.models.User.findAll(
             {
               where: { _id: { [Op.in]: pending } },
-              include: [{ model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] }, include: [{ model: Subject, as: 'subject' }] }]
+              include: [
+                { 
+                  model: Team,
+                  as: 'teams',
+                  attributes: { exclude:  ['inviteCode'] },
+                  include: [{ model: Subject, as: 'subject' }] 
+                }
+              ]
             }
           );
         }

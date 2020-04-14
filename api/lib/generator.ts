@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import { times } from 'lodash';
 import Faker from 'faker';
@@ -33,10 +33,11 @@ const managers: Manager[] = [];
 export async function generator() {
   let promises: any = [];
 
-  times(3, (i) => {
+  // Create Industry
+  times(2, (i) => {
     promises.push(async function() {
       const industry = await Industry.create({
-        name: Faker.hacker.phrase()
+        name: Faker.address.city()
       });
       return industrys.push(industry);
     });
@@ -52,7 +53,8 @@ export async function generator() {
         firstName: `user ${i}`,
         lastName: `user ${i}`,
         email: `u${i}@${i}.com`,
-        password: 'unittest'
+        password: 'unittest',
+        industry_id: industrys[i % 2]._id
       });
       return users.push(user);
     });

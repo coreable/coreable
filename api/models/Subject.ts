@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import { Model, Sequelize, DataTypes } from "sequelize";
+import { Model, Sequelize, DataTypes, HasMany, BelongsToMany } from "sequelize";
 import { Team } from "./Team";
 // import { User } from "./User";
 import { Manager } from "./Manager";
@@ -58,8 +58,9 @@ const sync = (sequelize: Sequelize) => {
   return Subject;
 }
 
-let SubjectTeam;
-let SubjectManager;
+let SubjectTeam: HasMany<Subject, Team>;
+let SubjectManager: BelongsToMany<Subject, Manager>;
+
 const assosciate = () => {
   SubjectTeam = Subject.hasMany(Team, { sourceKey: '_id', foreignKey: 'subject_id', as: 'teams' });
   SubjectManager = Subject.belongsToMany(Manager, { through: 'MANAGER_SUBJECT', sourceKey: '_id', foreignKey: 'subject_id', as: 'managers' });

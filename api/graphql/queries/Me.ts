@@ -6,6 +6,7 @@ import { Team } from "../../models/Team";
 import { User } from "../../models/User";
 import { MeCommand } from "../command/Me";
 import { Manager } from "../../models/Manager";
+import { Industry } from "../../models/Industry";
 
 export default {
   type: MeCommand, 
@@ -30,7 +31,8 @@ export default {
                   { model: User, as: 'users' }
                 ], 
                 attributes: { exclude:  ['inviteCode'] }
-              }
+              },
+              { model: Industry, as: 'industry' }
             ]
           }
         );

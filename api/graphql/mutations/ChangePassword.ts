@@ -22,6 +22,7 @@ import { Subject } from "../../models/Subject";
 import { User } from "../../models/User";
 
 import { MeCommand } from "../command/Me";
+import { Industry } from "../../models/Industry";
 
 export default {
   type: MeCommand,
@@ -50,7 +51,15 @@ export default {
     }
     if (!errors.length) {
       if (context.USER instanceof User) {
-        user = await sequelize.models.User.findOne({ where: { _id: context.USER._id }, include: [{ model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } }] });
+        user = await sequelize.models.User.findOne(
+          { 
+            where: { _id: context.USER._id }, 
+            include: [
+              { model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } },
+              { model: Industry, as: 'industry' }
+            ]
+          }
+        );
       } else if (context.USER instanceof Manager) {
         user = await sequelize.models.Manager.findOne({ where: { _id: context.USER._id }, include: [{ model: Subject, as: 'subjects' }] });
       }

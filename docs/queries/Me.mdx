@@ -58,6 +58,10 @@ query {
         firstName
         lastName
         email
+        industry {
+          _id
+          name
+        }
         teams { # =>[Team]
           _id
           # inviteCode
@@ -102,12 +106,32 @@ query {
             firstName
             lastName
             email
+            # industry {}
             # team {}
-            # subjects {}
             # reviews {}
             # submissions {}
             # reflection {}
             # pending {}
+          }
+          subject { # =>[Subject]
+            _id
+            name
+            state
+            teams { # =>[Teams] // This only returns the team(s) the user is in, not all teams for the subject
+              name
+              users { # =>[User]
+                _id
+                firstName
+                lastName
+                email
+                # industry {}
+                # team {}
+                # reviews {}
+                # submissions {}
+                # reflection {}
+                # pending {}
+              }
+            }
           }
         }
         reviews {
@@ -245,12 +269,12 @@ query {
           email
           teams { # =>[Team]
             _id
-            # inviteCode
             name
+            # inviteCode
             # report {}
             # users {}
           }
-          # subjects {}
+          # industry {}
           # reviews {}
           # submissions {}
           # reflection {}
@@ -311,7 +335,6 @@ query {
               lastName
               email
               # teams {}
-              # subjects {}
               reviews { 
                 default { # =>[Review] # // A list of reviews
                   _id
@@ -449,10 +472,10 @@ query {
                   _id
                   # inviteCode
                   name
+                  # subject {}
                   # users {}
                   # report {}
                 }
-                # subjects {}
                 # reviews {}
                 # submissions {}
                 # reflection {}
