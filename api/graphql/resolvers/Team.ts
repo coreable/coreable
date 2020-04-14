@@ -221,17 +221,12 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
                   ],
                   [
                     sequelize.fn('avg',
-                      sequelize.col('users.reviews.resilienceFeedback')),
-                    'resilienceFeedback'
-                  ],
-                  [
-                    sequelize.fn('avg',
                       sequelize.col('users.reviews.signifiesInterest')),
                     'signifiesInterest'
                   ],
                   [
                     sequelize.fn('avg',
-                      sequelize.col('tone')),
+                      sequelize.col('users.reviews.tone')),
                     'tone'
                   ],
                   [
@@ -250,10 +245,28 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
                 model: User,
                 as: 'users',
                 group: ['_id'],
+                attributes: {
+                  exclude: [
+                    'firstName',
+                    'lastName',
+                    'email',
+                    'password',
+                    'passwordResetToken',
+                    'passwordResetExpiry',
+                    'createdAt',
+                    'updatedAt'
+                  ]
+                },
                 include: [
                   {
                     model: Review,
                     as: 'reviews',
+                    attributes: {
+                      exclude: [
+                        'updatedAt',
+                        'createdAt'
+                      ]
+                    },
                     group: ['_id'],
                   }
                 ]

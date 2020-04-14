@@ -38,8 +38,8 @@ query {
 > |:-:|:-:|
 > | # field  | Field always returns null |
 > | # field {}  | Subquery always returns null |
-> | # =>[Class]  | Subquery returns a list  |
-> | # =>{Class}  | Subquery returns an object  |
+> | # => [Class]  | Subquery returns a list  |
+> | # => {Class}  | Subquery returns an object  |
 > | # //  | Comment  |
 
 ## Example
@@ -65,11 +65,47 @@ query {
         teams { # => [Team]
           _id
           name
-          inviteCode
+          # inviteCode
           subject { # => {Subject}
             _id
             name
             state
+            report {
+              average { # => {Review}
+                # _id
+                # submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+              preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              sorted { # => [{ field: '', value: 0 }]
+                field
+                value
+              }
+            }
             # teams {}
           }
           report {
@@ -116,12 +152,12 @@ query {
           }
         }
         reviews {
-          default { # =>[Review] # // A list of reviews
+          default { # => [Review]
             _id
             # submitter_id
             # submitter {}
             receiver_id
-            # receiver
+            # receiver {}
             calm
             change
             clearInstructions
@@ -147,7 +183,7 @@ query {
             workDemands
           }
           report {
-            average { # =>{Review}
+            average { # => {Review}
               # _id
               # receiver_id
               # receiver {}
@@ -183,7 +219,7 @@ query {
             }
           }
         }
-        submissions { # =>[Review]
+        submissions { # => [Review]
           _id
           submitter_id
           # submitter {}
@@ -243,15 +279,15 @@ query {
           verbalAttentiveFeedback
           workDemands
         }
-        pending { # =>[User]
+        pending { # => [User]
           _id
           firstName
           lastName
           email
-          teams { # =>[Team]
+          teams { # => [Team]
             _id
             name
-            subject {
+            subject { # => {Subject}
               _id
               name
               state
@@ -268,25 +304,63 @@ query {
           # pending {}
         }
       }
-      manager { # =>{Manager}
+      manager { # => {Manager}
         _id
         firstName
         lastName
         email
-        subjects { # =>[Subject]
+        subjects { # => [Subject]
           _id
           state
-          teams { # =>[Team]
+          name
+                    report {
+            average { # => {Review}
+              # _id
+              # submitter_id
+              # submitter {}
+              # receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }]
+              field
+              value
+            }
+          }
+          teams { # => [Team]
             _id
-            inviteCode
             name
+            inviteCode
+            # subject {}
             report {
-              average { # =>{Review} # // Teams average scoring
+              average { # => {Review}
                 # _id
-                # receiver {}
-                # receiver_id
-                # submitter {}
                 # submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
                 calm
                 change
                 clearInstructions
@@ -311,24 +385,28 @@ query {
                 verbalAttentiveFeedback
                 workDemands
               }
-              sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
-                value
+              sorted { # => [{ field: '', value: 0 }]
                 field
+                value
               }
             }
-            users { # =>[User]
+            users { # => [User]
               _id
               firstName
               lastName
               email
+              industry { # => {Industry}
+                _id
+                name
+              }
               # teams {}
-              reviews { 
-                default { # =>[Review] # // A list of reviews
+              reviews {
+                default { # => [Review]
                   _id
-                  # submitter_id
+                  submitter_id
                   # submitter {}
                   receiver_id
-                  # receiver
+                  # receiver {}
                   calm
                   change
                   clearInstructions
@@ -354,12 +432,12 @@ query {
                   workDemands
                 }
                 report {
-                  average { # =>{Review}
+                  average { # => {Review}
                     # _id
-                    # receiver {}
-                    # receiver_id
-                    # submitter {}
                     # submitter_id
+                    # submitter {}
+                    # receiver_id
+                    # receiver {}
                     calm
                     change
                     clearInstructions
@@ -384,13 +462,13 @@ query {
                     verbalAttentiveFeedback
                     workDemands
                   }
-                  sorted { # => [{ field: '', value: 0 }] # // A list of sorted objects containing the field name and the value
-                    value
+                  sorted { # => [{ field: '', value: 0 }]
                     field
+                    value
                   }
                 }
               }
-              submissions { # =>[Review]
+              submissions { # => [Review]
                 _id
                 submitter_id
                 # submitter {}
@@ -419,54 +497,6 @@ query {
                 tone
                 verbalAttentiveFeedback
                 workDemands
-              }
-              reflection { # =>{Review}
-                _id
-                submitter_id
-                # submitter {}
-                receiver_id
-                # receiver {}
-                calm
-                change
-                clearInstructions
-                cooperatively
-                crossTeam
-                distractions
-                easilyExplainsComplexIdeas
-                emotionalResponse
-                empathy
-                eyeContact
-                faith
-                influences
-                managesOwn
-                newIdeas
-                openToShare
-                positiveBelief
-                preventsMisunderstandings
-                proactive
-                resilienceFeedback
-                signifiesInterest
-                tone
-                verbalAttentiveFeedback
-                workDemands
-              }
-              pending { # =>[User]
-                _id
-                firstName
-                lastName
-                email
-                teams { # =>[Team]
-                  _id
-                  # inviteCode
-                  name
-                  # subject {}
-                  # users {}
-                  # report {}
-                }
-                # reviews {}
-                # submissions {}
-                # reflection {}
-                # pending {}
               }
             }
           }

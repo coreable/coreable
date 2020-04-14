@@ -196,7 +196,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         }),
         async resolve(user: any, args, context) {
           if (context.USER._id === user._id || context.USER instanceof Manager) {
-            user.reviews = await sequelize.models.Review.findAll({ exclude: ['submitter_id'], where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
+            user.reviews = await sequelize.models.Review.findAll({ attributes: {exclude: ['submitter_id'] }, where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
             return user.reviews;
           }
           return null;
@@ -206,7 +206,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(ReviewResolver),
         async resolve(user: any, args, context) {
           if (context.USER._id === user._id || context.USER instanceof Manager) {
-            user.submissions = await sequelize.models.Review.findAll({ exclude: ['receiver_id'], where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } } });
+            user.submissions = await sequelize.models.Review.findAll({ attributes: { exclude: ['receiver_id'] }, where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } } });
             return user.submissions;
           }
           return null;
