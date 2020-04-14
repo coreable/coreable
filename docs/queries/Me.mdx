@@ -117,20 +117,9 @@ query {
             _id
             name
             state
-            teams { # =>[Teams] // This only returns the team(s) the user is in, not all teams for the subject
+            teams { # =>[Teams]
               name
-              users { # =>[User]
-                _id
-                firstName
-                lastName
-                email
-                # industry {}
-                # team {}
-                # reviews {}
-                # submissions {}
-                # reflection {}
-                # pending {}
-              }
+              # users {}
             }
           }
         }
