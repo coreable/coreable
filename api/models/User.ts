@@ -126,11 +126,11 @@ const assosciate = () => {
 }
 
 export {
-  User,
   sync,
   assosciate,
   UserTeam,
   UserReviewResults,
   UserReviewSubmitted,
-  UserIndustry
+  UserIndustry,
+  User
 }
