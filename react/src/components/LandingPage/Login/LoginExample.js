@@ -5,7 +5,7 @@ import './LoginExample.css';
 
 //apollo / graphQl
 import { Mutation } from 'react-apollo'
-import { JWT, USER_NAME, USERID } from '../../../constants'
+import { AUTH_TOKEN, USER_NAME, USERID } from '../../../constants'
 
 import { LOGIN_MUTATION } from '../../../Queries';
 
@@ -160,7 +160,7 @@ class LoginForm extends React.Component {
   }
   
   _saveUserData = ({token, firstName, _id}) => {
-    localStorage.setItem(JWT, token)
+    localStorage.setItem(AUTH_TOKEN, token)
     localStorage.setItem(USER_NAME, firstName)
     localStorage.setItem(USERID, _id)
   }

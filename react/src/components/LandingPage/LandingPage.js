@@ -3,7 +3,7 @@ import {
 
     Link  } from 'react-router-dom';
 import './LandingPage.css';
-import {USER_NAME, JWT} from '../../constants'
+import {USER_NAME, AUTH_TOKEN} from '../../constants'
 
 export class LandingPage extends Component {
 

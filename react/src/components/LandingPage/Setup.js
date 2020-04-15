@@ -5,7 +5,7 @@ import styles from './Login/Login.css';
 
 //graphql/apollo
 import { Mutation } from 'react-apollo'
-import { AUTH_TOKEN, USER_NAME, TEAMID} from '../../constants';
+import { AUTH_TOKEN, USER_NAME, TEAMID, USERID} from '../../constants';
 import { JOIN_TEAM } from  '../../Queries'
 
 function validate(inviteCode) {
@@ -30,7 +30,6 @@ class Setup extends Component {
     handleSubmit = evt => {
         if (!this.canBeSubmitted()) {
           evt.preventDefault();
-          return;
         }
       };
     
@@ -42,6 +41,8 @@ class Setup extends Component {
 
     render() {
         const NAME = localStorage.getItem(USER_NAME)
+        const TOKEN = localStorage.getItem(AUTH_TOKEN)
+
         const {inviteCode} = this.state
 
         const errors = validate(this.state.inviteCode);
@@ -84,7 +85,6 @@ class Setup extends Component {
     _confirm = async data => {
         try {
             const { _id } = data.joinTeam.data.user
-            console.log(_id)
             this._saveUserData({_id})
             this.props.history.push(`/self-review`)
           } 

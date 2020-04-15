@@ -2,7 +2,7 @@ import React from 'react';
 import  './Sidedrawer.css';
 import {
     Link  } from 'react-router-dom';
-import { JWT, USER_NAME, USERID, TEAMID } from '../../constants';
+import { AUTH_TOKEN , USER_NAME, USERID, TEAMID } from '../../constants';
 
 
 const sideDrawer = props => {
@@ -22,7 +22,7 @@ const sideDrawer = props => {
             <li> <a href="/">Results</a> </li> 
             <li> <a href="/">Results facets</a> </li> 
             <li> <Link to="/" onClick={() => {
-                localStorage.removeItem(JWT)
+                localStorage.removeItem(AUTH_TOKEN)
                 localStorage.removeItem(USER_NAME)
                 localStorage.removeItem(USERID)
                 localStorage.removeItem(TEAMID)
@@ -33,5 +33,3 @@ const sideDrawer = props => {
 };
 
 export default sideDrawer;
-
-

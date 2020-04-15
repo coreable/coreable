@@ -7,7 +7,7 @@ import Trust from './Trust/Trust';
 import Flexibility from './Flexibility/Flexibility';
 import Resilience from './Resilience/Resilience';
 
-import {USER_NAME, JWT} from '../../constants';
+import {USER_NAME, AUTH_TOKEN} from '../../constants';
 
 
 
@@ -132,12 +132,14 @@ class SelfReview extends Component {
 
         
         const NAME = localStorage.getItem(USER_NAME)
+        const TOKEN = localStorage.getItem(TOKEN)
         const {step} = this.state
         
         switch(step) {
             case 1:
                 return (
                     <div className="container"> 
+                    <p> {TOKEN}</p>
                         <form className="self-review">
                             <EmotionalIntelligence
                                 showInfo = {this.state.showInfo}
