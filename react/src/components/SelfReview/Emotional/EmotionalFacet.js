@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Facet.css';
+import './Facet.css'
 
 const EmotionalFacet = (props) => {
 

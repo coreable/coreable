@@ -108,6 +108,8 @@ export default {
     }
   },
   async resolve(root: any, args: any, context: any) {
+    // @todo #1 Should reviews have a team ID and be team specific?
+    // @todo #2 Should self reviews be allowed after x amount of time and not per subject state? 
     let errors: CoreableError[] = [];
     let userBeingReviewed: any;
     let userCommonTeam: any;
@@ -121,7 +123,7 @@ export default {
       }
     }
     if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
+      userBeingReviewed = await sequelize.models.User.findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } }] });
       if (!userBeingReviewed) {
         errors.push({ code: 'ER_USER_UNKNOWN', path: '_id', message: `No user found with _id ${args.receiver_id}` });
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './Register.css';
+// import styles from './Register.css';
 
 export class Register extends Component {
     render() {

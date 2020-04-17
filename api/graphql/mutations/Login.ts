@@ -25,6 +25,7 @@ import { SessionObjectCommand } from "../command/object/Session";
 import { Manager } from "../../models/Manager";
 import { Team } from "../../models/Team";
 import { Subject } from "../../models/Subject";
+import { Industry } from "../../models/Industry";
 
 export default {
   type: SessionObjectCommand,
@@ -45,7 +46,15 @@ export default {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT' , message: 'User already authenticated'});
     }
     if (!errors.length) {
-      user = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
+      user = await sequelize.models.User.findOne(
+        { 
+          where: { email: args.email.toLowerCase() }, 
+          include: [
+            { model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } },
+            { model: Industry, as: 'industry' }
+          ]
+        }
+      );
       if (!user) {
         user = await sequelize.models.Manager.findOne({ where: { email: args.email.toLowerCase() }, include: [{ model: Subject, as: 'subjects' }] });
       }

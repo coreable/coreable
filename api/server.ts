@@ -14,7 +14,7 @@ Coreable source code.
 
 import { config } from './config/config';
 import { app } from './lib/startup';
-import { createServer } from 'http';
+import { createServer, Server } from 'http';
 
 declare global {
   namespace NodeJS {
@@ -22,9 +22,12 @@ declare global {
       NODE_ENV: 'development' | 'production' | 'test' | 'pipeline';
     }
   }
+  interface CoreableServer extends Server {
+    _done: Promise<Boolean>;
+  }
 }
 
-const server: any = createServer(app);
+const server: CoreableServer = createServer(app) as CoreableServer;
 
 server._done = (async() => {
   await app._startup;

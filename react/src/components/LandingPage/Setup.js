@@ -1,32 +1,105 @@
 import React, { Component } from 'react';
 import styles from './Login/Login.css';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link  } from 'react-router-dom';
+// import {
+//     Link  } from 'react-router-dom';
 
-export class Setup extends Component {
+//graphql/apollo
+import { Mutation } from 'react-apollo'
+import { AUTH_TOKEN, USER_NAME, TEAMID, USERID} from '../../constants';
+import { JOIN_TEAM } from  '../../Queries'
+
+function validate(inviteCode) {
+    // true means invalid, so our conditions got reversed
+    return {
+        inviteCode: inviteCode.length <= 0
+    };
+  }
+
+class Setup extends Component {
+    constructor() {
+        super();
+        this.state = {
+            inviteCode: ""
+        };
+    }
+    
+    handleTeamCodeChange = evt => {
+        this.setState({ inviteCode: evt.target.value });
+    };
+
+    handleSubmit = evt => {
+        if (!this.canBeSubmitted()) {
+          evt.preventDefault();
+        }
+      };
+    
+    canBeSubmitted() {
+        const errors = validate(this.state.inviteCode);
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+    return !isDisabled;
+    }
+
     render() {
+        const NAME = localStorage.getItem(USER_NAME)
+        const TOKEN = localStorage.getItem(AUTH_TOKEN)
+
+        const {inviteCode} = this.state
+
+        const errors = validate(this.state.inviteCode);
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+
         return (
             <div className="login-page">
             <div className="base-container">
                 <div>
-                    <h1> Welcome, <br/> <span className={styles.span}> sign in to continue </span></h1>
+                    <h1> Welcome {NAME}, <br/> <span className={styles.span}> enter the Team code to continue </span></h1>
                 </div>
 
                 <div> 
                     <div className="form">
                         <div className="form-group">
-                            <label htmlFor="teamCode"> Team code </label>
-                            <input type="text" className="input-text" placeholder="eg: GHDK0402"/>
+                            <form onSubmit={this.handleSubmit}>
+                                <label htmlFor="teamCode"> Team code </label>
+                                <input type="text" value={inviteCode} className="input-text" onChange={this.handleTeamCodeChange} placeholder="eg: GHDK0402"/>
+
+                                <Mutation
+                                    mutation={JOIN_TEAM}
+                                    variables={{inviteCode}}
+                                    onCompleted={data => this._confirm(data)}
+                                >
+                                    {mutation => (
+                                    <button type="button" className="btn-login" disabled={isDisabled} onClick={mutation}>
+                                        Continue
+                                    </button>
+                                    )}
+                                </Mutation>
+                            </form>
                         </div>
-                        <Link to="/self-review"><button type="button" className="btn-login"> Continue </button></Link>
                     </div>
                 </div>
             </div>
             </div>
         )
     }
+
+    _confirm = async data => {
+        try {
+            const {data} = data.joinTeam
+            console.log(data)
+            const { _id } = data.joinTeam.data.user
+            this._saveUserData({_id})
+            this.props.history.push(`/self-review`)
+          } 
+        catch {
+            alert('Invalid signup');
+            console.log(data)
+        }
+      }
+      
+      _saveUserData = ({_id}) => {
+        localStorage.setItem(USERID, _id)
+      }
+
 }
 
 export default Setup;

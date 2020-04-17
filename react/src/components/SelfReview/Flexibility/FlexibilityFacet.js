@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-// import './Facet.css';
+import React from 'react'
+import '../Emotional/Facet.css'
 
 const FlexibilityFacet = (props) => {
 

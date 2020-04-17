@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import { times } from 'lodash';
 import Faker from 'faker';
@@ -20,7 +20,9 @@ import { Team } from '../models/Team';
 import { Subject } from '../models/Subject';
 import { Review } from '../models/Review';
 import { Manager } from '../models/Manager';
+import { Industry } from '../models/Industry';
 
+const industrys: Industry[] = [];
 const users: User[] = [];
 const teams: Team[] = [];
 const reviews: Review[] = [];
@@ -31,6 +33,19 @@ const managers: Manager[] = [];
 export async function generator() {
   let promises: any = [];
 
+  // Create Industry
+  times(2, (i) => {
+    promises.push(async function() {
+      const industry = await Industry.create({
+        name: Faker.address.city()
+      });
+      return industrys.push(industry);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
   // Create User
   times(5, (i) => {
     promises.push(async function () {
@@ -38,7 +53,8 @@ export async function generator() {
         firstName: `user ${i}`,
         lastName: `user ${i}`,
         email: `u${i}@${i}.com`,
-        password: 'unittest'
+        password: 'unittest',
+        industry_id: industrys[i % 2]._id
       });
       return users.push(user);
     });

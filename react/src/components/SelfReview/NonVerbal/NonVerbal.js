@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import InitiativeFacet from './InitiavtiveFacet';
+import NonVerbalFacet from './NonVerbalFacet';
 // import {
 //   BrowserRouter as Router,
 //   Route,
 //   Link  } from 'react-router-dom';
 
-class Initiative extends Component {
+class NonVerbal extends Component {
 
-    
     //multi-form
     continue = e => {
         e.preventDefault();
@@ -19,17 +18,17 @@ class Initiative extends Component {
     }
 
     back = e => {
-        e.preventDefault();
-        this.props.prevStep();
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
+      e.preventDefault();
+      this.props.prevStep();
+      window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
     }
 
     handleChange = (e) => {
         if (["rating"].includes(e.target.className) ) {
-          let facets = [...this.props.initiativeFacets]   
+          let facets = [...this.props.nonVerbalFacets]   
           facets[e.target.dataset.id][e.target.className] = e.target.value
           this.setState({ facets }, () => console.log(this.props.facets))
         } else {
@@ -42,38 +41,39 @@ class Initiative extends Component {
 
     render() {
 
-        let {initiativeFacets} = this.props
+        let {nonVerbalFacets} = this.props
         let {facetScore} = this.props
         let {userName} = this.props
 
         return (
             <div>
-                <h1>Initiative</h1>
-                <p style={{paddingBottom:"23pt"}}> Proactive and self-starting; seize opportunities and act upon them; <br/> originate action and actively influence events </p>
+                <h1> Non-verbal </h1>
+                {/* <p onClick={this.props.hideInfo} style={{paddingBottom:"23pt"}}> 
+                { this.props.showInfo ? 
+                <p> Actively create a pleasant human environment for work, show <br/> empathy, accountability, humility, friendliness and unselfishness </p>
+                : null } </p> */}
+
+                { this.props.showInfo ? 
+                <p> During conversation keeps engaged through their <br/> body language showing eye contact and not being distracted </p>
+                : null } <span onClick={this.props.hideInfo}> { this.props.showInfo ? <span> hide </span> : <span> open </span> } </span>
                 
                 <form onSubmit={this.handleSubmit} onChange={this.handleChange}>          
 
-                    <InitiativeFacet 
-                      initiativeFacets = {initiativeFacets}
+                    <NonVerbalFacet 
+                      nonVerbalFacets = {nonVerbalFacets}
                       facetScore = {facetScore}
                       userName = {userName}
                     />
-
-                    {/* <input type="submit" value="Submit" />  */}
- 
-                    {/* <Link to="/Trust"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
+                    
+                    {/* <Link to="/initiative"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
                     <button className="btn-next" onClick={this.continue}> Next </button> <br/>
                     <a href={this.back} onClick={this.back}>Back</a>
 
 
                 </form>
-{/* 
-                <p>{this.state.emotionalFacets[0].rating}</p>
-                <p>{this.state.emotionalFacets[1].rating}</p>
-                <p>{this.state.emotionalFacets[2].rating}</p> */}
             </div>
         )
     }
 }
 
-export default Initiative
+export default NonVerbal

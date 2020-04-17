@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import InitiativeFacet from './InitiavtiveFacet';
+import ClarityFacet from './ClarityFacet';
 // import {
 //   BrowserRouter as Router,
 //   Route,
 //   Link  } from 'react-router-dom';
 
-class Initiative extends Component {
+class Clarity extends Component {
 
-    
     //multi-form
     continue = e => {
         e.preventDefault();
@@ -18,18 +17,9 @@ class Initiative extends Component {
           });
     }
 
-    back = e => {
-        e.preventDefault();
-        this.props.prevStep();
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-          });
-    }
-
     handleChange = (e) => {
         if (["rating"].includes(e.target.className) ) {
-          let facets = [...this.props.initiativeFacets]   
+          let facets = [...this.props.clarityFacets]   
           facets[e.target.dataset.id][e.target.className] = e.target.value
           this.setState({ facets }, () => console.log(this.props.facets))
         } else {
@@ -42,38 +32,39 @@ class Initiative extends Component {
 
     render() {
 
-        let {initiativeFacets} = this.props
+        let {clarityFacets} = this.props
         let {facetScore} = this.props
         let {userName} = this.props
 
         return (
             <div>
-                <h1>Initiative</h1>
-                <p style={{paddingBottom:"23pt"}}> Proactive and self-starting; seize opportunities and act upon them; <br/> originate action and actively influence events </p>
+                <h1> Clarity </h1>
+                {/* <p onClick={this.props.hideInfo} style={{paddingBottom:"23pt"}}> 
+                { this.props.showInfo ? 
+                <p> Actively create a pleasant human environment for work, show <br/> empathy, accountability, humility, friendliness and unselfishness </p>
+                : null } </p> */}
+
+                { this.props.showInfo ? 
+                <p> Gives clear instructions that increases productivity, <br/> easily explains complex ideas that prevents misunderstandings </p>
+                : null } <span onClick={this.props.hideInfo}> { this.props.showInfo ? <span> hide </span> : <span> open </span> } </span>
                 
                 <form onSubmit={this.handleSubmit} onChange={this.handleChange}>          
 
-                    <InitiativeFacet 
-                      initiativeFacets = {initiativeFacets}
+                    <ClarityFacet 
+                      clarityFacets = {clarityFacets}
                       facetScore = {facetScore}
                       userName = {userName}
                     />
-
-                    {/* <input type="submit" value="Submit" />  */}
- 
-                    {/* <Link to="/Trust"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
+                    
+                    {/* <Link to="/initiative"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
                     <button className="btn-next" onClick={this.continue}> Next </button> <br/>
                     <a href={this.back} onClick={this.back}>Back</a>
 
 
                 </form>
-{/* 
-                <p>{this.state.emotionalFacets[0].rating}</p>
-                <p>{this.state.emotionalFacets[1].rating}</p>
-                <p>{this.state.emotionalFacets[2].rating}</p> */}
             </div>
         )
     }
 }
 
-export default Initiative
+export default Clarity

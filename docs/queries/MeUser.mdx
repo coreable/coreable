@@ -1,0 +1,346 @@
+---
+name: Me (as User)
+route: /docs/queries/MeUser.mdx
+menu: Queries
+---
+
+# me (as User)
+
+## Declaration
+
+> me {}
+
+## Description
+
+> The **me** query is the query from the users perspective. It returns information about the logged in user.
+
+## Pre Conditions
+
+> The user must be authenticated
+
+## Parameters
+
+> None
+
+## Shell
+
+```graphql
+query {
+  me {
+
+  }
+}
+``` 
+
+## Example Key
+
+> | Icon | Meaning  |
+> |:-:|:-:|
+> | # field  | Field always returns null |
+> | # field {}  | Subquery always returns null |
+> | # => [Class]  | Subquery returns a list  |
+> | # => {Class}  | Subquery returns an object  |
+> | # //  | Comment  |
+
+## Example
+
+```graphql
+query {
+  me {
+    errors {
+      code
+      path
+      message
+    }
+    data {
+      user { # => {User}
+        _id
+        firstName
+        lastName
+        email
+        industry { # => {Industry}
+          _id
+          name
+          report {
+            average { # => {Review}
+              # _id
+              # submitter_id
+              # submitter {}
+              # receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }]
+              field
+              value
+            }
+          }
+        }
+        teams { # => [Team]
+          _id
+          name
+          # inviteCode
+          subject { # => {Subject}
+            _id
+            name
+            state
+            # teams {}
+            report {
+              average { # => {Review}
+                # _id
+                # submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+              }
+              sorted { # => [{ field: '', value: 0 }]
+                field
+                value
+              }
+            }
+          }
+          report {
+            average { # => {Review}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }]
+              field
+              value
+            }
+          }
+          users { # => [User]
+            _id
+            firstName
+            lastName
+            email
+            # industry {}
+            # teams {}
+            # reviews {}
+            # submissions {}
+            # reflection {}
+          }
+        }
+        reviews {
+          default { # => [Review]
+            _id
+            # submitter_id
+            # submitter {}
+            receiver_id
+            # receiver {}
+            calm
+            change
+            clearInstructions
+            cooperatively
+            crossTeam
+            distractions
+            easilyExplainsComplexIdeas
+            emotionalResponse
+            empathy
+            eyeContact
+            faith
+            influences
+            managesOwn
+            newIdeas
+            openToShare
+            positiveBelief
+            preventsMisunderstandings
+            proactive
+            resilienceFeedback
+            signifiesInterest
+            tone
+            verbalAttentiveFeedback
+            workDemands
+          }
+          report {
+            average { # => {Review}
+              # _id
+              # receiver_id
+              # receiver {}
+              # submitter_id
+              # submitter {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+            }
+            sorted { # => [{ field: '', value: 0 }]
+              value
+              field
+            }
+          }
+        }
+        submissions { # => [Review]
+          _id
+          submitter_id
+          # submitter {}
+          # receiver_id
+          # receiver {}
+          calm
+          change
+          clearInstructions
+          cooperatively
+          crossTeam
+          distractions
+          easilyExplainsComplexIdeas
+          emotionalResponse
+          empathy
+          eyeContact
+          faith
+          influences
+          managesOwn
+          newIdeas
+          openToShare
+          positiveBelief
+          preventsMisunderstandings
+          proactive
+          resilienceFeedback
+          signifiesInterest
+          tone
+          verbalAttentiveFeedback
+          workDemands
+        }
+        reflection { # =>{Review}
+          _id
+          submitter_id
+          # submitter {}
+          receiver_id
+          # receiver {}
+          calm
+          change
+          clearInstructions
+          cooperatively
+          crossTeam
+          distractions
+          easilyExplainsComplexIdeas
+          emotionalResponse
+          empathy
+          eyeContact
+          faith
+          influences
+          managesOwn
+          newIdeas
+          openToShare
+          positiveBelief
+          preventsMisunderstandings
+          proactive
+          resilienceFeedback
+          signifiesInterest
+          tone
+          verbalAttentiveFeedback
+          workDemands
+        }
+        pending { # => [User]
+          _id
+          firstName
+          lastName
+          email
+          teams { # => [Team]
+            _id
+            name
+            subject { # => {Subject}
+              _id
+              name
+              state
+              # teams {}
+            }
+            # inviteCode
+            # report {}
+            # users {}
+          }
+          # industry {}
+          # reviews {}
+          # submissions {}
+          # reflection {}
+          # pending {}
+        }
+      }
+    }
+  }
+}
+```
