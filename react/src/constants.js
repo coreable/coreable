@@ -1,4 +1,4 @@
-const AUTH_TOKEN = ''
+const AUTH_TOKEN = 'auth-token'
 const USER_NAME = 'firstName'
 const USERID = 'user_id'
 const TEAMID = 'team_id'

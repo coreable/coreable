@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ResilienceFacet from './ResilienceFacet';
-import {
-  Link  } from 'react-router-dom';
+
 
 class Resilience extends Component {
 
@@ -59,7 +58,7 @@ class Resilience extends Component {
                     {/* <input type="submit" value="Submit" />  */}
  
                     {/* <Link to="/Trust"><button className="btn-next" onClick={this.continue}> Next </button> <br/> </Link> */}
-                    <Link to="/thank-you"><button className="btn-next"> Save & Confirm </button></Link> <br/>
+                    <button className="btn-next" onClick={this.continue}> Next </button> <br/>
                     <a href={this.back} onClick={this.back}>Back</a>
 
 

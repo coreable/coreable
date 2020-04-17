@@ -84,6 +84,8 @@ class Setup extends Component {
 
     _confirm = async data => {
         try {
+            const {data} = data.joinTeam
+            console.log(data)
             const { _id } = data.joinTeam.data.user
             this._saveUserData({_id})
             this.props.history.push(`/self-review`)
@@ -95,7 +97,7 @@ class Setup extends Component {
       }
       
       _saveUserData = ({_id}) => {
-        localStorage.setItem(TEAMID, _id)
+        localStorage.setItem(USERID, _id)
       }
 
 }
