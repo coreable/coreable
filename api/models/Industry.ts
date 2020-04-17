@@ -12,27 +12,23 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import { Model, Sequelize, DataTypes, HasMany, BelongsToMany } from "sequelize";
-import { Team } from "./Team";
-// import { User } from "./User";
-import { Manager } from "./Manager";
+import { Model, Sequelize, DataTypes, HasMany } from "sequelize";
+import { User } from "./User";
 import { Average } from "./Average";
 
-class Subject extends Model {
+class Industry extends Model {
   // PK
   public _id!: string;
    
   public name!: string;
-  public state!: number;
-  public managers!: [Manager];
-  public teams!: [Team];
+  public users!: [User];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
 const sync = (sequelize: Sequelize) => {
-  Subject.init({
+  Industry.init({
     '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
@@ -42,39 +38,27 @@ const sync = (sequelize: Sequelize) => {
       'type': DataTypes.STRING,
       'allowNull': false
     },
-    'state': {
-      'type': DataTypes.INTEGER,
-      'defaultValue': 1,
-      'allowNull': false,
-      'validate': {
-        'min': 1,
-        'max': 3
-      }
-    }
   }, {
-    'tableName': 'SUBJECT',
+    'tableName': 'INDUSTRY',
     'sequelize': sequelize,
   });
 
-  return Subject;
+  return Industry;
 }
 
-let SubjectTeam: HasMany<Subject, Team>;
-let SubjectManager: BelongsToMany<Subject, Manager>;
-let SubjectAverage: HasMany<Subject, Average>;
+let IndustryUser: HasMany<Industry, User>;
+let IndustryAverage: HasMany<Industry, Average>;
 
 const assosciate = () => {
-  SubjectTeam = Subject.hasMany(Team, { sourceKey: '_id', foreignKey: 'subject_id', as: 'teams' });
-  SubjectManager = Subject.belongsToMany(Manager, { through: 'MANAGER_SUBJECT', sourceKey: '_id', foreignKey: 'subject_id', as: 'managers' });
-  SubjectAverage = Subject.hasMany(Average, { sourceKey: '_id', foreignKey: 'subject_id', as: 'averages' });
-  return Subject;
+  IndustryUser = Industry.hasMany(User, { sourceKey: '_id', foreignKey: 'industry_id', as: 'users' });
+  IndustryAverage = Industry.hasMany(Average, { sourceKey: '_id', foreignKey: 'industry_id', as: 'averages' });
+  return Industry;
 }
 
 export {
   assosciate,
   sync,
-  SubjectTeam,
-  SubjectManager,
-  SubjectAverage,
-  Subject
+  IndustryUser,
+  IndustryAverage,
+  Industry
 };

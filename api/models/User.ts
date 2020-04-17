@@ -12,13 +12,14 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import { Model, DataTypes, Sequelize, BelongsToMany } from 'sequelize';
+import { Model, DataTypes, Sequelize, BelongsToMany, HasMany, BelongsTo } from 'sequelize';
 import {
   generatePasswordHash,
   checkPassword
 } from '../lib/hash';
 import { Team } from './Team';
 import { Review } from './Review';
+import { Industry } from './Industry';
 
 class User extends Model {
   // PK
@@ -38,6 +39,7 @@ class User extends Model {
   public submissions!: [Review];
   public reviews!: [Review];
   public reflection!: Review;
+  public industry!: Industry;
 }
 
 const sync = (sequelize: Sequelize) => {
@@ -74,6 +76,10 @@ const sync = (sequelize: Sequelize) => {
     'passwordResetExpiry': {
       'type': DataTypes.DATE,
       'allowNull': true
+    },
+    'industry_id': {
+      'type': DataTypes.UUID,
+      'allowNull': true
     }
   }, {
     'tableName': 'USER',
@@ -89,6 +95,16 @@ const sync = (sequelize: Sequelize) => {
     }
   });
 
+  User.beforeUpdate(async (user: any) => {
+    if (user._previousDataValues.password !== user.dataValues.password) {
+      try {
+        user.password = await generatePasswordHash(user.dataValues.password);
+      } catch (err) {
+        throw err;
+      }
+    }
+  });
+
   User.prototype.login = async function(payload: string) {
     return checkPassword(payload, this.password);
   }
@@ -97,20 +113,24 @@ const sync = (sequelize: Sequelize) => {
 }
 
 let UserTeam: BelongsToMany<User, Team>;
-let UserReviewResults;
-let UserReviewSubmitted;
+let UserReviewResults: HasMany<User, Review>;
+let UserReviewSubmitted: HasMany<User, Review>;
+let UserIndustry: BelongsTo<User, Industry>;
+
 const assosciate = () => {
   UserTeam = User.belongsToMany(Team, { through: 'USER_TEAM', sourceKey: '_id', foreignKey: 'user_id', as: 'teams' });
-  UserReviewResults = User.hasMany(Review, { sourceKey: '_id' ,foreignKey: 'receiver_id', as: 'reviews' });
+  UserReviewResults = User.hasMany(Review, { sourceKey: '_id', foreignKey: 'receiver_id', as: 'reviews' });
   UserReviewSubmitted = User.hasMany(Review, { sourceKey: '_id', foreignKey: 'submitter_id', as: 'submissions' });
+  UserIndustry = User.belongsTo(Industry, { foreignKey: 'industry_id', targetKey: '_id', as: 'industry' });
   return User;
 }
 
 export {
-  User,
   sync,
   assosciate,
   UserTeam,
   UserReviewResults,
-  UserReviewSubmitted
+  UserReviewSubmitted,
+  UserIndustry,
+  User
 }

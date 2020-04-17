@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import { sequelize } from '../../lib/sequelize';
 import {
@@ -27,6 +27,7 @@ import { ReviewResolver } from './Review';
 import { Op } from 'sequelize';
 import { Team } from '../../models/Team';
 import { Subject } from '../../models/Subject';
+import { IndustryResolver } from './Industry';
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
@@ -60,10 +61,16 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'teams': {
         type: GraphQLList(TeamResolver),
         resolve(user: any, args, context) {
-          if (context.USER._id === user._id || context.USER instanceof Manager) {
+          // if (context.USER._id === user._id || context.USER instanceof Manager) {
             return user.teams;
-          }
-          return null;
+          // }
+          // return null;
+        }
+      },
+      'industry': {
+        type: IndustryResolver,
+        resolve(user, args, context) {
+          return user.industry;
         }
       },
       'reviews': {
@@ -189,7 +196,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         }),
         async resolve(user: any, args, context) {
           if (context.USER._id === user._id || context.USER instanceof Manager) {
-            user.reviews = await sequelize.models.Review.findAll({ exclude: ['submitter_id'], where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
+            user.reviews = await sequelize.models.Review.findAll({ attributes: {exclude: ['submitter_id'] }, where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
             return user.reviews;
           }
           return null;
@@ -199,7 +206,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(ReviewResolver),
         async resolve(user: any, args, context) {
           if (context.USER._id === user._id || context.USER instanceof Manager) {
-            user.submissions = await sequelize.models.Review.findAll({ exclude: ['receiver_id'], where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } } });
+            user.submissions = await sequelize.models.Review.findAll({ attributes: { exclude: ['receiver_id'] }, where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } } });
             return user.submissions;
           }
           return null;
@@ -208,6 +215,8 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'pending': {
         type: new GraphQLList(UserResolver),
         async resolve(user, args, context) {
+          // @todo #3 Remove self from pending if subject state isn't 1
+          
           // if the user retrieved is not the logged in user
           // and the logged in user is not manager
           // or the user being retrieved is a manager
@@ -218,7 +227,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           }
 
           // add all the users team members id's to a map
-          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], exclude: ['inviteCode'] });
+          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], attributes: { exclude:  ['inviteCode'] } });
           let teamMembers: any = {};
           for (const team of teams) {
             for (const member of team.users) {
@@ -250,7 +259,14 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return sequelize.models.User.findAll(
             {
               where: { _id: { [Op.in]: pending } },
-              include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }]
+              include: [
+                { 
+                  model: Team,
+                  as: 'teams',
+                  attributes: { exclude:  ['inviteCode'] },
+                  include: [{ model: Subject, as: 'subject' }] 
+                }
+              ]
             }
           );
         }

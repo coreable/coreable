@@ -24,6 +24,7 @@ import { Team } from "../../../models/Team";
 import { Manager } from "../../../models/Manager";
 import { Subject } from "../../../models/Subject";
 import { User } from "../../../models/User";
+import { Industry } from "../../../models/Industry";
 
 export default {
   type: UserListCommand, 
@@ -72,7 +73,9 @@ export default {
               { model: Subject, as: 'subject' },
               { model: User, as: 'users' }
             ], 
-            exclude: ['inviteCode'] }
+            attributes: { exclude:  ['inviteCode'] }
+           },
+           { model: Industry, as: 'industry' }
           ],
           limit: limit,
           offset: offset

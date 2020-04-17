@@ -17,7 +17,7 @@ import { Model, Sequelize, DataTypes } from "sequelize";
 
 class Billing extends Model {
   // PK
-  public bilingID!: string;
+  public _id!: string;
 
   public contactEmail!: string;
   public contactPhone!: string;
@@ -33,7 +33,7 @@ class Billing extends Model {
 
 const sync = (sequelize: Sequelize) => {
   Billing.init({
-    'billingID': {
+    '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true

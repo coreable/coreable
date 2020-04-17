@@ -64,7 +64,7 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
           break;
         case false:
         default:
-          req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams', exclude: ['inviteCode'] }] });
+          req.USER = await sequelize.models.User.findOne({ where: { _id: req.JWT._id }, include: [{ model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } }] });
         break;
       }
       if (!req.USER) {

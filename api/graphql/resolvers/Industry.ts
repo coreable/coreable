@@ -1,67 +1,32 @@
-/*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
-*/
+import { Industry } from "../../models/Industry";
+import { GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLList } from "graphql";
+import { ReviewResolver } from "./Review";
+import { sequelize } from "../../lib/sequelize";
+import { User } from "../../models/User";
+import { Review } from "../../models/Review";
+import { Op } from "sequelize";
+import { Average } from "../../models/Average";
 
-import {
-  GraphQLObjectType,
-  GraphQLInt,
-  GraphQLString,
-  GraphQLList,
-  GraphQLFloat,
-} from 'graphql';
-
-import { Subject } from '../../models/Subject';
-import { TeamResolver } from './Team';
-import { ReviewResolver } from './Review';
-import { sequelize } from '../../lib/sequelize';
-import { Team } from '../../models/Team';
-import { User } from '../../models/User';
-import { Review } from '../../models/Review';
-import { Op } from 'sequelize';
-import { Average } from '../../models/Average';
-
-export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
-  name: 'SubjectResolver',
-  description: 'This represents a Subject',
+export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectType({
+  name: 'IndustryResolver',
+  description: 'IndustryResolver',
   fields: () => {
     return {
       '_id': {
         type: GraphQLString,
-        resolve(subject, args, context) {
-          return subject._id;
+        resolve(industry, args, context) {
+          return industry._id;
         }
       },
       'name': {
         type: GraphQLString,
-        resolve(subject, args, context) {
-          return subject.name;
-        }
-      },
-      'state': {
-        type: GraphQLInt,
-        resolve(subject, args, context) {
-          return subject.state;
-        }
-      },
-      'teams': {
-        type: new GraphQLList(TeamResolver),
-        resolve(subject, args, context) {
-          return subject.teams;
+        resolve(industry, args, context) {
+          return industry.name;
         }
       },
       'report': {
         type: new GraphQLObjectType({
-          name: 'SubjectAverageReport',
+          name: 'IndustryAverageReport',
           fields: () => {
             return {
               'average': {
@@ -72,7 +37,7 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
               },
               'sorted': {
                 type: new GraphQLList(new GraphQLObjectType({
-                  name: 'SubjectSortedAverageArray',
+                  name: 'IndustrySortedAverageArray',
                   fields: () => {
                     return {
                       'field': {
@@ -106,13 +71,13 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
             }
           }
         }),
-        async resolve(subject, args, context) {
+        async resolve(industry, args, context) {
           let averages: any;
           let week = 7 * 60 * 60 * 24 * 1000;
           let weekAgo = new Date(Date.now() - week);
-          averages = await sequelize.models.Average.findOne({
+          averages = await Average.findOne({
             where: {
-              subject_id: subject._id,
+              industry_id: industry._id,
               createdAt: {
                 [Op.gte]: weekAgo
               }
@@ -121,10 +86,10 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
           if (averages) {
             return averages.dataValues;
           }
-          averages = await getSubjectAverages(subject);
+          averages = await getIndustryAverage(industry);
           averages = averages.dataValues;
           averages = await Average.create({
-            subject_id: subject._id,
+            industry_id: industry._id,
             emotionalResponse: averages.emotionalResponse,
             empathy: averages.empathy,
             managesOwn: averages.managesOwn,
@@ -156,170 +121,165 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
   }
 });
 
-export function getSubjectAverages(subject: Subject) {
-  return sequelize.models.Subject.findOne(
+export function getIndustryAverage(industry: Industry) {
+  return sequelize.models.Industry.findOne(
     {
-      where: { _id: subject._id },
+      where: { _id: industry._id },
       group: ['_id'],
       attributes: {
         exclude: [
           '_id',
           'name',
-          'state',
-          'createdAt',
-          'updatedAt'
+          'updatedAt',
+          'createdAt'
         ],
         include: [
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.calm')),
+              sequelize.col('users.reviews.calm')),
             'calm'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.change')),
+              sequelize.col('users.reviews.change')),
             'change'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.clearInstructions')),
+              sequelize.col('users.reviews.clearInstructions')),
             'clearInstructions'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.cooperatively')),
+              sequelize.col('users.reviews.cooperatively')),
             'cooperatively'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.crossTeam')),
+              sequelize.col('users.reviews.crossTeam')),
             'crossTeam'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.distractions')),
+              sequelize.col('users.reviews.distractions')),
             'distractions'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.easilyExplainsComplexIdeas')),
+              sequelize.col('users.reviews.easilyExplainsComplexIdeas')),
             'easilyExplainsComplexIdeas'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.emotionalResponse')),
+              sequelize.col('users.reviews.emotionalResponse')),
             'emotionalResponse'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.empathy')),
+              sequelize.col('users.reviews.empathy')),
             'empathy'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.eyeContact')),
+              sequelize.col('users.reviews.eyeContact')),
             'eyeContact'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.faith')),
+              sequelize.col('users.reviews.faith')),
             'faith'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.influences')),
+              sequelize.col('users.reviews.influences')),
             'influences'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.managesOwn')),
+              sequelize.col('users.reviews.managesOwn')),
             'managesOwn'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.newIdeas')),
+              sequelize.col('users.reviews.newIdeas')),
             'newIdeas'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.openToShare')),
+              sequelize.col('users.reviews.openToShare')),
             'openToShare'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.positiveBelief')),
+              sequelize.col('users.reviews.positiveBelief')),
             'positiveBelief'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.preventsMisunderstandings')),
+              sequelize.col('users.reviews.preventsMisunderstandings')),
             'preventsMisunderstandings'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.proactive')),
+              sequelize.col('users.reviews.proactive')),
             'proactive'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.resilienceFeedback')),
+              sequelize.col('users.reviews.resilienceFeedback')),
             'resilienceFeedback'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.signifiesInterest')),
+              sequelize.col('users.reviews.signifiesInterest')),
             'signifiesInterest'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.tone')),
+              sequelize.col('users.reviews.tone')),
             'tone'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.verbalAttentiveFeedback')),
+              sequelize.col('users.reviews.verbalAttentiveFeedback')),
             'verbalAttentiveFeedback'
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.workDemands')),
+              sequelize.col('users.reviews.workDemands')),
             'workDemands'
-          ],
+          ]
         ]
       },
       include: [{
-        model: Team, as: 'teams',
+        model: User,
+        as: 'users',
+        group: ['_id'],
         attributes: {
           exclude: [
-            'name',
-            'inviteCode',
+            'firstName',
+            'lastName',
+            'email',
+            'password',
+            'passwordResetToken',
+            'passwordResetExpiry',
             'createdAt',
             'updatedAt'
           ]
         },
-        include: [{
-          model: User, as: 'users',
-          attributes: {
-            exclude: [
-              'firstName',
-              'lastName',
-              'email',
-              'password',
-              'passwordResetToken',
-              'passwordResetExpiry',
-              'createdAt',
-              'updatedAt'
-            ]
-          },
-          include: [{
-            model: Review, as: 'reviews', attributes: {
+        include: [
+          {
+            model: Review,
+            as: 'reviews',
+            attributes: {
               exclude: [
-                'createdAt',
-                'updatedAt'
+                'updatedAt',
+                'createdAt'
               ]
-            }
-          }]
-        }]
+            },
+            group: ['_id'],
+          }
+        ]
       }]
     }
   );
