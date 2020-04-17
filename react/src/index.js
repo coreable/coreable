@@ -15,22 +15,22 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
-import { JWT } from './constants'
+import { AUTH_TOKEN } from './constants'
 
 
 const httpLink = createHttpLink({
   uri: 'https://coreable.appspot.com/graphql',
-  // credentials: 'same-origin'
+  credentials: 'same-origin'
 })
 
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(JWT)
-  console.log(token)
+  const token = localStorage.getItem(AUTH_TOKEN)
   return {
     headers: {
       ...headers,
-      JWT: token ? token : null,
+      ...(token ? {JWT: token} : {}),
+      // JWT: token ? tovken : null,
     }
   }
 })
@@ -43,6 +43,7 @@ const client = new ApolloClient({
 })
 
 
+
 ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
@@ -50,3 +51,18 @@ ReactDOM.render(
   document.getElementById('root')
 )
 serviceWorker.unregister();
+
+
+
+// const client = new ApolloClient({
+//   uri: 'https://coreable.appspot.com/graphql',
+//   credentials: 'include',
+//   request: (operation) => {
+//     const token = localStorage.getItem(AUTH_TOKEN)
+//     operation.setContext({
+//       headers: {
+//         JWT: token ? token : null,
+//       }
+//     })
+//   }
+// })
