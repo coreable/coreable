@@ -24,7 +24,7 @@ export const BillingResolver: GraphQLObjectType<Billing> = new GraphQLObjectType
   description: 'This represents Billing',
   fields: () => {
     return {
-      'billingID': {
+      '_id': {
         type: GraphQLString,
         resolve(billing, args, context) {
           return billing.bilingID;
