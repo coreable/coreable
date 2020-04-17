@@ -66,10 +66,13 @@
 
     /* Advanced Options */
     "resolveJsonModule": true,                /* Include modules imported with '.json' extension */
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+    "skipLibCheck": true
   },
   "exclude": [
-    "__tests__"
+    "__tests__",
+    "node_modules",
+    "node_modules/@types/jasmine"
   ],
   "include": [
     "./**/*",

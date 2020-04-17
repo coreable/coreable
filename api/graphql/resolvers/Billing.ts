@@ -27,7 +27,7 @@ export const BillingResolver: GraphQLObjectType<Billing> = new GraphQLObjectType
       '_id': {
         type: GraphQLString,
         resolve(billing, args, context) {
-          return billing.bilingID;
+          return billing._id;
         }
       },
       'contactEmail': {
