@@ -1,6 +1,7 @@
 import React from "react";
 import {
-    Link  } from 'react-router-dom';
+  Link
+} from 'react-router-dom';
 import './LoginExample.css';
 
 //apollo / graphQl
@@ -43,7 +44,7 @@ class LoginForm extends React.Component {
     this.state = {
       email: "",
       password: "",
-      name:"",
+      name: "",
 
       touched: {
         email: false,
@@ -94,77 +95,76 @@ class LoginForm extends React.Component {
     };
 
     return (
-        <div className="login-page">
-            <div className="base-container">
-                <div>
-                    <h1> Welcome, <br/> <span className="span"> sign in to continue </span></h1>
-                </div>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor="username" > Email </label>
-                    <input
-                      className={shouldMarkError("email") ? "error" : ""}
-                      type="text"
-                      placeholder="Enter email"
-                      value={email}
-                      onChange={this.handleEmailChange}
-                      onBlur={this.handleBlur("email")}
-                    />
-                    <label htmlFor="username"> Password </label>
-                    <input
-                      className={shouldMarkError("password") ? "error" : ""}
-                      type="password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChange={this.handlePasswordChange}
-                      onBlur={this.handleBlur("password")}
-                    />
-                    {/* <button disabled={isDisabled}>Sign up</button> */}
-                    {/* <Link to="/setup"> <button type="button" className="btn-login" disabled={isDisabled} > Login </button> </Link> */}
-                    
-                    <Mutation
-                        mutation={LOGIN_MUTATION}
-                        variables={{email, password}}
-                        onCompleted={data => this._confirm(data)}
-                    >
-                        {mutation => (
-                        <button type="button" className="btn-login" disabled={isDisabled} onClick={mutation}>
-                            Login
-                        </button>
-                        )}
-                    </Mutation>
-                    
-                    <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link>
-                    <a className="forgotPassword" href="/"> Forgot password </a>
-                </form>
-            </div>
+      <div className="login-page">
+        <div className="base-container">
+          <div>
+            <h1> Welcome, <br /> <span className="span"> sign in to continue </span></h1>
+          </div>
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="username" > Email </label>
+            <input
+              className={shouldMarkError("email") ? "error" : ""}
+              type="text"
+              placeholder="Enter email"
+              value={email}
+              onChange={this.handleEmailChange}
+              onBlur={this.handleBlur("email")}
+            />
+            <label htmlFor="username"> Password </label>
+            <input
+              className={shouldMarkError("password") ? "error" : ""}
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={this.handlePasswordChange}
+              onBlur={this.handleBlur("password")}
+            />
+            {/* <button disabled={isDisabled}>Sign up</button> */}
+            {/* <Link to="/setup"> <button type="button" className="btn-login" disabled={isDisabled} > Login </button> </Link> */}
+
+            <Mutation
+              mutation={LOGIN_MUTATION}
+              variables={{ email, password }}
+              onCompleted={data => this._confirm(data)}
+            >
+              {mutation => (
+                <button type="button" className="btn-login" disabled={isDisabled} onClick={mutation}>
+                  Login
+                </button>
+              )}
+            </Mutation>
+
+            <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link>
+            <a className="forgotPassword" href="/"> Forgot password </a>
+          </form>
         </div>
+      </div>
     );
   }
 
 
   _confirm = async data => {
-   
     try {
-        const { token } = data.login.data
-        const { firstName, _id } = data.login.data.user
-        this._saveUserData({token, firstName, _id})
-        // this._saveUserData(firstName)
-        // alert(`Welcome ${data.login.data.user.firstName}`)
-        this.setState({name: firstName})
-        alert(`${this.state.name}`)
-        this.props.history.push(`/setup`)
-      } 
+      const { token } = data.login.data
+      const { firstName, _id } = data.login.data.user
+      this._saveUserData({ token, firstName, _id })
+      // this._saveUserData(firstName)
+      // alert(`Welcome ${data.login.data.user.firstName}`)
+      this.setState({ name: firstName })
+      alert(`${this.state.name}`)
+      this.props.history.push(`/setup`)
+    }
     catch {
-        alert('Invalid login');
+      alert('Invalid login');
     }
   }
-  
-  _saveUserData = ({token, firstName, _id}) => {
+
+  _saveUserData = ({ token, firstName, _id }) => {
     localStorage.setItem(JWT, token)
     localStorage.setItem(USER_NAME, firstName)
     localStorage.setItem(USERID, _id)
   }
-  
+
 }
 
 
@@ -173,4 +173,3 @@ class LoginForm extends React.Component {
 export default (LoginForm);
 
 
- 
