@@ -3,6 +3,7 @@ import {
 
     Link  } from 'react-router-dom';
 import './LandingPage.css';
+// eslint-disable-next-line
 import {USER_NAME, AUTH_TOKEN} from '../../constants'
 
 export class LandingPage extends Component {

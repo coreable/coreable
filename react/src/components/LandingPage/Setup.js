@@ -5,6 +5,7 @@ import styles from './Login/Login.css';
 
 //graphql/apollo
 import { Mutation } from 'react-apollo'
+// eslint-disable-next-line
 import { AUTH_TOKEN, USER_NAME, TEAMID, USERID} from '../../constants';
 import { JOIN_TEAM } from  '../../Queries'
 
@@ -41,6 +42,7 @@ class Setup extends Component {
 
     render() {
         const NAME = localStorage.getItem(USER_NAME)
+        // eslint-disable-next-line
         const TOKEN = localStorage.getItem(AUTH_TOKEN)
 
         const {inviteCode} = this.state
@@ -65,6 +67,7 @@ class Setup extends Component {
                                 <Mutation
                                     mutation={JOIN_TEAM}
                                     variables={{inviteCode}}
+                                    // eslint-disable-next-line
                                     onCompleted={data => this._confirm(data)}
                                 >
                                     {mutation => (
@@ -81,9 +84,10 @@ class Setup extends Component {
             </div>
         )
     }
-
+    // eslint-disable-next-line
     _confirm = async data => {
         try {
+            // eslint-disable-next-line
             const {data} = data.joinTeam
             console.log(data)
             const { _id } = data.joinTeam.data.user

@@ -12,7 +12,6 @@ import Clarity from './Clarity/Clarity'
 import Culture from './Culture/Culture'
 import NonVerbal from './NonVerbal/NonVerbal'
 import Verbal from './Verbal/Verbal'
-
 import {USER_NAME, AUTH_TOKEN, TEAMID, USERID} from '../../constants';
 import { SUBMIT_SELF_REVIEW } from '../../Queries';
 import { graphql } from 'react-apollo';
@@ -225,9 +224,10 @@ class SelfReview extends Component {
 
         
         const NAME = localStorage.getItem(USER_NAME)
+        // eslint-disable-next-line
         const TOKEN = localStorage.getItem(AUTH_TOKEN)
         const {step} = this.state
-        
+        // eslint-disable-next-line
         switch(step) {
             case 1:
                 return (

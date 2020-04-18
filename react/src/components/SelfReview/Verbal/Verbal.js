@@ -4,10 +4,10 @@ import VerbalFacet from './VerbalFacet';
 //   BrowserRouter as Router,
 //   Route,
 //   Link  } from 'react-router-dom';
-import {
-  Link  } from 'react-router-dom';
+// eslint-disable-next-line
+import { Link  } from 'react-router-dom';
 
-
+// eslint-disable-next-line
 import { USERID, TEAMID } from '../../../constants';
 import { Mutation } from 'react-apollo';
 import { SUBMIT_SELF_REVIEW } from  '../../../Queries';
