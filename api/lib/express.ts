@@ -84,8 +84,8 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 // GraphQL
 app.use('/graphql', GraphHTTP({
   schema: Schema,
-  pretty: config.NODE_ENV === 'development' ? true : true,
-  graphiql: config.NODE_ENV === 'development' ? true : true
+  pretty: config.NODE_ENV === 'development',
+  graphiql: config.NODE_ENV === 'development'
 }));
  
 if (config.NODE_ENV === "production") {

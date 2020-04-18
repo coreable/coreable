@@ -5,7 +5,7 @@ import styles from './Login/Login.css';
 
 //graphql/apollo
 import { Mutation } from 'react-apollo'
-import { AUTH_TOKEN, USER_NAME, TEAMID} from '../../constants';
+import { USER_NAME, TEAMID} from '../../constants';
 import { JOIN_TEAM } from  '../../Queries'
 
 function validate(inviteCode) {

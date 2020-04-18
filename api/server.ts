@@ -17,11 +17,6 @@ import { app } from './lib/startup';
 import { createServer, Server } from 'http';
 
 declare global {
-  namespace NodeJS {
-    interface ProcessEnv {
-      NODE_ENV: 'development' | 'production' | 'test' | 'pipeline';
-    }
-  }
   interface CoreableServer extends Server {
     _done: Promise<Boolean>;
   }
@@ -33,7 +28,7 @@ server._done = (async() => {
   await app._startup;
 })().then(() => server.listen(config.PORT, () => {
   if (config.NODE_ENV === "development") {
-    console.log("\n", "\x1b[31m", `http://localhost:${process.env.PORT}/graphql`, "\x1b[37m", "\n");
+    console.log("\n", "\x1b[31m", `http://localhost:${config.PORT}/graphql`, "\x1b[37m", "\n");
   }
 })).then(() => true);
 
