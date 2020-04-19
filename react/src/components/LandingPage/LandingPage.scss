@@ -1,0 +1,93 @@
+.landing-container {
+  padding-top: 16px;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+
+  a {
+    text-decoration: none;
+  }
+
+  .btn-login {
+    width: 30%;
+    max-width: 30%;
+    height: 48pt;
+    border-radius: 4pt;
+    border: 1px solid white;
+    background-color: transparent;
+    font-size: 16pt;
+    font-weight: bold;
+    justify-content: center;
+    align-content: center;
+    margin: 0 auto;
+    .MuiButton-label {
+      color: white;
+      font-weight: bold;
+      &:hover {
+        color: rgb(64, 112, 224);
+      }
+    }
+    &:hover {
+      .MuiButton-label {
+        color: rgb(64, 112, 224);
+      }
+      background-color: white;
+    }
+  }
+  
+  .btn-sign-up {
+    width: 30%;
+    max-width: 30%;
+    height: 48pt;
+    border-radius: 4pt;
+    font-size: 16pt;
+    font-weight: bold;
+    justify-content: center;
+    align-content: center;
+    margin: 0 auto;
+    background-color: white;
+    .MuiButton-label {
+      color: rgb(64, 112, 224);
+      font-weight: bold;
+      &:hover {
+        color: white;
+      }
+    }
+    &:hover {
+      background-color: rgb(64, 112, 224);
+      .MuiButton-label {
+        color: white; 
+      }
+    }
+  }
+}
+
+@media (max-width: 776px) {
+  .landing-container {
+    padding-top: 64px;
+    .btn-login {
+      width: 100%;
+      max-width: 100%;
+    }
+    .btn-sign-up {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .landing-container {
+    padding-top: 64px;
+    .btn-login {
+      width: 60%;
+      max-width: 60%;
+    }
+    .btn-sign-up {
+      width: 60%;
+      max-width: 60%;
+    }
+  }
+}

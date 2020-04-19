@@ -1,29 +1,42 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './LandingPage.css';
+import {
+  Typography,
+  Container,
+  Button,
+  StylesProvider
+} from '@material-ui/core';
+import './LandingPage.scss';
 
-export class LandingPage extends Component {
-
-
+class LandingPage extends Component {
   render() {
     return (
-      <div className="landing-page">
-        <div className="container">
-          <div>
-            <h1 style={{ color: "white" }}> Welcome to Coreable </h1>
-            <div className="text"><p> Create an account or sign in to manage <br /> your Coreable account and review others.</p></div>
-          </div>
-          <div className="btn-landing-page">
-            {/* <Link to="/login"> <button type="button" className="btn-login"> Log in </button> </Link> */}
-            <Link to="/loginexample"> <button type="button" className="btn-login"> Log in</button> </Link>
-            {/* <Link to="/register"> <button type="button" className="btn-sign-up"> Sign up </button> </Link> */}
-            <Link to="/registerexample"> <button type="button" className="btn-sign-up"> Sign up</button> </Link>
-          </div>
-        </div>
-
-      </div>
-    )
+      <Container maxWidth="xl" style={{ backgroundColor: '#0b152f', height: '95.25vh' }} className="landing-container">
+        <StylesProvider injectFirst>
+          <Typography variant="h3" component="h2" style={{ fontWeight: 'bold', marginTop: '48pt' }}>
+            Welcome to Coreable
+        </Typography>
+          <Typography variant="h6" style={{ marginTop: '32pt', color: '#707070' }} >
+            Create an account or sign in to manage <br /> your Coreable account and review others.
+        </Typography>
+          <Container maxWidth="xl" style={{ marginTop: '48pt' }}>
+            <Link to="/login">
+              <Button className="btn-login">
+                Log In
+              </Button>
+            </Link>
+          </Container>
+          <Container maxWidth="xl" style={{ marginTop: '8pt' }}>
+            <Link to="/signup">
+              <Button className="btn-sign-up">
+                Sign Up
+            </Button>
+            </Link>
+          </Container>
+        </StylesProvider>
+      </Container>
+    );
   }
 }
 
-export default LandingPage
+export default LandingPage;

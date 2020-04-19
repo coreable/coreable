@@ -1,92 +1,89 @@
-import React, { Component } from 'react';
-
-
-import './App.css';
+import React, {
+  Component,
+  lazy,
+  Suspense
+} from 'react';
 import {
   BrowserRouter as Router,
   Route
-  // Link  
 } from 'react-router-dom';
-import Toolbar from './components/Toolbar/Toolbar.js';
+import {
+  LinearProgress
+} from '@material-ui/core';
+
 import Backdrop from './components/Backdrop/Backdrop';
 import SideDrawer from './components/Sidedrawer/Sidedrawer';
-// import Login from './components/LandingPage/Login/Login';
-import LandingPage from './components/LandingPage/LandingPage';
-import Register from './components/LandingPage/Register/Register';
-import Setup from './components/LandingPage/Setup';
-import LoginTest from './components/LandingPage/Login/LoginExample';
-import RegisterExample from './components/LandingPage/Register/RegisterExample';
+import { Toolbar } from './components/Toolbar/Toolbar.js';
 
-import SelfReview from './components/SelfReview/SelfReview';
-import Initiative from './components/SelfReview/Initiative/Initiative';
-import Trust from './components/SelfReview/Trust/Trust';
-import Flexibility from './components/SelfReview/Flexibility/Flexibility';
-import Resilience from './components/SelfReview/Resilience/Resilience';
+import './App.scss';
 
-import ThankYou from './components/SelfReview/ThankYou';
+const Login = lazy(() => import('./components/LandingPage/Login/Login'));
+const LandingPage = lazy(() => import('./components/LandingPage/LandingPage'));
+const Register = lazy(() => import('./components/LandingPage/Register/Register'));
+const Setup = lazy(() => import('./components/LandingPage/InitalSetup/Setup'));
+const SelfReview = lazy(() => import('./components/SelfReview/SelfReview'));
 
+
+// import Setup from './components/LandingPage/Setup';
+// import SelfReview from './components/SelfReview/SelfReview';
+// import Initiative from './components/SelfReview/Initiative/Initiative';
+// import Trust from './components/SelfReview/Trust/Trust';
+// import Flexibility from './components/SelfReview/Flexibility/Flexibility';
+// import Resilience from './components/SelfReview/Resilience/Resilience';
+// import ThankYou from './components/SelfReview/ThankYou';
 
 class App extends Component {
-
   state = {
     sideDrawerOpen: false
   };
 
   drawerToggleClickHandler = () => {
-   this.setState((prevState) => {
-     return {sideDrawerOpen: !prevState.sideDrawerOpen};
-   });
+    this.setState((prevState) => {
+      return { sideDrawerOpen: !prevState.sideDrawerOpen };
+    });
   };
 
   backdropClickHandler = () => {
-    this.setState({sideDrawerOpen: false})
+    this.setState({ sideDrawerOpen: false })
   };
 
+  render() {
+    let backDrop;
 
-  render(){
-      // let sideDrawer;
-      let backDrop;
+    if (this.state.sideDrawerOpen) {
+      backDrop = <Backdrop click={this.backdropClickHandler} />
+    }
 
-      if(this.state.sideDrawerOpen) {
-        // sideDrawer = <SideDrawer />;
-        backDrop = <Backdrop click={this.backdropClickHandler}/>
-      }
     return (
-
       <Router>
-        <div className="App" style={{height:'100%'}}>
-        <div className="navBar">
-            <Toolbar drawerClickHandler={this.drawerToggleClickHandler}/>
-            <main style={{marginTop:'48px'}}>
-              <SideDrawer 
-              show={this.state.sideDrawerOpen} 
-              click={this.backdropClickHandler}
+        <div className="App" style={{ height: '100%' }}>
+          <div className="navBar">
+            <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+            <main style={{ marginTop: '48px' }}>
+              <SideDrawer
+                show={this.state.sideDrawerOpen}
+                click={this.backdropClickHandler}
               />
               {backDrop}
             </main>
-        </div>
+          </div>
 
-        <Route exact path="/" component={LandingPage} />
-        {/* <Route exact path="/" render = {props => (
-          <LandingPage />
-        )}>     
-        </Route> */}
+          <Suspense fallback={<LinearProgress style={{ top: '16px' }}/>}>
+            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Register} />
+            <Route exact path="/setup" component={Setup} />
+            <Route exact path="/self-review" component={SelfReview} />
+          </Suspense>
 
-        {/* <Route exact path="/login" component={Login} /> */}
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/setup" component={Setup} />
-        <Route exact path="/loginexample" component={LoginTest} />
-        <Route exact path="/registerexample" component={RegisterExample} />
-
-        <Route exact path="/self-review" component={SelfReview} />
-        <Route exact path="/initiative" component={Initiative} />
-        <Route exact path="/trust" component={Trust} />
-        <Route exact path="/flexibility" component={Flexibility} />
-        <Route exact path="/resilience" component={Resilience} />
-        <Route exact path="/thank-you" component={ThankYou}/>
+          {/* <Route exact path="/setup" component={Setup} />
+          <Route exact path="/initiative" component={Initiative} />
+          <Route exact path="/trust" component={Trust} />
+          <Route exact path="/flexibility" component={Flexibility} />
+          <Route exact path="/resilience" component={Resilience} />
+          <Route exact path="/thank-you" component={ThankYou} /> */}
         </div>
       </Router>
-
     );
   }
 }

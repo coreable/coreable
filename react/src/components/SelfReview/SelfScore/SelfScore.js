@@ -18,7 +18,6 @@ class SelfScore extends Component {
 
 
     render() {
-
         return (
             <div className="facet-container">
                 <div className="self-score-container">

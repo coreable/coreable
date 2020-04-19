@@ -1,5 +1,5 @@
-const JWT = 'auth-token'
-const USER_NAME = 'firstName'
-const USERID = '_id'
-const TEAMID = '_id'
+const JWT = 'auth-token';
+const USER_NAME = 'firstName';
+const USERID = 'user_id';
+const TEAMID = 'team_id';
 export { JWT, USER_NAME, USERID, TEAMID }

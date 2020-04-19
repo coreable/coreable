@@ -1,0 +1,147 @@
+.self-review {
+  position: absolute;
+  /* use top to position something absolutely */
+  top: 48pt;
+  bottom: 0;
+  width: 100%;
+  background: rgb(250, 250, 250);
+  padding: 0 30pt;
+  height: 1500px;
+  margin: 0 auto;
+}
+
+form {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.two-columns {
+  display: flex;
+  margin: 0;
+  justify-content: center;
+  align-content: center;
+}
+
+.btn-before {
+  margin: 9pt;
+  height: 40pt;
+  width: 200pt;
+  border-radius: 8pt;
+  background: rgb(255, 255, 255);
+  font-size: 16pt;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-next {
+  margin: 9pt;
+  height: 40pt;
+  width: 200pt;
+  border-radius: 8pt;
+  background: rgb(66, 113, 249);
+  color: white;
+  font-size: 16pt;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-before:focus,
+.btn-next:focus {
+  outline: none;
+}
+
+.review-container {
+  padding-top: 16px;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+  }
+
+  .facet-card {
+    background-color: white;
+    padding: 32pt;
+    margin: 16pt;
+    .facet-name {
+      color: black;
+      font-size: 24pt;
+    }
+    .facet-heading {
+      color: rgb(66, 113, 249);
+      margin-top: 24pt;
+      margin-bottom: 0pt;
+    }
+    .facet-info {
+      margin-bottom: 31pt;
+      margin-top: 5pt;
+    }
+    .rating {
+      -webkit-appearance: none;
+      height: 24pt;
+      width: 380pt;
+      border-radius: 4pt;
+      background-color: rgb(214, 214, 214);
+      background: linear-gradient(90deg, rgb(66, 113, 249) 20%, rgb(214, 214, 214) 20%);
+      padding: 0;
+    }
+    .rating::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+      height: 24pt;
+      width: 8pt;
+      border-radius: 4pt;
+      background: rgb(66, 113, 249);
+    }
+    .rating:focus {
+      outline: none;
+    }
+    .element-div {
+      position: relative;
+      transform: translateX(25%);
+    }
+    .survey-members {
+      background: rgb(66, 113, 249);
+      width: 72pt;
+      height: 32pt;
+      border-radius: 4pt;
+      margin-left: 56pt;
+    }
+    .member {
+      margin: 0 auto;
+      transform: translateY(50%);
+      color: white;
+      font-size: 14pt;
+    }
+  }
+}
+
+// .facet-container {
+//   height: 272pt;
+//   width: 494pt;
+//   background: white;
+//   border-radius: 8pt;
+//   margin: 0 auto;
+//   margin-bottom: 18pt;
+//   padding-top: 32pt;
+// }
+
+// .container {
+//   /* height: 100%; */
+//   width: 100%;
+//   padding-top: 12pt;
+//   margin: 0;
+// }
+
+// h1 {
+//   color: black;
+// }
+
+// p {
+//   color: rgb(112, 112, 112);
+// }
+
+// /* this is a shortcut method to center the element div */

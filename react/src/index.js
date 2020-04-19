@@ -13,7 +13,7 @@ import { setContext } from 'apollo-link-context'
 import { JWT } from './constants'
 
 const httpLink = createHttpLink({
-  uri: '/graphql'
+  uri: 'http://coreable.appspot.com/graphql'
 });
 
 const authLink = setContext((_, { headers }) => {
