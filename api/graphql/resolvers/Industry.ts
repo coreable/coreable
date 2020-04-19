@@ -12,7 +12,7 @@ import { sequelize } from "../../lib/sequelize";
 import { User } from "../../models/User";
 import { Review } from "../../models/Review";
 import { Op } from "sequelize";
-import { Average } from "../../models/Average";
+import { IndustryAverage } from "../../models/IndustryAverage";
 
 export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectType({
   name: 'IndustryResolver',
@@ -89,7 +89,7 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                   let week;
                   week = 7 * 60 * 60 * 24 * 1000; // week = 7 * 60 * 60 * 24 * 1000;
                   week = new Date(Date.now() - week);
-                  averages = await sequelize.models.Average.findOne({
+                  averages = await sequelize.models.IndustryAverage.findOne({
                     where: {
                       industry_id: industry._id,
                       createdAt: {
@@ -100,8 +100,8 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                   if (averages) {
                     return averages;
                   }
-                  averages = await getIndustryAverage(industry);
-                  averages = await Average.create({
+                  averages = await getIndustryAverages(industry);
+                  averages = await IndustryAverage.create({
                     industry_id: industry._id,
                     emotionalResponse: averages.dataValues.emotionalResponse,
                     empathy: averages.dataValues.empathy,
@@ -148,7 +148,7 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                   } catch (err) {
                     return err;
                   }
-                  averages = await sequelize.models.Average.findAll({
+                  averages = await sequelize.models.IndustryAverage.findAll({
                     where: {
                       industry_id: industry._id,
                       createdAt: {
@@ -160,8 +160,8 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                   if (averages) {
                     return averages;
                   }
-                  averages = await getIndustryAverage(industry);
-                  averages = await Average.create({
+                  averages = await getIndustryAverages(industry);
+                  averages = await IndustryAverage.create({
                     industry_id: industry._id,
                     emotionalResponse: averages.dataValues.emotionalResponse,
                     empathy: averages.dataValues.empathy,
@@ -204,7 +204,7 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
   }
 });
 
-export function getIndustryAverage(industry: Industry) {
+export function getIndustryAverages(industry: Industry) {
   return sequelize.models.Industry.findOne(
     {
       where: { _id: industry._id },

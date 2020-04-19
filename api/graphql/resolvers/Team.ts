@@ -16,7 +16,9 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
-  GraphQLFloat
+  GraphQLFloat,
+  GraphQLInt,
+  GraphQLNonNull
 } from 'graphql';
 
 import { Team } from '../../models/Team';
@@ -27,7 +29,7 @@ import { sequelize } from '../../lib/sequelize';
 import { User } from '../../models/User';
 import { Review } from '../../models/Review';
 import { Op } from 'sequelize';
-import { Average } from '../../models/Average';
+import { TeamAverage } from '../../models/TeamAverage';
 
 export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   name: 'TeamResolver',
@@ -70,94 +72,167 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
           fields: () => {
             return {
               'average': {
-                type: ReviewResolver,
-                resolve(average, args, context) {
-                  return average;
-                }
-              },
-              'sorted': {
-                type: new GraphQLList(new GraphQLObjectType({
-                  name: 'TeamSortedAverageArray',
+                type: new GraphQLObjectType({
+                  name: 'TeamAverageSingle',
                   fields: () => {
                     return {
-                      'field': {
-                        type: GraphQLString,
-                        resolve(sortable, args, context) {
-                          return sortable[0];
+                      'default': {
+                        type: ReviewResolver,
+                        resolve(average, args, context) {
+                          return average;
                         }
                       },
-                      'value': {
-                        type: GraphQLFloat,
-                        resolve(sortable, args, context) {
-                          return sortable[1];
+                      'sorted': {
+                        type: new GraphQLList(new GraphQLObjectType({
+                          name: 'TeamSortedAverageArray',
+                          fields: () => {
+                            return {
+                              'field': {
+                                type: GraphQLString,
+                                resolve(sortable, args, context) {
+                                  return sortable[0];
+                                }
+                              },
+                              'value': {
+                                type: GraphQLFloat,
+                                resolve(sortable, args, context) {
+                                  return sortable[1];
+                                }
+                              }
+                            }
+                          }
+                        })),
+                        resolve(average, args, context) {
+                          average = average.dataValues;
+                          const sortable = [];
+                          for (const field in average) {
+                            if (!isNaN(average[field]) && Number.isFinite(average[field])) {
+                              sortable.push([field, average[field]]);
+                            }
+                          }
+                          sortable.sort((a, b) => {
+                            return a[1] - b[1]
+                          });
+                          return sortable;
                         }
                       }
                     }
                   }
-                })),
-                resolve(average, args, context) {
-                  const sortable = [];
-                  for (const field in average) {
-                    if (!isNaN(average[field]) && Number.isFinite(average[field])) {
-                      sortable.push([field, average[field]]);
+                }),
+                async resolve(team, args, context) {
+                  let averages: any;
+                  let week;
+                  week = 7 * 60 * 60 * 24 * 1000; // week = 7 * 60 * 60 * 24 * 1000;
+                  week = new Date(Date.now() - week);
+                  averages = await sequelize.models.TeamAverage.findOne({
+                    where: {
+                      team_id: team._id,
+                      createdAt: {
+                        [Op.gte]: week
+                      }
                     }
-                  }
-                  sortable.sort((a, b) => {
-                    return a[1] - b[1]
                   });
-                  return sortable;
+                  if (averages) {
+                    return averages;
+                  }
+                  averages = await getTeamAverages(team);
+                  averages = await TeamAverage.create({
+                    team_id: team._id,
+                    emotionalResponse: averages.dataValues.emotionalResponse,
+                    empathy: averages.dataValues.empathy,
+                    managesOwn: averages.dataValues.managesOwn,
+                    faith: averages.dataValues.faith,
+                    cooperatively: averages.dataValues.cooperatively,
+                    positiveBelief: averages.dataValues.positiveBelief,
+                    resilienceFeedback: averages.dataValues.resilienceFeedback,
+                    calm: averages.dataValues.calm,
+                    change: averages.dataValues.change,
+                    newIdeas: averages.dataValues.newIdeas,
+                    workDemands: averages.dataValues.workDemands,
+                    proactive: averages.dataValues.proactive,
+                    influences: averages.dataValues.influences,
+                    clearInstructions: averages.dataValues.clearInstructions,
+                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
+                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
+                    openToShare: averages.dataValues.openToShare,
+                    tone: averages.dataValues.tone,
+                    crossTeam: averages.dataValues.crossTeam,
+                    distractions: averages.dataValues.distractions,
+                    eyeContact: averages.dataValues.eyeContact,
+                    signifiesInterest: averages.dataValues.signifiesInterest,
+                    verbalAttentiveFeedback: averages.dataValues.verbalAttentiveFeedback
+                  });
+                  return averages;
+                }
+              },
+              'averages': {
+                type: new GraphQLList(ReviewResolver),
+                args: {
+                  limit: {
+                    type: GraphQLInt,
+                  },
+                  start: {
+                    type: new GraphQLNonNull(GraphQLString),
+                  }
+                },
+                async resolve(team, args, context) {
+                  let averages: any;
+                  try {
+                    args.start = Date.parse(args.start);
+                    args.start = new Date(args.start);
+                  } catch (err) {
+                    return err;
+                  }
+                  averages = await sequelize.models.TeamAverage.findAll({
+                    where: {
+                      team_id: team._id,
+                      createdAt: {
+                        [Op.gte]: args.start
+                      }
+                    },
+                    limit: args.limit
+                  });
+                  if (averages) {
+                    return averages;
+                  }
+                  averages = await getTeamAverages(team);
+                  averages = await TeamAverage.create({
+                    team_id: team._id,
+                    emotionalResponse: averages.dataValues.emotionalResponse,
+                    empathy: averages.dataValues.empathy,
+                    managesOwn: averages.dataValues.managesOwn,
+                    faith: averages.dataValues.faith,
+                    cooperatively: averages.dataValues.cooperatively,
+                    positiveBelief: averages.dataValues.positiveBelief,
+                    resilienceFeedback: averages.dataValues.resilienceFeedback,
+                    calm: averages.dataValues.calm,
+                    change: averages.dataValues.change,
+                    newIdeas: averages.dataValues.newIdeas,
+                    workDemands: averages.dataValues.workDemands,
+                    proactive: averages.dataValues.proactive,
+                    influences: averages.dataValues.influences,
+                    clearInstructions: averages.dataValues.clearInstructions,
+                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
+                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
+                    openToShare: averages.dataValues.openToShare,
+                    tone: averages.dataValues.tone,
+                    crossTeam: averages.dataValues.crossTeam,
+                    distractions: averages.dataValues.distractions,
+                    eyeContact: averages.dataValues.eyeContact,
+                    signifiesInterest: averages.dataValues.signifiesInterest,
+                    verbalAttentiveFeedback: averages.dataValues.verbalAttentiveFeedback
+                  });
+                  if (!Array.isArray(averages)) {
+                    averages = [averages];
+                  }
+                  return averages;
                 }
               }
             }
           }
         }),
-        async resolve(team, args, context) {
-          // @todo #4 REMOVE PENDING TEAM AVERAGE FOR MANAGERS
-          // Subject -> Teams -> Useres -> Pending -> Teams -> Teams Average
-          // The pending shouldn't have teams average
-          let averages: any;
-          let week = 7 * 60 * 60 * 24 * 1000;
-          let weekAgo = new Date(Date.now() - week);
-          averages = await sequelize.models.Average.findOne({
-            where: {
-              team_id: team._id,
-              createdAt: {
-                [Op.gte]: weekAgo
-              }
-            }
-          });
-          if (averages) {
-            return averages.dataValues;
-          }
-          averages = await getTeamAverages(team);
-          averages = averages.dataValues;
-          averages = await Average.create({
-            team_id: team._id,
-            emotionalResponse: averages.emotionalResponse,
-            empathy: averages.empathy,
-            managesOwn: averages.managesOwn,
-            faith: averages.faith,
-            cooperatively: averages.cooperatively,
-            positiveBelief: averages.positiveBelief,
-            resilienceFeedback: averages.resilienceFeedback,
-            calm: averages.calm,
-            change: averages.change,
-            newIdeas: averages.newIdeas,
-            workDemands: averages.workDemands,
-            proactive: averages.proactive,
-            influences: averages.influences,
-            clearInstructions: averages.clearInstructions,
-            preventsMisunderstandings: averages.preventsMisunderstandings,
-            easilyExplainsComplexIdeas: averages.easilyExplainsComplexIdeas,
-            openToShare: averages.openToShare,
-            tone: averages.tone,
-            crossTeam: averages.crossTeam,
-            distractions: averages.distractions,
-            eyeContact: averages.eyeContact,
-            signifiesInterest: averages.signifiesInterest,
-            verbalAttentiveFeedback: averages.verbalAttentiveFeedback
-          });
-          return averages.dataValues;
+        resolve(team, args, context) {
+          return team;
         }
       }
     }
@@ -174,8 +249,6 @@ export function getTeamAverages(team: Team) {
           '_id',
           'name',
           'inviteCode',
-          'subject_id',
-          'createdAt',
           'updatedAt',
         ],
         include: [

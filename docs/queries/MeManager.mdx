@@ -65,48 +65,8 @@ query {
           state
           name
           report {
-            average { # => {Review}
-              # _id
-              # submitter_id
-              # submitter {}
-              # receiver_id
-              # receiver {}
-              calm
-              change
-              clearInstructions
-              cooperatively
-              crossTeam
-              distractions
-              easilyExplainsComplexIdeas
-              emotionalResponse
-              empathy
-              eyeContact
-              faith
-              influences
-              managesOwn
-              newIdeas
-              openToShare
-              positiveBelief
-              preventsMisunderstandings
-              proactive
-              resilienceFeedback
-              signifiesInterest
-              tone
-              verbalAttentiveFeedback
-              workDemands
-            }
-            sorted { # => [{ field: '', value: 0 }]
-              field
-              value
-            }
-          }
-          teams { # => [Team]
-            _id
-            name
-            inviteCode
-            # subject {}
-            report {
-              average { # => {Review}
+            average {
+              default {
                 # _id
                 # submitter_id
                 # submitter {}
@@ -135,10 +95,118 @@ query {
                 tone
                 verbalAttentiveFeedback
                 workDemands
+                # createdAt
               }
               sorted { # => [{ field: '', value: 0 }]
                 field
                 value
+              }
+            }
+            averages(limit: 1, start: "0") {
+              # _id
+              # submitter_id
+              # submitter {}
+              # receiver_id
+              # receiver {}
+              calm
+              change
+              clearInstructions
+              cooperatively
+              crossTeam
+              distractions
+              easilyExplainsComplexIdeas
+              emotionalResponse
+              empathy
+              eyeContact
+              faith
+              influences
+              managesOwn
+              newIdeas
+              openToShare
+              positiveBelief
+              preventsMisunderstandings
+              proactive
+              resilienceFeedback
+              signifiesInterest
+              tone
+              verbalAttentiveFeedback
+              workDemands
+              createdAt
+            }
+          }
+          teams { # => [Team]
+            _id
+            name
+            inviteCode
+            # subject {}
+            report {
+              average {
+                default {
+                  # _id
+                  # submitter_id
+                  # submitter {}
+                  # receiver_id
+                  # receiver {}
+                  calm
+                  change
+                  clearInstructions
+                  cooperatively
+                  crossTeam
+                  distractions
+                  easilyExplainsComplexIdeas
+                  emotionalResponse
+                  empathy
+                  eyeContact
+                  faith
+                  influences
+                  managesOwn
+                  newIdeas
+                  openToShare
+                  positiveBelief
+                  preventsMisunderstandings
+                  proactive
+                  resilienceFeedback
+                  signifiesInterest
+                  tone
+                  verbalAttentiveFeedback
+                  workDemands
+                  # createdAt
+                }
+                sorted { # => [{ field: '', value: 0 }]
+                  field
+                  value
+                }
+              }
+              averages(limit: 1, start: "0") {
+                # _id
+                # submitter_id
+                # submitter {}
+                # receiver_id
+                # receiver {}
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                faith
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                preventsMisunderstandings
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
+                createdAt
               }
             }
             users { # => [User]
@@ -151,7 +219,44 @@ query {
                 _id
                 name
                 report {
-                  average { # => {Review}
+                  average {
+                    default {
+                      # _id
+                      # submitter_id
+                      # submitter {}
+                      # receiver_id
+                      # receiver {}
+                      calm
+                      change
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      emotionalResponse
+                      empathy
+                      eyeContact
+                      faith
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      preventsMisunderstandings
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      tone
+                      verbalAttentiveFeedback
+                      workDemands
+                      # createdAt
+                    }
+                    sorted { # => [{ field: '', value: 0 }]
+                      field
+                      value
+                    }
+                  }
+                  averages(limit: 1, start: "0") {
                     # _id
                     # submitter_id
                     # submitter {}
@@ -180,12 +285,9 @@ query {
                     tone
                     verbalAttentiveFeedback
                     workDemands
+                    createdAt
                   }
-                  sorted { # => [{ field: '', value: 0 }]
-                    field
-                    value
-                  }
-                }   
+                }
               }
               reviews {
                 default { # => [Review]
@@ -217,6 +319,7 @@ query {
                   tone
                   verbalAttentiveFeedback
                   workDemands
+                  createdAt
                 }
                 report {
                   average { # => {Review}
@@ -248,6 +351,7 @@ query {
                     tone
                     verbalAttentiveFeedback
                     workDemands
+                    # createdAt
                   }
                   sorted { # => [{ field: '', value: 0 }]
                     field
@@ -284,6 +388,7 @@ query {
                 tone
                 verbalAttentiveFeedback
                 workDemands
+                createdAt
               }
               pending { # => [User]
                 _id
@@ -320,6 +425,7 @@ query {
                     tone
                     verbalAttentiveFeedback
                     workDemands
+                    createdAt
                   }
                   report {
                     average { # => {Review}
@@ -351,6 +457,7 @@ query {
                       tone
                       verbalAttentiveFeedback
                       workDemands
+                      # createdAt
                     }
                     sorted { # => [{ field: '', value: 0 }]
                       field
@@ -387,13 +494,15 @@ query {
                   tone
                   verbalAttentiveFeedback
                   workDemands
+                  createdAt
                 }
                 teams { # => [Team]
                   _id
                   name
                   # inviteCode
                   report {
-                    average { # => {Review}
+                    average {
+                      default {
                       # _id
                       # submitter_id
                       # submitter {}
@@ -422,18 +531,88 @@ query {
                       tone
                       verbalAttentiveFeedback
                       workDemands
+                      # createdAt
                     }
                     sorted { # => [{ field: '', value: 0 }]
                       field
                       value
                     }
                   }
-                  subject { # => {Subject}
+                  averages(limit: 1, start: "0") {
+                    # _id
+                    # submitter_id
+                    # submitter {}
+                    # receiver_id
+                    # receiver {}
+                    calm
+                    change
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    emotionalResponse
+                    empathy
+                    eyeContact
+                    faith
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    preventsMisunderstandings
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    tone
+                    verbalAttentiveFeedback
+                    workDemands
+                    createdAt
+                  }
+                }
+                subject { # => {Subject}
                     _id
                     name
                     state
                     report {
-                      average { # => {Review}
+                      average {
+                        default {
+                          # _id
+                          # submitter_id
+                          # submitter {}
+                          # receiver_id
+                          # receiver {}
+                          calm
+                          change
+                          clearInstructions
+                          cooperatively
+                          crossTeam
+                          distractions
+                          easilyExplainsComplexIdeas
+                          emotionalResponse
+                          empathy
+                          eyeContact
+                          faith
+                          influences
+                          managesOwn
+                          newIdeas
+                          openToShare
+                          positiveBelief
+                          preventsMisunderstandings
+                          proactive
+                          resilienceFeedback
+                          signifiesInterest
+                          tone
+                          verbalAttentiveFeedback
+                          workDemands
+                          # createdAt 
+                        }
+                        sorted { # => [{ field: '', value: 0 }]
+                          field
+                          value
+                        }
+                      }
+                      averages(limit: 1, start: "0") {
                         # _id
                         # submitter_id
                         # submitter {}
@@ -462,10 +641,7 @@ query {
                         tone
                         verbalAttentiveFeedback
                         workDemands
-                      }
-                      sorted { # => [{ field: '', value: 0 }]
-                        field
-                        value
+                        createdAt
                       }
                     }
                   }

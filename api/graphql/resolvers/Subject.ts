@@ -18,6 +18,7 @@ import {
   GraphQLString,
   GraphQLList,
   GraphQLFloat,
+  GraphQLNonNull,
 } from 'graphql';
 
 import { Subject } from '../../models/Subject';
@@ -28,7 +29,7 @@ import { Team } from '../../models/Team';
 import { User } from '../../models/User';
 import { Review } from '../../models/Review';
 import { Op } from 'sequelize';
-import { Average } from '../../models/Average';
+import { SubjectAverage } from '../../models/SubjectAverage';
 
 export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
   name: 'SubjectResolver',
@@ -65,91 +66,167 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
           fields: () => {
             return {
               'average': {
-                type: ReviewResolver,
-                resolve(average, args, context) {
-                  return average;
-                }
-              },
-              'sorted': {
-                type: new GraphQLList(new GraphQLObjectType({
-                  name: 'SubjectSortedAverageArray',
+                type: new GraphQLObjectType({
+                  name: 'SubjectAverageSingle',
                   fields: () => {
                     return {
-                      'field': {
-                        type: GraphQLString,
-                        resolve(sortable, args, context) {
-                          return sortable[0];
+                      'default': {
+                        type: ReviewResolver,
+                        resolve(average, args, context) {
+                          return average;
                         }
                       },
-                      'value': {
-                        type: GraphQLFloat,
-                        resolve(sortable, args, context) {
-                          return sortable[1];
+                      'sorted': {
+                        type: new GraphQLList(new GraphQLObjectType({
+                          name: 'SubjectSortedAverageArray',
+                          fields: () => {
+                            return {
+                              'field': {
+                                type: GraphQLString,
+                                resolve(sortable, args, context) {
+                                  return sortable[0];
+                                }
+                              },
+                              'value': {
+                                type: GraphQLFloat,
+                                resolve(sortable, args, context) {
+                                  return sortable[1];
+                                }
+                              }
+                            }
+                          }
+                        })),
+                        resolve(average, args, context) {
+                          average = average.dataValues;
+                          const sortable = [];
+                          for (const field in average) {
+                            if (!isNaN(average[field]) && Number.isFinite(average[field])) {
+                              sortable.push([field, average[field]]);
+                            }
+                          }
+                          sortable.sort((a, b) => {
+                            return a[1] - b[1]
+                          });
+                          return sortable;
                         }
                       }
                     }
                   }
-                })),
-                resolve(average, args, context) {
-                  const sortable = [];
-                  for (const field in average) {
-                    if (!isNaN(average[field]) && Number.isFinite(average[field])) {
-                      sortable.push([field, average[field]]);
+                }),
+                async resolve(subject, args, context) {
+                  let averages: any;
+                  let week;
+                  week = 7 * 60 * 60 * 24 * 1000; // week = 7 * 60 * 60 * 24 * 1000;
+                  week = new Date(Date.now() - week);
+                  averages = await sequelize.models.SubjectAverage.findOne({
+                    where: {
+                      subject_id: subject._id,
+                      createdAt: {
+                        [Op.gte]: week
+                      }
                     }
-                  }
-                  sortable.sort((a, b) => {
-                    return a[1] - b[1]
                   });
-                  return sortable;
+                  if (averages) {
+                    return averages;
+                  }
+                  averages = await getSubjectAverages(subject);
+                  averages = await SubjectAverage.create({
+                    subject_id: subject._id,
+                    emotionalResponse: averages.dataValues.emotionalResponse,
+                    empathy: averages.dataValues.empathy,
+                    managesOwn: averages.dataValues.managesOwn,
+                    faith: averages.dataValues.faith,
+                    cooperatively: averages.dataValues.cooperatively,
+                    positiveBelief: averages.dataValues.positiveBelief,
+                    resilienceFeedback: averages.dataValues.resilienceFeedback,
+                    calm: averages.dataValues.calm,
+                    change: averages.dataValues.change,
+                    newIdeas: averages.dataValues.newIdeas,
+                    workDemands: averages.dataValues.workDemands,
+                    proactive: averages.dataValues.proactive,
+                    influences: averages.dataValues.influences,
+                    clearInstructions: averages.dataValues.clearInstructions,
+                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
+                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
+                    openToShare: averages.dataValues.openToShare,
+                    tone: averages.dataValues.tone,
+                    crossTeam: averages.dataValues.crossTeam,
+                    distractions: averages.dataValues.distractions,
+                    eyeContact: averages.dataValues.eyeContact,
+                    signifiesInterest: averages.dataValues.signifiesInterest,
+                    verbalAttentiveFeedback: averages.dataValues.verbalAttentiveFeedback
+                  });
+                  return averages;
+                }
+              },
+              'averages': {
+                type: new GraphQLList(ReviewResolver),
+                args: {
+                  limit: {
+                    type: GraphQLInt,
+                  },
+                  start: {
+                    type: new GraphQLNonNull(GraphQLString),
+                  }
+                },
+                async resolve(subject, args, context) {
+                  let averages: any;
+                  try {
+                    args.start = Date.parse(args.start);
+                    args.start = new Date(args.start);
+                  } catch (err) {
+                    return err;
+                  }
+                  averages = await sequelize.models.SubjectAverage.findAll({
+                    where: {
+                      subject_id: subject._id,
+                      createdAt: {
+                        [Op.gte]: args.start
+                      }
+                    },
+                    limit: args.limit
+                  });
+                  if (averages) {
+                    return averages;
+                  }
+                  averages = await getSubjectAverages(subject);
+                  averages = await SubjectAverage.create({
+                    subject_id: subject._id,
+                    emotionalResponse: averages.dataValues.emotionalResponse,
+                    empathy: averages.dataValues.empathy,
+                    managesOwn: averages.dataValues.managesOwn,
+                    faith: averages.dataValues.faith,
+                    cooperatively: averages.dataValues.cooperatively,
+                    positiveBelief: averages.dataValues.positiveBelief,
+                    resilienceFeedback: averages.dataValues.resilienceFeedback,
+                    calm: averages.dataValues.calm,
+                    change: averages.dataValues.change,
+                    newIdeas: averages.dataValues.newIdeas,
+                    workDemands: averages.dataValues.workDemands,
+                    proactive: averages.dataValues.proactive,
+                    influences: averages.dataValues.influences,
+                    clearInstructions: averages.dataValues.clearInstructions,
+                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
+                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
+                    openToShare: averages.dataValues.openToShare,
+                    tone: averages.dataValues.tone,
+                    crossTeam: averages.dataValues.crossTeam,
+                    distractions: averages.dataValues.distractions,
+                    eyeContact: averages.dataValues.eyeContact,
+                    signifiesInterest: averages.dataValues.signifiesInterest,
+                    verbalAttentiveFeedback: averages.dataValues.verbalAttentiveFeedback
+                  });
+                  if (!Array.isArray(averages)) {
+                    averages = [averages];
+                  }
+                  return averages;
                 }
               }
             }
           }
         }),
-        async resolve(subject, args, context) {
-          let averages: any;
-          let week = 7 * 60 * 60 * 24 * 1000;
-          let weekAgo = new Date(Date.now() - week);
-          averages = await sequelize.models.Average.findOne({
-            where: {
-              subject_id: subject._id,
-              createdAt: {
-                [Op.gte]: weekAgo
-              }
-            }
-          });
-          if (averages) {
-            return averages.dataValues;
-          }
-          averages = await getSubjectAverages(subject);
-          averages = averages.dataValues;
-          averages = await Average.create({
-            subject_id: subject._id,
-            emotionalResponse: averages.emotionalResponse,
-            empathy: averages.empathy,
-            managesOwn: averages.managesOwn,
-            faith: averages.faith,
-            cooperatively: averages.cooperatively,
-            positiveBelief: averages.positiveBelief,
-            resilienceFeedback: averages.resilienceFeedback,
-            calm: averages.calm,
-            change: averages.change,
-            newIdeas: averages.newIdeas,
-            workDemands: averages.workDemands,
-            proactive: averages.proactive,
-            influences: averages.influences,
-            clearInstructions: averages.clearInstructions,
-            preventsMisunderstandings: averages.preventsMisunderstandings,
-            easilyExplainsComplexIdeas: averages.easilyExplainsComplexIdeas,
-            openToShare: averages.openToShare,
-            tone: averages.tone,
-            crossTeam: averages.crossTeam,
-            distractions: averages.distractions,
-            eyeContact: averages.eyeContact,
-            signifiesInterest: averages.signifiesInterest,
-            verbalAttentiveFeedback: averages.verbalAttentiveFeedback
-          });
-          return averages.dataValues;
+        resolve(subject, args, context) {
+          return subject;
         }
       }
     }

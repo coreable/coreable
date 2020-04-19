@@ -14,7 +14,7 @@ Coreable source code.
 
 import { Model, Sequelize, DataTypes, HasMany } from "sequelize";
 import { User } from "./User";
-import { Average } from "./Average";
+import { IndustryAverage } from "./IndustryAverage";
 
 class Industry extends Model {
   // PK
@@ -47,11 +47,11 @@ const sync = (sequelize: Sequelize) => {
 }
 
 let IndustryUser: HasMany<Industry, User>;
-let IndustryAverage: HasMany<Industry, Average>;
+let AverageIndustry: HasMany<Industry, IndustryAverage>;
 
 const assosciate = () => {
   IndustryUser = Industry.hasMany(User, { sourceKey: '_id', foreignKey: 'industry_id', as: 'users' });
-  IndustryAverage = Industry.hasMany(Average, { sourceKey: '_id', foreignKey: 'industry_id', as: 'averages' });
+  AverageIndustry = Industry.hasMany(IndustryAverage, { sourceKey: '_id', foreignKey: 'industry_id', as: 'averages' });
   return Industry;
 }
 
@@ -59,6 +59,6 @@ export {
   assosciate,
   sync,
   IndustryUser,
-  IndustryAverage,
+  AverageIndustry,
   Industry
 };

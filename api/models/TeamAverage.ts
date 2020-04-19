@@ -1,9 +1,7 @@
 import { Model, Sequelize, DataTypes, BelongsTo } from "sequelize";
-import { Subject } from "./Subject";
 import { Team } from "./Team";
-import { Industry } from "./Industry";
 
-class Average extends Model {
+class TeamAverage extends Model {
   // PK
   public _id!: string;
   // FK
@@ -16,21 +14,13 @@ class Average extends Model {
 }
 
 const sync = (sequelize: Sequelize) => {
-  Average.init({
+  TeamAverage.init({
     '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
     'team_id': {
-      type: DataTypes.UUID,
-      allowNull: true
-    },
-    'subject_id': {
-      type: DataTypes.UUID,
-      allowNull: true
-    },
-    'industry_id': {
       type: DataTypes.UUID,
       allowNull: true
     },
@@ -127,29 +117,23 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     }
   }, {
-    'tableName': 'AVERAGE',
+    'tableName': 'TEAM_AVERAGE',
     'sequelize': sequelize
   });
 
-  return Average;
+  return TeamAverage;
 }
 
-let AverageSubject: BelongsTo<Average, Subject>;
-let AverageTeam: BelongsTo<Average, Team>;
-let AverageIndustry: BelongsTo<Average, Industry>;
+let AverageTeam: BelongsTo<TeamAverage, Team>;
 
 const assosciate = () => {
-  AverageSubject = Average.belongsTo(Subject, { foreignKey: 'subject_id', targetKey: '_id', as: 'subject' });
-  AverageTeam = Average.belongsTo(Team, { foreignKey: 'team_id', targetKey: '_id', as: 'team' });
-  AverageIndustry = Average.belongsTo(Industry, { foreignKey: 'industry_id', targetKey: '_id', as: 'industry' });
-  return Average;
+  AverageTeam = TeamAverage.belongsTo(Team, { foreignKey: 'team_id', targetKey: '_id', as: 'team' });
+  return TeamAverage;
 }
 
 export {
   sync,
   assosciate,
-  AverageSubject,
   AverageTeam,
-  AverageIndustry,
-  Average
+  TeamAverage
 }

@@ -21,7 +21,9 @@ import * as Review from '../models/Review';
 import * as Subject from '../models/Subject';
 import * as Manager from '../models/Manager';
 import * as Industry from '../models/Industry';
-import * as Average from '../models/Average';
+import * as IndustryAverage from '../models/IndustryAverage';
+import * as SubjectAverage from '../models/SubjectAverage';
+import * as TeamAverage from '../models/TeamAverage';
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
@@ -50,7 +52,9 @@ _sequelize.sync = (async () => {
   Subject.sync(sequelize);
   Manager.sync(sequelize);
   Industry.sync(sequelize);
-  Average.sync(sequelize);
+  IndustryAverage.sync(sequelize);
+  TeamAverage.sync(sequelize);
+  SubjectAverage.sync(sequelize);
 })();
 
 _sequelize.assosciate = (async () => {
@@ -60,7 +64,9 @@ _sequelize.assosciate = (async () => {
   Subject.assosciate();
   Manager.assosciate();
   Industry.assosciate();
-  Average.assosciate();
+  IndustryAverage.assosciate();
+  TeamAverage.assosciate();
+  SubjectAverage.assosciate();
 })();
 
 (async() => {

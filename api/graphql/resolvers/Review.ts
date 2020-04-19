@@ -193,6 +193,12 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         resolve(review, args, context) {
           return review.verbalAttentiveFeedback;
         }
+      },
+      'createdAt': {
+        type: GraphQLString,
+        resolve(review, args, context) {
+          return review.createdAt;
+        }
       }
     }
   }
