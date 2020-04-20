@@ -29,7 +29,7 @@ class Setup extends Component {
       this.state.loggedIn = true;
     }
     if (this.state.loggedIn) {
-      fetch('http://coreable.appspot.com/graphql', {
+      fetch('https://coreable.appspot.com/graphql', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -181,12 +181,14 @@ class Setup extends Component {
   }
 
   _success = async data => {
+    console.log(data.joinTeam.data.user);
     try {
-      // this._saveUserData({ _id });
-      this.props.history.push(`/self-review`);
+      this.setState({
+        ...this.state,
+        teams: data.joinTeam.data.user.teams
+      });
     } catch (err) {
-      alert('Invalid signup');
-      console.log(err);
+      alert('Invalid team');
     }
   }
 

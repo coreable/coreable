@@ -10,7 +10,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/ 
+*/
 
 import { sequelize } from "../../lib/sequelize";
 import {
@@ -21,6 +21,8 @@ import {
 import { CoreableError } from "../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
 import { Manager } from "../../models/Manager";
+import { Team } from "../../models/Team";
+import { Subject } from "../../models/Subject";
 
 export default {
   type: UserObjectCommand,
@@ -56,14 +58,19 @@ export default {
     }
     if (!errors.length) {
       try {
-        context.USER.teams = await context.USER.addTeam(targetTeam);
+        await context.USER.addTeam(targetTeam);
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
       }
     }
     return {
       'data': !errors.length ? {
-        'user': context.USER
+        'user': await sequelize.models.User.findOne({
+          where: { _id: context.USER._id }, include: [{
+            model: Team, as: 'teams', include: [
+              { model: Subject, as: 'subject' }]
+          }]
+        })
       } : null,
       'errors': errors.length > 0 ? errors : null
     };

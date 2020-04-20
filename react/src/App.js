@@ -22,6 +22,7 @@ const LandingPage = lazy(() => import('./components/LandingPage/LandingPage'));
 const Register = lazy(() => import('./components/LandingPage/Register/Register'));
 const Setup = lazy(() => import('./components/LandingPage/InitalSetup/Setup'));
 const SelfReview = lazy(() => import('./components/SelfReview/SelfReview'));
+const ThankYou = lazy(() => import('./components/SelfReview/ThankYou/ThankYou'))
 
 
 // import Setup from './components/LandingPage/Setup';
@@ -74,6 +75,7 @@ class App extends Component {
             <Route exact path="/signup" component={Register} />
             <Route exact path="/setup" component={Setup} />
             <Route exact path="/self-review" component={SelfReview} />
+            <Route exact path="/thank-you" component={ThankYou} />
           </Suspense>
 
           {/* <Route exact path="/setup" component={Setup} />

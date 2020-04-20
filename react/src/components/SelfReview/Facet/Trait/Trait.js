@@ -46,29 +46,6 @@ const CoreableSlider = withStyles({
   },
 })(Slider);
 
-const marks = [
-  {
-    value: 10,
-    label: 'Fails'
-  },
-  {
-    value: 30,
-    label: 'Under prompting'
-  },
-  {
-    value: 50,
-    label: 'Habitually'
-  },
-  {
-    value: 70,
-    label: 'Encourages others'
-  },
-  {
-    value: 90,
-    label: 'Teaches'
-  },
-];
-
 class Trait extends Component {
   constructor(props) {
     super(props);
@@ -90,27 +67,24 @@ class Trait extends Component {
     }
   }
 
-  slider = () => (
-    `linear-gradient(90deg, rgb(66, 113, 249) ${this.props.val}%, rgb(214, 214, 214) ${this.props.val}%)`
-  );
-
   render() {
     return (
       <Card className="trait-card" variant="outlined">
         <Typography variant="h5" style={{ marginTop: '8pt', fontWeight: 'bold' }}>{this.state.var}</Typography>
         <Typography variant="subtitle2" style={{ marginTop: '8pt', marginBottom: '16pt' }}>{this.state.desc}</Typography>
         
-        <Ranking {...this.state} />
+        <Ranking {...this.props} />
 
         <CoreableSlider
-          marks={marks}
+          defaultValue={0}
           min={0}
           max={100}
           step={5}
+          key={this.state.var}
           id={this.state.var}
           name={this.state.var}
-          defaultValue={0}
           onChange={this.props.handleChange.bind(this)}
+          style={{ marginTop: '8pt', marginBottom: '8pt' }}
         />
 
         <CardActions>

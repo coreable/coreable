@@ -26,7 +26,7 @@ const server: CoreableServer = createServer(app) as CoreableServer;
 
 server._done = (async() => {
   await app._startup;
-})().then(() => server.listen(3000, () => {
+})().then(() => server.listen(config.PORT, () => {
   if (config.NODE_ENV === "development") {
     console.log("\n", "\x1b[31m", `http://localhost:${config.PORT}/graphql`, "\x1b[37m", "\n");
   }

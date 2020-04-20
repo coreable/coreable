@@ -59,7 +59,10 @@ class Facet extends Component {
   }
 
   continue = (e) => {
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     this.props.nextStep();
     window.scrollTo({
       top: 0,
@@ -68,7 +71,10 @@ class Facet extends Component {
   }
 
   back = (e) => {
-    e.preventDefault();
+    if (e.cancelable) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     this.props.prevStep();
     window.scrollTo({
       top: 0,
@@ -77,15 +83,26 @@ class Facet extends Component {
   }
 
   handleChange = (e) => {
-    e.preventDefault();
-    console.log(e);
-    console.log(this.state);
+    if (e.cancelable) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     try {
+      const val = Number.parseFloat(e.path[1].children[2].value);
+      const trait = e.path[1].children[2].name;
+      const { traits } = this.state;
+      for (let i = 0; i < traits.length; i++) {
+        if (traits[i].var === trait) {
+          traits[i].val = val;
+          break;
+        }
+      }
       this.setState({
         ...this.state,
+        traits: traits,
         review: {
           ...this.state.review,
-          [e.path[1].children[2].name]: Number.parseFloat(e.path[1].children[2].value)
+          [e.path[1].children[2].name]: val
         }
       });
     } catch (err) {

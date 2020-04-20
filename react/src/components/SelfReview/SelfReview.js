@@ -203,10 +203,67 @@ class SelfReview extends Component {
       this.submit();
     }
   }
-
-  submit = async() => {
-    let review = JSON.parse(localStorage.getItem("self-review"));
-    console.log(review);
+ 
+  submit = async () => {
+    const review = JSON.parse(localStorage.getItem("self-review"));
+    const query = {
+      query: `
+  mutation {
+    submitReview(
+      receiver_id: "${review.user_id}", 
+      team_id: "${review.team_id}", 
+      emotionalResponse: ${review.emotionalResponse}, 
+      empathy: ${review.empathy},
+      managesOwn: ${review.managesOwn},
+      faith: ${review.faith},
+      cooperatively: ${review.cooperatively},
+      positiveBelief: ${review.positiveBelief},
+      resilienceFeedback: ${review.resilienceFeedback},
+      calm: ${review.calm},
+      change: ${review.change},
+      newIdeas: ${review.newIdeas},
+      workDemands: ${review.workDemands},
+      proactive: ${review.proactive},
+      influences: ${review.influences},
+      clearInstructions: ${review.clearInstructions},
+      preventsMisunderstandings: ${review.preventsMisunderstandings},
+      easilyExplainsComplexIdeas: ${review.easilyExplainsComplexIdeas},
+      openToShare: ${review.openToShare},
+      tone: ${review.tone},
+      crossTeam: ${review.crossTeam},
+      distractions: ${review.distractions},
+      eyeContact: ${review.eyeContact},
+      signifiesInterest: ${review.signifiesInterest},
+      verbalAttentiveFeedback: ${review.verbalAttentiveFeedback}) {
+      errors {
+        path
+        code
+        message
+      }
+      data {
+        review {
+          _id
+        }
+      }
+    }
+  }`}
+    fetch('https://coreable.appspot.com/graphql', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'JWT': localStorage.getItem(JWT),
+      },
+      body: JSON.stringify(query)
+    }).then(async (data) => {
+      // const result = await data.json();
+      // todo: not ignore this
+      this.setState({
+        ...this.state,
+        submitting: false,
+        review: review
+       });
+    });
   }
 
   prevStep = () => {
@@ -233,7 +290,7 @@ class SelfReview extends Component {
       return (<LinearProgress style={{ top: '12pt' }} />);
     }
     if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {
-      return (<h1>Thank you</h1>);
+      return (<Redirect to={{pathName: '/thank-you', state: { review: this.state.review }}} />);
     }
     return (
       <Facet {...this.state.facets[currentIndex]}
