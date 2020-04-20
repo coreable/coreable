@@ -274,10 +274,66 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
       'reflection': {
         type: ReviewResolver,
         async resolve(user: any, args: any, context: any) {
-          user.reflection = await sequelize.models.Review.findOne({ where: { receiver_id: user._id, submitter_id: user._id } });
-          if (!user.reflection) {
+          let reflection = await sequelize.models.Review.findAll({ where: { receiver_id: user._id, submitter_id: user._id } });
+          if (!reflection) {
             return null;
           }
+          const average: any = {
+            calm: 0,
+            change: 0,
+            clearInstructions: 0,
+            cooperatively: 0,
+            crossTeam: 0,
+            distractions: 0,
+            easilyExplainsComplexIdeas: 0,
+            emotionalResponse: 0,
+            empathy: 0,
+            eyeContact: 0,
+            faith: 0,
+            influences: 0,
+            managesOwn: 0,
+            newIdeas: 0,
+            openToShare: 0,
+            positiveBelief: 0,
+            preventsMisunderstandings: 0,
+            proactive: 0,
+            resilienceFeedback: 0,
+            signifiesInterest: 0,
+            tone: 0,
+            verbalAttentiveFeedback: 0,
+            workDemands: 0
+          };
+          let counter = 0;
+          for (const review of reflection) {
+            average.calm += review.calm;
+            average.change += review.change;
+            average.clearInstructions += review.clearInstructions;
+            average.cooperatively += review.cooperatively;
+            average.crossTeam += review.crossTeam;
+            average.distractions += review.distractions;
+            average.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
+            average.emotionalResponse += review.emotionalResponse;
+            average.empathy += review.empathy;
+            average.eyeContact += review.eyeContact;
+            average.faith += review.faith;
+            average.influences += review.influences;
+            average.managesOwn += review.managesOwn;
+            average.newIdeas += review.newIdeas;
+            average.openToShare += review.openToShare;
+            average.positiveBelief += review.positiveBelief;
+            average.preventsMisunderstandings += review.preventsMisunderstandings;
+            average.proactive += review.proactive;
+            average.resilienceFeedback += review.resilienceFeedback;
+            average.signifiesInterest += review.signifiesInterest;
+            average.tone += review.tone;
+            average.verbalAttentiveFeedback += review.verbalAttentiveFeedback;
+            average.workDemands += review.workDemands;
+            counter++;
+          }
+          for (const key in average) {
+            average[key] = average[key] / counter;
+          }
+          user.reflection = average;
           return user.reflection;
         }
       }

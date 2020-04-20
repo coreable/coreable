@@ -1,3 +1,17 @@
+/*
+===========================================================================
+Copyright (C) 2020 Coreable
+This file is part of Coreable's source code.
+Corables source code is free software; you can redistribute it
+and/or modify it under the terms of the End-user license agreement.
+Coreable's source code is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+You should have received a copy of the license along with the 
+Coreable source code.
+===========================================================================
+*/
+
 import React, { Component } from "react";
 import {
   Grid,
@@ -71,8 +85,13 @@ class ThankYou extends Component {
       body: JSON.stringify(query)
     }).then(async (data) => {
       const result = await data.json();
-      let averages = result.data.me.data.user.reflection;
-
+      let averages;
+      try {
+        averages = result.data.me.data.user.reflection;
+      } catch (err) {
+        return false;
+      }
+      
       let emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
       let initiative = (averages.proactive + averages.influences) / 2;
       let trust = (averages.faith + averages.cooperatively + averages.positiveBelief) / 3;
@@ -98,21 +117,23 @@ class ThankYou extends Component {
           resilience
         }
        });
-       console.log(this.state.average);
     });
   }
 
   render() {
-
     return (
       <Grid
         container
         direction="column"
         justify="center"
         alignItems="center">
-        <Container style={{ textAlign: 'left', marginTop: '16pt' }}>
-          <Typography variant="h3" style={{ fontWeight: 'bold' }}>Thank you,</Typography>
-          <Typography variant="h4">here are your results</Typography>
+        <Container style={{ textAlign: 'left' }}>
+        <Typography variant="h3" component="h1" style={{ fontWeight: 'bold', marginTop: '48pt', textAlign: 'left', color: '#000' }}>
+            Thank you,
+          </Typography>
+          <Typography variant="h3" component="h1" style={{ textAlign: 'left', color: '#707070' }}>
+            here are your results
+          </Typography>
         </Container>
         <Container>
           <Chart {...this.state} />

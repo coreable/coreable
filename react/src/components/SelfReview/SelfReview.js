@@ -1,3 +1,17 @@
+/*
+===========================================================================
+Copyright (C) 2020 Coreable
+This file is part of Coreable's source code.
+Corables source code is free software; you can redistribute it
+and/or modify it under the terms of the End-user license agreement.
+Coreable's source code is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+You should have received a copy of the license along with the 
+Coreable source code.
+===========================================================================
+*/
+
 import React, { Component } from 'react';
 import './Review.scss';
 import Facet from './Facet/Facet';
@@ -11,8 +25,8 @@ import {
 } from '@material-ui/core';
 
 class SelfReview extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       currentIndex: 0,
@@ -203,7 +217,7 @@ class SelfReview extends Component {
       this.submit();
     }
   }
- 
+
   submit = async () => {
     const review = JSON.parse(localStorage.getItem("self-review"));
     const query = {
@@ -279,6 +293,9 @@ class SelfReview extends Component {
     if (!localStorage.getItem(JWT)) {
       return (<Redirect to="/"></Redirect>);
     }
+    if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {
+      return (<Redirect to="/thank-you"></Redirect>);
+    }
     if (this.state.currentIndex <= -1) {
       return (<Redirect to="/setup"></Redirect>);
     }
@@ -288,9 +305,6 @@ class SelfReview extends Component {
     localStorage.setItem(TEAMID, this.props.location.state.team_id);
     if (this.state.currentIndex >= this.state.facets.length && this.state.submitting) {
       return (<LinearProgress style={{ top: '12pt' }} />);
-    }
-    if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {
-      return (<Redirect to={{pathName: '/thank-you', state: { review: this.state.review }}} />);
     }
     return (
       <Facet {...this.state.facets[currentIndex]}

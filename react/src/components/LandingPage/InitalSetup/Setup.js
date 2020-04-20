@@ -1,3 +1,17 @@
+/*
+===========================================================================
+Copyright (C) 2020 Coreable
+This file is part of Coreable's source code.
+Corables source code is free software; you can redistribute it
+and/or modify it under the terms of the End-user license agreement.
+Coreable's source code is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+You should have received a copy of the license along with the 
+Coreable source code.
+===========================================================================
+*/
+
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo'
@@ -181,11 +195,12 @@ class Setup extends Component {
   }
 
   _success = async data => {
-    console.log(data.joinTeam.data.user);
     try {
+      const { teams } = data.joinTeam.data.user;
+      teams.push('jointeam');
       this.setState({
         ...this.state,
-        teams: data.joinTeam.data.user.teams
+        teams
       });
     } catch (err) {
       alert('Invalid team');
