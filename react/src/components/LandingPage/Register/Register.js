@@ -10,10 +10,8 @@ import {
   Typography,
   Container,
   Button,
-  StylesProvider,
   TextField,
-  FormControl,
-  CircularProgress
+  FormControl
 } from '@material-ui/core';
 
 class Register extends Component {

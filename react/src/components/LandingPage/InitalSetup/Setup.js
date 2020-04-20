@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo'
-import { USER_NAME, TEAMID, JWT } from '../../../constants';
+import { TEAMID, JWT } from '../../../constants';
 import { JOIN_TEAM } from '../../../apollo/mutations'
 import './Setup.scss';
 
@@ -59,6 +59,7 @@ class Setup extends Component {
     `})
       }).then(async (data) => {
         const result = await data.json();
+        result.data.me.data.user.teams.push('jointeam');
         this.setState({ teams: result.data.me.data.user.teams });
       });
     }
@@ -100,9 +101,7 @@ class Setup extends Component {
       return (<Redirect to="/"></Redirect>);
     }
 
-    const NAME = localStorage.getItem(USER_NAME);
     const { inviteCode } = this.state;
-
     return (
       <Container maxWidth="lg" style={{ height: '95.25vh' }} className="setup-container">
         <Grid
@@ -110,76 +109,79 @@ class Setup extends Component {
           direction="row"
           justify="center"
           alignItems="stretch"
-          spacing={8}
+          spacing={2}
         >
           {
             this.state.teams.map((team, index) => {
-              return (<Grid item xs={12} md={6} lg={4} key={index}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h5" component="h2">
-                      {team.name}
-                    </Typography>
-                    <Typography variant="h6" component="h2">
-                      state: {team.subject.state}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Grid container justify="center">
-                      <Link to="/self-review">
-                        <Button size="small" variant="contained" color="primary" disableElevation>Start Review</Button>
-                      </Link>
-                    </Grid>
-                  </CardActions>
-                </Card>
-              </Grid>);
+              if (team !== 'jointeam') {
+                return (<Grid item xs={12} md={6} lg={4} key={index}>
+                  <Card>
+                    <CardContent>
+                      <Typography variant="h5" component="h2">
+                        {team.name}
+                      </Typography>
+                      <Typography variant="h6" component="h2">
+                        state: {team.subject.state}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Grid container justify="center">
+                        <Link to={{ pathname: '/self-review', state: { team_id: team._id } }}>
+                          <Button size="small" variant="contained" color="primary" disableElevation>Start Review</Button>
+                        </Link>
+                      </Grid>
+                    </CardActions>
+                  </Card>
+                </Grid>);
+              } else if (team === 'jointeam') {
+                return (<Grid item xs={12} md={6} lg={4} key={index}>
+                  <Card>
+                    <CardContent>
+                      <TextField
+                        label="Team Code"
+                        placeholder="eg: GHDK0402"
+                        fullWidth
+                        margin="normal"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        variant="outlined"
+                        name="inviteCode"
+                        value={this.state.inviteCode}
+                        type="text"
+                        required
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur("inviteCode")}
+                        style={{ marginTop: '8pt' }}
+                      />
+                      <Mutation
+                        mutation={JOIN_TEAM}
+                        variables={{ inviteCode }}
+                        onCompleted={data => this._success(data)}
+                      >
+                        {mutation => (
+                          <Grid container justify="center">
+                            <Button variant="contained" color="primary" disableElevation disabled={this.isDisabled()} onClick={mutation}>
+                              Join Team
+                            </Button>
+                          </Grid>
+                        )}
+                      </Mutation>
+                    </CardContent>
+                  </Card>
+                </Grid>);
+              } else {
+                return (<Redirect to="/"></Redirect>);
+              }
             })
           }
-
-          <Grid item xs={12} md={6} lg={4}>
-            <Card>
-              <CardContent>
-                <TextField
-                  label="Team Code"
-                  placeholder="eg: GHDK0402"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  variant="outlined"
-                  name="inviteCode"
-                  value={this.state.inviteCode}
-                  type="text"
-                  required
-                  onChange={this.handleChange}
-                  onBlur={this.handleBlur("inviteCode")}
-                  style={{ marginTop: '8pt' }}
-                />
-                <Mutation
-                  mutation={JOIN_TEAM}
-                  variables={{ inviteCode }}
-                  onCompleted={data => this._confirm(data)}
-                >
-                  {mutation => (
-                    <Grid container justify="center">
-                      <Button variant="contained" color="primary" disableElevation disabled={this.isDisabled()} onClick={mutation}>
-                        Join Team
-                      </Button>
-                    </Grid>
-                  )}
-                </Mutation>
-              </CardContent>
-            </Card>
-          </Grid>
         </Grid>
       </Container>
     );
   }
 
-  _confirm = async data => {
+  _success = async data => {
     try {
-      const [_id] = data.joinTeam.data.user.teams;
       // this._saveUserData({ _id });
       this.props.history.push(`/self-review`);
     } catch (err) {

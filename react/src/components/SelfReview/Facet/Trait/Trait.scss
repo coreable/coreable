@@ -1,0 +1,33 @@
+.trait-card {
+  width: 40vw;
+
+  .rating {
+    -webkit-appearance: none;
+    height: 24pt;
+    width: 380pt;
+    border-radius: 4pt;
+    background-color: rgb(214, 214, 214);
+    background: linear-gradient(90deg, rgb(66, 113, 249) 20%, rgb(214, 214, 214) 20%);
+    padding: 0;
+  }
+
+  .rating::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    height: 24pt;
+    width: 8pt;
+    border-radius: 4pt;
+    background: rgb(66, 113, 249);
+  }
+
+  .rating:focus {
+    outline: none;
+  }
+}
+
+@media (max-width: 776px) {
+  .trait-card {
+    width: 80vw;
+  }
+}

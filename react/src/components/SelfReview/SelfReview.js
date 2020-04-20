@@ -1,242 +1,246 @@
 import React, { Component } from 'react';
 import './Review.scss';
-
-import EmotionalIntelligence from './Emotional/EmotionalIntelligence';
-import Initiative from './Initiative/Initiative';
-import Trust from './Trust/Trust';
-import Flexibility from './Flexibility/Flexibility';
-import Resilience from './Resilience/Resilience';
-
-import { USER_NAME } from '../../constants';
+import Facet from './Facet/Facet';
+import { Redirect } from 'react-router-dom';
+import {
+  TEAMID,
+  JWT
+} from '../../constants';
+import {
+  LinearProgress
+} from '@material-ui/core';
 
 class SelfReview extends Component {
   constructor() {
     super();
+
     this.state = {
-      step: 1,
-      //added facets in the parent component to store its state
-      emotionalFacets: [
+      currentIndex: 0,
+      submitting: false,
+      facets: [
         {
-          name: "Responds to emotions in others",
-          rating: 0,
-        }, {
-          name: "Demonstrates empathy",
-          rating: 0,
-        }, {
-          name: "Manages own emotions",
-          rating: 0,
+          name: 'Emotional Intelligence',
+          desc: 'Actively creates a pleasant human environment for work, show empathy, accountability, humility, friendliness and unselfishness',
+          traits: [
+            {
+              var: 'emotionalResponse',
+              val: 0,
+              desc: 'Response to emotions in others',
+            },
+            {
+              var: 'empathy',
+              val: 0,
+              desc: 'Demonstrates empathy'
+            },
+            {
+              var: 'managesOwn',
+              val: 0,
+              desc: 'Manages own emotions'
+            }
+          ]
+        },
+        {
+          name: 'Initiative',
+          desc: 'Proactive and self-starting; seize opportunities and act upon them; originate action and actively influence events',
+          traits: [
+            {
+              var: 'proactive',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'influences',
+              val: 0,
+              desc: ''
+            }
+          ]
+        },
+        {
+          name: 'Moral Trust',
+          desc: 'Firm belief in the reliability, truth, or ability of someone',
+          traits: [
+            {
+              var: 'faith',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'cooperatively',
+              val: 0,
+              desc: 'Is able to work cooperatively'
+            },
+            {
+              var: 'positiveBelief',
+              val: 0,
+              desc: 'Has a postive belief about the dependability of others'
+            }
+          ]
+        },
+        {
+          name: 'Flexibility',
+          desc: 'Be adaptable and receptive to new ideas; respond and adjust easily to changing work demands and circumstances; not bound by old ways of doing things',
+          traits: [
+            {
+              var: 'newIdeas',
+              val: 0,
+              desc: 'Adaptable and receptive to new ideas'
+            },
+            {
+              var: 'workDemands',
+              val: 0,
+              desc: 'Adjusts easily to change work demands'
+            }
+          ]
+        },
+        {
+          name: 'Clarity',
+          desc: '',
+          traits: [
+            {
+              var: 'clearInstructions',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'preventsMisunderstandings',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'easilyExplainsComplexIdeas',
+              val: 0,
+              desc: ''
+            }
+          ]
+        },
+        {
+          name: 'Culture',
+          desc: '',
+          traits: [
+            {
+              var: 'openToShare',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'tone',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'crossTeam',
+              val: 0,
+              desc: ''
+            }
+          ]
+        },
+        {
+          name: 'Non-Verbal',
+          desc: '',
+          traits: [
+            {
+              var: 'distractions',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'eyeContact',
+              val: 0,
+              desc: ''
+            }
+          ]
+        },
+        {
+          name: 'Verbal Attentiveness',
+          desc: '',
+          traits: [
+            {
+              var: 'signifiesInterest',
+              val: 0,
+              desc: ''
+            },
+            {
+              var: 'verbalAttentiveFeedback',
+              val: 0,
+              desc: ''
+            }
+          ]
+        },
+        {
+          name: 'Resilience',
+          desc: 'Resilience is the ability to recover, re-bound or bounce back, adjust and even thrive after misfortune or change',
+          traits: [
+            {
+              var: 'resilienceFeedback',
+              val: 0,
+              desc: 'Accepts all forms of constructive feedback'
+            },
+            {
+              var: 'calm',
+              val: 0,
+              desc: 'Remains calm under pressure'
+            },
+            {
+              var: 'change',
+              val: 0,
+              desc: 'Adapts to change easily'
+            }
+          ]
         }
-      ],
-      initiativeFacets: [
-        {
-          name: "Responds to emotions in others",
-          rating: 0,
-        }, {
-          name: "Demonstrates empathy",
-          rating: 0,
-        }, {
-          name: "Manages own emotions",
-          rating: 0,
-        }
-      ],
-      trustFacets: [
-        {
-          name: "Is able to work cooperatively",
-          rating: 0,
-        }, {
-          name: 'Has a postive belief about the dependability of others',
-          rating: 0,
-        }
-      ],
-      flexibilityFacets: [
-        {
-          name: "Adaptable and receptive to new ideas",
-          rating: 0,
-        }, {
-          name: "Adjusts easily to change work demands",
-          rating: 0,
-        }
-      ],
-      resilienceFacets: [
-        {
-          name: "Accepts all forms of constructive feedback",
-          rating: 0,
-        }, {
-          name: "Remains calm under pressure",
-          rating: 0,
-        }, {
-          name: "Adapts to change easily",
-          rating: 0,
-        }
-      ],
-      facetScore: [
-        {
-          title: "Fails",
-          info: "Neglects to attempt"
-        },
-        {
-          title: "Fails",
-          info: "Neglects to attempt"
-        },
-        {
-          title: "Under prompting",
-          info: "Neglects to attempt"
-        },
-        {
-          title: "Under prompting",
-          info: "Neglects to attempt"
-        },
-        {
-          title: "Under prompting",
-          info: "Neglects to attempt"
-        },
-        {
-          title: "Habitually",
-          info: "By way of habit: customarily"
-        },
-        {
-          title: "Habitually",
-          info: "By way of habit: customarily"
-        },
-        {
-          title: "Encourages others",
-          info: "Gives support and confidence"
-        },
-        {
-          title: "Encourages others",
-          info: "Gives support and confidence"
-        },
-        {
-          title: "Teaches",
-          info: "Shares experience and guides"
-        },
-        {
-          title: "Teaches",
-          info: "Shares experience and guides"
-        }
-      ],
-      showInfo: true,
+      ]
     }
   }
 
-
-  //go to next page via switch
   nextStep = () => {
-    //destructing - taking it out of state
-    const { step } = this.state
+    let { currentIndex } = this.state
+    currentIndex++;
     this.setState({
-      step: step + 1
-    })
+      ...this.state,
+      currentIndex,
+      submitting: currentIndex >= this.state.facets.length
+    });
+    if (currentIndex >= this.state.facets.length) {
+      this.submit();
+    }
   }
 
-  //go to previous page via switch
+  submit = async() => {
+    let review = JSON.parse(localStorage.getItem("self-review"));
+    console.log(review);
+  }
+
   prevStep = () => {
-    //destructing - taking it out of state
-    const { step } = this.state
+    const { currentIndex } = this.state;
     this.setState({
-      step: step - 1
-    })
+      ...this.state,
+      currentIndex: currentIndex - 1
+    });
   }
-
-  hideInfo = () => {
-    const { showInfo } = this.state
-    this.setState({
-      showInfo: !showInfo
-    })
-  }
-
-  // handleRatingChange = (e) => this.setState({facetRating: e.target.value})
-  // handleSliderChange = (e) => this.setState({slider: e.target.value})
 
   render() {
-
-    const NAME = localStorage.getItem(USER_NAME)
-    const { step } = this.state
-
-    switch (step) {
-      case 1:
-        return (
-          
-          <div className="container">
-            <form className="self-review">
-              <EmotionalIntelligence
-                showInfo={this.state.showInfo}
-                hideInfo={this.hideInfo}
-                emotionalFacets={this.state.emotionalFacets}
-                facetScore={this.state.facetScore}
-                nextStep={this.nextStep}
-                userName={NAME}
-              />
-            </form>
-          </div>
-        )
-
-      case 2:
-        return (
-          <div className="container">
-            <form className="self-review">
-              <Initiative
-                initiativeFacets={this.state.initiativeFacets}
-                facetScore={this.state.facetScore}
-                nextStep={this.nextStep}
-                prevStep={this.prevStep}
-                userName={NAME}
-              />
-            </form>
-          </div>
-        )
-
-      case 3:
-        return (
-          <div className="container">
-            <form className="self-review">
-              <Trust
-                trustFacets={this.state.trustFacets}
-                facetScore={this.state.facetScore}
-                nextStep={this.nextStep}
-                prevStep={this.prevStep}
-                userName={NAME}
-              />
-            </form>
-          </div>
-        )
-
-      case 4:
-        return (
-          <div className="container">
-            <form className="self-review">
-              <Flexibility
-                flexibilityFacets={this.state.flexibilityFacets}
-                facetScore={this.state.facetScore}
-                nextStep={this.nextStep}
-                prevStep={this.prevStep}
-                userName={NAME}
-              />
-            </form>
-          </div>
-        )
-
-      case 5:
-        return (
-          <div className="container">
-            <form className="self-review">
-              <Resilience
-                resilienceFacets={this.state.resilienceFacets}
-                facetScore={this.state.facetScore}
-                nextStep={this.nextStep}
-                prevStep={this.prevStep}
-                userName={NAME}
-              />
-            </form>
-          </div>
-        )
-      default:
-        console.log('ERROR!!!') // TODO : default case
+    const { currentIndex } = this.state;
+    if (!localStorage.getItem(JWT)) {
+      return (<Redirect to="/"></Redirect>);
     }
+    if (this.state.currentIndex <= -1) {
+      return (<Redirect to="/setup"></Redirect>);
+    }
+    if (!this.props.location.state.team_id) {
+      return (<Redirect to="/setup"></Redirect>);
+    }
+    localStorage.setItem(TEAMID, this.props.location.state.team_id);
+    if (this.state.currentIndex >= this.state.facets.length && this.state.submitting) {
+      return (<LinearProgress style={{ top: '12pt' }} />);
+    }
+    if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {
+      return (<h1>Thank you</h1>);
+    }
+    return (
+      <Facet {...this.state.facets[currentIndex]}
+        nextStep={this.nextStep}
+        prevStep={this.prevStep}></Facet>
+    );
   }
 }
 
-export default SelfReview
-
-
-
+export default SelfReview;

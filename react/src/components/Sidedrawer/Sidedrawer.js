@@ -3,7 +3,6 @@ import './Sidedrawer.css';
 import {
   Link
 } from 'react-router-dom';
-import { JWT } from '../../constants';
 
 const sideDrawer = props => {
   let drawerClasses = 'sideDrawer';
@@ -21,7 +20,7 @@ const sideDrawer = props => {
         <li> <Link to="/">Home</Link> </li>
         <li> <a href="/">Results</a> </li>
         <li> <a href="/">Results facets</a> </li>
-        <li> <a href="/" onClick={localStorage.removeItem(JWT)}>Logout</a></li>
+        <li> <a href="/" >Logout</a></li>
       </ul>
     </nav>);
 };
