@@ -97,7 +97,6 @@ class Facet extends Component {
   }
 
   handleChange = (e) => {
-    console.log(e);
     if (e.cancelable) {
       e.preventDefault();
       e.stopPropagation();
@@ -148,8 +147,8 @@ class Facet extends Component {
             this.state.traits.map((trait, index) => {
               return (
                 <Grid item key={index}>
-                  <Trait {...trait} handleChange={this.handleChange.bind(this)}></Trait>
-                </Grid>)
+                  <Trait {...trait} pending={this.props.pending} handleChange={this.handleChange.bind(this)}></Trait>
+                </Grid>);
             })
           }
 

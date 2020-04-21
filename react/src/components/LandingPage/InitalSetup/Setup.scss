@@ -8,4 +8,23 @@
   a {
     text-decoration: none;
   }
+
+  button { 
+    color: #ffffff;
+    background: #4271f9;
+  }
+
+  .MuiCard-root {
+    min-height: 224pt;
+    height: 224pt;
+    max-height: 224pt;
+  }
+
+  .MuiStepIcon-root.MuiStepIcon-active {
+    color: #4271f9;
+  }
+
+  .MuiStepIcon-root.MuiStepIcon-completed {
+    color: #4271f9;
+  }
 }

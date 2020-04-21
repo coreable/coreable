@@ -21,35 +21,50 @@ class Ranking extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      val: props.val
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.state.val !== this.props.val) {
-      const props = this.props;
-      this.setState({
-        val: props.val
-      });
-    }
+      previousVal: 0
+    };
   }
 
   render() {
-    if (this.props.val >= 0 && this.props.val <= 10) {
+    let isBroken = isNaN(this.props.val) && !isFinite(this.props.val);
+
+    if (!isBroken && this.state.previousVal !== this.props.val) {
+      this.setState({
+        previousVal: this.props.val
+      });
+    }
+
+    const wasFail = this.state.previousVal <= 10;
+    const shouldBeFail = isBroken && wasFail;
+
+    let wasUnder = this.state.previousVal > 10 && this.state.previousVal <= 30;
+    let shouldBeUnder = isBroken && wasUnder;
+
+    let wasHabit = this.state.previousVal > 30 && this.state.previousVal <= 50;
+    let shouldBeHabit = isBroken && wasHabit;
+
+    let wasEncourage = this.state.previousVal > 50 && this.state.previousVal <= 70;
+    let shouldBeEncourage = isBroken && wasEncourage;
+
+    let wasTeaches = this.state.previousVal > 70;
+    let shouldBeTeaches = isBroken && wasTeaches;
+
+    if (this.props.val <= 10 || shouldBeFail) {
       return (<Typography variant="h5">Fails</Typography>);
     }
-    if (this.props.val > 10 && this.props.val <= 30) {
+    if ((this.props.val > 10 && this.props.val <= 30) || shouldBeUnder) {
       return (<Typography variant="h5">Under prompting</Typography>);
     }
-    if (this.props.val > 20 && this.props.val <= 50) {
+    if ((this.props.val > 30 && this.props.val <= 50 ) || shouldBeHabit) {
       return (<Typography variant="h5">Habitually</Typography>);
     }
-    if (this.props.val > 50 && this.props.val <= 70) {
+    if ((this.props.val > 50 && this.props.val <= 70) || shouldBeEncourage) {
       return (<Typography variant="h5">Encourages others</Typography>);
     }
-    if (this.props.val > 70 && this.props.val <= 100) {
+    if (this.props.val > 70 || shouldBeTeaches) {
       return (<Typography variant="h5">Teaches</Typography>);
     }
+    return (<Typography variant="h5">...</Typography>);
   }
 }
 

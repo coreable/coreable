@@ -35,17 +35,8 @@ const Login = lazy(() => import('./components/LandingPage/Login/Login'));
 const LandingPage = lazy(() => import('./components/LandingPage/LandingPage'));
 const Register = lazy(() => import('./components/LandingPage/Register/Register'));
 const Setup = lazy(() => import('./components/LandingPage/InitalSetup/Setup'));
-const SelfReview = lazy(() => import('./components/SelfReview/SelfReview'));
-const ThankYou = lazy(() => import('./components/SelfReview/ThankYou/ThankYou'))
-
-
-// import Setup from './components/LandingPage/Setup';
-// import SelfReview from './components/SelfReview/SelfReview';
-// import Initiative from './components/SelfReview/Initiative/Initiative';
-// import Trust from './components/SelfReview/Trust/Trust';
-// import Flexibility from './components/SelfReview/Flexibility/Flexibility';
-// import Resilience from './components/SelfReview/Resilience/Resilience';
-// import ThankYou from './components/SelfReview/ThankYou';
+const Review = lazy(() => import('./components/Review/Review'));
+const ThankYou = lazy(() => import('./components/Review/ThankYou/ThankYou'))
 
 class App extends Component {
   state = {
@@ -88,7 +79,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Register} />
             <Route exact path="/setup" component={Setup} />
-            <Route exact path="/self-review" component={SelfReview} />
+            <Route exact path="/self-review" component={Review} />
             <Route exact path="/thank-you" component={ThankYou} />
           </Suspense>
 

@@ -24,7 +24,7 @@ import {
   LinearProgress
 } from '@material-ui/core';
 
-class SelfReview extends Component {
+class Review extends Component {
   constructor(props) {
     super(props);
 
@@ -203,6 +203,10 @@ class SelfReview extends Component {
         }
       ]
     }
+
+    if (!localStorage.getItem("review")) {
+      localStorage.setItem("review", JSON.stringify({}));
+    }
   }
 
   nextStep = () => {
@@ -290,7 +294,11 @@ class SelfReview extends Component {
 
   render() {
     const { currentIndex } = this.state;
+
     if (!localStorage.getItem(JWT)) {
+      return (<Redirect to="/"></Redirect>);
+    }
+    if (!this.props.location.state.pending) {
       return (<Redirect to="/"></Redirect>);
     }
     if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {
@@ -307,11 +315,13 @@ class SelfReview extends Component {
       return (<LinearProgress style={{ top: '12pt' }} />);
     }
     return (
-      <Facet {...this.state.facets[currentIndex]}
+      <Facet 
+        pending={this.props.location.state.pending}
+        {...this.state.facets[currentIndex]}
         nextStep={this.nextStep}
         prevStep={this.prevStep}></Facet>
     );
   }
 }
 
-export default SelfReview;
+export default Review;
