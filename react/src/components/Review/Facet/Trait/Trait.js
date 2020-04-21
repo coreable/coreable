@@ -17,51 +17,10 @@ import Ranking from './Ranking/Ranking';
 import {
   Card,
   Typography,
-  Slider,
-  withStyles,
   CardActions,
   Button
 } from '@material-ui/core';
 import './Trait.scss';
-
-const CoreableSlider = withStyles({
-  root: {
-    padding: 0,
-    backgroundColor: '#d6d6d6',
-    height: 24,
-    width: '90%'
-  },
-  thumb: {
-    height: 24,
-    width: 8,
-    backgroundColor: 'rgb(66, 113, 249)',
-    borderRadius: 4,
-    marginTop: 0,
-    cursor: 'pointer',
-    '&:focus, &:hover, &$active': {
-      boxShadow: 'inherit',
-    },
-    '&:focus': {
-      outline: 'none',
-    },
-    '&:disabled': {
-      height: 24,
-      width: 8,
-    }
-  },
-  active: {},
-  valueLabel: {},
-  track: {
-    backgroundColor: 'rgb(66, 113, 249)',
-    height: 24,
-    borderRadius: 4,
-  },
-  rail: {
-    backgroundColor: '#dadada',
-    height: 24,
-    borderRadius: 4,
-  },
-})(Slider);
 
 class Trait extends Component {
   constructor(props) {
@@ -154,7 +113,7 @@ class Trait extends Component {
     }
   }
 
-  getSliderBackground = (val) => {
+  getSliderBackground = () => {
     return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`
   }
 
@@ -165,19 +124,7 @@ class Trait extends Component {
         <Typography variant="subtitle2" style={{ marginTop: '8pt', marginBottom: '16pt' }}>{this.state.desc}</Typography>
 
         <Ranking {...this.state} />
-
-        {/* <CoreableSlider
-          min={0}
-          max={100}
-          step={5}
-          key={this.state.var}
-          id={this.state.var}
-          name={this.state.var}
-          onChange={this.handleSliderChange.bind(this)}
-          disabled={!this.state.user_id}
-          style={{ marginTop: '8pt', marginBottom: '8pt' }}
-        /> */}
-
+        
         <input
           type="range"
           min={0}
@@ -187,6 +134,7 @@ class Trait extends Component {
           id={this.state.var}
           name={this.state.var}
           value={this.state.val}
+          disabled={!this.state.user_id}
           className="rating"
           onChange={this.handleSliderChange.bind(this)}
           style={
@@ -197,7 +145,6 @@ class Trait extends Component {
             }
           }
         />
-
 
         <CardActions>
           {

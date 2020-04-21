@@ -298,7 +298,7 @@ class Review extends Component {
     if (!localStorage.getItem(JWT)) {
       return (<Redirect to="/"></Redirect>);
     }
-    if (!this.props.location.state.pending) {
+    if (!this.props.location.state) {
       return (<Redirect to="/"></Redirect>);
     }
     if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {

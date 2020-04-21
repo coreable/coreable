@@ -86,21 +86,36 @@ class ThankYou extends Component {
     }).then(async (data) => {
       const result = await data.json();
       let averages;
+
       try {
         averages = result.data.me.data.user.reflection;
       } catch (err) {
         return false;
       }
-      
-      let emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
-      let initiative = (averages.proactive + averages.influences) / 2;
-      let trust = (averages.faith + averages.cooperatively + averages.positiveBelief) / 3;
-      let flex = (averages.newIdeas + averages.workDemands) / 2;
-      let clarity = (averages.clearInstructions + averages.preventsMisunderstandings) / 2;
-      let culture = (averages.openToShare + averages.tone + averages.crossTeam) / 3;
-      let nonVerbal = (averages.distractions + averages.eyeContact) / 2;
-      let attentive = (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
-      let resilience = (averages.resilienceFeedback + averages.calm + averages.change) / 3;
+
+      let emotionalIntelligence;
+      let initiative;
+      let trust;
+      let flex;
+      let clarity;
+      let culture;
+      let nonVerbal;
+      let attentive;
+      let resilience;
+
+      try {
+        emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
+        initiative = (averages.proactive + averages.influences) / 2;
+        trust = (averages.faith + averages.cooperatively + averages.positiveBelief) / 3;
+        flex = (averages.newIdeas + averages.workDemands) / 2;
+        clarity = (averages.clearInstructions + averages.preventsMisunderstandings) / 2;
+        culture = (averages.openToShare + averages.tone + averages.crossTeam) / 3;
+        nonVerbal = (averages.distractions + averages.eyeContact) / 2;
+        attentive = (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
+        resilience = (averages.resilienceFeedback + averages.calm + averages.change) / 3;
+      } catch {
+        return false;
+      }
 
       this.setState({
         ...this.state,

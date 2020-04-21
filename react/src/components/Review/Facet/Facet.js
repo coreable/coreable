@@ -96,36 +96,6 @@ class Facet extends Component {
     });
   }
 
-  handleChange = (e) => {
-    if (e.cancelable) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    try {
-      const val = Number.parseFloat(e.path[1].children[2].value);
-      const trait = e.path[1].children[2].name;
-      const { traits } = this.state;
-      for (let i = 0; i < traits.length; i++) {
-        if (traits[i].var === trait) {
-          traits[i].val = val;
-          break;
-        }
-      }
-      this.setState({
-        ...this.state,
-        traits: traits,
-        review: {
-          ...this.state.review,
-          [e.path[1].children[2].name]: val
-        }
-      });
-    } catch (err) {
-      // Ignore HTML error
-      // console.error(err);
-    }
-    localStorage.setItem("self-review", JSON.stringify(this.state.review));
-  }
-
   // handleSubmit = (e) => e.preventDefault();
 
   render() {
@@ -147,7 +117,7 @@ class Facet extends Component {
             this.state.traits.map((trait, index) => {
               return (
                 <Grid item key={index}>
-                  <Trait {...trait} pending={this.props.pending} handleChange={this.handleChange.bind(this)}></Trait>
+                  <Trait {...trait} pending={this.props.pending}></Trait>
                 </Grid>);
             })
           }
