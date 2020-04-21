@@ -13,7 +13,6 @@ Coreable source code.
 */
 
 import React, { Component } from 'react'
-import { USERID, TEAMID } from '../../../constants';
 import {
   Grid,
   Container,
@@ -30,33 +29,6 @@ class Facet extends Component {
       name: props.name,
       desc: props.desc,
       traits: props.traits,
-      review: {
-        user_id: localStorage.getItem(USERID),
-        team_id: localStorage.getItem(TEAMID),
-        emotionalResponse: 0, 
-        empathy: 0,
-        managesOwn: 0,
-        faith: 0,
-        cooperatively: 0,
-        positiveBelief: 0,
-        resilienceFeedback: 0,
-        calm: 0,
-        change: 0,
-        newIdeas: 0,
-        workDemands: 0,
-        proactive: 0,
-        influences: 0,
-        clearInstructions: 0,
-        preventsMisunderstandings: 0,
-        easilyExplainsComplexIdeas: 0,
-        openToShare: 0,
-        tone: 0,
-        crossTeam: 0,
-        distractions: 0,
-        eyeContact: 0,
-        signifiesInterest: 0,
-        verbalAttentiveFeedback: 0
-      }
     }
   }
 

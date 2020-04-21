@@ -42,7 +42,6 @@ class Trait extends Component {
         var: props.var,
         val: props.val,
         desc: props.desc,
-        team_id: this.props.pending_id
       });
     }
   }
@@ -136,7 +135,7 @@ class Trait extends Component {
           value={this.state.val}
           disabled={!this.state.user_id}
           className="rating"
-          onChange={this.handleSliderChange.bind(this)}
+          onChange={this.handleSliderChange}
           style={
             { 
               backgroundImage: this.getSliderBackground(),

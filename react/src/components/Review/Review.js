@@ -17,7 +17,6 @@ import './Review.scss';
 import Facet from './Facet/Facet';
 import { Redirect } from 'react-router-dom';
 import {
-  TEAMID,
   JWT
 } from '../../constants';
 import {
@@ -223,63 +222,72 @@ class Review extends Component {
   }
 
   submit = async () => {
-    const review = JSON.parse(localStorage.getItem("self-review"));
-    const query = {
-      query: `
-  mutation {
-    submitReview(
-      receiver_id: "${review.user_id}", 
-      team_id: "${review.team_id}", 
-      emotionalResponse: ${review.emotionalResponse}, 
-      empathy: ${review.empathy},
-      managesOwn: ${review.managesOwn},
-      faith: ${review.faith},
-      cooperatively: ${review.cooperatively},
-      positiveBelief: ${review.positiveBelief},
-      resilienceFeedback: ${review.resilienceFeedback},
-      calm: ${review.calm},
-      change: ${review.change},
-      newIdeas: ${review.newIdeas},
-      workDemands: ${review.workDemands},
-      proactive: ${review.proactive},
-      influences: ${review.influences},
-      clearInstructions: ${review.clearInstructions},
-      preventsMisunderstandings: ${review.preventsMisunderstandings},
-      easilyExplainsComplexIdeas: ${review.easilyExplainsComplexIdeas},
-      openToShare: ${review.openToShare},
-      tone: ${review.tone},
-      crossTeam: ${review.crossTeam},
-      distractions: ${review.distractions},
-      eyeContact: ${review.eyeContact},
-      signifiesInterest: ${review.signifiesInterest},
-      verbalAttentiveFeedback: ${review.verbalAttentiveFeedback}) {
-      errors {
-        path
-        code
-        message
-      }
-      data {
-        review {
-          _id
-        }
+    const review = JSON.parse(localStorage.getItem("review"));
+    const promises = [];
+    const AUTH_TOKEN = localStorage.getItem(JWT);
+    for (const team in review) {
+      for (const user in review[team]) {
+        const query = {
+          query: `
+            mutation {
+              submitReview(
+                receiver_id: "${user}", 
+                team_id: "${team}", 
+                emotionalResponse: ${review[team][user].emotionalResponse}, 
+                empathy: ${review[team][user].empathy},
+                managesOwn: ${review[team][user].managesOwn},
+                faith: ${review[team][user].faith},
+                cooperatively: ${review[team][user].cooperatively},
+                positiveBelief: ${review[team][user].positiveBelief},
+                resilienceFeedback: ${review[team][user].resilienceFeedback},
+                calm: ${review[team][user].calm},
+                change: ${review[team][user].change},
+                newIdeas: ${review[team][user].newIdeas},
+                workDemands: ${review[team][user].workDemands},
+                proactive: ${review[team][user].proactive},
+                influences: ${review[team][user].influences},
+                clearInstructions: ${review[team][user].clearInstructions},
+                preventsMisunderstandings: ${review[team][user].preventsMisunderstandings},
+                easilyExplainsComplexIdeas: ${review[team][user].easilyExplainsComplexIdeas},
+                openToShare: ${review[team][user].openToShare},
+                tone: ${review[team][user].tone},
+                crossTeam: ${review[team][user].crossTeam},
+                distractions: ${review[team][user].distractions},
+                eyeContact: ${review[team][user].eyeContact},
+                signifiesInterest: ${review[team][user].signifiesInterest},
+                verbalAttentiveFeedback: ${review[team][user].verbalAttentiveFeedback}
+              ) {
+                errors {
+                  path
+                  code
+                  message
+                }
+                data {
+                  review {
+                    _id
+                  }
+                }
+              }
+            }
+          `
+        };
+        const options = {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'JWT': AUTH_TOKEN,
+          },
+          body: JSON.stringify(query)
+        };
+        promises.push(new Promise((r, f) => fetch('https://coreable.appspot.com/graphql', options).then(r)));
       }
     }
-  }`}
-    fetch('https://coreable.appspot.com/graphql', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-        'JWT': localStorage.getItem(JWT),
-      },
-      body: JSON.stringify(query)
-    }).then(async (data) => {
-      // const result = await data.json();
-      // todo: not ignore this
+    Promise.all(promises).then(() => {
       this.setState({
         ...this.state,
         submitting: false,
-        review: review
+        review: {}
        });
     });
   }
@@ -294,28 +302,24 @@ class Review extends Component {
 
   render() {
     const { currentIndex } = this.state;
-
-    if (!localStorage.getItem(JWT)) {
+    const reviewDone = this.state.currentIndex >= this.state.facets.length;
+    if (!localStorage.getItem(JWT)) { // TODO: move this to a prop
       return (<Redirect to="/"></Redirect>);
+    }
+    if (reviewDone && !this.state.submitting) {
+      return (<Redirect to="/thank-you"></Redirect>);
+    }
+    if (reviewDone && this.state.submitting) {
+      return (<LinearProgress style={{ top: '12pt' }} />);
     }
     if (!this.props.location.state) {
       return (<Redirect to="/"></Redirect>);
     }
-    if (this.state.currentIndex >= this.state.facets.length && !this.state.submitting) {
-      return (<Redirect to="/thank-you"></Redirect>);
-    }
     if (this.state.currentIndex <= -1) {
       return (<Redirect to="/setup"></Redirect>);
     }
-    if (!this.props.location.state.team_id) {
-      return (<Redirect to="/setup"></Redirect>);
-    }
-    localStorage.setItem(TEAMID, this.props.location.state.team_id);
-    if (this.state.currentIndex >= this.state.facets.length && this.state.submitting) {
-      return (<LinearProgress style={{ top: '12pt' }} />);
-    }
     return (
-      <Facet 
+      <Facet
         pending={this.props.location.state.pending}
         {...this.state.facets[currentIndex]}
         nextStep={this.nextStep}

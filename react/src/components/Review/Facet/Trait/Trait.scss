@@ -1,14 +1,21 @@
 .trait-card {
-  width: 40vw;
+  // width: 40vw;
 
   .rating {
     -webkit-appearance: none;
     height: 24pt;
-    width: 380pt;
+    width: 45vw;
+    max-width: 90%;
     border-radius: 4pt;
     background-color: rgb(214, 214, 214);
     background: linear-gradient(90deg, rgb(66, 113, 249) 20%, rgb(214, 214, 214) 20%);
     padding: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .rating {
+      width: 60vw;
+    }
   }
 
   .rating::-webkit-slider-thumb {

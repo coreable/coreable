@@ -93,15 +93,15 @@ class ThankYou extends Component {
         return false;
       }
 
-      let emotionalIntelligence;
-      let initiative;
-      let trust;
-      let flex;
-      let clarity;
-      let culture;
-      let nonVerbal;
-      let attentive;
-      let resilience;
+      let emotionalIntelligence = 0;
+      let initiative = 0;
+      let trust = 0;
+      let flex = 0;
+      let clarity = 0;
+      let culture = 0;
+      let nonVerbal = 0;
+      let attentive = 0;
+      let resilience = 0;
 
       try {
         emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
@@ -114,7 +114,7 @@ class ThankYou extends Component {
         attentive = (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
         resilience = (averages.resilienceFeedback + averages.calm + averages.change) / 3;
       } catch {
-        return false;
+        console.log({ code: 'ERR', path: 'ThankYou.js' });
       }
 
       this.setState({

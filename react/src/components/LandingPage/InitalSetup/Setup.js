@@ -15,7 +15,7 @@ Coreable source code.
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo'
-import { TEAMID, JWT } from '../../../constants';
+import { JWT } from '../../../constants';
 import { JOIN_TEAM } from '../../../apollo/mutations'
 import './Setup.scss';
 
@@ -178,6 +178,28 @@ class Setup extends Component {
     return '#ffffff';
   }
 
+  getPendingUser(team_id) {
+    const isDisabled = this.getReviewButtonState(team_id);
+    let data = {};
+    if (this.state.me.grouped[team_id].subject.state === 1) {
+      data = {
+        _id: this.state.me.grouped[team_id]._id,
+        name: this.state.me.grouped[team_id].name,
+        subject: this.state.me.grouped[team_id].subject,
+        pending: [!isDisabled ? this.state.me.pending.find((user) => user._id === this.state.me._id) : null]
+      }
+    }
+    if (this.state.me.grouped[team_id].subject.state !== 1) {
+      data = {
+        _id: this.state.me.grouped[team_id]._id,
+        name: this.state.me.grouped[team_id].name,
+        subject: this.state.me.grouped[team_id].subject,
+        pending: !isDisabled ? this.state.me.pending.filter((user) => user._id !== this.state.me._id) : null
+      }
+    }
+    return data;
+  }
+
   render() {
     if (!this.state.loggedIn) {
       return (<Redirect to="/"></Redirect>);
@@ -233,7 +255,7 @@ class Setup extends Component {
                             // background: this.getReviewButtonBackgroundColor(team._id)
                           }
                         } disableElevation>
-                          <Link to={{ pathname: '/self-review', state: { team_id: team._id, pending: this.state.me.grouped[team._id] } }} style={
+                          <Link to={{ pathname: '/self-review', state: { team_id: team._id, pending: this.getPendingUser(team._id) } }} style={
                             {
                               textDecoration: 'none',
                               color: this.getReviewButtonTextColor(team._id)
@@ -283,7 +305,7 @@ class Setup extends Component {
                         >
                           {(mutation) => (
                             <Grid container justify="center">
-                              <Button variant="contained" color="primary" disableElevation disabled={this.isDisabled()} onClick={async() => {
+                              <Button variant="contained" color="primary" disableElevation disabled={this.isDisabled()} onClick={async () => {
                                 this.setState({ isLoading: true });
                                 return await mutation();
                               }}>
@@ -321,10 +343,6 @@ class Setup extends Component {
       ...this.state,
       isLoading: false
     });
-  }
-
-  _saveUserData = ({ _id }) => {
-    localStorage.setItem(TEAMID, _id)
   }
 
 }
