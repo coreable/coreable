@@ -1,0 +1,25 @@
+@media (min-width: 770px){
+    .homepage-container {
+        padding-top: 20px;
+        display: flex;
+        margin: 0 auto;
+        width: 80%;
+        /* flex-direction: row;
+        justify-content: space-evenly; */
+    }
+    
+}
+
+.homepage-container {
+    padding-top: 20px;
+    flex-wrap: wrap;
+    /* margin-left: 15pt; */
+}
+
+.add-team {
+    background-color: lightgray;
+    height: 200pt;
+    flex-basis: 21%;
+    text-align: center;
+    margin: 15pt;
+}

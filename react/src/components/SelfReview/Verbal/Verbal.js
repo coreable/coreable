@@ -156,8 +156,8 @@ class Verbal extends Component {
     }
     _confirm = async data => {
       try {
-          this.props.history.push(`/thank-you`)
           console.log(data)
+          this.props.history.push(`/thank-you`)
         } 
       catch {
           alert('Invalid');

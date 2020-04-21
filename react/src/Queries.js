@@ -1,7 +1,25 @@
 import gql from 'graphql-tag'
 
 //Queries
-
+const GET_USER_DETAILS = gql`
+mutation LoginMutation($email: String!, $password: String!){
+    login(email:$email, password: $password) {
+        data {
+            user {
+                firstName
+                email
+                _id
+                }
+            token
+            }
+            errors {
+                code
+                path
+                message
+            }
+    }
+}
+`
 
 
 
@@ -180,4 +198,4 @@ const SUBMIT_SELF_REVIEW = gql`
         }
     }`
 
-export { LOGIN_MUTATION, SIGNUP_MUTATION, JOIN_TEAM, SUBMIT_SELF_REVIEW } 
+export { LOGIN_MUTATION, SIGNUP_MUTATION, JOIN_TEAM, SUBMIT_SELF_REVIEW, GET_USER_DETAILS } 

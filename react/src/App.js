@@ -23,6 +23,7 @@ import Trust from './components/SelfReview/Trust/Trust';
 import Flexibility from './components/SelfReview/Flexibility/Flexibility';
 import Resilience from './components/SelfReview/Resilience/Resilience';
 
+import Homepage from './components/Homepage/Homepage'
 import ThankYou from './components/SelfReview/ThankYou';
 
 
@@ -67,22 +68,17 @@ class App extends Component {
         </div>
 
         <Route exact path="/" component={LandingPage} />
-        {/* <Route exact path="/" render = {props => (
-          <LandingPage />
-        )}>     
-        </Route> */}
-
-        {/* <Route exact path="/login" component={Login} /> */}
         <Route exact path="/register" component={Register} />
         <Route exact path="/setup" component={Setup} />
         <Route exact path="/loginexample" component={LoginTest} />
         <Route exact path="/registerexample" component={RegisterExample} />
 
         <Route exact path="/self-review" component={SelfReview} />
-        <Route exact path="/initiative" component={Initiative} />
+        {/* <Route exact path="/initiative" component={Initiative} />
         <Route exact path="/trust" component={Trust} />
         <Route exact path="/flexibility" component={Flexibility} />
-        <Route exact path="/resilience" component={Resilience} />
+        <Route exact path="/resilience" component={Resilience} /> */}
+        <Route exact path="/homepage" component={Homepage}/>
         <Route exact path="/thank-you" component={ThankYou}/>
         </div>
       </Router>
