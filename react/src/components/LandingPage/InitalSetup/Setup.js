@@ -37,10 +37,14 @@ import {
 class Setup extends Component {
   constructor() {
     super();
+
+    // TODO: move to props
+    const AUTH_TOKEN = localStorage.getItem(JWT);
+
     this.state = {
       inviteCode: "",
       isLoading: true,
-      loggedIn: !!localStorage.getItem(JWT),
+      loggedIn: !!AUTH_TOKEN,
       me: {
         teams: []
       },
@@ -48,15 +52,8 @@ class Setup extends Component {
     };
 
     if (this.state.loggedIn) {
-      fetch('https://coreable.appspot.com/graphql', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          'JWT': localStorage.getItem(JWT),
-        },
-        body: JSON.stringify({
-          query: `
+      const query = {
+        query: `
           query {
             me {
               data {
@@ -96,10 +93,27 @@ class Setup extends Component {
               }
             }
           }
-    `})
-      }).then(async (data) => {
+        `
+      };
+
+      const options = {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'JWT': AUTH_TOKEN,
+        },
+        body: JSON.stringify(query)
+      }
+
+      fetch('https://coreable.appspot.com/graphql', options).then(async (data) => {
         let me = await data.json();
-        me = me.data.me.data.user;
+        try {
+          me = me.data.me.data.user;
+        } catch (err) {
+          console.log({ err: 'USER UNAUTHENTICATED' });
+          return false;
+        }
 
         let grouped = {};
         for (let team of me.teams) {
@@ -139,7 +153,7 @@ class Setup extends Component {
   handleSubmit = evt => {
     if (!this.canBeSubmitted()) {
       evt.preventDefault();
-      return;
+      return false;
     }
   };
 
