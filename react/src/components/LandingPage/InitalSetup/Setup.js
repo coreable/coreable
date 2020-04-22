@@ -108,12 +108,7 @@ class Setup extends Component {
 
       fetch('https://coreable.appspot.com/graphql', options).then(async (data) => {
         let me = await data.json();
-        try {
-          me = me.data.me.data.user;
-        } catch (err) {
-          console.log({ err: 'USER UNAUTHENTICATED' });
-          return false;
-        }
+        me = me.data.me.data.user;
 
         let grouped = {};
         for (let team of me.teams) {
