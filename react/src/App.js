@@ -82,13 +82,6 @@ class App extends Component {
             <Route exact path="/self-review" component={Review} />
             <Route exact path="/thank-you" component={ThankYou} />
           </Suspense>
-
-          {/* <Route exact path="/setup" component={Setup} />
-          <Route exact path="/initiative" component={Initiative} />
-          <Route exact path="/trust" component={Trust} />
-          <Route exact path="/flexibility" component={Flexibility} />
-          <Route exact path="/resilience" component={Resilience} />
-          <Route exact path="/thank-you" component={ThankYou} /> */}
         </div>
       </Router>
     );
