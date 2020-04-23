@@ -1,25 +1,65 @@
 .toggle-button {
-    width: 30pt;
-    height: 26pt;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    border: none;
-    padding: 0;
-    box-sizing: border-box;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  background: #0b152f;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
 }
 
 .toggle-button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .toggle-button:focus {
-    outline: none;
+  outline: none;
 }
 
 .toggle-button-line {
-    width: 30pt;
-    height: 2pt;
-    background-color: white;
+  width: 25pt;
+  height: 2pt;
+  background-color: transparent;
+  transition: all 0.5s ease-in-out;
+}
+
+.toggle-button-line::before,
+.toggle-button-line::after {
+  content: "";
+  position: absolute;
+  width: 25pt;
+  height: 2pt;
+  background-color: white;
+  transform: translateY(-10px);
+  transition: all 0.5s ease-in-out;
+}
+
+.toggle-button-line::before {
+  transform: translateY(-10px);
+}
+.toggle-button-line::after {
+  transform: translateY(10px);
+}
+
+.toggle-button-open {
+  cursor: pointer;
+}
+
+/* animation */
+
+.toggle-button-open .toggle-button-line {
+  transform: translateX(-50px);
+  background: transparent;
+}
+
+.toggle-button-open .toggle-button-line::before {
+  transform: rotate(45deg) translate(31px, -31px);
+}
+
+.toggle-button-open .toggle-button-line::after {
+  transform: rotate(-45deg) translate(31px, 31px);
 }
