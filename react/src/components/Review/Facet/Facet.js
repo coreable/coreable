@@ -85,7 +85,11 @@ class Facet extends Component {
           {this.state.traits.map((trait, index) => {
             return (
               <Grid item key={index}>
-                <Trait {...trait} pending={this.props.pending}></Trait>
+                <Trait
+                  {...trait}
+                  name={this.state.name}
+                  pending={this.props.pending}
+                ></Trait>
               </Grid>
             );
           })}

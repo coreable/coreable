@@ -235,7 +235,7 @@ class Trait extends Component {
           id={this.state.var}
           name={this.state.var}
           // value={this.state.val}
-          value="0"
+          value={this.state.val != 0 ? "0" : this.state.val}
           disabled={!this.state.user._id}
           className="rating"
           onChange={this.handleSliderChange}
@@ -246,7 +246,9 @@ class Trait extends Component {
           }}
         />
 
-        <CardActions style={{ flexWrap: "wrap" }}>
+        <CardActions
+          style={{ flexWrap: "wrap", justifyContent: "space-around" }}
+        >
           {this.props.pending.pending.map((user, index) => {
             return (
               <Button
