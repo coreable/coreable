@@ -225,6 +225,9 @@ class Review extends Component {
     const review = JSON.parse(localStorage.getItem("review"));
     const promises = [];
     const AUTH_TOKEN = localStorage.getItem(JWT);
+    // loop and check
+    //
+
     for (const team in review) {
       for (const user in review[team]) {
         const query = {

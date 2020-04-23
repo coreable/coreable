@@ -33,17 +33,17 @@
   }
 
   button {
-    background: rgb(66, 113, 249);
+    // background: rgb(66, 113, 249);
     font-weight: bold;
   }
 
-  button.active {
-    background: rgb(66, 113, 249);
-  }
+  // button.active {
+  //   background: rgb(66, 113, 249);
+  // }
 
-  button.inactive {
-    background: rgba(66, 113, 249, 0.3);
-  }
+  // button.inactive {
+  //   background: rgba(66, 113, 249, 0.3);
+  // }
 
   .MuiSlider-thumb.Mui-disabled {
     width: 8px;

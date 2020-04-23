@@ -29,8 +29,8 @@ class Trait extends Component {
       var: props.var,
       val: props.val,
       desc: props.desc,
-      user_id: '',
-      team_id: props.pending._id,
+      user: {},
+      team: props.pending,
     }
   }
 
@@ -46,74 +46,130 @@ class Trait extends Component {
     }
   }
 
-  changeSelectedUser = (user_id) => {
-    this.updateReview(user_id);
-    const review = this.getReview();
-    let val;
-    try {
-      val = review[this.state.team_id][user_id][this.state.var];
-    } catch (err) {
-      val = 0;
-    }
-    this.setState({
-      ...this.state,
-      user_id: user_id,
-      val
-    });
-  }
-
-  getReview = () => {
-    return JSON.parse(localStorage.getItem("review"));
-  }
-
   setReview = (review) => {
     localStorage.setItem("review", JSON.stringify(review));
   }
 
-  updateReview = (user_id) => {
-    if (!user_id) {
-      return false;
+  getReview = () => {
+    const review = JSON.parse(localStorage.getItem("review"));
+
+    const team_id = this.state.team._id;
+    const user_id = this.state.user._id;
+    const trait = this.state.var;
+
+    if (!review[team_id]) {
+      review[team_id] = {};
     }
+    if (!review[team_id][user_id]) {
+      review[team_id][user_id] = {};
+    }
+    if (!review[team_id][user_id][trait]) {
+      review[team_id][user_id][trait] = {
+        val: -1,
+        touched: false
+      };
+    }
+
+    return review;
+  }
+
+  getButtonStyles = (user) => {
+    const team_id = this.state.team._id;
+    const user_id = user._id;
+    const trait = this.state.var;
+
+    // Component has just loaded
+    if (!this.state.user._id) {
+      return {
+        background: 'rgba(0, 0, 0, 0.12',
+        color: 'rgba(0, 0, 0, 0.26)'
+      }
+    }
+
     const review = this.getReview();
-    if (!review[this.state.team_id]) {
-      review[this.state.team_id] = {};
+
+    let styles = {};
+    // Active user
+    if (this.state.user._id === user._id) {
+      styles.background = 'rgb(66, 113, 249)';
+      styles.color = '#fff';
     }
-    if (!review[this.state.team_id][user_id]) {
-      review[this.state.team_id][user_id] = {};
+
+    // Inactive user
+    if (this.state.user._id !== user._id) {
+      styles.background = 'rgba(0, 0, 0, 0.12';
+      styles.color = 'rgba(0, 0, 0, 0.26)';
+      try {
+        if (review[team_id][user_id][trait].touched && review[team_id][user_id][trait].val === -1) {
+          styles.border = '1px solid red';
+        }
+      } catch (err) {
+        // ignore
+      }
     }
-    review[this.state.team_id][user_id] = {
-      ...review[this.state.team_id][user_id],
-      [this.state.var]: this.state.val,
-    }
-    this.setReview(review);
+
+    return styles;
+  }
+
+  updateUserTouchedProperty = (user, review) => {
+    const team_id = this.state.team._id;
+    const user_id = user._id
+    const trait = this.state.var;
+    review[team_id][user_id][trait].touched = true;
+    return review;
+  }
+
+  handleSelectedUserChange = (user) => {
+    this.setState({
+      ...this.state,
+      user,
+    }, () => {
+      const review = this.updateUserTouchedProperty(user, this.getReview());
+      const team_id = this.state.team._id;
+      const user_id = this.state.user._id;
+      const trait = this.state.var;
+      this.setState({
+        ...this.state,
+        val: review[team_id][user_id][trait].val
+      }, () => {
+        this.setReview(review);
+      });
+    });
   }
 
   handleSliderChange = (e) => {
-    console.log(e.target.value)
+    const team_id = this.state.team._id;
+    const user_id = this.state.user._id;
+    const trait = this.state.var;
+
     try {
       const val = e.target.value;
       this.setState({
         ...this.state,
-        val: val
+        val
       }, () => {
-        this.updateReview(this.state.user_id);
+        const review = this.getReview();
+        review[team_id][user_id][trait].val = val;
+        this.setReview(review);
       });
     } catch (err) {
       // ignore
     }
   }
 
-  getSliderDefaultValue = (e) => {
-    const review = JSON.parse(localStorage.getItem("review"));
-    try {
-      return review[this.state.team_id][this.state.user_id][this.state.var];
-    } catch {
-      return 0;
-    }
-  }
-
   getSliderBackground = () => {
-    return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`
+    const team_id = this.state.team._id;
+    const user_id = this.state.user._id;
+    const trait = this.state.var;
+
+    if (!user_id) {
+      return `linear-gradient(90deg, rgb(66, 113, 249) 0%, rgb(214, 214, 214) 0%)`;
+    }
+
+    const review = this.getReview();
+    const val = review[team_id][user_id][trait].val;
+
+    return `linear-gradient(90deg, rgb(66, 113, 249) ${val}%, rgb(214, 214, 214) ${val}%)`;
   }
 
   render() {
@@ -123,7 +179,7 @@ class Trait extends Component {
         <Typography variant="subtitle2" style={{ marginTop: '8pt', marginBottom: '16pt' }}>{this.state.desc}</Typography>
 
         <Ranking {...this.state} />
-        
+
         <input
           type="range"
           min={0}
@@ -133,11 +189,11 @@ class Trait extends Component {
           id={this.state.var}
           name={this.state.var}
           value={this.state.val}
-          disabled={!this.state.user_id}
+          disabled={!this.state.user._id}
           className="rating"
           onChange={this.handleSliderChange}
           style={
-            { 
+            {
               backgroundImage: this.getSliderBackground(),
               marginTop: '8pt',
               marginBottom: '8pt'
@@ -153,10 +209,10 @@ class Trait extends Component {
                   size="small"
                   variant="contained"
                   color="primary"
-                  className={this.state.user_id === user._id ? 'active' : 'inactive'}
+                  style={this.getButtonStyles(user)}
                   disableElevation
                   key={index}
-                  onClick={() => this.changeSelectedUser(user._id)}>
+                  onClick={() => this.handleSelectedUserChange(user)}>
                   {user.firstName + ' ' + user.lastName}
                 </Button>
               );
