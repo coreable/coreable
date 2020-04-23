@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { 
+import {
   Redirect,
   Route
 } from 'react-router-dom';
@@ -45,7 +45,7 @@ const AuthService = {
     const res = await fetch('https://coreable.appspot.com/graphql', options).then(res => res.json());
     const user = res.data.me.data;
     const errors = res.data.me.errors;
-    
+
     if (!errors) {
       this.authenticated = true;
     }
@@ -81,8 +81,10 @@ class PrivateRoute extends Component {
   render() {
     const { Component } = this.state;
     let props = this.props;
-
-    return (<Route render={(props) => <Component {...props} />} />);
+    if (this.state.authenticated) {
+      return (<Route render={(props) => <Component {...props} />} />);
+    }
+    return (<Route render={(props) => <Redirect to={{ pathName: '/', state: { from: props.location } }} />} />);
   }
 }
 
