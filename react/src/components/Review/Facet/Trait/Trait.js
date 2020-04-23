@@ -12,15 +12,12 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from 'react'
-import Ranking from './Ranking/Ranking';
-import {
-  Card,
-  Typography,
-  CardActions,
-  Button
-} from '@material-ui/core';
-import './Trait.scss';
+import React, { Component } from "react";
+import Ranking from "./Ranking/Ranking";
+import TeamRank from "./TeamRank/TeamRank";
+
+import { Card, Typography, CardActions, Button, Grid } from "@material-ui/core";
+import "./Trait.scss";
 
 class Trait extends Component {
   constructor(props) {
@@ -29,9 +26,9 @@ class Trait extends Component {
       var: props.var,
       val: props.val,
       desc: props.desc,
-      user_id: '',
+      user_id: "",
       team_id: props.pending._id,
-    }
+    };
   }
 
   componentDidUpdate() {
@@ -58,17 +55,17 @@ class Trait extends Component {
     this.setState({
       ...this.state,
       user_id: user_id,
-      val
+      val,
     });
-  }
+  };
 
   getReview = () => {
     return JSON.parse(localStorage.getItem("review"));
-  }
+  };
 
   setReview = (review) => {
     localStorage.setItem("review", JSON.stringify(review));
-  }
+  };
 
   updateReview = (user_id) => {
     if (!user_id) {
@@ -84,24 +81,27 @@ class Trait extends Component {
     review[this.state.team_id][user_id] = {
       ...review[this.state.team_id][user_id],
       [this.state.var]: this.state.val,
-    }
+    };
     this.setReview(review);
-  }
+  };
 
   handleSliderChange = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     try {
       const val = e.target.value;
-      this.setState({
-        ...this.state,
-        val: val
-      }, () => {
-        this.updateReview(this.state.user_id);
-      });
+      this.setState(
+        {
+          ...this.state,
+          val: val,
+        },
+        () => {
+          this.updateReview(this.state.user_id);
+        }
+      );
     } catch (err) {
       // ignore
     }
-  }
+  };
 
   getSliderDefaultValue = (e) => {
     const review = JSON.parse(localStorage.getItem("review"));
@@ -110,20 +110,30 @@ class Trait extends Component {
     } catch {
       return 0;
     }
-  }
+  };
 
   getSliderBackground = () => {
-    return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`
-  }
+    return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
+  };
 
   render() {
     return (
       <Card className="trait-card" variant="outlined">
-        <Typography variant="h5" style={{ marginTop: '8pt', fontWeight: 'bold' }}>{this.state.var}</Typography>
-        <Typography variant="subtitle2" style={{ marginTop: '8pt', marginBottom: '16pt' }}>{this.state.desc}</Typography>
+        <Typography
+          variant="h5"
+          style={{ marginTop: "8pt", fontWeight: "bold" }}
+        >
+          {this.state.var}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          style={{ marginTop: "8pt", marginBottom: "16pt" }}
+        >
+          {this.state.desc}
+        </Typography>
 
         <Ranking {...this.state} />
-        
+
         <input
           type="range"
           min={0}
@@ -136,33 +146,44 @@ class Trait extends Component {
           disabled={!this.state.user_id}
           className="rating"
           onChange={this.handleSliderChange}
-          style={
-            { 
-              backgroundImage: this.getSliderBackground(),
-              marginTop: '8pt',
-              marginBottom: '8pt'
-            }
-          }
+          style={{
+            backgroundImage: this.getSliderBackground(),
+            marginTop: "8pt",
+            marginBottom: "8pt",
+          }}
         />
 
-        <CardActions>
-          {
-            this.props.pending.pending.map((user, index) => {
-              return (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  className={this.state.user_id === user._id ? 'active' : 'inactive'}
-                  disableElevation
-                  key={index}
-                  onClick={() => this.changeSelectedUser(user._id)}>
-                  {user.firstName + ' ' + user.lastName}
-                </Button>
-              );
-            })
-          }
+        <CardActions className="team-member">
+          {this.props.pending.pending.map((user, index) => {
+            return (
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                className={
+                  this.state.user_id === user._id ? "active" : "inactive"
+                }
+                disableElevation
+                key={index}
+                onClick={() => this.changeSelectedUser(user._id)}
+              >
+                {user.firstName + " " + user.lastName}
+              </Button>
+            );
+          })}
         </CardActions>
+
+        {this.props.pending.pending.map((user, index) => {
+          return (
+            <TeamRank
+              key={index}
+              name={user.firstName}
+              {...this.state}
+              onChange={this.handleSliderChange}
+              backgroundImage={this.getSliderBackground}
+            />
+          );
+        })}
       </Card>
     );
   }
