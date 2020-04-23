@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./DrawerToggleButton.css";
-import { readdirSync } from "fs";
 
 const DrawerToggleButton = () => {
   const [menuOpen, setMenuOpen] = useState(false);
