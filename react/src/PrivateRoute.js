@@ -73,7 +73,8 @@ class PrivateRoute extends Component {
     this.state = {
       loading: false,
       authenticated: false,
-      Component: component
+      Component: component,
+      redirect: '/'
     }
   }
 
