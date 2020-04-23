@@ -16,12 +16,7 @@ import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
 
-import {
-  Card, 
-  Typography,
-  CardActions,
-  Button
-} from "@material-ui/core";
+import { Card, Typography, CardActions, Button } from "@material-ui/core";
 
 import "./Trait.scss";
 
@@ -34,7 +29,7 @@ class Trait extends Component {
       desc: props.desc,
       user: {},
       team: props.pending,
-    }
+    };
   }
 
   componentDidUpdate() {
@@ -51,7 +46,7 @@ class Trait extends Component {
 
   setReview = (review) => {
     localStorage.setItem("review", JSON.stringify(review));
-  }
+  };
 
   getReview = () => {
     const review = JSON.parse(localStorage.getItem("review"));
@@ -69,12 +64,12 @@ class Trait extends Component {
     if (!review[team_id][user_id][trait]) {
       review[team_id][user_id][trait] = {
         val: -1,
-        touched: false
+        touched: false,
       };
     }
 
     return review;
-  }
+  };
 
   getButtonStyles = (user) => {
     const team_id = this.state.team._id;
@@ -84,9 +79,9 @@ class Trait extends Component {
     // Component has just loaded
     if (!this.state.user._id) {
       return {
-        background: 'rgba(0, 0, 0, 0.12',
-        color: 'rgba(0, 0, 0, 0.26)'
-      }
+        background: "rgba(0, 0, 0, 0.12",
+        color: "rgba(0, 0, 0, 0.26)",
+      };
     }
 
     const review = this.getReview();
@@ -95,17 +90,20 @@ class Trait extends Component {
 
     // Active user
     if (this.state.user._id === user._id) {
-      styles.background = 'rgb(66, 113, 249)';
-      styles.color = '#fff';
+      styles.background = "rgb(66, 113, 249)";
+      styles.color = "#fff";
     }
 
     // Inactive user
     if (this.state.user._id !== user._id) {
-      styles.background = 'rgba(0, 0, 0, 0.12';
-      styles.color = 'rgba(0, 0, 0, 0.26)';
+      styles.background = "rgba(0, 0, 0, 0.12";
+      styles.color = "rgba(0, 0, 0, 0.26)";
       try {
-        if (review[team_id][user_id][trait].touched && review[team_id][user_id][trait].val === -1) {
-          styles.border = '1px solid red';
+        if (
+          review[team_id][user_id][trait].touched &&
+          review[team_id][user_id][trait].val === -1
+        ) {
+          styles.border = "1px solid red";
         }
       } catch (err) {
         // ignore
@@ -113,33 +111,39 @@ class Trait extends Component {
     }
 
     return styles;
-  }
+  };
 
   updateUserTouchedProperty = (user, review) => {
     const team_id = this.state.team._id;
-    const user_id = user._id
+    const user_id = user._id;
     const trait = this.state.var;
     review[team_id][user_id][trait].touched = true;
     return review;
-  }
+  };
 
   handleSelectedUserChange = (user) => {
-    this.setState({
-      ...this.state,
-      user,
-    }, () => {
-      const review = this.updateUserTouchedProperty(user, this.getReview());
-      const team_id = this.state.team._id;
-      const user_id = this.state.user._id;
-      const trait = this.state.var;
-      this.setState({
+    this.setState(
+      {
         ...this.state,
-        val: review[team_id][user_id][trait].val
-      }, () => {
-        this.setReview(review);
-      });
-    });
-  }
+        user,
+      },
+      () => {
+        const review = this.updateUserTouchedProperty(user, this.getReview());
+        const team_id = this.state.team._id;
+        const user_id = this.state.user._id;
+        const trait = this.state.var;
+        this.setState(
+          {
+            ...this.state,
+            val: review[team_id][user_id][trait].val,
+          },
+          () => {
+            this.setReview(review);
+          }
+        );
+      }
+    );
+  };
 
   handleSliderChange = (e) => {
     const team_id = this.state.team._id;
@@ -148,14 +152,17 @@ class Trait extends Component {
 
     try {
       const val = e.target.value;
-      this.setState({
-        ...this.state,
-        val
-      }, () => {
-        const review = this.getReview();
-        review[team_id][user_id][trait].val = val;
-        this.setReview(review);
-      });
+      this.setState(
+        {
+          ...this.state,
+          val,
+        },
+        () => {
+          const review = this.getReview();
+          review[team_id][user_id][trait].val = val;
+          this.setReview(review);
+        }
+      );
     } catch (err) {
       // ignore
     }
@@ -168,13 +175,13 @@ class Trait extends Component {
 
     if (!user_id) {
       return `linear-gradient(90deg, rgb(66, 113, 249) 0%, rgb(214, 214, 214) 0%)`;
+    } else {
+      const review = this.getReview();
+      const val = review[team_id][user_id][trait].val;
+      console.log(val);
+      return `linear-gradient(90deg, rgb(66, 113, 249) ${val}%, rgb(214, 214, 214) ${val}%)`;
     }
-
-    const review = this.getReview();
-    const val = review[team_id][user_id][trait].val;
-
-    return `linear-gradient(90deg, rgb(66, 113, 249) ${val}%, rgb(214, 214, 214) ${val}%)`;
-  }
+  };
 
   getScoreForDisplay = (user) => {
     const review = this.getReview();
@@ -192,14 +199,14 @@ class Trait extends Component {
 
     return {
       val,
-      user
+      user,
     };
-  }
+  };
 
   countTeam = () => {
     const teamMemberCount = this.props.pending.pending.length;
     return teamMemberCount;
-  }
+  };
 
   render() {
     return (
@@ -227,36 +234,35 @@ class Trait extends Component {
           key={this.state.var}
           id={this.state.var}
           name={this.state.var}
-          value={this.state.val}
+          // value={this.state.val}
+          value="0"
           disabled={!this.state.user._id}
           className="rating"
           onChange={this.handleSliderChange}
-          style={
-            {
-              backgroundImage: this.getSliderBackground(),
-              marginTop: '8pt',
-              marginBottom: '8pt'
-            }
-          }
+          style={{
+            backgroundImage: this.getSliderBackground(),
+            marginTop: "8pt",
+            marginBottom: "8pt",
+          }}
         />
 
-        <CardActions>
-          {
-            this.props.pending.pending.map((user, index) => {
-              return (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="primary"
-                  style={this.getButtonStyles(user)}
-                  disableElevation
-                  key={index}
-                  onClick={() => this.handleSelectedUserChange(user)}>
-                  {user.firstName + ' ' + user.lastName}
-                </Button>
-              );
-            })
-          }
+        <CardActions style={{ flexWrap: "wrap" }}>
+          {this.props.pending.pending.map((user, index) => {
+            return (
+              <Button
+                className="select-user-button"
+                size="small"
+                variant="contained"
+                color="primary"
+                style={this.getButtonStyles(user)}
+                disableElevation
+                key={index}
+                onClick={() => this.handleSelectedUserChange(user)}
+              >
+                {user.firstName + " " + user.lastName}
+              </Button>
+            );
+          })}
         </CardActions>
 
         {this.props.pending.pending.map((user, index) => {
@@ -273,7 +279,6 @@ class Trait extends Component {
       </Card>
     );
   }
-
 }
 
 export default Trait;
