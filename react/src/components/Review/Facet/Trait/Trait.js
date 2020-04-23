@@ -86,7 +86,7 @@ class Trait extends Component {
   };
 
   handleSliderChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     try {
       const val = e.target.value;
       this.setState(
@@ -114,6 +114,11 @@ class Trait extends Component {
 
   getSliderBackground = () => {
     return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
+  };
+
+  countTeam = () => {
+    const teamMemberCount = this.props.pending.pending.length;
+    return teamMemberCount;
   };
 
   render() {
@@ -179,8 +184,8 @@ class Trait extends Component {
               key={index}
               name={user.firstName}
               {...this.state}
-              onChange={this.handleSliderChange}
               backgroundImage={this.getSliderBackground}
+              teamMemberCount={this.countTeam()}
             />
           );
         })}
