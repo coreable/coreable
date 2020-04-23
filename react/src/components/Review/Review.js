@@ -12,16 +12,12 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from 'react';
-import './Review.scss';
-import Facet from './Facet/Facet';
-import { Redirect } from 'react-router-dom';
-import {
-  JWT
-} from '../../constants';
-import {
-  LinearProgress
-} from '@material-ui/core';
+import React, { Component } from "react";
+import "./Review.scss";
+import Facet from "./Facet/Facet";
+import { Redirect } from "react-router-dom";
+import { JWT } from "../../constants";
+import { LinearProgress } from "@material-ui/core";
 
 class Review extends Component {
   constructor(props) {
@@ -32,176 +28,193 @@ class Review extends Component {
       submitting: false,
       facets: [
         {
-          name: 'Emotional Intelligence',
-          desc: 'Actively creates a pleasant human environment for work, show empathy, accountability, humility, friendliness and unselfishness',
+          name: "Emotional Intelligence",
+          desc:
+            "Actively creates a pleasant human environment for work, show empathy, accountability, humility, friendliness and unselfishness",
           traits: [
             {
-              var: 'emotionalResponse',
+              name: "Emotional response",
+              var: "emotionalResponse",
               val: 0,
-              desc: 'Response to emotions in others',
+              desc: "Response to emotions in others",
             },
             {
-              var: 'empathy',
+              name: "Empathy",
+              var: "empathy",
               val: 0,
-              desc: 'Demonstrates empathy'
+              desc: "Demonstrates empathy",
             },
             {
-              var: 'managesOwn',
+              name: "Manages own",
+              var: "managesOwn",
               val: 0,
-              desc: 'Manages own emotions'
-            }
-          ]
+              desc: "Manages own emotions",
+            },
+          ],
         },
         {
-          name: 'Initiative',
-          desc: 'Proactive and self-starting; seize opportunities and act upon them; originate action and actively influence events',
+          name: "Initiative",
+          desc:
+            "Proactive and self-starting; seize opportunities and act upon them; originate action and actively influence events",
           traits: [
             {
-              var: 'proactive',
+              name: "Proactive",
+              var: "proactive",
               val: 0,
-              desc: ''
+              desc: "",
             },
             {
-              var: 'influences',
+              name: "Influences",
+              var: "influences",
               val: 0,
-              desc: ''
-            }
-          ]
+              desc: "",
+            },
+          ],
         },
         {
-          name: 'Moral Trust',
-          desc: 'Firm belief in the reliability, truth, or ability of someone',
+          name: "Moral Trust",
+          desc: "Firm belief in the reliability, truth, or ability of someone",
           traits: [
             {
-              var: 'faith',
+              name: "Faith",
+              var: "faith",
               val: 0,
-              desc: ''
+              desc: "",
             },
             {
-              var: 'cooperatively',
+              name: "Cooperatively",
+              var: "cooperatively",
               val: 0,
-              desc: 'Is able to work cooperatively'
+              desc: "Is able to work cooperatively",
             },
             {
-              var: 'positiveBelief',
+              name: "Positive belief",
+              var: "positiveBelief",
               val: 0,
-              desc: 'Has a postive belief about the dependability of others'
-            }
-          ]
+              desc: "Has a postive belief about the dependability of others",
+            },
+          ],
         },
         {
-          name: 'Flexibility',
-          desc: 'Be adaptable and receptive to new ideas; respond and adjust easily to changing work demands and circumstances; not bound by old ways of doing things',
+          name: "Flexibility",
+          desc:
+            "Be adaptable and receptive to new ideas; respond and adjust easily to changing work demands and circumstances; not bound by old ways of doing things",
           traits: [
             {
-              var: 'newIdeas',
+              name: "New ideas",
+              var: "newIdeas",
               val: 0,
-              desc: 'Adaptable and receptive to new ideas'
+              desc: "Adaptable and receptive to new ideas",
             },
             {
-              var: 'workDemands',
+              name: "Work demands",
+              var: "workDemands",
               val: 0,
-              desc: 'Adjusts easily to change work demands'
-            }
-          ]
+              desc: "Adjusts easily to change work demands",
+            },
+          ],
         },
         {
-          name: 'Clarity',
-          desc: '',
+          name: "Clarity",
+          desc: "",
           traits: [
             {
-              var: 'clearInstructions',
+              name: "Clear instructions",
+              var: "clearInstructions",
               val: 0,
-              desc: ''
+              desc: "",
             },
             {
-              var: 'preventsMisunderstandings',
+              name: "Prevents misunderstandings",
+              var: "preventsMisunderstandings",
               val: 0,
-              desc: ''
+              desc: "",
             },
             {
-              var: 'easilyExplainsComplexIdeas',
+              name: "Easily explain complex ideas",
+              var: "easilyExplainsComplexIdeas",
               val: 0,
-              desc: ''
-            }
-          ]
+              desc: "",
+            },
+          ],
         },
         {
-          name: 'Culture',
-          desc: '',
+          name: "Culture",
+          desc: "",
           traits: [
+            { name: "Open to share", var: "openToShare", val: 0, desc: "" },
             {
-              var: 'openToShare',
+              name: "Tone",
+              var: "tone",
               val: 0,
-              desc: ''
+              desc: "",
             },
-            {
-              var: 'tone',
-              val: 0,
-              desc: ''
-            },
-            {
-              var: 'crossTeam',
-              val: 0,
-              desc: ''
-            }
-          ]
+            { name: "Cross team", var: "crossTeam", val: 0, desc: "" },
+          ],
         },
         {
-          name: 'Non-Verbal',
-          desc: '',
+          name: "Non-Verbal",
+          desc: "",
           traits: [
             {
-              var: 'distractions',
+              name: "Distractions",
+              var: "distractions",
               val: 0,
-              desc: ''
+              desc: "",
             },
             {
-              var: 'eyeContact',
+              name: "Eye contact",
+              var: "eyeContact",
               val: 0,
-              desc: ''
-            }
-          ]
+              desc: "",
+            },
+          ],
         },
         {
-          name: 'Verbal Attentiveness',
-          desc: '',
+          name: "Verbal Attentiveness",
+          desc: "",
           traits: [
             {
-              var: 'signifiesInterest',
+              name: "Signifies interest",
+              var: "signifiesInterest",
               val: 0,
-              desc: ''
+              desc: "",
             },
             {
-              var: 'verbalAttentiveFeedback',
+              name: "Verbal attentive feedback",
+              var: "verbalAttentiveFeedback",
               val: 0,
-              desc: ''
-            }
-          ]
+              desc: "",
+            },
+          ],
         },
         {
-          name: 'Resilience',
-          desc: 'Resilience is the ability to recover, re-bound or bounce back, adjust and even thrive after misfortune or change',
+          name: "Resilience",
+          desc:
+            "Resilience is the ability to recover, re-bound or bounce back, adjust and even thrive after misfortune or change",
           traits: [
             {
-              var: 'resilienceFeedback',
+              name: "Resilience feedback",
+              var: "resilienceFeedback",
               val: 0,
-              desc: 'Accepts all forms of constructive feedback'
+              desc: "Accepts all forms of constructive feedback",
             },
             {
-              var: 'calm',
+              name: "Calm",
+              var: "calm",
               val: 0,
-              desc: 'Remains calm under pressure'
+              desc: "Remains calm under pressure",
             },
             {
-              var: 'change',
+              name: "Change",
+              var: "change",
               val: 0,
-              desc: 'Adapts to change easily'
-            }
-          ]
-        }
-      ]
-    }
+              desc: "Adapts to change easily",
+            },
+          ],
+        },
+      ],
+    };
 
     if (!localStorage.getItem("review")) {
       localStorage.setItem("review", JSON.stringify({}));
@@ -209,17 +222,17 @@ class Review extends Component {
   }
 
   nextStep = () => {
-    let { currentIndex } = this.state
+    let { currentIndex } = this.state;
     currentIndex++;
     this.setState({
       ...this.state,
       currentIndex,
-      submitting: currentIndex >= this.state.facets.length
+      submitting: currentIndex >= this.state.facets.length,
     });
     if (currentIndex >= this.state.facets.length) {
       this.submit();
     }
-  }
+  };
 
   submit = async () => {
     const review = JSON.parse(localStorage.getItem("review"));
@@ -272,61 +285,67 @@ class Review extends Component {
                 }
               }
             }
-          `
+          `,
         };
         const options = {
-          method: 'POST',
-          mode: 'cors',
+          method: "POST",
+          mode: "cors",
           headers: {
-            'Content-Type': 'application/json',
-            'JWT': AUTH_TOKEN,
+            "Content-Type": "application/json",
+            JWT: AUTH_TOKEN,
           },
-          body: JSON.stringify(query)
+          body: JSON.stringify(query),
         };
-        promises.push(new Promise((r, f) => fetch('https://coreable.appspot.com/graphql', options).then(r)));
+        promises.push(
+          new Promise((r, f) =>
+            fetch("https://coreable.appspot.com/graphql", options).then(r)
+          )
+        );
       }
     }
     Promise.all(promises).then(() => {
       this.setState({
         ...this.state,
         submitting: false,
-        review: {}
-       });
+        review: {},
+      });
     });
-  }
+  };
 
   prevStep = () => {
     const { currentIndex } = this.state;
     this.setState({
       ...this.state,
-      currentIndex: currentIndex - 1
+      currentIndex: currentIndex - 1,
     });
-  }
+  };
 
   render() {
     const { currentIndex } = this.state;
     const reviewDone = this.state.currentIndex >= this.state.facets.length;
-    if (!localStorage.getItem(JWT)) { // TODO: move this to a prop
-      return (<Redirect to="/"></Redirect>);
+    if (!localStorage.getItem(JWT)) {
+      // TODO: move this to a prop
+      return <Redirect to="/"></Redirect>;
     }
     if (reviewDone && !this.state.submitting) {
-      return (<Redirect to="/thank-you"></Redirect>);
+      return <Redirect to="/thank-you"></Redirect>;
     }
     if (reviewDone && this.state.submitting) {
-      return (<LinearProgress style={{ top: '12pt' }} />);
+      return <LinearProgress style={{ top: "12pt" }} />;
     }
     if (!this.props.location.state) {
-      return (<Redirect to="/"></Redirect>);
+      return <Redirect to="/"></Redirect>;
     }
     if (this.state.currentIndex <= -1) {
-      return (<Redirect to="/setup"></Redirect>);
+      return <Redirect to="/setup"></Redirect>;
     }
     return (
       <Facet
         pending={this.props.location.state.pending}
         {...this.state.facets[currentIndex]}
         nextStep={this.nextStep}
-        prevStep={this.prevStep}></Facet>
+        prevStep={this.prevStep}
+      ></Facet>
     );
   }
 }
