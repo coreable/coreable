@@ -12,15 +12,12 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from 'react'
-import Ranking from './Ranking/Ranking';
-import {
-  Card,
-  Typography,
-  CardActions,
-  Button
-} from '@material-ui/core';
-import './Trait.scss';
+import React, { Component } from "react";
+import Ranking from "./Ranking/Ranking";
+import TeamRank from "./TeamRank/TeamRank";
+
+import { Card, Typography, CardActions, Button, Grid } from "@material-ui/core";
+import "./Trait.scss";
 
 class Trait extends Component {
   constructor(props) {
@@ -89,6 +86,7 @@ class Trait extends Component {
     const review = this.getReview();
 
     let styles = {};
+
     // Active user
     if (this.state.user._id === user._id) {
       styles.background = 'rgb(66, 113, 249)';
@@ -155,7 +153,7 @@ class Trait extends Component {
     } catch (err) {
       // ignore
     }
-  }
+  };
 
   getSliderBackground = () => {
     const team_id = this.state.team._id;
@@ -172,11 +170,26 @@ class Trait extends Component {
     return `linear-gradient(90deg, rgb(66, 113, 249) ${val}%, rgb(214, 214, 214) ${val}%)`;
   }
 
+  countTeam = () => {
+    const teamMemberCount = this.props.pending.pending.length;
+    return teamMemberCount;
+  }
+
   render() {
     return (
       <Card className="trait-card" variant="outlined">
-        <Typography variant="h5" style={{ marginTop: '8pt', fontWeight: 'bold' }}>{this.state.var}</Typography>
-        <Typography variant="subtitle2" style={{ marginTop: '8pt', marginBottom: '16pt' }}>{this.state.desc}</Typography>
+        <Typography
+          variant="h5"
+          style={{ marginTop: "8pt", fontWeight: "bold" }}
+        >
+          {this.state.var}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          style={{ marginTop: "8pt", marginBottom: "16pt" }}
+        >
+          {this.state.desc}
+        </Typography>
 
         <Ranking {...this.state} />
 
@@ -219,9 +232,22 @@ class Trait extends Component {
             })
           }
         </CardActions>
+
+        {this.props.pending.pending.map((user, index) => {
+          return (
+            <TeamRank
+              key={index}
+              name={user.firstName}
+              {...this.state}
+              backgroundImage={this.getSliderBackground}
+              teamMemberCount={this.countTeam()}
+            />
+          );
+        })}
       </Card>
     );
   }
+
 }
 
 export default Trait;

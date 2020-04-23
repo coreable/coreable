@@ -1,0 +1,14 @@
+.team-rank-container {
+  border: none;
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+  width: 90%;
+
+  .team-rating {
+    background: rgb(66, 113, 249);
+    height: 12px;
+    border-radius: 4px;
+    margin-left: 5px;
+  }
+}

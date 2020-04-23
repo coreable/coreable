@@ -1,11 +1,37 @@
-import React from 'react';
-import './DrawerToggleButton.css';
+import React, { useState } from "react";
+import "./DrawerToggleButton.css";
+import { readdirSync } from "fs";
 
-const drawerToggleButton = props => (
-    <button className="toggle-button" onClick={props.click}>
-        <div className="toggle-button-line"/>
-        <div className="toggle-button-line"/>
-    </button>
-);
+const DrawerToggleButton = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState("");
 
-export default drawerToggleButton;
+  const menuToggleHandler = () => {
+    if (!menuOpen) {
+      setOpen("-open");
+      setMenuOpen(true);
+    } else {
+      setOpen("");
+      setMenuOpen(false);
+    }
+  };
+
+  if (menuOpen) {
+    return (
+      <React.Fragment>
+        <div className={`toggle-button${open}`} onClick={menuToggleHandler}>
+          <div className="toggle-button-line" />
+        </div>
+        {/* sidedrawer code here */}
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <div className={`toggle-button${open}`} onClick={menuToggleHandler}>
+        <div className="toggle-button-line" />
+      </div>
+    );
+  }
+};
+
+export default DrawerToggleButton;

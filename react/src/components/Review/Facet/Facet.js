@@ -12,15 +12,10 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from 'react'
-import {
-  Grid,
-  Container,
-  Button,
-  Typography
-} from '@material-ui/core';
-import Trait from './Trait/Trait';
-import './Facet.scss';
+import React, { Component } from "react";
+import { Grid, Container, Button, Typography } from "@material-ui/core";
+import Trait from "./Trait/Trait";
+import "./Facet.scss";
 
 class Facet extends Component {
   constructor(props) {
@@ -29,7 +24,7 @@ class Facet extends Component {
       name: props.name,
       desc: props.desc,
       traits: props.traits,
-    }
+    };
   }
 
   componentDidUpdate() {
@@ -39,7 +34,7 @@ class Facet extends Component {
         ...this.state,
         name: props.name,
         desc: props.desc,
-        traits: props.traits
+        traits: props.traits,
       });
     }
   }
@@ -52,9 +47,9 @@ class Facet extends Component {
     this.props.nextStep();
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
-  }
+  };
 
   back = (e) => {
     if (e.cancelable) {
@@ -64,9 +59,9 @@ class Facet extends Component {
     this.props.prevStep();
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
-  }
+  };
 
   // handleSubmit = (e) => e.preventDefault();
 
@@ -80,29 +75,33 @@ class Facet extends Component {
           alignItems="center"
           spacing={2}
         >
-          <Grid item style={{ marginTop: '16pt' }}>
+          <Grid item style={{ marginTop: "16pt" }}>
             <Typography variant="h4">{this.props.name}</Typography>
-            <Typography variant="subtitle1" style={{ paddingBottom: '24pt' }}>{this.props.desc}</Typography>
+            <Typography variant="subtitle1" style={{ paddingBottom: "24pt" }}>
+              {this.props.desc}
+            </Typography>
           </Grid>
 
-          {
-            this.state.traits.map((trait, index) => {
-              return (
-                <Grid item key={index}>
-                  <Trait {...trait} pending={this.props.pending}></Trait>
-                </Grid>);
-            })
-          }
+          {this.state.traits.map((trait, index) => {
+            return (
+              <Grid item key={index}>
+                <Trait {...trait} pending={this.props.pending}></Trait>
+              </Grid>
+            );
+          })}
 
           <Grid item container direction="column">
             <Grid item>
-              <Button className="btn-next" onClick={this.continue}>Next</Button>
+              <Button className="btn-next" onClick={this.continue}>
+                Next
+              </Button>
             </Grid>
             <Grid item>
-              <Button className="btn-before" onClick={this.back}>Back</Button>
+              <Button className="btn-before" onClick={this.back}>
+                Back
+              </Button>
             </Grid>
           </Grid>
-
         </Grid>
       </Container>
     );
