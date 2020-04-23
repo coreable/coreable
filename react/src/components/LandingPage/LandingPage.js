@@ -13,7 +13,7 @@ Coreable source code.
 */
 
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Typography,
   Container,
@@ -21,13 +21,9 @@ import {
   StylesProvider
 } from '@material-ui/core';
 import './LandingPage.scss';
-import { JWT } from '../../constants';
 
 class LandingPage extends Component {
   render() {
-    if (localStorage.getItem(JWT)) {
-      return (<Redirect to="/setup"></Redirect>);
-    }
     return (
       <Container maxWidth="xl" style={{ backgroundColor: '#0b152f', height: '95.25vh' }} className="landing-container">
         <StylesProvider injectFirst>

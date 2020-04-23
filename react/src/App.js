@@ -28,6 +28,7 @@ import {
 import Backdrop from './components/Backdrop/Backdrop';
 import SideDrawer from './components/Sidedrawer/Sidedrawer';
 import { Toolbar } from './components/Toolbar/Toolbar.js';
+import PrivateRoute from './PrivateRoute';
 
 import './App.scss';
 
@@ -40,7 +41,8 @@ const ThankYou = lazy(() => import('./components/Review/ThankYou/ThankYou'))
 
 class App extends Component {
   state = {
-    sideDrawerOpen: false
+    sideDrawerOpen: false,
+    auth: true
   };
 
   drawerToggleClickHandler = () => {
@@ -52,6 +54,8 @@ class App extends Component {
   backdropClickHandler = () => {
     this.setState({ sideDrawerOpen: false })
   };
+
+
 
   render() {
     let backDrop;
@@ -78,9 +82,9 @@ class App extends Component {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Register} />
-            <Route exact path="/setup" component={Setup} />
-            <Route exact path="/self-review" component={Review} />
-            <Route exact path="/thank-you" component={ThankYou} />
+            <PrivateRoute exact path="/setup" component={Setup} authed={this.state.auth}/>
+            <PrivateRoute exact path="/self-review" component={Review} authed={this.state.auth}/>
+            <PrivateRoute exact path="/thank-you" component={ThankYou} authed={this.state.auth}/>
           </Suspense>
         </div>
       </Router>
