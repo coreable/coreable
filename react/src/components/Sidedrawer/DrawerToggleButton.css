@@ -3,12 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  width: 50px;
+  height: 60px;
+  width: 60px;
   background: #0b152f;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: all 0.5s ease-in-out;
 }
 
@@ -23,7 +23,8 @@
 .toggle-button-line {
   width: 25pt;
   height: 2pt;
-  background-color: transparent;
+  border-radius: 4pt;
+  background-color: white;
   transition: all 0.5s ease-in-out;
 }
 
@@ -33,16 +34,17 @@
   position: absolute;
   width: 25pt;
   height: 2pt;
+  border-radius: 4pt;
   background-color: white;
   transform: translateY(-10px);
   transition: all 0.5s ease-in-out;
 }
 
 .toggle-button-line::before {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 .toggle-button-line::after {
-  transform: translateY(10px);
+  transform: translateY(8px);
 }
 
 .toggle-button-open {
@@ -57,9 +59,9 @@
 }
 
 .toggle-button-open .toggle-button-line::before {
-  transform: rotate(45deg) translate(31px, -31px);
+  transform: rotate(45deg) translate(25px, -25px);
 }
 
 .toggle-button-open .toggle-button-line::after {
-  transform: rotate(-45deg) translate(31px, 31px);
+  transform: rotate(-45deg) translate(25px, 25px);
 }

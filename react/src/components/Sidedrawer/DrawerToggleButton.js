@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./DrawerToggleButton.css";
-import { readdirSync } from "fs";
+import SideDrawerV2 from "./SideDrawerV2";
 
 const DrawerToggleButton = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,13 +23,17 @@ const DrawerToggleButton = () => {
           <div className="toggle-button-line" />
         </div>
         {/* sidedrawer code here */}
+        <SideDrawerV2 menuOpen={menuOpen} />
       </React.Fragment>
     );
   } else {
     return (
-      <div className={`toggle-button${open}`} onClick={menuToggleHandler}>
-        <div className="toggle-button-line" />
-      </div>
+      <React.Fragment>
+        <div className={`toggle-button${open}`} onClick={menuToggleHandler}>
+          <div className="toggle-button-line" />
+        </div>
+        <SideDrawerV2 menuOpen={menuOpen} />
+      </React.Fragment>
     );
   }
 };
