@@ -1,29 +1,13 @@
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
+import "./TeamRank.scss";
 
 const TeamRank = (props) => {
   const { val } = props;
 
   return (
-    <Grid
-      style={{
-        border: "none",
-        display: "flex",
-        alignItems: "center",
-        marginLeft: "30px",
-        width: "90%",
-      }}
-    >
-      <label
-        className="teamRating"
-        style={{
-          width: `${val * 5}px`,
-          background: "rgb(66, 113, 249)",
-          height: "12px",
-          borderRadius: "4px",
-          marginLeft: "5px",
-        }}
-      ></label>
+    <Grid className="team-rank-container">
+      <label className="team-rating" style={{ width: `${val * 5}px` }}></label>
 
       {val <= 0 ? null : (
         <Typography
