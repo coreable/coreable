@@ -104,7 +104,7 @@ class Setup extends Component {
           'JWT': AUTH_TOKEN,
         },
         body: JSON.stringify(query)
-      }
+      };
 
       fetch('https://coreable.appspot.com/graphql', options).then(async (data) => {
         let me = await data.json();
@@ -259,11 +259,7 @@ class Setup extends Component {
                     </CardContent>
                     <CardActions>
                       <Grid container justify="center">
-                        <Button className="start-review" variant="contained" color="primary" disabled={this.getReviewButtonState(team._id)} style={
-                          {
-                            // background: this.getReviewButtonBackgroundColor(team._id)
-                          }
-                        } disableElevation>
+                        <Button className="start-review" variant="contained" color="primary" disabled={this.getReviewButtonState(team._id)} disableElevation>
                           <Link to={{ pathname: '/self-review', state: { team_id: team._id, pending: this.getPendingUser(team._id) } }} style={
                             {
                               textDecoration: 'none',
