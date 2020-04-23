@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./SideDrawerV2.scss";
 import { JWT } from "../../constants";
 
@@ -9,10 +8,34 @@ const SideDrawer = (props) => {
     return (
       <div className="side-drawer-open">
         <div className="drawer-menu-container">
-          <div className="menu-items">Home</div>
-          <div className="menu-items">Placeholder</div>
-          <div className="menu-items">Placeholder</div>
-          <div className="menu-items"> Logout</div>
+          <a
+            className="menu-items"
+            href="/"
+            onClick={() => localStorage.removeItem(JWT)}
+          >
+            Home
+          </a>
+          <a
+            className="menu-items"
+            href="/setup"
+            onClick={() => localStorage.removeItem(JWT)}
+          >
+            Placeholder
+          </a>
+          <a
+            className="menu-items"
+            href="/setup"
+            onClick={() => localStorage.removeItem(JWT)}
+          >
+            Placeholder
+          </a>
+          <a
+            className="menu-items"
+            href="/"
+            onClick={() => localStorage.removeItem(JWT)}
+          >
+            Logout
+          </a>
         </div>
       </div>
     );

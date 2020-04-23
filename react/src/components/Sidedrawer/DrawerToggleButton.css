@@ -59,9 +59,9 @@
 }
 
 .toggle-button-open .toggle-button-line::before {
-  transform: rotate(45deg) translate(25px, -25px);
+  transform: rotate(45deg) translate(27px, -27px);
 }
 
 .toggle-button-open .toggle-button-line::after {
-  transform: rotate(-45deg) translate(25px, 25px);
+  transform: rotate(-45deg) translate(27px, 27px);
 }
