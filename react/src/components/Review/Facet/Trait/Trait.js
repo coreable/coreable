@@ -16,7 +16,13 @@ import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
 
-import { Card, Typography, CardActions, Button, Grid } from "@material-ui/core";
+import {
+  Card, 
+  Typography,
+  CardActions,
+  Button
+} from "@material-ui/core";
+
 import "./Trait.scss";
 
 class Trait extends Component {
@@ -170,6 +176,26 @@ class Trait extends Component {
     return `linear-gradient(90deg, rgb(66, 113, 249) ${val}%, rgb(214, 214, 214) ${val}%)`;
   }
 
+  getScoreForDisplay = (user) => {
+    const review = this.getReview();
+
+    const team_id = this.state.team._id;
+    const user_id = user._id;
+    const trait = this.state.var;
+
+    let val;
+    try {
+      val = review[team_id][user_id][trait].val;
+    } catch (err) {
+      val = -1;
+    }
+
+    return {
+      val,
+      user
+    };
+  }
+
   countTeam = () => {
     const teamMemberCount = this.props.pending.pending.length;
     return teamMemberCount;
@@ -236,9 +262,9 @@ class Trait extends Component {
         {this.props.pending.pending.map((user, index) => {
           return (
             <TeamRank
-              key={index}
-              name={user.firstName}
-              {...this.state}
+              key={user._id}
+              name={user._d}
+              {...this.getScoreForDisplay(user)}
               backgroundImage={this.getSliderBackground}
               teamMemberCount={this.countTeam()}
             />
