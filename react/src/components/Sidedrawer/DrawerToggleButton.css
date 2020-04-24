@@ -5,10 +5,10 @@
   align-items: center;
   height: 60px;
   width: 60px;
-  background: #0b152f;
+  background: transparent;
   margin: 0;
   padding: 0;
-  padding-left: 400px;
+  /* padding-left: 300px; */
   /* overflow: hidden; */
   transition: all 0.5s ease-in-out;
 }

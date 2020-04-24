@@ -13,7 +13,7 @@
   //   transform: translateY(-120%) translateX(-90%);
   transition: all 0.5s ease-in-out;
   border-bottom: 10px solid rgb(64, 112, 224);
-  z-index: -1;
+  z-index: -200;
 }
 
 .side-drawer-open {
@@ -29,7 +29,7 @@
   transition: all 0.5s ease-in-out;
   opacity: 70%;
   border-bottom: 10px solid rgb(64, 112, 224);
-  z-index: -1;
+  z-index: -200;
 }
 
 .drawer-menu-container {
