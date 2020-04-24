@@ -225,65 +225,67 @@ class Review extends Component {
     const review = JSON.parse(localStorage.getItem("review"));
     const promises = [];
     const AUTH_TOKEN = localStorage.getItem(JWT);
-    // loop and check
-    //
 
     for (const team in review) {
       for (const user in review[team]) {
-        const query = {
-          query: `
-            mutation {
-              submitReview(
-                receiver_id: "${user}", 
-                team_id: "${team}", 
-                emotionalResponse: ${review[team][user].emotionalResponse}, 
-                empathy: ${review[team][user].empathy},
-                managesOwn: ${review[team][user].managesOwn},
-                faith: ${review[team][user].faith},
-                cooperatively: ${review[team][user].cooperatively},
-                positiveBelief: ${review[team][user].positiveBelief},
-                resilienceFeedback: ${review[team][user].resilienceFeedback},
-                calm: ${review[team][user].calm},
-                change: ${review[team][user].change},
-                newIdeas: ${review[team][user].newIdeas},
-                workDemands: ${review[team][user].workDemands},
-                proactive: ${review[team][user].proactive},
-                influences: ${review[team][user].influences},
-                clearInstructions: ${review[team][user].clearInstructions},
-                preventsMisunderstandings: ${review[team][user].preventsMisunderstandings},
-                easilyExplainsComplexIdeas: ${review[team][user].easilyExplainsComplexIdeas},
-                openToShare: ${review[team][user].openToShare},
-                tone: ${review[team][user].tone},
-                crossTeam: ${review[team][user].crossTeam},
-                distractions: ${review[team][user].distractions},
-                eyeContact: ${review[team][user].eyeContact},
-                signifiesInterest: ${review[team][user].signifiesInterest},
-                verbalAttentiveFeedback: ${review[team][user].verbalAttentiveFeedback}
-              ) {
-                errors {
-                  path
-                  code
-                  message
-                }
-                data {
-                  review {
-                    _id
+        try {
+          const query = {
+            query: `
+              mutation {
+                submitReview(
+                  receiver_id: "${user}", 
+                  team_id: "${team}", 
+                  emotionalResponse: ${review[team][user]['emotionalResponse'].val}, 
+                  empathy: ${review[team][user]['empathy'].val},
+                  managesOwn: ${review[team][user]['managesOwn'].val},
+                  faith: ${review[team][user]['faith'].val},
+                  cooperatively: ${review[team][user]['cooperatively'].val},
+                  positiveBelief: ${review[team][user]['positiveBelief'].val},
+                  resilienceFeedback: ${review[team][user]['resilienceFeedback'].val},
+                  calm: ${review[team][user]['calm'].val},
+                  change: ${review[team][user]['change'].val},
+                  newIdeas: ${review[team][user]['newIdeas'].val},
+                  workDemands: ${review[team][user]['workDemands'].val},
+                  proactive: ${review[team][user]['proactive'].val},
+                  influences: ${review[team][user]['influences'].val},
+                  clearInstructions: ${review[team][user]['clearInstructions'].val},
+                  preventsMisunderstandings: ${review[team][user]['preventsMisunderstandings'].val},
+                  easilyExplainsComplexIdeas: ${review[team][user]['easilyExplainsComplexIdeas'].val},
+                  openToShare: ${review[team][user]['openToShare'].val},
+                  tone: ${review[team][user]['tone'].val},
+                  crossTeam: ${review[team][user]['crossTeam'].val},
+                  distractions: ${review[team][user]['distractions'].val},
+                  eyeContact: ${review[team][user]['eyeContact'].val},
+                  signifiesInterest: ${review[team][user]['signifiesInterest'].val},
+                  verbalAttentiveFeedback: ${review[team][user]['verbalAttentiveFeedback'].val}
+                ) {
+                  errors {
+                    path
+                    code
+                    message
+                  }
+                  data {
+                    review {
+                      _id
+                    }
                   }
                 }
               }
-            }
-          `
-        };
-        const options = {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-            'JWT': AUTH_TOKEN,
-          },
-          body: JSON.stringify(query)
-        };
-        promises.push(new Promise((r, f) => fetch('https://coreable.appspot.com/graphql', options).then(r)));
+            `
+          };
+          const options = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json',
+              'JWT': AUTH_TOKEN,
+            },
+            body: JSON.stringify(query)
+          };
+          promises.push(new Promise((r, f) => fetch('https://coreable.appspot.com/graphql', options).then(r)));
+        } catch (err) {
+          console.error({ err: err, path: 'Review.js' });
+        }
       }
     }
     Promise.all(promises).then(() => {
@@ -291,7 +293,7 @@ class Review extends Component {
         ...this.state,
         submitting: false,
         review: {}
-       });
+      });
     });
   }
 
@@ -315,6 +317,7 @@ class Review extends Component {
     if (reviewDone && this.state.submitting) {
       return (<LinearProgress style={{ top: '12pt' }} />);
     }
+    console.log(this.props.location);
     if (!this.props.location.state) {
       return (<Redirect to="/"></Redirect>);
     }

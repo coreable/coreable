@@ -4,13 +4,22 @@ import {
   Route
 } from 'react-router-dom';
 
-const AuthService = {
-  isAuthenticated: false,
-  AUTH_TOKEN: localStorage.getItem("auth-token"),
-  loading: false,
-  async checkAuth(cb) {
-    this.loading = true;
+class PrivateRoute extends Component {
+  constructor(props) {
+    super(props);
+    const { component } = props;
+    this.state = {
+      loading: true,
+      authenticated: false,
+      Component: component,
+      redirect: '/',
+      user: {},
+      errors: [],
+      AUTH_TOKEN: localStorage.getItem("auth-token")
+    }
+  }
 
+  async componentDidMount() {
     const query = {
       query: `
         query {
@@ -37,7 +46,7 @@ const AuthService = {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'JWT': this.AUTH_TOKEN,
+        'JWT': this.state.AUTH_TOKEN,
       },
       body: JSON.stringify(query)
     };
@@ -46,59 +55,29 @@ const AuthService = {
     const user = res.data.me.data;
     const errors = res.data.me.errors;
 
-    if (!errors) {
-      this.authenticated = true;
-    }
-
-    this.loading = false;
-
-    return {
+    this.setState({
+      ...this.state,
       user,
-      errors
-    };
-  },
-  login(cb) {
-    this.isAuthenticated = true;
-  },
-  logout(cb) {
-    this.isAuthenticated = false
-    setTimeout(cb, 100) // fake async
-  },
-}
-
-class PrivateRoute extends Component {
-  constructor(props) {
-    super(props);
-    const { component } = props;
-    this.state = {
+      errors,
+      authenticated: !!user,
       loading: false,
-      authenticated: false,
-      Component: component,
-      redirect: '/'
-    }
+    });
   }
 
   render() {
     const { Component } = this.state;
     let props = this.props;
-    if (this.state.authenticated) {
+
+    if (this.state.loading) {
+      return null;
+    }
+    if (!this.state.loading && this.state.authenticated) {
       return (<Route render={(props) => <Component {...props} />} />);
     }
-    return (<Route render={(props) => <Redirect to={{ pathName: '/', state: { from: props.location } }} />} />);
+    if (!this.state.loading && !this.state.authenticated) {
+      return (<Route render={(props) => <Redirect to={{ pathname: '/', state: { from: props.location } }} />} />);
+    }
   }
 }
-
-// function PrivateRoute ({ component: Component, authed, ...rest }) {
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) => authed === true
-//         ? <Component {...props} />
-//         : <Redirect to={{pathname: '/', state: { from: props.location }}} />}
-//     />
-//   );
-// }
-
-// export default PrivateRoute;
 
 export default PrivateRoute;

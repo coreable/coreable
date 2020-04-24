@@ -42,7 +42,6 @@ const ThankYou = lazy(() => import('./components/Review/ThankYou/ThankYou'))
 class App extends Component {
   state = {
     sideDrawerOpen: false,
-    auth: true
   };
 
   drawerToggleClickHandler = () => {
@@ -82,9 +81,9 @@ class App extends Component {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Register} />
-            <PrivateRoute exact path="/setup" component={Setup} authed={this.state.auth}/>
-            <PrivateRoute exact path="/self-review" component={Review} authed={this.state.auth}/>
-            <PrivateRoute exact path="/thank-you" component={ThankYou} authed={this.state.auth}/>
+            <Route exact path="/setup" component={Setup} authed={this.state.auth}/>
+            <Route exact path="/self-review" component={Review} authed={this.state.auth}/>
+            <Route exact path="/thank-you" component={ThankYou} authed={this.state.auth}/>
           </Suspense>
         </div>
       </Router>
