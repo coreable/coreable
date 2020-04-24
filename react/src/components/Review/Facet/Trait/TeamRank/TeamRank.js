@@ -9,26 +9,30 @@ const TeamRank = (props) => {
     return null;
   }
 
-  return (
-    <Grid className="team-rank-container">
-      <label
-        className="team-rating"
-        style={{ width: `${val * 4}px` }}
-      ></label>
+  //need this if conditon to not show bar if doing self review
+  if (props.teamMemberCount === 1) {
+    return null;
+  } else {
+    return (
+      <Grid className="team-rank-container">
+        <label
+          className="team-rating"
+          style={{ width: `${val * 4}px` }}
+        ></label>
 
-      <Typography
-        variant="caption"
-        style={{
-          marginLeft: "5px",
-          paddingBottom: "5px",
-          marginTop: "2px",
-        }}
-      >
-        {user.firstName}
-      </Typography>
-    </Grid>
-  );
-
+        <Typography
+          variant="caption"
+          style={{
+            marginLeft: "5px",
+            paddingBottom: "5px",
+            marginTop: "2px",
+          }}
+        >
+          {user.firstName}
+        </Typography>
+      </Grid>
+    );
+  }
 };
 
 export default TeamRank;
