@@ -76,7 +76,7 @@ class Facet extends Component {
           spacing={2}
         >
           <Grid item style={{ marginTop: "16pt" }}>
-            <Typography variant="h4">{this.props.name}</Typography>
+            <Typography variant="h4">{this.state.name}</Typography>
             <Typography variant="subtitle1" style={{ paddingBottom: "24pt" }}>
               {this.props.desc}
             </Typography>

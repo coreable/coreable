@@ -24,6 +24,7 @@ class Trait extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: props.name,
       var: props.var,
       val: props.val,
       desc: props.desc,
@@ -215,7 +216,7 @@ class Trait extends Component {
           variant="h5"
           style={{ marginTop: "8pt", fontWeight: "bold" }}
         >
-          {this.state.var}
+          {this.state.name}
         </Typography>
         <Typography
           variant="subtitle2"
@@ -235,7 +236,7 @@ class Trait extends Component {
           id={this.state.var}
           name={this.state.var}
           // value={this.state.val}
-          value={this.state.val != 0 ? "0" : this.state.val}
+          value={this.state.val !== 0 ? "0" : this.state.val}
           disabled={!this.state.user._id}
           className="rating"
           onChange={this.handleSliderChange}
