@@ -12,7 +12,6 @@ Coreable source code.
 ===========================================================================
 */
 
-
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';

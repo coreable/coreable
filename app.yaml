@@ -13,4 +13,4 @@ env_variables:
   NODE_ENV: "production"
 
 beta_settings:
-  cloud_sql_instances: coreable:us-central1:coreable
+  cloud_sql_instances: coreable:us-central1:coreable  
