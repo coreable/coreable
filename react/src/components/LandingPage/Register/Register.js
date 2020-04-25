@@ -29,6 +29,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
+import global from "../../../global.module.scss";
 
 class Register extends Component {
   constructor() {
@@ -105,6 +106,21 @@ class Register extends Component {
     return hasError ? shouldShow : false;
   }
 
+  helperText(field) {
+    const hasError = this.errors()[field];
+    const shouldShow = this.state.touched[field];
+    if (hasError && shouldShow) {
+      if (field === "password" && this.state.password.length === 0) {
+        return "Invalid password";
+      }
+      if (field === "password") {
+        return `Password must be longer than 5 characters`;
+      } else {
+        return "Invalid email";
+      }
+    }
+  }
+
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
   _success = (data) => {
@@ -137,11 +153,11 @@ class Register extends Component {
     let { email, password, firstname, lastname } = this.state;
     return (
       <Container
-        maxWidth="xl"
-        style={{ height: "95.25vh" }}
+        maxWidth="100vh"
+        style={{ height: "100vh" }}
         className="sign-up-container"
       >
-        <Container maxWidth="md">
+        <Container maxWidth="sm">
           <Typography
             variant="h3"
             component="h1"
@@ -163,88 +179,75 @@ class Register extends Component {
           </Typography>
           <FormControl style={{ marginTop: "16pt" }}>
             <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
               label="First Name"
-              placeholder="Enter first name"
               fullWidth
               margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
               variant="outlined"
               name="firstname"
               error={this.shouldMarkError("firstname")}
               value={this.state.firstname}
               type="text"
-              required
               onChange={this.handleChange}
               onBlur={this.handleBlur("firstname")}
               style={{
                 marginTop: "8pt",
-                backgroundColor: this.getColour("firstname"),
+                // backgroundColor: this.getColour("firstname"),
               }}
             />
             <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
               label="Last Name"
-              placeholder="Enter last name"
               fullWidth
               margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
               variant="outlined"
               name="lastname"
               error={this.shouldMarkError("lastname")}
               value={this.state.lastname}
               type="text"
-              required
               onChange={this.handleChange}
               onBlur={this.handleBlur("lastname")}
               style={{
                 marginTop: "8pt",
-                backgroundColor: this.getColour("lastname"),
+                // backgroundColor: this.getColour("lastname"),
               }}
             />
             <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
               label="Email"
-              placeholder="Enter email"
               fullWidth
               margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
               variant="outlined"
               name="email"
               error={this.shouldMarkError("email")}
+              helperText={this.helperText("email")}
               value={this.state.email}
               type="email"
-              required
               onChange={this.handleChange}
               onBlur={this.handleBlur("email")}
               style={{
                 marginTop: "8pt",
-                backgroundColor: this.getColour("email"),
+                // backgroundColor: this.getColour("email"),
               }}
             />
             <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
               label="Password"
-              placeholder="Enter password"
               fullWidth
               margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
               variant="outlined"
               name="password"
               error={this.shouldMarkError("password")}
+              //testing code
+              helperText={this.helperText("password")}
               value={this.state.password}
               type="password"
-              required
               onChange={this.handleChange}
               onBlur={this.handleBlur("password")}
               style={{
                 marginTop: "8pt",
                 marginBottom: "8pt",
-                backgroundColor: this.getColour("password"),
+                // backgroundColor: this.getColour("password"),
               }}
             />
             <Mutation
@@ -256,21 +259,30 @@ class Register extends Component {
               {(mutation, { _, loading, __ }) => {
                 return (
                   <Button
-                    className="btn-sign-up"
+                    className={`${global.btn} ${global.primarybtn}`}
                     disabled={this.isDisabled() && !this.state.loading}
                     onClick={mutation}
+                    style={{ marginTop: "10px" }}
                   >
                     Sign up
                   </Button>
                 );
               }}
             </Mutation>
-            <Link
-              to="/forgot"
-              style={{ marginTop: "8pt", textDecoration: "none" }}
-            >
-              <Button color="primary">Forgot password</Button>
-            </Link>
+            <div style={{ marginTop: "15px" }}>
+              <Link
+                to="/forgot"
+                style={{
+                  marginTop: "8pt",
+                  textDecoration: "none",
+                  color: "lightgrey",
+                }}
+              >
+                <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                  Forgot password
+                </a>
+              </Link>
+            </div>
           </FormControl>
         </Container>
       </Container>

@@ -2,38 +2,52 @@
   justify-content: center;
   align-content: center;
   margin: 0 auto;
-  margin-top: 96px;
+  padding-top: 96px;
   text-align: center;
   color: white;
+  background-color: white;
 
   .MuiFormControl-root {
     width: 100%;
+    border-radius: 4pt;
+    .MuiOutlinedInput-root {
+      fieldset {
+        // border: none;
+      }
+    }
   }
 
-  .btn-sign-up {
-    margin-top: 8px;
-    width: 100%;
-    height: 48pt;
-    border-radius: 4pt;
-    border: none;
-    background-color: rgb(64, 112, 224);
-    color: white;
-    font-size: 16pt;
+  .MuiOutlinedInput-input {
+    font-size: 1.6rem;
     font-weight: bold;
-    &:hover {
-      cursor: pointer;
-      background-color: rgb(64, 112, 224);
-      color: white;
-      border: 1px solid rgb(64, 112, 224);
-    }
-    &:disabled {
-      background-color: lightgrey !important;
-      color: white !important;
-      cursor: not-allowed !important;
-      border: none !important;
-    }
-    &:focus {
-      outline: none;
-    }
   }
+
+  // MuiFormHelperText-contained Mui-error
+
+  // .btn-sign-up {
+  //   margin-top: 8px;
+  //   width: 100%;
+  //   height: 48pt;
+  //   border-radius: 4pt;
+  //   border: none;
+  //   background-color: rgb(64, 112, 224);
+  //   color: white;
+  //   font-size: 16pt;
+  //   font-weight: bold;
+  //   &:hover {
+  //     cursor: pointer;
+  //     background-color: rgb(64, 112, 224);
+  //     color: white;
+  //     border: 1px solid rgb(64, 112, 224);
+  //   }
+  //   &:disabled {
+  //     background-color: lightgrey !important;
+  //     color: white !important;
+  //     cursor: not-allowed !important;
+  //     border: none !important;
+  //   }
+  //   &:focus {
+  //     outline: none;
+  //   }
+  // }
 }

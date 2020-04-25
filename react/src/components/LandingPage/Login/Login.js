@@ -30,6 +30,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
+import global from "../../../global.module.scss";
 
 class Login extends Component {
   constructor() {
@@ -127,99 +128,126 @@ class Login extends Component {
     let { email, password } = this.state;
     return (
       <Container
-        maxWidth="xl"
-        style={{ height: "95.25vh" }}
-        className="login-container"
+        maxWidth="100vh"
+        style={{
+          background: "white",
+          height: "100vh",
+        }}
       >
-        <Container maxWidth="md">
-          <Typography
-            variant="h3"
-            component="h1"
-            style={{
-              fontWeight: "bold",
-              marginTop: "48pt",
-              textAlign: "left",
-              color: "#000",
-            }}
-          >
-            Welcome,
-          </Typography>
-          <Typography
-            variant="h3"
-            component="h1"
-            style={{ textAlign: "left", color: "#707070" }}
-          >
-            sign in to continue
-          </Typography>
-          <FormControl style={{ marginTop: "16pt" }}>
-            <TextField
-              label="Email"
-              placeholder="Enter email"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              name="email"
-              error={this.shouldMarkError("email")}
-              value={this.state.email}
-              type="email"
-              required
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("email")}
+        <Container
+          maxWidth="sm"
+          // style={{ height: "95.25vh" }}
+          className="login-container"
+        >
+          <Container maxWidth="md">
+            <Typography
+              variant="h3"
+              component="h1"
               style={{
-                marginTop: "8pt",
-                backgroundColor: this.getColour("email"),
+                fontWeight: "bold",
+                // marginTop: "48pt",
+                textAlign: "left",
+                color: "#000",
               }}
-            />
-            <TextField
-              label="Password"
-              placeholder="Enter password"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              name="password"
-              error={this.shouldMarkError("password")}
-              value={this.state.password}
-              type="password"
-              required
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("password")}
+            >
+              Welcome,
+            </Typography>
+            <Typography
+              variant="h3"
+              component="h1"
+              style={{ textAlign: "left", color: "#707070" }}
+            >
+              sign in to continue
+            </Typography>
+            <FormControl
               style={{
-                marginTop: "8pt",
-                marginBottom: "8pt",
-                backgroundColor: this.getColour("password"),
+                marginTop: "16pt",
+                autocomplete: "off",
               }}
-            />
-            <StylesProvider injectFirst>
-              <Mutation
-                mutation={LOGIN_MUTATION}
-                variables={{ email, password }}
-                onCompleted={(data) => this._success(data)}
-                onError={(err) => this._error(err)}
-              >
-                {(mutation) => (
-                  <Button
-                    className="btn-login"
-                    disabled={this.isDisabled()}
-                    onClick={mutation}
+            >
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Email"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="email"
+                error={this.shouldMarkError("email")}
+                value={this.state.email}
+                type="email"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("email")}
+                style={{
+                  marginTop: "8pt",
+                  backgroundColor: this.getColour("email"),
+                }}
+              />
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Password"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="password"
+                error={this.shouldMarkError("password")}
+                value={this.state.password}
+                type="password"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("password")}
+                style={{
+                  marginTop: "8pt",
+                  marginBottom: "8pt",
+                  backgroundColor: this.getColour("password"),
+                }}
+              />
+              <StylesProvider injectFirst>
+                <Mutation
+                  mutation={LOGIN_MUTATION}
+                  variables={{ email, password }}
+                  onCompleted={(data) => this._success(data)}
+                  onError={(err) => this._error(err)}
+                >
+                  {(mutation) => (
+                    <Button
+                      className={`${global.btn} ${global.primarybtn}`}
+                      disabled={this.isDisabled()}
+                      onClick={mutation}
+                      style={{ marginTop: "10px" }}
+                    >
+                      Login
+                    </Button>
+                  )}
+                </Mutation>
+                <div style={{ marginTop: "15px" }}>
+                  <Link
+                    to="/forgot"
+                    style={{
+                      marginTop: "8pt",
+                      textDecoration: "none",
+                      color: "lightgrey",
+                    }}
                   >
-                    Sign in
-                  </Button>
-                )}
-              </Mutation>
-              <Link
-                to="/forgot"
-                style={{ marginTop: "8pt", textDecoration: "none" }}
-              >
-                <Button color="primary">Forgot password</Button>
-              </Link>
-            </StylesProvider>
-          </FormControl>
+                    <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                      Forgot password
+                    </a>
+                  </Link>
+                  <span> |||||| </span>
+                  <Link
+                    to="/signup"
+                    style={{
+                      marginTop: "8pt",
+                      textDecoration: "none",
+                      color: "lightgrey",
+                    }}
+                  >
+                    <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                      Create account
+                    </a>{" "}
+                  </Link>
+                </div>
+              </StylesProvider>
+            </FormControl>
+          </Container>
         </Container>
       </Container>
     );
