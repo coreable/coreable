@@ -2,12 +2,24 @@
   justify-content: center;
   align-content: center;
   margin: 0 auto;
-  margin-top: 96px;
+  padding-top: 96px;
   text-align: center;
   color: white;
+  background-color: white;
 
   .MuiFormControl-root {
     width: 100%;
+    border-radius: 4pt;
+    .MuiOutlinedInput-root {
+      fieldset {
+        // border: none;
+      }
+    }
+  }
+
+  .MuiOutlinedInput-input {
+    font-size: 1.6rem;
+    font-weight: bold;
   }
 
   .btn-login {
