@@ -265,7 +265,10 @@ class Setup extends Component {
 
     return (
       <div>
-        <Navbar />
+        <Navbar
+          firstName={this.state.me.firstName}
+          lastName={this.state.me.lastName}
+        />
         <Container
           maxWidth="lg"
           style={{ height: "95.25vh", paddingTop: "90px" }}
