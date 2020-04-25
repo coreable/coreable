@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Navbar.css";
+import { JWT } from "../../constants";
 
 const Navbar = (props) => {
   const { firstName, lastName } = props;
@@ -19,22 +20,24 @@ const Navbar = (props) => {
           <a href="/">Home</a>
         </li>
         <li>
-          <a href="/">Review</a>
+          <a href="">Review</a>
         </li>
         <li>
-          <a href="/">Skills</a>
+          <a href="">Skills</a>
         </li>
         <li>
-          <a href="/">Goals</a>
+          <a href="">Goals</a>
         </li>
         <li>
-          <a href="/">Account details</a>
+          <a href="">Account details</a>
         </li>
         <li>
-          <a href="/">Change password</a>
+          <a href="">Change password</a>
         </li>
         <li>
-          <a href="/">Logout</a>
+          <a href="/" onClick={() => localStorage.removeItem(JWT)}>
+            Logout
+          </a>
         </li>
       </ul>
 
