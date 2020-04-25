@@ -114,7 +114,16 @@ class Setup extends Component {
       fetch("https://coreable.appspot.com/graphql", options).then(
         async (data) => {
           let me = await data.json();
-          me = me.data.me.data.user;
+          try {
+            me = me.data.me.data.user;
+          } catch (err) {
+            localStorage.removeItem(JWT);
+            this.setState({
+              ...this.state,
+              loggedIn: false
+            });
+            return false;
+          }
 
           let grouped = {};
           for (let team of me.teams) {
