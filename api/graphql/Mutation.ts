@@ -24,6 +24,7 @@ import LeaveTeamMutation from './mutations/LeaveTeam';
 import SubmitReviewMutation from './mutations/SubmitReview';
 import ChangeSubjectStateMutation from './mutations/ChangeSubjectState';
 import ChangePasswordMutation from './mutations/ChangePassword';
+import JoinIndustryMutaton from './mutations/JoinIndustry';
 
 export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Mutation',
@@ -36,7 +37,8 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
       'leaveTeam': LeaveTeamMutation,
       'submitReview': SubmitReviewMutation,
       'changeSubjectState': ChangeSubjectStateMutation,
-      'changePassword': ChangePasswordMutation
+      'changePassword': ChangePasswordMutation,
+      'joinIndustry': JoinIndustryMutaton
     }
   }
 });

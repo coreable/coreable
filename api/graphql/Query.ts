@@ -27,6 +27,7 @@ import MeQuery from './queries/Me';
 // import SubjectObjectQuery from './queries/object/Subject';
 // import SubjectListQuery from './queries/list/Subject';
 import APIObjectQuery from './queries/API';
+import IndustryListQuery from './queries/list/Industry';
 
 export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Query',
@@ -43,6 +44,7 @@ export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
       // 'subject': SubjectObjectQuery,
       // 'subjects': SubjectListQuery,
       'API': APIObjectQuery,
+      'industrys': IndustryListQuery
     }
   }
 });

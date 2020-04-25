@@ -80,7 +80,7 @@ class Trait extends Component {
     // Component has just loaded
     if (!this.state.user._id) {
       return {
-        background: "rgba(0, 0, 0, 0.12",
+        background: "rgba(0, 0, 0, 0.12)",
         color: "rgba(0, 0, 0, 0.26)",
       };
     }
@@ -97,7 +97,7 @@ class Trait extends Component {
 
     // Inactive user
     if (this.state.user._id !== user._id) {
-      styles.background = "rgba(0, 0, 0, 0.12";
+      styles.background = "rgba(0, 0, 0, 0.12)";
       styles.color = "rgba(0, 0, 0, 0.26)";
       try {
         if (

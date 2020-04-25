@@ -28,15 +28,18 @@ import { Industry } from "../../models/Industry";
 export default {
   type: UserObjectCommand,
   args: {
-    inviteCode: {
+    industry_id: {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    let targetTeam: any;
+    let targetIndustry: any;
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
+    }
+    if (context.USER.industry_id === args.industry_id) {
+      errors.push({ code: 'ER_USER_IN_INDUSTRY', path: 'JWT', message: `User is already in industry with _id ${args.industry_id}` })
     }
     if (!errors.length) {
       if (context.USER instanceof Manager) {
@@ -44,22 +47,14 @@ export default {
       }
     }
     if (!errors.length) {
-      targetTeam = await sequelize.models.Team.findOne({ where: { 'inviteCode': args.inviteCode } });
-      if (!targetTeam) {
-        errors.push({ code: 'ER_TEAM_UNKNOWN', message: `Unable to locate team with inviteCode ${args.inviteCode}`, path: 'inviteCode' });
-      }
-    }
-    if (!errors.length) {
-      for (const userTeam of context.USER.teams) {
-        if (userTeam._id === targetTeam._id) {
-          errors.push({ code: 'ER_USER_IN_TEAM', message: `User with _id ${context.USER._id} is already in team with _id ${targetTeam._id}`, path: '_id' });
-          break;
-        }
+      targetIndustry = await sequelize.models.Industry.findOne({ where: { '_id': args.industry_id } });
+      if (!targetIndustry) {
+        errors.push({ code: 'ER_INDUSTRY_UNKNOWN', message: `Unable to locate industry with _id ${args.industry_id}`, path: 'industry_id' });
       }
     }
     if (!errors.length) {
       try {
-        await context.USER.addTeam(targetTeam);
+        await context.USER.setIndustry(targetIndustry);
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
       }

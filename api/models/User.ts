@@ -31,6 +31,7 @@ class User extends Model {
   public password!: string;
   public passwordResetToken!: string;
   public passwordResetExpiry!: Date
+  public industry_id!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
