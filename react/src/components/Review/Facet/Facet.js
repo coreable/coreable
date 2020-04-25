@@ -88,6 +88,7 @@ class Facet extends Component {
                 <Trait
                   {...trait}
                   name={this.state.name}
+                  traitName={this.state.traits.name}
                   pending={this.props.pending}
                 ></Trait>
               </Grid>

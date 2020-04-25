@@ -30,7 +30,10 @@ class Trait extends Component {
       desc: props.desc,
       user: {},
       team: props.pending,
+      traitName: props.traitName,
     };
+
+    console.log(this.state.val);
   }
 
   componentDidUpdate() {
@@ -195,7 +198,9 @@ class Trait extends Component {
     try {
       val = review[team_id][user_id][trait].val;
     } catch (err) {
-      val = -1;
+      //Note: why -1?
+      // val = -1;
+      val = 0;
     }
 
     return {
@@ -206,21 +211,26 @@ class Trait extends Component {
 
   countTeam = () => {
     const teamMemberCount = this.props.pending.pending.length;
+    // console.log(teamMemberCount);
     return teamMemberCount;
   };
 
   render() {
     return (
-      <Card className="trait-card" variant="outlined">
-        <Typography
-          variant="h5"
+      <Card
+        className="trait-card"
+        variant="outlined"
+        style={{ border: "none" }}
+      >
+        {/* <Typography
+          variant="h3"
           style={{ marginTop: "8pt", fontWeight: "bold" }}
         >
-          {this.state.name}
-        </Typography>
+          {this.state.traitName}
+        </Typography> */}
         <Typography
-          variant="subtitle2"
-          style={{ marginTop: "8pt", marginBottom: "16pt" }}
+          variant="h6"
+          style={{ marginTop: "8pt", marginBottom: "16pt", fontWeight: "bold" }}
         >
           {this.state.desc}
         </Typography>
@@ -248,7 +258,7 @@ class Trait extends Component {
         />
 
         <CardActions
-          style={{ flexWrap: "wrap", justifyContent: "space-around" }}
+          style={{ flexWrap: "wrap", justifyContent: "space-between" }}
         >
           {this.props.pending.pending.map((user, index) => {
             return (

@@ -5,7 +5,7 @@
   height: 48pt;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 100;
 
   .toolbar-nav {
     display: flex;
@@ -52,5 +52,11 @@
 
   .toolbar-nav-items {
     display: none;
+  }
+}
+
+@media (max-width: 499px) {
+  .toolbar-nav {
+    width: 40%;
   }
 }
