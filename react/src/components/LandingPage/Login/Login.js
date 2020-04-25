@@ -214,7 +214,7 @@ class Login extends Component {
                       onClick={mutation}
                       style={{ marginTop: "10px" }}
                     >
-                      Sign in
+                      Login
                     </Button>
                   )}
                 </Mutation>
