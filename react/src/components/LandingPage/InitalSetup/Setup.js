@@ -12,12 +12,16 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
-import { Mutation } from 'react-apollo'
-import { JWT } from '../../../constants';
-import { JOIN_TEAM } from '../../../apollo/mutations'
-import './Setup.scss';
+import React, { Component } from "react";
+import { Redirect, Link } from "react-router-dom";
+import { Mutation } from "react-apollo";
+import { JWT } from "../../../constants";
+import { JOIN_TEAM } from "../../../apollo/mutations";
+import "./Setup.scss";
+
+import Backdrop from "../../Backdrop/Backdrop";
+import SideDrawer from "../../Sidedrawer/SideDrawerV2";
+import { Toolbar } from "../../Toolbar/Toolbar";
 
 import {
   Typography,
@@ -31,8 +35,8 @@ import {
   Stepper,
   Step,
   StepLabel,
-  LinearProgress
-} from '@material-ui/core';
+  LinearProgress,
+} from "@material-ui/core";
 
 class Setup extends Component {
   constructor() {
@@ -42,13 +46,14 @@ class Setup extends Component {
     const AUTH_TOKEN = localStorage.getItem(JWT);
 
     this.state = {
+      sideDrawerOpen: false,
       inviteCode: "",
       isLoading: true,
       loggedIn: !!AUTH_TOKEN,
       me: {
-        teams: []
+        teams: [],
       },
-      steps: ['Self Review', 'Team Review', 'Final Review']
+      steps: ["Self Review", "Team Review", "Final Review"],
     };
 
     if (this.state.loggedIn) {
@@ -93,59 +98,71 @@ class Setup extends Component {
               }
             }
           }
-        `
+        `,
       };
 
       const options = {
-        method: 'POST',
-        mode: 'cors',
+        method: "POST",
+        mode: "cors",
         headers: {
-          'Content-Type': 'application/json',
-          'JWT': AUTH_TOKEN,
+          "Content-Type": "application/json",
+          JWT: AUTH_TOKEN,
         },
-        body: JSON.stringify(query)
+        body: JSON.stringify(query),
       };
 
-      fetch('https://coreable.appspot.com/graphql', options).then(async (data) => {
-        let me = await data.json();
-        me = me.data.me.data.user;
+      fetch("https://coreable.appspot.com/graphql", options).then(
+        async (data) => {
+          let me = await data.json();
+          me = me.data.me.data.user;
 
-        let grouped = {};
-        for (let team of me.teams) {
-          grouped[team._id] = team;
-          grouped[team._id].pending = [];
-        }
-        for (const pending of me.pending) {
-          for (const team of pending.teams) {
-            if (grouped[team._id]) {
-              grouped[team._id].pending.push(pending);
+          let grouped = {};
+          for (let team of me.teams) {
+            grouped[team._id] = team;
+            grouped[team._id].pending = [];
+          }
+          for (const pending of me.pending) {
+            for (const team of pending.teams) {
+              if (grouped[team._id]) {
+                grouped[team._id].pending.push(pending);
+              }
             }
           }
+
+          me.teams.push("jointeam");
+          me.grouped = grouped;
+
+          this.setState({
+            ...this.state,
+            isLoading: false,
+            me,
+          });
         }
-
-        me.teams.push('jointeam');
-        me.grouped = grouped;
-
-        this.setState({
-          ...this.state,
-          isLoading: false,
-          me
-        });
-      });
+      );
     }
   }
 
-  getIsValidInviteCode = inviteCode => {
+  drawerToggleClickHandler = () => {
+    this.setState((prevState) => {
+      return { sideDrawerOpen: !prevState.sideDrawerOpen };
+    });
+  };
+
+  backdropClickHandler = () => {
+    this.setState({ sideDrawerOpen: false });
+  };
+
+  getIsValidInviteCode = (inviteCode) => {
     return {
-      inviteCode: inviteCode.length <= 0
+      inviteCode: inviteCode.length <= 0,
     };
-  }
+  };
 
   handleChange = (evt) => {
     this.setState({ inviteCode: evt.target.value });
   };
 
-  handleSubmit = evt => {
+  handleSubmit = (evt) => {
     if (!this.canBeSubmitted()) {
       evt.preventDefault();
       return false;
@@ -156,22 +173,22 @@ class Setup extends Component {
     return !this.isDisabled();
   }
 
-  handleBlur = (field) => {
-
-  }
+  handleBlur = (field) => {};
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
   };
 
-  isDisabled = () => Object.keys(this.errors()).some(x => this.errors()[x]);
+  isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
   getReviewButtonState(team_id) {
     if (this.state.isLoading) {
       return false;
     }
     if (this.state.me.grouped[team_id].subject.state === 1) {
-      return !this.state.me.pending.some((user) => user._id === this.state.me._id);
+      return !this.state.me.pending.some(
+        (user) => user._id === this.state.me._id
+      );
     }
     return this.state.me.grouped[team_id].pending.lenth === 0;
   }
@@ -182,9 +199,9 @@ class Setup extends Component {
     }
     const isDisabled = this.getReviewButtonState(team_id);
     if (isDisabled) {
-      return 'rgba(0, 0, 0, 0.26)';
+      return "rgba(0, 0, 0, 0.26)";
     }
-    return '#ffffff';
+    return "#ffffff";
   }
 
   getPendingUser(team_id) {
@@ -195,33 +212,64 @@ class Setup extends Component {
         _id: this.state.me.grouped[team_id]._id,
         name: this.state.me.grouped[team_id].name,
         subject: this.state.me.grouped[team_id].subject,
-        pending: [!isDisabled ? this.state.me.pending.find((user) => user._id === this.state.me._id) : null]
-      }
+        pending: [
+          !isDisabled
+            ? this.state.me.pending.find(
+                (user) => user._id === this.state.me._id
+              )
+            : null,
+        ],
+      };
     }
     if (this.state.me.grouped[team_id].subject.state !== 1) {
       data = {
         _id: this.state.me.grouped[team_id]._id,
         name: this.state.me.grouped[team_id].name,
         subject: this.state.me.grouped[team_id].subject,
-        pending: !isDisabled ? this.state.me.pending.filter((user) => user._id !== this.state.me._id) : null
-      }
+        pending: !isDisabled
+          ? this.state.me.pending.filter(
+              (user) => user._id !== this.state.me._id
+            )
+          : null,
+      };
     }
     return data;
   }
 
   render() {
+    let backDrop;
+
+    if (this.state.sideDrawerOpen) {
+      backDrop = <Backdrop click={this.backdropClickHandler} />;
+    }
+
     if (!this.state.loggedIn) {
-      return (<Redirect to="/"></Redirect>);
+      return <Redirect to="/"></Redirect>;
     }
 
     const { inviteCode } = this.state;
 
     if (this.state.isLoading) {
-      return (<LinearProgress style={{ top: '12pt' }}></LinearProgress>);
+      return <LinearProgress style={{ top: "12pt" }}></LinearProgress>;
     }
 
     return (
-      <Container maxWidth="lg" style={{ height: '95.25vh' }} className="setup-container">
+      <Container
+        maxWidth="lg"
+        style={{ height: "95.25vh" }}
+        className="setup-container"
+      >
+        <div className="navBar">
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+          <main style={{ marginTop: "48px" }}>
+            <SideDrawer
+              show={this.state.sideDrawerOpen}
+              click={this.backdropClickHandler}
+            />
+            {backDrop}
+          </main>
+        </div>
+
         <Grid
           container
           direction="row"
@@ -229,56 +277,97 @@ class Setup extends Component {
           alignItems="stretch"
           spacing={2}
         >
-          {
-            this.state.me.teams.map((team, index) => {
-              if (team !== 'jointeam') {
-                return (<Grid item xs={12} md={6} lg={4} key={index}>
+          {this.state.me.teams.map((team, index) => {
+            if (team !== "jointeam") {
+              return (
+                <Grid item xs={12} md={6} lg={4} key={index}>
                   <Card variant="outlined">
                     <CardContent>
-                      <Grid item container
+                      <Grid
+                        item
+                        container
                         direction="row"
                         justify="center"
-                        alignItems="stretch">
+                        alignItems="stretch"
+                      >
                         <Typography variant="h4" component="h2">
                           {team.name}
                         </Typography>
                       </Grid>
-                      <Stepper activeStep={team.subject.state - 1} alternativeLabel>
+                      <Stepper
+                        activeStep={team.subject.state - 1}
+                        alternativeLabel
+                      >
                         {this.state.steps.map((label, index) => {
-                          const isDisabled = this.getReviewButtonState(team._id);
+                          const isDisabled = this.getReviewButtonState(
+                            team._id
+                          );
                           let props = {};
                           if (isDisabled && index === 0) {
-                            props.optional = <Typography variant="caption" style={{ display: 'flex', justify: 'center', justifyContent: 'center', alignItems: 'center' }}>Completed</Typography>;
+                            props.optional = (
+                              <Typography
+                                variant="caption"
+                                style={{
+                                  display: "flex",
+                                  justify: "center",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                Completed
+                              </Typography>
+                            );
                           }
                           return (
                             <Step key={label}>
                               <StepLabel {...props}>{label}</StepLabel>
-                            </Step>);
+                            </Step>
+                          );
                         })}
                       </Stepper>
                     </CardContent>
                     <CardActions>
                       <Grid container justify="center">
-                        <Button className="start-review" variant="contained" color="primary" disabled={this.getReviewButtonState(team._id)} disableElevation>
-                          <Link to={{ pathname: '/self-review', state: { team_id: team._id, pending: this.getPendingUser(team._id) } }} style={
-                            {
-                              textDecoration: 'none',
-                              color: this.getReviewButtonTextColor(team._id)
-                            }
-                          }>Start Review</Link>
+                        <Button
+                          className="start-review"
+                          variant="contained"
+                          color="primary"
+                          disabled={this.getReviewButtonState(team._id)}
+                          disableElevation
+                        >
+                          <Link
+                            to={{
+                              pathname: "/self-review",
+                              state: {
+                                team_id: team._id,
+                                pending: this.getPendingUser(team._id),
+                              },
+                            }}
+                            style={{
+                              textDecoration: "none",
+                              color: this.getReviewButtonTextColor(team._id),
+                            }}
+                          >
+                            Start Review
+                          </Link>
                         </Button>
                       </Grid>
                     </CardActions>
                   </Card>
-                </Grid>);
-              } else if (team === 'jointeam') {
-                return (<Grid item xs={12} md={6} lg={4} key={index}>
+                </Grid>
+              );
+            } else if (team === "jointeam") {
+              return (
+                <Grid item xs={12} md={6} lg={4} key={index}>
                   <Card variant="outlined">
                     <CardContent>
-                      <Grid item container
+                      <Grid
+                        item
+                        container
                         direction="row"
                         justify="center"
-                        alignItems="stretch">
+                        alignItems="stretch"
+                      >
                         <Typography variant="h4" component="h2">
                           Join a team
                         </Typography>
@@ -299,21 +388,27 @@ class Setup extends Component {
                           required
                           onChange={this.handleChange}
                           onBlur={this.handleBlur("inviteCode")}
-                          style={{ marginTop: '8pt' }}
+                          style={{ marginTop: "8pt" }}
                         />
                       </Grid>
                       <CardActions>
                         <Mutation
                           mutation={JOIN_TEAM}
                           variables={{ inviteCode }}
-                          onCompleted={data => this._success(data)}
+                          onCompleted={(data) => this._success(data)}
                         >
                           {(mutation) => (
                             <Grid container justify="center">
-                              <Button variant="contained" color="primary" disableElevation disabled={this.isDisabled()} onClick={async () => {
-                                this.setState({ isLoading: true });
-                                return await mutation();
-                              }}>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                disableElevation
+                                disabled={this.isDisabled()}
+                                onClick={async () => {
+                                  this.setState({ isLoading: true });
+                                  return await mutation();
+                                }}
+                              >
                                 Join Team
                               </Button>
                             </Grid>
@@ -322,12 +417,12 @@ class Setup extends Component {
                       </CardActions>
                     </CardContent>
                   </Card>
-                </Grid>);
-              } else {
-                return (<Redirect to="/"></Redirect>);
-              }
-            })
-          }
+                </Grid>
+              );
+            } else {
+              return <Redirect to="/"></Redirect>;
+            }
+          })}
         </Grid>
       </Container>
     );
@@ -336,20 +431,19 @@ class Setup extends Component {
   _success = async (data) => {
     try {
       const me = data.joinTeam.data.user;
-      me.teams.push('jointeam');
+      me.teams.push("jointeam");
       this.setState({
         ...this.state,
-        me
+        me,
       });
     } catch (err) {
       alert(data.joinTeam.errors[0].message);
     }
     this.setState({
       ...this.state,
-      isLoading: false
+      isLoading: false,
     });
-  }
-
+  };
 }
 
 export default Setup;

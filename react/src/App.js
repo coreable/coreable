@@ -12,32 +12,25 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, {
-  Component,
-  lazy,
-  Suspense
-} from 'react';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom';
-import {
-  LinearProgress
-} from '@material-ui/core';
+import React, { Component, lazy, Suspense } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { LinearProgress } from "@material-ui/core";
 
-import Backdrop from './components/Backdrop/Backdrop';
-import SideDrawer from './components/Sidedrawer/Sidedrawer';
-import { Toolbar } from './components/Toolbar/Toolbar.js';
-import PrivateRoute from './PrivateRoute';
+import Backdrop from "./components/Backdrop/Backdrop";
+import SideDrawer from "./components/Sidedrawer/Sidedrawer";
+import { Toolbar } from "./components/Toolbar/Toolbar.js";
+import PrivateRoute from "./PrivateRoute";
 
-import './App.scss';
+import "./App.scss";
 
-const Login = lazy(() => import('./components/LandingPage/Login/Login'));
-const LandingPage = lazy(() => import('./components/LandingPage/LandingPage'));
-const Register = lazy(() => import('./components/LandingPage/Register/Register'));
-const Setup = lazy(() => import('./components/LandingPage/InitalSetup/Setup'));
-const Review = lazy(() => import('./components/Review/Review'));
-const ThankYou = lazy(() => import('./components/Review/ThankYou/ThankYou'))
+const Login = lazy(() => import("./components/LandingPage/Login/Login"));
+const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
+const Register = lazy(() =>
+  import("./components/LandingPage/Register/Register")
+);
+const Setup = lazy(() => import("./components/LandingPage/InitalSetup/Setup"));
+const Review = lazy(() => import("./components/Review/Review"));
+const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
 
 class App extends Component {
   state = {
@@ -51,39 +44,54 @@ class App extends Component {
   };
 
   backdropClickHandler = () => {
-    this.setState({ sideDrawerOpen: false })
+    this.setState({ sideDrawerOpen: false });
   };
-
-
 
   render() {
     let backDrop;
 
     if (this.state.sideDrawerOpen) {
-      backDrop = <Backdrop click={this.backdropClickHandler} />
+      backDrop = <Backdrop click={this.backdropClickHandler} />;
     }
 
     return (
       <Router>
-        <div className="App" style={{ height: '100%' }}>
-          <div className="navBar">
+        <div className="App" style={{ height: "100%" }}>
+          {/* TODO: move the navbar out */}
+          {/* <div className="navBar">
             <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-            <main style={{ marginTop: '48px' }}>
+            <main style={{ marginTop: "48px" }}>
               <SideDrawer
                 show={this.state.sideDrawerOpen}
                 click={this.backdropClickHandler}
               />
               {backDrop}
             </main>
-          </div>
+          </div> */}
+          {/* TODO :move the navbar out */}
 
-          <Suspense fallback={<LinearProgress style={{ top: '16px' }}/>}>
+          <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Register} />
-            <Route exact path="/setup" component={Setup} authed={this.state.auth}/>
-            <Route exact path="/self-review" component={Review} authed={this.state.auth}/>
-            <Route exact path="/thank-you" component={ThankYou} authed={this.state.auth}/>
+            <Route
+              exact
+              path="/home"
+              component={Setup}
+              authed={this.state.auth}
+            />
+            <Route
+              exact
+              path="/self-review"
+              component={Review}
+              authed={this.state.auth}
+            />
+            <Route
+              exact
+              path="/thank-you"
+              component={ThankYou}
+              authed={this.state.auth}
+            />
           </Suspense>
         </div>
       </Router>
