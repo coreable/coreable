@@ -41,6 +41,7 @@ class Login extends Component {
       password: "",
       loggedIn: false,
       loading: false,
+      showAlert: false,
 
       touched: {
         email: false,
@@ -106,7 +107,8 @@ class Login extends Component {
       this._saveUserData({ token, firstName, _id });
       this.props.history.push(`/setup`);
     } catch {
-      alert("Invalid login");
+      // this.setState({ showAlert: true });
+      alert("Email or password does not match our system");
     }
   };
 
@@ -119,6 +121,12 @@ class Login extends Component {
     localStorage.setItem(USER_NAME, firstName);
     localStorage.setItem(USERID, _id);
   };
+
+  // alert = () => {
+  //   if (this.state.showAlert) {
+  //     return <div>Email or password does not match our system</div>;
+  //   }
+  // };
 
   render() {
     if (this.state.loggedIn) {
@@ -134,6 +142,9 @@ class Login extends Component {
           height: "100vh",
         }}
       >
+        {/* ADD ALERT DIV HERE */}
+        {/* {this.alert()} */}
+
         <Container
           maxWidth="sm"
           // style={{ height: "95.25vh" }}
@@ -179,7 +190,7 @@ class Login extends Component {
                 onBlur={this.handleBlur("email")}
                 style={{
                   marginTop: "8pt",
-                  backgroundColor: this.getColour("email"),
+                  // backgroundColor: this.getColour("email"),
                 }}
               />
               <TextField
@@ -197,7 +208,7 @@ class Login extends Component {
                 style={{
                   marginTop: "8pt",
                   marginBottom: "8pt",
-                  backgroundColor: this.getColour("password"),
+                  // backgroundColor: this.getColour("password"),
                 }}
               />
               <StylesProvider injectFirst>
