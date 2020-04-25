@@ -127,8 +127,8 @@ class Login extends Component {
     let { email, password } = this.state;
     return (
       <Container
-        maxWidth="xl"
-        style={{ height: "95.25vh" }}
+        maxWidth="sm"
+        // style={{ height: "95.25vh" }}
         className="login-container"
       >
         <Container maxWidth="md">

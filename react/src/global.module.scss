@@ -1,0 +1,76 @@
+//Coreable Container
+.container {
+  padding-top: 16px;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+
+  @media (max-width: 776px) {
+    .container {
+      padding-top: 64px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      padding-top: 64px;
+    }
+  }
+}
+
+//Coreable Branded Button
+.btn {
+  width: 30%;
+  max-width: 30%;
+  height: 48pt;
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-transform: none;
+}
+
+@media (min-width: 776px) {
+  .btn {
+    width: 40%;
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .btn {
+    width: 60%;
+    max-width: 60%;
+  }
+}
+
+.primarybtn {
+  background-color: rgb(64, 112, 224);
+  color: white;
+  font-weight: bold;
+  &:hover {
+    background-color: white;
+    border: none;
+    color: rgb(64, 112, 224);
+  }
+}
+
+.transparentbtn {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  font-weight: bold;
+  &:hover {
+    color: white;
+    background-color: rgb(64, 112, 224);
+    border: none;
+  }
+}
+
+a {
+  text-decoration: none;
+}
