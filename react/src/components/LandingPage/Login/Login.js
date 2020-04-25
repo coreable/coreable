@@ -212,19 +212,39 @@ class Login extends Component {
                       className={`${global.btn} ${global.primarybtn}`}
                       disabled={this.isDisabled()}
                       onClick={mutation}
+                      style={{ marginTop: "10px" }}
                     >
                       Sign in
                     </Button>
                   )}
                 </Mutation>
-                <Link
-                  to="/forgot"
-                  style={{ marginTop: "8pt", textDecoration: "none" }}
-                >
-                  <a style={{ color: "lightgrey", textDecoration: "none" }}>
-                    Forgot password
-                  </a>
-                </Link>
+                <div style={{ marginTop: "15px" }}>
+                  <Link
+                    to="/forgot"
+                    style={{
+                      marginTop: "8pt",
+                      textDecoration: "none",
+                      color: "lightgrey",
+                    }}
+                  >
+                    <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                      Forgot password
+                    </a>
+                  </Link>
+                  <span> |||||| </span>
+                  <Link
+                    to="/signup"
+                    style={{
+                      marginTop: "8pt",
+                      textDecoration: "none",
+                      color: "lightgrey",
+                    }}
+                  >
+                    <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                      Create account
+                    </a>{" "}
+                  </Link>
+                </div>
               </StylesProvider>
             </FormControl>
           </Container>
