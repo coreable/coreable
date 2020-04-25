@@ -19,6 +19,7 @@ import { JWT } from "../../../constants";
 import { JOIN_TEAM } from "../../../apollo/mutations";
 import "./Setup.scss";
 
+import Navbar from "../../Navbar/Navbar";
 import Backdrop from "../../Backdrop/Backdrop";
 import SideDrawer from "../../Sidedrawer/SideDrawerV2";
 import { Toolbar } from "../../Toolbar/Toolbar";
@@ -120,7 +121,7 @@ class Setup extends Component {
             localStorage.removeItem(JWT);
             this.setState({
               ...this.state,
-              loggedIn: false
+              loggedIn: false,
             });
             return false;
           }
@@ -263,12 +264,14 @@ class Setup extends Component {
     }
 
     return (
-      <Container
-        maxWidth="lg"
-        style={{ height: "95.25vh" }}
-        className="setup-container"
-      >
-        <div className="navBar">
+      <div>
+        <Navbar />
+        <Container
+          maxWidth="lg"
+          style={{ height: "95.25vh", paddingTop: "90px" }}
+          className="setup-container"
+        >
+          {/* <div className="navBar">
           <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
           <main style={{ marginTop: "48px" }}>
             <SideDrawer
@@ -277,163 +280,164 @@ class Setup extends Component {
             />
             {backDrop}
           </main>
-        </div>
+        </div> */}
 
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="stretch"
-          spacing={2}
-        >
-          {this.state.me.teams.map((team, index) => {
-            if (team !== "jointeam") {
-              return (
-                <Grid item xs={12} md={6} lg={4} key={index}>
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Grid
-                        item
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="stretch"
-                      >
-                        <Typography variant="h4" component="h2">
-                          {team.name}
-                        </Typography>
-                      </Grid>
-                      <Stepper
-                        activeStep={team.subject.state - 1}
-                        alternativeLabel
-                      >
-                        {this.state.steps.map((label, index) => {
-                          const isDisabled = this.getReviewButtonState(
-                            team._id
-                          );
-                          let props = {};
-                          if (isDisabled && index === 0) {
-                            props.optional = (
-                              <Typography
-                                variant="caption"
-                                style={{
-                                  display: "flex",
-                                  justify: "center",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                Completed
-                              </Typography>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="stretch"
+            spacing={2}
+          >
+            {this.state.me.teams.map((team, index) => {
+              if (team !== "jointeam") {
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={index}>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <Grid
+                          item
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="stretch"
+                        >
+                          <Typography variant="h4" component="h2">
+                            {team.name}
+                          </Typography>
+                        </Grid>
+                        <Stepper
+                          activeStep={team.subject.state - 1}
+                          alternativeLabel
+                        >
+                          {this.state.steps.map((label, index) => {
+                            const isDisabled = this.getReviewButtonState(
+                              team._id
                             );
-                          }
-                          return (
-                            <Step key={label}>
-                              <StepLabel {...props}>{label}</StepLabel>
-                            </Step>
-                          );
-                        })}
-                      </Stepper>
-                    </CardContent>
-                    <CardActions>
-                      <Grid container justify="center">
-                        <Button
-                          className="start-review"
-                          variant="contained"
-                          color="primary"
-                          disabled={this.getReviewButtonState(team._id)}
-                          disableElevation
-                        >
-                          <Link
-                            to={{
-                              pathname: "/self-review",
-                              state: {
-                                team_id: team._id,
-                                pending: this.getPendingUser(team._id),
-                              },
-                            }}
-                            style={{
-                              textDecoration: "none",
-                              color: this.getReviewButtonTextColor(team._id),
-                            }}
-                          >
-                            Start Review
-                          </Link>
-                        </Button>
-                      </Grid>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            } else if (team === "jointeam") {
-              return (
-                <Grid item xs={12} md={6} lg={4} key={index}>
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Grid
-                        item
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="stretch"
-                      >
-                        <Typography variant="h4" component="h2">
-                          Join a team
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <TextField
-                          label="Team Code"
-                          placeholder="eg: GHDK0402"
-                          fullWidth
-                          margin="normal"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                          name="inviteCode"
-                          value={this.state.inviteCode}
-                          type="text"
-                          required
-                          onChange={this.handleChange}
-                          onBlur={this.handleBlur("inviteCode")}
-                          style={{ marginTop: "8pt" }}
-                        />
-                      </Grid>
+                            let props = {};
+                            if (isDisabled && index === 0) {
+                              props.optional = (
+                                <Typography
+                                  variant="caption"
+                                  style={{
+                                    display: "flex",
+                                    justify: "center",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  Completed
+                                </Typography>
+                              );
+                            }
+                            return (
+                              <Step key={label}>
+                                <StepLabel {...props}>{label}</StepLabel>
+                              </Step>
+                            );
+                          })}
+                        </Stepper>
+                      </CardContent>
                       <CardActions>
-                        <Mutation
-                          mutation={JOIN_TEAM}
-                          variables={{ inviteCode }}
-                          onCompleted={(data) => this._success(data)}
-                        >
-                          {(mutation) => (
-                            <Grid container justify="center">
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                disableElevation
-                                disabled={this.isDisabled()}
-                                onClick={async () => {
-                                  this.setState({ isLoading: true });
-                                  return await mutation();
-                                }}
-                              >
-                                Join Team
-                              </Button>
-                            </Grid>
-                          )}
-                        </Mutation>
+                        <Grid container justify="center">
+                          <Button
+                            className="start-review"
+                            variant="contained"
+                            color="primary"
+                            disabled={this.getReviewButtonState(team._id)}
+                            disableElevation
+                          >
+                            <Link
+                              to={{
+                                pathname: "/self-review",
+                                state: {
+                                  team_id: team._id,
+                                  pending: this.getPendingUser(team._id),
+                                },
+                              }}
+                              style={{
+                                textDecoration: "none",
+                                color: this.getReviewButtonTextColor(team._id),
+                              }}
+                            >
+                              Start Review
+                            </Link>
+                          </Button>
+                        </Grid>
                       </CardActions>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              );
-            } else {
-              return <Redirect to="/"></Redirect>;
-            }
-          })}
-        </Grid>
-      </Container>
+                    </Card>
+                  </Grid>
+                );
+              } else if (team === "jointeam") {
+                return (
+                  <Grid item xs={12} md={6} lg={4} key={index}>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <Grid
+                          item
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="stretch"
+                        >
+                          <Typography variant="h4" component="h2">
+                            Join a team
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <TextField
+                            label="Team Code"
+                            placeholder="eg: GHDK0402"
+                            fullWidth
+                            margin="normal"
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            variant="outlined"
+                            name="inviteCode"
+                            value={this.state.inviteCode}
+                            type="text"
+                            required
+                            onChange={this.handleChange}
+                            onBlur={this.handleBlur("inviteCode")}
+                            style={{ marginTop: "8pt" }}
+                          />
+                        </Grid>
+                        <CardActions>
+                          <Mutation
+                            mutation={JOIN_TEAM}
+                            variables={{ inviteCode }}
+                            onCompleted={(data) => this._success(data)}
+                          >
+                            {(mutation) => (
+                              <Grid container justify="center">
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  disableElevation
+                                  disabled={this.isDisabled()}
+                                  onClick={async () => {
+                                    this.setState({ isLoading: true });
+                                    return await mutation();
+                                  }}
+                                >
+                                  Join Team
+                                </Button>
+                              </Grid>
+                            )}
+                          </Mutation>
+                        </CardActions>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              } else {
+                return <Redirect to="/"></Redirect>;
+              }
+            })}
+          </Grid>
+        </Container>
+      </div>
     );
   }
 
