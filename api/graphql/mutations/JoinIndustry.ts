@@ -38,8 +38,10 @@ export default {
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
     }
-    if (context.USER.industry_id === args.industry_id) {
-      errors.push({ code: 'ER_USER_IN_INDUSTRY', path: 'JWT', message: `User is already in industry with _id ${args.industry_id}` })
+    if (!errors.length) {
+      if (context.USER.industry_id === args.industry_id) {
+        errors.push({ code: 'ER_USER_IN_INDUSTRY', path: 'JWT', message: `User is already in industry with _id ${args.industry_id}` })
+      }
     }
     if (!errors.length) {
       if (context.USER instanceof Manager) {
