@@ -24,6 +24,8 @@ import Backdrop from "../../Backdrop/Backdrop";
 import SideDrawer from "../../Sidedrawer/SideDrawerV2";
 import { Toolbar } from "../../Toolbar/Toolbar";
 
+import UseOutsideClicker from "../../Hooks/OutsideClick";
+
 import {
   Typography,
   Container,
@@ -268,7 +270,10 @@ class Setup extends Component {
         <Navbar
           firstName={this.state.me.firstName}
           lastName={this.state.me.lastName}
+          show={this.state.sideDrawerOpen}
+          click={this.backdropClickHandler}
         />
+        {backDrop}
         <Container
           maxWidth="lg"
           style={{ height: "95.25vh", paddingTop: "90px" }}

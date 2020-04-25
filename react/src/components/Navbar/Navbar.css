@@ -136,12 +136,16 @@ a {
 }
 
 @media (min-width: 800px) {
+  .active {
+    border-bottom: 4px solid rgb(45, 215, 117);
+  }
+
   .navBar {
-    height: 70px;
+    height: 72px;
   }
 
   .navBar .logo {
-    padding: 23px 35px;
+    padding: 23px 53px;
   }
 
   .second-menu {
@@ -209,7 +213,7 @@ a {
   }
 
   .navBar .menu2-icon .nav2-icon:hover {
-    border-bottom: 2px solid rgb(45, 215, 117);
+    border-bottom: 4px solid rgb(45, 215, 117);
   }
 
   .navBar .menu2-btn {
