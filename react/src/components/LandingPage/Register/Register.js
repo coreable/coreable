@@ -163,7 +163,7 @@ class Register extends Component {
             component="h1"
             style={{
               fontWeight: "bold",
-              marginTop: "48pt",
+              // marginTop: "48pt",
               textAlign: "left",
               color: "#000",
             }}

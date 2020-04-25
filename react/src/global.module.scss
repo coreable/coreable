@@ -1,6 +1,7 @@
 //Coreable Container
 .container {
-  padding-top: 16px;
+  // padding-top: 16px;
+  padding-top: 96px;
   justify-content: center;
   align-content: center;
   margin: 0 auto;
@@ -56,6 +57,7 @@
     background-color: white;
     border: none;
     color: rgb(64, 112, 224);
+    transition: all 0.2s ease-in-out;
   }
   &:disabled {
     background-color: lightgrey !important;
@@ -77,6 +79,7 @@
     color: white;
     background-color: rgb(64, 112, 224);
     border: none;
+    transition: all 0.2s ease-in-out;
   }
 }
 

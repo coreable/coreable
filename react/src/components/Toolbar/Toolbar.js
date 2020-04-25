@@ -9,10 +9,6 @@ const Toolbar = (props) => (
         {" "}
         <a href="/">Coreable</a>{" "}
       </div>
-      <div className="spacer"></div>
-      <div className="toolbar-toggle-button">
-        <DrawerToggleButton click={props.drawerClickHandler} />
-      </div>
       {/* <div className="toolbar-nav-items">
 				<ul>
 					<li> <a href="/">Account overview</a> </li>
@@ -24,6 +20,10 @@ const Toolbar = (props) => (
 					<li> <a href="/">User settings</a> </li>
 				</ul>
 			</div> */}
+      <div className="spacer"></div>
+      <div className="toolbar-toggle-button">
+        <DrawerToggleButton click={props.drawerClickHandler} />
+      </div>
     </nav>
   </header>
 );
