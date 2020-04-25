@@ -8,25 +8,13 @@ const SideDrawer = (props) => {
     return (
       <div className="side-drawer-open">
         <div className="drawer-menu-container">
-          <a
-            className="menu-items"
-            href="/"
-            onClick={() => localStorage.removeItem(JWT)}
-          >
+          <a className="menu-items" href="/">
             Home
           </a>
-          <a
-            className="menu-items"
-            href="/setup"
-            onClick={() => localStorage.removeItem(JWT)}
-          >
+          <a className="menu-items" href="/setup">
             Placeholder
           </a>
-          <a
-            className="menu-items"
-            href="/setup"
-            onClick={() => localStorage.removeItem(JWT)}
-          >
+          <a className="menu-items" href="/setup">
             Placeholder
           </a>
           <a
