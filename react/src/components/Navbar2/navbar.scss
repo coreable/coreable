@@ -1,0 +1,233 @@
+.menubtn {
+  color: white;
+  text-decoration: none;
+}
+
+.navBar {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  height: 50px;
+  background: #0c152e;
+}
+
+.navBar ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+  text-align: center;
+}
+
+.navBar ul .nav-link {
+  display: block;
+  padding: 15px 25px;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+  margin: auto;
+}
+
+.navBar .logo {
+  float: left;
+  font-size: 1.7rem;
+  font-weight: bold;
+  /* display: block; */
+  padding: 15px 20px;
+  text-decoration: none;
+  color: white;
+}
+
+.navBar .menu {
+  clear: both;
+  max-height: 0;
+  background: #0c152e;
+  transition: max-height 0.4s ease-out;
+}
+
+.navBar .menu-icon {
+  /* border: 2px solid pink; */
+  padding: 23px 23px;
+  position: relative;
+  float: right;
+  cursor: pointer;
+}
+
+.navBar .menu-icon .nav-icon {
+  background-color: white;
+  border-radius: 4px;
+  display: block;
+  height: 2px;
+  width: 26px;
+  position: relative;
+  transition: background 0.2s ease-out;
+}
+
+.navBar .menu-icon .nav-icon::before,
+.navBar .menu-icon .nav-icon::after {
+  background-color: white;
+  border-radius: 4px;
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+
+  transition: all 0.2s ease-out;
+  position: absolute;
+}
+
+.navBar .menu-icon .nav-icon::before {
+  top: 5px;
+}
+
+.navBar .menu-icon .nav-icon::after {
+  top: -5px;
+}
+
+.navBar .menu-btn {
+  display: none;
+}
+
+.navBar .menu-btn:checked ~ .menu {
+  max-height: 400px;
+}
+
+.navBar .menu-btn:checked ~ .menu-icon .nav-icon {
+  background: transparent;
+}
+
+.navBar .menu-btn:checked ~ .menu-icon .nav-icon::before {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.navBar .menu-btn:checked ~ .menu-icon .nav-icon::after {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+/* .spacer {
+    flex: 1;
+  } */
+
+.navBar li:nth-last-child(3),
+.navBar li:nth-last-child(2),
+.navBar li:nth-last-child(1) {
+  display: block;
+}
+
+/* .navBar .menu-right {
+    display: none;
+  } */
+
+.second-menu {
+  display: none;
+}
+
+.dropdown {
+  display: none;
+}
+
+@media (min-width: 800px) {
+  //   .active {
+  //     border-bottom: 4px solid rgb(45, 215, 117);
+  //   }
+
+  .navBar {
+    height: 50px;
+    width: 100%;
+  }
+
+  .navBar .logo {
+    padding: 15px 50px;
+    font-size: 1.7rem;
+    font-weight: bolder;
+  }
+
+  .menubtn {
+    float: left;
+    color: white;
+
+    // width: 40px;
+  }
+
+  .navBar ul .nav-link {
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 15px 30px;
+  }
+
+  .menu li:nth-child(6),
+  .menu li:nth-child(5) {
+    display: none;
+  }
+
+  .navBar .menu {
+    clear: none;
+    float: left;
+    max-height: none;
+  }
+
+  .menu-icon {
+    display: none;
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .dropdown {
+    display: block;
+    position: relative;
+    // background: transparent;
+    color: white;
+    // display: inline-block;
+    float: right;
+    padding: 15px 41px;
+    font-size: 1.5rem;
+  }
+
+  //   .dropbtn {
+  //     background: pink;
+  //     border: none;
+  //     padding: 15px;
+  //     color: white;
+  //     cursor: pointer;
+  //   }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #0c152e;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+    transition: all 5s ease-out;
+  }
+
+  .dropdown:hover {
+    // background: lightpink;
+    border-bottom: 2px solid rgb(45, 215, 117);
+
+    .dropdown-content {
+      display: block;
+    }
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    font-weight: bold;
+  }
+
+  //   .dropdown:hover .dropdown-content {
+  //     display: block;
+  //   }
+}

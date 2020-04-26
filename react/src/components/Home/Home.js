@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,13 +20,12 @@ import {
   Redirect,
   Link,
 } from "react-router-dom";
-
 import { Mutation } from "react-apollo";
 import { JWT } from "../../../constants";
 import { JOIN_TEAM } from "../../../apollo/mutations";
-import "./Setup.scss";
+import "../LandingPage/InitalSetup/Setup.scss";
 
-import Navbar from "../../Navbar2/Navbar";
+import Navbar from "../Navbar2/Navbar";
 
 import {
   Typography,
@@ -42,8 +41,6 @@ import {
   StepLabel,
   LinearProgress,
 } from "@material-ui/core";
-
-// import Home from "../../Home/Home";
 
 class Setup extends Component {
   constructor() {

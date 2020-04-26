@@ -16,12 +16,12 @@ import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 
-import Backdrop from "./components/Backdrop/Backdrop";
-import SideDrawer from "./components/Sidedrawer/Sidedrawer";
-import { Toolbar } from "./components/Toolbar/Toolbar.js";
 import PrivateRoute from "./PrivateRoute";
 
+import Navbar from "./components/Navbar2/Navbar";
+
 import "./App.scss";
+import { isNull } from "util";
 
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
@@ -31,45 +31,23 @@ const Register = lazy(() =>
 const Setup = lazy(() => import("./components/LandingPage/InitalSetup/Setup"));
 const Review = lazy(() => import("./components/Review/Review"));
 const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
+const Skills = lazy(() => import("./components/Skills/Skills"));
+const Goals = lazy(() => import("./components/Goals/Goals"));
 
 class App extends Component {
   state = {
     sideDrawerOpen: false,
   };
 
-  drawerToggleClickHandler = () => {
-    this.setState((prevState) => {
-      return { sideDrawerOpen: !prevState.sideDrawerOpen };
-    });
-  };
-
-  backdropClickHandler = () => {
-    this.setState({ sideDrawerOpen: false });
-  };
+  // testing = () => {
+  //   console.log(this.state.auth);
+  // };
 
   render() {
-    let backDrop;
-
-    if (this.state.sideDrawerOpen) {
-      backDrop = <Backdrop click={this.backdropClickHandler} />;
-    }
-
     return (
       <Router>
         <div className="App" style={{ height: "100%" }}>
-          {/* TODO: move the navbar out */}
-          {/* <div className="navBar">
-            <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-            <main style={{ marginTop: "48px" }}>
-              <SideDrawer
-                show={this.state.sideDrawerOpen}
-                click={this.backdropClickHandler}
-              />
-              {backDrop}
-            </main>
-          </div> */}
-          {/* TODO :move the navbar out */}
-
+          <Navbar />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
@@ -90,6 +68,18 @@ class App extends Component {
               exact
               path="/thank-you"
               component={ThankYou}
+              authed={this.state.auth}
+            />
+            <Route
+              exact
+              path="/skills"
+              component={Skills}
+              authed={this.state.auth}
+            />
+            <Route
+              exact
+              path="/goals"
+              component={Goals}
               authed={this.state.auth}
             />
           </Suspense>
