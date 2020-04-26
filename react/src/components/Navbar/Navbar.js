@@ -40,7 +40,9 @@ const Navbar = (props) => {
       </label>
       <ul className="menu" id="menu">
         <li>
-          <a className="menubtn active">Home</a>
+          <Link to="/home" style={{ margin: "0", padding: "0" }}>
+            <a className="menubtn active">Home</a>
+          </Link>
         </li>
         <li>
           <Link to="/home" style={{ margin: "0", padding: "0" }}>
