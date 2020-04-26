@@ -68,17 +68,19 @@ class Navbar extends Component {
         <span className="spacer" />
 
         {/* right hand side menu */}
-        <div class="dropdown">
-          {this.state.firstName === null ? null : this.state.firstName}
-          {/* {`${this.state.firstName} ${this.state.lastName}`} */}
-          <span className="dropbtn"></span>
-          <div className="dropdown-content">
-            <a href="#">Account</a>
-            <a href="/" onClick={() => localStorage.removeItem(JWT)}>
-              Logout
-            </a>
+        {this.state.firstName === undefined ? null : (
+          <div class="dropdown">
+            {/* {this.state.firstName === undefined ? null : this.state.firstName} */}
+            {`${this.state.firstName} ${this.state.lastName}`}
+            <span className="dropbtn"></span>
+            <div className="dropdown-content">
+              <a href="#">Account</a>
+              <a href="/" onClick={() => localStorage.removeItem(JWT)}>
+                Logout
+              </a>
+            </div>
           </div>
-        </div>
+        )}
       </nav>
     );
   }

@@ -19,6 +19,7 @@ import { LinearProgress } from "@material-ui/core";
 import PrivateRoute from "./PrivateRoute";
 
 import Navbar from "./components/Navbar2/Navbar";
+import { JWT } from "./constants";
 
 import "./App.scss";
 import { isNull } from "util";
@@ -39,9 +40,18 @@ class App extends Component {
     sideDrawerOpen: false,
   };
 
-  // testing = () => {
-  //   console.log(this.state.auth);
+  // checkLogin = () => {
+  //   if (JWT === "auth-token") {
+  //     console.log(JWT);
+  //     return;
+  //   } else {
+  //     return <Navbar />;
+  //   }
   // };
+
+  testing = () => {
+    console.log();
+  };
 
   render() {
     return (

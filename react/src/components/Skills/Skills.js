@@ -28,7 +28,9 @@ export class Skills extends Component {
       return <Redirect to="/"></Redirect>;
     }
 
-    return <div></div>;
+    return (
+      <Navbar firstName={this.props.firstName} lastName={this.props.lastName} />
+    );
   }
 }
 
