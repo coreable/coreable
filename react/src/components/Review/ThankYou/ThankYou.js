@@ -13,21 +13,20 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import {
-  Grid,
-  Typography,
-  Container
-} from '@material-ui/core';
-import { JWT } from '../../../constants';
-import Chart from './Chart'
+import { Grid, Typography, Container } from "@material-ui/core";
+import { JWT } from "../../../constants";
+import Chart from "./Chart";
+import Navbar from "../../Navbar2/Navbar";
+
+import { LinearProgress } from "@material-ui/core";
 
 class ThankYou extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
-      average: {}
-    }
+      average: {},
+    };
   }
 
   componentDidMount() {
@@ -74,15 +73,16 @@ class ThankYou extends Component {
           }
         }
       }
-    `};
-    fetch('https://coreable.appspot.com/graphql', {
-      method: 'POST',
-      mode: 'cors',
+    `,
+    };
+    fetch("https://coreable.appspot.com/graphql", {
+      method: "POST",
+      mode: "cors",
       headers: {
-        'Content-Type': 'application/json',
-        'JWT': localStorage.getItem(JWT),
+        "Content-Type": "application/json",
+        JWT: localStorage.getItem(JWT),
       },
-      body: JSON.stringify(query)
+      body: JSON.stringify(query),
     }).then(async (data) => {
       const result = await data.json();
       let averages;
@@ -104,17 +104,27 @@ class ThankYou extends Component {
       let resilience = 0;
 
       try {
-        emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
+        emotionalIntelligence =
+          (averages.emotionalResponse +
+            averages.empathy +
+            averages.managesOwn) /
+          3;
         initiative = (averages.proactive + averages.influences) / 2;
-        trust = (averages.faith + averages.cooperatively + averages.positiveBelief) / 3;
+        trust =
+          (averages.faith + averages.cooperatively + averages.positiveBelief) /
+          3;
         flex = (averages.newIdeas + averages.workDemands) / 2;
-        clarity = (averages.clearInstructions + averages.preventsMisunderstandings) / 2;
-        culture = (averages.openToShare + averages.tone + averages.crossTeam) / 3;
+        clarity =
+          (averages.clearInstructions + averages.preventsMisunderstandings) / 2;
+        culture =
+          (averages.openToShare + averages.tone + averages.crossTeam) / 3;
         nonVerbal = (averages.distractions + averages.eyeContact) / 2;
-        attentive = (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
-        resilience = (averages.resilienceFeedback + averages.calm + averages.change) / 3;
+        attentive =
+          (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
+        resilience =
+          (averages.resilienceFeedback + averages.calm + averages.change) / 3;
       } catch {
-        console.log({ code: 'ERR', path: 'ThankYou.js' });
+        console.log({ code: "ERR", path: "ThankYou.js" });
       }
 
       this.setState({
@@ -129,31 +139,55 @@ class ThankYou extends Component {
           culture,
           nonVerbal,
           attentive,
-          resilience
-        }
-       });
+          resilience,
+        },
+      });
     });
   }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <React.Fragment>
+          <Navbar
+            firstName={this.state.me.firstName}
+            lastName={this.state.me.lastName}
+          />
+          <LinearProgress style={{ top: "37pt" }}></LinearProgress>
+        </React.Fragment>
+      );
+    }
+
     return (
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center">
-        <Container style={{ textAlign: 'left' }}>
-        <Typography variant="h3" component="h1" style={{ fontWeight: 'bold', marginTop: '48pt', textAlign: 'left', color: '#000' }}>
-            Thank you,
-          </Typography>
-          <Typography variant="h3" component="h1" style={{ textAlign: 'left', color: '#707070' }}>
-            here are your results
-          </Typography>
-        </Container>
-        <Container>
-          <Chart {...this.state} />
-        </Container>
-      </Grid>
+      <React.Fragment>
+        <Navbar />
+        <Grid container direction="column" justify="center" alignItems="center">
+          <Container style={{ textAlign: "left" }}>
+            <Typography
+              variant="h3"
+              component="h1"
+              style={{
+                fontWeight: "bold",
+                marginTop: "48pt",
+                textAlign: "left",
+                color: "#000",
+              }}
+            >
+              Thank you,
+            </Typography>
+            <Typography
+              variant="h3"
+              component="h1"
+              style={{ textAlign: "left", color: "#707070" }}
+            >
+              here are your results
+            </Typography>
+          </Container>
+          <Container>
+            <Chart {...this.state} />
+          </Container>
+        </Grid>
+      </React.Fragment>
     );
   }
 }
