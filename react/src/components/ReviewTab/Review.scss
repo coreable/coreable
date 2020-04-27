@@ -1,0 +1,73 @@
+.review-container {
+  background: rgb(245, 245, 245);
+  position: relative;
+  margin: 0 auto;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  overflow: auto;
+  //   height: 100%;
+
+  .top-background {
+    background: #0c152e;
+    position: absolute;
+    top: 0px;
+    padding-top: 80px;
+    margin: 0 auto;
+    text-align: center;
+    height: 30%;
+    width: 100%;
+    z-index: 0;
+    color: white;
+  }
+
+  .top-background h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 3rem;
+  }
+
+  .main {
+    z-index: 1;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 25%;
+    // height: ;
+    width: 75%;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .inside-main {
+      min-height: 250px;
+      width: 300px;
+      background: white;
+      margin: 20px;
+      padding: 15px;
+      border-radius: 4pt;
+
+      .team-card {
+        width: 100%;
+        text-align: left;
+
+        h3 {
+          font-size: 3rem;
+          font-weight: bolder;
+          margin: 0;
+          padding: 0;
+        }
+
+        p {
+          font-size: 1.6rem;
+        }
+      }
+    }
+  }
+}

@@ -1,23 +1,22 @@
 .setup-container {
   padding-top: 56px;
+  align-content: center;
+  align-items: center;
 
   .MuiCard-root {
     background-color: #fff;
+    min-height: 224pt;
+    height: 224pt;
+    max-height: 224pt;
   }
 
   a {
     text-decoration: none;
   }
 
-  button { 
+  button {
     color: #ffffff;
     background: #4271f9;
-  }
-
-  .MuiCard-root {
-    min-height: 224pt;
-    height: 224pt;
-    max-height: 224pt;
   }
 
   .MuiStepIcon-root.MuiStepIcon-active {

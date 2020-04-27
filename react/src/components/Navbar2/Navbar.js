@@ -10,7 +10,7 @@ class Navbar extends Component {
     super(props);
 
     this.state = {
-      menuItems: ["Home", "Review", "Skills", "Goals", "Account", "Logout"],
+      menuItems: ["Home", "Reviews", "Skills", "Goals", "Account", "Logout"],
       menuOpen: false,
       firstName: this.props.firstName,
       lastName: this.props.lastName,

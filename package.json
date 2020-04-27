@@ -69,6 +69,7 @@
     "apollo-link-context": "^1.0.20",
     "bcrypt": "^4.0.1",
     "chart.js": "^2.9.3",
+    "clsx": "^1.1.0",
     "cors": "^2.8.5",
     "create-react-app": "^3.4.1",
     "dotenv": "^8.2.0",

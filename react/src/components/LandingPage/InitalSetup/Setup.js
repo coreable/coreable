@@ -24,7 +24,9 @@ import {
 import { Mutation } from "react-apollo";
 import { JWT } from "../../../constants";
 import { JOIN_TEAM } from "../../../apollo/mutations";
-import "./Setup.scss";
+// import "./Setup.scss";
+import "../../ReviewTab/Review.scss";
+import global from "../../../global.module.scss";
 
 import Navbar from "../../Navbar2/Navbar";
 
@@ -277,100 +279,107 @@ class Setup extends Component {
           firstName={this.state.me.firstName}
           lastName={this.state.me.lastName}
         />
-        <Container
-          maxWidth="lg"
-          style={{ height: "95.25vh", paddingTop: "90px" }}
-          className="setup-container"
-        >
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="stretch"
-            spacing={2}
-          >
+        <div className="review-container">
+          <div className="top-background">
+            <span
+              style={{
+                marginBottom: "0",
+                fontSize: "20pt",
+                fontWeight: "bolder",
+              }}
+            >
+              Your teams{" "}
+            </span>
+            <p style={{ fontSize: "1.4rem" }}>
+              {" "}
+              View your teams, review your team, and join teams.
+            </p>
+          </div>
+
+          <div className="main">
             {this.state.me.teams.map((team, index) => {
               if (team !== "jointeam") {
                 return (
-                  <Grid item xs={12} md={6} lg={4} key={index}>
-                    <Card variant="outlined">
-                      <CardContent>
-                        <Grid
-                          item
-                          container
-                          direction="row"
-                          justify="center"
-                          alignItems="stretch"
-                        >
-                          <Typography variant="h4" component="h2">
-                            {team.name}
-                          </Typography>
-                        </Grid>
-                        <Stepper
-                          activeStep={team.subject.state - 1}
-                          alternativeLabel
-                        >
-                          {this.state.steps.map((label, index) => {
-                            const isDisabled = this.getReviewButtonState(
-                              team._id
+                  <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="stretch"
+                    spacing={1}
+                    className="inside-main"
+                    key={index}
+                  >
+                    <div className="team-card">
+                      <h3>UTS Health 80245</h3>
+                      <p>{team.name}</p>
+
+                      <Stepper
+                        activeStep={team.subject.state - 1}
+                        alternativeLabel
+                      >
+                        {this.state.steps.map((label, index) => {
+                          const isDisabled = this.getReviewButtonState(
+                            team._id
+                          );
+                          let props = {};
+                          if (isDisabled && index === 0) {
+                            props.optional = (
+                              <Typography
+                                variant="caption"
+                                style={{
+                                  display: "flex",
+                                  justify: "center",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                Completed
+                              </Typography>
                             );
-                            let props = {};
-                            if (isDisabled && index === 0) {
-                              props.optional = (
-                                <Typography
-                                  variant="caption"
-                                  style={{
-                                    display: "flex",
-                                    justify: "center",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  Completed
-                                </Typography>
-                              );
-                            }
-                            return (
-                              <Step key={label}>
-                                <StepLabel {...props}>{label}</StepLabel>
-                              </Step>
-                            );
-                          })}
-                        </Stepper>
-                      </CardContent>
-                      <CardActions>
-                        <Grid container justify="center">
-                          <Button
-                            className="start-review"
-                            variant="contained"
-                            color="primary"
-                            disabled={this.getReviewButtonState(team._id)}
-                            disableElevation
-                          >
-                            <Link
-                              to={{
-                                pathname: "/self-review",
-                                state: {
-                                  team_id: team._id,
-                                  pending: this.getPendingUser(team._id),
-                                },
-                              }}
-                              style={{
-                                textDecoration: "none",
-                                color: this.getReviewButtonTextColor(team._id),
-                              }}
-                            >
-                              Start Review
-                            </Link>
-                          </Button>
-                        </Grid>
-                      </CardActions>
-                    </Card>
+                          }
+                          return (
+                            <Step key={label}>
+                              <StepLabel {...props}>{label}</StepLabel>
+                            </Step>
+                          );
+                        })}
+                      </Stepper>
+                      <Link
+                        to={{
+                          pathname: "/self-review",
+                          state: {
+                            team_id: team._id,
+                            pending: this.getPendingUser(team._id),
+                          },
+                        }}
+                        style={{
+                          textDecoration: "none",
+                          color: this.getReviewButtonTextColor(team._id),
+                        }}
+                      >
+                        <Button
+                          className={`${global.btn} ${global.primarybtn}`}
+                          disabled={this.getReviewButtonState(team._id)}
+                          disableElevation
+                        >
+                          Start Review
+                        </Button>
+                      </Link>
+                    </div>
                   </Grid>
                 );
               } else if (team === "jointeam") {
                 return (
-                  <Grid item xs={12} md={6} lg={4} key={index}>
+                  <Grid
+                    // item xs={12} md={6} lg={4} key={index}
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="stretch"
+                    spacing={1}
+                    className="inside-main"
+                    key={index}
+                  >
                     <Card variant="outlined">
                       <CardContent>
                         <Grid
@@ -435,8 +444,10 @@ class Setup extends Component {
                 return <Redirect to="/"></Redirect>;
               }
             })}
-          </Grid>
-        </Container>
+            {/* </Grid>
+        </Container> */}
+          </div>
+        </div>
       </div>
     );
   }

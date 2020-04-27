@@ -34,6 +34,7 @@ const Review = lazy(() => import("./components/Review/Review"));
 const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
 const Skills = lazy(() => import("./components/Skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
+const Reviews = lazy(() => import("./components/ReviewTab/Review"));
 
 class App extends Component {
   state = {
@@ -90,6 +91,12 @@ class App extends Component {
               exact
               path="/goals"
               component={Goals}
+              authed={this.state.auth}
+            />
+            <Route
+              exact
+              path="/reviews"
+              component={Reviews}
               authed={this.state.auth}
             />
           </Suspense>
