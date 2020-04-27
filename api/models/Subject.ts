@@ -17,6 +17,7 @@ import { Team } from "./Team";
 // import { User } from "./User";
 import { Manager } from "./Manager";
 import { SubjectAverage } from "./SubjectAverage";
+import { Review } from "./Review";
 
 class Subject extends Model {
   // PK
@@ -26,6 +27,7 @@ class Subject extends Model {
   public state!: number;
   public managers!: [Manager];
   public teams!: [Team];
+  public reviews!: [Review];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -62,11 +64,13 @@ const sync = (sequelize: Sequelize) => {
 let SubjectTeam: HasMany<Subject, Team>;
 let SubjectManager: BelongsToMany<Subject, Manager>;
 let AverageSubject: HasMany<Subject, SubjectAverage>;
+let SubjectReviews: HasMany<Subject, Review>;
 
 const assosciate = () => {
   SubjectTeam = Subject.hasMany(Team, { sourceKey: '_id', foreignKey: 'subject_id', as: 'teams' });
   SubjectManager = Subject.belongsToMany(Manager, { through: 'MANAGER_SUBJECT', sourceKey: '_id', foreignKey: 'subject_id', as: 'managers' });
   AverageSubject = Subject.hasMany(SubjectAverage, { sourceKey: '_id', foreignKey: 'subject_id', as: 'averages' });
+  SubjectReviews = Subject.hasMany(Review, { sourceKey: '_id', foreignKey: 'subject_id', as: 'reviews' });
   return Subject;
 }
 
@@ -76,5 +80,6 @@ export {
   SubjectTeam,
   SubjectManager,
   AverageSubject,
+  SubjectReviews,
   Subject
 };

@@ -14,6 +14,7 @@ Coreable source code.
 
 import { Model, DataTypes, Sequelize, BelongsTo } from 'sequelize';
 import { User } from './User';
+import { Subject } from './Subject';
 
 class Review extends Model {
   // PK
@@ -24,6 +25,8 @@ class Review extends Model {
   public receiver!: User;
   public submitter_id!: string;
   public submitter!: User;
+  public subject_id!: string;
+  public subject!: Subject;
 
   public calm!: number;
   public change!: number;
@@ -67,6 +70,10 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'submitter_id': {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    'subject_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -180,10 +187,12 @@ const sync = (sequelize: Sequelize) => {
 
 let ReviewResultsUser: BelongsTo<Review, User> ;
 let ReviewSubmittedUser: BelongsTo<Review, User>;
+let ReviewSubject: BelongsTo<Review, Subject>;
 
 const assosciate = () => {
   ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'receiver_id', targetKey: '_id', as: 'receiver' });
   ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submitter_id', targetKey: '_id', as: 'submitter' });
+  ReviewSubject = Review.belongsTo(Subject, { foreignKey: 'subject_id', targetKey: '_id', as: 'subject' });
   return Review;
 }
 
@@ -192,5 +201,6 @@ export {
   assosciate,
   ReviewResultsUser,
   ReviewSubmittedUser,
+  ReviewSubject,
   Review
 };
