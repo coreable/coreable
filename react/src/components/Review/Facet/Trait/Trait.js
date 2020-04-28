@@ -92,7 +92,8 @@ class Trait extends Component {
 
     // Active user
     if (this.state.user._id === user._id) {
-      styles.background = "rgb(66, 113, 249)";
+      // styles.background = "rgb(66, 113, 249)";
+      styles.backgroundImage = `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
       styles.color = "#fff";
     }
 
@@ -265,12 +266,12 @@ class Trait extends Component {
                 disableElevation
                 key={index}
                 onClick={() => this.handleSelectedUserChange(user)}
-                style={{
-                  // backgroundImage: `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`,
-                  // backgroundImage:
-                  //   "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
-                  backgroundImage: this.getSliderBackground(user),
-                }}
+                // style={{
+                //   backgroundImage: `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`,
+                //   // backgroundImage:
+                //   //   "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
+                //   // backgroundImage: this.getSliderBackground(user),
+                // }}
               >
                 {user.firstName + " " + user.lastName}
               </Button>
