@@ -47,11 +47,13 @@
 
     .inside-main {
       min-height: 250px;
+      // max-height: 300px;
       width: 300px;
       background: white;
       margin: 20px;
       padding: 15px;
       border-radius: 4pt;
+      position: relative;
 
       .team-card {
         width: 100%;
@@ -67,6 +69,12 @@
         p {
           font-size: 1.6rem;
         }
+      }
+
+      .fixed {
+        position: absolute;
+        bottom: 15px;
+        width: 90%;
       }
     }
   }

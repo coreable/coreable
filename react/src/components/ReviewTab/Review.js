@@ -55,6 +55,26 @@ export class Review extends Component {
                 Start Review
               </Button>
             </Grid>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="stretch"
+              spacing={1}
+              className="inside-main"
+            >
+              <div className="team-card">
+                <h3>Join a team</h3>
+                <p>Use your team code below</p>
+              </div>
+
+              <Button
+                className={`${global.btn} ${global.primarybtn} fixed`}
+                disableElevation
+              >
+                Join team
+              </Button>
+            </Grid>
           </div>
         </div>
       </div>
