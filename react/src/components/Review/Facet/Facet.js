@@ -50,7 +50,7 @@ class Facet extends Component {
     this.props.nextStep();
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      // behavior: "smooth",
     });
   };
 
@@ -62,7 +62,7 @@ class Facet extends Component {
     this.props.prevStep();
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      // behavior: "smooth",
     });
   };
 
@@ -72,7 +72,7 @@ class Facet extends Component {
     return (
       <div className="team-container">
         <div className="top">
-          <div style={{ width: "45%", margin: "0 auto", textAlign: "center" }}>
+          <div className="facet-heading-desc">
             <h1 style={{ margin: "0" }}>{this.state.name} </h1>
             <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
           </div>

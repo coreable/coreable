@@ -16,13 +16,25 @@
     height: 320px;
     padding-top: 100px;
 
-    h1,
-    p {
-      color: white;
+    .facet-heading-desc {
+      width: 45%;
+      margin: 0 auto;
+      text-align: center;
+
+      h1,
+      p {
+        color: white;
+      }
+
+      h1 {
+        font-size: 3rem;
+      }
     }
 
-    h1 {
-      font-size: 3rem;
+    @media (max-width: 750px) {
+      .facet-heading-desc {
+        width: 70%;
+      }
     }
   }
 
@@ -34,7 +46,7 @@
     top: 250px;
     // height: ;
     //if this is dynamic, mobile capability is bad
-    width: 900px;
+    width: 40%;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -48,7 +60,8 @@
 
     .inside-main {
       min-height: 200px;
-      width: 60%;
+      width: 100%;
+      min-width: 300px;
       background: white;
       border-radius: 8pt;
       margin: 20px;
@@ -145,6 +158,11 @@
         margin-top: 0;
         margin-left: -4px;
       }
+      @media (max-width: 776px) {
+        .select-user-button {
+          margin: 5px;
+        }
+      }
     }
 
     .btn {
@@ -207,6 +225,13 @@
         border: none;
         transition: all 0.2s ease-in-out;
       }
+    }
+  }
+
+  @media (max-width: 760px) {
+    .main {
+      width: 70%;
+      top: 310px;
     }
   }
 }

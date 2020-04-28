@@ -240,7 +240,7 @@ class Trait extends Component {
           key={this.state.var}
           id={this.state.var}
           name={this.state.var}
-          // value={this.state.val}
+          value={this.state.val}
           value={this.state.val !== 0 ? "0" : this.state.val}
           disabled={!this.state.user._id}
           className="rating"
@@ -279,17 +279,19 @@ class Trait extends Component {
           })}
         </CardActions>
 
-        {this.props.pending.pending.map((user) => {
-          return (
-            <TeamRank
-              key={user._id}
-              name={user._d}
-              {...this.getScoreForDisplay(user)}
-              backgroundImage={this.getSliderBackground}
-              teamMemberCount={this.countTeam()}
-            />
-          );
-        })}
+        <div style={{ marginTop: "10px" }}>
+          {this.props.pending.pending.map((user) => {
+            return (
+              <TeamRank
+                key={user._id}
+                name={user._d}
+                {...this.getScoreForDisplay(user)}
+                backgroundImage={this.getSliderBackground}
+                teamMemberCount={this.countTeam()}
+              />
+            );
+          })}
+        </div>
       </React.Fragment>
     );
   }
