@@ -32,7 +32,8 @@
     position: absolute;
     top: 250px;
     // height: ;
-    width: 70%;
+    //if this is dynamic, mobile capability is bad
+    width: 900px;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -46,11 +47,103 @@
 
     .inside-main {
       min-height: 200px;
-      width: 70%;
-      background: lightseagreen;
+      width: 60%;
+      background: white;
       border-radius: 8pt;
       margin: 20px;
       padding: 20px;
+
+      .rating {
+        -webkit-appearance: none;
+        height: 24pt;
+        width: 100%;
+        border-radius: 4pt;
+        background-color: rgb(214, 214, 214);
+        background: linear-gradient(
+          90deg,
+          rgb(66, 113, 249) 20%,
+          rgb(214, 214, 214) 20%
+        );
+        padding: 0;
+      }
+
+      .rating::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        height: 24pt;
+        width: 8pt;
+        border-radius: 4pt;
+        // background: pink;
+        z-index: 3;
+        // background: transparent;
+        margin: 0;
+      }
+
+      .rating::-moz-range-thumb {
+        // appearance: none;
+        cursor: pointer;
+        height: 24pt;
+        width: 8pt;
+        border-radius: 4pt;
+        // background: rgb(66, 113, 249);
+        background: transparent;
+        border: none;
+        margin: 0;
+      }
+
+      .rating:focus {
+        outline: none;
+      }
+      .element-div {
+        position: relative;
+        transform: translateX(25%);
+      }
+      .survey-members {
+        background: rgb(66, 113, 249);
+        width: 72pt;
+        height: 32pt;
+        border-radius: 4pt;
+        margin-left: 56pt;
+      }
+      .member {
+        margin: 0 auto;
+        transform: translateY(50%);
+        color: white;
+        font-size: 14pt;
+      }
+
+      // trait.scss file
+
+      .select-user-button {
+        margin: 10px;
+      }
+
+      .team-member {
+        margin: auto;
+        width: 85%;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      button {
+        font-weight: bold;
+      }
+
+      // button.active {
+      //   background: rgb(66, 113, 249);
+      // }
+
+      // button.inactive {
+      //   background: rgba(66, 113, 249, 0.3);
+      // }
+
+      .MuiSlider-thumb.Mui-disabled {
+        width: 8px;
+        height: 24px;
+        margin-top: 0;
+        margin-left: -4px;
+      }
     }
 
     .btn {
@@ -67,16 +160,16 @@
     }
 
     @media (min-width: 776px) {
-      .btn {
-        width: 100%;
-        max-width: 100%;
-      }
+      // .btn {
+      //   width: 100%;
+      //   max-width: 100%;
+      // }
     }
 
     @media (max-width: 1024px) {
       .btn {
         width: 60%;
-        max-width: 100%;
+        max-width: 60%;
         font-size: 1.4rem;
       }
     }
@@ -133,48 +226,6 @@
   .facet-info {
     margin-bottom: 31pt;
     margin-top: 5pt;
-  }
-  .rating {
-    -webkit-appearance: none;
-    height: 24pt;
-    width: 380pt;
-    border-radius: 4pt;
-    background-color: rgb(214, 214, 214);
-    background: linear-gradient(
-      90deg,
-      rgb(66, 113, 249) 20%,
-      rgb(214, 214, 214) 20%
-    );
-    padding: 0;
-  }
-  .rating::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    height: 24pt;
-    width: 8pt;
-    border-radius: 4pt;
-    background: rgb(66, 113, 249);
-  }
-  .rating:focus {
-    outline: none;
-  }
-  .element-div {
-    position: relative;
-    transform: translateX(25%);
-  }
-  .survey-members {
-    background: rgb(66, 113, 249);
-    width: 72pt;
-    height: 32pt;
-    border-radius: 4pt;
-    margin-left: 56pt;
-  }
-  .member {
-    margin: 0 auto;
-    transform: translateY(50%);
-    color: white;
-    font-size: 14pt;
   }
 }
 

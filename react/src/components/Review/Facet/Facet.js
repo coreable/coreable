@@ -72,7 +72,7 @@ class Facet extends Component {
     return (
       <div className="team-container">
         <div className="top">
-          <div style={{ width: "60%", margin: "0 auto", textAlign: "center" }}>
+          <div style={{ width: "45%", margin: "0 auto", textAlign: "center" }}>
             <h1 style={{ margin: "0" }}>{this.state.name} </h1>
             <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
           </div>
@@ -90,11 +90,9 @@ class Facet extends Component {
               </div>
             );
           })}
-
           <Button className="btn primarybtn" onClick={this.continue}>
             Next
           </Button>
-
           <Button className="btn transparentbtn" onClick={this.back}>
             Back
           </Button>

@@ -49,21 +49,64 @@ class Ranking extends Component {
     let shouldBeTeaches = isBroken && wasTeaches;
 
     if (this.props.val <= 10 || shouldBeFail) {
-      return <Typography variant="h6">Fails</Typography>;
+      return (
+        <Typography
+          variant="h4"
+          style={{ color: "#4070e0", fontWeight: "bold" }}
+        >
+          Fails
+        </Typography>
+      );
     }
     if ((this.props.val > 10 && this.props.val <= 30) || shouldBeUnder) {
-      return <Typography variant="h6">Under prompting</Typography>;
+      return (
+        <Typography
+          variant="h4"
+          style={{ color: "#0096f8", fontWeight: "bold" }}
+        >
+          {" "}
+          Under prompting
+        </Typography>
+      );
     }
     if ((this.props.val > 30 && this.props.val <= 50) || shouldBeHabit) {
-      return <Typography variant="h6">Habitually</Typography>;
+      return (
+        <Typography
+          variant="h4"
+          style={{ color: "#00b3e5", fontWeight: "bold" }}
+        >
+          Habitually
+        </Typography>
+      );
     }
     if ((this.props.val > 50 && this.props.val <= 70) || shouldBeEncourage) {
-      return <Typography variant="h6">Encourages others</Typography>;
+      return (
+        <Typography
+          variant="h4"
+          style={{ color: "#00c8b3", fontWeight: "bold" }}
+        >
+          Encourages others
+        </Typography>
+      );
     }
     if (this.props.val > 70 || shouldBeTeaches) {
-      return <Typography variant="h6">Teaches</Typography>;
+      return (
+        <Typography
+          variant="h4"
+          style={{ color: "#2dd775", fontWeight: "bold" }}
+        >
+          Teaches
+        </Typography>
+      );
     }
-    return <Typography variant="h5">...</Typography>;
+    return (
+      <Typography
+        variant="h4"
+        style={{ color: "rgb(64, 112, 224)", fontWeight: "bold" }}
+      >
+        ...
+      </Typography>
+    );
   }
 }
 

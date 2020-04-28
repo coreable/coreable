@@ -18,8 +18,6 @@ import TeamRank from "./TeamRank/TeamRank";
 
 import { Card, Typography, CardActions, Button } from "@material-ui/core";
 
-import "./Trait.scss";
-
 class Trait extends Component {
   constructor(props) {
     super(props);
@@ -217,11 +215,7 @@ class Trait extends Component {
 
   render() {
     return (
-      <Card
-        className="trait-card"
-        variant="outlined"
-        style={{ border: "none" }}
-      >
+      <React.Fragment>
         {/* <Typography
           variant="h3"
           style={{ marginTop: "8pt", fontWeight: "bold" }}
@@ -229,7 +223,7 @@ class Trait extends Component {
           {this.state.traitName}
         </Typography> */}
         <Typography
-          variant="h6"
+          variant="h4"
           style={{ marginTop: "8pt", marginBottom: "16pt", fontWeight: "bold" }}
         >
           {this.state.desc}
@@ -241,7 +235,7 @@ class Trait extends Component {
           type="range"
           min={0}
           max={100}
-          step={5}
+          step={1}
           key={this.state.var}
           id={this.state.var}
           name={this.state.var}
@@ -258,7 +252,7 @@ class Trait extends Component {
         />
 
         <CardActions
-          style={{ flexWrap: "wrap", justifyContent: "space-between" }}
+          style={{ flexWrap: "wrap", justifyContent: "left", padding: "0" }}
         >
           {this.props.pending.pending.map((user, index) => {
             return (
@@ -271,6 +265,12 @@ class Trait extends Component {
                 disableElevation
                 key={index}
                 onClick={() => this.handleSelectedUserChange(user)}
+                style={{
+                  // backgroundImage: `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`,
+                  // backgroundImage:
+                  //   "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
+                  backgroundImage: this.getSliderBackground(user),
+                }}
               >
                 {user.firstName + " " + user.lastName}
               </Button>
@@ -278,7 +278,7 @@ class Trait extends Component {
           })}
         </CardActions>
 
-        {this.props.pending.pending.map((user, index) => {
+        {this.props.pending.pending.map((user) => {
           return (
             <TeamRank
               key={user._id}
@@ -289,7 +289,7 @@ class Trait extends Component {
             />
           );
         })}
-      </Card>
+      </React.Fragment>
     );
   }
 }

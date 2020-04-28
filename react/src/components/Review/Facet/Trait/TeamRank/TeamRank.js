@@ -5,6 +5,10 @@ import "./TeamRank.scss";
 const TeamRank = (props) => {
   const { val, user } = props;
 
+  const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   if (val === -1) {
     return null;
   }
@@ -17,7 +21,11 @@ const TeamRank = (props) => {
       <Grid className="team-rank-container">
         <label
           className="team-rating"
-          style={{ width: `${val * 4}px` }}
+          style={{
+            width: `${val * 4.7}px`,
+            backgroundImage:
+              "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
+          }}
         ></label>
 
         <Typography
@@ -28,7 +36,7 @@ const TeamRank = (props) => {
             marginTop: "2px",
           }}
         >
-          {user.firstName}
+          {capitalize(user.firstName)}
         </Typography>
       </Grid>
     );
