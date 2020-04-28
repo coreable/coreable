@@ -4,9 +4,10 @@
   margin: 0 auto;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
-  overflow: auto;
-  //   height: 100%;
+  // min-height: 100vh;
+  //overflow:auto doesnt allow it to scroll up.
+  // overflow: auto;
+  height: 100%;
 
   .top {
     background: #0c152e;

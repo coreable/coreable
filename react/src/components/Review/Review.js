@@ -316,6 +316,9 @@ class Review extends Component {
 
   prevStep = () => {
     const { currentIndex } = this.state;
+    if (currentIndex === 0) {
+      return <Redirect to="/"></Redirect>;
+    }
     this.setState({
       ...this.state,
       currentIndex: currentIndex - 1,
