@@ -41,6 +41,10 @@ class App extends Component {
     };
   }
 
+  userDidLoginOrRegister = () => {
+    this.componentDidMount();
+  }
+
   componentDidMount = async() => {
     const query = {
       query: `
@@ -121,8 +125,8 @@ class App extends Component {
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route exact path="/" component={(props) => <LandingPage {...props} me={this.state.me} loading={this.state.loading} />} />
             {/* Public routes (only unauthenticated users) */}
-            <Route exact path="/login" component={(props) => <Login {...props} me={this.state.me} loading={this.state.loading} />} />
-            <Route exact path="/signup" component={(props) => <Register {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/login" component={(props) => <Login {...props} me={this.state.me} loading={this.state.loading} userDidLoginOrRegister={this.userDidLoginOrRegister} />} />
+            <Route exact path="/signup" component={(props) => <Register {...props} me={this.state.me} loading={this.state.loading} userDidLoginOrRegister={this.userDidLoginOrRegister}  />} />
             {/* Private routes (only authenticated users) */}
             <Route exact path="/home" component={(props) => <Home {...props} me={this.state.me} loading={this.state.loading} />} />
             <Route exact path="/self-review" component={(props) => <Review {...props} me={this.state.me} loading={this.state.loading} />} />

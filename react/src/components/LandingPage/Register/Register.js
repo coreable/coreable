@@ -122,9 +122,11 @@ class Register extends Component {
       const { token } = data.register.data;
       const { firstName, _id } = data.register.data.user;
       this._saveUserData({ token, firstName, _id });
+      this.props.userDidLoginOrRegister();
       this.props.history.push(`/home`);
     } catch (err) {
-      alert("Invalid signup");
+      alert(err);
+      console.error(err);
     }
   };
 

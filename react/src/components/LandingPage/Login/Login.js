@@ -98,10 +98,10 @@ class Login extends Component {
       const { token } = data.login.data;
       const { firstName, _id } = data.login.data.user;
       this._saveUserData({ token, firstName, _id });
+      this.props.userDidLoginOrRegister();
       this.props.history.push(`/home`);
-    } catch {
-      // this.setState({ showAlert: true });
-      alert("Email or password does not match our system");
+    } catch (err) {
+      alert(err);
     }
   };
 
@@ -238,9 +238,9 @@ class Login extends Component {
                       color: "lightgrey",
                     }}
                   >
-                    <Link style={{ color: "lightgrey", textDecoration: "none" }}>
+                    {/* <Link style={{ color: "lightgrey", textDecoration: "none" }}> */}
                       Create account
-                    </Link>{" "}
+                    {/* </Link>{" "} */}
                   </Link>
                 </div>
               </StylesProvider>

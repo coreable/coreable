@@ -83,6 +83,9 @@ class Home extends Component {
       }
     }
 
+    if (!me.teams.length) {
+      me.teams.push(joinTeam);
+    }
     if (me.teams[me.teams.length - 1]._id !== 'joinTeam') {
       me.teams.push(joinTeam);
     }
