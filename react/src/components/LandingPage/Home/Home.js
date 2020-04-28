@@ -82,14 +82,10 @@ class Home extends Component {
       },
     };
 
-<<<<<<< HEAD
     if (!me.teams.length) {
       me.teams.push(joinTeam);
     }
     if (me.teams[me.teams.length - 1]._id !== 'joinTeam') {
-=======
-    if (me.teams[me.teams.length - 1]._id !== "joinTeam") {
->>>>>>> 61aa12d14ba1c884c987de10c3c8815788fba3ef
       me.teams.push(joinTeam);
     }
     me.grouped = grouped;
