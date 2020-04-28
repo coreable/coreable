@@ -54,7 +54,7 @@ class Home extends Component {
       return false;
     }
 
-    const { me } = this.props;
+    const { me } = this.state;
 
     let grouped = {};
     for (const team of me.teams) {
@@ -71,8 +71,13 @@ class Home extends Component {
     }
 
     const joinTeam = {
+<<<<<<< HEAD
       _id: "jointeam",
       name: "Join a Team",
+=======
+      _id: 'joinTeam',
+      name: 'Join a Team',
+>>>>>>> 69a9fe39c1c6d4a143e4b9f7ca8c82cf76465a94
       pending: [],
       subject: {
         name: "Join a Team",
@@ -80,11 +85,18 @@ class Home extends Component {
       },
     };
 
-    console.log(me.teams);
-    console.log(joinTeam);
-
-    me.teams.push(joinTeam);
+    if (me.teams[me.teams.length - 1]._id !== 'joinTeam') {
+      me.teams.push(joinTeam);
+    }
     me.grouped = grouped;
+
+    // Make sure the joinTeam is always the last card
+    me.teams.sort((team) => {
+      if (team._id !== 'joinTeam') {
+        return -1
+      };
+      return 1;
+    });
 
     this.setState({
       ...this.state,
@@ -136,6 +148,7 @@ class Home extends Component {
     if (this.state.isLoading) {
       return false;
     }
+
     if (this.state.me.grouped[team_id].subject.state === 1) {
       return !this.state.me.pending.some(
         (user) => user._id === this.state.me._id
@@ -231,7 +244,7 @@ class Home extends Component {
 
           <div className="main">
             {this.state.me.teams.map((team, index) => {
-              if (team._id !== "jointeam") {
+              if (team._id !== "joinTeam") {
                 return (
                   <Grid
                     container
@@ -301,81 +314,78 @@ class Home extends Component {
                     </div>
                   </Grid>
                 );
-              } else if (team._id === "jointeam") {
-                return (
-                  <Grid
-                    // item xs={12} md={6} lg={4} key={index}
-                    container
-                    direction="row"
-                    justify="center"
-                    alignItems="stretch"
-                    spacing={1}
-                    className="inside-main"
-                    key={index}
-                  >
-                    <Card variant="outlined">
-                      <CardContent>
-                        <Grid
-                          item
-                          container
-                          direction="row"
-                          justify="center"
-                          alignItems="stretch"
-                        >
-                          <Typography variant="h4" component="h2">
-                            Join a team
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <TextField
-                            label="Team Code"
-                            placeholder="eg: GHDK0402"
-                            fullWidth
-                            margin="normal"
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                            variant="outlined"
-                            name="inviteCode"
-                            value={this.state.inviteCode}
-                            type="text"
-                            required
-                            onChange={this.handleChange}
-                            onBlur={this.handleBlur("inviteCode")}
-                            style={{ marginTop: "8pt" }}
-                          />
-                        </Grid>
-                        <CardActions>
-                          <Mutation
-                            mutation={JOIN_TEAM}
-                            variables={{ inviteCode }}
-                            onCompleted={(data) => this._success(data)}
-                          >
-                            {(mutation) => (
-                              <Grid container justify="center">
-                                <Button
-                                  variant="contained"
-                                  color="primary"
-                                  disableElevation
-                                  disabled={this.isDisabled()}
-                                  onClick={async () => {
-                                    this.setState({ isLoading: true });
-                                    return await mutation();
-                                  }}
-                                >
-                                  Join Team
-                                </Button>
-                              </Grid>
-                            )}
-                          </Mutation>
-                        </CardActions>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                );
-              } else {
-                return <Redirect to="/"></Redirect>;
               }
+              return (
+                <Grid
+                  // item xs={12} md={6} lg={4} key={index}
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="stretch"
+                  spacing={1}
+                  className="inside-main"
+                  key={index}
+                >
+                  <Card variant="outlined">
+                    <CardContent>
+                      <Grid
+                        item
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="stretch"
+                      >
+                        <Typography variant="h4" component="h2">
+                          Join a team
+                          </Typography>
+                      </Grid>
+                      <Grid item>
+                        <TextField
+                          label="Team Code"
+                          placeholder="eg: GHDK0402"
+                          fullWidth
+                          margin="normal"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          variant="outlined"
+                          name="inviteCode"
+                          value={this.state.inviteCode}
+                          type="text"
+                          required
+                          onChange={this.handleChange}
+                          onBlur={this.handleBlur("inviteCode")}
+                          style={{ marginTop: "8pt" }}
+                        />
+                      </Grid>
+                      <CardActions>
+                        <Mutation
+                          mutation={JOIN_TEAM}
+                          variables={{ inviteCode }}
+                          onCompleted={(data) => this._success(data)}
+                        >
+                          {(mutation) => (
+                            <Grid container justify="center">
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                disableElevation
+                                disabled={this.isDisabled()}
+                                onClick={async () => {
+                                  this.setState({ isLoading: true });
+                                  return await mutation();
+                                }}
+                              >
+                                Join Team
+                                </Button>
+                            </Grid>
+                          )}
+                        </Mutation>
+                      </CardActions>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              );
             })}
             {/* </Grid>
         </Container> */}
@@ -388,11 +398,11 @@ class Home extends Component {
   _success = async (data) => {
     try {
       const me = data.joinTeam.data.user;
-      me.teams.push("jointeam");
       this.setState({
         ...this.state,
         me,
       });
+      this.componentDidMount();
     } catch (err) {
       alert(data.joinTeam.errors[0].message);
     }

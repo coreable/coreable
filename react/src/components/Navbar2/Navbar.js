@@ -11,6 +11,7 @@ class Navbar extends Component {
 
     this.state = {
       menuItems: ["Home", "Reviews", "Skills", "Goals", "Account", "Logout"],
+      menuLinks: ["home", "reviews", "skills", "goals", "account", "logout"],
       menuOpen: false,
       firstName: this.props.firstName,
       lastName: this.props.lastName,
@@ -37,7 +38,7 @@ class Navbar extends Component {
     return (
       <nav className="navBar">
         {this.backdropHandler()}
-        <NavLink className="logo" to="/Home">
+        <NavLink className="logo" to="/home">
           Coreable
         </NavLink>
         <input
@@ -56,7 +57,7 @@ class Navbar extends Component {
             return (
               <NavbarItem
                 key={idx}
-                dest={menuItem}
+                dest={this.state.menuLinks[idx]}
                 menuOpenHandler={this.menuOpenHandler}
               >
                 {menuItem}

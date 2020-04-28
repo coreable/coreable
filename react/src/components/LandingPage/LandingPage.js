@@ -13,7 +13,7 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   Typography,
   Container,
@@ -24,7 +24,30 @@ import global from "../../global.module.scss";
 import "./LandingPage.scss";
 
 class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
   render() {
+    if (this.props.me) {
+      return (<Redirect to="/home"></Redirect>);
+    }
+
+    if (this.props.loading) {
+      return (
+        <div>
+          <h1>Loading...</h1>
+          <br />
+          <h1>Loading...</h1>
+          <br />
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
+
     return (
       <Container
         maxWidth="xl"

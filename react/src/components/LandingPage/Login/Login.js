@@ -98,7 +98,7 @@ class Login extends Component {
       const { token } = data.login.data;
       const { firstName, _id } = data.login.data.user;
       this._saveUserData({ token, firstName, _id });
-      this.props.history.push(`/setup`);
+      this.props.history.push(`/home`);
     } catch {
       // this.setState({ showAlert: true });
       alert("Email or password does not match our system");
