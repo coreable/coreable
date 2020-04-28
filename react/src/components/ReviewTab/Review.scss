@@ -71,9 +71,54 @@
           color: rgb(97, 103, 121);
         }
 
+        .stepper-line {
+          border-bottom: 4px solid;
+          border-color: rgb(199, 199, 199);
+          height: 20px;
+          width: 56%;
+          position: absolute;
+          z-index: 1;
+          top: 112px;
+          left: 64px;
+        }
+
         .MuiStepper-root {
           padding: 20px;
           padding-top: 15px;
+
+          .MuiStepConnector-lineHorizontal {
+            border-top-style: none;
+            border-top-width: none;
+
+            position: absolute;
+          }
+
+          .MuiStepLabel-label.MuiStepLabel-alternativeLabel {
+            margin-top: 10px;
+          }
+
+          .MuiStepIcon-root {
+            color: rgb(199, 199, 199);
+            height: 1.8rem;
+            width: 1.8rem;
+            z-index: 3;
+
+            .MuiStepIcon-text {
+              font-size: 1rem;
+            }
+          }
+
+          .MuiStepIcon-root.MuiStepIcon-completed,
+          .MuiStepIcon-root.MuiStepIcon-active {
+            color: rgb(64, 112, 224);
+            height: 1.8rem;
+            width: 1.8rem;
+            z-index: 3;
+
+            .MuiStepIcon-text {
+              font-size: 1rem;
+            }
+          }
         }
 
         .btn {
@@ -125,12 +170,12 @@
           }
         }
 
-        .fixed {
-          position: absolute;
-          bottom: 15px;
-          left: 15px;
-          width: 90%;
-        }
+        // .fixed {
+        //   position: absolute;
+        //   bottom: 15px;
+        //   left: 15px;
+        //   width: 90%;
+        // }
 
         .MuiFormControl-root {
           width: 100%;

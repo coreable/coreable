@@ -264,9 +264,14 @@ class Home extends Component {
                       <h3>{this.capitalize(team.subject.name)}</h3>
                       <p>{this.capitalize(team.name)}</p>
 
+                      <span className="stepper-line"> </span>
                       <Stepper
                         activeStep={team.subject.state - 1}
                         alternativeLabel
+                        style={{
+                          padding: "18px 0 22px 0",
+                          position: "relative",
+                        }}
                       >
                         {this.state.steps.map((label, index) => {
                           const isDisabled = this.getReviewButtonState(
@@ -346,7 +351,7 @@ class Home extends Component {
                       type="text"
                       onChange={this.handleChange}
                       onBlur={this.handleBlur("inviteCode")}
-                      style={{ marginTop: "8pt" }}
+                      style={{ marginTop: "8pt", paddingBottom: "15px" }}
                     />
 
                     <Mutation
@@ -356,7 +361,7 @@ class Home extends Component {
                     >
                       {(mutation) => (
                         <Button
-                          className="btn primarybtn fixed"
+                          className="btn primarybtn"
                           // disableElevation
                           disabled={this.isDisabled()}
                           onClick={async () => {
