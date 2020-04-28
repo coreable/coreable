@@ -13,10 +13,7 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import {
-  Redirect,
-  Link,
-} from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
 import { JOIN_TEAM } from "../../../apollo/mutations";
@@ -74,37 +71,43 @@ class Home extends Component {
     }
 
     const joinTeam = {
-      _id: 'joinTeam',
-      name: 'Join a Team',
+      _id: "jointeam",
+      name: "Join a Team",
+      _id: "joinTeam",
+      name: "Join a Team",
       pending: [],
       subject: {
-        name: 'Join a Team',
-        state: 0
-      }
-    }
+        name: "Join a Team",
+        state: 0,
+      },
+    };
 
+<<<<<<< HEAD
     if (!me.teams.length) {
       me.teams.push(joinTeam);
     }
     if (me.teams[me.teams.length - 1]._id !== 'joinTeam') {
+=======
+    if (me.teams[me.teams.length - 1]._id !== "joinTeam") {
+>>>>>>> 61aa12d14ba1c884c987de10c3c8815788fba3ef
       me.teams.push(joinTeam);
     }
     me.grouped = grouped;
 
     // Make sure the joinTeam is always the last card
     me.teams.sort((team) => {
-      if (team._id !== 'joinTeam') {
-        return -1
-      };
+      if (team._id !== "joinTeam") {
+        return -1;
+      }
       return 1;
     });
 
     this.setState({
       ...this.state,
       isLoading: false,
-      me
+      me,
     });
-  }
+  };
 
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
@@ -137,7 +140,7 @@ class Home extends Component {
     return !this.isDisabled();
   }
 
-  handleBlur = (field) => { };
+  handleBlur = (field) => {};
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -180,8 +183,8 @@ class Home extends Component {
         pending: [
           !isDisabled
             ? this.state.me.pending.find(
-              (user) => user._id === this.state.me._id
-            )
+                (user) => user._id === this.state.me._id
+              )
             : null,
         ],
       };
@@ -193,8 +196,8 @@ class Home extends Component {
         subject: this.state.me.grouped[team_id].subject,
         pending: !isDisabled
           ? this.state.me.pending.filter(
-            (user) => user._id !== this.state.me._id
-          )
+              (user) => user._id !== this.state.me._id
+            )
           : null,
       };
     }
@@ -338,7 +341,7 @@ class Home extends Component {
                       >
                         <Typography variant="h4" component="h2">
                           Join a team
-                          </Typography>
+                        </Typography>
                       </Grid>
                       <Grid item>
                         <TextField
@@ -378,7 +381,7 @@ class Home extends Component {
                                 }}
                               >
                                 Join Team
-                                </Button>
+                              </Button>
                             </Grid>
                           )}
                         </Mutation>

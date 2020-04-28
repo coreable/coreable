@@ -225,7 +225,9 @@ class Login extends Component {
                       color: "lightgrey",
                     }}
                   >
-                    <Link style={{ color: "lightgrey", textDecoration: "none" }}>
+                    <Link
+                      style={{ color: "lightgrey", textDecoration: "none" }}
+                    >
                       Forgot password
                     </Link>
                   </Link>
@@ -238,9 +240,7 @@ class Login extends Component {
                       color: "lightgrey",
                     }}
                   >
-                    {/* <Link style={{ color: "lightgrey", textDecoration: "none" }}> */}
                       Create account
-                    {/* </Link>{" "} */}
                   </Link>
                 </div>
               </StylesProvider>
