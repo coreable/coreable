@@ -68,6 +68,12 @@
 
         p {
           font-size: 1.6rem;
+          color: rgb(97, 103, 121);
+        }
+
+        .MuiStepper-root {
+          padding: 20px;
+          padding-top: 15px;
         }
 
         .btn {
@@ -104,7 +110,7 @@
           font-weight: bold;
           &:hover {
             background-color: white;
-            border: none;
+            border: 2px solid rgb(64, 112, 224);
             color: rgb(64, 112, 224);
             transition: all 0.2s ease-in-out;
           }
@@ -124,6 +130,17 @@
           bottom: 15px;
           left: 15px;
           width: 90%;
+        }
+
+        .MuiFormControl-root {
+          width: 100%;
+          .MuiOutlinedInput-root {
+            border-radius: 0.8rem;
+
+            fieldset {
+              // border: none;
+            }
+          }
         }
       }
 
