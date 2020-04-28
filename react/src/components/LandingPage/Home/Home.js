@@ -13,10 +13,7 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import {
-  Redirect,
-  Link,
-} from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
 import { JOIN_TEAM } from "../../../apollo/mutations";
@@ -74,14 +71,14 @@ class Home extends Component {
     }
 
     const joinTeam = {
-      _id: 'jointeam',
-      name: 'Join a Team',
+      _id: "jointeam",
+      name: "Join a Team",
       pending: [],
       subject: {
-        name: 'Join a Team',
-        state: 0
-      }
-    }
+        name: "Join a Team",
+        state: 0,
+      },
+    };
 
     console.log(me.teams);
     console.log(joinTeam);
@@ -92,9 +89,9 @@ class Home extends Component {
     this.setState({
       ...this.state,
       isLoading: false,
-      me
+      me,
     });
-  }
+  };
 
   drawerToggleClickHandler = () => {
     this.setState((prevState) => {
@@ -127,7 +124,7 @@ class Home extends Component {
     return !this.isDisabled();
   }
 
-  handleBlur = (field) => { };
+  handleBlur = (field) => {};
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -169,8 +166,8 @@ class Home extends Component {
         pending: [
           !isDisabled
             ? this.state.me.pending.find(
-              (user) => user._id === this.state.me._id
-            )
+                (user) => user._id === this.state.me._id
+              )
             : null,
         ],
       };
@@ -182,8 +179,8 @@ class Home extends Component {
         subject: this.state.me.grouped[team_id].subject,
         pending: !isDisabled
           ? this.state.me.pending.filter(
-            (user) => user._id !== this.state.me._id
-          )
+              (user) => user._id !== this.state.me._id
+            )
           : null,
       };
     }
