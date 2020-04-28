@@ -201,6 +201,10 @@ class Home extends Component {
     return data;
   }
 
+  capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   render() {
     if (!this.props.me) {
       return <Redirect to="/"></Redirect>;
@@ -257,8 +261,8 @@ class Home extends Component {
                     key={index}
                   >
                     <div className="team-card">
-                      <h3>UTS Health 80245</h3>
-                      <p>{team.name}</p>
+                      <h3>{this.capitalize(team.subject.name)}</h3>
+                      <p>{this.capitalize(team.name)}</p>
 
                       <Stepper
                         activeStep={team.subject.state - 1}
@@ -318,7 +322,6 @@ class Home extends Component {
               }
               return (
                 <Grid
-                  // item xs={12} md={6} lg={4} key={index}
                   container
                   direction="row"
                   justify="center"
@@ -327,69 +330,48 @@ class Home extends Component {
                   className="inside-main"
                   key={index}
                 >
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Grid
-                        item
-                        container
-                        direction="row"
-                        justify="center"
-                        alignItems="stretch"
-                      >
-                        <Typography variant="h4" component="h2">
-                          Join a team
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <TextField
-                          label="Team Code"
-                          placeholder="eg: GHDK0402"
-                          fullWidth
-                          margin="normal"
-                          InputLabelProps={{
-                            shrink: true,
+                  <div className="team-card">
+                    <h3>Join a team</h3>
+                    <p>Enter your team code below</p>
+
+                    <TextField
+                      label="Team Code"
+                      placeholder="eg: Team 1"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{ style: { fontSize: 12 } }}
+                      variant="outlined"
+                      name="inviteCode"
+                      value={this.state.inviteCode}
+                      type="text"
+                      onChange={this.handleChange}
+                      onBlur={this.handleBlur("inviteCode")}
+                      style={{ marginTop: "8pt" }}
+                    />
+
+                    <Mutation
+                      mutation={JOIN_TEAM}
+                      variables={{ inviteCode }}
+                      onCompleted={(data) => this._success(data)}
+                    >
+                      {(mutation) => (
+                        <Button
+                          className="btn primarybtn fixed"
+                          // disableElevation
+                          disabled={this.isDisabled()}
+                          onClick={async () => {
+                            this.setState({ isLoading: true });
+                            return await mutation();
                           }}
-                          variant="outlined"
-                          name="inviteCode"
-                          value={this.state.inviteCode}
-                          type="text"
-                          required
-                          onChange={this.handleChange}
-                          onBlur={this.handleBlur("inviteCode")}
-                          style={{ marginTop: "8pt" }}
-                        />
-                      </Grid>
-                      <CardActions>
-                        <Mutation
-                          mutation={JOIN_TEAM}
-                          variables={{ inviteCode }}
-                          onCompleted={(data) => this._success(data)}
                         >
-                          {(mutation) => (
-                            <Grid container justify="center">
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                disableElevation
-                                disabled={this.isDisabled()}
-                                onClick={async () => {
-                                  this.setState({ isLoading: true });
-                                  return await mutation();
-                                }}
-                              >
-                                Join Team
-                              </Button>
-                            </Grid>
-                          )}
-                        </Mutation>
-                      </CardActions>
-                    </CardContent>
-                  </Card>
+                          Join Team
+                        </Button>
+                      )}
+                    </Mutation>
+                  </div>
                 </Grid>
               );
             })}
-            {/* </Grid>
-        </Container> */}
           </div>
         </div>
       </div>

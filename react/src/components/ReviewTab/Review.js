@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Review.scss";
-import global from "../../global.module.scss";
+import global from "../../Global.module.scss";
+import Navbar from "../Navbar2/Navbar";
 import {
   // Typography,
   // Container,
@@ -25,6 +26,10 @@ export class Review extends Component {
           // paddingTop: "200px",
         }}
       >
+        {/* <Navbar
+          firstName={this.state.me.firstName}
+          lastName={this.state.me.lastName}
+        /> */}
         <div className="review-container">
           <div className="top-background">
             <h1 style={{ margin: "0" }}>Your teams </h1>

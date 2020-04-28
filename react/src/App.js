@@ -23,7 +23,9 @@ import "./App.scss";
 
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() => import("./components/LandingPage/Register/Register"));
+const Register = lazy(() =>
+  import("./components/LandingPage/Register/Register")
+);
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
@@ -37,20 +39,23 @@ class App extends Component {
     this.state = {
       sideDrawerOpen: false,
       loading: true,
-      me: null
+      me: null,
     };
   }
 
   userDidLoginOrRegister = () => {
-    this.setState({
-      ...this.state,
-      loading: true
-    }, () => {
-      this.componentDidMount();
-    });
-  }
+    this.setState(
+      {
+        ...this.state,
+        loading: true,
+      },
+      () => {
+        this.componentDidMount();
+      }
+    );
+  };
 
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     const query = {
       query: `
         query {
@@ -104,13 +109,16 @@ class App extends Component {
       method: "POST",
       mode: "cors",
       headers: {
-        'Content-Type': "application/json",
-        'JWT': localStorage.getItem(JWT) || '',
+        "Content-Type": "application/json",
+        JWT: localStorage.getItem(JWT) || "",
       },
-      body: JSON.stringify(query)
+      body: JSON.stringify(query),
     };
 
-    const res = await fetch("https://coreable.appspot.com/graphql", options).then((res) => res.json());
+    const res = await fetch(
+      "https://coreable.appspot.com/graphql",
+      options
+    ).then((res) => res.json());
     const { data, errors } = res.data.me;
     if (errors) {
       console.error(errors);
@@ -118,9 +126,9 @@ class App extends Component {
     this.setState({
       ...this.state,
       loading: false,
-      me: data ? data.user : null
+      me: data ? data.user : null,
     });
-  }
+  };
 
   render() {
     return (
@@ -128,17 +136,109 @@ class App extends Component {
         <div className="App" style={{ height: "100%" }}>
           <Navbar />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
-            <Route exact path="/" component={(props) => <LandingPage {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route
+              exact
+              path="/"
+              component={(props) => (
+                <LandingPage
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
             {/* Public routes (only unauthenticated users) */}
-            <Route exact path="/login" component={(props) => <Login {...props} me={this.state.me} loading={this.state.loading} userDidLoginOrRegister={this.userDidLoginOrRegister} />} />
-            <Route exact path="/signup" component={(props) => <Register {...props} me={this.state.me} loading={this.state.loading} userDidLoginOrRegister={this.userDidLoginOrRegister}  />} />
+            <Route
+              exact
+              path="/login"
+              component={(props) => (
+                <Login
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                  userDidLoginOrRegister={this.userDidLoginOrRegister}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/signup"
+              component={(props) => (
+                <Register
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                  userDidLoginOrRegister={this.userDidLoginOrRegister}
+                />
+              )}
+            />
             {/* Private routes (only authenticated users) */}
-            <Route exact path="/home" component={(props) => <Home {...props} me={this.state.me} loading={this.state.loading} />} />
-            <Route exact path="/self-review" component={(props) => <Review {...props} me={this.state.me} loading={this.state.loading} />} />
-            <Route exact path="/thank-you" component={(props) => <ThankYou {...props} me={this.state.me} loading={this.state.loading} />} />
-            <Route exact path="/skills" component={(props) => <Skills {...props} me={this.state.me} loading={this.state.loading} />} />
-            <Route exact path="/goals" component={(props) => <Goals {...props} me={this.state.me} loading={this.state.loading} />} />
-            <Route exact path="/reviews" component={(props) => <Reviews {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route
+              exact
+              path="/home"
+              component={(props) => (
+                <Home
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/self-review"
+              component={(props) => (
+                <Review
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/thank-you"
+              component={(props) => (
+                <ThankYou
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/skills"
+              component={(props) => (
+                <Skills
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/goals"
+              component={(props) => (
+                <Goals
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/reviews"
+              component={(props) => (
+                <Reviews
+                  {...props}
+                  me={this.state.me}
+                  loading={this.state.loading}
+                />
+              )}
+            />
           </Suspense>
         </div>
       </Router>
