@@ -36,6 +36,10 @@ export default {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The team they have in common'
     },
+    subject_id: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The subject the review belongs to'
+    },
     // Reviews 
     emotionalResponse: {
       type: new GraphQLNonNull(GraphQLInt),

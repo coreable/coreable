@@ -2,18 +2,18 @@ import React, { Component } from "react";
 import "./Review.scss";
 import global from "../../global.module.scss";
 import {
-  Typography,
-  Container,
+  // Typography,
+  // Container,
   Button,
-  TextField,
-  Card,
-  CardContent,
+  // TextField,
+  // Card,
+  // CardContent,
   Grid,
-  CardActions,
-  Stepper,
-  Step,
-  StepLabel,
-  LinearProgress,
+  // CardActions,
+  // Stepper,
+  // Step,
+  // StepLabel,
+  // LinearProgress,
 } from "@material-ui/core";
 
 export class Review extends Component {

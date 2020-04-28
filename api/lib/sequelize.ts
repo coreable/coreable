@@ -71,6 +71,18 @@ _sequelize.assosciate = (async () => {
 
 (async() => {
   await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
+  // const qantas = await Subject.Subject.create({
+  //   name: 'Qantas',
+  //   state: 2
+  // });
+  // const investible = await Subject.Subject.create({
+  //   name: 'Investible',
+  //   state: 2
+  // });
+  // const n2 = await Subject.Subject.create({
+  //   name: 'N2',
+  //   state: 2
+  // });
 })().then(() => true);
 
 export { sequelize };

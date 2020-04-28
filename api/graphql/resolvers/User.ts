@@ -62,7 +62,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: GraphQLList(TeamResolver),
         resolve(user: any, args, context) {
           // if (context.USER._id === user._id || context.USER instanceof Manager) {
-            return user.teams;
+          return user.teams;
           // }
           // return null;
         }
@@ -196,7 +196,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         }),
         async resolve(user: any, args, context) {
           if (context.USER._id === user._id || context.USER instanceof Manager) {
-            user.reviews = await sequelize.models.Review.findAll({ attributes: {exclude: ['submitter_id'] }, where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
+            user.reviews = await sequelize.models.Review.findAll({ attributes: { exclude: ['submitter_id'] }, where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } } });
             return user.reviews;
           }
           return null;
@@ -216,7 +216,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         type: new GraphQLList(UserResolver),
         async resolve(user, args, context) {
           // @todo #3 Remove self from pending if subject state isn't 1
-          
+
           // if the user retrieved is not the logged in user
           // and the logged in user is not manager
           // or the user being retrieved is a manager
@@ -226,23 +226,38 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             return null;
           }
 
-          // add all the users team members id's to a map
-          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], attributes: { exclude:  ['inviteCode'] } });
+          // add all the users team members to a map
+          const teamQuery = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], attributes: { exclude: ['inviteCode'] } });
           let teamMembers: any = {};
-          for (const team of teams) {
+
+          for (const team of teamQuery) {
             for (const member of team.users) {
               if (!teamMembers[member._id]) {
-                teamMembers[member._id] = member._id;
+                teamMembers[member._id] = {
+                  user_id: member._id,
+                  subject_state: team.subject.state,
+                  received_review: false,
+                  subject_id: team.subject._id
+                };
               }
             }
           }
 
           // if the user has reviewed a team member in the map
           // set the team members value to true
-          const reviews = await sequelize.models.Review.findAll({ where: { submitter_id: user._id } });
-          for (const review of reviews) {
-            if (teamMembers[review.receiver_id]) {
-              teamMembers[review.receiver_id] = true;
+          for (const teamMember in teamMembers) {
+            const review = await sequelize.models.Review.findOne(
+              {
+                where: {
+                  submitter_id: user._id,
+                  receiver_id: teamMembers[teamMember].user_id,
+                  subject_id: teamMembers[teamMember].subject_id,
+                  state: teamMembers[teamMember].subject_state
+                }
+              }
+            );
+            if (review) {
+              teamMembers[teamMember].received_review = true;
             }
           }
 
@@ -250,7 +265,7 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           // the team member hasnt been reviewed
           const pending = [];
           for (const member in teamMembers) {
-            if (teamMembers[member] !== true) {
+            if (teamMembers[member].received_review !== true) {
               pending.push(member);
             }
           }
@@ -260,11 +275,11 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             {
               where: { _id: { [Op.in]: pending } },
               include: [
-                { 
+                {
                   model: Team,
                   as: 'teams',
-                  attributes: { exclude:  ['inviteCode'] },
-                  include: [{ model: Subject, as: 'subject' }] 
+                  attributes: { exclude: ['inviteCode'] },
+                  include: [{ model: Subject, as: 'subject' }]
                 }
               ]
             }

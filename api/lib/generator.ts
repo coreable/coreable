@@ -110,6 +110,7 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: users[0]._id,
       submitter_id: users[0]._id,
+      subject_id: subjects[0]._id,
       state: 1,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
@@ -143,6 +144,7 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: users[1]._id,
       submitter_id: users[0]._id,
+      subject_id: subjects[0]._id,
       state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
@@ -176,6 +178,7 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: users[0]._id,
       submitter_id: users[1]._id,
+      subject_id: subjects[0]._id,
       state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
@@ -209,6 +212,7 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: users[2]._id,
       submitter_id: users[1]._id,
+      subject_id: subjects[0]._id,
       state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
@@ -242,6 +246,7 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: users[1]._id,
       submitter_id: users[2]._id,
+      subject_id: subjects[0]._id,
       state: 2,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),
@@ -275,6 +280,7 @@ export async function generator() {
     const review = await Review.create({
       receiver_id: users[2]._id,
       submitter_id: users[2]._id,
+      subject_id: subjects[0]._id,
       state: 1,
       emotionalResponse: Faker.random.number({ min: 1, max: 99 }),
       empathy: Faker.random.number({ min: 1, max: 99 }),

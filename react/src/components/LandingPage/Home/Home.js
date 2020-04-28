@@ -12,11 +12,8 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component, lazy, Suspense } from "react";
+import React, { Component } from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Redirect,
   Link,
 } from "react-router-dom";
@@ -24,7 +21,6 @@ import {
 import { Mutation } from "react-apollo";
 import { JWT } from "../../../constants";
 import { JOIN_TEAM } from "../../../apollo/mutations";
-// import "./Setup.scss";
 import "../../ReviewTab/Review.scss";
 import global from "../../../global.module.scss";
 
@@ -32,7 +28,7 @@ import Navbar from "../../Navbar2/Navbar";
 
 import {
   Typography,
-  Container,
+  // Container,
   Button,
   TextField,
   Card,
@@ -45,29 +41,23 @@ import {
   LinearProgress,
 } from "@material-ui/core";
 
-// import Home from "../../Home/Home";
-
-class Setup extends Component {
-  constructor() {
-    super();
-
-    // TODO: move to props
-    const AUTH_TOKEN = localStorage.getItem(JWT);
-
+class Home extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
       isLoading: true,
-      loggedIn: !!AUTH_TOKEN,
       me: {
         teams: [],
       },
       steps: ["Self Review", "Team Review", "Final Review"],
     };
+  }
 
-    if (this.state.loggedIn) {
-      const query = {
-        query: `
+  componentDidMount = async () => {
+    const query = {
+      query: `
           query {
             me {
               data {
@@ -75,6 +65,7 @@ class Setup extends Component {
                   _id
                   firstName
                   lastName
+                  email
                   teams {
                     _id
                     name
@@ -108,56 +99,44 @@ class Setup extends Component {
             }
           }
         `,
-      };
+    };
 
-      const options = {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          JWT: AUTH_TOKEN,
-        },
-        body: JSON.stringify(query),
-      };
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: localStorage.getItem(JWT) || '',
+      },
+      body: JSON.stringify(query),
+    };
 
-      fetch("https://coreable.appspot.com/graphql", options).then(
-        async (data) => {
-          let me = await data.json();
-          try {
-            me = me.data.me.data.user;
-          } catch (err) {
-            localStorage.removeItem(JWT);
-            this.setState({
-              ...this.state,
-              loggedIn: false,
-            });
-            return false;
-          }
-
-          let grouped = {};
-          for (let team of me.teams) {
-            grouped[team._id] = team;
-            grouped[team._id].pending = [];
-          }
-          for (const pending of me.pending) {
-            for (const team of pending.teams) {
-              if (grouped[team._id]) {
-                grouped[team._id].pending.push(pending);
-              }
-            }
-          }
-
-          me.teams.push("jointeam");
-          me.grouped = grouped;
-
-          this.setState({
-            ...this.state,
-            isLoading: false,
-            me,
-          });
-        }
-      );
+    const res = await fetch("https://coreable.appspot.com/graphql", options).then((res) => res.json());
+    const { data, errors } = res.data.me;
+    if (errors) {
+      console.error(errors);
     }
+    let grouped = {};
+    for (const team of data.user.teams) {
+      grouped[team._id] = team;
+      grouped[team._id].pending = [];
+    }
+    for (const pending of data.user.pending) {
+      for (const team of pending.teams) {
+        if (grouped[team._id]) {
+          grouped[team._id].pending.push(pending);
+        }
+      }
+    }
+
+    data.user.teams.push('jointeam');
+    data.user.grouped = grouped;
+
+    this.setState({
+      ...this.state,
+      isLoading: false,
+      me: data.user
+    });
   }
 
   drawerToggleClickHandler = () => {
@@ -191,7 +170,7 @@ class Setup extends Component {
     return !this.isDisabled();
   }
 
-  handleBlur = (field) => {};
+  handleBlur = (field) => { };
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -233,8 +212,8 @@ class Setup extends Component {
         pending: [
           !isDisabled
             ? this.state.me.pending.find(
-                (user) => user._id === this.state.me._id
-              )
+              (user) => user._id === this.state.me._id
+            )
             : null,
         ],
       };
@@ -246,8 +225,8 @@ class Setup extends Component {
         subject: this.state.me.grouped[team_id].subject,
         pending: !isDisabled
           ? this.state.me.pending.filter(
-              (user) => user._id !== this.state.me._id
-            )
+            (user) => user._id !== this.state.me._id
+          )
           : null,
       };
     }
@@ -255,7 +234,7 @@ class Setup extends Component {
   }
 
   render() {
-    if (!this.state.loggedIn) {
+    if (!this.props.me) {
       return <Redirect to="/"></Redirect>;
     }
 
@@ -470,4 +449,4 @@ class Setup extends Component {
   };
 }
 
-export default Setup;
+export default Home;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { JWT } from "../../constants";
 import Backdrop from "../Backdrop/Backdrop";
 import NavbarItem from "./NarbarItem";
@@ -74,10 +74,10 @@ class Navbar extends Component {
             {`${this.state.firstName} ${this.state.lastName}`}
             <span className="dropbtn"></span>
             <div className="dropdown-content">
-              <a href="#">Account</a>
-              <a href="/" onClick={() => localStorage.removeItem(JWT)}>
+              <Link href="#">Account</Link>
+              <Link to="/" onClick={() => localStorage.removeItem(JWT)}>
                 Logout
-              </a>
+              </Link>
             </div>
           </div>
         )}

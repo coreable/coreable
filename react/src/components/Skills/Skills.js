@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Redirect } from "react-router-dom";
+import {
+  // BrowserRouter as Router,
+  Redirect
+} from "react-router-dom";
 
 import { JWT } from "../../constants";
 
-import Navbar from "../Navbar2/Navbar";
+// import Navbar from "../Navbar2/Navbar";
 
 export class Skills extends Component {
   constructor() {
