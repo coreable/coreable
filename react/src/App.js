@@ -134,7 +134,9 @@ class App extends Component {
     return (
       <Router>
         <div className="App" style={{ height: "100%" }}>
-          <Navbar />
+          <Navbar
+          // me={this.state.me} loading={this.state.loading}
+          />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
               exact

@@ -159,7 +159,8 @@
 
   // .menu li:nth-child(6),
   // .menu li:nth-child(5)
-  .menu li:nth-last-child(1) {
+  .menu li:nth-last-child(1),
+  .menu li:nth-last-child(2) {
     display: none;
   }
 

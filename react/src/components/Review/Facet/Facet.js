@@ -70,51 +70,36 @@ class Facet extends Component {
 
   render() {
     return (
-      <Container className="reviewing-container" maxWidth="lg">
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid item style={{ marginTop: "16pt" }}>
-            <Typography variant="h4">{this.state.name}</Typography>
-            <Typography variant="subtitle1" style={{ paddingBottom: "24pt" }}>
-              {this.props.desc}
-            </Typography>
-          </Grid>
-
+      <div className="team-container">
+        <div className="top">
+          <div style={{ width: "60%", margin: "0 auto", textAlign: "center" }}>
+            <h1 style={{ margin: "0" }}>{this.state.name} </h1>
+            <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
+          </div>
+        </div>
+        <div className="main">
           {this.state.traits.map((trait, index) => {
             return (
-              <Grid item key={index}>
+              <div className="inside-main">
                 <Trait
                   {...trait}
                   name={this.state.name}
                   traitName={this.state.traits.name}
                   pending={this.props.pending}
                 ></Trait>
-              </Grid>
+              </div>
             );
           })}
 
-          <Grid item container direction="column">
-            <Grid item>
-              <Button
-                className={`${global.btn} ${global.primarybtn}`}
-                onClick={this.continue}
-              >
-                Next
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button className="btn-before" onClick={this.back}>
-                Back
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Container>
+          <Button className="btn primarybtn" onClick={this.continue}>
+            Next
+          </Button>
+
+          <Button className="btn transparentbtn" onClick={this.back}>
+            Back
+          </Button>
+        </div>
+      </div>
     );
   }
 }

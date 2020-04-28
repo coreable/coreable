@@ -10,15 +10,23 @@ class Navbar extends Component {
     super(props);
 
     this.state = {
-      // menuItems: ["Home", "Reviews", "Skills", "Goals", "Account", "Logout"],
-      // menuLinks: ["home", "reviews", "skills", "goals", "account", "logout"],
-      menuItems: ["Home", "Logout"],
-      menuLinks: ["home", "logout"],
       menuOpen: false,
       firstName: this.props.firstName,
       lastName: this.props.lastName,
+      menuItems: [
+        { name: "Home", link: "home" },
+        { name: "Reviews", link: "comingsoon" },
+        { name: "Skills", link: "comingsoon" },
+        { name: "Goals", link: "comingsoon" },
+        { name: "Account", link: "comingsoon" },
+        { name: "Logout", link: "" },
+      ],
     };
   }
+
+  // componentDidMount = () => {
+  //   console.log(this.state.menuItems[4].name);
+  // };
 
   backdropClickHandler = () => {
     this.setState({ menuOpen: false });
@@ -63,10 +71,10 @@ class Navbar extends Component {
             return (
               <NavbarItem
                 key={idx}
-                dest={this.state.menuLinks[idx]}
+                dest={menuItem.link}
                 menuOpenHandler={this.menuOpenHandler}
               >
-                {menuItem}
+                {menuItem.name}
               </NavbarItem>
             );
           })}
@@ -76,17 +84,15 @@ class Navbar extends Component {
 
         {/* right hand side menu */}
         {this.state.firstName === undefined ? null : (
-          <div class="dropdown">
+          <div className="dropdown">
             {/* {this.state.firstName === undefined ? null : this.state.firstName} */}
             {`${this.capitalize(this.state.firstName)} ${this.capitalize(
               this.state.lastName
             )}`}
             <span className="dropbtn"></span>
             <div className="dropdown-content">
-              <Link href="#">Account</Link>
-              <Link to="/" onClick={() => localStorage.removeItem(JWT)}>
-                Logout
-              </Link>
+              <Link to="/review">Account</Link>
+              <Link onClick={() => localStorage.removeItem(JWT)}>Logout</Link>
             </div>
           </div>
         )}

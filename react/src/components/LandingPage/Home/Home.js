@@ -226,6 +226,7 @@ class Home extends Component {
 
     return (
       <div>
+        {/* NOTE: if we put it in here, css does not work */}
         <Navbar
           firstName={this.state.me.firstName}
           lastName={this.state.me.lastName}
