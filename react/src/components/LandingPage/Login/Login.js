@@ -30,7 +30,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
-import global from "../../../global.module.scss";
+import global from "../../../Global.module.scss";
 
 class Login extends Component {
   constructor(props) {
@@ -101,7 +101,7 @@ class Login extends Component {
       this.props.userDidLoginOrRegister();
       this.props.history.push(`/home`);
     } catch (err) {
-      alert(err);
+      alert("Your email or password is incorrect");
     }
   };
 
@@ -240,7 +240,7 @@ class Login extends Component {
                       color: "lightgrey",
                     }}
                   >
-                      Create account
+                    Create account
                   </Link>
                 </div>
               </StylesProvider>

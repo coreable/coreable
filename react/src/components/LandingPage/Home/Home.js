@@ -18,7 +18,8 @@ import { Redirect, Link } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import { JOIN_TEAM } from "../../../apollo/mutations";
 import "../../ReviewTab/Review.scss";
-import global from "../../../global.module.scss";
+
+import globalCSS from "../../../Global.module.scss";
 
 import Navbar from "../../Navbar2/Navbar";
 
@@ -85,7 +86,7 @@ class Home extends Component {
     if (!me.teams.length) {
       me.teams.push(joinTeam);
     }
-    if (me.teams[me.teams.length - 1]._id !== 'joinTeam') {
+    if (me.teams[me.teams.length - 1]._id !== "joinTeam") {
       me.teams.push(joinTeam);
     }
     me.grouped = grouped;
@@ -298,13 +299,13 @@ class Home extends Component {
                             pending: this.getPendingUser(team._id),
                           },
                         }}
-                        style={{
-                          textDecoration: "none",
-                          color: this.getReviewButtonTextColor(team._id),
-                        }}
+                        // style={{
+                        //   textDecoration: "none",
+                        //   color: this.getReviewButtonTextColor(team._id),
+                        // }}
                       >
                         <Button
-                          className={`${global.btn} ${global.primarybtn}`}
+                          className={`${globalCSS.btn} btn primarybtn`}
                           disabled={this.getReviewButtonState(team._id)}
                           disableElevation
                         >

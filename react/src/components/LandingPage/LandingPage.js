@@ -20,20 +20,18 @@ import {
   Button,
   StylesProvider,
 } from "@material-ui/core";
-import global from "../../global.module.scss";
+import global from "../../Global.module.scss";
 import "./LandingPage.scss";
 
 class LandingPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    };
+    this.state = {};
   }
 
   render() {
     if (this.props.me) {
-      return (<Redirect to="/home"></Redirect>);
+      return <Redirect to="/home"></Redirect>;
     }
 
     if (this.props.loading) {
