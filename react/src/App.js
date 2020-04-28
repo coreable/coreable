@@ -42,7 +42,12 @@ class App extends Component {
   }
 
   userDidLoginOrRegister = () => {
-    this.componentDidMount();
+    this.setState({
+      ...this.state,
+      loading: true
+    }, () => {
+      this.componentDidMount();
+    });
   }
 
   componentDidMount = async() => {
