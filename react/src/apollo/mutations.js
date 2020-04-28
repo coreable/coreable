@@ -50,18 +50,36 @@ export const JOIN_TEAM = gql`
         message
       }
       data {
-        user { 
+        user {
           _id
           firstName
           lastName
           email
-          teams { 
+          industry {
+            _id
+            name
+          }
+          teams {
             _id
             name
             subject {
               _id
               name
               state
+            }
+          }
+          pending {
+            _id
+            firstName
+            lastName
+            teams {
+              _id
+              name
+              subject {
+                _id
+                name
+                state
+              }
             }
           }
         }

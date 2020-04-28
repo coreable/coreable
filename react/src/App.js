@@ -109,7 +109,7 @@ class App extends Component {
     this.setState({
       ...this.state,
       loading: false,
-      me: data.user
+      me: data ? data.user : null
     });
   }
 
