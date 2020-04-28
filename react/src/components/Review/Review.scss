@@ -1,4 +1,4 @@
-.review-container {
+.reviewing-container {
   padding-top: 16px;
   justify-content: center;
   align-content: center;
@@ -33,7 +33,7 @@
     cursor: pointer;
     border: none;
   }
-  
+
   .btn-before:focus,
   .btn-next:focus {
     outline: none;
@@ -62,7 +62,11 @@
       width: 380pt;
       border-radius: 4pt;
       background-color: rgb(214, 214, 214);
-      background: linear-gradient(90deg, rgb(66, 113, 249) 20%, rgb(214, 214, 214) 20%);
+      background: linear-gradient(
+        90deg,
+        rgb(66, 113, 249) 20%,
+        rgb(214, 214, 214) 20%
+      );
       padding: 0;
     }
     .rating::-webkit-slider-thumb {

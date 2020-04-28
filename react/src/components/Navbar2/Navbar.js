@@ -34,6 +34,10 @@ class Navbar extends Component {
     }
   };
 
+  capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   render() {
     const { menuItems, menuOpen } = this.state;
 
@@ -74,7 +78,9 @@ class Navbar extends Component {
         {this.state.firstName === undefined ? null : (
           <div class="dropdown">
             {/* {this.state.firstName === undefined ? null : this.state.firstName} */}
-            {`${this.state.firstName} ${this.state.lastName}`}
+            {`${this.capitalize(this.state.firstName)} ${this.capitalize(
+              this.state.lastName
+            )}`}
             <span className="dropbtn"></span>
             <div className="dropdown-content">
               <Link href="#">Account</Link>

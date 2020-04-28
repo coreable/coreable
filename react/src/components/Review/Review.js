@@ -166,7 +166,8 @@ class Review extends Component {
               name: "Eye contact",
               var: "eyeContact",
               val: 0,
-              desc: "During interactions demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments",
+              desc:
+                "During interactions demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments",
             },
           ],
         },
@@ -248,29 +249,29 @@ class Review extends Component {
                 submitReview(
                   receiver_id: "${user}", 
                   team_id: "${team}", 
-                  emotionalResponse: ${review[team][user]['emotionalResponse'].val}, 
-                  empathy: ${review[team][user]['empathy'].val},
-                  managesOwn: ${review[team][user]['managesOwn'].val},
-                  faith: ${review[team][user]['faith'].val},
-                  cooperatively: ${review[team][user]['cooperatively'].val},
-                  positiveBelief: ${review[team][user]['positiveBelief'].val},
-                  resilienceFeedback: ${review[team][user]['resilienceFeedback'].val},
-                  calm: ${review[team][user]['calm'].val},
-                  change: ${review[team][user]['change'].val},
-                  newIdeas: ${review[team][user]['newIdeas'].val},
-                  workDemands: ${review[team][user]['workDemands'].val},
-                  proactive: ${review[team][user]['proactive'].val},
-                  influences: ${review[team][user]['influences'].val},
-                  clearInstructions: ${review[team][user]['clearInstructions'].val},
-                  preventsMisunderstandings: ${review[team][user]['preventsMisunderstandings'].val},
-                  easilyExplainsComplexIdeas: ${review[team][user]['easilyExplainsComplexIdeas'].val},
-                  openToShare: ${review[team][user]['openToShare'].val},
-                  tone: ${review[team][user]['tone'].val},
-                  crossTeam: ${review[team][user]['crossTeam'].val},
-                  distractions: ${review[team][user]['distractions'].val},
-                  eyeContact: ${review[team][user]['eyeContact'].val},
-                  signifiesInterest: ${review[team][user]['signifiesInterest'].val},
-                  verbalAttentiveFeedback: ${review[team][user]['verbalAttentiveFeedback'].val}
+                  emotionalResponse: ${review[team][user]["emotionalResponse"].val}, 
+                  empathy: ${review[team][user]["empathy"].val},
+                  managesOwn: ${review[team][user]["managesOwn"].val},
+                  faith: ${review[team][user]["faith"].val},
+                  cooperatively: ${review[team][user]["cooperatively"].val},
+                  positiveBelief: ${review[team][user]["positiveBelief"].val},
+                  resilienceFeedback: ${review[team][user]["resilienceFeedback"].val},
+                  calm: ${review[team][user]["calm"].val},
+                  change: ${review[team][user]["change"].val},
+                  newIdeas: ${review[team][user]["newIdeas"].val},
+                  workDemands: ${review[team][user]["workDemands"].val},
+                  proactive: ${review[team][user]["proactive"].val},
+                  influences: ${review[team][user]["influences"].val},
+                  clearInstructions: ${review[team][user]["clearInstructions"].val},
+                  preventsMisunderstandings: ${review[team][user]["preventsMisunderstandings"].val},
+                  easilyExplainsComplexIdeas: ${review[team][user]["easilyExplainsComplexIdeas"].val},
+                  openToShare: ${review[team][user]["openToShare"].val},
+                  tone: ${review[team][user]["tone"].val},
+                  crossTeam: ${review[team][user]["crossTeam"].val},
+                  distractions: ${review[team][user]["distractions"].val},
+                  eyeContact: ${review[team][user]["eyeContact"].val},
+                  signifiesInterest: ${review[team][user]["signifiesInterest"].val},
+                  verbalAttentiveFeedback: ${review[team][user]["verbalAttentiveFeedback"].val}
                 ) {
                   errors {
                     path
@@ -284,20 +285,24 @@ class Review extends Component {
                   }
                 }
               }
-            `
+            `,
           };
           const options = {
-            method: 'POST',
-            mode: 'cors',
+            method: "POST",
+            mode: "cors",
             headers: {
-              'Content-Type': 'application/json',
-              'JWT': AUTH_TOKEN,
+              "Content-Type": "application/json",
+              JWT: AUTH_TOKEN,
             },
-            body: JSON.stringify(query)
+            body: JSON.stringify(query),
           };
-          promises.push(new Promise((r, f) => fetch('https://coreable.appspot.com/graphql', options).then(r)));
+          promises.push(
+            new Promise((r, f) =>
+              fetch("https://coreable.appspot.com/graphql", options).then(r)
+            )
+          );
         } catch (err) {
-          console.error({ err: err, path: 'Review.js' });
+          console.error({ err: err, path: "Review.js" });
         }
       }
     }

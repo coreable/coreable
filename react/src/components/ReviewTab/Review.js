@@ -69,7 +69,7 @@ export class Review extends Component {
               className="inside-main"
             >
               <div className="team-card">
-                <h3>Join a team</h3>
+                <h3>Join team</h3>
                 <p>Use your team code below</p>
               </div>
 

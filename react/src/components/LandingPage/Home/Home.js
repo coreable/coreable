@@ -336,7 +336,7 @@ class Home extends Component {
                   key={index}
                 >
                   <div className="team-card">
-                    <h3>Join a team</h3>
+                    <h3>Join team</h3>
                     <p>Enter your team code below</p>
 
                     <TextField

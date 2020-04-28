@@ -15,7 +15,10 @@ Coreable source code.
 import React, { Component } from "react";
 import { Grid, Container, Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
-import "./Facet.scss";
+// import "./Facet.scss";
+import "../Review.scss";
+
+import global from "../../../Global.module.scss";
 
 class Facet extends Component {
   constructor(props) {
@@ -67,7 +70,7 @@ class Facet extends Component {
 
   render() {
     return (
-      <Container className="review-container" maxWidth="lg">
+      <Container className="reviewing-container" maxWidth="lg">
         <Grid
           container
           direction="column"
@@ -97,7 +100,10 @@ class Facet extends Component {
 
           <Grid item container direction="column">
             <Grid item>
-              <Button className="btn-next" onClick={this.continue}>
+              <Button
+                className={`${global.btn} ${global.primarybtn}`}
+                onClick={this.continue}
+              >
                 Next
               </Button>
             </Grid>
