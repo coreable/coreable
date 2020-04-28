@@ -119,17 +119,17 @@ class App extends Component {
         <div className="App" style={{ height: "100%" }}>
           <Navbar />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
-            <Route exact path="/" component={(props) => <LandingPage {...props} me={this.state.me} />} />
+            <Route exact path="/" component={(props) => <LandingPage {...props} me={this.state.me} loading={this.state.loading} />} />
             {/* Public routes (only unauthenticated users) */}
-            <Route exact path="/login" component={(props) => <Login {...props} me={this.state.me} />} />
-            <Route exact path="/signup" component={(props) => <Register {...props} me={this.state.me} />} />
+            <Route exact path="/login" component={(props) => <Login {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/signup" component={(props) => <Register {...props} me={this.state.me} loading={this.state.loading} />} />
             {/* Private routes (only authenticated users) */}
-            <Route exact path="/home" component={(props) => <Home {...props} me={this.state.me} />} />
-            <Route exact path="/self-review" component={(props) => <Review {...props} me={this.state.me} />} />
-            <Route exact path="/thank-you" component={(props) => <ThankYou {...props} me={this.state.me} />} />
-            <Route exact path="/skills" component={(props) => <Skills {...props} me={this.state.me} />} />
-            <Route exact path="/goals" component={(props) => <Goals {...props} me={this.state.me} />} />
-            <Route exact path="/reviews" component={(props) => <Reviews {...props} me={this.state.me} />} />
+            <Route exact path="/home" component={(props) => <Home {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/self-review" component={(props) => <Review {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/thank-you" component={(props) => <ThankYou {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/skills" component={(props) => <Skills {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/goals" component={(props) => <Goals {...props} me={this.state.me} loading={this.state.loading} />} />
+            <Route exact path="/reviews" component={(props) => <Reviews {...props} me={this.state.me} loading={this.state.loading} />} />
           </Suspense>
         </div>
       </Router>
