@@ -40,7 +40,6 @@ class Register extends Component {
       password: "",
       firstname: "",
       lastname: "",
-      loggedIn: false,
       loading: false,
 
       touched: {
@@ -50,12 +49,6 @@ class Register extends Component {
         lastname: false,
       },
     };
-  }
-
-  componentDidMount() {
-    if (localStorage.getItem(JWT)) {
-      this.setState({ loggedIn: true });
-    }
   }
 
   errors() {
@@ -146,7 +139,7 @@ class Register extends Component {
   };
 
   render() {
-    if (this.state.loggedIn) {
+    if (this.props.me) {
       return <Redirect to="/home"></Redirect>;
     }
 
@@ -278,9 +271,9 @@ class Register extends Component {
                   color: "lightgrey",
                 }}
               >
-                <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                <Link style={{ color: "lightgrey", textDecoration: "none" }}>
                   Forgot password
-                </a>
+                </Link>
               </Link>
             </div>
           </FormControl>

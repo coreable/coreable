@@ -320,20 +320,21 @@ class Review extends Component {
   render() {
     const { currentIndex } = this.state;
     const reviewDone = this.state.currentIndex >= this.state.facets.length;
-    if (!localStorage.getItem(JWT)) {
-      // TODO: move this to a prop
+
+    if (!this.props.me) {
       return <Redirect to="/"></Redirect>;
     }
+
     if (reviewDone && !this.state.submitting) {
       return <Redirect to="/thank-you"></Redirect>;
     }
     if (reviewDone && this.state.submitting) {
       return <LinearProgress style={{ top: "12pt" }} />;
     }
-    console.log(this.props.location);
     if (!this.props.location.state) {
       return <Redirect to="/"></Redirect>;
     }
+
     if (this.state.currentIndex <= -1) {
       return <Redirect to="/setup"></Redirect>;
     }
@@ -343,6 +344,7 @@ class Review extends Component {
         {...this.state.facets[currentIndex]}
         nextStep={this.nextStep}
         prevStep={this.prevStep}
+        me={this.props.me}
       ></Facet>
     );
   }

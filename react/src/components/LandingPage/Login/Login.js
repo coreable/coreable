@@ -33,13 +33,12 @@ import {
 import global from "../../../global.module.scss";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: "",
       password: "",
-      loggedIn: false,
       loading: false,
       showAlert: false,
 
@@ -48,12 +47,6 @@ class Login extends Component {
         password: false,
       },
     };
-  }
-
-  componentDidMount() {
-    if (localStorage.getItem(JWT)) {
-      this.setState({ loggedIn: true });
-    }
   }
 
   errors() {
@@ -122,14 +115,8 @@ class Login extends Component {
     localStorage.setItem(USERID, _id);
   };
 
-  // alert = () => {
-  //   if (this.state.showAlert) {
-  //     return <div>Email or password does not match our system</div>;
-  //   }
-  // };
-
   render() {
-    if (this.state.loggedIn) {
+    if (this.props.me) {
       return <Redirect to="/home"></Redirect>;
     }
 
@@ -238,9 +225,9 @@ class Login extends Component {
                       color: "lightgrey",
                     }}
                   >
-                    <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                    <Link style={{ color: "lightgrey", textDecoration: "none" }}>
                       Forgot password
-                    </a>
+                    </Link>
                   </Link>
                   <span> |||||| </span>
                   <Link
@@ -251,9 +238,9 @@ class Login extends Component {
                       color: "lightgrey",
                     }}
                   >
-                    <a style={{ color: "lightgrey", textDecoration: "none" }}>
+                    <Link style={{ color: "lightgrey", textDecoration: "none" }}>
                       Create account
-                    </a>{" "}
+                    </Link>{" "}
                   </Link>
                 </div>
               </StylesProvider>
