@@ -37,7 +37,7 @@ class App extends Component {
     this.state = {
       sideDrawerOpen: false,
       loading: true,
-      me: {}
+      me: null
     };
   }
 
@@ -63,6 +63,20 @@ class App extends Component {
                     _id
                     name
                     state
+                  }
+                }
+                pending {
+                  _id
+                  firstName
+                  lastName
+                  teams {
+                    _id
+                    name
+                    subject {
+                      _id
+                      name
+                      state
+                    }
                   }
                 }
               }

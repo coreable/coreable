@@ -19,7 +19,6 @@ import {
 } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
-import { JWT } from "../../../constants";
 import { JOIN_TEAM } from "../../../apollo/mutations";
 import "../../ReviewTab/Review.scss";
 import global from "../../../global.module.scss";
@@ -48,80 +47,25 @@ class Home extends Component {
       sideDrawerOpen: false,
       inviteCode: "",
       isLoading: true,
-      me: {
-        teams: [],
-      },
+      me: props.me,
       steps: ["Self Review", "Team Review", "Final Review"],
     };
   }
 
   componentDidMount = async () => {
-    const query = {
-      query: `
-          query {
-            me {
-              data {
-                user {
-                  _id
-                  firstName
-                  lastName
-                  email
-                  teams {
-                    _id
-                    name
-                    subject {
-                      _id
-                      name
-                      state
-                    }
-                  }
-                  pending {
-                    _id
-                    firstName
-                    lastName
-                    teams {
-                      _id
-                      name
-                      subject {
-                        _id
-                        name
-                        state
-                      }
-                    }
-                  }
-                }
-              }
-              errors {
-                code
-                path
-                message
-              }
-            }
-          }
-        `,
-    };
-
-    const options = {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT) || '',
-      },
-      body: JSON.stringify(query),
-    };
-
-    const res = await fetch("https://coreable.appspot.com/graphql", options).then((res) => res.json());
-    const { data, errors } = res.data.me;
-    if (errors) {
-      console.error(errors);
+    if (!this.props.me) {
+      return false;
     }
+
+    const { me } = this.props;
+
     let grouped = {};
-    for (const team of data.user.teams) {
+    for (const team of me.teams) {
       grouped[team._id] = team;
       grouped[team._id].pending = [];
     }
-    for (const pending of data.user.pending) {
+
+    for (const pending of me.pending) {
       for (const team of pending.teams) {
         if (grouped[team._id]) {
           grouped[team._id].pending.push(pending);
@@ -129,13 +73,26 @@ class Home extends Component {
       }
     }
 
-    data.user.teams.push('jointeam');
-    data.user.grouped = grouped;
+    const joinTeam = {
+      _id: 'jointeam',
+      name: 'Join a Team',
+      pending: [],
+      subject: {
+        name: 'Join a Team',
+        state: 0
+      }
+    }
+
+    console.log(me.teams);
+    console.log(joinTeam);
+
+    me.teams.push(joinTeam);
+    me.grouped = grouped;
 
     this.setState({
       ...this.state,
       isLoading: false,
-      me: data.user
+      me
     });
   }
 
@@ -277,7 +234,7 @@ class Home extends Component {
 
           <div className="main">
             {this.state.me.teams.map((team, index) => {
-              if (team !== "jointeam") {
+              if (team._id !== "jointeam") {
                 return (
                   <Grid
                     container
@@ -347,7 +304,7 @@ class Home extends Component {
                     </div>
                   </Grid>
                 );
-              } else if (team === "jointeam") {
+              } else if (team._id === "jointeam") {
                 return (
                   <Grid
                     // item xs={12} md={6} lg={4} key={index}
