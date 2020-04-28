@@ -71,13 +71,10 @@ class Home extends Component {
     }
 
     const joinTeam = {
-<<<<<<< HEAD
       _id: "jointeam",
       name: "Join a Team",
-=======
-      _id: 'joinTeam',
-      name: 'Join a Team',
->>>>>>> 69a9fe39c1c6d4a143e4b9f7ca8c82cf76465a94
+      _id: "joinTeam",
+      name: "Join a Team",
       pending: [],
       subject: {
         name: "Join a Team",
@@ -85,16 +82,16 @@ class Home extends Component {
       },
     };
 
-    if (me.teams[me.teams.length - 1]._id !== 'joinTeam') {
+    if (me.teams[me.teams.length - 1]._id !== "joinTeam") {
       me.teams.push(joinTeam);
     }
     me.grouped = grouped;
 
     // Make sure the joinTeam is always the last card
     me.teams.sort((team) => {
-      if (team._id !== 'joinTeam') {
-        return -1
-      };
+      if (team._id !== "joinTeam") {
+        return -1;
+      }
       return 1;
     });
 
@@ -337,7 +334,7 @@ class Home extends Component {
                       >
                         <Typography variant="h4" component="h2">
                           Join a team
-                          </Typography>
+                        </Typography>
                       </Grid>
                       <Grid item>
                         <TextField
@@ -377,7 +374,7 @@ class Home extends Component {
                                 }}
                               >
                                 Join Team
-                                </Button>
+                              </Button>
                             </Grid>
                           )}
                         </Mutation>
