@@ -242,7 +242,7 @@ class Trait extends Component {
           name={this.state.var}
           value={this.state.val}
           value={this.state.val !== 0 ? "0" : this.state.val}
-          disabled={!this.state.user._id}
+          // disabled={!this.state.user._id}
           className="rating"
           onChange={this.handleSliderChange}
           style={{
