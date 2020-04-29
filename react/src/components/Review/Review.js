@@ -30,7 +30,7 @@ class Review extends Component {
         {
           name: "Emotional Intelligence",
           desc:
-            "Actively creates a pleasant human environment for work, show empathy, accountability, humility, friendliness and unselfishness",
+            "Emotional intelligence is the ability to perceive, use, understand and manage our emotions and having personality traits to deal with emotions",
           traits: [
             {
               name: "Emotional response",
@@ -72,15 +72,16 @@ class Review extends Component {
           ],
         },
         {
-          name: "Moral Trust",
+          name: "Trust",
           desc: "Firm belief in the reliability, truth, or ability of someone",
           traits: [
-            {
-              name: "Faith",
-              var: "faith",
-              val: 0,
-              desc: "",
-            },
+            //dont need this
+            // {
+            //   name: "Faith",
+            //   var: "faith",
+            //   val: 0,
+            //   desc: "",
+            // },
             {
               name: "Cooperatively",
               var: "cooperatively",
@@ -116,7 +117,8 @@ class Review extends Component {
         },
         {
           name: "Clarity",
-          desc: "",
+          desc:
+            "Gives clear instructions that increases productivity, easily explains complex ideas that prevents misunderstandings",
           traits: [
             {
               name: "Clear instructions",
@@ -124,12 +126,13 @@ class Review extends Component {
               val: 0,
               desc: "Gives clear instructions",
             },
-            {
-              name: "Prevents misunderstandings",
-              var: "preventsMisunderstandings",
-              val: 0,
-              desc: "",
-            },
+            // dont need this
+            // {
+            //   name: "Prevents misunderstandings",
+            //   var: "preventsMisunderstandings",
+            //   val: 0,
+            //   desc: "",
+            // },
             {
               name: "Complex ideas",
               var: "easilyExplainsComplexIdeas",
@@ -140,21 +143,34 @@ class Review extends Component {
         },
         {
           name: "Culture",
-          desc: "",
+          desc:
+            "Enables communication across all team members, delivers messages in a appropriate tone, cultivates an environment which is be open and supportive.",
           traits: [
-            { name: "Open to share", var: "openToShare", val: 0, desc: "" },
+            {
+              name: "Open to share",
+              var: "openToShare",
+              val: 0,
+              desc: "Builds a strong sense of openness, trust and community",
+            },
             {
               name: "Tone",
               var: "tone",
               val: 0,
-              desc: "",
+              desc: "Encourages creative potential in others",
             },
-            { name: "Cross team", var: "crossTeam", val: 0, desc: "" },
+            {
+              name: "Cross team",
+              var: "crossTeam",
+              val: 0,
+              desc:
+                "Creates an environment where individuals are safe to report errors",
+            },
           ],
         },
         {
           name: "Non-Verbal",
-          desc: "",
+          desc:
+            "During conversation keeps engaged through their body language showing eye contact and not being distracted",
           traits: [
             {
               name: "Distractions",
@@ -173,7 +189,8 @@ class Review extends Component {
         },
         {
           name: "Verbal Attentiveness",
-          desc: "",
+          desc:
+            "Provides active listening by paraphrasing, clarifying, reflective listening, prompts, open and closed questions.",
           traits: [
             {
               name: "Signifies interest",
