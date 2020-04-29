@@ -32,23 +32,23 @@ class Ranking extends Component {
       });
     }
 
-    const wasFail = this.state.previousVal <= 10;
+    const wasFail = this.state.previousVal <= 20;
     const shouldBeFail = isBroken && wasFail;
 
-    let wasUnder = this.state.previousVal > 10 && this.state.previousVal <= 30;
+    let wasUnder = this.state.previousVal > 20 && this.state.previousVal <= 40;
     let shouldBeUnder = isBroken && wasUnder;
 
-    let wasHabit = this.state.previousVal > 30 && this.state.previousVal <= 50;
+    let wasHabit = this.state.previousVal > 40 && this.state.previousVal <= 60;
     let shouldBeHabit = isBroken && wasHabit;
 
     let wasEncourage =
-      this.state.previousVal > 50 && this.state.previousVal <= 70;
+      this.state.previousVal > 60 && this.state.previousVal <= 80;
     let shouldBeEncourage = isBroken && wasEncourage;
 
-    let wasTeaches = this.state.previousVal > 70;
+    let wasTeaches = this.state.previousVal > 80;
     let shouldBeTeaches = isBroken && wasTeaches;
 
-    if (this.props.val <= 10 || shouldBeFail) {
+    if (this.props.val <= 20 || shouldBeFail) {
       return (
         <div>
           <Typography
@@ -66,7 +66,7 @@ class Ranking extends Component {
         </div>
       );
     }
-    if ((this.props.val > 10 && this.props.val <= 30) || shouldBeUnder) {
+    if ((this.props.val > 20 && this.props.val <= 40) || shouldBeUnder) {
       return (
         <div>
           <Typography
@@ -85,7 +85,7 @@ class Ranking extends Component {
         </div>
       );
     }
-    if ((this.props.val > 30 && this.props.val <= 50) || shouldBeHabit) {
+    if ((this.props.val > 40 && this.props.val <= 60) || shouldBeHabit) {
       return (
         <div>
           <Typography
@@ -103,7 +103,7 @@ class Ranking extends Component {
         </div>
       );
     }
-    if ((this.props.val > 50 && this.props.val <= 70) || shouldBeEncourage) {
+    if ((this.props.val > 60 && this.props.val <= 80) || shouldBeEncourage) {
       return (
         <div>
           <Typography
@@ -121,7 +121,7 @@ class Ranking extends Component {
         </div>
       );
     }
-    if (this.props.val > 70 || shouldBeTeaches) {
+    if (this.props.val > 80 || shouldBeTeaches) {
       return (
         <div>
           <Typography

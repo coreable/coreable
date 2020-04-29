@@ -275,9 +275,10 @@
       color: rgb(64, 112, 224);
       font-weight: bold;
       &:hover {
-        color: white;
-        background-color: rgb(64, 112, 224);
-        border: none;
+        // color: white;
+        // background-color: rgb(64, 112, 224);
+        background-color: transparent;
+        border: 2px solid rgb(64, 112, 224);
         transition: all 0.2s ease-in-out;
       }
     }

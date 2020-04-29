@@ -154,6 +154,7 @@ class Trait extends Component {
     const trait = this.state.var;
 
     try {
+      //the val is not accurate here
       const val = e.target.value;
       this.setState(
         {
@@ -265,7 +266,6 @@ class Trait extends Component {
             key={this.state.var}
             id={this.state.var}
             name={this.state.var}
-            value={this.state.val}
             value={this.state.val !== 0 ? "0" : this.state.val}
             // disabled={!this.state.user._id}
             className="rating"
