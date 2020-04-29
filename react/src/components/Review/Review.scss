@@ -120,7 +120,7 @@
 
         .rating {
           -webkit-appearance: none;
-          // height: 24pt;
+          height: 24pt;
           width: 100%;
           border-radius: 4pt;
           background-color: rgb(214, 214, 214);
@@ -131,7 +131,7 @@
           );
           padding: 0;
           margin: 0;
-          // z-index: 3;
+          z-index: 1;
         }
 
         .rating::-webkit-slider-thumb {
