@@ -233,15 +233,12 @@ class Home extends Component {
         />
         <div className="review-container">
           <div className="top-background">
-            <span
-              style={{
-                marginBottom: "0",
-                fontSize: "20pt",
-                fontWeight: "bolder",
-              }}
+            <Typography
+              variant="h2"
+              style={{ color: "white", fontWeight: "bold" }}
             >
-              Your teams{" "}
-            </span>
+              Your teams
+            </Typography>
             <p style={{ fontSize: "1.4rem" }}>
               {" "}
               View your teams, review your team, and join teams.
@@ -262,7 +259,10 @@ class Home extends Component {
                     key={index}
                   >
                     <div className="team-card">
-                      <h3>{this.capitalize(team.subject.name)}</h3>
+                      <Typography variant="h3" style={{ fontWeight: "bold" }}>
+                        {this.capitalize(team.subject.name)}
+                      </Typography>
+                      {/* <h3>{this.capitalize(team.subject.name)}</h3> */}
                       <p>{this.capitalize(team.name)}</p>
 
                       <span className="stepper-line"> </span>
@@ -337,7 +337,10 @@ class Home extends Component {
                   key={index}
                 >
                   <div className="team-card">
-                    <h3>Join team</h3>
+                    <Typography variant="h3" style={{ fontWeight: "bold" }}>
+                      Join team
+                    </Typography>
+                    {/* <h3>Join team</h3> */}
                     <p>Enter your team code below</p>
 
                     <TextField

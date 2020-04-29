@@ -73,7 +73,13 @@ class Facet extends Component {
       <div className="team-container">
         <div className="top">
           <div className="facet-heading-desc">
-            <h1 style={{ margin: "0" }}>{this.state.name} </h1>
+            <Typography
+              variant="h2"
+              style={{ color: "white", fontWeight: "bold" }}
+            >
+              {this.state.name}
+            </Typography>
+            {/* <h1 style={{ margin: "0" }}>{this.state.name} </h1> */}
             <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
           </div>
         </div>
