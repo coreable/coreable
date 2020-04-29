@@ -214,6 +214,30 @@ class Trait extends Component {
     return teamMemberCount;
   };
 
+  pointOne = (val) => {
+    if (val > 19) {
+      return "#0096f8";
+    }
+  };
+
+  pointTwo = (val) => {
+    if (val > 39) {
+      return "#00b3e5";
+    }
+  };
+
+  pointThree = (val) => {
+    if (val > 59) {
+      return "#00c8b3";
+    }
+  };
+
+  pointFour = (val) => {
+    if (val > 79) {
+      return "#2dd775";
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -232,25 +256,55 @@ class Trait extends Component {
 
         <Ranking {...this.state} />
 
-        <input
-          type="range"
-          min={0}
-          max={100}
-          step={1}
-          key={this.state.var}
-          id={this.state.var}
-          name={this.state.var}
-          value={this.state.val}
-          value={this.state.val !== 0 ? "0" : this.state.val}
-          // disabled={!this.state.user._id}
-          className="rating"
-          onChange={this.handleSliderChange}
-          style={{
-            backgroundImage: this.getSliderBackground(),
-            marginTop: "8pt",
-            marginBottom: "8pt",
-          }}
-        />
+        <div className="slider-bar-container">
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={5}
+            key={this.state.var}
+            id={this.state.var}
+            name={this.state.var}
+            value={this.state.val}
+            value={this.state.val !== 0 ? "0" : this.state.val}
+            // disabled={!this.state.user._id}
+            className="rating"
+            onChange={this.handleSliderChange}
+            style={{
+              backgroundImage: this.getSliderBackground(),
+              marginTop: "8pt",
+              marginBottom: "12pt",
+            }}
+          />
+
+          <div className="slider-bar-border-container">
+            <div
+              className="bar"
+              style={{ background: this.pointOne(this.state.val) }}
+            >
+              {" "}
+            </div>
+            <div
+              className="bar"
+              style={{ background: this.pointTwo(this.state.val) }}
+            >
+              {" "}
+            </div>
+            <div
+              className="bar"
+              style={{ background: this.pointThree(this.state.val) }}
+            >
+              {" "}
+            </div>
+            <div
+              className="bar"
+              style={{ background: this.pointFour(this.state.val) }}
+            >
+              {" "}
+            </div>
+            {/* <div className="bar"> </div> */}
+          </div>
+        </div>
 
         <CardActions
           style={{ flexWrap: "wrap", justifyContent: "left", padding: "0" }}
