@@ -22,7 +22,6 @@ class Navbar extends Component {
         { name: "Logout", link: "" },
       ],
     };
-    console.log(this.state.lastName);
   }
 
   // componentDidMount = () => {

@@ -16,7 +16,7 @@ import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
 
-import { Card, Typography, CardActions, Button } from "@material-ui/core";
+import { Typography, CardActions, Button } from "@material-ui/core";
 
 class Trait extends Component {
   constructor(props) {

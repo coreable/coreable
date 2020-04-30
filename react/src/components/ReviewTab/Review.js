@@ -1,21 +1,8 @@
 import React, { Component } from "react";
 import "./Review.scss";
 import global from "../../global.scss";
-import Navbar from "../Navbar2/Navbar";
-import {
-  // Typography,
-  // Container,
-  Button,
-  // TextField,
-  // Card,
-  // CardContent,
-  Grid,
-  // CardActions,
-  // Stepper,
-  // Step,
-  // StepLabel,
-  // LinearProgress,
-} from "@material-ui/core";
+
+import { Button, Grid } from "@material-ui/core";
 
 export class Review extends Component {
   render() {

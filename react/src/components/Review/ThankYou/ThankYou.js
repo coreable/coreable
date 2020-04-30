@@ -146,17 +146,17 @@ class ThankYou extends Component {
   }
 
   render() {
-    if (this.state.loading) {
-      return (
-        <React.Fragment>
-          <Navbar
-            firstName={this.state.me.firstName}
-            lastName={this.state.me.lastName}
-          />
-          <LinearProgress style={{ top: "37pt" }}></LinearProgress>
-        </React.Fragment>
-      );
-    }
+    // if (this.state.loading) {
+    //   return (
+    //     <React.Fragment>
+    //       <Navbar
+    //         firstName={this.state.me.firstName}
+    //         lastName={this.state.me.lastName}
+    //       />
+    //       <LinearProgress style={{ top: "37pt" }}></LinearProgress>
+    //     </React.Fragment>
+    //   );
+    // }
 
     return (
       <React.Fragment>

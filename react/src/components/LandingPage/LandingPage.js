@@ -22,7 +22,6 @@ import {
 } from "@material-ui/core";
 import "../../global.scss";
 import "./LandingPage.scss";
-import Loading from "../Loading/Loading";
 
 class LandingPage extends Component {
   constructor(props) {

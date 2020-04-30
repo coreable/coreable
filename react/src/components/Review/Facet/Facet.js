@@ -13,12 +13,12 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import { Grid, Container, Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
 // import "./Facet.scss";
 import "../Review.scss";
 
-import global from "../../../global.scss";
+// import global from "../../../global.scss";
 
 class Facet extends Component {
   constructor(props) {

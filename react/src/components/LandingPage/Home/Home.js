@@ -21,17 +21,11 @@ import "../../ReviewTab/Review.scss";
 
 import globalCSS from "../../../global.scss";
 
-import Navbar from "../../Navbar2/Navbar";
-
 import {
   Typography,
-  // Container,
   Button,
   TextField,
-  Card,
-  CardContent,
   Grid,
-  CardActions,
   Stepper,
   Step,
   StepLabel,
@@ -72,8 +66,9 @@ class Home extends Component {
     }
 
     const joinTeam = {
-      _id: "jointeam",
-      name: "Join a Team",
+      //duplicate keys??????
+      // _id: "jointeam",
+      // name: "Join a Team",
       _id: "joinTeam",
       name: "Join a Team",
       pending: [],
