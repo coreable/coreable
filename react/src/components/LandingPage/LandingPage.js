@@ -42,7 +42,7 @@ class LandingPage extends Component {
     return (
       <Container
         maxWidth="xl"
-        style={{ backgroundColor: "#0b152f", height: "95.25vh" }}
+        style={{ backgroundColor: "#0b152f", height: "100vh" }}
         className="container"
       >
         <Container maxWidth="sm">

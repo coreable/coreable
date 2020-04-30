@@ -249,6 +249,7 @@ class App extends Component {
                 />
               )}
             />
+            <Route exact path="/loading" component={Loader} />
           </Suspense>
         </div>
       </Router>
