@@ -254,7 +254,7 @@ class Register extends Component {
               {(mutation, { _, loading, __ }) => {
                 return (
                   <Button
-                    className={`${global.btn} ${global.primarybtn}`}
+                    className="btn primarybtn"
                     disabled={this.isDisabled() && !this.state.loading}
                     onClick={mutation}
                     style={{ marginTop: "10px" }}
