@@ -135,13 +135,11 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                     emotionalResponse: 0,
                     empathy: 0,
                     eyeContact: 0,
-                    faith: 0,
                     influences: 0,
                     managesOwn: 0,
                     newIdeas: 0,
                     openToShare: 0,
                     positiveBelief: 0,
-                    preventsMisunderstandings: 0,
                     proactive: 0,
                     resilienceFeedback: 0,
                     signifiesInterest: 0,
@@ -161,13 +159,11 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                     average.emotionalResponse += review.emotionalResponse;
                     average.empathy += review.empathy;
                     average.eyeContact += review.eyeContact;
-                    average.faith += review.faith;
                     average.influences += review.influences;
                     average.managesOwn += review.managesOwn;
                     average.newIdeas += review.newIdeas;
                     average.openToShare += review.openToShare;
                     average.positiveBelief += review.positiveBelief;
-                    average.preventsMisunderstandings += review.preventsMisunderstandings;
                     average.proactive += review.proactive;
                     average.resilienceFeedback += review.resilienceFeedback;
                     average.signifiesInterest += review.signifiesInterest;
@@ -304,13 +300,11 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             emotionalResponse: 0,
             empathy: 0,
             eyeContact: 0,
-            faith: 0,
             influences: 0,
             managesOwn: 0,
             newIdeas: 0,
             openToShare: 0,
             positiveBelief: 0,
-            preventsMisunderstandings: 0,
             proactive: 0,
             resilienceFeedback: 0,
             signifiesInterest: 0,
@@ -330,13 +324,11 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             average.emotionalResponse += review.emotionalResponse;
             average.empathy += review.empathy;
             average.eyeContact += review.eyeContact;
-            average.faith += review.faith;
             average.influences += review.influences;
             average.managesOwn += review.managesOwn;
             average.newIdeas += review.newIdeas;
             average.openToShare += review.openToShare;
             average.positiveBelief += review.positiveBelief;
-            average.preventsMisunderstandings += review.preventsMisunderstandings;
             average.proactive += review.proactive;
             average.resilienceFeedback += review.resilienceFeedback;
             average.signifiesInterest += review.signifiesInterest;

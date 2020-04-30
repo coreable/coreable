@@ -95,7 +95,6 @@ export const JOIN_TEAM = gql`
 //     $emotionalResponse: Number!, 
 //     $empathy: Number!,
 //     $managesOwn: Number!,
-//     $faith: Number!,
 //     $cooperatively: Number!,
 //     $positiveBelief: Number!,
 //     $resilienceFeedback: Number!,
@@ -106,7 +105,6 @@ export const JOIN_TEAM = gql`
 //     $proactive: Number!,
 //     $influences: Number!,
 //     $clearInstructions: Number!,
-//     $precentsMisunderstandings: Number!,
 //     $openToShare: Number!,
 //     $tone: Number!,
 //     $crossTeam: 0,
@@ -121,7 +119,6 @@ export const JOIN_TEAM = gql`
 //       emotionalResponse: $emotionalResponse, 
 //       empathy: $empathy,
 //       managesOwn: $managesOwn,
-//       faith: $faith,
 //       cooperatively: $cooperatively,
 //       positiveBelief: $positiveBelief,
 //       resilienceFeedback: $resilienceFeedback,
@@ -132,7 +129,6 @@ export const JOIN_TEAM = gql`
 //       proactive: $proactive,
 //       influences: $influences,
 //       clearInstructions: $clearInstructions,
-//       preventsMisunderstandings: $preventsMisunderstandings,
 //       easilyExplainsComplexIdeas: $easilyExplainsComplexIdeas,
 //       openToShare: $openToShare,
 //       tone: $tone,
@@ -180,7 +176,6 @@ export const JOIN_TEAM = gql`
 //           emotionalResponse
 //           empathy
 //           managesOwn
-//           faith
 //           cooperatively
 //           positiveBelief
 //           calm
@@ -189,7 +184,6 @@ export const JOIN_TEAM = gql`
 //           workDemands
 //           proactive
 //           clearInstructions
-//           preventsMisunderstandings
 //           easilyExplainsComplexIdeas
 //           openToShare
 //           tone
