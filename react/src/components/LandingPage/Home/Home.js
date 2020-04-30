@@ -336,7 +336,7 @@ class Home extends Component {
                     <Typography variant="h3" style={{ fontWeight: "bold" }}>
                       Join team
                     </Typography>
-                    {/* <h3>Join team</h3> */}
+
                     <p>Enter your team code below</p>
 
                     <Mutation
