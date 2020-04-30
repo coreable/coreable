@@ -12,7 +12,7 @@ class Navbar extends Component {
     this.state = {
       menuOpen: false,
       firstName: this.props.firstName,
-      lastName: this.props.lastName,
+      lastName: localStorage.getItem(LAST_NAME),
       menuItems: [
         { name: "Home", link: "home" },
         { name: "Reviews", link: "comingsoon" },
@@ -22,14 +22,11 @@ class Navbar extends Component {
         { name: "Logout", link: "" },
       ],
     };
+    console.log(this.state.lastName);
   }
 
   // componentDidMount = () => {
   //   console.log(this.state.menuItems[4].name);
-  // };
-
-  // componentWillUnmount = () => {
-  //   this.removeJWT();
   // };
 
   backdropClickHandler = () => {
@@ -48,7 +45,7 @@ class Navbar extends Component {
 
   capitalize(str) {
     if (str === null || str === undefined) {
-      return;
+      return "";
     } else {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }

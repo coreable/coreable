@@ -116,6 +116,31 @@ class Review extends Component {
           ],
         },
         {
+          name: "Resilience",
+          desc:
+            "Resilience is the ability to recover, re-bound or bounce back, adjust and even thrive after misfortune or change",
+          traits: [
+            {
+              name: "Resilience feedback",
+              var: "resilienceFeedback",
+              val: 0,
+              desc: "Accepts all forms of constructive feedback",
+            },
+            {
+              name: "Calm",
+              var: "calm",
+              val: 0,
+              desc: "Remains calm under pressure",
+            },
+            {
+              name: "Change",
+              var: "change",
+              val: 0,
+              desc: "Adapts to change easily",
+            },
+          ],
+        },
+        {
           name: "Clarity",
           desc:
             "Gives clear instructions that increases productivity, easily explains complex ideas that prevents misunderstandings",
@@ -203,31 +228,6 @@ class Review extends Component {
               var: "verbalAttentiveFeedback",
               val: 0,
               desc: "Is able to reflect on interaction and receive feedback",
-            },
-          ],
-        },
-        {
-          name: "Resilience",
-          desc:
-            "Resilience is the ability to recover, re-bound or bounce back, adjust and even thrive after misfortune or change",
-          traits: [
-            {
-              name: "Resilience feedback",
-              var: "resilienceFeedback",
-              val: 0,
-              desc: "Accepts all forms of constructive feedback",
-            },
-            {
-              name: "Calm",
-              var: "calm",
-              val: 0,
-              desc: "Remains calm under pressure",
-            },
-            {
-              name: "Change",
-              var: "change",
-              val: 0,
-              desc: "Adapts to change easily",
             },
           ],
         },

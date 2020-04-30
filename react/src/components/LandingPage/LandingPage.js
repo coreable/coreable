@@ -20,7 +20,7 @@ import {
   Button,
   StylesProvider,
 } from "@material-ui/core";
-import global from "../../global.scss";
+import "../../global.scss";
 import "./LandingPage.scss";
 import Loading from "../Loading/Loading";
 
@@ -43,7 +43,7 @@ class LandingPage extends Component {
       <Container
         maxWidth="xl"
         style={{ backgroundColor: "#0b152f", height: "95.25vh" }}
-        className={global.container}
+        className="container"
       >
         <Container maxWidth="sm">
           <StylesProvider injectFirst>
@@ -63,16 +63,12 @@ class LandingPage extends Component {
             </Typography>
             <Container maxWidth="xl" style={{ marginTop: "48pt" }}>
               <Link to="/login">
-                <Button className={`${global.btn} ${global.transparentbtn}`}>
-                  Login
-                </Button>
+                <Button className="btn transparentbtn">Login</Button>
               </Link>
             </Container>
             <Container maxWidth="xl" style={{ marginTop: "8pt" }}>
               <Link to="/signup">
-                <Button className={`${global.btn} ${global.primarybtn}`}>
-                  Create an account
-                </Button>
+                <Button className="btn primarybtn">Create an account</Button>
               </Link>
             </Container>
           </StylesProvider>

@@ -136,11 +136,6 @@ class App extends Component {
     if (this.state.loading) {
       return <Loader />;
     }
-    // if (this.state.loading) {
-    //   this.state.showLoadingSign = !this.state.showLoadingSign;
-    // } else {
-    //   this.state.showLoadingSign = !this.state.showLoadingSign;
-    // }
 
     return (
       <Router>
@@ -149,7 +144,7 @@ class App extends Component {
             firstName={localStorage.getItem(USER_NAME)}
             lastName={localStorage.getItem(LAST_NAME)}
           />
-          {/* {this.state.showLoadingSign === true ? <Loader /> : null} */}
+
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
               exact

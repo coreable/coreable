@@ -30,7 +30,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
-import global from "../../../global.scss";
+import "../../../global.scss";
 
 class Login extends Component {
   constructor(props) {
@@ -113,6 +113,7 @@ class Login extends Component {
     localStorage.setItem(JWT, token);
     localStorage.setItem(USER_NAME, firstName);
     localStorage.setItem(LAST_NAME, lastName);
+    console.log(lastName);
     localStorage.setItem(USERID, _id);
   };
 
@@ -208,7 +209,7 @@ class Login extends Component {
                 >
                   {(mutation) => (
                     <Button
-                      className={`${global.btn} ${global.primarybtn}`}
+                      className="btn primarybtn"
                       disabled={this.isDisabled()}
                       onClick={mutation}
                       style={{ marginTop: "10px" }}

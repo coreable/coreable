@@ -215,10 +215,6 @@ class Home extends Component {
     if (this.state.isLoading) {
       return (
         <React.Fragment>
-          <Navbar
-            firstName={this.state.me.firstName}
-            lastName={this.state.me.lastName}
-          />
           <LinearProgress style={{ top: "37pt" }}></LinearProgress>
         </React.Fragment>
       );

@@ -2,7 +2,7 @@
   margin: 300px auto;
   position: absolute;
   top: 0;
-  left: 48%;
+  left: 47%;
 
   h1 {
     color: black;
@@ -107,51 +107,51 @@
 
 @keyframes shiftRight {
   0% {
-    transform: translateX(-90px);
+    transform: translateX(-120px);
     z-index: 200;
   }
   50% {
-    transform: translateX(90px);
+    transform: translateX(120px);
   }
   100% {
-    transform: translateX(-90px);
+    transform: translateX(-120px);
   }
 }
 
 @-webkit-keyframes shiftRight {
   0% {
-    -webkit-transform: translateX(-90px);
+    -webkit-transform: translateX(-120px);
     z-index: 200;
   }
   50% {
-    -webkit-transform: translateX(90px);
+    -webkit-transform: translateX(120px);
   }
   100% {
-    -webkit-transform: translateX(-90px);
+    -webkit-transform: translateX(-120px);
   }
 }
 
 @-moz-keyframes shiftRight {
   0% {
-    -moz-transform: translateX(-90px);
+    -moz-transform: translateX(-120px);
     z-index: 200;
   }
   50% {
-    -moz-transform: translateX(90px);
+    -moz-transform: translateX(120px);
   }
   100% {
-    -moz-transform: translateX(-90px);
+    -moz-transform: translateX(-120px);
   }
 }
 @-o-keyframes shiftRight {
   0% {
-    -o-transform: translateX(-90px);
+    -o-transform: translateX(-120px);
     z-index: 200;
   }
   50% {
-    -o-transform: translateX(90px);
+    -o-transform: translateX(120px);
   }
   100% {
-    -o-transform: translateX(-90px);
+    -o-transform: translateX(-120px);
   }
 }
