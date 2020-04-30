@@ -20,7 +20,7 @@ import {
   Button,
   StylesProvider,
 } from "@material-ui/core";
-import global from "../../Global.module.scss";
+import global from "../../global.scss";
 import "./LandingPage.scss";
 import Loading from "../Loading/Loading";
 
