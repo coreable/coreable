@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Review.scss";
-import global from "../../Global.module.scss";
+import global from "../../global.scss";
 import Navbar from "../Navbar2/Navbar";
 import {
   // Typography,

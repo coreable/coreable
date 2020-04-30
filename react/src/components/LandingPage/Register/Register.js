@@ -29,7 +29,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
-import global from "../../../Global.module.scss";
+import global from "../../../global.scss";
 
 class Register extends Component {
   constructor() {

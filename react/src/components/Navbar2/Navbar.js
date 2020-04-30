@@ -109,7 +109,7 @@ class Navbar extends Component {
             <div className="dropdown-content">
               <Link to="/review">Account</Link>
               {/* <Link onClick={() => localStorage.removeItem(JWT)}>Logout</Link> */}
-              <Link to="/" onClick={this.removeJWT()}>
+              <Link to="/" onClick={() => this.removeJWT()}>
                 Logout
               </Link>
             </div>

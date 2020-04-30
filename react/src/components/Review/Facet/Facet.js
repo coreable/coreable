@@ -18,7 +18,7 @@ import Trait from "./Trait/Trait";
 // import "./Facet.scss";
 import "../Review.scss";
 
-import global from "../../../Global.module.scss";
+import global from "../../../global.scss";
 
 class Facet extends Component {
   constructor(props) {

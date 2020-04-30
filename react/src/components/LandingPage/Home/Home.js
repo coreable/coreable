@@ -19,7 +19,7 @@ import { Mutation } from "react-apollo";
 import { JOIN_TEAM } from "../../../apollo/mutations";
 import "../../ReviewTab/Review.scss";
 
-import globalCSS from "../../../Global.module.scss";
+import globalCSS from "../../../global.scss";
 
 import Navbar from "../../Navbar2/Navbar";
 
