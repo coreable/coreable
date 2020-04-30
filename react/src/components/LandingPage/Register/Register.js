@@ -19,7 +19,7 @@ import "./Register.scss";
 import { Link, Redirect } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
-import { JWT, USER_NAME, USERID } from "../../../constants";
+import { JWT, USER_NAME, LAST_NAME, USERID } from "../../../constants";
 import { SIGNUP_MUTATION } from "../../../apollo/mutations";
 
 import {
@@ -120,8 +120,8 @@ class Register extends Component {
     this.setState({ loading: false });
     try {
       const { token } = data.register.data;
-      const { firstName, _id } = data.register.data.user;
-      this._saveUserData({ token, firstName, _id });
+      const { firstName, lastName, _id } = data.register.data.user;
+      this._saveUserData({ token, firstName, lastName, _id });
       this.props.userDidLoginOrRegister();
       this.props.history.push(`/home`);
     } catch (err) {
@@ -134,9 +134,10 @@ class Register extends Component {
     console.error(err);
   };
 
-  _saveUserData = ({ token, firstName, _id }) => {
+  _saveUserData = ({ token, firstName, lastName, _id }) => {
     localStorage.setItem(JWT, token);
     localStorage.setItem(USER_NAME, firstName);
+    localStorage.setItem(LAST_NAME, lastName);
     localStorage.setItem(USERID, _id);
   };
 
