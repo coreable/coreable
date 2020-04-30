@@ -12,8 +12,9 @@ Coreable source code.
 ===========================================================================
 */
 
-const JWT = 'auth-token';
-const USER_NAME = 'firstName';
-const USERID = 'user_id';
-const TEAMID = 'team_id';
-export { JWT, USER_NAME, USERID, TEAMID }
+const JWT = "auth-token";
+const USER_NAME = "firstName";
+const LAST_NAME = "lastName";
+const USERID = "user_id";
+const TEAMID = "team_id";
+export { JWT, USER_NAME, LAST_NAME, USERID, TEAMID };

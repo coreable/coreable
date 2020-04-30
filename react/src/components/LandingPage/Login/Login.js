@@ -19,7 +19,7 @@ import "./Login.scss";
 import { Link, Redirect } from "react-router-dom";
 
 import { Mutation } from "react-apollo";
-import { JWT, USER_NAME, USERID } from "../../../constants";
+import { JWT, USER_NAME, LAST_NAME, USERID } from "../../../constants";
 import { LOGIN_MUTATION } from "../../../apollo/mutations";
 
 import {
@@ -96,8 +96,8 @@ class Login extends Component {
     this.setState({ loading: false });
     try {
       const { token } = data.login.data;
-      const { firstName, _id } = data.login.data.user;
-      this._saveUserData({ token, firstName, _id });
+      const { firstName, lastName, _id } = data.login.data.user;
+      this._saveUserData({ token, firstName, lastName, _id });
       this.props.userDidLoginOrRegister();
       this.props.history.push(`/home`);
     } catch (err) {
@@ -109,9 +109,10 @@ class Login extends Component {
     console.log(err);
   };
 
-  _saveUserData = ({ token, firstName, _id }) => {
+  _saveUserData = ({ token, firstName, lastName, _id }) => {
     localStorage.setItem(JWT, token);
     localStorage.setItem(USER_NAME, firstName);
+    localStorage.setItem(LAST_NAME, lastName);
     localStorage.setItem(USERID, _id);
   };
 

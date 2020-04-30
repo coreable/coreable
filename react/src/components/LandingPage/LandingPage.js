@@ -22,6 +22,7 @@ import {
 } from "@material-ui/core";
 import global from "../../Global.module.scss";
 import "./LandingPage.scss";
+import Loading from "../Loading/Loading";
 
 class LandingPage extends Component {
   constructor(props) {
@@ -35,15 +36,7 @@ class LandingPage extends Component {
     }
 
     if (this.props.loading) {
-      return (
-        <div>
-          <h1>Loading...</h1>
-          <br />
-          <h1>Loading...</h1>
-          <br />
-          <h1>Loading...</h1>
-        </div>
-      );
+      return <Loading />;
     }
 
     return (

@@ -274,6 +274,7 @@ class Trait extends Component {
               backgroundImage: this.getSliderBackground(),
               marginTop: "8pt",
               marginBottom: "12pt",
+              // zIndex: "2",
             }}
           />
 

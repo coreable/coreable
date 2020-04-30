@@ -227,10 +227,10 @@ class Home extends Component {
     return (
       <div>
         {/* NOTE: if we put it in here, css does not work */}
-        <Navbar
+        {/* <Navbar
           firstName={this.state.me.firstName}
           lastName={this.state.me.lastName}
-        />
+        /> */}
         <div className="review-container">
           <div className="top-background">
             <Typography

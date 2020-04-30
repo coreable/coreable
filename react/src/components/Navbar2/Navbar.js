@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { JWT } from "../../constants";
+import { JWT, USER_NAME, LAST_NAME } from "../../constants";
 import Backdrop from "../Backdrop/Backdrop";
 import NavbarItem from "./NarbarItem";
 import "./navbar.scss";
@@ -28,6 +28,10 @@ class Navbar extends Component {
   //   console.log(this.state.menuItems[4].name);
   // };
 
+  // componentWillUnmount = () => {
+  //   this.removeJWT();
+  // };
+
   backdropClickHandler = () => {
     this.setState({ menuOpen: false });
   };
@@ -43,7 +47,17 @@ class Navbar extends Component {
   };
 
   capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    if (str === null || str === undefined) {
+      return;
+    } else {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  }
+
+  removeJWT() {
+    localStorage.removeItem(JWT);
+    localStorage.removeItem(USER_NAME);
+    localStorage.removeItem(LAST_NAME);
   }
 
   render() {
@@ -83,7 +97,9 @@ class Navbar extends Component {
         <span className="spacer" />
 
         {/* right hand side menu */}
-        {this.state.firstName === undefined ? null : (
+        {/* {this.state.firstName === undefined ? null : ( */}
+        {this.state.firstName === "firstName" ||
+        this.state.firstName === null ? null : (
           <div className="dropdown">
             {/* {this.state.firstName === undefined ? null : this.state.firstName} */}
             {`${this.capitalize(this.state.firstName)} ${this.capitalize(
@@ -92,7 +108,10 @@ class Navbar extends Component {
             <span className="dropbtn"></span>
             <div className="dropdown-content">
               <Link to="/review">Account</Link>
-              <Link onClick={() => localStorage.removeItem(JWT)}>Logout</Link>
+              {/* <Link onClick={() => localStorage.removeItem(JWT)}>Logout</Link> */}
+              <Link to="/" onClick={this.removeJWT()}>
+                Logout
+              </Link>
             </div>
           </div>
         )}

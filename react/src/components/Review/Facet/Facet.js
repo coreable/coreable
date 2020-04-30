@@ -96,9 +96,13 @@ class Facet extends Component {
               </div>
             );
           })}
-          <Button className="btn primarybtn" onClick={this.continue}>
+          <button
+            // disabled="true"
+            className="btn primarybtn"
+            onClick={this.continue}
+          >
             Next
-          </Button>
+          </button>
           <Button className="btn transparentbtn" onClick={this.back}>
             Back
           </Button>

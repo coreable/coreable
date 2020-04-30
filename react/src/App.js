@@ -17,9 +17,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 
 import Navbar from "./components/Navbar2/Navbar";
-import { JWT } from "./constants";
+import { JWT, USER_NAME, LAST_NAME } from "./constants";
 
 import "./App.scss";
+import Loader from "./components/Loading/Loading";
 
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
@@ -131,12 +132,18 @@ class App extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return <Loader />;
+    }
+
     return (
       <Router>
         <div className="App" style={{ height: "100%" }}>
           <Navbar
-          // me={this.state.me} loading={this.state.loading}
+            firstName={localStorage.getItem(USER_NAME)}
+            lastName={localStorage.getItem(LAST_NAME)}
           />
+
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
               exact
