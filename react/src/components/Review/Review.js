@@ -252,6 +252,7 @@ class Review extends Component {
                 submitReview(
                   receiver_id: "${user}", 
                   team_id: "${team}", 
+                  subject_id: "${this.props.location.state.pending.subject._id}",
                   emotionalResponse: ${review[team][user]["emotionalResponse"].val}, 
                   empathy: ${review[team][user]["empathy"].val},
                   managesOwn: ${review[team][user]["managesOwn"].val},
