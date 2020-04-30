@@ -109,9 +109,7 @@ class Navbar extends Component {
         this.state.lastName === null ? null : (
           <div className="dropdown">
             {/* {this.state.firstName === undefined ? null : this.state.firstName} */}
-            {`${this.capitalize(this.state.firstName)} ${this.capitalize(
-              this.state.lastName
-            )}`}
+            {`${this.capitalize(this.state.firstName)}`}
             <span className="dropbtn"></span>
             <div className="dropdown-content">
               <Link to="/review">Account</Link>
