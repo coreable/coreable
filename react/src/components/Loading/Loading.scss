@@ -28,14 +28,14 @@
   }
 
   span:nth-child(2) {
-    background: #4070f4;
+    background: #f1c40f;
     animation: shiftRight 1.5s infinite linear;
     -webkit-animation: shiftRight 1.5s infinite linear;
     -moz-animation: shiftRight 1.5s infinite linear;
     -o-animation: shiftRight 1.5s infinite linear;
   }
   span:nth-child(3) {
-    background: #f1c40f;
+    background: #4070f4;
     z-index: 100;
   }
   span:nth-child(4) {

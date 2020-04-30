@@ -12,7 +12,7 @@ class Navbar extends Component {
     this.state = {
       menuOpen: false,
       firstName: this.props.firstName,
-      lastName: localStorage.getItem(LAST_NAME),
+      lastName: this.props.lastName,
       menuItems: [
         { name: "Home", link: "home" },
         { name: "Reviews", link: "comingsoon" },
@@ -55,6 +55,7 @@ class Navbar extends Component {
     localStorage.removeItem(JWT);
     localStorage.removeItem(USER_NAME);
     localStorage.removeItem(LAST_NAME);
+    window.location.reload(true);
   }
 
   render() {
@@ -96,7 +97,9 @@ class Navbar extends Component {
         {/* right hand side menu */}
         {/* {this.state.firstName === undefined ? null : ( */}
         {this.state.firstName === "firstName" ||
-        this.state.firstName === null ? null : (
+        this.state.firstName === null ||
+        this.state.lastName === "lastName" ||
+        this.state.lastName === null ? null : (
           <div className="dropdown">
             {/* {this.state.firstName === undefined ? null : this.state.firstName} */}
             {`${this.capitalize(this.state.firstName)} ${this.capitalize(
@@ -106,7 +109,7 @@ class Navbar extends Component {
             <div className="dropdown-content">
               <Link to="/review">Account</Link>
               {/* <Link onClick={() => localStorage.removeItem(JWT)}>Logout</Link> */}
-              <Link to="/" onClick={() => this.removeJWT()}>
+              <Link to="" onClick={() => this.removeJWT()}>
                 Logout
               </Link>
             </div>

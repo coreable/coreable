@@ -226,26 +226,42 @@ class Register extends Component {
                 // backgroundColor: this.getColour("email"),
               }}
             />
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="Password"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="password"
-              error={this.shouldMarkError("password")}
-              //testing code
-              helperText={this.helperText("password")}
-              value={this.state.password}
-              type="password"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("password")}
-              style={{
-                marginTop: "8pt",
-                marginBottom: "8pt",
-                // backgroundColor: this.getColour("password"),
+            <Mutation
+              mutation={SIGNUP_MUTATION}
+              variables={{ email, password, firstname, lastname }}
+              onCompleted={(data) => this._success(data)}
+              onError={(err) => this._error(err)}
+            >
+              {(mutation, { _, loading, __ }) => {
+                return (
+                  <TextField
+                    InputLabelProps={{ style: { fontSize: 12 } }}
+                    label="Password"
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    name="password"
+                    error={this.shouldMarkError("password")}
+                    //testing code
+                    helperText={this.helperText("password")}
+                    value={this.state.password}
+                    type="password"
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur("password")}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        return mutation();
+                      }
+                    }}
+                    style={{
+                      marginTop: "8pt",
+                      marginBottom: "8pt",
+                      // backgroundColor: this.getColour("password"),
+                    }}
+                  />
+                );
               }}
-            />
+            </Mutation>
             <Mutation
               mutation={SIGNUP_MUTATION}
               variables={{ email, password, firstname, lastname }}

@@ -339,20 +339,34 @@ class Home extends Component {
                     {/* <h3>Join team</h3> */}
                     <p>Enter your team code below</p>
 
-                    <TextField
-                      label="Team Code"
-                      placeholder="eg: Team 1"
-                      fullWidth
-                      margin="normal"
-                      InputLabelProps={{ style: { fontSize: 12 } }}
-                      variant="outlined"
-                      name="inviteCode"
-                      value={this.state.inviteCode}
-                      type="text"
-                      onChange={this.handleChange}
-                      onBlur={this.handleBlur("inviteCode")}
-                      style={{ marginTop: "8pt", paddingBottom: "15px" }}
-                    />
+                    <Mutation
+                      mutation={JOIN_TEAM}
+                      variables={{ inviteCode }}
+                      onCompleted={(data) => this._success(data)}
+                    >
+                      {(mutation) => (
+                        <TextField
+                          label="Team Code"
+                          placeholder="eg: Team 1"
+                          fullWidth
+                          margin="normal"
+                          InputLabelProps={{ style: { fontSize: 12 } }}
+                          variant="outlined"
+                          name="inviteCode"
+                          value={this.state.inviteCode}
+                          type="text"
+                          onChange={this.handleChange}
+                          onBlur={this.handleBlur("inviteCode")}
+                          onKeyPress={async (e) => {
+                            if (e.key === "Enter") {
+                              this.setState({ isLoading: true });
+                              return await mutation();
+                            }
+                          }}
+                          style={{ marginTop: "8pt", paddingBottom: "15px" }}
+                        />
+                      )}
+                    </Mutation>
 
                     <Mutation
                       mutation={JOIN_TEAM}

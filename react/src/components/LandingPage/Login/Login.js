@@ -182,24 +182,38 @@ class Login extends Component {
                   // backgroundColor: this.getColour("email"),
                 }}
               />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Password"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="password"
-                error={this.shouldMarkError("password")}
-                value={this.state.password}
-                type="password"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("password")}
-                style={{
-                  marginTop: "8pt",
-                  marginBottom: "8pt",
-                  // backgroundColor: this.getColour("password"),
-                }}
-              />
+              <Mutation
+                mutation={LOGIN_MUTATION}
+                variables={{ email, password }}
+                onCompleted={(data) => this._success(data)}
+                onError={(err) => this._error(err)}
+              >
+                {(mutation) => (
+                  <TextField
+                    InputLabelProps={{ style: { fontSize: 12 } }}
+                    label="Password"
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    name="password"
+                    error={this.shouldMarkError("password")}
+                    value={this.state.password}
+                    type="password"
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur("password")}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        return mutation();
+                      }
+                    }}
+                    style={{
+                      marginTop: "8pt",
+                      marginBottom: "8pt",
+                      // backgroundColor: this.getColour("password"),
+                    }}
+                  />
+                )}
+              </Mutation>
               <StylesProvider injectFirst>
                 <Mutation
                   mutation={LOGIN_MUTATION}
