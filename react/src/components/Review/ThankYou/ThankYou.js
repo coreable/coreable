@@ -14,7 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 import { Grid, Typography, Container } from "@material-ui/core";
-import { JWT } from "../../../constants";
+import { JWT, USER_NAME } from "../../../constants";
 import Chart from "./Chart";
 import Navbar from "../../Navbar2/Navbar";
 
@@ -26,6 +26,7 @@ class ThankYou extends Component {
     this.state = {
       loading: true,
       average: {},
+      firstName: localStorage.getItem(USER_NAME),
     };
   }
 
@@ -159,10 +160,20 @@ class ThankYou extends Component {
     // }
 
     return (
-      <React.Fragment>
-        <Navbar />
+      <div
+        style={{
+          background: "rgb(245, 245, 245)",
+          position: "relative",
+          margin: "0 auto",
+          alignItems: "center",
+          width: "100%",
+          display: "flex",
+
+          minHeight: "100%",
+        }}
+      >
         <Grid container direction="column" justify="center" alignItems="center">
-          <Container style={{ textAlign: "left" }}>
+          <Container style={{ textAlign: "left", marginTop: "20px" }}>
             <Typography
               variant="h3"
               component="h1"
@@ -173,7 +184,7 @@ class ThankYou extends Component {
                 color: "#000",
               }}
             >
-              Thank you,
+              Thank you {this.state.firstName},
             </Typography>
             <Typography
               variant="h3"
@@ -187,7 +198,7 @@ class ThankYou extends Component {
             <Chart {...this.state} />
           </Container>
         </Grid>
-      </React.Fragment>
+      </div>
     );
   }
 }
