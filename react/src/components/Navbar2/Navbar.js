@@ -67,31 +67,38 @@ class Navbar extends Component {
         <NavLink className="logo" to="/home">
           Coreable
         </NavLink>
-        <input
-          onClick={this.menuOpenHandler}
-          className="menu-btn"
-          type="checkbox"
-          id="menu-btn"
-          checked={menuOpen}
-        />
-        <label className="menu-icon" for="menu-btn">
-          <span className="nav-icon"></span>
-          <span className="spacer" />
-        </label>
-        <ul className="menu" id="menu">
-          {menuItems.map((menuItem, idx) => {
-            return (
-              <NavbarItem
-                key={idx}
-                dest={menuItem.link}
-                menuOpenHandler={this.menuOpenHandler}
-              >
-                {menuItem.name}
-              </NavbarItem>
-            );
-          })}
-        </ul>
 
+        {this.state.firstName === "firstName" ||
+        this.state.firstName === null ||
+        this.state.lastName === "lastName" ||
+        this.state.lastName === null ? null : (
+          <React.Fragment>
+            <input
+              onClick={this.menuOpenHandler}
+              className="menu-btn"
+              type="checkbox"
+              id="menu-btn"
+              checked={menuOpen}
+            />
+            <label className="menu-icon" for="menu-btn">
+              <span className="nav-icon"></span>
+              <span className="spacer" />
+            </label>
+            <ul className="menu" id="menu">
+              {menuItems.map((menuItem, idx) => {
+                return (
+                  <NavbarItem
+                    key={idx}
+                    dest={menuItem.link}
+                    menuOpenHandler={this.menuOpenHandler}
+                  >
+                    {menuItem.name}
+                  </NavbarItem>
+                );
+              })}
+            </ul>
+          </React.Fragment>
+        )}
         <span className="spacer" />
 
         {/* right hand side menu */}
