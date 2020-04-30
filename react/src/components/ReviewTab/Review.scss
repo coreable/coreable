@@ -82,6 +82,12 @@
           left: 64px;
         }
 
+        @media (max-width: 760px) {
+          .stepper-line {
+            left: 58px;
+          }
+        }
+
         .MuiStepper-root {
           padding: 20px;
           padding-top: 15px;
