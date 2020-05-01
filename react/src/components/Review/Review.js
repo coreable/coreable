@@ -75,13 +75,6 @@ class Review extends Component {
           name: "Trust",
           desc: "Firm belief in the reliability, truth, or ability of someone",
           traits: [
-            //dont need this
-            // {
-            //   name: "Faith",
-            //   var: "faith",
-            //   val: 0,
-            //   desc: "",
-            // },
             {
               name: "Cooperatively",
               var: "cooperatively",
@@ -151,13 +144,6 @@ class Review extends Component {
               val: 0,
               desc: "Gives clear instructions",
             },
-            // dont need this
-            // {
-            //   name: "Prevents misunderstandings",
-            //   var: "preventsMisunderstandings",
-            //   val: 0,
-            //   desc: "",
-            // },
             {
               name: "Complex ideas",
               var: "easilyExplainsComplexIdeas",
@@ -266,10 +252,10 @@ class Review extends Component {
                 submitReview(
                   receiver_id: "${user}", 
                   team_id: "${team}", 
+                  subject_id: "${this.props.location.state.pending.subject._id}",
                   emotionalResponse: ${review[team][user]["emotionalResponse"].val}, 
                   empathy: ${review[team][user]["empathy"].val},
                   managesOwn: ${review[team][user]["managesOwn"].val},
-                  faith: ${review[team][user]["faith"].val},
                   cooperatively: ${review[team][user]["cooperatively"].val},
                   positiveBelief: ${review[team][user]["positiveBelief"].val},
                   resilienceFeedback: ${review[team][user]["resilienceFeedback"].val},
@@ -280,7 +266,6 @@ class Review extends Component {
                   proactive: ${review[team][user]["proactive"].val},
                   influences: ${review[team][user]["influences"].val},
                   clearInstructions: ${review[team][user]["clearInstructions"].val},
-                  preventsMisunderstandings: ${review[team][user]["preventsMisunderstandings"].val},
                   easilyExplainsComplexIdeas: ${review[team][user]["easilyExplainsComplexIdeas"].val},
                   openToShare: ${review[team][user]["openToShare"].val},
                   tone: ${review[team][user]["tone"].val},

@@ -38,20 +38,19 @@ class Review extends Model {
   public emotionalResponse!: number;
   public empathy!: number;
   public eyeContact!: number;
-  public faith!: number;
+  /* public faith!: number; */
   public influences!: number;
   public managesOwn!: number;
   public newIdeas!: number;
   public openToShare!: number;
   public positiveBelief!: number;
-  public preventsMisunderstandings!: number;
+  /* public preventsMisunderstandings!: number; */
   public proactive!: number;
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
   public tone!: number;
   public verbalAttentiveFeedback!: number;
   public workDemands!: number;  
-  // ??????
   public state!: number;
 
   public readonly createdAt!: Date;
@@ -86,10 +85,6 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'managesOwn': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    'faith': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
@@ -130,10 +125,6 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'clearInstructions': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    'preventsMisunderstandings': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },

@@ -46,29 +46,27 @@ class ThankYou extends Component {
               lastName
               email
               reflection {
-                    calm
-                    change
-                    clearInstructions
-                    cooperatively
-                    crossTeam
-                    distractions
-                    easilyExplainsComplexIdeas
-                    emotionalResponse
-                    empathy
-                    eyeContact
-                    faith
-                    influences
-                    managesOwn
-                    newIdeas
-                    openToShare
-                    positiveBelief
-                    preventsMisunderstandings
-                    proactive
-                    resilienceFeedback
-                    signifiesInterest
-                    tone
-                    verbalAttentiveFeedback
-                    workDemands
+                calm
+                change
+                clearInstructions
+                cooperatively
+                crossTeam
+                distractions
+                easilyExplainsComplexIdeas
+                emotionalResponse
+                empathy
+                eyeContact
+                influences
+                managesOwn
+                newIdeas
+                openToShare
+                positiveBelief
+                proactive
+                resilienceFeedback
+                signifiesInterest
+                tone
+                verbalAttentiveFeedback
+                workDemands
               }
             }
           }
@@ -112,11 +110,11 @@ class ThankYou extends Component {
           3;
         initiative = (averages.proactive + averages.influences) / 2;
         trust =
-          (averages.faith + averages.cooperatively + averages.positiveBelief) /
+          (averages.cooperatively + averages.positiveBelief) /
           3;
         flex = (averages.newIdeas + averages.workDemands) / 2;
         clarity =
-          (averages.clearInstructions + averages.preventsMisunderstandings) / 2;
+          (averages.clearInstructions) / 2;
         culture =
           (averages.openToShare + averages.tone + averages.crossTeam) / 3;
         nonVerbal = (averages.distractions + averages.eyeContact) / 2;

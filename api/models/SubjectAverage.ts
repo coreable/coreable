@@ -36,10 +36,6 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    'faith': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
     'cooperatively': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
@@ -77,10 +73,6 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'clearInstructions': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    'preventsMisunderstandings': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },

@@ -106,7 +106,6 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                     emotionalResponse: averages.dataValues.emotionalResponse,
                     empathy: averages.dataValues.empathy,
                     managesOwn: averages.dataValues.managesOwn,
-                    faith: averages.dataValues.faith,
                     cooperatively: averages.dataValues.cooperatively,
                     positiveBelief: averages.dataValues.positiveBelief,
                     resilienceFeedback: averages.dataValues.resilienceFeedback,
@@ -117,7 +116,6 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                     proactive: averages.dataValues.proactive,
                     influences: averages.dataValues.influences,
                     clearInstructions: averages.dataValues.clearInstructions,
-                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
                     easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
                     openToShare: averages.dataValues.openToShare,
                     tone: averages.dataValues.tone,
@@ -166,7 +164,6 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                     emotionalResponse: averages.dataValues.emotionalResponse,
                     empathy: averages.dataValues.empathy,
                     managesOwn: averages.dataValues.managesOwn,
-                    faith: averages.dataValues.faith,
                     cooperatively: averages.dataValues.cooperatively,
                     positiveBelief: averages.dataValues.positiveBelief,
                     resilienceFeedback: averages.dataValues.resilienceFeedback,
@@ -177,7 +174,6 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                     proactive: averages.dataValues.proactive,
                     influences: averages.dataValues.influences,
                     clearInstructions: averages.dataValues.clearInstructions,
-                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
                     easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
                     openToShare: averages.dataValues.openToShare,
                     tone: averages.dataValues.tone,
@@ -269,11 +265,6 @@ export function getIndustryAverages(industry: Industry) {
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('users.reviews.faith')),
-            'faith'
-          ],
-          [
-            sequelize.fn('avg',
               sequelize.col('users.reviews.influences')),
             'influences'
           ],
@@ -296,11 +287,6 @@ export function getIndustryAverages(industry: Industry) {
             sequelize.fn('avg',
               sequelize.col('users.reviews.positiveBelief')),
             'positiveBelief'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.preventsMisunderstandings')),
-            'preventsMisunderstandings'
           ],
           [
             sequelize.fn('avg',

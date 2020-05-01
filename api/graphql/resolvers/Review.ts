@@ -74,12 +74,6 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.managesOwn;
         }
       },
-      'faith': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.faith;
-        }
-      },
       'cooperatively': {
         type: GraphQLFloat,
         resolve(review, args, context) {
@@ -132,12 +126,6 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         type: GraphQLFloat,
         resolve(review, args, context) {
           return review.proactive;
-        }
-      },
-      'preventsMisunderstandings': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.preventsMisunderstandings;
         }
       },
       'easilyExplainsComplexIdeas': {

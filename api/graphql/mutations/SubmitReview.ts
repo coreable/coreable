@@ -50,9 +50,6 @@ export default {
     managesOwn: {
       type: new GraphQLNonNull(GraphQLInt),
     },
-    faith: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
     cooperatively: {
       type: new GraphQLNonNull(GraphQLInt),
     },
@@ -81,9 +78,6 @@ export default {
       type: new GraphQLNonNull(GraphQLInt),
     },
     clearInstructions: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    preventsMisunderstandings: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     easilyExplainsComplexIdeas: {
@@ -181,7 +175,6 @@ export default {
           emotionalResponse: args.emotionalResponse,
           empathy: args.empathy,
           managesOwn: args.managesOwn,
-          faith: args.faith,
           cooperatively: args.cooperatively,
           positiveBelief: args.positiveBelief,
           resilienceFeedback: args.resilienceFeedback,
@@ -192,7 +185,6 @@ export default {
           proactive: args.proactive,
           influences: args.influences,
           clearInstructions: args.clearInstructions,
-          preventsMisunderstandings: args.preventsMisunderstandings,
           easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
           openToShare: args.openToShare,
           tone: args.tone,

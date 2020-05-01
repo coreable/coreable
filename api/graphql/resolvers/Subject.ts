@@ -135,7 +135,6 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                     emotionalResponse: averages.dataValues.emotionalResponse,
                     empathy: averages.dataValues.empathy,
                     managesOwn: averages.dataValues.managesOwn,
-                    faith: averages.dataValues.faith,
                     cooperatively: averages.dataValues.cooperatively,
                     positiveBelief: averages.dataValues.positiveBelief,
                     resilienceFeedback: averages.dataValues.resilienceFeedback,
@@ -146,7 +145,6 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                     proactive: averages.dataValues.proactive,
                     influences: averages.dataValues.influences,
                     clearInstructions: averages.dataValues.clearInstructions,
-                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
                     easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
                     openToShare: averages.dataValues.openToShare,
                     tone: averages.dataValues.tone,
@@ -195,7 +193,6 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                     emotionalResponse: averages.dataValues.emotionalResponse,
                     empathy: averages.dataValues.empathy,
                     managesOwn: averages.dataValues.managesOwn,
-                    faith: averages.dataValues.faith,
                     cooperatively: averages.dataValues.cooperatively,
                     positiveBelief: averages.dataValues.positiveBelief,
                     resilienceFeedback: averages.dataValues.resilienceFeedback,
@@ -206,7 +203,6 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                     proactive: averages.dataValues.proactive,
                     influences: averages.dataValues.influences,
                     clearInstructions: averages.dataValues.clearInstructions,
-                    preventsMisunderstandings: averages.dataValues.preventsMisunderstandings,
                     easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
                     openToShare: averages.dataValues.openToShare,
                     tone: averages.dataValues.tone,
@@ -299,11 +295,6 @@ export function getSubjectAverages(subject: Subject) {
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.faith')),
-            'faith'
-          ],
-          [
-            sequelize.fn('avg',
               sequelize.col('teams.users.reviews.influences')),
             'influences'
           ],
@@ -326,11 +317,6 @@ export function getSubjectAverages(subject: Subject) {
             sequelize.fn('avg',
               sequelize.col('teams.users.reviews.positiveBelief')),
             'positiveBelief'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.preventsMisunderstandings')),
-            'preventsMisunderstandings'
           ],
           [
             sequelize.fn('avg',
