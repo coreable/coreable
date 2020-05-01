@@ -109,12 +109,9 @@ class ThankYou extends Component {
             averages.managesOwn) /
           3;
         initiative = (averages.proactive + averages.influences) / 2;
-        trust =
-          (averages.cooperatively + averages.positiveBelief) /
-          3;
+        trust = (averages.cooperatively + averages.positiveBelief) / 3;
         flex = (averages.newIdeas + averages.workDemands) / 2;
-        clarity =
-          (averages.clearInstructions) / 2;
+        clarity = averages.clearInstructions / 2;
         culture =
           (averages.openToShare + averages.tone + averages.crossTeam) / 3;
         nonVerbal = (averages.distractions + averages.eyeContact) / 2;
@@ -145,18 +142,6 @@ class ThankYou extends Component {
   }
 
   render() {
-    // if (this.state.loading) {
-    //   return (
-    //     <React.Fragment>
-    //       <Navbar
-    //         firstName={this.state.me.firstName}
-    //         lastName={this.state.me.lastName}
-    //       />
-    //       <LinearProgress style={{ top: "37pt" }}></LinearProgress>
-    //     </React.Fragment>
-    //   );
-    // }
-
     return (
       <div
         style={{
