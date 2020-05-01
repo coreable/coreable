@@ -92,7 +92,7 @@ class Review extends Component {
               name: "Positive belief",
               var: "positiveBelief",
               val: 0,
-              desc: "Has a postive belief about the dependability of others",
+              desc: "Has a positive belief about the dependability of others",
             },
           ],
         },

@@ -49,8 +49,9 @@ let chart = (props) => {
             },
           },
           legend: {
-            position: "right",
-            align: "start",
+            position: "bottom",
+            align: "centre",
+            padding: 50,
           },
         }}
         data={{
