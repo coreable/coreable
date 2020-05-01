@@ -28,10 +28,7 @@ class Trait extends Component {
       desc: props.desc,
       user: {},
       team: props.pending,
-      traitName: props.traitName,
     };
-
-    console.log(this.state.val);
   }
 
   componentDidUpdate() {
@@ -42,6 +39,7 @@ class Trait extends Component {
         var: props.var,
         val: props.val,
         desc: props.desc,
+        user: {}
       });
     }
   }
