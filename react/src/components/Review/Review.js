@@ -30,13 +30,13 @@ class Review extends Component {
         {
           name: "Emotional Intelligence",
           desc:
-            "Emotional intelligence is the ability to perceive, use, understand and manage our emotions and having personality traits to deal with emotions",
+            "Ability to perceive, use, and understand our personality traits to manage and deal with emotions",
           traits: [
             {
               name: "Emotional response",
               var: "emotionalResponse",
               val: 0,
-              desc: "Response to emotions in others",
+              desc: "Responds to emotions in others",
             },
             {
               name: "Empathy",
@@ -55,7 +55,7 @@ class Review extends Component {
         {
           name: "Initiative",
           desc:
-            "Proactive and self-starting; seize opportunities and act upon them; originate action and actively influence events",
+            "To be proactive and self-starting; seize opportunities and act upon them to actively influence events",
           traits: [
             {
               name: "Proactive",
@@ -79,7 +79,7 @@ class Review extends Component {
               name: "Cooperatively",
               var: "cooperatively",
               val: 0,
-              desc: "Is able to work cooperatively",
+              desc: "Ability to work cooperatively",
             },
             {
               name: "Positive belief",
@@ -92,7 +92,7 @@ class Review extends Component {
         {
           name: "Flexibility",
           desc:
-            "Be adaptable and receptive to new ideas; respond and adjust easily to changing work demands and circumstances; not bound by old ways of doing things",
+            "Adaptable and receptive to new ideas; responds and adjusts easily to changing work demands and circumstances; not bound by old ways of doing things",
           traits: [
             {
               name: "New ideas",
@@ -104,20 +104,20 @@ class Review extends Component {
               name: "Work demands",
               var: "workDemands",
               val: 0,
-              desc: "Adjusts easily to change work demands",
+              desc: "Adjusts easily to a change in work demands",
             },
           ],
         },
         {
           name: "Resilience",
           desc:
-            "Resilience is the ability to recover, re-bound or bounce back, adjust and even thrive after misfortune or change",
+            "Ability to recover, adjust and even thrive after misfortune or change",
           traits: [
             {
               name: "Resilience feedback",
               var: "resilienceFeedback",
               val: 0,
-              desc: "Accepts all forms of constructive feedback",
+              desc: "Accepts constructive feedback",
             },
             {
               name: "Calm",
@@ -136,7 +136,7 @@ class Review extends Component {
         {
           name: "Clarity",
           desc:
-            "Gives clear instructions that increases productivity, easily explains complex ideas that prevents misunderstandings",
+            "Provides clear instructions that encourage productivity and prevent misunderstanding",
           traits: [
             {
               name: "Clear instructions",
@@ -155,7 +155,7 @@ class Review extends Component {
         {
           name: "Culture",
           desc:
-            "Enables communication across all team members, delivers messages in a appropriate tone, cultivates an environment which is be open and supportive.",
+            "Enables effective communication across all team members, delivers messages in an appropriate tone and cultivates an an open and supportive environment",
           traits: [
             {
               name: "Open to share",
@@ -174,14 +174,14 @@ class Review extends Component {
               var: "crossTeam",
               val: 0,
               desc:
-                "Creates an environment where individuals are safe to report errors",
+                "Creates an environment where individuals feel safe to report errors",
             },
           ],
         },
         {
-          name: "Non-Verbal",
+          name: "Non-Verbal Communication",
           desc:
-            "During conversation keeps engaged through their body language showing eye contact and not being distracted",
+            "Ability to stay engaged through body language, gestures, facial expressions and other ways of communication",
           traits: [
             {
               name: "Distractions",
@@ -194,14 +194,14 @@ class Review extends Component {
               var: "eyeContact",
               val: 0,
               desc:
-                "During interactions demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments",
+                "Demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments during interactions",
             },
           ],
         },
         {
           name: "Verbal Attentiveness",
           desc:
-            "Provides active listening by paraphrasing, clarifying, reflective listening, prompts, open and closed questions.",
+            "Practices active listening by paraphrasing, clarifying, reflective listening and asking questions.",
           traits: [
             {
               name: "Signifies interest",
@@ -213,7 +213,8 @@ class Review extends Component {
               name: "Verbal attentive feedback",
               var: "verbalAttentiveFeedback",
               val: 0,
-              desc: "Is able to reflect on interaction and receive feedback",
+              desc:
+                "Is able to self reflect on interaction and receive feedback",
             },
           ],
         },

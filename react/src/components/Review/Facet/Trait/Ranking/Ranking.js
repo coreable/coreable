@@ -134,7 +134,7 @@ class Ranking extends Component {
             variant="h6"
             style={{ color: "rgb(200, 200, 200)", fontWeight: "bold" }}
           >
-            Shares experience and guides
+            Actively shares experience and guides
           </Typography>
         </div>
       );
