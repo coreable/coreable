@@ -9,7 +9,7 @@ const TeamRank = (props) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  if (val === -1) {
+  if (val === -1 || val === 0) {
     return null;
   }
 

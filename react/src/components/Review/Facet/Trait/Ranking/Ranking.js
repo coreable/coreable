@@ -110,7 +110,7 @@ class Ranking extends Component {
             variant="h4"
             style={{ color: "#00c8b3", fontWeight: "bold" }}
           >
-            Encourages others
+            Encourage others
           </Typography>
           <Typography
             variant="h6"
@@ -128,7 +128,7 @@ class Ranking extends Component {
             variant="h4"
             style={{ color: "#2dd775", fontWeight: "bold" }}
           >
-            Teaches
+            Teach
           </Typography>
           <Typography
             variant="h6"

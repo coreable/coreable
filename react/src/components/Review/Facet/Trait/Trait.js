@@ -39,7 +39,7 @@ class Trait extends Component {
         var: props.var,
         val: props.val,
         desc: props.desc,
-        user: {}
+        user: {},
       });
     }
   }
@@ -260,7 +260,7 @@ class Trait extends Component {
             type="range"
             min={0}
             max={100}
-            step={5}
+            step={10}
             key={this.state.var}
             id={this.state.var}
             name={this.state.var}
@@ -272,6 +272,7 @@ class Trait extends Component {
               backgroundImage: this.getSliderBackground(),
               marginTop: "8pt",
               marginBottom: "12pt",
+              transition: "none",
               // zIndex: "2",
             }}
           />

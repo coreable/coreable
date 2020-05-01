@@ -16,7 +16,7 @@ import React from "react";
 import { Radar } from "react-chartjs-2";
 import { Grid, CircularProgress, Container } from "@material-ui/core";
 
-import Loader from "../../Loading/Loading";
+// import Loader from "../../Loading/Loading";
 
 let chart = (props) => {
   // if (props.loading) {
@@ -58,7 +58,7 @@ let chart = (props) => {
           labels: [
             "Emotional Intelligence",
             "Initiative",
-            "Moral Trust",
+            "Trust",
             "Flexibility",
             "Clarity",
             "Culture",
