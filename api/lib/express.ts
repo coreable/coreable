@@ -93,46 +93,50 @@ app.use('/graphql', GraphHTTP({
 app.get('/export/:inviteCode', async(req: Request, res: Response, next: NextFunction) => {
   let results = [];
   let teamUsers = [];
-  let reviews = [];
+  // let reviews = [];
   if (req.params.inviteCode) {
-    const team = await sequelize.models.Team.findOne({ where: { inviteCode: req.params.inviteCode }, include: [{ model: sequelize.models.Subject, as: 'subject' }, { model: sequelize.models.User, as: 'users' }]});
-    for (const user of team.users) {
-      teamUsers.push(user._id);
-    }
-    reviews = await sequelize.models.Review.findAll({ where: { submitter_id: { [Op.in]: teamUsers }, receiver_id: { [Op.in]: teamUsers }, subject_id: team.subject._id  }, include: [{ model: sequelize.models.User, as: 'submitter' }, { model: sequelize.models.User, as: 'receiver' }] });
-    for (const review of reviews) {
-      results.push({
-        "receiver_first_name": review.receiver.firstName,
-        "receiver_last_name": review.receiver.lastName,
-        "receiver_email": review.receiver.email,
-        "submitter_first_name": review.submitter.firstName,
-        "submitter_last_name": review.submitter.lastName,
-        "submitter_email": review.submitter.email,
-        "team_name": team.name,
-        "subject_name": team.subject.name,
-        "subject_state": team.subject.state,
-        "emotionalResponse": review.emotionalResponse,
-        "empathy": review.empathy,
-        "managesOwn": review.managesOwn,
-        "cooperatively": review.cooperatively,
-        "positiveBelief": review.positiveBelief,
-        "resilienceFeedback": review.resilienceFeedback,
-        "calm": review.calm,
-        "change": review.change,
-        "newIdeas": review.newIdeas,
-        "workDemands": review.workDemands,
-        "proactive": review.proactive,
-        "influences": review.influences,
-        "clearInstructions": review.clearInstructions,
-        "easilyExplainsComplexIdeas": review.easilyExplainsComplexIdeas,
-        "openToShare": review.openToShare,
-        "tone": review.tone,
-        "crossTeam": review.crossTeam,
-        "distractions": review.distractions,
-        "eyeContact": review.eyeContact,
-        "signifiesInterest": review.signifiesInterest,
-        "verbalAttentiveFeedback": review.verbalAttentiveFeedback
-      });
+    try {
+      const team = await sequelize.models.Team.findOne({ where: { inviteCode: req.params.inviteCode }, include: [{ model: sequelize.models.Subject, as: 'subject' }, { model: sequelize.models.User, as: 'users' }]});
+      for (const user of team.users) {
+        teamUsers.push(user._id);
+      }
+      const reviews = await sequelize.models.Review.findAll({ where: { submitter_id: { [Op.in]: teamUsers }, receiver_id: { [Op.in]: teamUsers }, subject_id: team.subject._id  }, include: [{ model: sequelize.models.User, as: 'submitter' }, { model: sequelize.models.User, as: 'receiver' }] });
+      for (const review of reviews) {
+        results.push({
+          "receiver_first_name": review.receiver.firstName,
+          "receiver_last_name": review.receiver.lastName,
+          "receiver_email": review.receiver.email,
+          "submitter_first_name": review.submitter.firstName,
+          "submitter_last_name": review.submitter.lastName,
+          "submitter_email": review.submitter.email,
+          "team_name": team.name,
+          "subject_name": team.subject.name,
+          "subject_state": team.subject.state,
+          "emotionalResponse": review.emotionalResponse,
+          "empathy": review.empathy,
+          "managesOwn": review.managesOwn,
+          "cooperatively": review.cooperatively,
+          "positiveBelief": review.positiveBelief,
+          "resilienceFeedback": review.resilienceFeedback,
+          "calm": review.calm,
+          "change": review.change,
+          "newIdeas": review.newIdeas,
+          "workDemands": review.workDemands,
+          "proactive": review.proactive,
+          "influences": review.influences,
+          "clearInstructions": review.clearInstructions,
+          "easilyExplainsComplexIdeas": review.easilyExplainsComplexIdeas,
+          "openToShare": review.openToShare,
+          "tone": review.tone,
+          "crossTeam": review.crossTeam,
+          "distractions": review.distractions,
+          "eyeContact": review.eyeContact,
+          "signifiesInterest": review.signifiesInterest,
+          "verbalAttentiveFeedback": review.verbalAttentiveFeedback
+        });
+      }
+    } catch (err) {
+      // Ignore
     }
   }
   return res.status(200).json(results);
