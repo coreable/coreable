@@ -232,7 +232,7 @@ class Review extends Component {
     this.setState({
       ...this.state,
       currentIndex,
-      submitting: currentIndex >= this.state.facets.length,
+      submitting: currentIndex >= this.state.facets.length
     });
     if (currentIndex >= this.state.facets.length) {
       this.submit();
@@ -246,7 +246,7 @@ class Review extends Component {
     }
     this.setState({
       ...this.state,
-      currentIndex: currentIndex - 1,
+      currentIndex: currentIndex - 1
     });
   };
 
@@ -311,9 +311,9 @@ class Review extends Component {
             body: JSON.stringify(query),
           };
           promises.push(
-            new Promise((r, f) =>
-              fetch(API_URL, options).then(r).catch(r)
-            )
+            new Promise((r, f) => {
+              fetch(API_URL, options).then(r).catch(r);
+            })
           );
         } catch (err) {
           console.error(err);
@@ -323,7 +323,7 @@ class Review extends Component {
     Promise.all(promises).then(() => {
       this.setState({
         ...this.state,
-        submitting: false,
+        submitting: false
       }, () => {
         this.props.refreshMe();
       });
