@@ -162,7 +162,7 @@ class Register extends Component {
 
     return (
       <Container
-        maxWidth="100vh"
+        maxWidth={false}
         style={{ height: "100vh" }}
         className="sign-up-container"
       >

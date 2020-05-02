@@ -136,7 +136,7 @@ class Login extends Component {
 
     return (
       <Container
-        maxWidth="100vh"
+        maxWidth={false}
         style={{
           background: "white",
           height: "100vh",
@@ -155,16 +155,12 @@ class Login extends Component {
                 textAlign: "left",
                 color: "#000",
               }}
-            >
-              Welcome,
-            </Typography>
+            >Welcome,</Typography>
             <Typography
               variant="h3"
               component="h1"
               style={{ textAlign: "left", color: "#707070" }}
-            >
-              sign in to continue
-            </Typography>
+            >sign in to continue</Typography>
             <FormControl
               style={{
                 marginTop: "16pt",

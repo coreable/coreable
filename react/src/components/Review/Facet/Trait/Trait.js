@@ -90,7 +90,6 @@ class Trait extends Component {
 
     // Active user
     if (this.state.user._id === user._id) {
-      // styles.background = "rgb(66, 113, 249)";
       styles.backgroundImage = `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
       styles.color = "#fff";
     }
@@ -203,29 +202,20 @@ class Trait extends Component {
     return teamMemberCount;
   };
 
-  pointOne = (val) => {
-    if (val > 19) {
+  getPointColor = (val) => {
+    if (val > 19 && val <= 38) {
       return "#0096f8";
     }
-  };
-
-  pointTwo = (val) => {
-    if (val > 39) {
+    if (val > 39 && val <= 58) {
       return "#00b3e5";
     }
-  };
-
-  pointThree = (val) => {
-    if (val > 59) {
+    if (val > 59 && val <= 58) {
       return "#00c8b3";
     }
-  };
-
-  pointFour = (val) => {
     if (val > 79) {
       return "#2dd775";
     }
-  };
+  }
 
   render() {
     return (
@@ -264,25 +254,25 @@ class Trait extends Component {
           <div className="slider-bar-border-container">
             <div
               className="bar"
-              style={{ background: this.pointOne(this.state.val) }}
+              style={{ background: this.getPointColor(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.pointTwo(this.state.val) }}
+              style={{ background: this.getPointColor(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.pointThree(this.state.val) }}
+              style={{ background: this.getPointColor(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.pointFour(this.state.val) }}
+              style={{ background: this.getPointColor(this.state.val) }}
             >
               {" "}
             </div>
@@ -316,7 +306,6 @@ class Trait extends Component {
               <TeamRank
                 key={user._id}
                 name={user._d}
-
                 {...this.getScoreForDisplay(user)}
                 backgroundImage={this.getSliderBackground}
                 teamMemberCount={this.countTeam()}

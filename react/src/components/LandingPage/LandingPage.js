@@ -36,7 +36,7 @@ class LandingPage extends Component {
 
     return (
       <Container
-        maxWidth="xl"
+        maxWidth={false}
         style={{ backgroundColor: "#0b152f", height: "100vh" }}
         className="container"
       >
