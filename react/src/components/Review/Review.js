@@ -301,7 +301,13 @@ class Review extends Component {
           };
           promises.push(
             new Promise((r, f) =>
-              fetch("https://coreable.appspot.com/graphql", options).then(r)
+              fetch("https://coreable.appspot.com/graphql", options).then(async(data) => {
+                console.log(await data.json());
+                return r();
+              }).catch(async(err) => {
+                console.log(await err.json());
+                return r();
+              })
             )
           );
         } catch (err) {

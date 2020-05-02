@@ -120,43 +120,6 @@ class Home extends Component {
       grouped[team._id] = team;
       grouped[team._id].pending = [];
     }
-    console.log(grouped);
-
-    // async (data) => {
-    // let me = await data.json();
-    // try {
-    //   me = me.data.me.data.user;
-    // } catch (err) {
-    //   localStorage.removeItem(JWT);
-    //   this.setState({
-    //     ...this.state,
-    //     loggedIn: false,
-    //   });
-    //   return false;
-    // }
-
-    // let grouped = {};
-    // for (let team of me.teams) {
-    //   grouped[team._id] = team;
-    //   grouped[team._id].pending = [];
-    // }
-    // for (const pending of me.pending) {
-    //   for (const team of pending.teams) {
-    //     if (grouped[team._id]) {
-    //       grouped[team._id].pending.push(pending);
-    //     }
-    //   }
-    // }
-
-    // me.teams.push("jointeam");
-    // me.grouped = grouped;
-
-    // this.setState({
-    //   ...this.state,
-    //   isLoading: false,
-    //   me,
-    // });
-    // }
   }
 
   drawerToggleClickHandler = () => {
@@ -221,35 +184,15 @@ class Home extends Component {
     return "#ffffff";
   }
 
-  getPendingUser(team_id) {
+  getPendingUser = (team_id) => {
     const isDisabled = this.getReviewButtonState(team_id);
-    let data = {};
-    if (this.state.me.grouped[team_id].subject.state === 1) {
-      data = {
-        _id: this.state.me.grouped[team_id]._id,
-        name: this.state.me.grouped[team_id].name,
-        subject: this.state.me.grouped[team_id].subject,
-        pending: [
-          !isDisabled
-            ? this.state.me.pending.find(
-              (user) => user._id === this.state.me._id
-            )
-            : null,
-        ],
-      };
-    }
-    if (this.state.me.grouped[team_id].subject.state !== 1) {
-      data = {
-        _id: this.state.me.grouped[team_id]._id,
-        name: this.state.me.grouped[team_id].name,
-        subject: this.state.me.grouped[team_id].subject,
-        pending: !isDisabled
-          ? this.state.me.pending.filter(
-            (user) => user._id !== this.state.me._id
-          )
-          : null,
-      };
-    }
+    let data = {
+      _id: this.state.me.grouped[team_id]._id,
+      name: this.state.me.grouped[team_id].name,
+      subject: this.state.me.grouped[team_id].subject,
+      pending: !isDisabled ? [this.state.me.pending] : null,
+    };
+    console.log(data);
     return data;
   }
 

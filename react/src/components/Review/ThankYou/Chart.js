@@ -14,19 +14,9 @@ Coreable source code.
 
 import React from "react";
 import { Radar } from "react-chartjs-2";
-import { Grid, CircularProgress, Container } from "@material-ui/core";
-
-// import Loader from "../../Loading/Loading";
+import { Container } from "@material-ui/core";
 
 let chart = (props) => {
-  // if (props.loading) {
-  //   return (
-  //     // <Grid container direction="column" justify="center" alignItems="center">
-  //     //   <CircularProgress />
-  //     // </Grid>
-  //     <Loader />
-  //   );
-  // } else {
   return (
     <Container
       style={{ marginTop: "16px", marginBottom: "16pt", height: "100vh" }}
@@ -69,20 +59,18 @@ let chart = (props) => {
           datasets: [
             {
               label: "Self-review",
-              // backgroundColor: "rgba(75,192,192,0.2)",
-              // borderColor: "rgba(75,192,192,0.4)",
               backgroundColor: "rgba(0,179,229,0.3)",
               borderColor: "rgba(0,179,229,0.8)",
               data: [
-                props.average.emotionalIntelligence,
-                props.average.initiative,
-                props.average.trust,
-                props.average.flex,
-                props.average.clarity,
-                props.average.culture,
-                props.average.nonVerbal,
-                props.average.attentive,
-                props.average.resilience,
+                props.reflection.emotionalIntelligence,
+                props.reflection.initiative,
+                props.reflection.trust,
+                props.reflection.flex,
+                props.reflection.clarity,
+                props.reflection.culture,
+                props.reflection.nonVerbal,
+                props.reflection.attentive,
+                props.reflection.resilience,
               ],
             },
             {
@@ -92,15 +80,15 @@ let chart = (props) => {
               backgroundColor: "rgba(102, 204, 158,0.3)",
               borderColor: "rgba(102, 204, 158,0.8)",
               data: [
-                props.average.emotionalIntelligence,
-                props.average.initiative,
-                props.average.trust,
-                props.average.flex,
-                props.average.clarity,
-                props.average.culture,
-                props.average.nonVerbal,
-                props.average.attentive,
-                props.average.resilience,
+                props.averages.emotionalIntelligence,
+                props.averages.initiative,
+                props.averages.trust,
+                props.averages.flex,
+                props.averages.clarity,
+                props.averages.culture,
+                props.averages.nonVerbal,
+                props.averages.attentive,
+                props.averages.resilience,
               ],
             },
           ],
