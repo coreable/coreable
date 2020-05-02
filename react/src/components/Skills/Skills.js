@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import {
-  // BrowserRouter as Router,
   Redirect
 } from "react-router-dom";
-
-
-// import Navbar from "../Navbar2/Navbar";
 
 export class Skills extends Component {
   constructor(props) {
@@ -26,8 +22,11 @@ export class Skills extends Component {
     if (!this.state.loggedIn) {
       return <Redirect to="/"></Redirect>;
     }
+    return (
+      <div>
 
-    return <div></div>;
+      </div>
+    );
   }
 }
 
