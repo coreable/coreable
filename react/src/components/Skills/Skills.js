@@ -4,22 +4,18 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { JWT } from "../../constants";
 
 // import Navbar from "../Navbar2/Navbar";
 
 export class Skills extends Component {
-  constructor() {
-    super();
-
-    // TODO: move to props
-    const AUTH_TOKEN = localStorage.getItem(JWT);
+  constructor(props) {
+    super(props);
 
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
       isLoading: true,
-      loggedIn: !!AUTH_TOKEN,
+      loggedIn: !!props.me,
       me: {
         teams: [],
       },

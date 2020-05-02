@@ -152,7 +152,7 @@ class Trait extends Component {
     const trait = this.state.var;
 
     try {
-      //the val is not accurate here
+      console.log(e.target.value);
       const val = e.target.value;
       this.setState(
         {
@@ -171,17 +171,11 @@ class Trait extends Component {
   };
 
   getSliderBackground = () => {
-    const team_id = this.state.team._id;
     const user_id = this.state.user._id;
-    const trait = this.state.var;
-
     if (!user_id) {
       return `linear-gradient(90deg, rgb(66, 113, 249) 0%, rgb(214, 214, 214) 0%)`;
     } else {
-      const review = this.getReview();
-      const val = review[team_id][user_id][trait].val;
-      console.log(val);
-      return `linear-gradient(90deg, rgb(66, 113, 249) ${val}%, rgb(214, 214, 214) ${val}%)`;
+      return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
     }
   };
 
@@ -196,8 +190,6 @@ class Trait extends Component {
     try {
       val = review[team_id][user_id][trait].val;
     } catch (err) {
-      //Note: why -1?
-      // val = -1;
       val = 0;
     }
 
@@ -209,7 +201,6 @@ class Trait extends Component {
 
   countTeam = () => {
     const teamMemberCount = this.props.pending.pending.length;
-    // console.log(teamMemberCount);
     return teamMemberCount;
   };
 
@@ -240,12 +231,6 @@ class Trait extends Component {
   render() {
     return (
       <React.Fragment>
-        {/* <Typography
-          variant="h3"
-          style={{ marginTop: "8pt", fontWeight: "bold" }}
-        >
-          {this.state.traitName}
-        </Typography> */}
         <Typography
           variant="h4"
           style={{ marginTop: "8pt", marginBottom: "16pt", fontWeight: "bold" }}
@@ -264,8 +249,8 @@ class Trait extends Component {
             key={this.state.var}
             id={this.state.var}
             name={this.state.var}
-            value={this.state.val !== 0 ? "0" : this.state.val}
-            // disabled={!this.state.user._id}
+            value={!!this.state.val ? this.state.val : 0}
+            disabled={!this.state.user._id}
             className="rating"
             onChange={this.handleSliderChange}
             style={{
@@ -302,7 +287,6 @@ class Trait extends Component {
             >
               {" "}
             </div>
-            {/* <div className="bar"> </div> */}
           </div>
         </div>
 
@@ -320,12 +304,6 @@ class Trait extends Component {
                 disableElevation
                 key={index}
                 onClick={() => this.handleSelectedUserChange(user)}
-                // style={{
-                //   backgroundImage: `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`,
-                //   // backgroundImage:
-                //   //   "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
-                //   // backgroundImage: this.getSliderBackground(user),
-                // }}
               >
                 {user.firstName + " " + user.lastName}
               </Button>
@@ -334,11 +312,12 @@ class Trait extends Component {
         </CardActions>
 
         <div style={{ marginTop: "10px" }}>
-          {this.props.pending.pending.map((user) => {
+          {this.props.pending.pending.map((user, index) => {
             return (
               <TeamRank
                 key={user._id}
                 name={user._d}
+
                 {...this.getScoreForDisplay(user)}
                 backgroundImage={this.getSliderBackground}
                 teamMemberCount={this.countTeam()}

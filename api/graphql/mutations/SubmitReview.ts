@@ -148,9 +148,6 @@ export default {
       if (!subject) {
         errors.push({ code: 'ER_SUBJECT_UNKNOWN', path: '_id', message: `Team with _id ${userCommonTeam._id} belongs to no subject!` });
       }
-      if ((args.receiver_id === context.USER._id) && subject.state !== 1) {
-        errors.push({ code: 'ER_REFLECTION_STATE', path: 'subject', message: `A user can only submit a reflection review during subject state 1` });
-      }
     }
     if (!errors.length) {
       let hasCompleted = await sequelize.models.Review.findOne(
@@ -158,6 +155,7 @@ export default {
           where: {
             receiver_id: args.receiver_id,
             submitter_id: context.USER._id,
+            subject_id: args.subject_id,
             state: subject.state
           }
         }
@@ -171,6 +169,7 @@ export default {
         await Review.create({
           receiver_id: args.receiver_id,
           submitter_id: context.USER._id,
+          subject_id: args.subject_id,
           state: subject.state,
           emotionalResponse: args.emotionalResponse,
           empathy: args.empathy,
@@ -205,6 +204,7 @@ export default {
             where: { 
               receiver_id: args.receiver_id,
               submitter_id: context.USER._id,
+              subject_id: subject._id,
               state: subject.state 
             }, 
             exclude: ['receiver_id']

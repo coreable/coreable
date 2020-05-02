@@ -14,7 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 import { Grid, Typography, Container } from "@material-ui/core";
-import { JWT, USER_NAME } from "../../../constants";
+import { JWT } from "../../../constants";
 import Chart from "./Chart";
 // import Navbar from "../../Navbar2/Navbar";
 
@@ -27,7 +27,7 @@ class ThankYou extends Component {
       loading: true,
       averages: {},
       reflection: {},
-      firstName: localStorage.getItem(USER_NAME),
+      firstName: props.me.firstName,
     };
   }
 

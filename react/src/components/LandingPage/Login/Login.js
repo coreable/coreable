@@ -113,7 +113,6 @@ class Login extends Component {
     localStorage.setItem(JWT, token);
     localStorage.setItem(USER_NAME, firstName);
     localStorage.setItem(LAST_NAME, lastName);
-    console.log(lastName);
     localStorage.setItem(USERID, _id);
   };
 

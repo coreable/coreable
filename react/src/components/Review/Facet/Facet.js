@@ -86,10 +86,11 @@ class Facet extends Component {
         <div className="main">
           {this.state.traits.map((trait, index) => {
             return (
-              <div className="inside-main">
+              <div className="inside-main" key={index}>
                 <Trait
                   {...trait}
                   name={this.state.name}
+                  key={trait.name}
                   traitName={this.state.traits.name}
                   pending={this.props.pending}
                 ></Trait>

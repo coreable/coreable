@@ -243,7 +243,7 @@ class Review extends Component {
     const review = JSON.parse(localStorage.getItem("review"));
     const promises = [];
     const AUTH_TOKEN = localStorage.getItem(JWT);
-
+    
     for (const team in review) {
       for (const user in review[team]) {
         try {
@@ -311,7 +311,7 @@ class Review extends Component {
             )
           );
         } catch (err) {
-          console.error({ err: err, path: "Review.js" });
+          console.error(err);
         }
       }
     }

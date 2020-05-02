@@ -166,33 +166,12 @@ class Home extends Component {
 
   getPendingUser(team_id) {
     const isDisabled = this.getReviewButtonState(team_id);
-    let data = {};
-    if (this.state.me.grouped[team_id].subject.state === 1) {
-      data = {
-        _id: this.state.me.grouped[team_id]._id,
-        name: this.state.me.grouped[team_id].name,
-        subject: this.state.me.grouped[team_id].subject,
-        pending: [
-          !isDisabled
-            ? this.state.me.pending.find(
-                (user) => user._id === this.state.me._id
-              )
-            : null,
-        ],
-      };
-    }
-    if (this.state.me.grouped[team_id].subject.state !== 1) {
-      data = {
-        _id: this.state.me.grouped[team_id]._id,
-        name: this.state.me.grouped[team_id].name,
-        subject: this.state.me.grouped[team_id].subject,
-        pending: !isDisabled
-          ? this.state.me.pending.filter(
-              (user) => user._id !== this.state.me._id
-            )
-          : null,
-      };
-    }
+    let data = {
+      _id: this.state.me.grouped[team_id]._id,
+      name: this.state.me.grouped[team_id].name,
+      subject: this.state.me.grouped[team_id].subject,
+      pending: !isDisabled ? this.state.me.pending : null,
+    };
     return data;
   }
 

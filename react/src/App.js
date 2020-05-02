@@ -16,17 +16,15 @@ import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 
-import Navbar from "./components/Navbar2/Navbar";
-import { JWT, USER_NAME, LAST_NAME } from "./constants";
+import Navbar from "./components/Navbar/Navbar";
+import { JWT } from "./constants";
 
 import "./App.scss";
 import Loader from "./components/Loading/Loading";
 
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() =>
-  import("./components/LandingPage/Register/Register")
-);
+const Register = lazy(() => import("./components/LandingPage/Register/Register"));
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
@@ -141,8 +139,7 @@ class App extends Component {
       <Router>
         <div className="App" style={{ height: "100%" }}>
           <Navbar
-            firstName={localStorage.getItem(USER_NAME)}
-            lastName={localStorage.getItem(LAST_NAME)}
+            me={this.state.me}
           />
 
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
