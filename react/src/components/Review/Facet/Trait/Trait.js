@@ -152,7 +152,6 @@ class Trait extends Component {
     const trait = this.state.var;
 
     try {
-      console.log(e.target.value);
       const val = e.target.value;
       this.setState(
         {
