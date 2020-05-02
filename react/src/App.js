@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
 
 import Navbar from "./components/Navbar/Navbar";
-import { JWT } from "./constants";
+import { JWT, API_URL } from "./constants";
 
 import "./App.scss";
 import Loader from "./components/Loading/Loading";
@@ -43,7 +43,7 @@ class App extends Component {
     };
   }
 
-  userDidLoginOrRegister = () => {
+  refreshMe = () => {
     this.setState(
       {
         ...this.state,
@@ -81,16 +81,15 @@ class App extends Component {
                 }
                 pending {
                   _id
-                  firstName
-                  lastName
-                  teams {
+                  name
+                  subject {
                     _id
-                    name
-                    subject {
-                      _id
-                      name
-                      state
-                    }
+                    state
+                  }
+                  users {
+                    _id
+                    firstName
+                    lastName
                   }
                 }
               }
@@ -116,7 +115,7 @@ class App extends Component {
     };
 
     const res = await fetch(
-      "https://coreable.appspot.com/graphql",
+      API_URL,
       options
     ).then((res) => res.json());
     const { data, errors } = res.data.me;
@@ -140,6 +139,8 @@ class App extends Component {
         <div className="App" style={{ height: "100%" }}>
           <Navbar
             me={this.state.me}
+            loading={this.state.loading}
+            refreshMe={this.refreshMe}
           />
 
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
@@ -151,6 +152,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -163,7 +165,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
-                  userDidLoginOrRegister={this.userDidLoginOrRegister}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -175,7 +177,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
-                  userDidLoginOrRegister={this.userDidLoginOrRegister}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -188,6 +190,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -199,6 +202,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -210,6 +214,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -221,6 +226,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -232,6 +238,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />
@@ -243,6 +250,7 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
                 />
               )}
             />

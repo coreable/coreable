@@ -49,26 +49,14 @@ class Home extends Component {
       return false;
     }
 
+    let grouped = {};
     const { me } = this.state;
 
-    let grouped = {};
-    for (const team of me.teams) {
+    for (const team of me.pending) {
       grouped[team._id] = team;
-      grouped[team._id].pending = [];
-    }
-
-    for (const pending of me.pending) {
-      for (const team of pending.teams) {
-        if (grouped[team._id]) {
-          grouped[team._id].pending.push(pending);
-        }
-      }
     }
 
     const joinTeam = {
-      //duplicate keys??????
-      // _id: "jointeam",
-      // name: "Join a Team",
       _id: "joinTeam",
       name: "Join a Team",
       pending: [],
@@ -84,20 +72,30 @@ class Home extends Component {
     if (me.teams[me.teams.length - 1]._id !== "joinTeam") {
       me.teams.push(joinTeam);
     }
+
     me.grouped = grouped;
 
     // Make sure the joinTeam is always the last card
-    me.teams.sort((team) => {
-      if (team._id !== "joinTeam") {
+    me.teams.sort((a, b) => {
+      if (a._id === "joinTeam") {
+        return 1;
+      }
+      if (b._id === "joinTeam") {
+        return 1;
+      }
+      if (a.name < b.name) {
         return -1;
       }
-      return 1;
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
     });
 
     this.setState({
       ...this.state,
       isLoading: false,
-      me,
+      me
     });
   };
 
@@ -140,17 +138,11 @@ class Home extends Component {
 
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
-  getReviewButtonState(team_id) {
+  getReviewButtonState = (team_id) => {
     if (this.state.isLoading) {
       return false;
     }
-
-    if (this.state.me.grouped[team_id].subject.state === 1) {
-      return !this.state.me.pending.some(
-        (user) => user._id === this.state.me._id
-      );
-    }
-    return this.state.me.grouped[team_id].pending.lenth === 0;
+    return this.state.me.grouped[team_id].users.length === 0;
   }
 
   getReviewButtonTextColor(team_id) {
@@ -170,7 +162,7 @@ class Home extends Component {
       _id: this.state.me.grouped[team_id]._id,
       name: this.state.me.grouped[team_id].name,
       subject: this.state.me.grouped[team_id].subject,
-      pending: !isDisabled ? this.state.me.pending : null,
+      pending: !isDisabled ? this.state.me.grouped[team_id].users : null,
     };
     return data;
   }
@@ -196,11 +188,6 @@ class Home extends Component {
 
     return (
       <div>
-        {/* NOTE: if we put it in here, css does not work */}
-        {/* <Navbar
-          firstName={this.state.me.firstName}
-          lastName={this.state.me.lastName}
-        /> */}
         <div className="review-container">
           <div className="top-background">
             <Typography
@@ -279,10 +266,6 @@ class Home extends Component {
                             pending: this.getPendingUser(team._id),
                           },
                         }}
-                        // style={{
-                        //   textDecoration: "none",
-                        //   color: this.getReviewButtonTextColor(team._id),
-                        // }}
                       >
                         <Button
                           className={`${globalCSS.btn} btn primarybtn`}

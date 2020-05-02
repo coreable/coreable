@@ -24,10 +24,10 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { setContext } from 'apollo-link-context'
-import { JWT } from './constants'
+import { JWT, API_URL } from './constants'
 
 const httpLink = createHttpLink({
-  uri: 'https://coreable.appspot.com/graphql'
+  uri: API_URL
 });
 
 const authLink = setContext((_, { headers }) => {

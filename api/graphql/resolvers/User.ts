@@ -209,10 +209,8 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
         }
       },
       'pending': {
-        type: new GraphQLList(UserResolver),
+        type: new GraphQLList(TeamResolver),
         async resolve(user, args, context) {
-          // @todo #3 Remove self from pending if subject state isn't 1
-
           // if the user retrieved is not the logged in user
           // and the logged in user is not manager
           // or the user being retrieved is a manager
@@ -222,70 +220,26 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             return null;
           }
 
-          // add all the users team members to a map
-          const teamQuery = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }, { model: User, as: 'users' }], attributes: { exclude: ['inviteCode'] } });
-          let teamMembers: any = {};
+          const teams = await (user as any).getTeams({ model: Team, include: [{ model: Subject, as: 'subject' }], attributes: { exclude: ['inviteCode'] } });
 
-          for (const team of teamQuery) {
-            for (const member of team.users) {
-              if (!teamMembers[member._id]) {
-                teamMembers[member._id] = {
-                  user_id: member._id,
-                  subject_state: team.subject.state,
-                  received_review: false,
-                  subject_id: team.subject._id
-                };
-              }
+          for (const team of teams) {
+            const hasReviewed = await sequelize.models.Review.findAll({ where: { submitter_id: context.USER._id, subject_id: team.subject._id, state: team.subject.state }});
+            team.users = [];
+            if (!hasReviewed.length) {
+              team.users = await team.getUsers();
             }
           }
 
-          // if the user has reviewed a team member in the map
-          // set the team members value to true
-          for (const teamMember in teamMembers) {
-            const review = await sequelize.models.Review.findOne(
-              {
-                where: {
-                  submitter_id: user._id,
-                  receiver_id: teamMembers[teamMember].user_id,
-                  subject_id: teamMembers[teamMember].subject_id,
-                  state: teamMembers[teamMember].subject_state
-                }
-              }
-            );
-            if (review) {
-              teamMembers[teamMember].received_review = true;
-            }
-          }
-
-          // if the team member in a map isn't true
-          // the team member hasnt been reviewed
-          const pending = [];
-          for (const member in teamMembers) {
-            if (teamMembers[member].received_review !== true) {
-              pending.push(member);
-            }
-          }
-
-          // return all the users needing review
-          return sequelize.models.User.findAll(
-            {
-              where: { _id: { [Op.in]: pending } },
-              include: [
-                {
-                  model: Team,
-                  as: 'teams',
-                  attributes: { exclude: ['inviteCode'] },
-                  include: [{ model: Subject, as: 'subject' }]
-                }
-              ]
-            }
-          );
+          return teams;
         }
       },
       'reflection': {
         type: ReviewResolver,
         async resolve(user: any, args: any, context: any) {
-          let reflection = await sequelize.models.Review.findAll({ where: { receiver_id: user._id, submitter_id: user._id } });
+          if (user._id !== context.USER._id) {
+            return null;
+          }
+          let reflection = await sequelize.models.Review.findAll({ where: { receiver_id: context.USER._id, submitter_id: context.USER._id } });
           if (!reflection) {
             return null;
           }

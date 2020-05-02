@@ -16,7 +16,7 @@ import React, { Component } from "react";
 import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { Redirect } from "react-router-dom";
-import { JWT } from "../../constants";
+import { JWT, API_URL } from "../../constants";
 import { LinearProgress } from "@material-ui/core";
 
 class Review extends Component {
@@ -301,13 +301,7 @@ class Review extends Component {
           };
           promises.push(
             new Promise((r, f) =>
-              fetch("https://coreable.appspot.com/graphql", options).then(async(data) => {
-                console.log(await data.json());
-                return r();
-              }).catch(async(err) => {
-                console.log(await err.json());
-                return r();
-              })
+              fetch(API_URL, options).then(r).catch(r)
             )
           );
         } catch (err) {
@@ -319,6 +313,8 @@ class Review extends Component {
       this.setState({
         ...this.state,
         submitting: false,
+      }, () => {
+        this.props.refreshMe();
       });
     });
   };

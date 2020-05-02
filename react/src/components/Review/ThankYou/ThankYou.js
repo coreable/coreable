@@ -14,7 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 import { Grid, Typography, Container } from "@material-ui/core";
-import { JWT } from "../../../constants";
+import { JWT, API_URL } from "../../../constants";
 import Chart from "./Chart";
 // import Navbar from "../../Navbar2/Navbar";
 
@@ -99,7 +99,7 @@ class ThankYou extends Component {
       }
     `,
     };
-    fetch("https://coreable.appspot.com/graphql", {
+    fetch(API_URL, {
       method: "POST",
       mode: "cors",
       headers: {

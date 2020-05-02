@@ -98,7 +98,7 @@ class Login extends Component {
       const { token } = data.login.data;
       const { firstName, lastName, _id } = data.login.data.user;
       this._saveUserData({ token, firstName, lastName, _id });
-      this.props.userDidLoginOrRegister();
+      this.props.refreshMe();
       this.props.history.push(`/home`);
     } catch (err) {
       alert("Your email or password is incorrect");
@@ -111,9 +111,6 @@ class Login extends Component {
 
   _saveUserData = ({ token, firstName, lastName, _id }) => {
     localStorage.setItem(JWT, token);
-    localStorage.setItem(USER_NAME, firstName);
-    localStorage.setItem(LAST_NAME, lastName);
-    localStorage.setItem(USERID, _id);
   };
 
   render() {

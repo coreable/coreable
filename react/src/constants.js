@@ -17,4 +17,6 @@ const USER_NAME = "firstName";
 const LAST_NAME = "lastName";
 const USERID = "user_id";
 const TEAMID = "team_id";
-export { JWT, USER_NAME, LAST_NAME, USERID, TEAMID };
+const API_URL = "http://localhost:8080/graphql";
+
+export { JWT, USER_NAME, LAST_NAME, USERID, TEAMID, API_URL };

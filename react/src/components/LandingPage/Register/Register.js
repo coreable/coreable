@@ -121,7 +121,7 @@ class Register extends Component {
       const { token } = data.register.data;
       const { firstName, lastName, _id } = data.register.data.user;
       this._saveUserData({ token, firstName, lastName, _id });
-      this.props.userDidLoginOrRegister();
+      this.props.refreshMe();
       this.props.history.push(`/home`);
     } catch (err) {
       alert(err);
@@ -135,9 +135,6 @@ class Register extends Component {
 
   _saveUserData = ({ token, firstName, lastName, _id }) => {
     localStorage.setItem(JWT, token);
-    localStorage.setItem(USER_NAME, firstName);
-    localStorage.setItem(LAST_NAME, lastName);
-    localStorage.setItem(USERID, _id);
   };
 
   render() {
