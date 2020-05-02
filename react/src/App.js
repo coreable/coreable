@@ -38,8 +38,7 @@ class App extends Component {
     this.state = {
       sideDrawerOpen: false,
       loading: true,
-      me: null,
-      showLoadingSign: false,
+      me: null
     };
   }
 
