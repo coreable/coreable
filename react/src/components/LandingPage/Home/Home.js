@@ -15,8 +15,6 @@ Coreable source code.
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 
-import { Mutation } from "react-apollo";
-import { JOIN_TEAM } from "../../../apollo/mutations";
 import "../../ReviewTab/Review.scss";
 
 import globalCSS from "../../../global.scss";
@@ -28,9 +26,10 @@ import {
   Grid,
   Stepper,
   Step,
-  StepLabel,
-  LinearProgress,
+  StepLabel
 } from "@material-ui/core";
+
+import { JWT, API_URL } from "../../../constants";
 
 class Home extends Component {
   constructor(props) {
@@ -38,9 +37,9 @@ class Home extends Component {
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
-      isLoading: true,
       me: props.me,
       steps: ["Self Review", "Team Review", "Final Review"],
+      loading: true,
     };
   }
 
@@ -63,7 +62,7 @@ class Home extends Component {
       subject: {
         name: "Join a Team",
         state: 0,
-      },
+      }
     };
 
     if (!me.teams.length) {
@@ -94,7 +93,7 @@ class Home extends Component {
 
     this.setState({
       ...this.state,
-      isLoading: false,
+      loading: false,
       me
     });
   };
@@ -126,11 +125,11 @@ class Home extends Component {
     }
   };
 
-  canBeSubmitted() {
+  canBeSubmitted = () => {
     return !this.isDisabled();
   }
 
-  handleBlur = (field) => {};
+  handleBlur = (field) => { };
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -139,14 +138,14 @@ class Home extends Component {
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
   getReviewButtonState = (team_id) => {
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return false;
     }
     return this.state.me.grouped[team_id].users.length === 0;
   }
 
-  getReviewButtonTextColor(team_id) {
-    if (this.state.isLoading) {
+  getReviewButtonTextColor = (team_id) => {
+    if (this.state.loading) {
       return false;
     }
     const isDisabled = this.getReviewButtonState(team_id);
@@ -156,7 +155,7 @@ class Home extends Component {
     return "#ffffff";
   }
 
-  getPendingUser(team_id) {
+  getPendingUser = (team_id) => {
     const isDisabled = this.getReviewButtonState(team_id);
     let data = {
       _id: this.state.me.grouped[team_id]._id,
@@ -167,8 +166,50 @@ class Home extends Component {
     return data;
   }
 
-  capitalize(str) {
+  capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  joinTeam = async () => {
+    const query = {
+      query: `
+        mutation {
+          joinTeam(inviteCode: "${this.state.inviteCode}") {
+            data {
+              user {
+                _id
+              }
+            }
+            errors {
+              code
+              path
+              message
+            }
+          }
+        }
+      `
+    };
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: localStorage.getItem(JWT),
+      },
+      body: JSON.stringify(query),
+    };
+
+    const res = await fetch(API_URL, options).then((data) => data.json());
+    const { data, errors } = res.data.joinTeam;
+
+    if (errors) {
+      console.error(errors);
+      alert(errors[0].message);
+    }
+
+    if (data) {
+      this.props.refreshMe();
+    }
   }
 
   render() {
@@ -176,14 +217,8 @@ class Home extends Component {
       return <Redirect to="/"></Redirect>;
     }
 
-    const { inviteCode } = this.state;
-
-    if (this.state.isLoading) {
-      return (
-        <React.Fragment>
-          <LinearProgress style={{ top: "37pt" }}></LinearProgress>
-        </React.Fragment>
-      );
+    if (this.state.loading) {
+      return (<div></div>);
     }
 
     return (
@@ -219,7 +254,7 @@ class Home extends Component {
                       <Typography variant="h3" style={{ fontWeight: "bold" }}>
                         {this.capitalize(team.subject.name)}
                       </Typography>
-                      {/* <h3>{this.capitalize(team.subject.name)}</h3> */}
+
                       <p>{this.capitalize(team.name)}</p>
 
                       <span className="stepper-line"> </span>
@@ -260,7 +295,7 @@ class Home extends Component {
                       </Stepper>
                       <Link
                         to={{
-                          pathname: "/self-review",
+                          pathname: "/review",
                           state: {
                             team_id: team._id,
                             pending: this.getPendingUser(team._id),
@@ -296,54 +331,31 @@ class Home extends Component {
 
                     <p>Enter your team code below</p>
 
-                    <Mutation
-                      mutation={JOIN_TEAM}
-                      variables={{ inviteCode }}
-                      onCompleted={(data) => this._success(data)}
-                    >
-                      {(mutation) => (
-                        <TextField
-                          label="Team Code"
-                          placeholder="eg: Team 1"
-                          fullWidth
-                          margin="normal"
-                          InputLabelProps={{ style: { fontSize: 12 } }}
-                          variant="outlined"
-                          name="inviteCode"
-                          value={this.state.inviteCode}
-                          type="text"
-                          onChange={this.handleChange}
-                          onBlur={this.handleBlur("inviteCode")}
-                          onKeyPress={async (e) => {
-                            if (e.key === "Enter") {
-                              this.setState({ isLoading: true });
-                              return await mutation();
-                            }
-                          }}
-                          style={{ marginTop: "8pt", paddingBottom: "15px" }}
-                        />
-                      )}
-                    </Mutation>
-
-                    <Mutation
-                      mutation={JOIN_TEAM}
-                      variables={{ inviteCode }}
-                      onCompleted={(data) => this._success(data)}
-                    >
-                      {(mutation) => (
-                        <Button
-                          className="btn primarybtn"
-                          // disableElevation
-                          disabled={this.isDisabled()}
-                          onClick={async () => {
-                            this.setState({ isLoading: true });
-                            return await mutation();
-                          }}
-                        >
-                          Join Team
-                        </Button>
-                      )}
-                    </Mutation>
+                    <TextField
+                      label="Team Code"
+                      placeholder="eg: Team 1"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{ style: { fontSize: 12 } }}
+                      variant="outlined"
+                      name="inviteCode"
+                      value={this.state.inviteCode}
+                      type="text"
+                      onChange={this.handleChange}
+                      onBlur={this.handleBlur("inviteCode")}
+                      onKeyPress={async (e) => {
+                        if (e.key === "Enter") {
+                          await this.joinTeam();
+                        }
+                      }}
+                      style={{ marginTop: "8pt", paddingBottom: "15px" }}
+                    />
+                    <Button
+                      className="btn primarybtn"
+                      disabled={this.isDisabled()}
+                      onClick={async () => {
+                        await this.joinTeam();
+                      }}>Join Team</Button>
                   </div>
                 </Grid>
               );
@@ -363,11 +375,11 @@ class Home extends Component {
       });
       this.componentDidMount();
     } catch (err) {
-      alert(data.joinTeam.errors[0].message);
+      alert("Unable to locate a team with that code");
     }
     this.setState({
       ...this.state,
-      isLoading: false,
+      isLoading: false
     });
   };
 }

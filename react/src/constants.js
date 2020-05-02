@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */
 
-const JWT = "auth-token";
+const JWT = "JWT";
 const USER_NAME = "firstName";
 const LAST_NAME = "lastName";
 const USERID = "user_id";

@@ -15,10 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
-// import "./Facet.scss";
 import "../Review.scss";
-
-// import global from "../../../global.scss";
 
 class Facet extends Component {
   constructor(props) {
@@ -49,8 +46,7 @@ class Facet extends Component {
     }
     this.props.nextStep();
     window.scrollTo({
-      top: 0,
-      // behavior: "smooth",
+      top: 0
     });
   };
 
@@ -61,12 +57,9 @@ class Facet extends Component {
     }
     this.props.prevStep();
     window.scrollTo({
-      top: 0,
-      // behavior: "smooth",
+      top: 0
     });
   };
-
-  // handleSubmit = (e) => e.preventDefault();
 
   render() {
     return (
@@ -76,10 +69,7 @@ class Facet extends Component {
             <Typography
               variant="h2"
               style={{ color: "white", fontWeight: "bold" }}
-            >
-              {this.state.name}
-            </Typography>
-            {/* <h1 style={{ margin: "0" }}>{this.state.name} </h1> */}
+            >{this.state.name}</Typography>
             <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
           </div>
         </div>
@@ -97,13 +87,10 @@ class Facet extends Component {
               </div>
             );
           })}
-          <button
-            // disabled="true"
+          <Button
             className="btn primarybtn"
             onClick={this.continue}
-          >
-            Next
-          </button>
+          >Next</Button>
           <Button className="btn transparentbtn" onClick={this.back}>
             Back
           </Button>

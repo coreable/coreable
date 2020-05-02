@@ -14,7 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { JWT, USER_NAME, LAST_NAME } from "../../constants";
+import { JWT } from "../../constants";
 import Backdrop from "../Backdrop/Backdrop";
 import NavbarItem from "./NarbarItem";
 import "./Navbar.scss";
@@ -23,6 +23,7 @@ class Navbar extends Component {
   constructor(props) {
     super(props);
 
+    console.log(props);
     this.state = {
       menuOpen: false,
       me: props.me,
@@ -51,17 +52,15 @@ class Navbar extends Component {
     }
   };
 
-  capitalize(str) {
+  capitalize = (str) => {
     if (str.length) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
     return "";
   }
 
-  removeJWT() {
+  removeJWT = () => {
     localStorage.removeItem(JWT);
-    localStorage.removeItem(USER_NAME);
-    localStorage.removeItem(LAST_NAME);
     window.location.reload(true);
   }
 
@@ -94,15 +93,12 @@ class Navbar extends Component {
                   key={idx}
                   dest={menuItem.link}
                   menuOpenHandler={this.menuOpenHandler}
-                >
-                  {menuItem.name}
-                </NavbarItem>
+                >{menuItem.name}</NavbarItem>
               );
             })}
           </ul>
         </React.Fragment>
         <span className="spacer" />
-
         {
           (() => {
             if (this.state.me) {
@@ -120,7 +116,6 @@ class Navbar extends Component {
             }
           })()
         }
-
       </nav>
     );
   }

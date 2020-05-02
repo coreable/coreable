@@ -239,6 +239,17 @@ class Review extends Component {
     }
   };
 
+  prevStep = () => {
+    const { currentIndex } = this.state;
+    if (currentIndex === 0) {
+      return <Redirect to="/"></Redirect>;
+    }
+    this.setState({
+      ...this.state,
+      currentIndex: currentIndex - 1,
+    });
+  };
+
   submit = async () => {
     const review = JSON.parse(localStorage.getItem("review"));
     const promises = [];
@@ -316,17 +327,6 @@ class Review extends Component {
       }, () => {
         this.props.refreshMe();
       });
-    });
-  };
-
-  prevStep = () => {
-    const { currentIndex } = this.state;
-    if (currentIndex === 0) {
-      return <Redirect to="/"></Redirect>;
-    }
-    this.setState({
-      ...this.state,
-      currentIndex: currentIndex - 1,
     });
   };
 

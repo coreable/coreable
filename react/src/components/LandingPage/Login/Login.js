@@ -12,15 +12,10 @@ Coreable source code.
 ===========================================================================
 */
 
-// TODO: Disable login button while waiting for submit
-
 import React, { Component } from "react";
 import "./Login.scss";
 import { Link, Redirect } from "react-router-dom";
-
-import { Mutation } from "react-apollo";
-import { JWT, USER_NAME, LAST_NAME, USERID } from "../../../constants";
-import { LOGIN_MUTATION } from "../../../apollo/mutations";
+import { JWT, API_URL } from "../../../constants";
 
 import {
   Typography,
@@ -39,8 +34,6 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loading: false,
-      showAlert: false,
 
       touched: {
         email: false,
@@ -92,33 +85,55 @@ class Login extends Component {
 
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
-  _success = (data) => {
-    this.setState({ loading: false });
-    try {
-      const { token } = data.login.data;
-      const { firstName, lastName, _id } = data.login.data.user;
-      this._saveUserData({ token, firstName, lastName, _id });
-      this.props.refreshMe();
-      this.props.history.push(`/home`);
-    } catch (err) {
-      alert("Your email or password is incorrect");
+  loginUser = async () => {
+    const query = {
+      query: `
+        mutation {
+          login(email: "${this.state.email}", password: "${this.state.password}") {
+            data  {
+              user {
+                _id
+              }
+              token
+            }
+            errors {
+              code
+              path
+              message
+            }
+          }
+        }
+      `
+    };
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: localStorage.getItem(JWT) || '',
+      },
+      body: JSON.stringify(query),
+    };
+
+    const res = await fetch(API_URL, options).then((data) => data.json());
+    const { data, errors } = res.data.login;
+
+    if (errors) {
+      console.error(errors);
+      alert(errors[0].message);
     }
-  };
 
-  _error = (err) => {
-    console.log(err);
-  };
-
-  _saveUserData = ({ token, firstName, lastName, _id }) => {
-    localStorage.setItem(JWT, token);
-  };
+    if (data) {
+      localStorage.setItem(JWT, data.token);
+      this.props.refreshMe();
+    }
+  }
 
   render() {
     if (this.props.me) {
       return <Redirect to="/home"></Redirect>;
     }
 
-    let { email, password } = this.state;
     return (
       <Container
         maxWidth="100vh"
@@ -127,12 +142,8 @@ class Login extends Component {
           height: "100vh",
         }}
       >
-        {/* ADD ALERT DIV HERE */}
-        {/* {this.alert()} */}
-
         <Container
           maxWidth="sm"
-          // style={{ height: "95.25vh" }}
           className="login-container"
         >
           <Container maxWidth="md">
@@ -141,7 +152,6 @@ class Login extends Component {
               component="h1"
               style={{
                 fontWeight: "bold",
-                // marginTop: "48pt",
                 textAlign: "left",
                 color: "#000",
               }}
@@ -175,59 +185,39 @@ class Login extends Component {
                 onBlur={this.handleBlur("email")}
                 style={{
                   marginTop: "8pt",
-                  // backgroundColor: this.getColour("email"),
                 }}
               />
-              <Mutation
-                mutation={LOGIN_MUTATION}
-                variables={{ email, password }}
-                onCompleted={(data) => this._success(data)}
-                onError={(err) => this._error(err)}
-              >
-                {(mutation) => (
-                  <TextField
-                    InputLabelProps={{ style: { fontSize: 12 } }}
-                    label="Password"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    name="password"
-                    error={this.shouldMarkError("password")}
-                    value={this.state.password}
-                    type="password"
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur("password")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        return mutation();
-                      }
-                    }}
-                    style={{
-                      marginTop: "8pt",
-                      marginBottom: "8pt",
-                      // backgroundColor: this.getColour("password"),
-                    }}
-                  />
-                )}
-              </Mutation>
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Password"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="password"
+                error={this.shouldMarkError("password")}
+                value={this.state.password}
+                type="password"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("password")}
+                onKeyPress={async (e) => {
+                  if (e.key === "Enter") {
+                    await this.loginUser();
+                  }
+                }}
+                style={{
+                  marginTop: "8pt",
+                  marginBottom: "8pt"
+                }}
+              />
               <StylesProvider injectFirst>
-                <Mutation
-                  mutation={LOGIN_MUTATION}
-                  variables={{ email, password }}
-                  onCompleted={(data) => this._success(data)}
-                  onError={(err) => this._error(err)}
-                >
-                  {(mutation) => (
-                    <Button
-                      className="btn primarybtn"
-                      disabled={this.isDisabled()}
-                      onClick={mutation}
-                      style={{ marginTop: "10px" }}
-                    >
-                      Login
-                    </Button>
-                  )}
-                </Mutation>
+                <Button
+                  className="btn primarybtn"
+                  disabled={this.isDisabled()}
+                  onClick={async () => {
+                    await this.loginUser();
+                  }}
+                  style={{ marginTop: "10px" }}
+                >Login</Button>
                 <div style={{ marginTop: "15px" }}>
                   <Link
                     to="/forgot"
@@ -236,13 +226,7 @@ class Login extends Component {
                       textDecoration: "none",
                       color: "lightgrey",
                     }}
-                  >
-                    <Link
-                      style={{ color: "lightgrey", textDecoration: "none" }}
-                    >
-                      Forgot password
-                    </Link>
-                  </Link>
+                  >Forgot password</Link>
                   <span> |||||| </span>
                   <Link
                     to="/signup"
@@ -251,9 +235,7 @@ class Login extends Component {
                       textDecoration: "none",
                       color: "lightgrey",
                     }}
-                  >
-                    Create account
-                  </Link>
+                  >Create account</Link>
                 </div>
               </StylesProvider>
             </FormControl>

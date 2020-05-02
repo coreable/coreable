@@ -109,19 +109,19 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT) || "",
+        JWT: localStorage.getItem(JWT) || '',
       },
       body: JSON.stringify(query),
     };
 
-    const res = await fetch(
-      API_URL,
-      options
-    ).then((res) => res.json());
+    const res = await fetch(API_URL, options).then((res) => res.json());
+
     const { data, errors } = res.data.me;
+
     if (errors) {
       console.error(errors);
     }
+
     this.setState({
       ...this.state,
       loading: false,
@@ -196,7 +196,7 @@ class App extends Component {
             />
             <Route
               exact
-              path="/self-review"
+              path="/review"
               component={(props) => (
                 <Review
                   {...props}

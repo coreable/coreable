@@ -17,10 +17,7 @@ Coreable source code.
 import React, { Component } from "react";
 import "./Register.scss";
 import { Link, Redirect } from "react-router-dom";
-
-import { Mutation } from "react-apollo";
-import { JWT, USER_NAME, LAST_NAME, USERID } from "../../../constants";
-import { SIGNUP_MUTATION } from "../../../apollo/mutations";
+import { JWT, API_URL } from "../../../constants";
 
 import {
   Typography,
@@ -31,21 +28,20 @@ import {
 } from "@material-ui/core";
 
 class Register extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: "",
       password: "",
-      firstname: "",
-      lastname: "",
-      loading: false,
+      firstName: "",
+      lastName: "",
 
       touched: {
         email: false,
         password: false,
-        firstname: false,
-        lastname: false,
+        firstName: false,
+        lastName: false,
       },
     };
   }
@@ -54,17 +50,17 @@ class Register extends Component {
     return this.validate(
       this.state.email,
       this.state.password,
-      this.state.firstname,
-      this.state.lastname
+      this.state.firstName,
+      this.state.lastName
     );
   }
 
-  validate(email, password, firstname, lastname) {
+  validate(email, password, firstName, lastName) {
     return {
       email: email.length === 0 || !email.includes("@"),
       password: password.length <= 4,
-      firstname: firstname.length <= 1,
-      lastname: lastname.length <= 1,
+      firstName: firstName.length <= 1,
+      lastName: lastName.length <= 1,
     };
   }
 
@@ -115,34 +111,55 @@ class Register extends Component {
 
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
-  _success = (data) => {
-    this.setState({ loading: false });
-    try {
-      const { token } = data.register.data;
-      const { firstName, lastName, _id } = data.register.data.user;
-      this._saveUserData({ token, firstName, lastName, _id });
-      this.props.refreshMe();
-      this.props.history.push(`/home`);
-    } catch (err) {
-      alert(err);
-      console.error(err);
+  registerUser = async () => {
+    const query = {
+      query: `
+        mutation {
+          register(email: "${this.state.email}", firstName: "${this.state.firstName}", lastName: "${this.state.lastName}", password: "${this.state.password}") {
+            data  {
+              user {
+                _id
+              }
+              token
+            }
+            errors {
+              code
+              path
+              message
+            }
+          }
+        }
+      `
+    };
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: localStorage.getItem(JWT) || '',
+      },
+      body: JSON.stringify(query),
+    };
+
+    const res = await fetch(API_URL, options).then((data) => data.json());
+    const { data, errors } = res.data.register;
+
+    if (errors) {
+      console.error(errors);
+      alert(errors[0].message);
     }
-  };
 
-  _error = (err) => {
-    console.error(err);
-  };
-
-  _saveUserData = ({ token, firstName, lastName, _id }) => {
-    localStorage.setItem(JWT, token);
-  };
+    if (data) {
+      localStorage.setItem(JWT, data.token);
+      this.props.refreshMe();
+    }
+  }
 
   render() {
     if (this.props.me) {
       return <Redirect to="/home"></Redirect>;
     }
 
-    let { email, password, firstname, lastname } = this.state;
     return (
       <Container
         maxWidth="100vh"
@@ -155,9 +172,8 @@ class Register extends Component {
             component="h1"
             style={{
               fontWeight: "bold",
-              // marginTop: "48pt",
               textAlign: "left",
-              color: "#000",
+              color: "#000"
             }}
           >
             Welcome,
@@ -176,15 +192,14 @@ class Register extends Component {
               fullWidth
               margin="normal"
               variant="outlined"
-              name="firstname"
-              error={this.shouldMarkError("firstname")}
-              value={this.state.firstname}
+              name="firstName"
+              error={this.shouldMarkError("firstName")}
+              value={this.state.firstName}
               type="text"
               onChange={this.handleChange}
-              onBlur={this.handleBlur("firstname")}
+              onBlur={this.handleBlur("firstName")}
               style={{
-                marginTop: "8pt",
-                // backgroundColor: this.getColour("firstname"),
+                marginTop: "8pt"
               }}
             />
             <TextField
@@ -193,15 +208,14 @@ class Register extends Component {
               fullWidth
               margin="normal"
               variant="outlined"
-              name="lastname"
-              error={this.shouldMarkError("lastname")}
-              value={this.state.lastname}
+              name="lastName"
+              error={this.shouldMarkError("lastName")}
+              value={this.state.lastName}
               type="text"
               onChange={this.handleChange}
-              onBlur={this.handleBlur("lastname")}
+              onBlur={this.handleBlur("lastName")}
               style={{
-                marginTop: "8pt",
-                // backgroundColor: this.getColour("lastname"),
+                marginTop: "8pt"
               }}
             />
             <TextField
@@ -218,65 +232,42 @@ class Register extends Component {
               onChange={this.handleChange}
               onBlur={this.handleBlur("email")}
               style={{
-                marginTop: "8pt",
-                // backgroundColor: this.getColour("email"),
+                marginTop: "8pt"
               }}
             />
-            <Mutation
-              mutation={SIGNUP_MUTATION}
-              variables={{ email, password, firstname, lastname }}
-              onCompleted={(data) => this._success(data)}
-              onError={(err) => this._error(err)}
-            >
-              {(mutation, { _, loading, __ }) => {
-                return (
-                  <TextField
-                    InputLabelProps={{ style: { fontSize: 12 } }}
-                    label="Password"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    name="password"
-                    error={this.shouldMarkError("password")}
-                    //testing code
-                    helperText={this.helperText("password")}
-                    value={this.state.password}
-                    type="password"
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur("password")}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        return mutation();
-                      }
-                    }}
-                    style={{
-                      marginTop: "8pt",
-                      marginBottom: "8pt",
-                      // backgroundColor: this.getColour("password"),
-                    }}
-                  />
-                );
+            <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
+              label="Password"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              name="password"
+              error={this.shouldMarkError("password")}
+              helperText={this.helperText("password")}
+              value={this.state.password}
+              type="password"
+              onChange={this.handleChange}
+              onBlur={this.handleBlur("password")}
+              onKeyPress={async (e) => {
+                if (e.key === "Enter") {
+                  await this.registerUser();
+                }
               }}
-            </Mutation>
-            <Mutation
-              mutation={SIGNUP_MUTATION}
-              variables={{ email, password, firstname, lastname }}
-              onCompleted={(data) => this._success(data)}
-              onError={(err) => this._error(err)}
-            >
-              {(mutation, { _, loading, __ }) => {
-                return (
-                  <Button
-                    className="btn primarybtn"
-                    disabled={this.isDisabled() && !this.state.loading}
-                    onClick={mutation}
-                    style={{ marginTop: "10px" }}
-                  >
-                    Sign up
-                  </Button>
-                );
+              style={{
+                marginTop: "8pt",
+                marginBottom: "8pt"
               }}
-            </Mutation>
+            />
+            <Button
+              className="btn primarybtn"
+              disabled={this.isDisabled() && !this.state.loading}
+              onClick={async () => {
+                await this.registerUser()
+              }}
+              style={{ 
+                marginTop: "10px"
+              }}
+            >Sign up</Button>
             <div style={{ marginTop: "15px" }}>
               <Link
                 to="/forgot"
@@ -285,11 +276,7 @@ class Register extends Component {
                   textDecoration: "none",
                   color: "lightgrey",
                 }}
-              >
-                <Link style={{ color: "lightgrey", textDecoration: "none" }}>
-                  Forgot password
-                </Link>
-              </Link>
+              >Forgot password</Link>
             </div>
           </FormControl>
         </Container>
