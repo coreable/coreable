@@ -127,7 +127,7 @@ class Home extends Component {
 
   canBeSubmitted = () => {
     return !this.isDisabled();
-  }
+  };
 
   handleBlur = (field) => { };
 
@@ -142,7 +142,7 @@ class Home extends Component {
       return false;
     }
     return this.state.me.grouped[team_id].users.length === 0;
-  }
+  };
 
   getReviewButtonTextColor = (team_id) => {
     if (this.state.loading) {
@@ -153,7 +153,7 @@ class Home extends Component {
       return "rgba(0, 0, 0, 0.26)";
     }
     return "#ffffff";
-  }
+  };
 
   getPendingUser = (team_id) => {
     const isDisabled = this.getReviewButtonState(team_id);
@@ -164,11 +164,11 @@ class Home extends Component {
       pending: !isDisabled ? this.state.me.grouped[team_id].users : null,
     };
     return data;
-  }
+  };
 
   capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  };
 
   joinTeam = async () => {
     const query = {
@@ -210,7 +210,7 @@ class Home extends Component {
     if (data) {
       this.props.refreshMe();
     }
-  }
+  };
 
   render() {
     if (!this.props.me) {
@@ -267,9 +267,7 @@ class Home extends Component {
                         }}
                       >
                         {this.state.steps.map((label, index) => {
-                          const isDisabled = this.getReviewButtonState(
-                            team._id
-                          );
+                          const isDisabled = this.getReviewButtonState(team._id);
                           let props = {};
                           if (isDisabled && index === 0) {
                             props.optional = (
@@ -281,9 +279,7 @@ class Home extends Component {
                                   justifyContent: "center",
                                   alignItems: "center",
                                 }}
-                              >
-                                Completed
-                              </Typography>
+                              >Completed</Typography>
                             );
                           }
                           return (
@@ -306,9 +302,7 @@ class Home extends Component {
                           className={`${globalCSS.btn} btn primarybtn`}
                           disabled={this.getReviewButtonState(team._id)}
                           disableElevation
-                        >
-                          Start Review
-                        </Button>
+                        >Start Review</Button>
                       </Link>
                     </div>
                   </Grid>
@@ -365,23 +359,6 @@ class Home extends Component {
       </div>
     );
   }
-
-  _success = async (data) => {
-    try {
-      const me = data.joinTeam.data.user;
-      this.setState({
-        ...this.state,
-        me,
-      });
-      this.componentDidMount();
-    } catch (err) {
-      alert("Unable to locate a team with that code");
-    }
-    this.setState({
-      ...this.state,
-      isLoading: false
-    });
-  };
 }
 
 export default Home;

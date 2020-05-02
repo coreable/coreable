@@ -65,8 +65,6 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.9.11",
-    "apollo-boost": "^0.4.7",
-    "apollo-link-context": "^1.0.20",
     "bcrypt": "^4.0.1",
     "chart.js": "^2.9.3",
     "clsx": "^1.1.0",
@@ -82,7 +80,6 @@
     "mysql2": "^2.1.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.1",
-    "react-apollo": "^3.1.4",
     "react-app-rewired": "^2.1.5",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",

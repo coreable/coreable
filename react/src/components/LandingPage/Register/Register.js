@@ -58,7 +58,7 @@ class Register extends Component {
   validate(email, password, firstName, lastName) {
     return {
       email: email.length === 0 || !email.includes("@"),
-      password: password.length <= 4,
+      password: password.length < 6,
       firstName: firstName.length <= 1,
       lastName: lastName.length <= 1,
     };
@@ -88,13 +88,13 @@ class Register extends Component {
     }
   };
 
-  shouldMarkError(field) {
+  shouldMarkError = (field) => {
     const hasError = this.errors()[field];
     const shouldShow = this.state.touched[field];
     return hasError ? shouldShow : false;
-  }
+  };
 
-  helperText(field) {
+  helperText = (field) => {
     const hasError = this.errors()[field];
     const shouldShow = this.state.touched[field];
     if (hasError && shouldShow) {

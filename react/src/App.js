@@ -142,7 +142,6 @@ class App extends Component {
             loading={this.state.loading}
             refreshMe={this.refreshMe}
           />
-
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
               exact
