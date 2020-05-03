@@ -29,7 +29,7 @@ const RadarChart = (props) => {
               right: 0,
               top: 40,
               bottom: 0,
-            },
+            }
           },
           scale: {
             ticks: {
@@ -61,6 +61,7 @@ const RadarChart = (props) => {
               label: "Self-review",
               backgroundColor: "rgba(0,179,229,0.3)",
               borderColor: "rgba(0,179,229,0.8)",
+              pointRadius: 0,
               data: [
                 props.reflection.emotionalIntelligence,
                 props.reflection.initiative,
@@ -77,6 +78,7 @@ const RadarChart = (props) => {
               label: "Team-review",
               backgroundColor: "rgba(102, 204, 158,0.3)",
               borderColor: "rgba(102, 204, 158,0.8)",
+              pointRadius: 0,
               data: [
                 props.averages.emotionalIntelligence,
                 props.averages.initiative,

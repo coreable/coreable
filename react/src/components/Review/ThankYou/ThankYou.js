@@ -147,12 +147,12 @@ class ThankYou extends Component {
       return false;
     }
 
-    averages = this.calculateTeamAverage(averages);
-    reflection = this.calculateSelfAverage(reflection);
-    strengths = this.getStrengthAreasTop3(sorted, averages);
-    improve = this.getImproveAreasTop3(sorted, averages);
-    bright = this.getBrightSpots(sorted, reflection);
-    blind = this.getBlindSpots(sorted, reflection);
+    averages = this.calculateTeamAverage(data.user.reviews.report.average);
+    reflection = this.calculateSelfAverage(data.user.reflection);
+    strengths = this.getStrengthAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
+    improve = this.getImproveAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
+    bright = this.getBrightSpots(data.user.reviews.report.sorted, data.user.reflection);
+    blind = this.getBlindSpots(data.user.reviews.report.sorted, data.user.reflection);
 
     this.setState({
       ...this.state,
@@ -171,10 +171,8 @@ class ThankYou extends Component {
     let result = [];
     try {
       for (const obj of sorted) {
-        for (const selfScore in reflection) {
-          if (reflection[selfScore] < obj['value']) {
-            result.push({ field: selfScore, self: reflection[selfScore], team: obj['value'] });
-          }
+        if (reflection[obj['field']] < obj['value']) {
+          result.push({ field: obj['field'], self: reflection[obj['field']], team: obj['value'] });
         }
       }
       result = result.slice(0, 3);
@@ -188,10 +186,8 @@ class ThankYou extends Component {
     let result = [];
     try {
       for (const obj of sorted) {
-        for (const selfScore in reflection) {
-          if (reflection[selfScore] > obj['value']) {
-            result.push({ field: selfScore, self: reflection[selfScore], team: obj['value'] });
-          }
+        if (reflection[obj['field']] > obj['value']) {
+          result.push({ field: obj['field'], self: reflection[obj['field']], team: obj['value'] });
         }
       }
       result = result.slice(0, 3);
