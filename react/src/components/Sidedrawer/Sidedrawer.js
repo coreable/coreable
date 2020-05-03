@@ -25,7 +25,7 @@ const sideDrawer = (props) => {
         </li>
         <li>
           {" "}
-          <a href="/thank-you">Results</a>{" "}
+          <a href="/skills">Results</a>{" "}
         </li>
         <li>
           {" "}

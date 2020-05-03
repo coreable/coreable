@@ -206,7 +206,7 @@ class App extends Component {
             />
             <Route
               exact
-              path="/thank-you"
+              path="/skills"
               component={(props) => (
                 <ThankYou
                   {...props}
@@ -216,7 +216,7 @@ class App extends Component {
                 />
               )}
             />
-            <Route
+            {/* <Route
               exact
               path="/skills"
               component={(props) => (
@@ -227,7 +227,7 @@ class App extends Component {
                   refreshMe={this.refreshMe}
                 />
               )}
-            />
+            /> */}
             <Route
               exact
               path="/goals"

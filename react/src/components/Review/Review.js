@@ -339,7 +339,7 @@ class Review extends Component {
     }
 
     if (reviewDone && !this.state.submitting) {
-      return <Redirect to="/thank-you"></Redirect>;
+      return <Redirect to="/skills"></Redirect>;
     }
     if (reviewDone && this.state.submitting) {
       return <LinearProgress style={{ top: "12pt" }} />;

@@ -21,6 +21,7 @@ import {
   CardContent,
   Button
 } from "@material-ui/core";
+import { Redirect } from 'react-router-dom';
 import { JWT, API_URL } from "../../../constants";
 import Radar from "./Radar";
 import HorizontalBar from "./HorizontalBarWithTeamChart";
@@ -206,7 +207,9 @@ class ThankYou extends Component {
           clone[i]['value'] += selfScore;
           clone[i]['value'] /= 2;
         }
-        result.push(clone[i]);
+        if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
+          result.push(clone[i]);
+        }
       }
       result.sort((a, b) => a.value - b.value).reverse();
     } catch (err) {
@@ -226,7 +229,9 @@ class ThankYou extends Component {
           clone[i]['value'] += selfScore;
           clone[i]['value'] /= 2;
         }
-        result.push(clone[i]);
+        if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
+          result.push(clone[i]);
+        }
       }
       result.sort((a, b) => a.value - b.value);
     } catch (err) {
@@ -294,6 +299,9 @@ class ThankYou extends Component {
   }
 
   render() {
+    if (!this.props.me) {
+      return <Redirect to="/"></Redirect>;
+    }
     return (
       <div className="review-container">
         <div className="top-background">
@@ -335,66 +343,98 @@ class ThankYou extends Component {
                 alignItems="stretch"
                 spacing={1}
               >
-                <Grid item>
-                  <Container>
-                    <Card variant="outlined">
-                      <CardContent>
-                        <div style={{ textAlign: 'left' }}>
-                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Top Strengths</Typography>
-                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                        </div>
-                        <p>{JSON.stringify(this.state.strengths)}</p>
-                      </CardContent>
-                    </Card>
-                  </Container>
-                </Grid>
-                <Grid item>
-                  <Container>
-                    <Card variant="outlined">
-                      <CardContent>
-                        <div style={{ textAlign: 'left' }}>
-                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Areas to improve</Typography>
-                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                        </div>
-                        <p>{JSON.stringify(this.state.improve)}</p>
-                      </CardContent>
-                    </Card>
-                  </Container>
-                </Grid>
-                <Grid item>
-                  <Container>
-                    <Card variant="outlined">
-                      <CardContent>
-                        <div style={{ textAlign: 'left' }}>
-                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Blind spots</Typography>
-                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                        </div>
-                        {
-                          this.state.blind.map((blind, index) => {
-                            return (<HorizontalBar key={index} {...blind}></HorizontalBar>);
-                          })
-                        }
-                      </CardContent>
-                    </Card>
-                  </Container>
-                </Grid>
-                <Grid item>
-                  <Container>
-                    <Card variant="outlined">
-                      <CardContent>
-                        <div style={{ textAlign: 'left' }}>
-                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Bright spots</Typography>
-                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                        </div>
-                        {
-                          this.state.bright.map((bright, index) => {
-                            return (<HorizontalBar key={index} {...bright}></HorizontalBar>);
-                          })
-                        }
-                      </CardContent>
-                    </Card>
-                  </Container>
-                </Grid>
+                {
+                  (() => {
+                    if (this.state.strengths.length > 0) {
+                      return (
+                        <Grid item>
+                          <Container>
+                            <Card variant="outlined">
+                              <CardContent>
+                                <div style={{ textAlign: 'left' }}>
+                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Top Strengths</Typography>
+                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                                </div>
+                                <p>{JSON.stringify(this.state.strengths)}</p>
+                              </CardContent>
+                            </Card>
+                          </Container>
+                        </Grid>
+                      );
+                    }
+                  })()
+                }
+                {
+                  (() => {
+                    if (this.state.improve.length > 0) {
+                      return (
+                        <Grid item>
+                          <Container>
+                            <Card variant="outlined">
+                              <CardContent>
+                                <div style={{ textAlign: 'left' }}>
+                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Areas to improve</Typography>
+                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                                </div>
+                                <p>{JSON.stringify(this.state.improve)}</p>
+                              </CardContent>
+                            </Card>
+                          </Container>
+                        </Grid>
+                      );
+                    }
+                  })()
+                }
+                {
+                  (() => {
+                    if (this.state.blind.length > 0) {
+                      return (
+                        <Grid item>
+                          <Container>
+                            <Card variant="outlined">
+                              <CardContent>
+                                <div style={{ textAlign: 'left' }}>
+                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Blind spots</Typography>
+                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                                </div>
+                                {
+                                  this.state.blind.map((blind, index) => {
+                                    return (<HorizontalBar key={index} {...blind}></HorizontalBar>);
+                                  })
+                                }
+                              </CardContent>
+                            </Card>
+                          </Container>
+                        </Grid>
+                      );
+                    }
+                  })()
+                }
+                {
+                  (() => {
+                    if (this.state.bright.length > 0) {
+                      return (
+                        <Grid item>
+                          <Container>
+                            <Card variant="outlined">
+                              <CardContent>
+                                <div style={{ textAlign: 'left' }}>
+                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Bright spots</Typography>
+                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                                </div>
+                                {
+                                  this.state.bright.map((bright, index) => {
+                                    return (<HorizontalBar key={index} {...bright}></HorizontalBar>);
+                                  })
+                                }
+                              </CardContent>
+                            </Card>
+                          </Container>
+                        </Grid>
+                      );
+                    }
+                  })()
+                }
               </Grid>
             </Container>
           </Grid>
