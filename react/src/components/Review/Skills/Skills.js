@@ -27,7 +27,7 @@ import Radar from "./Radar";
 import HorizontalBar from "./HorizontalBarWithTeamChart";
 import './ThankYou.scss';
 
-class ThankYou extends Component {
+class Skills extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -444,4 +444,4 @@ class ThankYou extends Component {
   }
 }
 
-export default ThankYou;
+export default Skills;

@@ -27,8 +27,7 @@ const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/LandingPage/Register/Register"));
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
-const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
-const Skills = lazy(() => import("./components/Skills/Skills"));
+const Skills = lazy(() => import("./components/Review/Skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
 const Reviews = lazy(() => import("./components/ReviewTab/Review"));
 
@@ -208,18 +207,6 @@ class App extends Component {
               exact
               path="/skills"
               component={(props) => (
-                <ThankYou
-                  {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
-                  refreshMe={this.refreshMe}
-                />
-              )}
-            />
-            {/* <Route
-              exact
-              path="/skills"
-              component={(props) => (
                 <Skills
                   {...props}
                   me={this.state.me}
@@ -227,7 +214,7 @@ class App extends Component {
                   refreshMe={this.refreshMe}
                 />
               )}
-            /> */}
+            />
             <Route
               exact
               path="/goals"
