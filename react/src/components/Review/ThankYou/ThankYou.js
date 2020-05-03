@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core";
 import { JWT, API_URL } from "../../../constants";
 import Radar from "./Radar";
+import HorizontalBar from "./HorizontalBarWithTeamChart";
 import './ThankYou.scss';
 
 class ThankYou extends Component {
@@ -127,6 +128,7 @@ class ThankYou extends Component {
 
     if (errors) {
       console.error(errors);
+      return false;
     }
 
     // Chart Data
@@ -139,20 +141,15 @@ class ThankYou extends Component {
     let blind;
 
     try {
-      sorted = data.user.reviews.report.sorted;
-      averages = data.user.reviews.report.average;
-      reflection = data.user.reflection;
+      averages = this.calculateTeamAverage(data.user.reviews.report.average);
+      reflection = this.calculateSelfAverage(data.user.reflection);
+      strengths = this.getStrengthAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
+      improve = this.getImproveAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
+      bright = this.getBrightSpots(data.user.reviews.report.sorted, data.user.reflection);
+      blind = this.getBlindSpots(data.user.reviews.report.sorted, data.user.reflection);
     } catch (err) {
-      console.error(err);
-      return false;
+      // Ignore
     }
-
-    averages = this.calculateTeamAverage(data.user.reviews.report.average);
-    reflection = this.calculateSelfAverage(data.user.reflection);
-    strengths = this.getStrengthAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
-    improve = this.getImproveAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
-    bright = this.getBrightSpots(data.user.reviews.report.sorted, data.user.reflection);
-    blind = this.getBlindSpots(data.user.reviews.report.sorted, data.user.reflection);
 
     this.setState({
       ...this.state,
@@ -372,7 +369,11 @@ class ThankYou extends Component {
                           <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Blind spots</Typography>
                           <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
                         </div>
-                        <p>{JSON.stringify(this.state.blind)}</p>
+                        {
+                          this.state.blind.map((blind, index) => {
+                            return (<HorizontalBar key={index} {...blind}></HorizontalBar>);
+                          })
+                        }
                       </CardContent>
                     </Card>
                   </Container>
@@ -385,7 +386,11 @@ class ThankYou extends Component {
                           <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Bright spots</Typography>
                           <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
                         </div>
-                        <p>{JSON.stringify(this.state.bright)}</p>
+                        {
+                          this.state.bright.map((bright, index) => {
+                            return (<HorizontalBar key={index} {...bright}></HorizontalBar>);
+                          })
+                        }
                       </CardContent>
                     </Card>
                   </Container>
