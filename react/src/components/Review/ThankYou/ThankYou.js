@@ -13,93 +13,106 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import { Grid, Typography, Container } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Container,
+  Card,
+  CardContent,
+  Button
+} from "@material-ui/core";
 import { JWT, API_URL } from "../../../constants";
-import Chart from "./Chart";
-// import Navbar from "../../Navbar2/Navbar";
-
-// import { LinearProgress } from "@material-ui/core";
+import Radar from "./Radar";
+import './ThankYou.scss';
 
 class ThankYou extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
+      sorted: [],
       averages: {},
       reflection: {},
-      firstName: props.me.firstName,
+      strengths: [],
+      improve: [],
+      bright: [],
+      blind: []
     };
   }
 
-  componentDidMount() {
-    let query = {
-      query: 
-      `query {
-        me {
-          errors {
-            code
-            path
-            message
-          }
-          data {
-            user {
-              reviews {
-                report {
-                  average {
-                    calm
-                    change
-                    clearInstructions
-                    cooperatively
-                    crossTeam
-                    distractions
-                    easilyExplainsComplexIdeas
-                    emotionalResponse
-                    empathy
-                    eyeContact
-                    influences
-                    managesOwn
-                    newIdeas
-                    openToShare
-                    positiveBelief
-                    proactive
-                    resilienceFeedback
-                    signifiesInterest
-                    tone
-                    verbalAttentiveFeedback
-                    workDemands
+  async componentDidMount() {
+    const query = {
+      query: `
+        query {
+          me {
+            errors {
+              code
+              path
+              message
+            }
+            data {
+              user {
+                reviews {
+                  report {
+                    average {
+                      calm
+                      change
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      emotionalResponse
+                      empathy
+                      eyeContact
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      tone
+                      verbalAttentiveFeedback
+                      workDemands
+                    }
+                    sorted {
+                      value
+                      field
+                    }
                   }
                 }
-              }
-              reflection {
-                calm
-                change
-                clearInstructions
-                cooperatively
-                crossTeam
-                distractions
-                easilyExplainsComplexIdeas
-                emotionalResponse
-                empathy
-                eyeContact
-                influences
-                managesOwn
-                newIdeas
-                openToShare
-                positiveBelief
-                proactive
-                resilienceFeedback
-                signifiesInterest
-                tone
-                verbalAttentiveFeedback
-                workDemands
+                reflection {
+                  calm
+                  change
+                  clearInstructions
+                  cooperatively
+                  crossTeam
+                  distractions
+                  easilyExplainsComplexIdeas
+                  emotionalResponse
+                  empathy
+                  eyeContact
+                  influences
+                  managesOwn
+                  newIdeas
+                  openToShare
+                  positiveBelief
+                  proactive
+                  resilienceFeedback
+                  signifiesInterest
+                  tone
+                  verbalAttentiveFeedback
+                  workDemands
+                }
               }
             }
           }
         }
-      }
-    `,
+      `
     };
-    fetch(API_URL, {
+    const options = {
       method: "POST",
       mode: "cors",
       headers: {
@@ -107,128 +120,284 @@ class ThankYou extends Component {
         JWT: localStorage.getItem(JWT),
       },
       body: JSON.stringify(query),
-    }).then(async (data) => {
-      const result = await data.json();
-      let averages;
-      let reflection;
+    };
 
-      try {
-        averages = result.data.me.data.user.reviews.report.average;
-        reflection = result.data.me.data.user.reflection;
-      } catch (err) {
-        return false;
-      }
+    const res = await fetch(API_URL, options).then((data) => data.json());
+    const { data, errors } = res.data.me;
 
-      let emotionalIntelligence = 0;
-      let initiative = 0;
-      let trust = 0;
-      let flex = 0;
-      let clarity = 0;
-      let culture = 0;
-      let nonVerbal = 0;
-      let attentive = 0;
-      let resilience = 0;
+    if (errors) {
+      console.error(errors);
+    }
 
-      try {
-        emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
-        initiative = (averages.proactive + averages.influences) / 2;
-        trust = (averages.cooperatively + averages.positiveBelief) / 3;
-        flex = (averages.newIdeas + averages.workDemands) / 2;
-        clarity = averages.clearInstructions / 2;
-        culture = (averages.openToShare + averages.tone + averages.crossTeam) / 3;
-        nonVerbal = (averages.distractions + averages.eyeContact) / 2;
-        attentive = (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
-        resilience = (averages.resilienceFeedback + averages.calm + averages.change) / 3;
-        averages = {
-          emotionalIntelligence,
-          initiative,
-          trust,
-          flex,
-          clarity,
-          culture,
-          nonVerbal,
-          attentive,
-          resilience
-        }
-      } catch {
-        console.log({ code: "ERR", message: 'Review results threw an error', path: "ThankYou.js" });
-      }
+    // Chart Data
+    let sorted;
+    let averages;
+    let reflection;
+    let strengths;
+    let improve;
+    let bright;
+    let blind;
 
-      try {
-        emotionalIntelligence = (reflection.emotionalResponse + reflection.empathy + reflection.managesOwn) / 3;
-        initiative = (reflection.proactive + reflection.influences) / 2;
-        trust = (reflection.cooperatively + reflection.positiveBelief) / 3;
-        flex = (reflection.newIdeas + reflection.workDemands) / 2;
-        clarity = reflection.clearInstructions / 2;
-        culture = (reflection.openToShare + reflection.tone + reflection.crossTeam) / 3;
-        nonVerbal = (reflection.distractions + reflection.eyeContact) / 2;
-        attentive = (reflection.signifiesInterest + reflection.verbalAttentiveFeedback) / 2;
-        resilience = (reflection.resilienceFeedback + reflection.calm + reflection.change) / 3;
-        reflection = {
-          emotionalIntelligence,
-          initiative,
-          trust,
-          flex,
-          clarity,
-          culture,
-          nonVerbal,
-          attentive,
-          resilience
-        }
-      } catch {
-        console.log({ code: "ERR", message: 'Self review results threw an error', path: "ThankYou.js" });
-      }
+    try {
+      sorted = data.user.reviews.report.sorted;
+      averages = data.user.reviews.report.average;
+      reflection = data.user.reflection;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
 
+    averages = this.calculateTeamAverage(averages);
+    reflection = this.calculateSelfAverage(reflection);
+    strengths = this.getStrengthAreasTop3(sorted, averages);
+    improve = this.getImproveAreasTop3(sorted, averages);
+    bright = this.getBrightSpots(sorted, reflection);
+    blind = this.getBlindSpots(sorted, reflection);
 
-      this.setState({
-        ...this.state,
-        loading: false,
-        averages,
-        reflection
-      });
+    this.setState({
+      ...this.state,
+      loading: false,
+      sorted,
+      averages,
+      reflection,
+      strengths,
+      improve,
+      bright,
+      blind
     });
+  }
+
+  getBrightSpots = (sorted, reflection) => {
+    let result = [];
+    try {
+      for (const obj of sorted) {
+        for (const selfScore in reflection) {
+          if (reflection[selfScore] < obj['value']) {
+            result.push({ field: selfScore, self: reflection[selfScore], team: obj['value'] });
+          }
+        }
+      }
+      result = result.slice(0, 3);
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  }
+
+  getBlindSpots = (sorted, reflection) => {
+    let result = [];
+    try {
+      for (const obj of sorted) {
+        for (const selfScore in reflection) {
+          if (reflection[selfScore] > obj['value']) {
+            result.push({ field: selfScore, self: reflection[selfScore], team: obj['value'] });
+          }
+        }
+      }
+      result = result.slice(0, 3);
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  }
+
+  getStrengthAreasTop3 = (sorted, reflection) => {
+    const result = [];
+    try {
+      let clone = JSON.parse(JSON.stringify(sorted));
+      clone = clone.reverse();
+      clone = clone.slice(0, 3);
+      for (let i = 0; i < clone.length; i++) {
+        const selfScore = reflection[clone[i]['field']];
+        if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
+          clone[i]['value'] += selfScore;
+          clone[i]['value'] /= 2;
+        }
+        result.push(clone[i]);
+      }
+      result.sort((a, b) => a.value - b.value).reverse();
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  }
+
+  getImproveAreasTop3 = (sorted, reflection) => {
+    const result = [];
+    try {
+      let clone = JSON.parse(JSON.stringify(sorted));
+      clone = clone.slice(0, 3);
+      for (let i = 0; i < clone.length; i++) {
+        const selfScore = reflection[clone[i]['field']];
+        if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
+          clone[i]['value'] += selfScore;
+          clone[i]['value'] /= 2;
+        }
+        result.push(clone[i]);
+      }
+      result.sort((a, b) => a.value - b.value);
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  }
+
+  calculateSelfAverage = (reflection) => {
+    const clone = JSON.parse(JSON.stringify(reflection));
+    const result = {
+      emotionalIntelligence: 0,
+      initiative: 0,
+      trust: 0,
+      flex: 0,
+      clarity: 0,
+      culture: 0,
+      nonVerbal: 0,
+      attentive: 0,
+      resilience: 0
+    };
+    try {
+      result.emotionalIntelligence = (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
+      result.initiative = (clone.proactive + clone.influences) / 2;
+      result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
+      result.flex = (clone.newIdeas + clone.workDemands) / 2;
+      result.clarity = clone.clearInstructions / 2;
+      result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
+      result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
+      result.attentive = (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
+      result.resilience = (clone.resilienceFeedback + clone.calm + clone.change) / 3;
+    } catch {
+      console.log({ code: "ERR", message: 'Self review results threw an error', path: "ThankYou.js/calculateSelfAverage()" });
+    }
+    return result;
+  }
+
+  calculateTeamAverage = (averages) => {
+    const clone = JSON.parse(JSON.stringify(averages));
+    const result = {
+      emotionalIntelligence: 0,
+      initiative: 0,
+      trust: 0,
+      flex: 0,
+      clarity: 0,
+      culture: 0,
+      nonVerbal: 0,
+      attentive: 0,
+      resilience: 0
+    };
+    try {
+      result.emotionalIntelligence = (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
+      result.initiative = (clone.proactive + clone.influences) / 2;
+      result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
+      result.flex = (clone.newIdeas + clone.workDemands) / 2;
+      result.clarity = clone.clearInstructions / 2;
+      result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
+      result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
+      result.attentive = (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
+      result.resilience = (clone.resilienceFeedback + clone.calm + clone.change) / 3;
+    } catch {
+      console.log({ code: "ERR", message: 'Review results threw an error', path: "ThankYou.js/calculateTeamAverage()" });
+    }
+    return result;
   }
 
   render() {
     return (
-      <div
-        style={{
-          background: "rgb(245, 245, 245)",
-          position: "relative",
-          margin: "0 auto",
-          alignItems: "center",
-          width: "100%",
-          display: "flex",
+      <div className="review-container">
+        <div className="top-background">
+          <Typography
+            variant="h2"
+            style={{ color: "white", fontWeight: "bold" }}
+          >
+            Your Skills
+            </Typography>
+          <p style={{ fontSize: "1.4rem" }}>
+            {" "}
 
-          minHeight: "100%",
-        }}
-      >
-        <Grid container direction="column" justify="center" alignItems="center">
-          <Container style={{ textAlign: "left", marginTop: "20px" }}>
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{
-                fontWeight: "bold",
-                marginTop: "48pt",
-                textAlign: "left",
-                color: "#000",
-              }}
-            >
-              Thank you {this.state.firstName},
-            </Typography>
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{ textAlign: "left", color: "#707070" }}
-            >
-              here are your results
-            </Typography>
-          </Container>
-          <Container>
-            <Chart {...this.state} />
-          </Container>
-        </Grid>
+          </p>
+          <Button variant="contained">
+            All Core Skills
+          </Button>
+          <span style={{ marginLeft: '8pt', marginRight: '8pt' }}></span>
+          <Button variant="contained">
+            Collaboration
+          </Button>
+          <span style={{ marginLeft: '8pt', marginRight: '8pt' }}></span>
+          <Button variant="contained">
+            Communication
+          </Button>
+        </div>
+
+        <div className="main">
+          <Grid container direction="column" justify="center" alignItems="center">
+            <Container>
+              <Card variant="outlined">
+                <Radar {...this.state} />
+              </Card>
+            </Container>
+            <Container style={{ marginTop: '8pt', marginBottom: '8pt' }}>
+              <Grid
+                container
+                direction="row"
+                justify="center"
+                alignItems="stretch"
+                spacing={1}
+              >
+                <Grid item>
+                  <Container>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <div style={{ textAlign: 'left' }}>
+                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Top Strengths</Typography>
+                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                        </div>
+                        <p>{JSON.stringify(this.state.strengths)}</p>
+                      </CardContent>
+                    </Card>
+                  </Container>
+                </Grid>
+                <Grid item>
+                  <Container>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <div style={{ textAlign: 'left' }}>
+                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Areas to improve</Typography>
+                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                        </div>
+                        <p>{JSON.stringify(this.state.improve)}</p>
+                      </CardContent>
+                    </Card>
+                  </Container>
+                </Grid>
+                <Grid item>
+                  <Container>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <div style={{ textAlign: 'left' }}>
+                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Blind spots</Typography>
+                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                        </div>
+                        <p>{JSON.stringify(this.state.blind)}</p>
+                      </CardContent>
+                    </Card>
+                  </Container>
+                </Grid>
+                <Grid item>
+                  <Container>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <div style={{ textAlign: 'left' }}>
+                          <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Bright spots</Typography>
+                          <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
+                        </div>
+                        <p>{JSON.stringify(this.state.bright)}</p>
+                      </CardContent>
+                    </Card>
+                  </Container>
+                </Grid>
+              </Grid>
+            </Container>
+          </Grid>
+        </div>
       </div>
     );
   }

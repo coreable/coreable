@@ -91,11 +91,10 @@ app.use('/graphql', GraphHTTP({
 
 // CSV Export
 app.get('/export/:inviteCode', async(req: Request, res: Response, next: NextFunction) => {
-  let results = [];
-  let teamUsers = [];
-  // let reviews = [];
+  let results = []; 
   if (req.params.inviteCode) {
     try {
+      let teamUsers = [];
       const team = await sequelize.models.Team.findOne({ where: { inviteCode: req.params.inviteCode }, include: [{ model: sequelize.models.Subject, as: 'subject' }, { model: sequelize.models.User, as: 'users' }]});
       for (const user of team.users) {
         teamUsers.push(user._id);

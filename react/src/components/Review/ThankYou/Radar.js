@@ -16,10 +16,10 @@ import React from "react";
 import { Radar } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
 
-let chart = (props) => {
+const RadarChart = (props) => {
   return (
     <Container
-      style={{ marginTop: "16px", marginBottom: "16pt", height: "100vh" }}
+      style={{ marginTop: "16px", marginBottom: "16pt" }}
     >
       <Radar
         options={{
@@ -75,8 +75,6 @@ let chart = (props) => {
             },
             {
               label: "Team-review",
-              // backgroundColor: "rgba(75,192,192,0.2)",
-              // borderColor: "rgba(75,192,192,0.4)",
               backgroundColor: "rgba(102, 204, 158,0.3)",
               borderColor: "rgba(102, 204, 158,0.8)",
               data: [
@@ -97,7 +95,6 @@ let chart = (props) => {
       ></Radar>
     </Container>
   );
-  // }
 };
 
-export default chart;
+export default RadarChart;
