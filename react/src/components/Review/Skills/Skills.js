@@ -311,10 +311,7 @@ class Skills extends Component {
           >
             Your Skills
             </Typography>
-          <p style={{ fontSize: "1.4rem" }}>
-            {" "}
-
-          </p>
+          <p style={{ fontSize: "1.4rem" }}>{" "}</p>
           <Button variant="contained">
             All Core Skills
           </Button>

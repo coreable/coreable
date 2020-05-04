@@ -161,6 +161,7 @@ class Trait extends Component {
           const review = this.getReview();
           review[team_id][user_id][trait].val = val;
           this.setReview(review);
+          this.props.sliderUpdatedHandler();
         }
       );
     } catch (err) {
