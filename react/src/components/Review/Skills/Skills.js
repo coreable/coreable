@@ -43,6 +43,10 @@ class Skills extends Component {
   }
 
   async componentDidMount() {
+    if (this.props.me) {
+      this.props.ReactGA.pageview('/skills');
+    }
+
     const query = {
       query: `
         query {
@@ -302,6 +306,7 @@ class Skills extends Component {
     if (!this.props.me) {
       return <Redirect to="/"></Redirect>;
     }
+
     return (
       <div className="review-container">
         <div className="top-background">

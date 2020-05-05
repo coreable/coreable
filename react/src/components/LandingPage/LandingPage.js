@@ -29,6 +29,10 @@ class LandingPage extends Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    this.props.ReactGA.pageview('/');
+  }
+
   render() {
     if (this.props.me) {
       return <Redirect to="/home"></Redirect>;

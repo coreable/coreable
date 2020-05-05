@@ -46,7 +46,13 @@ class Register extends Component {
     };
   }
 
-  errors() {
+  componentDidMount = () => {
+    if (!this.props.me) {
+      this.props.ReactGA.pageview('/signup');
+    }
+  }
+
+  errors = () => {
     return this.validate(
       this.state.email,
       this.state.password,
@@ -55,7 +61,7 @@ class Register extends Component {
     );
   }
 
-  validate(email, password, firstName, lastName) {
+  validate = (email, password, firstName, lastName) => {
     return {
       email: email.length === 0 || !email.includes("@"),
       password: password.length < 6,

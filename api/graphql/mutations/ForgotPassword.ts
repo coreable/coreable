@@ -17,12 +17,10 @@ import { sequelize } from "../../lib/sequelize";
 
 import { CoreableError } from "../../models/CoreableError";
 import { Manager } from "../../models/Manager";
-import { Team } from "../../models/Team";
-import { Subject } from "../../models/Subject";
 import { User } from "../../models/User";
+import { SessionObjectCommand } from "../command/object/Session";
 
 import sendgrid from '@sendgrid/mail';
-import { SessionObjectCommand } from "../command/object/Session";
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 function generateResetToken() {

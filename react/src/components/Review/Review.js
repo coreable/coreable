@@ -226,6 +226,12 @@ class Review extends Component {
     }
   }
 
+  componentDidMount = () => {
+    if (this.props.me) {
+      this.props.ReactGA.pageview('/review');
+    }
+  }
+
   nextStep = () => {
     let { currentIndex } = this.state;
     currentIndex++;
@@ -241,9 +247,6 @@ class Review extends Component {
 
   prevStep = () => {
     const { currentIndex } = this.state;
-    if (currentIndex === 0) {
-      return <Redirect to="/"></Redirect>;
-    }
     this.setState({
       ...this.state,
       currentIndex: currentIndex - 1
@@ -356,8 +359,9 @@ class Review extends Component {
     }
 
     if (this.state.currentIndex <= -1) {
-      return <Redirect to="/setup"></Redirect>;
+      return <Redirect to="/home"></Redirect>;
     }
+
     return (
       <Facet
         pending={this.props.location.state.pending}
@@ -367,6 +371,7 @@ class Review extends Component {
         nextStep={this.nextStep}
         prevStep={this.prevStep}
         me={this.props.me}
+        ReactGA={this.props.ReactGA}
       ></Facet>
     );
   }

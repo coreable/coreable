@@ -141,7 +141,7 @@ class App extends Component {
             me={this.state.me}
             loading={this.state.loading}
             refreshMe={this.refreshMe}
-            reactGA={reactGA}
+            ReactGA={ReactGA}
           />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
@@ -153,7 +153,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -167,7 +167,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -180,7 +180,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -194,7 +194,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -207,7 +207,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -220,7 +220,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -233,7 +233,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -246,7 +246,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
-                  reactGA={reactGA}
+                  ReactGA={ReactGA}
                 />
               )}
             />

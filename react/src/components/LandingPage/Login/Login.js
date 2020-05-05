@@ -42,11 +42,15 @@ class Login extends Component {
     };
   }
 
-  errors() {
+  componentDidMount = () => {
+    this.props.ReactGA.pageview('/login');
+  }
+
+  errors = () => {
     return this.validate(this.state.email, this.state.password);
   }
 
-  validate(email, password) {
+  validate = (email, password) => {
     return {
       email: email.length === 0 || !email.includes("@"),
       password: password.length <= 4,

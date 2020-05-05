@@ -48,6 +48,8 @@ class Home extends Component {
       return false;
     }
 
+    this.props.ReactGA.pageview('/home')
+
     let grouped = {};
     const { me } = this.state;
 
