@@ -15,13 +15,14 @@ Coreable source code.
 import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
+import ReactGA from 'react-ga';
 
-import Navbar from "./components/Navbar/Navbar";
 import { JWT, API_URL } from "./constants";
 
 import "./App.scss";
-import Loader from "./components/Loading/Loading";
 
+import Loader from "./components/Loading/Loading";
+import Navbar from "./components/Navbar/Navbar";
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/LandingPage/Register/Register"));
@@ -39,6 +40,7 @@ class App extends Component {
       loading: true,
       me: null
     };
+    ReactGA.initialize('UA-165578445-1');
   }
 
   refreshMe = () => {
@@ -139,6 +141,7 @@ class App extends Component {
             me={this.state.me}
             loading={this.state.loading}
             refreshMe={this.refreshMe}
+            reactGA={reactGA}
           />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
@@ -150,6 +153,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -163,6 +167,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -175,6 +180,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -188,6 +194,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -200,6 +207,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -212,6 +220,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -224,6 +233,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />
@@ -236,6 +246,7 @@ class App extends Component {
                   me={this.state.me}
                   loading={this.state.loading}
                   refreshMe={this.refreshMe}
+                  reactGA={reactGA}
                 />
               )}
             />

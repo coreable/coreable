@@ -25,6 +25,7 @@ export interface CoreableConfig {
   MYSQL_PASSWORD: string;
   MYSQL_SOCKETPATH: string;
   JWT_SECRET: string;
+  SENDGRID_API_KEY: string;
 }
 
 const result: DotenvConfigOutput = dotenvConfig({ path: resolve(__dirname + `/env/${process.env.NODE_ENV}.env`) });

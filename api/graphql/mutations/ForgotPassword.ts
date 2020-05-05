@@ -21,76 +21,68 @@ import { Team } from "../../models/Team";
 import { Subject } from "../../models/Subject";
 import { User } from "../../models/User";
 
-import { MeCommand } from "../command/Me";
-import { Industry } from "../../models/Industry";
-
 import sendgrid from '@sendgrid/mail';
+import { SessionObjectCommand } from "../command/object/Session";
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY || '');
 
+function generateResetToken() {
+  return 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 export default {
-  type: MeCommand,
+  type: SessionObjectCommand,
   args: {
-    currentPassword: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    newPassword: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    confirmPassword: {
+    email: {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     let user: any;
-    let isCorrectPassword: any;
-    if (!context.USER) {
-      errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
+    const resetToken = generateResetToken();
+
+    if (context.USER) {
+      errors.push({ code: 'ER_AUTH', path: 'JWT', message: 'User is already authenticated' });
     }
     if (!errors.length) {
-      if (args.confirmPassword !== args.newPassword) {
-        errors.push({ code: 'ER_PASSWORD_CONFIRM', message: 'Passwords must match', path: 'confirmPassword' });
-      }
-    }
-    if (!errors.length) {
-      if (context.USER instanceof User) {
-        user = await sequelize.models.User.findOne(
-          { 
-            where: { _id: context.USER._id }, 
-            include: [
-              { model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } },
-              { model: Industry, as: 'industry' }
-            ]
-          }
-        );
-      } else if (context.USER instanceof Manager) {
-        user = await sequelize.models.Manager.findOne({ where: { _id: context.USER._id }, include: [{ model: Subject, as: 'subjects' }] });
+      user = await sequelize.models.User.findOne({ where: { email: args.email.toLowerCase() }});
+      if (!user) {
+        user = await sequelize.models.Manager.findOne({ where: { email: args.email.toLowerCase() }});
       }
       if (!user) {
-        errors.push({ code: 'ER_USER_UNKNOWN', path: 'JWT', message: `No user found with email ${args.email}` });
+        errors.push({ code: 'ER_USER_UNKNONW', path: 'email', message: `Can not locate a user with email address ${args.email}` });
       }
     }
     if (!errors.length) {
-      isCorrectPassword = await user.login(args.currentPassword);
-      if (!isCorrectPassword) {
-        errors.push({ code: 'ER_PASSWORD_CURRENT', path: 'password', message: 'Password invalid' });
-      }
-    }
-    if (!errors.length) {
+      const today = new Date();
+      const tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+      
+      const resetExpiry =
+            tomorrow.getFullYear() + "-" +
+            ("00" + (tomorrow.getMonth() + 1)).slice(-2) + "-" +
+            ("00" + tomorrow.getDate()).slice(-2) + " " +
+            ("00" + tomorrow.getHours()).slice(-2) + ":" +
+            ("00" + tomorrow.getMinutes()).slice(-2) + ":" +
+            ("00" + tomorrow.getSeconds()).slice(-2);
+
       try {
-        user = await user.update({
-          password: args.newPassword
+        await user.update({
+          passwordResetToken: resetExpiry,
+          passwordResetExpiry: resetToken
         });
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
       }
       try {
         await sendgrid.send({
-          to: context.USER.email,
+          to: args.email,
           from: 'noreply@coreable.appspot.com',
-          subject: 'Password changed',
-          text: 'Your password for coreable was just changed, if this wasn\'t you please email us at support@coreable.appspot.com'
-        })
+          subject: 'Password recovery',
+          text: `Please visit this link to recover your password http://coreable.appspot.com/forgot/${resetToken}`
+        });
       } catch (err) {
         console.error(err);
       }

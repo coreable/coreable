@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.9.11",
+    "@sendgrid/mail": "^7.1.0",
     "bcrypt": "^4.0.1",
     "chart.js": "^2.9.3",
     "clsx": "^1.1.0",
