@@ -183,38 +183,47 @@ class Skills extends Component {
   };
 
   getCorrectVariableName = (skill) => {
-    if (skill === 'calm') return 'Calm';
-    if (skill === 'change') return 'Change';
-    if (skill === 'clearInstructions') return 'Clear instructions';
-    if (skill === 'cooperatively') return 'Cooperatively';
-    if (skill === 'crossTeam') return 'Cross team';
-    if (skill === 'distractions') return 'Distractions';
-    if (skill === 'easilyExplainsComplexIdeas') return 'Easily explains complex ideas';
-    if (skill === 'emotionalResponse') return 'Emotional response';
-    if (skill === 'empathy') return 'Empathy';
-    if (skill === 'eyeContact') return 'Eye contact';
-    if (skill === 'influences') return 'Influences';
-    if (skill === 'managesOwn') return 'Manages own';
-    if (skill === 'newIdeas') return 'New ideas';
-    if (skill === 'openToShare') return 'Open to share';
-    if (skill === 'positiveBelief') return 'Positive belief';
-    if (skill === 'proactive') return 'Proactive';
-    if (skill === 'resilienceFeedback') return 'Resilience feedback';
-    if (skill === 'signifiesInterest') return 'Signifies interest';
-    if (skill === 'tone') return 'Tone';
-    if (skill === 'verbalAttentiveFeedback') return 'Verbal attentive feeback';
-    if (skill === 'workDemands') return 'Work demands';
-    return '';
+    if (skill === "calm") return "Calm";
+    if (skill === "change") return "Change";
+    if (skill === "clearInstructions") return "Clear instructions";
+    if (skill === "cooperatively") return "Cooperatively";
+    if (skill === "crossTeam") return "Cross team";
+    if (skill === "distractions") return "Distractions";
+    if (skill === "easilyExplainsComplexIdeas")
+      return "Easily explains complex ideas";
+    if (skill === "emotionalResponse") return "Emotional response";
+    if (skill === "empathy") return "Empathy";
+    if (skill === "eyeContact") return "Eye contact";
+    if (skill === "influences") return "Influences";
+    if (skill === "managesOwn") return "Manages own";
+    if (skill === "newIdeas") return "New ideas";
+    if (skill === "openToShare") return "Open to share";
+    if (skill === "positiveBelief") return "Positive belief";
+    if (skill === "proactive") return "Proactive";
+    if (skill === "resilienceFeedback") return "Resilience feedback";
+    if (skill === "signifiesInterest") return "Signifies interest";
+    if (skill === "tone") return "Tone";
+    if (skill === "verbalAttentiveFeedback") return "Verbal attentive feeback";
+    if (skill === "workDemands") return "Work demands";
+    return "";
   };
 
   getBrightSpots = (sorted, reflection) => {
     let result = [];
     try {
       for (const obj of sorted) {
-        if (reflection[obj['field']] < obj['value']) {
-          if (!Number.isNaN(obj['value']) && Number.isFinite(obj['value'])) {
-            if (!Number.isNaN(reflection[obj['field']]) && Number.isFinite(reflection[obj['field']])) {
-              result.push({ field: obj['field'], name: this.getCorrectVariableName(obj['field']), self: reflection[obj['field']], team: obj['value'] });
+        if (reflection[obj["field"]] < obj["value"]) {
+          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
+            if (
+              !Number.isNaN(reflection[obj["field"]]) &&
+              Number.isFinite(reflection[obj["field"]])
+            ) {
+              result.push({
+                field: obj["field"],
+                name: this.getCorrectVariableName(obj["field"]),
+                self: reflection[obj["field"]],
+                team: obj["value"],
+              });
             }
           }
         }
@@ -230,10 +239,18 @@ class Skills extends Component {
     let result = [];
     try {
       for (const obj of sorted) {
-        if (reflection[obj['field']] > obj['value']) {
-          if (!Number.isNaN(obj['value']) && Number.isFinite(obj['value'])) {
-            if (!Number.isNaN(reflection[obj['field']]) && Number.isFinite(reflection[obj['field']])) {
-              result.push({ field: obj['field'], name: this.getCorrectVariableName(obj['field']), self: reflection[obj['field']], team: obj['value'] });
+        if (reflection[obj["field"]] > obj["value"]) {
+          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
+            if (
+              !Number.isNaN(reflection[obj["field"]]) &&
+              Number.isFinite(reflection[obj["field"]])
+            ) {
+              result.push({
+                field: obj["field"],
+                name: this.getCorrectVariableName(obj["field"]),
+                self: reflection[obj["field"]],
+                team: obj["value"],
+              });
             }
           }
         }
@@ -257,8 +274,14 @@ class Skills extends Component {
           clone[i]["value"] += selfScore;
           clone[i]["value"] /= 2;
         }
-        if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
-          result.push({ ...clone[i], name: this.getCorrectVariableName(clone[i]['field']) });
+        if (
+          !Number.isNaN(clone[i]["value"]) &&
+          Number.isFinite(clone[i]["value"])
+        ) {
+          result.push({
+            ...clone[i],
+            name: this.getCorrectVariableName(clone[i]["field"]),
+          });
         }
       }
       result.sort((a, b) => a.value - b.value).reverse();
@@ -279,8 +302,14 @@ class Skills extends Component {
           clone[i]["value"] += selfScore;
           clone[i]["value"] /= 2;
         }
-        if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
-          result.push({ ...clone[i], name: this.getCorrectVariableName(clone[i]['field']) });
+        if (
+          !Number.isNaN(clone[i]["value"]) &&
+          Number.isFinite(clone[i]["value"])
+        ) {
+          result.push({
+            ...clone[i],
+            name: this.getCorrectVariableName(clone[i]["field"]),
+          });
         }
       }
       result.sort((a, b) => a.value - b.value);
@@ -411,7 +440,7 @@ class Skills extends Component {
                 {(() => {
                   if (this.state.strengths.length > 0) {
                     return (
-                      <Grid item>
+                      <Grid style={{ width: "50%" }} item>
                         <Container>
                           <Card variant="outlined">
                             <CardContent>
@@ -429,11 +458,6 @@ class Skills extends Component {
                               </div>
                               {this.state.strengths.map((strength, idx) => {
                                 return <SkillBar key={idx} values={strength} />;
-                                // return (
-                                //   <p key={idx}>
-                                //     {strength.field + strength.value}
-                                //   </p>
-                                // );
                               })}
                             </CardContent>
                           </Card>
@@ -445,7 +469,7 @@ class Skills extends Component {
                 {(() => {
                   if (this.state.improve.length > 0) {
                     return (
-                      <Grid item>
+                      <Grid style={{ width: "50%" }} item>
                         <Container>
                           <Card variant="outlined">
                             <CardContent>
@@ -463,11 +487,6 @@ class Skills extends Component {
                               </div>
                               {this.state.improve.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
-                                // return (
-                                //   <p key={idx}>
-                                //     {improve.field + improve.value}
-                                //   </p>
-                                // );
                               })}
                             </CardContent>
                           </Card>
@@ -479,7 +498,7 @@ class Skills extends Component {
                 {(() => {
                   if (this.state.blind.length > 0) {
                     return (
-                      <Grid item>
+                      <Grid style={{ width: "50%" }} item>
                         <Container>
                           <Card variant="outlined">
                             <CardContent>
@@ -513,7 +532,7 @@ class Skills extends Component {
                 {(() => {
                   if (this.state.bright.length > 0) {
                     return (
-                      <Grid item>
+                      <Grid style={{ width: "50%" }} item>
                         <Container>
                           <Card variant="outlined">
                             <CardContent>
