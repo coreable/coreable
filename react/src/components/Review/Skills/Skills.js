@@ -307,9 +307,9 @@ class Skills extends Component {
       result.emotionalIntelligence =
         (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
       result.initiative = (clone.proactive + clone.influences) / 2;
-      result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
+      result.trust = (clone.cooperatively + clone.positiveBelief) / 2;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.clarity = clone.clearInstructions / 2;
+      result.clarity = clone.clearInstructions / 1;
       result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
       result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
       result.attentive =
