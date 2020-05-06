@@ -27,6 +27,7 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    console.log("i am run");
   }
 
   render() {

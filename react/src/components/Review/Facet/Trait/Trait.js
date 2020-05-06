@@ -245,7 +245,7 @@ class Trait extends Component {
             type="range"
             min={0}
             max={100}
-            step={10}
+            step={5}
             key={this.state.var}
             id={this.state.var}
             name={this.state.var}
@@ -258,6 +258,7 @@ class Trait extends Component {
               marginTop: "8pt",
               marginBottom: "12pt",
               transition: "none",
+              borderRadius: "8pt",
               // zIndex: "2",
             }}
           />
@@ -317,7 +318,6 @@ class Trait extends Component {
               <TeamRank
                 key={user._id}
                 name={user._d}
-
                 {...this.getScoreForDisplay(user)}
                 backgroundImage={this.getSliderBackground}
                 teamMemberCount={this.countTeam()}

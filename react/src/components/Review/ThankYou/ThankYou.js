@@ -33,8 +33,7 @@ class ThankYou extends Component {
 
   componentDidMount() {
     let query = {
-      query: 
-      `query {
+      query: `query {
         me {
           errors {
             code
@@ -130,15 +129,22 @@ class ThankYou extends Component {
       let resilience = 0;
 
       try {
-        emotionalIntelligence = (averages.emotionalResponse + averages.empathy + averages.managesOwn) / 3;
+        emotionalIntelligence =
+          (averages.emotionalResponse +
+            averages.empathy +
+            averages.managesOwn) /
+          3;
         initiative = (averages.proactive + averages.influences) / 2;
         trust = (averages.cooperatively + averages.positiveBelief) / 3;
         flex = (averages.newIdeas + averages.workDemands) / 2;
         clarity = averages.clearInstructions / 2;
-        culture = (averages.openToShare + averages.tone + averages.crossTeam) / 3;
+        culture =
+          (averages.openToShare + averages.tone + averages.crossTeam) / 3;
         nonVerbal = (averages.distractions + averages.eyeContact) / 2;
-        attentive = (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
-        resilience = (averages.resilienceFeedback + averages.calm + averages.change) / 3;
+        attentive =
+          (averages.signifiesInterest + averages.verbalAttentiveFeedback) / 2;
+        resilience =
+          (averages.resilienceFeedback + averages.calm + averages.change) / 3;
         averages = {
           emotionalIntelligence,
           initiative,
@@ -148,22 +154,37 @@ class ThankYou extends Component {
           culture,
           nonVerbal,
           attentive,
-          resilience
-        }
+          resilience,
+        };
       } catch {
-        console.log({ code: "ERR", message: 'Review results threw an error', path: "ThankYou.js" });
+        console.log({
+          code: "ERR",
+          message: "Review results threw an error",
+          path: "ThankYou.js",
+        });
       }
 
       try {
-        emotionalIntelligence = (reflection.emotionalResponse + reflection.empathy + reflection.managesOwn) / 3;
+        emotionalIntelligence =
+          (reflection.emotionalResponse +
+            reflection.empathy +
+            reflection.managesOwn) /
+          3;
         initiative = (reflection.proactive + reflection.influences) / 2;
         trust = (reflection.cooperatively + reflection.positiveBelief) / 3;
         flex = (reflection.newIdeas + reflection.workDemands) / 2;
         clarity = reflection.clearInstructions / 2;
-        culture = (reflection.openToShare + reflection.tone + reflection.crossTeam) / 3;
+        culture =
+          (reflection.openToShare + reflection.tone + reflection.crossTeam) / 3;
         nonVerbal = (reflection.distractions + reflection.eyeContact) / 2;
-        attentive = (reflection.signifiesInterest + reflection.verbalAttentiveFeedback) / 2;
-        resilience = (reflection.resilienceFeedback + reflection.calm + reflection.change) / 3;
+        attentive =
+          (reflection.signifiesInterest + reflection.verbalAttentiveFeedback) /
+          2;
+        resilience =
+          (reflection.resilienceFeedback +
+            reflection.calm +
+            reflection.change) /
+          3;
         reflection = {
           emotionalIntelligence,
           initiative,
@@ -173,18 +194,21 @@ class ThankYou extends Component {
           culture,
           nonVerbal,
           attentive,
-          resilience
-        }
+          resilience,
+        };
       } catch {
-        console.log({ code: "ERR", message: 'Self review results threw an error', path: "ThankYou.js" });
+        console.log({
+          code: "ERR",
+          message: "Self review results threw an error",
+          path: "ThankYou.js",
+        });
       }
-
 
       this.setState({
         ...this.state,
         loading: false,
         averages,
-        reflection
+        reflection,
       });
     });
   }

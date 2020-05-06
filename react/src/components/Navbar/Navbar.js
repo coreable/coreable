@@ -75,52 +75,55 @@ class Navbar extends Component {
           Coreable
         </NavLink>
 
-        <React.Fragment>
-          <input
-            onClick={this.menuOpenHandler}
-            className="menu-btn"
-            type="checkbox"
-            id="menu-btn"
-            checked={menuOpen}
-          />
-          <label className="menu-icon" for="menu-btn">
-            <span className="nav-icon"></span>
-            <span className="spacer" />
-          </label>
-          <ul className="menu" id="menu">
-            {menuItems.map((menuItem, idx) => {
-              return (
-                <NavbarItem
-                  key={idx}
-                  dest={menuItem.link}
-                  menuOpenHandler={this.menuOpenHandler}
-                >
-                  {menuItem.name}
-                </NavbarItem>
-              );
-            })}
-          </ul>
-        </React.Fragment>
+        {(() => {
+          if (this.state.me) {
+            return (
+              <React.Fragment>
+                <input
+                  onClick={this.menuOpenHandler}
+                  className="menu-btn"
+                  type="checkbox"
+                  id="menu-btn"
+                  checked={menuOpen}
+                />
+                <label className="menu-icon" for="menu-btn">
+                  <span className="nav-icon"></span>
+                  <span className="spacer" />
+                </label>
+                <ul className="menu" id="menu">
+                  {menuItems.map((menuItem, idx) => {
+                    return (
+                      <NavbarItem
+                        key={idx}
+                        dest={menuItem.link}
+                        menuOpenHandler={this.menuOpenHandler}
+                      >
+                        {menuItem.name}
+                      </NavbarItem>
+                    );
+                  })}
+                </ul>
+              </React.Fragment>
+            );
+          }
+        })()}
         <span className="spacer" />
 
-        {
-          (() => {
-            if (this.state.me) {
-              return (
-                <div className="dropdown">
+        {(() => {
+          if (this.state.me) {
+            return (
+              <div className="dropdown">
                 <span className="dropbtn">{this.state.me.firstName}</span>
-                  <div className="dropdown-content">
-                    <Link to="/review">Account</Link>
-                    <Link to="" onClick={() => this.removeJWT()}>
-                      Logout
-                    </Link>
-                  </div>
+                <div className="dropdown-content">
+                  <Link to="/review">Account</Link>
+                  <Link to="" onClick={() => this.removeJWT()}>
+                    Logout
+                  </Link>
                 </div>
-              );
-            }
-          })()
-        }
-
+              </div>
+            );
+          }
+        })()}
       </nav>
     );
   }
