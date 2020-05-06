@@ -19,13 +19,14 @@ import {
   Container,
   Card,
   CardContent,
-  Button
+  Button,
 } from "@material-ui/core";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../../constants";
 import Radar from "./Radar";
 import HorizontalBar from "./HorizontalBarWithTeamChart";
-import './ThankYou.scss';
+import SkillBar from "./SkillBar/SkillBar";
+import "./ThankYou.scss";
 
 class Skills extends Component {
   constructor(props) {
@@ -38,13 +39,13 @@ class Skills extends Component {
       strengths: [],
       improve: [],
       bright: [],
-      blind: []
+      blind: [],
     };
   }
 
   componentDidMount = async () => {
     if (this.props.me) {
-      this.props.ReactGA.pageview('/skills');
+      this.props.ReactGA.pageview("/skills");
     }
 
     const query = {
@@ -116,7 +117,7 @@ class Skills extends Component {
             }
           }
         }
-      `
+      `,
     };
     const options = {
       method: "POST",
@@ -148,10 +149,22 @@ class Skills extends Component {
     try {
       averages = this.calculateTeamAverage(data.user.reviews.report.average);
       reflection = this.calculateSelfAverage(data.user.reflection);
-      strengths = this.getStrengthAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
-      improve = this.getImproveAreasTop3(data.user.reviews.report.sorted, data.user.reviews.report.average);
-      bright = this.getBrightSpots(data.user.reviews.report.sorted, data.user.reflection);
-      blind = this.getBlindSpots(data.user.reviews.report.sorted, data.user.reflection);
+      strengths = this.getStrengthAreasTop3(
+        data.user.reviews.report.sorted,
+        data.user.reviews.report.average
+      );
+      improve = this.getImproveAreasTop3(
+        data.user.reviews.report.sorted,
+        data.user.reviews.report.average
+      );
+      bright = this.getBrightSpots(
+        data.user.reviews.report.sorted,
+        data.user.reflection
+      );
+      blind = this.getBlindSpots(
+        data.user.reviews.report.sorted,
+        data.user.reflection
+      );
     } catch (err) {
       // Ignore
     }
@@ -165,9 +178,9 @@ class Skills extends Component {
       strengths,
       improve,
       bright,
-      blind
+      blind,
     });
-  }
+  };
 
   getCorrectVariableName = (skill) => {
     if (skill === 'calm') return 'Calm';
@@ -211,7 +224,7 @@ class Skills extends Component {
       console.error(err);
     }
     return result;
-  }
+  };
 
   getBlindSpots = (sorted, reflection) => {
     let result = [];
@@ -230,7 +243,7 @@ class Skills extends Component {
       console.error(err);
     }
     return result;
-  }
+  };
 
   getStrengthAreasTop3 = (sorted, reflection) => {
     const result = [];
@@ -239,10 +252,10 @@ class Skills extends Component {
       clone = clone.reverse();
       clone = clone.slice(0, 3);
       for (let i = 0; i < clone.length; i++) {
-        const selfScore = reflection[clone[i]['field']];
+        const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
-          clone[i]['value'] += selfScore;
-          clone[i]['value'] /= 2;
+          clone[i]["value"] += selfScore;
+          clone[i]["value"] /= 2;
         }
         if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
           result.push({ ...clone[i], name: this.getCorrectVariableName(clone[i]['field']) });
@@ -253,7 +266,7 @@ class Skills extends Component {
       console.error(err);
     }
     return result;
-  }
+  };
 
   getImproveAreasTop3 = (sorted, reflection) => {
     const result = [];
@@ -261,10 +274,10 @@ class Skills extends Component {
       let clone = JSON.parse(JSON.stringify(sorted));
       clone = clone.slice(0, 3);
       for (let i = 0; i < clone.length; i++) {
-        const selfScore = reflection[clone[i]['field']];
+        const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
-          clone[i]['value'] += selfScore;
-          clone[i]['value'] /= 2;
+          clone[i]["value"] += selfScore;
+          clone[i]["value"] /= 2;
         }
         if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
           result.push({ ...clone[i], name: this.getCorrectVariableName(clone[i]['field']) });
@@ -275,7 +288,7 @@ class Skills extends Component {
       console.error(err);
     }
     return result;
-  }
+  };
 
   calculateSelfAverage = (reflection) => {
     const clone = JSON.parse(JSON.stringify(reflection));
@@ -288,23 +301,30 @@ class Skills extends Component {
       culture: 0,
       nonVerbal: 0,
       attentive: 0,
-      resilience: 0
+      resilience: 0,
     };
     try {
-      result.emotionalIntelligence = (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
+      result.emotionalIntelligence =
+        (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
       result.initiative = (clone.proactive + clone.influences) / 2;
       result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
       result.clarity = clone.clearInstructions / 2;
       result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
       result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
-      result.attentive = (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
-      result.resilience = (clone.resilienceFeedback + clone.calm + clone.change) / 3;
+      result.attentive =
+        (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
+      result.resilience =
+        (clone.resilienceFeedback + clone.calm + clone.change) / 3;
     } catch {
-      console.log({ code: "ERR", message: 'Self review results threw an error', path: "ThankYou.js/calculateSelfAverage()" });
+      console.log({
+        code: "ERR",
+        message: "Self review results threw an error",
+        path: "ThankYou.js/calculateSelfAverage()",
+      });
     }
     return result;
-  }
+  };
 
   calculateTeamAverage = (averages) => {
     const clone = JSON.parse(JSON.stringify(averages));
@@ -317,31 +337,38 @@ class Skills extends Component {
       culture: 0,
       nonVerbal: 0,
       attentive: 0,
-      resilience: 0
+      resilience: 0,
     };
     try {
-      result.emotionalIntelligence = (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
+      result.emotionalIntelligence =
+        (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
       result.initiative = (clone.proactive + clone.influences) / 2;
       result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
       result.clarity = clone.clearInstructions / 2;
       result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
       result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
-      result.attentive = (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
-      result.resilience = (clone.resilienceFeedback + clone.calm + clone.change) / 3;
+      result.attentive =
+        (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
+      result.resilience =
+        (clone.resilienceFeedback + clone.calm + clone.change) / 3;
     } catch {
-      console.log({ code: "ERR", message: 'Review results threw an error', path: "ThankYou.js/calculateTeamAverage()" });
+      console.log({
+        code: "ERR",
+        message: "Review results threw an error",
+        path: "ThankYou.js/calculateTeamAverage()",
+      });
     }
     return result;
-  }
+  };
 
   render() {
     if (!this.props.me && !this.props.loading) {
-      return (<Redirect to="/"></Redirect>);
+      return <Redirect to="/"></Redirect>;
     }
 
     if (!this.props.me && this.props.loading) {
-      return (<div></div>);
+      return <div></div>;
     }
 
     return (
@@ -352,29 +379,28 @@ class Skills extends Component {
             style={{ color: "white", fontWeight: "bold" }}
           >
             Your Skills
-            </Typography>
-          <p style={{ fontSize: "1.4rem" }}>{" "}</p>
-          <Button variant="contained">
-            All Core Skills
-          </Button>
-          <span style={{ marginLeft: '8pt', marginRight: '8pt' }}></span>
-          <Button variant="contained">
-            Collaboration
-          </Button>
-          <span style={{ marginLeft: '8pt', marginRight: '8pt' }}></span>
-          <Button variant="contained">
-            Communication
-          </Button>
+          </Typography>
+          <p style={{ fontSize: "1.4rem" }}> </p>
+          <Button variant="contained">All Core Skills</Button>
+          <span style={{ marginLeft: "8pt", marginRight: "8pt" }}></span>
+          <Button variant="contained">Collaboration</Button>
+          <span style={{ marginLeft: "8pt", marginRight: "8pt" }}></span>
+          <Button variant="contained">Communication</Button>
         </div>
 
         <div className="main">
-          <Grid container direction="column" justify="center" alignItems="center">
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
             <Container>
               <Card variant="outlined">
                 <Radar {...this.state} />
               </Card>
             </Container>
-            <Container style={{ marginTop: '8pt', marginBottom: '8pt' }}>
+            <Container style={{ marginTop: "8pt", marginBottom: "8pt" }}>
               <Grid
                 container
                 direction="row"
@@ -382,98 +408,142 @@ class Skills extends Component {
                 alignItems="stretch"
                 spacing={1}
               >
-                {
-                  (() => {
-                    if (this.state.strengths.length > 0) {
-                      return (
-                        <Grid item>
-                          <Container>
-                            <Card variant="outlined">
-                              <CardContent>
-                                <div style={{ textAlign: 'left' }}>
-                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Top Strengths</Typography>
-                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                                </div>
-                                <p>{JSON.stringify(this.state.strengths)}</p>
-                              </CardContent>
-                            </Card>
-                          </Container>
-                        </Grid>
-                      );
-                    }
-                  })()
-                }
-                {
-                  (() => {
-                    if (this.state.improve.length > 0) {
-                      return (
-                        <Grid item>
-                          <Container>
-                            <Card variant="outlined">
-                              <CardContent>
-                                <div style={{ textAlign: 'left' }}>
-                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Areas to improve</Typography>
-                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                                </div>
-                                <p>{JSON.stringify(this.state.improve)}</p>
-                              </CardContent>
-                            </Card>
-                          </Container>
-                        </Grid>
-                      );
-                    }
-                  })()
-                }
-                {
-                  (() => {
-                    if (this.state.blind.length > 0) {
-                      return (
-                        <Grid item>
-                          <Container>
-                            <Card variant="outlined">
-                              <CardContent>
-                                <div style={{ textAlign: 'left' }}>
-                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Blind spots</Typography>
-                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                                </div>
-                                {
-                                  this.state.blind.map((blind, index) => {
-                                    return (<HorizontalBar key={index} {...blind}></HorizontalBar>);
-                                  })
-                                }
-                              </CardContent>
-                            </Card>
-                          </Container>
-                        </Grid>
-                      );
-                    }
-                  })()
-                }
-                {
-                  (() => {
-                    if (this.state.bright.length > 0) {
-                      return (
-                        <Grid item>
-                          <Container>
-                            <Card variant="outlined">
-                              <CardContent>
-                                <div style={{ textAlign: 'left' }}>
-                                  <Typography variant="h4" component="h1" style={{ fontWeight: 'bold' }}>Bright spots</Typography>
-                                  <Typography variant="h5" component="h1">Top facets are sorted highest to lowest</Typography>
-                                </div>
-                                {
-                                  this.state.bright.map((bright, index) => {
-                                    return (<HorizontalBar key={index} {...bright}></HorizontalBar>);
-                                  })
-                                }
-                              </CardContent>
-                            </Card>
-                          </Container>
-                        </Grid>
-                      );
-                    }
-                  })()
-                }
+                {(() => {
+                  if (this.state.strengths.length > 0) {
+                    return (
+                      <Grid item>
+                        <Container>
+                          <Card variant="outlined">
+                            <CardContent>
+                              <div style={{ textAlign: "left" }}>
+                                <Typography
+                                  variant="h4"
+                                  component="h1"
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  Top Strengths
+                                </Typography>
+                                <Typography variant="h5" component="h1">
+                                  Top facets are sorted highest to lowest
+                                </Typography>
+                              </div>
+                              {this.state.strengths.map((strength, idx) => {
+                                return <SkillBar key={idx} values={strength} />;
+                                // return (
+                                //   <p key={idx}>
+                                //     {strength.field + strength.value}
+                                //   </p>
+                                // );
+                              })}
+                            </CardContent>
+                          </Card>
+                        </Container>
+                      </Grid>
+                    );
+                  }
+                })()}
+                {(() => {
+                  if (this.state.improve.length > 0) {
+                    return (
+                      <Grid item>
+                        <Container>
+                          <Card variant="outlined">
+                            <CardContent>
+                              <div style={{ textAlign: "left" }}>
+                                <Typography
+                                  variant="h4"
+                                  component="h1"
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  Areas to improve
+                                </Typography>
+                                <Typography variant="h5" component="h1">
+                                  Top facets are sorted highest to lowest
+                                </Typography>
+                              </div>
+                              {this.state.improve.map((improve, idx) => {
+                                return <SkillBar key={idx} values={improve} />;
+                                // return (
+                                //   <p key={idx}>
+                                //     {improve.field + improve.value}
+                                //   </p>
+                                // );
+                              })}
+                            </CardContent>
+                          </Card>
+                        </Container>
+                      </Grid>
+                    );
+                  }
+                })()}
+                {(() => {
+                  if (this.state.blind.length > 0) {
+                    return (
+                      <Grid item>
+                        <Container>
+                          <Card variant="outlined">
+                            <CardContent>
+                              <div style={{ textAlign: "left" }}>
+                                <Typography
+                                  variant="h4"
+                                  component="h1"
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  Blind spots
+                                </Typography>
+                                <Typography variant="h5" component="h1">
+                                  Top facets are sorted highest to lowest
+                                </Typography>
+                              </div>
+                              {this.state.blind.map((blind, index) => {
+                                return (
+                                  <HorizontalBar
+                                    key={index}
+                                    {...blind}
+                                  ></HorizontalBar>
+                                );
+                              })}
+                            </CardContent>
+                          </Card>
+                        </Container>
+                      </Grid>
+                    );
+                  }
+                })()}
+                {(() => {
+                  if (this.state.bright.length > 0) {
+                    return (
+                      <Grid item>
+                        <Container>
+                          <Card variant="outlined">
+                            <CardContent>
+                              <div style={{ textAlign: "left" }}>
+                                <Typography
+                                  variant="h4"
+                                  component="h1"
+                                  style={{ fontWeight: "bold" }}
+                                >
+                                  Bright spots
+                                </Typography>
+                                <Typography variant="h5" component="h1">
+                                  Top facets are sorted highest to lowest
+                                </Typography>
+                              </div>
+                              {this.state.bright.map((bright, index) => {
+                                return (
+                                  <HorizontalBar
+                                    key={index}
+                                    {...bright}
+                                  ></HorizontalBar>
+                                );
+                              })}
+                            </CardContent>
+                          </Card>
+                        </Container>
+                      </Grid>
+                    );
+                  }
+                })()}
               </Grid>
             </Container>
           </Grid>
