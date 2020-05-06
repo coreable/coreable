@@ -465,7 +465,7 @@ class Skills extends Component {
                                 >
                                   Top Strengths
                                 </Typography>
-                                <Typography variant="h5" component="h1">
+                                <Typography variant="h6" component="h1">
                                   Top facets are sorted highest to lowest
                                 </Typography>
                               </div>
@@ -499,7 +499,7 @@ class Skills extends Component {
                                 >
                                   Areas to improve
                                 </Typography>
-                                <Typography variant="h5" component="h1">
+                                <Typography variant="h6" component="h1">
                                   Top facets are sorted highest to lowest
                                 </Typography>
                               </div>
@@ -530,7 +530,7 @@ class Skills extends Component {
                                 >
                                   Blind spots
                                 </Typography>
-                                <Typography variant="h5" component="h1">
+                                <Typography variant="h6" component="h1">
                                   Top facets are sorted highest to lowest
                                 </Typography>
                               </div>
@@ -561,7 +561,7 @@ class Skills extends Component {
                                 >
                                   Bright spots
                                 </Typography>
-                                <Typography variant="h5" component="h1">
+                                <Typography variant="h6" component="h1">
                                   Top facets are sorted highest to lowest
                                 </Typography>
                               </div>
