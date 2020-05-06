@@ -3,7 +3,7 @@ import { HorizontalBar } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
 
 const HorizontalBarWithTeamChart = (props) => {
-  if (!props.length) {
+  if (!props) {
     return <div></div>;
   }
 
