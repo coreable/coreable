@@ -43,10 +43,98 @@ export default function SkillBar(props) {
   }
 
   if (self > team) {
-    return <div> its blindspot </div>;
+    return (
+      <div>
+        <Typography
+          variant="h5"
+          // component="h1"
+          style={{
+            fontWeight: "bold",
+            textAlign: "left",
+            color: "black",
+            paddingTop: "10px",
+            paddingBottom: "5px",
+          }}
+        >
+          {name}
+        </Typography>
+        <div style={{ position: "relative" }}>
+          <div
+            style={{
+              width: `${self}%`,
+              height: "24px",
+              borderRadius: "4px",
+              background: "rgb(64, 112, 224)",
+              zIndex: "300",
+            }}
+          />
+          <div
+            style={{
+              width: `${team}%`,
+              height: "24px",
+              borderRadius: "4px",
+              background: "rgb(45, 215, 117)",
+              zIndex: "0",
+              position: "absolute",
+              top: "0",
+            }}
+          />
+          <div className="interval-container">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (team > self) {
-    return <div> its brightspot </div>;
+    return (
+      <div>
+        <Typography
+          variant="h5"
+          // component="h1"
+          style={{
+            fontWeight: "bold",
+            textAlign: "left",
+            color: "black",
+            paddingTop: "10px",
+            paddingBottom: "5px",
+          }}
+        >
+          {name}
+        </Typography>
+        <div style={{ position: "relative" }}>
+          <div
+            style={{
+              width: `${team}%`,
+              height: "24px",
+              borderRadius: "4px",
+              background: "rgb(45, 215, 117)",
+              zIndex: "300",
+            }}
+          />
+          <div
+            style={{
+              width: `${self}%`,
+              height: "24px",
+              borderRadius: "4px",
+              background: "rgb(64, 112, 224)",
+              zIndex: "0",
+              position: "absolute",
+              top: "0",
+            }}
+          />
+          <div className="interval-container">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </div>
+    );
   }
 }
