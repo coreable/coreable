@@ -76,14 +76,17 @@ class Facet extends Component {
     if (currentIndex !== (facetLength - 1)) {
       return false;
     }
+    const me_id = this.props.me._id;
     const team_id = this.props.pending._id;
     const reviews = this.getReviews();
-    if (!reviews[team_id]) {
+    if (!reviews[me_id]) {
       return true;
     }
-    for (const user in reviews[team_id]) {
-      const isValid = this.validateReview(reviews[team_id][user]);
-      console.log(isValid);
+    if (!reviews[me_id][team_id]) {
+      return true;
+    }
+    for (const user in reviews[me_id][team_id]) {
+      const isValid = this.validateReview(reviews[me_id][team_id][user]);
       if (!isValid) {
         return true;
       }
@@ -146,6 +149,7 @@ class Facet extends Component {
                   {...trait}
                   name={this.state.name}
                   key={trait.name}
+                  me={this.props.me}
                   traitName={this.state.traits.name}
                   pending={this.props.pending}
                   sliderUpdatedHandler={this.sliderUpdatedHandler}

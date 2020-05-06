@@ -258,8 +258,9 @@ class Review extends Component {
     const promises = [];
     const AUTH_TOKEN = localStorage.getItem(JWT);
     const team_id = this.props.location.state.pending._id;
+    const me_id = this.props.me._id;
 
-    for (const user in review[team_id]) {
+    for (const user in review[me_id][team_id]) {
       try {
         const query = {
           query: `
@@ -268,27 +269,27 @@ class Review extends Component {
                 receiver_id: "${user}", 
                 team_id: "${team_id}", 
                 subject_id: "${this.props.location.state.pending.subject._id}",
-                emotionalResponse: ${review[team_id][user]["emotionalResponse"].val}, 
-                empathy: ${review[team_id][user]["empathy"].val},
-                managesOwn: ${review[team_id][user]["managesOwn"].val},
-                cooperatively: ${review[team_id][user]["cooperatively"].val},
-                positiveBelief: ${review[team_id][user]["positiveBelief"].val},
-                resilienceFeedback: ${review[team_id][user]["resilienceFeedback"].val},
-                calm: ${review[team_id][user]["calm"].val},
-                change: ${review[team_id][user]["change"].val},
-                newIdeas: ${review[team_id][user]["newIdeas"].val},
-                workDemands: ${review[team_id][user]["workDemands"].val},
-                proactive: ${review[team_id][user]["proactive"].val},
-                influences: ${review[team_id][user]["influences"].val},
-                clearInstructions: ${review[team_id][user]["clearInstructions"].val},
-                easilyExplainsComplexIdeas: ${review[team_id][user]["easilyExplainsComplexIdeas"].val},
-                openToShare: ${review[team_id][user]["openToShare"].val},
-                tone: ${review[team_id][user]["tone"].val},
-                crossTeam: ${review[team_id][user]["crossTeam"].val},
-                distractions: ${review[team_id][user]["distractions"].val},
-                eyeContact: ${review[team_id][user]["eyeContact"].val},
-                signifiesInterest: ${review[team_id][user]["signifiesInterest"].val},
-                verbalAttentiveFeedback: ${review[team_id][user]["verbalAttentiveFeedback"].val}
+                emotionalResponse: ${review[me_id][team_id][user]["emotionalResponse"].val}, 
+                empathy: ${review[me_id][team_id][user]["empathy"].val},
+                managesOwn: ${review[me_id][team_id][user]["managesOwn"].val},
+                cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
+                positiveBelief: ${review[me_id][team_id][user]["positiveBelief"].val},
+                resilienceFeedback: ${review[me_id][team_id][user]["resilienceFeedback"].val},
+                calm: ${review[me_id][team_id][user]["calm"].val},
+                change: ${review[me_id][team_id][user]["change"].val},
+                newIdeas: ${review[me_id][team_id][user]["newIdeas"].val},
+                workDemands: ${review[me_id][team_id][user]["workDemands"].val},
+                proactive: ${review[me_id][team_id][user]["proactive"].val},
+                influences: ${review[me_id][team_id][user]["influences"].val},
+                clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
+                easilyExplainsComplexIdeas: ${review[me_id][team_id][user]["easilyExplainsComplexIdeas"].val},
+                openToShare: ${review[me_id][team_id][user]["openToShare"].val},
+                tone: ${review[me_id][team_id][user]["tone"].val},
+                crossTeam: ${review[me_id][team_id][user]["crossTeam"].val},
+                distractions: ${review[me_id][team_id][user]["distractions"].val},
+                eyeContact: ${review[me_id][team_id][user]["eyeContact"].val},
+                signifiesInterest: ${review[me_id][team_id][user]["signifiesInterest"].val},
+                verbalAttentiveFeedback: ${review[me_id][team_id][user]["verbalAttentiveFeedback"].val}
               ) {
                 errors {
                   path
