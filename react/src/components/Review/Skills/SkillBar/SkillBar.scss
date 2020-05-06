@@ -1,0 +1,13 @@
+.interval-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+
+  span {
+    height: 24px;
+    width: 20%;
+    border-right: 0.01em solid white;
+  }
+}
