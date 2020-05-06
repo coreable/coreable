@@ -30,18 +30,18 @@ class LandingPage extends Component {
     console.log("i am run");
   }
 
+  componentDidMount = () => {
+    this.props.ReactGA.pageview('/');
+  }
+
   render() {
     if (this.props.me) {
       return <Redirect to="/home"></Redirect>;
     }
 
-    // if (this.props.loading) {
-    //   return <Loading />;
-    // }
-
     return (
       <Container
-        maxWidth="xl"
+        maxWidth={false}
         style={{ backgroundColor: "#0b152f", height: "100vh" }}
         className="container"
       >

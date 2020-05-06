@@ -15,20 +15,20 @@ Coreable source code.
 import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
+import ReactGA from 'react-ga';
 
-import Navbar from "./components/Navbar/Navbar";
-import { JWT } from "./constants";
+import { JWT, API_URL } from "./constants";
 
 import "./App.scss";
-import Loader from "./components/Loading/Loading";
 
+import Loader from "./components/Loading/Loading";
+import Navbar from "./components/Navbar/Navbar";
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/LandingPage/Register/Register"));
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
-const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
-const Skills = lazy(() => import("./components/Skills/Skills"));
+const Skills = lazy(() => import("./components/Review/Skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
 const Reviews = lazy(() => import("./components/ReviewTab/Review"));
 
@@ -38,12 +38,12 @@ class App extends Component {
     this.state = {
       sideDrawerOpen: false,
       loading: true,
-      me: null,
-      showLoadingSign: false,
+      me: null
     };
+    ReactGA.initialize('UA-165578445-1');
   }
 
-  userDidLoginOrRegister = () => {
+  refreshMe = () => {
     this.setState(
       {
         ...this.state,
@@ -81,16 +81,15 @@ class App extends Component {
                 }
                 pending {
                   _id
-                  firstName
-                  lastName
-                  teams {
+                  name
+                  subject {
                     _id
-                    name
-                    subject {
-                      _id
-                      name
-                      state
-                    }
+                    state
+                  }
+                  users {
+                    _id
+                    firstName
+                    lastName
                   }
                 }
               }
@@ -110,19 +109,19 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT) || "",
+        JWT: localStorage.getItem(JWT) || '',
       },
       body: JSON.stringify(query),
     };
 
-    const res = await fetch(
-      "https://coreable.appspot.com/graphql",
-      options
-    ).then((res) => res.json());
+    const res = await fetch(API_URL, options).then((res) => res.json());
+
     const { data, errors } = res.data.me;
+
     if (errors) {
       console.error(errors);
     }
+
     this.setState({
       ...this.state,
       loading: false,
@@ -140,8 +139,10 @@ class App extends Component {
         <div className="App" style={{ height: "100%" }}>
           <Navbar
             me={this.state.me}
+            loading={this.state.loading}
+            refreshMe={this.refreshMe}
+            ReactGA={ReactGA}
           />
-
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
               exact
@@ -151,6 +152,8 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -163,7 +166,8 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
-                  userDidLoginOrRegister={this.userDidLoginOrRegister}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -175,7 +179,8 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
-                  userDidLoginOrRegister={this.userDidLoginOrRegister}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -188,28 +193,21 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
             <Route
               exact
-              path="/self-review"
+              path="/review"
               component={(props) => (
                 <Review
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
-                />
-              )}
-            />
-            <Route
-              exact
-              path="/thank-you"
-              component={(props) => (
-                <ThankYou
-                  {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -221,6 +219,8 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -232,6 +232,8 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -243,6 +245,8 @@ class App extends Component {
                   {...props}
                   me={this.state.me}
                   loading={this.state.loading}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />

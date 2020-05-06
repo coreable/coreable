@@ -15,10 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
-// import "./Facet.scss";
 import "../Review.scss";
-
-// import global from "../../../global.scss";
 
 class Facet extends Component {
   constructor(props) {
@@ -27,6 +24,7 @@ class Facet extends Component {
       name: props.name,
       desc: props.desc,
       traits: props.traits,
+      isSubmitDisabled: props.currentIndex === props.facetLength -1
     };
   }
 
@@ -38,9 +36,73 @@ class Facet extends Component {
         name: props.name,
         desc: props.desc,
         traits: props.traits,
+        isSubmitDisabled: this.getIsSubmitButtonDisabled()
       });
     }
   }
+
+  getReviews = () => {
+    return JSON.parse(localStorage.getItem("review"));
+  }
+
+  validateReview = (review) => {
+    if (!review['calm']) return false;
+    if (!review['change']) return false;
+    if (!review['clearInstructions']) return false;
+    if (!review['cooperatively']) return false;
+    if (!review['crossTeam']) return false;
+    if (!review['distractions']) return false;
+    if (!review['easilyExplainsComplexIdeas']) return false;
+    if (!review['emotionalResponse']) return false;
+    if (!review['empathy']) return false;
+    if (!review['eyeContact']) return false;
+    if (!review['influences']) return false;
+    if (!review['managesOwn']) return false;
+    if (!review['newIdeas']) return false;
+    if (!review['openToShare']) return false;
+    if (!review['positiveBelief']) return false;
+    if (!review['proactive']) return false;
+    if (!review['resilienceFeedback']) return false;
+    if (!review['signifiesInterest']) return false;
+    if (!review['tone']) return false;
+    if (!review['verbalAttentiveFeedback']) return false;
+    if (!review['workDemands']) return false;
+    return true;
+  }
+
+  getIsSubmitButtonDisabled = () => {
+    const currentIndex = this.props.currentIndex;
+    const facetLength = this.props.facetLength;
+    if (currentIndex !== (facetLength - 1)) {
+      return false;
+    }
+    const team_id = this.props.pending._id;
+    const reviews = this.getReviews();
+    if (!reviews[team_id]) {
+      return true;
+    }
+    for (const user in reviews[team_id]) {
+      const isValid = this.validateReview(reviews[team_id][user]);
+      console.log(isValid);
+      if (!isValid) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  sliderUpdatedHandler = () => {
+    const currentIndex = this.props.currentIndex;
+    const facetLength = this.props.facetLength;
+    if (currentIndex !== (facetLength - 1)) {
+      return false;
+    } else {
+      this.setState({
+        ...this.state,
+        isSubmitDisabled: this.getIsSubmitButtonDisabled()
+      });
+    }
+  };
 
   continue = (e) => {
     if (e.cancelable) {
@@ -49,8 +111,7 @@ class Facet extends Component {
     }
     this.props.nextStep();
     window.scrollTo({
-      top: 0,
-      // behavior: "smooth",
+      top: 0
     });
   };
 
@@ -61,12 +122,9 @@ class Facet extends Component {
     }
     this.props.prevStep();
     window.scrollTo({
-      top: 0,
-      // behavior: "smooth",
+      top: 0
     });
   };
-
-  // handleSubmit = (e) => e.preventDefault();
 
   render() {
     return (
@@ -76,10 +134,7 @@ class Facet extends Component {
             <Typography
               variant="h2"
               style={{ color: "white", fontWeight: "bold" }}
-            >
-              {this.state.name}
-            </Typography>
-            {/* <h1 style={{ margin: "0" }}>{this.state.name} </h1> */}
+            >{this.state.name}</Typography>
             <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
           </div>
         </div>
@@ -93,18 +148,22 @@ class Facet extends Component {
                   key={trait.name}
                   traitName={this.state.traits.name}
                   pending={this.props.pending}
+                  sliderUpdatedHandler={this.sliderUpdatedHandler}
                 ></Trait>
               </div>
             );
           })}
-          <button
-            // disabled="true"
+          <Button
             className="btn primarybtn"
             onClick={this.continue}
+            disabled={this.state.isSubmitDisabled}
           >
             Next
-          </button>
-          <Button className="btn transparentbtn" onClick={this.back}>
+          </Button>
+          <Button
+            className="btn transparentbtn"
+            onClick={this.back}
+          >
             Back
           </Button>
         </div>

@@ -13,7 +13,7 @@ Coreable source code.
 */
 
 import React from 'react';
-import './Backdrop.css';
+import './Backdrop.scss';
 
 const backdrop = props => (
     <div className="backdrop" onClick={props.click}/>

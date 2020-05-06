@@ -16,10 +16,10 @@ import React from "react";
 import { Radar } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
 
-let chart = (props) => {
+const RadarChart = (props) => {
   return (
     <Container
-      style={{ marginTop: "16px", marginBottom: "16pt", height: "100vh" }}
+      style={{ marginTop: "16px", marginBottom: "16pt" }}
     >
       <Radar
         options={{
@@ -29,7 +29,7 @@ let chart = (props) => {
               right: 0,
               top: 40,
               bottom: 0,
-            },
+            }
           },
           scale: {
             ticks: {
@@ -61,6 +61,7 @@ let chart = (props) => {
               label: "Self-review",
               backgroundColor: "rgba(0,179,229,0.3)",
               borderColor: "rgba(0,179,229,0.8)",
+              pointRadius: 0,
               data: [
                 props.reflection.emotionalIntelligence,
                 props.reflection.initiative,
@@ -75,10 +76,9 @@ let chart = (props) => {
             },
             {
               label: "Team-review",
-              // backgroundColor: "rgba(75,192,192,0.2)",
-              // borderColor: "rgba(75,192,192,0.4)",
               backgroundColor: "rgba(102, 204, 158,0.3)",
               borderColor: "rgba(102, 204, 158,0.8)",
+              pointRadius: 0,
               data: [
                 props.averages.emotionalIntelligence,
                 props.averages.initiative,
@@ -97,7 +97,6 @@ let chart = (props) => {
       ></Radar>
     </Container>
   );
-  // }
 };
 
-export default chart;
+export default RadarChart;
