@@ -309,7 +309,7 @@ class Review extends Component {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            JWT: AUTH_TOKEN,
+            [JWT]: AUTH_TOKEN,
           },
           body: JSON.stringify(query),
         };

@@ -196,7 +196,7 @@ class Home extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT),
+        [JWT]: localStorage.getItem(JWT),
       },
       body: JSON.stringify(query),
     };
