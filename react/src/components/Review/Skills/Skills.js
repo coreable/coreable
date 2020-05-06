@@ -423,11 +423,12 @@ class Skills extends Component {
                                 </Typography>
                               </div>
                               {this.state.strengths.map((strength, idx) => {
-                                return (
-                                  <p key={idx}>
-                                    {strength.field + strength.value}
-                                  </p>
-                                );
+                                return <SkillBar key={idx} values={strength} />;
+                                // return (
+                                //   <p key={idx}>
+                                //     {strength.field + strength.value}
+                                //   </p>
+                                // );
                               })}
                             </CardContent>
                           </Card>
@@ -456,11 +457,12 @@ class Skills extends Component {
                                 </Typography>
                               </div>
                               {this.state.improve.map((improve, idx) => {
-                                return (
-                                  <p key={idx}>
-                                    {improve.field + improve.value}
-                                  </p>
-                                );
+                                return <SkillBar key={idx} values={improve} />;
+                                // return (
+                                //   <p key={idx}>
+                                //     {improve.field + improve.value}
+                                //   </p>
+                                // );
                               })}
                             </CardContent>
                           </Card>
