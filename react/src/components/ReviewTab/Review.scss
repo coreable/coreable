@@ -58,6 +58,7 @@
       .team-card {
         width: 100%;
         text-align: left;
+        position: relative;
 
         h3 {
           font-size: 3rem;
@@ -75,11 +76,11 @@
           border-bottom: 4px solid;
           border-color: rgb(199, 199, 199);
           height: 20px;
-          width: 56%;
+          width: 65%;
           position: absolute;
           z-index: 1;
-          top: 110px;
-          left: 64px;
+          top: 95px;
+          left: 50px;
         }
 
         @media (max-width: 760px) {
@@ -138,6 +139,9 @@
           align-content: center;
           margin: 0 auto;
           text-transform: none;
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
         }
 
         @media (min-width: 776px) {
