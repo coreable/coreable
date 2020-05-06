@@ -25,6 +25,7 @@ import { Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../../constants";
 import Radar from "./Radar";
 import HorizontalBar from "./HorizontalBarWithTeamChart";
+import SkillBar from "./SkillBar/SkillBar";
 import "./ThankYou.scss";
 
 class Skills extends Component {
