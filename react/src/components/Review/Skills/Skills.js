@@ -165,6 +165,7 @@ class Skills extends Component {
         data.user.reviews.report.sorted,
         data.user.reflection
       );
+      console.log(bright);
     } catch (err) {
       // Ignore
     }
@@ -533,14 +534,17 @@ class Skills extends Component {
                                   Top facets are sorted highest to lowest
                                 </Typography>
                               </div>
-                              {this.state.blind.map((blind, index) => {
+                              {this.state.blind.map((improve, idx) => {
+                                return <SkillBar key={idx} values={improve} />;
+                              })}
+                              {/* {this.state.blind.map((blind, index) => {
                                 return (
                                   <HorizontalBar
                                     key={index}
                                     {...blind}
                                   ></HorizontalBar>
                                 );
-                              })}
+                              })} */}
                             </CardContent>
                           </Card>
                         </Container>
@@ -569,14 +573,17 @@ class Skills extends Component {
                                   Top facets are sorted highest to lowest
                                 </Typography>
                               </div>
-                              {this.state.bright.map((bright, index) => {
+                              {this.state.bright.map((improve, idx) => {
+                                return <SkillBar key={idx} values={improve} />;
+                              })}
+                              {/* {this.state.bright.map((bright, index) => {
                                 return (
                                   <HorizontalBar
                                     key={index}
                                     {...bright}
                                   ></HorizontalBar>
                                 );
-                              })}
+                              })} */}
                             </CardContent>
                           </Card>
                         </Container>
