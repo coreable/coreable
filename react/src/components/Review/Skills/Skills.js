@@ -182,21 +182,39 @@ class Skills extends Component {
     });
   };
 
+  getCorrectVariableName = (skill) => {
+    if (skill === 'calm') return 'Calm';
+    if (skill === 'change') return 'Change';
+    if (skill === 'clearInstructions') return 'Clear instructions';
+    if (skill === 'cooperatively') return 'Cooperatively';
+    if (skill === 'crossTeam') return 'Cross team';
+    if (skill === 'distractions') return 'Distractions';
+    if (skill === 'easilyExplainsComplexIdeas') return 'Easily explains complex ideas';
+    if (skill === 'emotionalResponse') return 'Emotional response';
+    if (skill === 'empathy') return 'Empathy';
+    if (skill === 'eyeContact') return 'Eye contact';
+    if (skill === 'influences') return 'Influences';
+    if (skill === 'managesOwn') return 'Manages own';
+    if (skill === 'newIdeas') return 'New ideas';
+    if (skill === 'openToShare') return 'Open to share';
+    if (skill === 'positiveBelief') return 'Positive belief';
+    if (skill === 'proactive') return 'Proactive';
+    if (skill === 'resilienceFeedback') return 'Resilience feedback';
+    if (skill === 'signifiesInterest') return 'Signifies interest';
+    if (skill === 'tone') return 'Tone';
+    if (skill === 'verbalAttentiveFeedback') return 'Verbal attentive feeback';
+    if (skill === 'workDemands') return 'Work demands';
+    return '';
+  };
+
   getBrightSpots = (sorted, reflection) => {
     let result = [];
     try {
       for (const obj of sorted) {
-        if (reflection[obj["field"]] < obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
+        if (reflection[obj['field']] < obj['value']) {
+          if (!Number.isNaN(obj['value']) && Number.isFinite(obj['value'])) {
+            if (!Number.isNaN(reflection[obj['field']]) && Number.isFinite(reflection[obj['field']])) {
+              result.push({ field: obj['field'], name: this.getCorrectVariableName(obj['field']), self: reflection[obj['field']], team: obj['value'] });
             }
           }
         }
@@ -212,17 +230,10 @@ class Skills extends Component {
     let result = [];
     try {
       for (const obj of sorted) {
-        if (reflection[obj["field"]] > obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
+        if (reflection[obj['field']] > obj['value']) {
+          if (!Number.isNaN(obj['value']) && Number.isFinite(obj['value'])) {
+            if (!Number.isNaN(reflection[obj['field']]) && Number.isFinite(reflection[obj['field']])) {
+              result.push({ field: obj['field'], name: this.getCorrectVariableName(obj['field']), self: reflection[obj['field']], team: obj['value'] });
             }
           }
         }
@@ -246,11 +257,8 @@ class Skills extends Component {
           clone[i]["value"] += selfScore;
           clone[i]["value"] /= 2;
         }
-        if (
-          !Number.isNaN(clone[i]["value"]) &&
-          Number.isFinite(clone[i]["value"])
-        ) {
-          result.push(clone[i]);
+        if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
+          result.push({ ...clone[i], name: this.getCorrectVariableName(clone[i]['field']) });
         }
       }
       result.sort((a, b) => a.value - b.value).reverse();
@@ -271,11 +279,8 @@ class Skills extends Component {
           clone[i]["value"] += selfScore;
           clone[i]["value"] /= 2;
         }
-        if (
-          !Number.isNaN(clone[i]["value"]) &&
-          Number.isFinite(clone[i]["value"])
-        ) {
-          result.push(clone[i]);
+        if (!Number.isNaN(clone[i]['value']) && Number.isFinite(clone[i]['value'])) {
+          result.push({ ...clone[i], name: this.getCorrectVariableName(clone[i]['field']) });
         }
       }
       result.sort((a, b) => a.value - b.value);
@@ -302,9 +307,9 @@ class Skills extends Component {
       result.emotionalIntelligence =
         (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
       result.initiative = (clone.proactive + clone.influences) / 2;
-      result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
+      result.trust = (clone.cooperatively + clone.positiveBelief) / 2;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.clarity = clone.clearInstructions / 2;
+      result.clarity = clone.clearInstructions / 1;
       result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
       result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
       result.attentive =
@@ -340,7 +345,7 @@ class Skills extends Component {
       result.initiative = (clone.proactive + clone.influences) / 2;
       result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.clarity = clone.clearInstructions / 2;
+      result.clarity = clone.clearInstructions / 1;
       result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
       result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
       result.attentive =

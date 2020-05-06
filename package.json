@@ -24,7 +24,7 @@
     "serve:api": "node ./dist/server.js",
     "pipeline:api": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
     "pipeline:web": "CI=true react-app-rewired test",
-    "deploy": "rimraf ./dist && rimraf ./.docz && npm run build:api && npm run build:docz && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
+    "deploy": "rimraf ./dist && rimraf ./.docz && npm run build:api && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
     "start": "NODE_ENV=production node ./server.js",
     "start:local": "NODE_ENV=production node ./dist/server.js",
     "clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"

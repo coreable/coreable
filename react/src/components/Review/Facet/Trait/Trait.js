@@ -53,16 +53,20 @@ class Trait extends Component {
 
     const team_id = this.state.team._id;
     const user_id = this.state.user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
 
-    if (!review[team_id]) {
-      review[team_id] = {};
+    if (!review[me_id]) {
+      review[me_id] = {}
     }
-    if (!review[team_id][user_id]) {
-      review[team_id][user_id] = {};
+    if (!review[me_id][team_id]) {
+      review[me_id][team_id] = {};
     }
-    if (!review[team_id][user_id][trait]) {
-      review[team_id][user_id][trait] = {
+    if (!review[me_id][team_id][user_id]) {
+      review[me_id][team_id][user_id] = {};
+    }
+    if (!review[me_id][team_id][user_id][trait]) {
+      review[me_id][team_id][user_id][trait] = {
         val: -1,
         touched: false,
       };
@@ -74,6 +78,7 @@ class Trait extends Component {
   getButtonStyles = (user) => {
     const team_id = this.state.team._id;
     const user_id = user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
 
     // Component has just loaded
@@ -100,8 +105,8 @@ class Trait extends Component {
       styles.color = "rgba(0, 0, 0, 0.26)";
       try {
         if (
-          review[team_id][user_id][trait].touched &&
-          review[team_id][user_id][trait].val === -1
+          review[me_id][team_id][user_id][trait].touched &&
+          review[me_id][team_id][user_id][trait].val < 0
         ) {
           styles.border = "1px solid red";
         }
@@ -116,8 +121,9 @@ class Trait extends Component {
   updateUserTouchedProperty = (user, review) => {
     const team_id = this.state.team._id;
     const user_id = user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
-    review[team_id][user_id][trait].touched = true;
+    review[me_id][team_id][user_id][trait].touched = true;
     return review;
   };
 
@@ -131,11 +137,13 @@ class Trait extends Component {
         const review = this.updateUserTouchedProperty(user, this.getReview());
         const team_id = this.state.team._id;
         const user_id = this.state.user._id;
+        const me_id = this.props.me._id;
         const trait = this.state.var;
+
         this.setState(
           {
             ...this.state,
-            val: review[team_id][user_id][trait].val,
+            val: review[me_id][team_id][user_id][trait].val,
           },
           () => {
             this.setReview(review);
@@ -148,6 +156,7 @@ class Trait extends Component {
   handleSliderChange = (e) => {
     const team_id = this.state.team._id;
     const user_id = this.state.user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
 
     try {
@@ -159,7 +168,7 @@ class Trait extends Component {
         },
         () => {
           const review = this.getReview();
-          review[team_id][user_id][trait].val = val;
+          review[me_id][team_id][user_id][trait].val = val;
           this.setReview(review);
           this.props.sliderUpdatedHandler();
         }
@@ -182,12 +191,13 @@ class Trait extends Component {
     const review = this.getReview();
 
     const team_id = this.state.team._id;
+    const me_id = this.props.me._id;
     const user_id = user._id;
     const trait = this.state.var;
 
     let val;
     try {
-      val = review[team_id][user_id][trait].val;
+      val = review[me_id][team_id][user_id][trait].val;
     } catch (err) {
       val = 0;
     }
