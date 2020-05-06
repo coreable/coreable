@@ -219,7 +219,7 @@ class Home extends Component {
       return (<Redirect to="/"></Redirect>);
     }
 
-    if (!this.props.me && this.props.loading) {
+    if (this.state.loading) {
       return (<div></div>);
     }
 

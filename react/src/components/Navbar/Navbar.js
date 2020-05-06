@@ -84,7 +84,7 @@ class Navbar extends Component {
                   id="menu-btn"
                   checked={menuOpen}
                 />
-                <label className="menu-icon" for="menu-btn">
+                <label className="menu-icon" htmlFor="menu-btn">
                   <span className="nav-icon"></span>
                   <span className="spacer" />
                 </label>
