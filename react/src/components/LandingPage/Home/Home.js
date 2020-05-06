@@ -215,11 +215,11 @@ class Home extends Component {
   };
 
   render() {
-    if (!this.props.me) {
-      return <Redirect to="/"></Redirect>;
+    if (!this.props.me && !this.props.loading) {
+      return (<Redirect to="/"></Redirect>);
     }
 
-    if (this.state.loading) {
+    if (!this.props.me && this.props.loading) {
       return (<div></div>);
     }
 

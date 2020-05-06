@@ -35,8 +35,8 @@ class LandingPage extends Component {
   }
 
   render() {
-    if (this.props.me) {
-      return <Redirect to="/home"></Redirect>;
+    if (this.props.me && !this.props.loading) {
+      return (<Redirect to="/home"></Redirect>);
     }
 
     return (

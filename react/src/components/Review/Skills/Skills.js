@@ -42,7 +42,7 @@ class Skills extends Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     if (this.props.me) {
       this.props.ReactGA.pageview('/skills');
     }
@@ -311,8 +311,12 @@ class Skills extends Component {
   }
 
   render() {
-    if (!this.props.me) {
-      return <Redirect to="/"></Redirect>;
+    if (!this.props.me && !this.props.loading) {
+      return (<Redirect to="/"></Redirect>);
+    }
+
+    if (!this.props.me && this.props.loading) {
+      return (<div></div>);
     }
 
     return (

@@ -344,16 +344,22 @@ class Review extends Component {
     const { currentIndex } = this.state;
     const reviewDone = this.state.currentIndex >= this.state.facets.length;
 
-    if (!this.props.me) {
-      return <Redirect to="/"></Redirect>;
+    if (!this.props.me && !this.props.loading) {
+      return (<Redirect to="/"></Redirect>);
+    }
+
+    if (!this.props.me && this.props.loading) {
+      return (<div></div>);
     }
 
     if (reviewDone && !this.state.submitting) {
       return <Redirect to="/skills"></Redirect>;
     }
+
     if (reviewDone && this.state.submitting) {
       return <LinearProgress style={{ top: "12pt" }} />;
     }
+
     if (!this.props.location.state) {
       return <Redirect to="/"></Redirect>;
     }
