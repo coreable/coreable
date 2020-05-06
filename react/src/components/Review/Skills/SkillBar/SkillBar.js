@@ -9,7 +9,7 @@ export default function SkillBar(props) {
   return (
     <div>
       <Typography
-        variant="h6"
+        variant="h5"
         // component="h1"
         style={{
           fontWeight: "bold",

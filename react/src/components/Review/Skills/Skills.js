@@ -446,7 +446,10 @@ class Skills extends Component {
                         <Container
                           style={{ paddingLeft: "0", paddingRight: "0" }}
                         >
-                          <Card variant="outlined">
+                          <Card
+                            variant="outlined"
+                            style={{ maxHeight: "308pt", padding: "15px" }}
+                          >
                             <CardContent>
                               <div style={{ textAlign: "left" }}>
                                 <Typography
@@ -477,7 +480,10 @@ class Skills extends Component {
                         <Container
                           style={{ paddingLeft: "0", paddingRight: "0" }}
                         >
-                          <Card variant="outlined">
+                          <Card
+                            variant="outlined"
+                            style={{ maxHeight: "308pt", padding: "15px" }}
+                          >
                             <CardContent>
                               <div style={{ textAlign: "left" }}>
                                 <Typography
