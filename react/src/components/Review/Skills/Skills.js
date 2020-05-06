@@ -430,7 +430,11 @@ class Skills extends Component {
               </Card>
             </Container>
             <Container
-              style={{ marginTop: "8pt", marginBottom: "50pt", padding: "0" }}
+              style={{
+                marginTop: "8pt",
+                marginBottom: "50pt",
+                padding: "0",
+              }}
             >
               <Grid
                 container

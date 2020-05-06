@@ -199,4 +199,10 @@
       // }
     }
   }
+
+  @media (max-width: 850px) {
+    .main {
+      width: 90%;
+    }
+  }
 }
