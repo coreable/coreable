@@ -424,12 +424,14 @@ class Skills extends Component {
             justify="center"
             alignItems="center"
           >
-            <Container>
+            <Container style={{ paddingLeft: "0", paddingRight: "0" }}>
               <Card variant="outlined">
                 <Radar {...this.state} />
               </Card>
             </Container>
-            <Container style={{ marginTop: "8pt", marginBottom: "8pt" }}>
+            <Container
+              style={{ marginTop: "8pt", marginBottom: "50pt", padding: "0" }}
+            >
               <Grid
                 container
                 direction="row"
@@ -441,7 +443,9 @@ class Skills extends Component {
                   if (this.state.strengths.length > 0) {
                     return (
                       <Grid style={{ width: "50%" }} item>
-                        <Container>
+                        <Container
+                          style={{ paddingLeft: "0", paddingRight: "0" }}
+                        >
                           <Card variant="outlined">
                             <CardContent>
                               <div style={{ textAlign: "left" }}>
@@ -470,7 +474,9 @@ class Skills extends Component {
                   if (this.state.improve.length > 0) {
                     return (
                       <Grid style={{ width: "50%" }} item>
-                        <Container>
+                        <Container
+                          style={{ paddingLeft: "0", paddingRight: "0" }}
+                        >
                           <Card variant="outlined">
                             <CardContent>
                               <div style={{ textAlign: "left" }}>
@@ -499,7 +505,9 @@ class Skills extends Component {
                   if (this.state.blind.length > 0) {
                     return (
                       <Grid style={{ width: "50%" }} item>
-                        <Container>
+                        <Container
+                          style={{ paddingLeft: "0", paddingRight: "0" }}
+                        >
                           <Card variant="outlined">
                             <CardContent>
                               <div style={{ textAlign: "left" }}>
@@ -533,7 +541,9 @@ class Skills extends Component {
                   if (this.state.bright.length > 0) {
                     return (
                       <Grid style={{ width: "50%" }} item>
-                        <Container>
+                        <Container
+                          style={{ paddingLeft: "0", paddingRight: "0" }}
+                        >
                           <Card variant="outlined">
                             <CardContent>
                               <div style={{ textAlign: "left" }}>
