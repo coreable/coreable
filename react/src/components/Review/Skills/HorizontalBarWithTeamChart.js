@@ -3,9 +3,10 @@ import { HorizontalBar } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
 
 const HorizontalBarWithTeamChart = (props) => {
-  if (!props) {
+  if (!props.length) {
     return (<div></div>);
   };
+
   return (
     <Container
       style={{ marginTop: "16px", marginBottom: "16pt" }}

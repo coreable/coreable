@@ -23,8 +23,8 @@ import { sequelize } from "../../lib/sequelize";
 import { CoreableError } from "../../models/CoreableError";
 import { SessionObjectCommand } from "../command/object/Session";
 
-import sendgrid from '@sendgrid/mail';
-sendgrid.setApiKey(process.env.SENDGRID_API_KEY || '');
+// import sendgrid from '@sendgrid/mail';
+// sendgrid.setApiKey(process.env.SENDGRID_API_KEY || '');
 
 export default {
   type: SessionObjectCommand,
@@ -74,12 +74,12 @@ export default {
     }
     if (!errors.length) {
       token = await encodeJWT({ _id: user._id, email: user.email, manager: false });
-      await sendgrid.send({
-        to: args.email,
-        from: 'noreply@coreable.appspot.com',
-        subject: 'Thank you for registering!',
-        text: 'Welcome to coreable'
-      });
+      // await sendgrid.send({
+      //   to: args.email,
+      //   from: 'noreply@coreable.appspot.com',
+      //   subject: 'Thank you for registering!',
+      //   text: 'Welcome to coreable'
+      // });
     }
     return {
       'data': !errors.length ? {

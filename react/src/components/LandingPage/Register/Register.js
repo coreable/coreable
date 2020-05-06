@@ -148,6 +148,7 @@ class Register extends Component {
     };
 
     const res = await fetch(API_URL, options).then((data) => data.json());
+
     const { data, errors } = res.data.register;
 
     if (errors) {
