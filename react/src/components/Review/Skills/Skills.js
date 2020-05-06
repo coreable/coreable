@@ -537,14 +537,6 @@ class Skills extends Component {
                               {this.state.blind.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
                               })}
-                              {/* {this.state.blind.map((blind, index) => {
-                                return (
-                                  <HorizontalBar
-                                    key={index}
-                                    {...blind}
-                                  ></HorizontalBar>
-                                );
-                              })} */}
                             </CardContent>
                           </Card>
                         </Container>
@@ -576,14 +568,6 @@ class Skills extends Component {
                               {this.state.bright.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
                               })}
-                              {/* {this.state.bright.map((bright, index) => {
-                                return (
-                                  <HorizontalBar
-                                    key={index}
-                                    {...bright}
-                                  ></HorizontalBar>
-                                );
-                              })} */}
                             </CardContent>
                           </Card>
                         </Container>
