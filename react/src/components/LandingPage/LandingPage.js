@@ -27,16 +27,15 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    console.log("i am run");
   }
 
   componentDidMount = () => {
-    this.props.ReactGA.pageview('/');
-  }
+    this.props.ReactGA.pageview("/");
+  };
 
   render() {
     if (this.props.me && !this.props.loading) {
-      return (<Redirect to="/home"></Redirect>);
+      return <Redirect to="/home"></Redirect>;
     }
 
     return (
