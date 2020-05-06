@@ -29,7 +29,7 @@ class Navbar extends Component {
       menuItems: [
         { name: "Home", link: "home" },
         { name: "Reviews", link: "comingsoon" },
-        { name: "Skills", link: "Skills" },
+        { name: "Skills", link: "skills" },
         { name: "Goals", link: "comingsoon" },
         { name: "Account", link: "comingsoon" },
         { name: "Logout", link: "" },
