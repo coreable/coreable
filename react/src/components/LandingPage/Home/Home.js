@@ -215,10 +215,18 @@ class Home extends Component {
   };
 
   render() {
+    /**
+     * This is the application specific loading
+     * for the entire user object
+     */
     if (!this.props.me && !this.props.loading) {
       return (<Redirect to="/"></Redirect>);
     }
 
+    /**
+     * This is component specific loading and not the me {} query
+     * This is the loading while the team cards are being sorted
+     */
     if (this.state.loading) {
       return (<div></div>);
     }
