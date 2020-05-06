@@ -434,6 +434,7 @@ class Skills extends Component {
                 marginTop: "8pt",
                 marginBottom: "50pt",
                 padding: "0",
+                display: "flex",
               }}
             >
               <Grid
