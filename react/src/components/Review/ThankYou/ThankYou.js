@@ -16,9 +16,6 @@ import React, { Component } from "react";
 import { Grid, Typography, Container } from "@material-ui/core";
 import { JWT } from "../../../constants";
 import Chart from "./Chart";
-// import Navbar from "../../Navbar2/Navbar";
-
-// import { LinearProgress } from "@material-ui/core";
 
 class ThankYou extends Component {
   constructor(props) {

@@ -29,7 +29,7 @@ class Navbar extends Component {
       menuItems: [
         { name: "Home", link: "home" },
         { name: "Reviews", link: "comingsoon" },
-        { name: "Skills", link: "comingsoon" },
+        { name: "Skills", link: "Skills" },
         { name: "Goals", link: "comingsoon" },
         { name: "Account", link: "comingsoon" },
         { name: "Logout", link: "" },
@@ -56,12 +56,12 @@ class Navbar extends Component {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
     return "";
-  }
+  };
 
   removeJWT = () => {
     localStorage.removeItem(JWT);
     window.location.reload(true);
-  }
+  };
 
   render() {
     const { menuItems, menuOpen } = this.state;
@@ -73,7 +73,6 @@ class Navbar extends Component {
           Coreable
         </NavLink>
 
-<<<<<<< HEAD
         {(() => {
           if (this.state.me) {
             return (
@@ -112,38 +111,6 @@ class Navbar extends Component {
           if (this.state.me) {
             return (
               <div className="dropdown">
-=======
-        <React.Fragment>
-          <input
-            onClick={this.menuOpenHandler}
-            className="menu-btn"
-            type="checkbox"
-            id="menu-btn"
-            defaultChecked={menuOpen}
-          />
-          <label className="menu-icon" htmlFor="menu-btn">
-            <span className="nav-icon"></span>
-            <span className="spacer" />
-          </label>
-          <ul className="menu" id="menu">
-            {menuItems.map((menuItem, idx) => {
-              return (
-                <NavbarItem
-                  key={idx}
-                  dest={menuItem.link}
-                  menuOpenHandler={this.menuOpenHandler}
-                >{menuItem.name}</NavbarItem>
-              );
-            })}
-          </ul>
-        </React.Fragment>
-        <span className="spacer" />
-        {
-          (() => {
-            if (this.state.me) {
-              return (
-                <div className="dropdown">
->>>>>>> 0cb18d24e6f74237749c996bb3ab249bdd11b34e
                 <span className="dropbtn">{this.state.me.firstName}</span>
                 <div className="dropdown-content">
                   <Link to="/review">Account</Link>
@@ -151,17 +118,10 @@ class Navbar extends Component {
                     Logout
                   </Link>
                 </div>
-<<<<<<< HEAD
               </div>
             );
           }
         })()}
-=======
-              );
-            }
-          })()
-        }
->>>>>>> 0cb18d24e6f74237749c996bb3ab249bdd11b34e
       </nav>
     );
   }

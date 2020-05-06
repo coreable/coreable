@@ -204,19 +204,28 @@ class Trait extends Component {
   };
 
   getPointColor = (val) => {
-    if (val > 19 && val <= 38) {
+    if (val > 19) {
       return "#0096f8";
     }
-    if (val > 39 && val <= 58) {
+  };
+
+  getPointColor2 = (val) => {
+    if (val > 39) {
       return "#00b3e5";
     }
-    if (val > 59 && val <= 58) {
+  };
+
+  getPointColor3 = (val) => {
+    if (val > 59) {
       return "#00c8b3";
     }
+  };
+
+  getPointColor4 = (val) => {
     if (val > 79) {
       return "#2dd775";
     }
-  }
+  };
 
   render() {
     return (
@@ -262,19 +271,19 @@ class Trait extends Component {
             </div>
             <div
               className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
+              style={{ background: this.getPointColor2(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
+              style={{ background: this.getPointColor3(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
+              style={{ background: this.getPointColor4(this.state.val) }}
             >
               {" "}
             </div>
