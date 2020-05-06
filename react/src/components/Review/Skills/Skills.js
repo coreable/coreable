@@ -174,7 +174,11 @@ class Skills extends Component {
     try {
       for (const obj of sorted) {
         if (reflection[obj['field']] < obj['value']) {
-          result.push({ field: obj['field'], self: reflection[obj['field']], team: obj['value'] });
+          if (!Number.isNaN(obj['value']) && Number.isFinite(obj['value'])) {
+            if (!Number.isNaN(reflection[obj['field']]) && Number.isFinite(reflection[obj['field']])) {
+              result.push({ field: obj['field'], self: reflection[obj['field']], team: obj['value'] });
+            }
+          }
         }
       }
       result = result.slice(0, 3);
@@ -189,7 +193,11 @@ class Skills extends Component {
     try {
       for (const obj of sorted) {
         if (reflection[obj['field']] > obj['value']) {
-          result.push({ field: obj['field'], self: reflection[obj['field']], team: obj['value'] });
+          if (!Number.isNaN(obj['value']) && Number.isFinite(obj['value'])) {
+            if (!Number.isNaN(reflection[obj['field']]) && Number.isFinite(reflection[obj['field']])) {
+              result.push({ field: obj['field'], self: reflection[obj['field']], team: obj['value'] });
+            }
+          }
         }
       }
       result = result.slice(0, 3);
