@@ -409,12 +409,25 @@ class Skills extends Component {
           >
             Your Skills
           </Typography>
-          <p style={{ fontSize: "1.4rem" }}> </p>
-          <Button variant="contained">All Core Skills</Button>
-          <span style={{ marginLeft: "8pt", marginRight: "8pt" }}></span>
-          <Button variant="contained">Collaboration</Button>
-          <span style={{ marginLeft: "8pt", marginRight: "8pt" }}></span>
-          <Button variant="contained">Communication</Button>
+          <p
+            style={{
+              fontSize: "1.4rem",
+              fontWeight: "bold",
+              marginBottom: "35pt",
+              color: "#d6d6d6",
+            }}
+          >
+            All marks are average of 5 assessments{" "}
+          </p>
+          <Button className="btn primarybtn">All Core Skills</Button>
+
+          <Button className="btn primarybtn" disabled>
+            Collaboration
+          </Button>
+
+          <Button className="btn primarybtn" disabled>
+            Communication
+          </Button>
         </div>
 
         <div className="main">
