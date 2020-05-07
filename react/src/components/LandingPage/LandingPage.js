@@ -20,8 +20,9 @@ import {
   Button,
   StylesProvider,
 } from "@material-ui/core";
-import "../../global.scss";
-import "./LandingPage.scss";
+// import "../../global.scss";
+import "../../App.scss";
+// import "./LandingPage.scss";
 
 class LandingPage extends Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class LandingPage extends Component {
         style={{ backgroundColor: "#0b152f", height: "100vh" }}
         className="container"
       >
-        <Container maxWidth="sm">
+        <Container style={{ width: "312pt", padding: "0" }}>
           <StylesProvider injectFirst>
             <Typography
               variant="h3"
@@ -55,7 +56,7 @@ class LandingPage extends Component {
             </Typography>
             <Typography
               variant="h5"
-              style={{ marginTop: "32pt", color: "white" }}
+              style={{ marginTop: "32pt", color: "lightgrey" }}
             >
               Create an account or sign in to manage <br /> your Coreable
               account and review others.

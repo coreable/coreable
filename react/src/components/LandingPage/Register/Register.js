@@ -15,14 +15,14 @@ Coreable source code.
 // TODO: Disable register button while waiting for submit
 
 import React, { Component } from "react";
-import "./Register.scss";
+import "../../../App.scss";
+import "../Login/Login.scss";
 import { Link, Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../../constants";
 
 import {
   Typography,
   Container,
-  Button,
   TextField,
   FormControl,
 } from "@material-ui/core";
@@ -48,9 +48,9 @@ class Register extends Component {
 
   componentDidMount = () => {
     if (!this.props.me) {
-      this.props.ReactGA.pageview('/signup');
+      this.props.ReactGA.pageview("/signup");
     }
-  }
+  };
 
   errors = () => {
     return this.validate(
@@ -59,7 +59,7 @@ class Register extends Component {
       this.state.firstName,
       this.state.lastName
     );
-  }
+  };
 
   validate = (email, password, firstName, lastName) => {
     return {
@@ -68,7 +68,7 @@ class Register extends Component {
       firstName: firstName.length <= 1,
       lastName: lastName.length <= 1,
     };
-  }
+  };
 
   handleChange = (evt) => {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -113,7 +113,7 @@ class Register extends Component {
         return "Invalid email";
       }
     }
-  }
+  };
 
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
@@ -135,14 +135,14 @@ class Register extends Component {
             }
           }
         }
-      `
+      `,
     };
     const options = {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        [JWT]: localStorage.getItem(JWT) || '',
+        [JWT]: localStorage.getItem(JWT) || "",
       },
       body: JSON.stringify(query),
     };
@@ -160,7 +160,7 @@ class Register extends Component {
       localStorage.setItem(JWT, data.token);
       this.props.refreshMe();
     }
-  }
+  };
 
   render() {
     if (this.props.me) {
@@ -168,125 +168,128 @@ class Register extends Component {
     }
 
     return (
-      <Container
-        maxWidth={false}
-        style={{ height: "100vh" }}
-        className="sign-up-container"
-      >
-        <Container maxWidth="sm">
-          <Typography
-            variant="h3"
-            component="h1"
-            style={{
-              fontWeight: "bold",
-              textAlign: "left",
-              color: "#000"
-            }}
-          >
-            Welcome,
-          </Typography>
-          <Typography
-            variant="h3"
-            component="h1"
-            style={{ textAlign: "left", color: "#707070" }}
-          >
-            sign up to continue
-          </Typography>
-          <FormControl style={{ marginTop: "16pt" }}>
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="First Name"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="firstName"
-              error={this.shouldMarkError("firstName")}
-              value={this.state.firstName}
-              type="text"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("firstName")}
+      <Container maxWidth={false} style={{ height: "100vh" }}>
+        <div className="container">
+          <Container maxWidth="md">
+            <Typography
+              variant="h3"
+              component="h1"
               style={{
-                marginTop: "8pt"
+                fontWeight: "bold",
+                textAlign: "left",
+                color: "#000",
               }}
-            />
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="Last Name"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="lastName"
-              error={this.shouldMarkError("lastName")}
-              value={this.state.lastName}
-              type="text"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("lastName")}
-              style={{
-                marginTop: "8pt"
-              }}
-            />
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="Email"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="email"
-              error={this.shouldMarkError("email")}
-              helperText={this.helperText("email")}
-              value={this.state.email}
-              type="email"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("email")}
-              style={{
-                marginTop: "8pt"
-              }}
-            />
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="Password"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="password"
-              error={this.shouldMarkError("password")}
-              helperText={this.helperText("password")}
-              value={this.state.password}
-              type="password"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("password")}
-              onKeyPress={async (e) => {
-                if (e.key === "Enter") {
-                  await this.registerUser();
-                }
-              }}
-              style={{
-                marginTop: "8pt",
-                marginBottom: "8pt"
-              }}
-            />
-            <Button
-              className="btn primarybtn"
-              disabled={this.isDisabled() && !this.state.loading}
-              onClick={async () => {
-                await this.registerUser()
-              }}
-              style={{ 
-                marginTop: "10px"
-              }}
-            >Sign up</Button>
-            <div style={{ marginTop: "15px" }}>
-              <Link
-                to="/forgot"
+            >
+              Welcome,
+            </Typography>
+            <Typography
+              variant="h3"
+              component="h1"
+              style={{ textAlign: "left", color: "#707070" }}
+            >
+              sign up to continue
+            </Typography>
+            <FormControl style={{ marginTop: "16pt" }}>
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="First Name"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="firstName"
+                error={this.shouldMarkError("firstName")}
+                value={this.state.firstName}
+                type="text"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("firstName")}
+                style={{
+                  marginTop: "16pt",
+                }}
+              />
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Last Name"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="lastName"
+                error={this.shouldMarkError("lastName")}
+                value={this.state.lastName}
+                type="text"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("lastName")}
                 style={{
                   marginTop: "8pt",
-                  textDecoration: "none",
-                  color: "lightgrey",
                 }}
-              >Forgot password</Link>
-            </div>
-          </FormControl>
-        </Container>
+              />
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Email"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="email"
+                error={this.shouldMarkError("email")}
+                helperText={this.helperText("email")}
+                value={this.state.email}
+                type="email"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("email")}
+                style={{
+                  marginTop: "8pt",
+                }}
+              />
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Password"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="password"
+                error={this.shouldMarkError("password")}
+                helperText={this.helperText("password")}
+                value={this.state.password}
+                type="password"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("password")}
+                onKeyPress={async (e) => {
+                  if (e.key === "Enter") {
+                    await this.registerUser();
+                  }
+                }}
+                style={{
+                  marginTop: "8pt",
+                  marginBottom: "8pt",
+                }}
+              />
+              <button
+                className="btn primarybtn"
+                disabled={this.isDisabled() && !this.state.loading}
+                onClick={async () => {
+                  await this.registerUser();
+                }}
+                style={{
+                  marginTop: "10px",
+                  border: "none",
+                }}
+              >
+                Sign up
+              </button>
+              <div style={{ marginTop: "15px" }}>
+                <Link
+                  to="/forgot"
+                  style={{
+                    marginTop: "8pt",
+                    textDecoration: "none",
+                    color: "lightgrey",
+                  }}
+                >
+                  Forgot password
+                </Link>
+              </div>
+            </FormControl>
+          </Container>
+        </div>
       </Container>
     );
   }

@@ -25,7 +25,8 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
-import "../../../global.scss";
+// import "../../../global.scss";
+import "../../../App.scss";
 
 class Login extends Component {
   constructor(props) {
@@ -43,19 +44,19 @@ class Login extends Component {
   }
 
   componentDidMount = () => {
-    this.props.ReactGA.pageview('/login');
-  }
+    this.props.ReactGA.pageview("/login");
+  };
 
   errors = () => {
     return this.validate(this.state.email, this.state.password);
-  }
+  };
 
   validate = (email, password) => {
     return {
       email: email.length === 0 || !email.includes("@"),
       password: password.length <= 4,
     };
-  }
+  };
 
   handleChange = (evt) => {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -107,14 +108,14 @@ class Login extends Component {
             }
           }
         }
-      `
+      `,
     };
     const options = {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        [JWT]: localStorage.getItem(JWT) || '',
+        [JWT]: localStorage.getItem(JWT) || "",
       },
       body: JSON.stringify(query),
     };
@@ -131,7 +132,7 @@ class Login extends Component {
       localStorage.setItem(JWT, data.token);
       this.props.refreshMe();
     }
-  }
+  };
 
   render() {
     if (this.props.me) {
@@ -146,11 +147,8 @@ class Login extends Component {
           height: "100vh",
         }}
       >
-        <Container
-          maxWidth="sm"
-          className="login-container"
-        >
-          <Container maxWidth="md">
+        <div className="container">
+          <Container maxWidth="md" style={{ marginTop: "10pt" }}>
             <Typography
               variant="h3"
               component="h1"
@@ -159,12 +157,16 @@ class Login extends Component {
                 textAlign: "left",
                 color: "#000",
               }}
-            >Welcome,</Typography>
+            >
+              Welcome,
+            </Typography>
             <Typography
               variant="h3"
               component="h1"
               style={{ textAlign: "left", color: "#707070" }}
-            >sign in to continue</Typography>
+            >
+              sign in to continue
+            </Typography>
             <FormControl
               style={{
                 marginTop: "16pt",
@@ -184,7 +186,7 @@ class Login extends Component {
                 onChange={this.handleChange}
                 onBlur={this.handleBlur("email")}
                 style={{
-                  marginTop: "8pt",
+                  marginTop: "20pt",
                 }}
               />
               <TextField
@@ -206,7 +208,7 @@ class Login extends Component {
                 }}
                 style={{
                   marginTop: "8pt",
-                  marginBottom: "8pt"
+                  marginBottom: "8pt",
                 }}
               />
               <StylesProvider injectFirst>
@@ -217,7 +219,9 @@ class Login extends Component {
                     await this.loginUser();
                   }}
                   style={{ marginTop: "10px" }}
-                >Login</Button>
+                >
+                  Login
+                </Button>
                 <div style={{ marginTop: "15px" }}>
                   <Link
                     to="/forgot"
@@ -226,7 +230,9 @@ class Login extends Component {
                       textDecoration: "none",
                       color: "lightgrey",
                     }}
-                  >Forgot password</Link>
+                  >
+                    Forgot password
+                  </Link>
                   <span> |||||| </span>
                   <Link
                     to="/signup"
@@ -235,12 +241,14 @@ class Login extends Component {
                       textDecoration: "none",
                       color: "lightgrey",
                     }}
-                  >Create account</Link>
+                  >
+                    Create account
+                  </Link>
                 </div>
               </StylesProvider>
             </FormControl>
           </Container>
-        </Container>
+        </div>
       </Container>
     );
   }
