@@ -206,11 +206,9 @@ $disabledGrey: #d6d6d6;
           background-color: $primaryBlue;
           color: $white;
           font-weight: bold;
+          transition: all 0.2s ease-in-out;
           &:hover {
-            background-color: $white;
-            border: 2px solid $primaryBlue;
-            color: $primaryBlue;
-            transition: all 0.2s ease-in-out;
+            transform: scale(1.03);
           }
           &:disabled {
             background-color: $disabledGrey !important;
