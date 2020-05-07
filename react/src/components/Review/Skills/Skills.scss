@@ -87,6 +87,11 @@
       border-radius: 4pt;
       border: 1px solid lightgray;
       position: relative;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.01);
+      }
 
       .inside-main-content {
         text-align: left;

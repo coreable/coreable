@@ -137,57 +137,38 @@ $disabledGrey: #d6d6d6;
         /* Special styling for WebKit/Blink */
         input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
-          // border: 2px solid #00b3e5;
           border: transparent;
           height: 26px;
           width: 20px;
           border-radius: 5pt;
-
-          //triangle thumb
-          // height: 0px;
-          // width: 0px;
-          // margin-top: 4px;
-          // border-left: 20px solid rgb(64, 112, 224);
-          // border-right: 20px solid rgb(64, 112, 224);
-          // border-top: 20px solid white;
-          // border-radius: 8px;
           background: transparent;
           cursor: pointer;
-          // margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+          margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
           // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
         }
 
         /* All the same stuff for Firefox */
         input[type="range"]::-moz-range-thumb {
-          // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-          // border: 1px solid #000000;
-          height: 20px;
+          border: transparent;
+          height: 26px;
           width: 20px;
-          border-radius: 8px;
-          // height: 0px;
-          // width: 0px;
-          // margin-top: 4px;
-          // border-left: 20px solid rgb(64, 112, 224);
-          // border-right: 20px solid rgb(64, 112, 224);
-          // border-top: 20px solid white;
-          background: #ffffff;
+          border-radius: 5pt;
+          background: transparent;
           cursor: pointer;
         }
 
         /* All the same stuff for IE */
         input[type="range"]::-ms-thumb {
-          // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-          // border: 1px solid #000000;
-          height: 30px;
-          width: 30px;
-          border-radius: 8px;
-          background: #ffffff;
+          border: transparent;
+          height: 26px;
+          width: 20px;
+          border-radius: 5pt;
+          background: transparent;
           cursor: pointer;
         }
 
-        //==========================
         input[type="range"]:focus {
-          outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+          outline: none;
         }
 
         //TRACK styling =====================
@@ -197,7 +178,6 @@ $disabledGrey: #d6d6d6;
           cursor: pointer;
           // background: rgb(64, 112, 224);
           background: transparent;
-          // border: 2px solid rgb(64, 112, 224);
           border-radius: 4px;
         }
 
@@ -237,52 +217,6 @@ $disabledGrey: #d6d6d6;
         input[type="range"]:focus::-ms-fill-upper {
           background: rgb(64, 112, 224);
         }
-
-        // .rating {
-        //   -webkit-appearance: none;
-        //   height: 24pt;
-        //   width: 100%;
-        //   border-radius: 4pt;
-        //   background-color: rgb(214, 214, 214);
-        //   background: linear-gradient(
-        //     90deg,
-        //     rgb(66, 113, 249) 20%,
-        //     rgb(214, 214, 214) 20%
-        //   );
-        //   padding: 0;
-        //   margin: 0;
-        //   z-index: 1;
-        // }
-
-        // .rating::-webkit-slider-thumb {
-        //   -webkit-appearance: none;
-        //   appearance: none;
-        //   cursor: pointer;
-        //   height: 24pt;
-        //   width: 8pt;
-        //   border-radius: 4pt;
-        //   border: none;
-        //   background: rgb(214, 214, 214);
-        //   z-index: 3;
-        //   background: transparent;
-        //   margin: 0;
-        // }
-
-        // .rating::-moz-range-thumb {
-        //   appearance: none;
-        //   cursor: pointer;
-        //   height: 24pt;
-        //   width: 8pt;
-        //   border-radius: 4pt;
-        //   background: rgb(66, 113, 249);
-        //   // background: transparent;
-        //   border: none;
-        //   margin: 0;
-        // }
-
-        // .rating:focus {
-        //   outline: none;
-        // }
       }
 
       .element-div {
@@ -432,30 +366,3 @@ $disabledGrey: #d6d6d6;
     margin-top: 5pt;
   }
 }
-
-// .facet-container {
-//   height: 272pt;
-//   width: 494pt;
-//   background: white;
-//   border-radius: 8pt;
-//   margin: 0 auto;
-//   margin-bottom: 18pt;
-//   padding-top: 32pt;
-// }
-
-// .container {
-//   /* height: 100%; */
-//   width: 100%;
-//   padding-top: 12pt;
-//   margin: 0;
-// }
-
-// h1 {
-//   color: black;
-// }
-
-// p {
-//   color: rgb(112, 112, 112);
-// }
-
-// /* this is a shortcut method to center the element div */
