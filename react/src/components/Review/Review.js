@@ -17,7 +17,7 @@ import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../constants";
-import Loader from "../components/Loading/Loading";
+import Loader from "../Loading/Loading";
 
 class Review extends Component {
   constructor(props) {
@@ -228,9 +228,9 @@ class Review extends Component {
 
   componentDidMount = () => {
     if (this.props.me) {
-      this.props.ReactGA.pageview('/review');
+      this.props.ReactGA.pageview("/review");
     }
-  }
+  };
 
   nextStep = () => {
     let { currentIndex } = this.state;
@@ -238,7 +238,7 @@ class Review extends Component {
     this.setState({
       ...this.state,
       currentIndex,
-      submitting: currentIndex >= this.state.facets.length
+      submitting: currentIndex >= this.state.facets.length,
     });
     if (currentIndex >= this.state.facets.length) {
       this.submit();
@@ -249,7 +249,7 @@ class Review extends Component {
     const { currentIndex } = this.state;
     this.setState({
       ...this.state,
-      currentIndex: currentIndex - 1
+      currentIndex: currentIndex - 1,
     });
   };
 
@@ -316,7 +316,9 @@ class Review extends Component {
         };
         promises.push(
           new Promise((r, f) => {
-            fetch(API_URL, options).then(r).catch(r);
+            fetch(API_URL, options)
+              .then(r)
+              .catch(r);
           })
         );
       } catch (err) {
@@ -325,19 +327,22 @@ class Review extends Component {
     }
 
     Promise.all(promises).then(() => {
-      this.setState({
-        ...this.state,
-        submitting: false
-      }, () => {
-        this.props.refreshMe();
-        try {
-          const reviews = JSON.parse(localStorage.getItem("review"));
-          delete reviews[team_id];
-          localStorage.setItem("review", JSON.stringify(reviews));
-        } catch (err) {
-          console.error(err);
+      this.setState(
+        {
+          ...this.state,
+          submitting: false,
+        },
+        () => {
+          this.props.refreshMe();
+          try {
+            const reviews = JSON.parse(localStorage.getItem("review"));
+            delete reviews[team_id];
+            localStorage.setItem("review", JSON.stringify(reviews));
+          } catch (err) {
+            console.error(err);
+          }
         }
-      });
+      );
     });
   };
 
@@ -349,42 +354,42 @@ class Review extends Component {
      * User is unauthenticated
      */
     if (!this.props.me && !this.props.loading) {
-      return (<Redirect to="/"></Redirect>);
+      return <Redirect to="/"></Redirect>;
     }
 
     /**
      * User is still loading from the database
      */
     if (!this.props.me && this.props.loading) {
-      return (<div></div>);
+      return <div></div>;
     }
 
     /**
      * Review was submitted successfully
      */
     if (reviewDone && !this.state.submitting) {
-      return (<Redirect to="/skills"></Redirect>);
+      return <Redirect to="/skills"></Redirect>;
     }
 
     /**
      * Review is currently being submitted
      */
     if (reviewDone && this.state.submitting) {
-      return (<Loader />);
+      return <Loader />;
     }
 
     /**
      * Something went wrong and no team was loaded with the review component
      */
     if (!this.props.location.state) {
-      return (<Redirect to="/"></Redirect>);
+      return <Redirect to="/"></Redirect>;
     }
 
     /**
      * The user hit the back button too many times
      */
     if (this.state.currentIndex <= -1) {
-      return (<Redirect to="/home"></Redirect>);
+      return <Redirect to="/home"></Redirect>;
     }
 
     return (
