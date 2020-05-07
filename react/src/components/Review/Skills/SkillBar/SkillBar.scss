@@ -13,10 +13,22 @@ $disabledGrey: #d6d6d6;
 
 .blue {
   background: $primaryBlue;
+  position: absolute;
+  top: 0;
 }
 
 .green {
   background: $green;
+  position: absolute;
+  top: 0;
+}
+
+.grey {
+  background: rgb(217, 217, 217);
+  width: 100%;
+  // position: absolute;
+  // top: 0;
+  z-index: 100;
 }
 
 .interval-container {

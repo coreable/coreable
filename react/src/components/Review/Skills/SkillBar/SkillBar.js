@@ -23,9 +23,10 @@ export default function SkillBar(props) {
           {name}
         </Typography>
         <div style={{ position: "relative", paddingBottom: "8pt" }}>
+          <div className="skillbar-container grey" />
           <div
             className="skillbar-container blue"
-            style={{ width: `${value}%` }}
+            style={{ width: `${value}%`, zIndex: "200" }}
           />
           <div className="interval-container">
             <span />
@@ -55,18 +56,18 @@ export default function SkillBar(props) {
           {name}
         </Typography>
         <div style={{ position: "relative", paddingBottom: "8pt" }}>
+          <div className="skillbar-container grey" />
           <div
             className="skillbar-container blue"
             style={{
               width: `${self}%`,
-              zIndex: "300",
             }}
           />
           <div
             className="skillbar-container green"
             style={{
               width: `${team}%`,
-              zIndex: "0",
+              zIndex: "300",
               position: "absolute",
               top: "0",
             }}
@@ -99,18 +100,18 @@ export default function SkillBar(props) {
           {name}
         </Typography>
         <div style={{ position: "relative", paddingBottom: "8pt" }}>
+          <div className="skillbar-container grey" />
           <div
             className="skillbar-container green"
             style={{
               width: `${team}%`,
-              zIndex: "300",
             }}
           />
           <div
             className="skillbar-container blue"
             style={{
               width: `${self}%`,
-              zIndex: "0",
+              zIndex: "100",
               position: "absolute",
               top: "0",
             }}
