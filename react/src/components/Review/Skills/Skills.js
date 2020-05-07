@@ -468,11 +468,21 @@ class Skills extends Component {
                               <Typography
                                 variant="h4"
                                 component="h1"
-                                style={{ fontWeight: "bold" }}
+                                style={{
+                                  fontWeight: "bold",
+                                  paddingBottom: "5pt",
+                                }}
                               >
                                 Top Strengths
                               </Typography>
-                              <Typography variant="h6" component="h1">
+                              <Typography
+                                variant="h6"
+                                component="h1"
+                                style={{
+                                  color: "rgb(97,103,121",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Top facets are sorted highest to lowest
                               </Typography>
 
@@ -503,11 +513,21 @@ class Skills extends Component {
                               <Typography
                                 variant="h4"
                                 component="h1"
-                                style={{ fontWeight: "bold" }}
+                                style={{
+                                  fontWeight: "bold",
+                                  paddingBottom: "5pt",
+                                }}
                               >
                                 Areas to improve
                               </Typography>
-                              <Typography variant="h6" component="h1">
+                              <Typography
+                                variant="h6"
+                                component="h1"
+                                style={{
+                                  color: "rgb(97,103,121",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Top facets are sorted highest to lowest
                               </Typography>
 
@@ -538,11 +558,21 @@ class Skills extends Component {
                               <Typography
                                 variant="h4"
                                 component="h1"
-                                style={{ fontWeight: "bold" }}
+                                style={{
+                                  fontWeight: "bold",
+                                  paddingBottom: "5pt",
+                                }}
                               >
                                 Blind spots
                               </Typography>
-                              <Typography variant="h6" component="h1">
+                              <Typography
+                                variant="h6"
+                                component="h1"
+                                style={{
+                                  color: "rgb(97,103,121",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Top facets are sorted highest to lowest
                               </Typography>
 
@@ -573,11 +603,21 @@ class Skills extends Component {
                               <Typography
                                 variant="h4"
                                 component="h1"
-                                style={{ fontWeight: "bold" }}
+                                style={{
+                                  fontWeight: "bold",
+                                  paddingBottom: "5pt",
+                                }}
                               >
                                 Bright spots
                               </Typography>
-                              <Typography variant="h6" component="h1">
+                              <Typography
+                                variant="h6"
+                                component="h1"
+                                style={{
+                                  color: "rgb(97,103,121",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Top facets are sorted highest to lowest
                               </Typography>
 
