@@ -405,7 +405,7 @@ class Skills extends Component {
         <div className="top-background">
           <Typography
             variant="h2"
-            style={{ color: "white", fontWeight: "bold" }}
+            style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
           >
             Your Skills
           </Typography>
