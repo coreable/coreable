@@ -238,9 +238,7 @@ class Home extends Component {
             >
               Your teams
             </Typography>
-            <p style={{ fontSize: "1.4rem" }}>
-              View your teams, review your team, and join teams.
-            </p>
+            <p style={{ fontSize: "1.4rem" }}>View, review and join teams.</p>
           </div>
 
           <div className="main">
