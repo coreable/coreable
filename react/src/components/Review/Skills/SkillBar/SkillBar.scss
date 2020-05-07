@@ -1,13 +1,35 @@
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+.skillbar-container {
+  height: 16pt;
+  border-radius: 2pt;
+}
+
+.blue {
+  background: $primaryBlue;
+}
+
+.green {
+  background: $green;
+}
+
 .interval-container {
   display: flex;
   flex-wrap: wrap;
   position: absolute;
   width: 100%;
   top: 0px;
+  z-index: 300;
 
   span {
     height: 20pt;
     width: 20%;
-    border-right: 0.01em solid white;
+    border-right: 0.01em solid $white;
   }
 }

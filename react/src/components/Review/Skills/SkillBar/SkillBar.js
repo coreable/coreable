@@ -17,19 +17,15 @@ export default function SkillBar(props) {
             textAlign: "left",
             color: "black",
             paddingTop: "10px",
-            paddingBottom: "5px",
+            paddingBottom: "8pt",
           }}
         >
           {name}
         </Typography>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", paddingBottom: "8pt" }}>
           <div
-            style={{
-              width: `${value}%`,
-              height: "24px",
-              borderRadius: "4px",
-              background: "rgb(64, 112, 224)",
-            }}
+            className="skillbar-container blue"
+            style={{ width: `${value}%` }}
           />
           <div className="interval-container">
             <span />
@@ -53,27 +49,23 @@ export default function SkillBar(props) {
             textAlign: "left",
             color: "black",
             paddingTop: "10px",
-            paddingBottom: "5px",
+            paddingBottom: "8pt",
           }}
         >
           {name}
         </Typography>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", paddingBottom: "8pt" }}>
           <div
+            className="skillbar-container blue"
             style={{
               width: `${self}%`,
-              height: "16pt",
-              borderRadius: "4px",
-              background: "rgb(64, 112, 224)",
               zIndex: "300",
             }}
           />
           <div
+            className="skillbar-container green"
             style={{
               width: `${team}%`,
-              height: "16pt",
-              borderRadius: "4px",
-              background: "rgb(45, 215, 117)",
               zIndex: "0",
               position: "absolute",
               top: "0",
@@ -101,27 +93,23 @@ export default function SkillBar(props) {
             textAlign: "left",
             color: "black",
             paddingTop: "10px",
-            paddingBottom: "5px",
+            paddingBottom: "8pt",
           }}
         >
           {name}
         </Typography>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", paddingBottom: "8pt" }}>
           <div
+            className="skillbar-container green"
             style={{
               width: `${team}%`,
-              height: "16pt",
-              borderRadius: "4px",
-              background: "rgb(45, 215, 117)",
               zIndex: "300",
             }}
           />
           <div
+            className="skillbar-container blue"
             style={{
               width: `${self}%`,
-              height: "16pt",
-              borderRadius: "4px",
-              background: "rgb(64, 112, 224)",
               zIndex: "0",
               position: "absolute",
               top: "0",
