@@ -22,8 +22,8 @@ const RadarChart = (props) => {
       style={{
         marginTop: "16px",
         marginBottom: "16pt",
-        width: "80vh",
-        height: "50vh",
+        width: "100%",
+        height: "448pt",
       }}
     >
       <Radar

@@ -62,7 +62,7 @@ export default function SkillBar(props) {
           <div
             style={{
               width: `${self}%`,
-              height: "24px",
+              height: "16pt",
               borderRadius: "4px",
               background: "rgb(64, 112, 224)",
               zIndex: "300",
@@ -71,7 +71,7 @@ export default function SkillBar(props) {
           <div
             style={{
               width: `${team}%`,
-              height: "24px",
+              height: "16pt",
               borderRadius: "4px",
               background: "rgb(45, 215, 117)",
               zIndex: "0",
@@ -110,7 +110,7 @@ export default function SkillBar(props) {
           <div
             style={{
               width: `${team}%`,
-              height: "24px",
+              height: "16pt",
               borderRadius: "4px",
               background: "rgb(45, 215, 117)",
               zIndex: "300",
@@ -119,7 +119,7 @@ export default function SkillBar(props) {
           <div
             style={{
               width: `${self}%`,
-              height: "24px",
+              height: "16pt",
               borderRadius: "4px",
               background: "rgb(64, 112, 224)",
               zIndex: "0",
