@@ -17,7 +17,7 @@ import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../constants";
-import { LinearProgress } from "@material-ui/core";
+import Loader from "../components/Loading/Loading";
 
 class Review extends Component {
   constructor(props) {
@@ -345,28 +345,46 @@ class Review extends Component {
     const { currentIndex } = this.state;
     const reviewDone = this.state.currentIndex >= this.state.facets.length;
 
+    /**
+     * User is unauthenticated
+     */
     if (!this.props.me && !this.props.loading) {
       return (<Redirect to="/"></Redirect>);
     }
 
+    /**
+     * User is still loading from the database
+     */
     if (!this.props.me && this.props.loading) {
       return (<div></div>);
     }
 
+    /**
+     * Review was submitted successfully
+     */
     if (reviewDone && !this.state.submitting) {
-      return <Redirect to="/skills"></Redirect>;
+      return (<Redirect to="/skills"></Redirect>);
     }
 
+    /**
+     * Review is currently being submitted
+     */
     if (reviewDone && this.state.submitting) {
-      return <LinearProgress style={{ top: "12pt" }} />;
+      return (<Loader />);
     }
 
+    /**
+     * Something went wrong and no team was loaded with the review component
+     */
     if (!this.props.location.state) {
-      return <Redirect to="/"></Redirect>;
+      return (<Redirect to="/"></Redirect>);
     }
 
+    /**
+     * The user hit the back button too many times
+     */
     if (this.state.currentIndex <= -1) {
-      return <Redirect to="/home"></Redirect>;
+      return (<Redirect to="/home"></Redirect>);
     }
 
     return (
