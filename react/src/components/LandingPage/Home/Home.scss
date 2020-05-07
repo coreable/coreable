@@ -77,9 +77,8 @@ $disabledGrey: #d6d6d6;
     flex-wrap: wrap;
     justify-content: center;
 
-    .inside-main {
-      min-height: 253pt;
-      // max-height: 300px;
+    .inside-main-div {
+      height: 253pt;
       width: 275pt;
       background: $white;
       margin: 12.5pt;

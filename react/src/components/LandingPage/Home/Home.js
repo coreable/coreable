@@ -14,7 +14,6 @@ Coreable source code.
 
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
-// import "../../ReviewTab/Review.scss";
 import "./Home.scss";
 
 import {
@@ -254,7 +253,7 @@ class Home extends Component {
                     justify="center"
                     alignItems="stretch"
                     spacing={1}
-                    className="inside-main"
+                    className="inside-main-div"
                     key={index}
                   >
                     <div className="team-card">
@@ -330,7 +329,7 @@ class Home extends Component {
                   justify="center"
                   alignItems="stretch"
                   spacing={1}
-                  className="inside-main"
+                  className="inside-main-div"
                   key={index}
                 >
                   <div className="team-card">

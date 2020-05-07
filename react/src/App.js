@@ -15,7 +15,7 @@ Coreable source code.
 import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
-import ReactGA from 'react-ga';
+import ReactGA from "react-ga";
 
 import { JWT, API_URL } from "./constants";
 
@@ -25,12 +25,14 @@ import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() => import("./components/LandingPage/Register/Register"));
+const Register = lazy(() =>
+  import("./components/LandingPage/Register/Register")
+);
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/Review/Skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
-const Reviews = lazy(() => import("./components/ReviewTab/Review"));
+// const Reviews = lazy(() => import("./components/ReviewTabNA/Review"));
 
 class App extends Component {
   constructor(props) {
@@ -38,9 +40,9 @@ class App extends Component {
     this.state = {
       sideDrawerOpen: false,
       loading: true,
-      me: null
+      me: null,
     };
-    ReactGA.initialize('UA-165578445-1');
+    ReactGA.initialize("UA-165578445-1");
   }
 
   refreshMe = () => {
@@ -109,7 +111,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": localStorage.getItem(JWT) || '',
+        JWT: localStorage.getItem(JWT) || "",
       },
       body: JSON.stringify(query),
     };
@@ -130,7 +132,7 @@ class App extends Component {
 
   render() {
     if (this.state.loading) {
-      return (<Loader />);
+      return <Loader />;
     }
 
     return (
@@ -236,19 +238,7 @@ class App extends Component {
                 />
               )}
             />
-            <Route
-              exact
-              path="/reviews"
-              component={(props) => (
-                <Reviews
-                  {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
-                  refreshMe={this.refreshMe}
-                  ReactGA={ReactGA}
-                />
-              )}
-            />
+
             <Route exact path="/loading" component={Loader} />
           </Suspense>
         </div>
