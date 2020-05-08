@@ -543,10 +543,17 @@ class Skills extends Component {
                               >
                                 Top facets are sorted highest to lowest
                               </Typography>
-
-                              {this.state.improve.map((improve, idx) => {
+                              {this.state.improve.sort((a, b) => {
+                                return b.value - a.value;
+                              }) &&
+                                this.state.improve.map((improve, idx) => {
+                                  return (
+                                    <SkillBar key={idx} values={improve} />
+                                  );
+                                })}
+                              {/* {this.state.improve.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
-                              })}
+                              })} */}
                             </div>
                           </CardContent>
                         </Card>
@@ -588,10 +595,17 @@ class Skills extends Component {
                               >
                                 Top facets are sorted highest to lowest
                               </Typography>
-
-                              {this.state.blind.map((improve, idx) => {
+                              {this.state.blind.sort((a, b) => {
+                                return b.self - a.self;
+                              }) &&
+                                this.state.blind.map((improve, idx) => {
+                                  return (
+                                    <SkillBar key={idx} values={improve} />
+                                  );
+                                })}
+                              {/* {this.state.blind.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
-                              })}
+                              })} */}
                             </div>
                           </CardContent>
                         </Card>
@@ -633,10 +647,17 @@ class Skills extends Component {
                               >
                                 Top facets are sorted highest to lowest
                               </Typography>
-
-                              {this.state.bright.map((improve, idx) => {
+                              {this.state.bright.sort((a, b) => {
+                                return b.team - a.team;
+                              }) &&
+                                this.state.bright.map((improve, idx) => {
+                                  return (
+                                    <SkillBar key={idx} values={improve} />
+                                  );
+                                })}
+                              {/* {this.state.bright.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
-                              })}
+                              })} */}
                             </div>
                           </CardContent>
                         </Card>
