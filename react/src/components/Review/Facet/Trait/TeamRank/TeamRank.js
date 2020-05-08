@@ -3,7 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 import "./TeamRank.scss";
 
 const TeamRank = (props) => {
-  const { val, user } = props;
+  const { val, user, value } = props;
 
   const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);

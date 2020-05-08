@@ -25,6 +25,7 @@ class Review extends Component {
 
     this.state = {
       currentIndex: 0,
+      buttonLabel: "Next",
       submitting: false,
       facets: [
         {
@@ -240,6 +241,9 @@ class Review extends Component {
       currentIndex,
       submitting: currentIndex >= this.state.facets.length,
     });
+    if (currentIndex === this.state.facets.length - 1) {
+      this.setState({ buttonLabel: "Submit" });
+    }
     if (currentIndex >= this.state.facets.length) {
       this.submit();
     }
@@ -402,6 +406,7 @@ class Review extends Component {
         prevStep={this.prevStep}
         me={this.props.me}
         ReactGA={this.props.ReactGA}
+        buttonLabel={this.state.buttonLabel}
       ></Facet>
     );
   }

@@ -57,7 +57,7 @@ class Trait extends Component {
     const trait = this.state.var;
 
     if (!review[me_id]) {
-      review[me_id] = {}
+      review[me_id] = {};
     }
     if (!review[me_id][team_id]) {
       review[me_id][team_id] = {};
@@ -327,8 +327,9 @@ class Trait extends Component {
               <TeamRank
                 key={user._id}
                 name={user._d}
+                value={this.state.val}
                 {...this.getScoreForDisplay(user)}
-                backgroundImage={this.getSliderBackground}
+                // backgroundImage={this.getSliderBackground}
                 teamMemberCount={this.countTeam()}
               />
             );
