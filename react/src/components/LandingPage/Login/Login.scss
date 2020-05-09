@@ -1,11 +1,22 @@
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+//Responsive width
+$max-width: 760px;
+
 .MuiFormControl-root {
   width: 100%;
   border-radius: 4pt;
-  .MuiOutlinedInput-root {
-    fieldset {
-      // border: none;
-    }
-  }
+  // .MuiOutlinedInput-root {
+  //   fieldset {
+  //     // border: none;
+  //   }
+  // }
 }
 
 .MuiOutlinedInput-input {

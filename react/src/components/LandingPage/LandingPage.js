@@ -45,34 +45,32 @@ class LandingPage extends Component {
         style={{ backgroundColor: "#0b152f", height: "100vh" }}
         className="container"
       >
-        <Container style={{ width: "312pt", padding: "0" }}>
-          <StylesProvider injectFirst>
-            <Typography
-              variant="h3"
-              component="h2"
-              style={{ fontWeight: "bold", marginTop: "48pt" }}
-            >
-              Welcome to Coreable
-            </Typography>
-            <Typography
-              variant="h5"
-              style={{ marginTop: "32pt", color: "lightgrey" }}
-            >
-              Create an account or sign in to manage <br /> your Coreable
-              account and review others.
-            </Typography>
-            <Container maxWidth="xl" style={{ marginTop: "48pt" }}>
-              <Link to="/login">
-                <Button className="btn transparentbtn">Login</Button>
-              </Link>
-            </Container>
-            <Container maxWidth="xl" style={{ marginTop: "8pt" }}>
-              <Link to="/signup">
-                <Button className="btn primarybtn">Create an account</Button>
-              </Link>
-            </Container>
-          </StylesProvider>
-        </Container>
+        <StylesProvider injectFirst>
+          <Typography
+            variant="h3"
+            component="h2"
+            style={{ fontWeight: "bold", marginTop: "48pt" }}
+          >
+            Welcome to Coreable
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{ marginTop: "32pt", color: "lightgrey" }}
+          >
+            Create an account or sign in to manage <br /> your Coreable account
+            and review others.
+          </Typography>
+          <Container maxWidth="xl" style={{ marginTop: "48pt" }}>
+            <Link to="/login">
+              <Button className="btn transparentbtn">Login</Button>
+            </Link>
+          </Container>
+          <Container maxWidth="xl" style={{ marginTop: "8pt" }}>
+            <Link to="/signup">
+              <Button className="btn primarybtn">Create an account</Button>
+            </Link>
+          </Container>
+        </StylesProvider>
       </Container>
     );
   }

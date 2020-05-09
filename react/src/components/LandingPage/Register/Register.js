@@ -170,125 +170,125 @@ class Register extends Component {
     return (
       <Container maxWidth={false} style={{ height: "100vh" }}>
         <div className="container">
-          <Container maxWidth="md">
-            <Typography
-              variant="h3"
-              component="h1"
+          {/* <Container maxWidth="md"> */}
+          <Typography
+            variant="h3"
+            component="h1"
+            style={{
+              fontWeight: "bold",
+              textAlign: "left",
+              color: "#000",
+            }}
+          >
+            Welcome,
+          </Typography>
+          <Typography
+            variant="h3"
+            component="h1"
+            style={{ textAlign: "left", color: "#707070" }}
+          >
+            sign up to continue
+          </Typography>
+          <FormControl style={{ marginTop: "16pt" }}>
+            <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
+              label="First Name"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              name="firstName"
+              error={this.shouldMarkError("firstName")}
+              value={this.state.firstName}
+              type="text"
+              onChange={this.handleChange}
+              onBlur={this.handleBlur("firstName")}
               style={{
-                fontWeight: "bold",
-                textAlign: "left",
-                color: "#000",
+                marginTop: "16pt",
+              }}
+            />
+            <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
+              label="Last Name"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              name="lastName"
+              error={this.shouldMarkError("lastName")}
+              value={this.state.lastName}
+              type="text"
+              onChange={this.handleChange}
+              onBlur={this.handleBlur("lastName")}
+              style={{
+                marginTop: "8pt",
+              }}
+            />
+            <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
+              label="Email"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              name="email"
+              error={this.shouldMarkError("email")}
+              helperText={this.helperText("email")}
+              value={this.state.email}
+              type="email"
+              onChange={this.handleChange}
+              onBlur={this.handleBlur("email")}
+              style={{
+                marginTop: "8pt",
+              }}
+            />
+            <TextField
+              InputLabelProps={{ style: { fontSize: 12 } }}
+              label="Password"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              name="password"
+              error={this.shouldMarkError("password")}
+              helperText={this.helperText("password")}
+              value={this.state.password}
+              type="password"
+              onChange={this.handleChange}
+              onBlur={this.handleBlur("password")}
+              onKeyPress={async (e) => {
+                if (e.key === "Enter") {
+                  await this.registerUser();
+                }
+              }}
+              style={{
+                marginTop: "8pt",
+                marginBottom: "8pt",
+              }}
+            />
+            <button
+              className="btn primarybtn"
+              disabled={this.isDisabled() && !this.state.loading}
+              onClick={async () => {
+                await this.registerUser();
+              }}
+              style={{
+                marginTop: "10px",
+                border: "none",
               }}
             >
-              Welcome,
-            </Typography>
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{ textAlign: "left", color: "#707070" }}
-            >
-              sign up to continue
-            </Typography>
-            <FormControl style={{ marginTop: "16pt" }}>
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="First Name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="firstName"
-                error={this.shouldMarkError("firstName")}
-                value={this.state.firstName}
-                type="text"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("firstName")}
-                style={{
-                  marginTop: "16pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Last Name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="lastName"
-                error={this.shouldMarkError("lastName")}
-                value={this.state.lastName}
-                type="text"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("lastName")}
+              Sign up
+            </button>
+            <div style={{ marginTop: "15px" }}>
+              <Link
+                to="/forgot"
                 style={{
                   marginTop: "8pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Email"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="email"
-                error={this.shouldMarkError("email")}
-                helperText={this.helperText("email")}
-                value={this.state.email}
-                type="email"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("email")}
-                style={{
-                  marginTop: "8pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Password"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="password"
-                error={this.shouldMarkError("password")}
-                helperText={this.helperText("password")}
-                value={this.state.password}
-                type="password"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("password")}
-                onKeyPress={async (e) => {
-                  if (e.key === "Enter") {
-                    await this.registerUser();
-                  }
-                }}
-                style={{
-                  marginTop: "8pt",
-                  marginBottom: "8pt",
-                }}
-              />
-              <button
-                className="btn primarybtn"
-                disabled={this.isDisabled() && !this.state.loading}
-                onClick={async () => {
-                  await this.registerUser();
-                }}
-                style={{
-                  marginTop: "10px",
-                  border: "none",
+                  textDecoration: "none",
+                  color: "lightgrey",
                 }}
               >
-                Sign up
-              </button>
-              <div style={{ marginTop: "15px" }}>
-                <Link
-                  to="/forgot"
-                  style={{
-                    marginTop: "8pt",
-                    textDecoration: "none",
-                    color: "lightgrey",
-                  }}
-                >
-                  Forgot password
-                </Link>
-              </div>
-            </FormControl>
-          </Container>
+                Forgot password
+              </Link>
+            </div>
+          </FormControl>
+          {/* </Container> */}
         </div>
       </Container>
     );

@@ -6,6 +6,9 @@ $offWhite: #fafafa;
 $white: #fff;
 $disabledGrey: #d6d6d6;
 
+//Responsive width
+$max-width: 760px;
+
 body {
   background-color: $offWhite;
 }
@@ -19,24 +22,18 @@ body {
   text-align: center;
   color: white;
   width: 312pt;
+}
 
-  @media (max-width: 776px) {
-    .container {
-      padding-top: 64px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .container {
-      padding-top: 64px;
-    }
+@media (max-width: $max-width) {
+  .container {
+    // padding-top: 64px;
+    width: 90%;
   }
 }
 
 //Coreable Branded Button
 .btn {
-  width: 100%;
-  max-width: 100%;
+  width: 312pt;
   height: 40pt;
   border-radius: 0.33rem;
   font-size: 1.6rem;
@@ -47,18 +44,9 @@ body {
   text-transform: none;
 }
 
-@media (min-width: 776px) {
+@media (max-width: $max-width) {
   .btn {
     width: 100%;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .btn {
-    width: 100%;
-    max-width: 100%;
-    font-size: 1.4rem;
   }
 }
 
@@ -66,11 +54,11 @@ body {
   background-color: $primaryBlue;
   color: $white;
   font-weight: bold;
+  transition: all 0.2s ease-in-out;
   &:hover {
-    background-color: $white;
-    border: none;
-    color: $primaryBlue;
-    transition: all 0.2s ease-in-out;
+    background: $primaryBlue;
+    transform: scale(1.03);
+    cursor: pointer;
   }
   &:disabled {
     background-color: $disabledGrey !important;
@@ -88,12 +76,10 @@ body {
   background-color: transparent;
   color: $white;
   font-weight: bold;
-  // &:hover {
-  //   color: white;
-  //   background-color: rgb(64, 112, 224);
-  //   border: none;
-  //   transition: all 0.2s ease-in-out;
-  // }
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.03);
+  }
 }
 
 a {
