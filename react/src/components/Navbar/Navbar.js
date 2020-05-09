@@ -25,7 +25,7 @@ class Navbar extends Component {
 
     this.state = {
       menuOpen: false,
-      me: props.me,
+      me: props.app.data.user,
       menuItems: [
         { name: "Home", link: "home" },
         { name: "Reviews", link: "comingsoon" },
