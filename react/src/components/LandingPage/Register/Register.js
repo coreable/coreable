@@ -15,14 +15,14 @@ Coreable source code.
 // TODO: Disable register button while waiting for submit
 
 import React, { Component } from "react";
-import "./Register.scss";
+import "../../../App.scss";
+import "../Login/Login.scss";
 import { Link, Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../../constants";
 
 import {
   Typography,
   Container,
-  Button,
   TextField,
   FormControl,
 } from "@material-ui/core";
@@ -46,23 +46,29 @@ class Register extends Component {
     };
   }
 
-  errors() {
+  componentDidMount = () => {
+    if (!this.props.me) {
+      this.props.ReactGA.pageview("/signup");
+    }
+  };
+
+  errors = () => {
     return this.validate(
       this.state.email,
       this.state.password,
       this.state.firstName,
       this.state.lastName
     );
-  }
+  };
 
-  validate(email, password, firstName, lastName) {
+  validate = (email, password, firstName, lastName) => {
     return {
       email: email.length === 0 || !email.includes("@"),
       password: password.length < 6,
       firstName: firstName.length <= 1,
       lastName: lastName.length <= 1,
     };
-  }
+  };
 
   handleChange = (evt) => {
     this.setState({ [evt.target.name]: evt.target.value });
@@ -107,7 +113,7 @@ class Register extends Component {
         return "Invalid email";
       }
     }
-  }
+  };
 
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
@@ -129,19 +135,20 @@ class Register extends Component {
             }
           }
         }
-      `
+      `,
     };
     const options = {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT) || '',
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
 
     const res = await fetch(API_URL, options).then((data) => data.json());
+
     const { data, errors } = res.data.register;
 
     if (errors) {
@@ -153,7 +160,7 @@ class Register extends Component {
       localStorage.setItem(JWT, data.token);
       this.props.refreshMe();
     }
-  }
+  };
 
   render() {
     if (this.props.me) {
@@ -161,19 +168,16 @@ class Register extends Component {
     }
 
     return (
-      <Container
-        maxWidth={false}
-        style={{ height: "100vh" }}
-        className="sign-up-container"
-      >
-        <Container maxWidth="sm">
+      <Container maxWidth={false} style={{ height: "100vh" }}>
+        <div className="container">
+          {/* <Container maxWidth="md"> */}
           <Typography
             variant="h3"
             component="h1"
             style={{
               fontWeight: "bold",
               textAlign: "left",
-              color: "#000"
+              color: "#000",
             }}
           >
             Welcome,
@@ -199,7 +203,7 @@ class Register extends Component {
               onChange={this.handleChange}
               onBlur={this.handleBlur("firstName")}
               style={{
-                marginTop: "8pt"
+                marginTop: "16pt",
               }}
             />
             <TextField
@@ -215,7 +219,7 @@ class Register extends Component {
               onChange={this.handleChange}
               onBlur={this.handleBlur("lastName")}
               style={{
-                marginTop: "8pt"
+                marginTop: "8pt",
               }}
             />
             <TextField
@@ -232,7 +236,7 @@ class Register extends Component {
               onChange={this.handleChange}
               onBlur={this.handleBlur("email")}
               style={{
-                marginTop: "8pt"
+                marginTop: "8pt",
               }}
             />
             <TextField
@@ -255,19 +259,22 @@ class Register extends Component {
               }}
               style={{
                 marginTop: "8pt",
-                marginBottom: "8pt"
+                marginBottom: "8pt",
               }}
             />
-            <Button
+            <button
               className="btn primarybtn"
               disabled={this.isDisabled() && !this.state.loading}
               onClick={async () => {
-                await this.registerUser()
+                await this.registerUser();
               }}
-              style={{ 
-                marginTop: "10px"
+              style={{
+                marginTop: "10px",
+                border: "none",
               }}
-            >Sign up</Button>
+            >
+              Sign up
+            </button>
             <div style={{ marginTop: "15px" }}>
               <Link
                 to="/forgot"
@@ -276,10 +283,13 @@ class Register extends Component {
                   textDecoration: "none",
                   color: "lightgrey",
                 }}
-              >Forgot password</Link>
+              >
+                Forgot password
+              </Link>
             </div>
           </FormControl>
-        </Container>
+          {/* </Container> */}
+        </div>
       </Container>
     );
   }

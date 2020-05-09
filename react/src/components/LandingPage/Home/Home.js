@@ -14,10 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
-
-import "../../ReviewTab/Review.scss";
-
-import globalCSS from "../../../global.scss";
+import "./Home.scss";
 
 import {
   Typography,
@@ -26,7 +23,7 @@ import {
   Grid,
   Stepper,
   Step,
-  StepLabel
+  StepLabel,
 } from "@material-ui/core";
 
 import { JWT, API_URL } from "../../../constants";
@@ -37,14 +34,16 @@ class Home extends Component {
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
-      me: props.me,
+      me: props.app.data.user,
       steps: ["Self Review", "Team Review", "Final Review"],
       loading: true,
     };
   }
 
   componentDidMount = async () => {
-    if (!this.props.me) {
+    this.props.ReactGA.pageview("/home");
+
+    if (!this.props.app.data.user) {
       return false;
     }
 
@@ -62,7 +61,7 @@ class Home extends Component {
       subject: {
         name: "Join a Team",
         state: 0,
-      }
+      },
     };
 
     if (!me.teams.length) {
@@ -94,7 +93,7 @@ class Home extends Component {
     this.setState({
       ...this.state,
       loading: false,
-      me
+      me,
     });
   };
 
@@ -129,7 +128,7 @@ class Home extends Component {
     return !this.isDisabled();
   };
 
-  handleBlur = (field) => { };
+  handleBlur = (field) => {};
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -187,14 +186,14 @@ class Home extends Component {
             }
           }
         }
-      `
+      `,
     };
     const options = {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT),
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -213,12 +212,16 @@ class Home extends Component {
   };
 
   render() {
-    if (!this.props.me) {
+    if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
     }
 
+    /**
+     * This is component specific loading and not the me {} query
+     * This is the loading while the team cards are being sorted
+     */
     if (this.state.loading) {
-      return (<div></div>);
+      return <div></div>;
     }
 
     return (
@@ -227,14 +230,11 @@ class Home extends Component {
           <div className="top-background">
             <Typography
               variant="h2"
-              style={{ color: "white", fontWeight: "bold" }}
+              style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
             >
               Your teams
             </Typography>
-            <p style={{ fontSize: "1.4rem" }}>
-              {" "}
-              View your teams, review your team, and join teams.
-            </p>
+            <p style={{ fontSize: "1.4rem" }}>View, review and join teams.</p>
           </div>
 
           <div className="main">
@@ -247,7 +247,7 @@ class Home extends Component {
                     justify="center"
                     alignItems="stretch"
                     spacing={1}
-                    className="inside-main"
+                    className="inside-main-div"
                     key={index}
                   >
                     <div className="team-card">
@@ -255,19 +255,23 @@ class Home extends Component {
                         {this.capitalize(team.subject.name)}
                       </Typography>
 
-                      <p>{this.capitalize(team.name)}</p>
+                      <p style={{ marginTop: "10pt" }}>
+                        {this.capitalize(team.name)}
+                      </p>
 
                       <span className="stepper-line"> </span>
                       <Stepper
                         activeStep={team.subject.state - 1}
                         alternativeLabel
                         style={{
-                          padding: "18px 0 22px 0",
+                          padding: "25px 0 22px 0",
                           position: "relative",
                         }}
                       >
                         {this.state.steps.map((label, index) => {
-                          const isDisabled = this.getReviewButtonState(team._id);
+                          const isDisabled = this.getReviewButtonState(
+                            team._id
+                          );
                           let props = {};
                           if (isDisabled && index === 0) {
                             props.optional = (
@@ -279,7 +283,9 @@ class Home extends Component {
                                   justifyContent: "center",
                                   alignItems: "center",
                                 }}
-                              >Completed</Typography>
+                              >
+                                Completed
+                              </Typography>
                             );
                           }
                           return (
@@ -299,10 +305,12 @@ class Home extends Component {
                         }}
                       >
                         <Button
-                          className={`${globalCSS.btn} btn primarybtn`}
+                          className="btn primarybtn"
                           disabled={this.getReviewButtonState(team._id)}
                           disableElevation
-                        >Start Review</Button>
+                        >
+                          Start Review
+                        </Button>
                       </Link>
                     </div>
                   </Grid>
@@ -315,7 +323,7 @@ class Home extends Component {
                   justify="center"
                   alignItems="stretch"
                   spacing={1}
-                  className="inside-main"
+                  className="inside-main-div"
                   key={index}
                 >
                   <div className="team-card">
@@ -323,7 +331,9 @@ class Home extends Component {
                       Join team
                     </Typography>
 
-                    <p>Enter your team code below</p>
+                    <p style={{ marginTop: "10pt" }}>
+                      Enter your team code below
+                    </p>
 
                     <TextField
                       label="Team Code"
@@ -342,14 +352,17 @@ class Home extends Component {
                           await this.joinTeam();
                         }
                       }}
-                      style={{ marginTop: "8pt", paddingBottom: "15px" }}
+                      style={{ marginTop: "20pt", paddingBottom: "15px" }}
                     />
                     <Button
                       className="btn primarybtn"
                       disabled={this.isDisabled()}
                       onClick={async () => {
                         await this.joinTeam();
-                      }}>Join Team</Button>
+                      }}
+                    >
+                      Join Team
+                    </Button>
                   </div>
                 </Grid>
               );

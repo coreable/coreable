@@ -20,8 +20,9 @@ import {
   Button,
   StylesProvider,
 } from "@material-ui/core";
-import "../../global.scss";
-import "./LandingPage.scss";
+// import "../../global.scss";
+import "../../App.scss";
+// import "./LandingPage.scss";
 
 class LandingPage extends Component {
   constructor(props) {
@@ -29,8 +30,13 @@ class LandingPage extends Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    this.props.ReactGA.pageview("/");
+  };
+
   render() {
-    if (this.props.me) {
+    console.log(this.props);
+    if (this.props.app.data.user) {
       return <Redirect to="/home"></Redirect>;
     }
 
@@ -40,34 +46,32 @@ class LandingPage extends Component {
         style={{ backgroundColor: "#0b152f", height: "100vh" }}
         className="container"
       >
-        <Container maxWidth="sm">
-          <StylesProvider injectFirst>
-            <Typography
-              variant="h3"
-              component="h2"
-              style={{ fontWeight: "bold", marginTop: "48pt" }}
-            >
-              Welcome to Coreable
-            </Typography>
-            <Typography
-              variant="h5"
-              style={{ marginTop: "32pt", color: "white" }}
-            >
-              Create an account or sign in to manage <br /> your Coreable
-              account and review others.
-            </Typography>
-            <Container maxWidth="xl" style={{ marginTop: "48pt" }}>
-              <Link to="/login">
-                <Button className="btn transparentbtn">Login</Button>
-              </Link>
-            </Container>
-            <Container maxWidth="xl" style={{ marginTop: "8pt" }}>
-              <Link to="/signup">
-                <Button className="btn primarybtn">Create an account</Button>
-              </Link>
-            </Container>
-          </StylesProvider>
-        </Container>
+        <StylesProvider injectFirst>
+          <Typography
+            variant="h3"
+            component="h2"
+            style={{ fontWeight: "bold", marginTop: "48pt" }}
+          >
+            Welcome to Coreable
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{ marginTop: "32pt", color: "lightgrey" }}
+          >
+            Create an account or sign in to manage <br /> your Coreable account
+            and review others.
+          </Typography>
+          <Container maxWidth="xl" style={{ marginTop: "48pt" }}>
+            <Link to="/login">
+              <Button className="btn transparentbtn">Login</Button>
+            </Link>
+          </Container>
+          <Container maxWidth="xl" style={{ marginTop: "8pt" }}>
+            <Link to="/signup">
+              <Button className="btn primarybtn">Create an account</Button>
+            </Link>
+          </Container>
+        </StylesProvider>
       </Container>
     );
   }

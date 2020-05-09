@@ -15,6 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
+import { Subject } from 'rxjs';
 
 import { Typography, CardActions, Button } from "@material-ui/core";
 
@@ -29,6 +30,8 @@ class Trait extends Component {
       user: {},
       team: props.pending,
     };
+
+    this.reviewSubject = new Subject();
   }
 
   componentDidUpdate() {
@@ -45,6 +48,7 @@ class Trait extends Component {
   }
 
   setReview = (review) => {
+    this.reviewSubject.next({ review });
     localStorage.setItem("review", JSON.stringify(review));
   };
 
@@ -53,16 +57,20 @@ class Trait extends Component {
 
     const team_id = this.state.team._id;
     const user_id = this.state.user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
 
-    if (!review[team_id]) {
-      review[team_id] = {};
+    if (!review[me_id]) {
+      review[me_id] = {};
     }
-    if (!review[team_id][user_id]) {
-      review[team_id][user_id] = {};
+    if (!review[me_id][team_id]) {
+      review[me_id][team_id] = {};
     }
-    if (!review[team_id][user_id][trait]) {
-      review[team_id][user_id][trait] = {
+    if (!review[me_id][team_id][user_id]) {
+      review[me_id][team_id][user_id] = {};
+    }
+    if (!review[me_id][team_id][user_id][trait]) {
+      review[me_id][team_id][user_id][trait] = {
         val: -1,
         touched: false,
       };
@@ -74,6 +82,7 @@ class Trait extends Component {
   getButtonStyles = (user) => {
     const team_id = this.state.team._id;
     const user_id = user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
 
     // Component has just loaded
@@ -100,8 +109,8 @@ class Trait extends Component {
       styles.color = "rgba(0, 0, 0, 0.26)";
       try {
         if (
-          review[team_id][user_id][trait].touched &&
-          review[team_id][user_id][trait].val === -1
+          review[me_id][team_id][user_id][trait].touched &&
+          review[me_id][team_id][user_id][trait].val < 0
         ) {
           styles.border = "1px solid red";
         }
@@ -116,8 +125,9 @@ class Trait extends Component {
   updateUserTouchedProperty = (user, review) => {
     const team_id = this.state.team._id;
     const user_id = user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
-    review[team_id][user_id][trait].touched = true;
+    review[me_id][team_id][user_id][trait].touched = true;
     return review;
   };
 
@@ -131,11 +141,13 @@ class Trait extends Component {
         const review = this.updateUserTouchedProperty(user, this.getReview());
         const team_id = this.state.team._id;
         const user_id = this.state.user._id;
+        const me_id = this.props.me._id;
         const trait = this.state.var;
+
         this.setState(
           {
             ...this.state,
-            val: review[team_id][user_id][trait].val,
+            val: review[me_id][team_id][user_id][trait].val,
           },
           () => {
             this.setReview(review);
@@ -148,6 +160,7 @@ class Trait extends Component {
   handleSliderChange = (e) => {
     const team_id = this.state.team._id;
     const user_id = this.state.user._id;
+    const me_id = this.props.me._id;
     const trait = this.state.var;
 
     try {
@@ -159,8 +172,9 @@ class Trait extends Component {
         },
         () => {
           const review = this.getReview();
-          review[team_id][user_id][trait].val = val;
+          review[me_id][team_id][user_id][trait].val = val;
           this.setReview(review);
+          this.props.sliderUpdatedHandler();
         }
       );
     } catch (err) {
@@ -181,12 +195,13 @@ class Trait extends Component {
     const review = this.getReview();
 
     const team_id = this.state.team._id;
+    const me_id = this.props.me._id;
     const user_id = user._id;
     const trait = this.state.var;
 
     let val;
     try {
-      val = review[team_id][user_id][trait].val;
+      val = review[me_id][team_id][user_id][trait].val;
     } catch (err) {
       val = 0;
     }
@@ -203,19 +218,28 @@ class Trait extends Component {
   };
 
   getPointColor = (val) => {
-    if (val > 19 && val <= 38) {
+    if (val > 19) {
       return "#0096f8";
     }
-    if (val > 39 && val <= 58) {
+  };
+
+  getPointColor2 = (val) => {
+    if (val > 39) {
       return "#00b3e5";
     }
-    if (val > 59 && val <= 58) {
+  };
+
+  getPointColor3 = (val) => {
+    if (val > 59) {
       return "#00c8b3";
     }
+  };
+
+  getPointColor4 = (val) => {
     if (val > 79) {
       return "#2dd775";
     }
-  }
+  };
 
   render() {
     return (
@@ -234,7 +258,7 @@ class Trait extends Component {
             type="range"
             min={0}
             max={100}
-            step={10}
+            step={5}
             key={this.state.var}
             id={this.state.var}
             name={this.state.var}
@@ -247,6 +271,7 @@ class Trait extends Component {
               marginTop: "8pt",
               marginBottom: "12pt",
               transition: "none",
+              borderRadius: "0.33rem",
               // zIndex: "2",
             }}
           />
@@ -260,19 +285,19 @@ class Trait extends Component {
             </div>
             <div
               className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
+              style={{ background: this.getPointColor2(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
+              style={{ background: this.getPointColor3(this.state.val) }}
             >
               {" "}
             </div>
             <div
               className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
+              style={{ background: this.getPointColor4(this.state.val) }}
             >
               {" "}
             </div>
@@ -280,7 +305,12 @@ class Trait extends Component {
         </div>
 
         <CardActions
-          style={{ flexWrap: "wrap", justifyContent: "left", padding: "0" }}
+          style={{
+            flexWrap: "wrap",
+            justifyContent: "left",
+            padding: "0",
+            marginTop: "10pt",
+          }}
         >
           {this.props.pending.pending.map((user, index) => {
             return (
@@ -305,9 +335,14 @@ class Trait extends Component {
             return (
               <TeamRank
                 key={user._id}
-                name={user._d}
-                {...this.getScoreForDisplay(user)}
-                backgroundImage={this.getSliderBackground}
+                name={user._id}
+                me={this.props.me}
+                user={user}
+                team={this.props.pending}
+                value={this.state.val}
+                trait={this.state.var}
+                defaultReview={this.getReview()}
+                reviewSubject={this.reviewSubject}
                 teamMemberCount={this.countTeam()}
               />
             );

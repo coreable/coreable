@@ -24,7 +24,7 @@
     "serve:api": "node ./dist/server.js",
     "pipeline:api": "NODE_ENV=pipeline TS_NODE_PROJECT='./api/tsconfig.spec.json' mocha --recursive --timeout 25000 -r ts-node/register \"api/__tests__/**/*.spec.ts\" --exit",
     "pipeline:web": "CI=true react-app-rewired test",
-    "deploy": "rimraf ./dist && rimraf ./.docz && npm run build:api && npm run build:docz && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
+    "deploy": "rimraf ./dist && rimraf ./.docz && npm run build:api && npm run build:web && cp app.yaml ./dist && cp package.json ./dist",
     "start": "NODE_ENV=production node ./server.js",
     "start:local": "NODE_ENV=production node ./dist/server.js",
     "clean": "rimraf ./.docz && rimraf ./dist && rimraf ./.nyc_output"
@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.9.11",
+    "@sendgrid/mail": "^7.1.0",
     "bcrypt": "^4.0.1",
     "chart.js": "^2.9.3",
     "clsx": "^1.1.0",
@@ -83,8 +84,10 @@
     "react-app-rewired": "^2.1.5",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
+    "react-ga": "^2.7.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
+    "rxjs": "^6.5.5",
     "sequelize": "^5.21.6"
   },
   "browserslist": {

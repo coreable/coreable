@@ -1,23 +1,43 @@
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+//Responsive width
+$max-width: 760px;
+
 .team-container {
   background: rgb(245, 245, 245);
   position: relative;
   margin: 0 auto;
   align-items: center;
   width: 100%;
-  // min-height: 100vh;
   //overflow:auto doesnt allow it to scroll up.
   // overflow: auto;
-  height: 100%;
+  min-height: 100vh;
 
   .top {
-    background: #0c152e;
+    background: $secondaryBlue;
+    position: absolute;
+    top: 0px;
+    padding-top: 140px;
     margin: 0 auto;
     text-align: center;
-    height: 320px;
-    padding-top: 100px;
+    height: 50%;
+    width: 100%;
+    z-index: 0;
+    color: $white;
+    // background: $secondaryBlue;
+    // margin: 0 auto;
+    // text-align: center;
+    // height: 50%;
+    // padding-top: 100px;
 
     .facet-heading-desc {
-      width: 45%;
+      width: 40%;
       margin: 0 auto;
       text-align: center;
 
@@ -31,10 +51,16 @@
       }
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: $max-width) {
       .facet-heading-desc {
         width: 70%;
       }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .top {
+      height: 40%;
     }
   }
 
@@ -43,7 +69,7 @@
     background: transparent;
     border: none;
     position: absolute;
-    top: 250px;
+    top: 45%;
     // height: ;
     //if this is dynamic, mobile capability is bad
     width: 50%;
@@ -63,8 +89,8 @@
       width: 100%;
       min-width: 300px;
       background: white;
-      border-radius: 8pt;
-      margin: 20px;
+      border-radius: 0.33rem;
+      margin: 10px;
       padding: 20px;
 
       .slider-bar-container {
@@ -92,12 +118,6 @@
           justify-content: space-evenly;
 
           .bar {
-            //haircomb intervals
-            // border-right: 0.05px solid rgb(214, 214, 214);
-            // background: transparent;
-            // height: 100%;
-            // width: 55%;
-
             //dots
             width: 5px;
             height: 5px;
@@ -109,59 +129,109 @@
             left: 1px;
           }
 
+          .bar:nth-child(1) {
+            left: 2px;
+          }
+
           .bar:nth-last-child(2) {
             left: -1px;
           }
 
           .bar:nth-last-child(1) {
-            left: -1px;
+            left: -3px;
           }
         }
 
-        .rating {
-          -webkit-appearance: none;
-          height: 24pt;
-          width: 100%;
-          border-radius: 4pt;
-          background-color: rgb(214, 214, 214);
-          background: linear-gradient(
-            90deg,
-            rgb(66, 113, 249) 20%,
-            rgb(214, 214, 214) 20%
-          );
-          padding: 0;
-          margin: 0;
+        input[type="range"] {
+          -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+          width: 100%; /* Specific width is required for Firefox. */
+          background: transparent; /* Otherwise white in Chrome */
           z-index: 1;
         }
 
-        .rating::-webkit-slider-thumb {
+        //Thumb styling=================================
+        /* Special styling for WebKit/Blink */
+        input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
-          appearance: none;
-          cursor: pointer;
-          height: 24pt;
-          width: 8pt;
-          border-radius: 4pt;
-          border: none;
-          background: rgb(214, 214, 214);
-          z-index: 3;
+          border: transparent;
+          height: 26px;
+          width: 20px;
+          border-radius: 0.33rem;
           background: transparent;
-          margin: 0;
-        }
-
-        .rating::-moz-range-thumb {
-          appearance: none;
           cursor: pointer;
-          height: 24pt;
-          width: 8pt;
-          border-radius: 4pt;
-          background: rgb(66, 113, 249);
-          // background: transparent;
-          border: none;
-          margin: 0;
+          margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+          // box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
         }
 
-        .rating:focus {
+        /* All the same stuff for Firefox */
+        input[type="range"]::-moz-range-thumb {
+          border: transparent;
+          height: 26px;
+          width: 20px;
+          border-radius: 0.33rem;
+          background: transparent;
+          cursor: pointer;
+        }
+
+        /* All the same stuff for IE */
+        input[type="range"]::-ms-thumb {
+          border: transparent;
+          height: 26px;
+          width: 20px;
+          border-radius: 0.33rem;
+          background: transparent;
+          cursor: pointer;
+        }
+
+        input[type="range"]:focus {
           outline: none;
+        }
+
+        //TRACK styling =====================
+        input[type="range"]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 30px;
+          cursor: pointer;
+          // background: rgb(64, 112, 224);
+          background: transparent;
+          border-radius: 0.33rem;
+        }
+
+        input[type="range"]:focus::-webkit-slider-runnable-track {
+          // background: rgb(64, 112, 224);
+          background: transparent;
+        }
+
+        input[type="range"]::-moz-range-track {
+          width: 100%;
+          height: 30px;
+          cursor: pointer;
+          background: rgb(64, 112, 224);
+          border-radius: 0.33rem;
+        }
+
+        input[type="range"]::-ms-track {
+          width: 100%;
+          height: 30px;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          border-width: 16px 0;
+          color: transparent;
+        }
+        input[type="range"]::-ms-fill-lower {
+          background: rgb(64, 112, 224);
+          border-radius: 0.33rem;
+        }
+        input[type="range"]:focus::-ms-fill-lower {
+          background: rgb(64, 112, 224);
+        }
+        input[type="range"]::-ms-fill-upper {
+          background: rgb(64, 112, 224);
+          border-radius: 0.33rem;
+        }
+        input[type="range"]:focus::-ms-fill-upper {
+          background: rgb(64, 112, 224);
         }
       }
 
@@ -187,6 +257,8 @@
 
       .select-user-button {
         margin: 10px;
+        border-radius: 0.33rem;
+        // margin-top: 25px;
       }
 
       .team-member {
@@ -200,51 +272,39 @@
         font-weight: bold;
       }
 
-      // button.active {
-      //   background: rgb(66, 113, 249);
-      // }
-
-      // button.inactive {
-      //   background: rgba(66, 113, 249, 0.3);
-      // }
-
       .MuiSlider-thumb.Mui-disabled {
         width: 8px;
         height: 24px;
         margin-top: 0;
         margin-left: -4px;
       }
-      @media (max-width: 776px) {
+      @media (max-width: $max-width) {
         .select-user-button {
           margin: 5px;
         }
       }
     }
 
+    .inside-main:nth-child(1) {
+      margin-top: 20px;
+    }
+
     .btn {
       width: 60%;
       // max-width: 30%;
       height: 40pt;
-      border-radius: 0.8rem;
+      border-radius: 0.33rem;
       font-size: 1.6rem;
       font-weight: bold;
       justify-content: center;
       align-content: center;
-      margin: 10px auto;
+      // margin: 10px auto;
       text-transform: none;
     }
 
-    @media (min-width: 776px) {
-      // .btn {
-      //   width: 100%;
-      //   max-width: 100%;
-      // }
-    }
-
-    @media (max-width: 1024px) {
+    @media (max-width: $max-width) {
       .btn {
-        width: 60%;
-        max-width: 60%;
+        width: 90%;
         font-size: 1.4rem;
       }
     }
@@ -253,11 +313,9 @@
       background-color: rgb(64, 112, 224);
       color: white;
       font-weight: bold;
+      transition: all 0.2s ease-in-out;
       &:hover {
-        background-color: white;
-        border: 2px solid rgb(64, 112, 224);
-        color: rgb(64, 112, 224);
-        transition: all 0.2s ease-in-out;
+        transform: scale(1.03);
       }
       &:disabled {
         background-color: lightgrey !important;
@@ -285,9 +343,9 @@
     }
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: $max-width) {
     .main {
-      width: 70%;
+      width: 90%;
       top: 310px;
     }
   }
@@ -311,30 +369,3 @@
     margin-top: 5pt;
   }
 }
-
-// .facet-container {
-//   height: 272pt;
-//   width: 494pt;
-//   background: white;
-//   border-radius: 8pt;
-//   margin: 0 auto;
-//   margin-bottom: 18pt;
-//   padding-top: 32pt;
-// }
-
-// .container {
-//   /* height: 100%; */
-//   width: 100%;
-//   padding-top: 12pt;
-//   margin: 0;
-// }
-
-// h1 {
-//   color: black;
-// }
-
-// p {
-//   color: rgb(112, 112, 112);
-// }
-
-// /* this is a shortcut method to center the element div */

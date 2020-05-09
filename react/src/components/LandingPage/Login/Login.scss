@@ -1,26 +1,25 @@
-.login-container {
-  justify-content: center;
-  align-content: center;
-  margin: 0 auto;
-  padding-top: 96px;
-  text-align: center;
-  color: white;
-  background-color: white;
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
 
-  .MuiFormControl-root {
-    width: 100%;
-    border-radius: 4pt;
-    .MuiOutlinedInput-root {
-      fieldset {
-        // border: none;
-      }
-    }
-  }
+//Responsive width
+$max-width: 760px;
 
-  .MuiOutlinedInput-input {
-    font-size: 1.6rem;
-    font-weight: bold;
-  }
+.MuiFormControl-root {
+  width: 100%;
+  border-radius: 4pt;
+  // .MuiOutlinedInput-root {
+  //   fieldset {
+  //     // border: none;
+  //   }
+  // }
+}
 
-  // .btn-login {
+.MuiOutlinedInput-input {
+  font-size: 1.6rem;
+  font-weight: bold;
 }

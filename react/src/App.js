@@ -15,46 +15,64 @@ Coreable source code.
 import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LinearProgress } from "@material-ui/core";
+import ReactGA from "react-ga";
 
-import Navbar from "./components/Navbar/Navbar";
 import { JWT, API_URL } from "./constants";
 
 import "./App.scss";
-import Loader from "./components/Loading/Loading";
 
+import Loader from "./components/Loading/Loading";
+import Navbar from "./components/Navbar/Navbar";
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/LandingPage/Register/Register"));
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
-const ThankYou = lazy(() => import("./components/Review/ThankYou/ThankYou"));
-const Skills = lazy(() => import("./components/Skills/Skills"));
+const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
-const Reviews = lazy(() => import("./components/ReviewTab/Review"));
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sideDrawerOpen: false,
-      loading: true,
-      me: null
+      "JWT": null,
+      "data": {
+        "user": null
+      },
+      "errors": [],
+      "fetching": true
     };
+    ReactGA.initialize("UA-165578445-1");
   }
 
-  refreshMe = () => {
+  updateJWT = () => {
+    const jwt_token = localStorage.getItem(JWT);
+    return new Promise((r, f) => {
+      this.setState({
+        ...this.state,
+        JWT: jwt_token
+      }, () => {
+        return r(this.state);
+      });
+    });
+  }
+
+  refreshMe = async() => {
+    if (!this.state.JWT) {
+      await this.updateJWT();
+    }
     this.setState(
       {
         ...this.state,
-        loading: true,
+        fetching: true,
       },
       () => {
-        this.componentDidMount();
+        this.fetchMe();
       }
     );
   };
 
-  componentDidMount = async () => {
+  fetchMe = async() => {
     const query = {
       query: `
         query {
@@ -108,28 +126,29 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: localStorage.getItem(JWT) || '',
+        "JWT": this.state.JWT,
       },
       body: JSON.stringify(query),
     };
 
     const res = await fetch(API_URL, options).then((res) => res.json());
-
     const { data, errors } = res.data.me;
-
-    if (errors) {
-      console.error(errors);
-    }
 
     this.setState({
       ...this.state,
-      loading: false,
-      me: data ? data.user : null,
+      fetching: false,
+      data,
+      errors
     });
   };
 
+  componentDidMount = () => {
+    this.refreshMe();
+    ReactGA.pageview('/');
+  };
+
   render() {
-    if (this.state.loading) {
+    if (this.state.fetching) {
       return <Loader />;
     }
 
@@ -137,9 +156,9 @@ class App extends Component {
       <Router>
         <div className="App" style={{ height: "100%" }}>
           <Navbar
-            me={this.state.me}
-            loading={this.state.loading}
+            app={this.state}
             refreshMe={this.refreshMe}
+            ReactGA={ReactGA}
           />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
             <Route
@@ -148,9 +167,9 @@ class App extends Component {
               component={(props) => (
                 <LandingPage
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -161,9 +180,9 @@ class App extends Component {
               component={(props) => (
                 <Login
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -173,9 +192,9 @@ class App extends Component {
               component={(props) => (
                 <Register
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -186,9 +205,9 @@ class App extends Component {
               component={(props) => (
                 <Home
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -198,9 +217,9 @@ class App extends Component {
               component={(props) => (
                 <Review
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
@@ -208,50 +227,27 @@ class App extends Component {
               exact
               path="/skills"
               component={(props) => (
-                <ThankYou
+                <Skills
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
-            {/* <Route
-              exact
-              path="/skills"
-              component={(props) => (
-                <Skills
-                  {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
-                  refreshMe={this.refreshMe}
-                />
-              )}
-            /> */}
             <Route
               exact
               path="/goals"
               component={(props) => (
                 <Goals
                   {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
+                  app={this.state}
                   refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
                 />
               )}
             />
-            <Route
-              exact
-              path="/reviews"
-              component={(props) => (
-                <Reviews
-                  {...props}
-                  me={this.state.me}
-                  loading={this.state.loading}
-                  refreshMe={this.refreshMe}
-                />
-              )}
-            />
+
             <Route exact path="/loading" component={Loader} />
           </Suspense>
         </div>

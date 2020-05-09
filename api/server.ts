@@ -15,7 +15,7 @@ Coreable source code.
 import { config } from './config/config';
 import { app } from './lib/startup';
 import { createServer, Server } from 'http';
-
+  
 declare global {
   interface CoreableServer extends Server {
     _done: Promise<Boolean>;

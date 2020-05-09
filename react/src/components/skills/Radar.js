@@ -19,17 +19,23 @@ import { Container } from "@material-ui/core";
 const RadarChart = (props) => {
   return (
     <Container
-      style={{ marginTop: "16px", marginBottom: "16pt" }}
+      style={{
+        marginTop: "16px",
+        marginBottom: "16pt",
+        width: "100%",
+        height: "448pt",
+      }}
     >
       <Radar
         options={{
+          maintainAspectRatio: false,
           layout: {
             padding: {
-              left: 50,
+              left: 0,
               right: 0,
-              top: 40,
+              top: 10,
               bottom: 0,
-            }
+            },
           },
           scale: {
             ticks: {

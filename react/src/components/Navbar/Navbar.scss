@@ -1,3 +1,6 @@
+//Responsive width
+$max-width: 760px;
+
 .menubtn {
   color: white;
   text-decoration: none;
@@ -128,7 +131,7 @@
   display: none;
 }
 
-@media (min-width: 800px) {
+@media (min-width: $max-width) {
   //   .active {
   //     border-bottom: 4px solid rgb(45, 215, 117);
   //   }

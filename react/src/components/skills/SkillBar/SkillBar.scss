@@ -1,0 +1,47 @@
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+.skillbar-container {
+  height: 16pt;
+  border-radius: 2pt;
+}
+
+.blue {
+  background: $primaryBlue;
+  position: absolute;
+  top: 0;
+}
+
+.green {
+  background: $green;
+  position: absolute;
+  top: 0;
+}
+
+.grey {
+  background: rgb(217, 217, 217);
+  width: 100%;
+  // position: absolute;
+  // top: 0;
+  z-index: 100;
+}
+
+.interval-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  z-index: 300;
+
+  span {
+    height: 20pt;
+    width: 20%;
+    border-right: 0.01em solid $white;
+  }
+}

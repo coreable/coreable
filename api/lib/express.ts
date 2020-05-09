@@ -144,10 +144,10 @@ app.get('/export/:inviteCode', async(req: Request, res: Response, next: NextFunc
 if (config.NODE_ENV === "production") {
   // TODO: Restrict /docs/ access to developers and coreable people
   app.use(expressStatic(join(__dirname + '/../public/')));
-  app.use(expressStatic(join(__dirname + '/../docs/')));
-  app.get('/docs/*', (req, res) => {
-    res.sendFile(join(__dirname + '/../docs/index.html'));
-  });
+  // app.use(expressStatic(join(__dirname + '/../docs/')));
+  // app.get('/docs/*', (req, res) => {
+  //   res.sendFile(join(__dirname + '/../docs/index.html'));
+  // });
   app.get('/*', (req, res) => {
     res.sendFile(join(__dirname + '/../public/index.html'));
   });

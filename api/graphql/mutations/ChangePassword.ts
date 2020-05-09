@@ -24,10 +24,13 @@ import { User } from "../../models/User";
 import { MeCommand } from "../command/Me";
 import { Industry } from "../../models/Industry";
 
+import sendgrid from '@sendgrid/mail';
+sendgrid.setApiKey(process.env.SENDGRID_API_KEY || '');
+
 export default {
   type: MeCommand,
   args: {
-      currentPassword: {
+    currentPassword: {
       type: new GraphQLNonNull(GraphQLString)
     },
     newPassword: {
@@ -80,6 +83,16 @@ export default {
         });
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
+      }
+      try {
+        await sendgrid.send({
+          to: context.USER.email,
+          from: 'noreply@coreable.appspot.com',
+          subject: 'Password changed',
+          text: 'Your password for coreable was just changed, if this wasn\'t you please email us at support@coreable.appspot.com'
+        })
+      } catch (err) {
+        console.error(err);
       }
     }
     return {
