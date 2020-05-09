@@ -17,6 +17,6 @@ const USER_NAME = "firstName";
 const LAST_NAME = "lastName";
 const USERID = "user_id";
 const TEAMID = "team_id";
-const API_URL = "https://coreable.appspot.com/graphql";
+const API_URL = "https://coreable.app/graphql";
 
 export { JWT, USER_NAME, LAST_NAME, USERID, TEAMID, API_URL };
