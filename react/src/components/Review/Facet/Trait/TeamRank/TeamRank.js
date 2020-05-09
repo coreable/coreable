@@ -37,7 +37,6 @@ class TeamRank extends Component {
 
     if (!review) {
       review = this.props.defaultReview;
-      console.log(review);
     }
 
     const me_id = this.state.me._id;
