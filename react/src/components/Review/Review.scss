@@ -15,20 +15,29 @@ $max-width: 760px;
   margin: 0 auto;
   align-items: center;
   width: 100%;
-  // min-height: 100vh;
   //overflow:auto doesnt allow it to scroll up.
   // overflow: auto;
-  height: 100%;
+  min-height: 100vh;
 
   .top {
-    background: #0c152e;
+    background: $secondaryBlue;
+    position: absolute;
+    top: 0px;
+    padding-top: 140px;
     margin: 0 auto;
     text-align: center;
-    height: 320px;
-    padding-top: 100px;
+    height: 50%;
+    width: 100%;
+    z-index: 0;
+    color: $white;
+    // background: $secondaryBlue;
+    // margin: 0 auto;
+    // text-align: center;
+    // height: 50%;
+    // padding-top: 100px;
 
     .facet-heading-desc {
-      width: 45%;
+      width: 40%;
       margin: 0 auto;
       text-align: center;
 
@@ -49,12 +58,18 @@ $max-width: 760px;
     }
   }
 
+  @media (max-width: $max-width) {
+    .top {
+      height: 40%;
+    }
+  }
+
   .main {
     // z-index: 3;
     background: transparent;
     border: none;
     position: absolute;
-    top: 250px;
+    top: 45%;
     // height: ;
     //if this is dynamic, mobile capability is bad
     width: 50%;
@@ -75,7 +90,7 @@ $max-width: 760px;
       min-width: 300px;
       background: white;
       border-radius: 0.33rem;
-      margin: 20px;
+      margin: 10px;
       padding: 20px;
 
       .slider-bar-container {
@@ -103,12 +118,6 @@ $max-width: 760px;
           justify-content: space-evenly;
 
           .bar {
-            //haircomb intervals
-            // border-right: 0.05px solid rgb(214, 214, 214);
-            // background: transparent;
-            // height: 100%;
-            // width: 55%;
-
             //dots
             width: 5px;
             height: 5px;
@@ -120,8 +129,12 @@ $max-width: 760px;
             left: 1px;
           }
 
+          .bar:nth-child(1) {
+            left: 2px;
+          }
+
           .bar:nth-last-child(2) {
-            left: -2px;
+            left: -1px;
           }
 
           .bar:nth-last-child(1) {
@@ -244,6 +257,7 @@ $max-width: 760px;
 
       .select-user-button {
         margin: 10px;
+        border-radius: 0.33rem;
         // margin-top: 25px;
       }
 
@@ -271,6 +285,10 @@ $max-width: 760px;
       }
     }
 
+    .inside-main:nth-child(1) {
+      margin-top: 20px;
+    }
+
     .btn {
       width: 60%;
       // max-width: 30%;
@@ -295,11 +313,9 @@ $max-width: 760px;
       background-color: rgb(64, 112, 224);
       color: white;
       font-weight: bold;
+      transition: all 0.2s ease-in-out;
       &:hover {
-        background-color: white;
-        border: 2px solid rgb(64, 112, 224);
-        color: rgb(64, 112, 224);
-        transition: all 0.2s ease-in-out;
+        transform: scale(1.03);
       }
       &:disabled {
         background-color: lightgrey !important;
