@@ -267,7 +267,7 @@ class Trait extends Component {
               marginTop: "8pt",
               marginBottom: "12pt",
               transition: "none",
-              borderRadius: "8pt",
+              borderRadius: "0.33rem",
               // zIndex: "2",
             }}
           />
@@ -301,7 +301,12 @@ class Trait extends Component {
         </div>
 
         <CardActions
-          style={{ flexWrap: "wrap", justifyContent: "left", padding: "0" }}
+          style={{
+            flexWrap: "wrap",
+            justifyContent: "left",
+            padding: "0",
+            marginTop: "10pt",
+          }}
         >
           {this.props.pending.pending.map((user, index) => {
             return (

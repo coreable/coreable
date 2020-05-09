@@ -1,34 +1,3 @@
-// .setup-container {
-//   padding-top: 56px;
-//   align-content: center;
-//   align-items: center;
-
-//   .MuiCard-root {
-//     background-color: #fff;
-//     min-height: 224pt;
-//     height: 224pt;
-//     max-height: 224pt;
-//   }
-
-//   a {
-//     text-decoration: none;
-//   }
-
-//   button {
-//     color: #ffffff;
-//     background: #4271f9;
-//   }
-
-//   .MuiStepIcon-root.MuiStepIcon-active {
-//     color: #4271f9;
-//   }
-
-//   .MuiStepIcon-root.MuiStepIcon-completed {
-//     color: #4271f9;
-//     background: white;
-//   }
-// }
-
 //Colours
 $primaryBlue: #4070e0;
 $secondaryBlue: #0c152e;
@@ -37,6 +6,9 @@ $offWhite: #fafafa;
 $white: #fff;
 $disabledGrey: #d6d6d6;
 
+//Responsive width
+$max-width: 760px;
+
 .review-container {
   background: rgb(245, 245, 245);
   position: relative;
@@ -44,8 +16,6 @@ $disabledGrey: #d6d6d6;
   align-items: center;
   width: 100%;
   min-height: 100vh;
-  // overflow: auto;
-  //   height: 100%;
 
   .top-background {
     background: $secondaryBlue;
@@ -58,6 +28,12 @@ $disabledGrey: #d6d6d6;
     width: 100%;
     z-index: 0;
     color: $white;
+  }
+
+  @media (max-width: $max-width) {
+    .top-background {
+      height: 40%;
+    }
   }
 
   .main {
@@ -115,9 +91,9 @@ $disabledGrey: #d6d6d6;
           left: 50px;
         }
 
-        @media (max-width: 760px) {
+        @media (max-width: $max-width) {
           .stepper-line {
-            left: 58px;
+            left: 55px;
           }
         }
 
@@ -187,18 +163,10 @@ $disabledGrey: #d6d6d6;
           left: 0px;
         }
 
-        @media (min-width: 776px) {
+        @media (max-width: $max-width) {
           .btn {
             width: 100%;
             max-width: 100%;
-          }
-        }
-
-        @media (max-width: 1024px) {
-          .btn {
-            width: 100%;
-            max-width: 100%;
-            font-size: 1.4rem;
           }
         }
 
@@ -230,4 +198,42 @@ $disabledGrey: #d6d6d6;
       }
     }
   }
+
+  @media (max-width: $max-width) {
+    .main {
+      width: 100%;
+      top: 35%;
+    }
+  }
 }
+
+// .setup-container {
+//   padding-top: 56px;
+//   align-content: center;
+//   align-items: center;
+
+//   .MuiCard-root {
+//     background-color: #fff;
+//     min-height: 224pt;
+//     height: 224pt;
+//     max-height: 224pt;
+//   }
+
+//   a {
+//     text-decoration: none;
+//   }
+
+//   button {
+//     color: #ffffff;
+//     background: #4271f9;
+//   }
+
+//   .MuiStepIcon-root.MuiStepIcon-active {
+//     color: #4271f9;
+//   }
+
+//   .MuiStepIcon-root.MuiStepIcon-completed {
+//     color: #4271f9;
+//     background: white;
+//   }
+// }

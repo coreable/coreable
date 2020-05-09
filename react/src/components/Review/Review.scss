@@ -6,6 +6,9 @@ $offWhite: #fafafa;
 $white: #fff;
 $disabledGrey: #d6d6d6;
 
+//Responsive width
+$max-width: 760px;
+
 .team-container {
   background: rgb(245, 245, 245);
   position: relative;
@@ -39,7 +42,7 @@ $disabledGrey: #d6d6d6;
       }
     }
 
-    @media (max-width: 750px) {
+    @media (max-width: $max-width) {
       .facet-heading-desc {
         width: 70%;
       }
@@ -71,7 +74,7 @@ $disabledGrey: #d6d6d6;
       width: 100%;
       min-width: 300px;
       background: white;
-      border-radius: 8pt;
+      border-radius: 0.33rem;
       margin: 20px;
       padding: 20px;
 
@@ -140,7 +143,7 @@ $disabledGrey: #d6d6d6;
           border: transparent;
           height: 26px;
           width: 20px;
-          border-radius: 5pt;
+          border-radius: 0.33rem;
           background: transparent;
           cursor: pointer;
           margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
@@ -152,7 +155,7 @@ $disabledGrey: #d6d6d6;
           border: transparent;
           height: 26px;
           width: 20px;
-          border-radius: 5pt;
+          border-radius: 0.33rem;
           background: transparent;
           cursor: pointer;
         }
@@ -162,7 +165,7 @@ $disabledGrey: #d6d6d6;
           border: transparent;
           height: 26px;
           width: 20px;
-          border-radius: 5pt;
+          border-radius: 0.33rem;
           background: transparent;
           cursor: pointer;
         }
@@ -178,7 +181,7 @@ $disabledGrey: #d6d6d6;
           cursor: pointer;
           // background: rgb(64, 112, 224);
           background: transparent;
-          border-radius: 4px;
+          border-radius: 0.33rem;
         }
 
         input[type="range"]:focus::-webkit-slider-runnable-track {
@@ -191,7 +194,7 @@ $disabledGrey: #d6d6d6;
           height: 30px;
           cursor: pointer;
           background: rgb(64, 112, 224);
-          border-radius: 8px;
+          border-radius: 0.33rem;
         }
 
         input[type="range"]::-ms-track {
@@ -205,14 +208,14 @@ $disabledGrey: #d6d6d6;
         }
         input[type="range"]::-ms-fill-lower {
           background: rgb(64, 112, 224);
-          border-radius: 8px;
+          border-radius: 0.33rem;
         }
         input[type="range"]:focus::-ms-fill-lower {
           background: rgb(64, 112, 224);
         }
         input[type="range"]::-ms-fill-upper {
           background: rgb(64, 112, 224);
-          border-radius: 8px;
+          border-radius: 0.33rem;
         }
         input[type="range"]:focus::-ms-fill-upper {
           background: rgb(64, 112, 224);
@@ -241,7 +244,7 @@ $disabledGrey: #d6d6d6;
 
       .select-user-button {
         margin: 10px;
-        margin-top: 25px;
+        // margin-top: 25px;
       }
 
       .team-member {
@@ -255,21 +258,13 @@ $disabledGrey: #d6d6d6;
         font-weight: bold;
       }
 
-      // button.active {
-      //   background: rgb(66, 113, 249);
-      // }
-
-      // button.inactive {
-      //   background: rgba(66, 113, 249, 0.3);
-      // }
-
       .MuiSlider-thumb.Mui-disabled {
         width: 8px;
         height: 24px;
         margin-top: 0;
         margin-left: -4px;
       }
-      @media (max-width: 776px) {
+      @media (max-width: $max-width) {
         .select-user-button {
           margin: 5px;
         }
@@ -280,26 +275,18 @@ $disabledGrey: #d6d6d6;
       width: 60%;
       // max-width: 30%;
       height: 40pt;
-      border-radius: 0.8rem;
+      border-radius: 0.33rem;
       font-size: 1.6rem;
       font-weight: bold;
       justify-content: center;
       align-content: center;
-      margin: 10px auto;
+      // margin: 10px auto;
       text-transform: none;
     }
 
-    @media (min-width: 776px) {
-      // .btn {
-      //   width: 100%;
-      //   max-width: 100%;
-      // }
-    }
-
-    @media (max-width: 1024px) {
+    @media (max-width: $max-width) {
       .btn {
-        width: 60%;
-        max-width: 60%;
+        width: 90%;
         font-size: 1.4rem;
       }
     }
@@ -342,7 +329,7 @@ $disabledGrey: #d6d6d6;
 
   @media (max-width: 700px) {
     .main {
-      width: 70%;
+      width: 100%;
       top: 310px;
     }
   }
