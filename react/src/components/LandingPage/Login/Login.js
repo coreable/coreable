@@ -115,7 +115,7 @@ class Login extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        [JWT]: localStorage.getItem(JWT) || "",
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
