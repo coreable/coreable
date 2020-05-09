@@ -419,24 +419,21 @@ class Skills extends Component {
           >
             All marks are average of 5 assessments{" "}
           </p>
-          <Button className="btn primarybtn">All Core Skills</Button>
-
-          <Button className="btn primarybtn" disabled>
-            Collaboration
-          </Button>
-
-          <Button className="btn primarybtn" disabled>
-            Communication
-          </Button>
+          <div className="skills-btns">
+            <button className="btn primarybtn">All Core Skills</button>
+            <button className="btn primarybtn" disabled>
+              Collaboration
+            </button>
+            <button className="btn primarybtn" disabled>
+              Communication
+            </button>
+          </div>
+          <div className="skills-btns-dropdown">
+            <button className="btn primarybtn">All Core Skills</button>
+          </div>
         </div>
 
         <div className="main">
-          {/* <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          > */}
           <div
             style={{
               paddingLeft: "0",
@@ -450,225 +447,195 @@ class Skills extends Component {
               <Radar {...this.state} />
             </Card>
           </div>
-          <Container
+          <div
             style={{
               marginTop: "8pt",
               marginBottom: "50pt",
               padding: "0",
               display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
             }}
           >
-            <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="stretch"
-              spacing={1}
-            >
-              {(() => {
-                if (this.state.strengths.length > 0) {
-                  return (
-                    <Grid className="inside-main">
-                      <Container
-                        style={{ paddingLeft: "0", paddingRight: "0" }}
+            {(() => {
+              if (this.state.strengths.length > 0) {
+                return (
+                  <Grid className="inside-main">
+                    <Container style={{ paddingLeft: "0", paddingRight: "0" }}>
+                      <Card
+                        variant="outlined"
+                        style={{ maxHeight: "308pt", border: "none" }}
                       >
-                        <Card
-                          variant="outlined"
-                          style={{ maxHeight: "308pt", border: "none" }}
-                        >
-                          <CardContent style={{ margin: "0", padding: "0" }}>
-                            <div className="inside-main-content">
-                              <Typography
-                                variant="h4"
-                                component="h1"
-                                style={{
-                                  fontWeight: "bold",
-                                  paddingBottom: "5pt",
-                                }}
-                              >
-                                Top Strengths
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                                component="h1"
-                                style={{
-                                  color: "rgb(97,103,121",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                Top facets are sorted highest to lowest
-                              </Typography>
+                        <CardContent style={{ margin: "0", padding: "0" }}>
+                          <div className="inside-main-content">
+                            <Typography
+                              variant="h4"
+                              component="h1"
+                              style={{
+                                fontWeight: "bold",
+                                paddingBottom: "5pt",
+                              }}
+                            >
+                              Top Strengths
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              component="h1"
+                              style={{
+                                color: "rgb(97,103,121",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Top facets are sorted highest to lowest
+                            </Typography>
 
-                              {this.state.strengths.map((strength, idx) => {
-                                return <SkillBar key={idx} values={strength} />;
+                            {this.state.strengths.map((strength, idx) => {
+                              return <SkillBar key={idx} values={strength} />;
+                            })}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Container>
+                  </Grid>
+                );
+              }
+            })()}
+            {(() => {
+              if (this.state.improve.length > 0) {
+                return (
+                  <Grid className="inside-main">
+                    <Container style={{ paddingLeft: "0", paddingRight: "0" }}>
+                      <Card
+                        variant="outlined"
+                        style={{ maxHeight: "308pt", border: "none" }}
+                      >
+                        <CardContent style={{ margin: "0", padding: "0" }}>
+                          <div className="inside-main-content">
+                            <Typography
+                              variant="h4"
+                              component="h1"
+                              style={{
+                                fontWeight: "bold",
+                                paddingBottom: "5pt",
+                              }}
+                            >
+                              Areas to improve
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              component="h1"
+                              style={{
+                                color: "rgb(97,103,121",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Top facets are sorted highest to lowest
+                            </Typography>
+                            {this.state.improve.sort((a, b) => {
+                              return b.value - a.value;
+                            }) &&
+                              this.state.improve.map((improve, idx) => {
+                                return <SkillBar key={idx} values={improve} />;
                               })}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Container>
-                    </Grid>
-                  );
-                }
-              })()}
-              {(() => {
-                if (this.state.improve.length > 0) {
-                  return (
-                    <Grid className="inside-main">
-                      <Container
-                        style={{ paddingLeft: "0", paddingRight: "0" }}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Container>
+                  </Grid>
+                );
+              }
+            })()}
+            {(() => {
+              if (this.state.blind.length > 0) {
+                return (
+                  <Grid className="inside-main">
+                    <Container style={{ paddingLeft: "0", paddingRight: "0" }}>
+                      <Card
+                        variant="outlined"
+                        style={{ maxHeight: "308pt", border: "none" }}
                       >
-                        <Card
-                          variant="outlined"
-                          style={{ maxHeight: "308pt", border: "none" }}
-                        >
-                          <CardContent style={{ margin: "0", padding: "0" }}>
-                            <div className="inside-main-content">
-                              <Typography
-                                variant="h4"
-                                component="h1"
-                                style={{
-                                  fontWeight: "bold",
-                                  paddingBottom: "5pt",
-                                }}
-                              >
-                                Areas to improve
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                                component="h1"
-                                style={{
-                                  color: "rgb(97,103,121",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                Top facets are sorted highest to lowest
-                              </Typography>
-                              {this.state.improve.sort((a, b) => {
-                                return b.value - a.value;
-                              }) &&
-                                this.state.improve.map((improve, idx) => {
-                                  return (
-                                    <SkillBar key={idx} values={improve} />
-                                  );
-                                })}
-                              {/* {this.state.improve.map((improve, idx) => {
+                        <CardContent style={{ margin: "0", padding: "0" }}>
+                          <div className="inside-main-content">
+                            <Typography
+                              variant="h4"
+                              component="h1"
+                              style={{
+                                fontWeight: "bold",
+                                paddingBottom: "5pt",
+                              }}
+                            >
+                              Blind spots
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              component="h1"
+                              style={{
+                                color: "rgb(97,103,121",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Top facets are sorted highest to lowest
+                            </Typography>
+                            {this.state.blind.sort((a, b) => {
+                              return b.self - a.self;
+                            }) &&
+                              this.state.blind.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
-                              })} */}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Container>
-                    </Grid>
-                  );
-                }
-              })()}
-              {(() => {
-                if (this.state.blind.length > 0) {
-                  return (
-                    <Grid className="inside-main">
-                      <Container
-                        style={{ paddingLeft: "0", paddingRight: "0" }}
+                              })}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Container>
+                  </Grid>
+                );
+              }
+            })()}
+            {(() => {
+              if (this.state.bright.length > 0) {
+                return (
+                  <Grid className="inside-main">
+                    <Container style={{ paddingLeft: "0", paddingRight: "0" }}>
+                      <Card
+                        variant="outlined"
+                        style={{ maxHeight: "308pt", border: "none" }}
                       >
-                        <Card
-                          variant="outlined"
-                          style={{ maxHeight: "308pt", border: "none" }}
-                        >
-                          <CardContent style={{ margin: "0", padding: "0" }}>
-                            <div className="inside-main-content">
-                              <Typography
-                                variant="h4"
-                                component="h1"
-                                style={{
-                                  fontWeight: "bold",
-                                  paddingBottom: "5pt",
-                                }}
-                              >
-                                Blind spots
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                                component="h1"
-                                style={{
-                                  color: "rgb(97,103,121",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                Top facets are sorted highest to lowest
-                              </Typography>
-                              {this.state.blind.sort((a, b) => {
-                                return b.self - a.self;
-                              }) &&
-                                this.state.blind.map((improve, idx) => {
-                                  return (
-                                    <SkillBar key={idx} values={improve} />
-                                  );
-                                })}
-                              {/* {this.state.blind.map((improve, idx) => {
+                        <CardContent style={{ margin: "0", padding: "0" }}>
+                          <div className="inside-main-content">
+                            <Typography
+                              variant="h4"
+                              component="h1"
+                              style={{
+                                fontWeight: "bold",
+                                paddingBottom: "5pt",
+                              }}
+                            >
+                              Bright spots
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              component="h1"
+                              style={{
+                                color: "rgb(97,103,121",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Top facets are sorted highest to lowest
+                            </Typography>
+                            {this.state.bright.sort((a, b) => {
+                              return b.team - a.team;
+                            }) &&
+                              this.state.bright.map((improve, idx) => {
                                 return <SkillBar key={idx} values={improve} />;
-                              })} */}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Container>
-                    </Grid>
-                  );
-                }
-              })()}
-              {(() => {
-                if (this.state.bright.length > 0) {
-                  return (
-                    <Grid className="inside-main">
-                      <Container
-                        style={{ paddingLeft: "0", paddingRight: "0" }}
-                      >
-                        <Card
-                          variant="outlined"
-                          style={{ maxHeight: "308pt", border: "none" }}
-                        >
-                          <CardContent style={{ margin: "0", padding: "0" }}>
-                            <div className="inside-main-content">
-                              <Typography
-                                variant="h4"
-                                component="h1"
-                                style={{
-                                  fontWeight: "bold",
-                                  paddingBottom: "5pt",
-                                }}
-                              >
-                                Bright spots
-                              </Typography>
-                              <Typography
-                                variant="h6"
-                                component="h1"
-                                style={{
-                                  color: "rgb(97,103,121",
-                                  fontWeight: "bold",
-                                }}
-                              >
-                                Top facets are sorted highest to lowest
-                              </Typography>
-                              {this.state.bright.sort((a, b) => {
-                                return b.team - a.team;
-                              }) &&
-                                this.state.bright.map((improve, idx) => {
-                                  return (
-                                    <SkillBar key={idx} values={improve} />
-                                  );
-                                })}
-                              {/* {this.state.bright.map((improve, idx) => {
-                                return <SkillBar key={idx} values={improve} />;
-                              })} */}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Container>
-                    </Grid>
-                  );
-                }
-              })()}
-            </Grid>
-          </Container>
-          {/* </Grid> */}
+                              })}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Container>
+                  </Grid>
+                );
+              }
+            })()}
+          </div>
         </div>
       </div>
     );

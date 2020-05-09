@@ -1,3 +1,14 @@
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+//Responsive width
+$max-width: 760px;
+
 .review-container {
   background: rgb(245, 245, 245);
   position: relative;
@@ -9,7 +20,7 @@
   //   height: 100%;
 
   .top-background {
-    background: #0c152e;
+    background: $secondaryBlue;
     position: absolute;
     top: 0px;
     padding-top: 80px;
@@ -18,45 +29,98 @@
     height: 50%;
     width: 100%;
     z-index: 0;
-    color: white;
+    color: $white;
 
-    .btn {
-      width: 178pt;
-      height: 44pt;
-      border-radius: 0.33rem;
-      font-size: 1.6rem;
-      font-weight: bold;
-      justify-content: center;
-      align-content: center;
-      margin: 0 auto;
-      text-transform: none;
-      margin: 8pt;
-    }
+    .skills-btns-dropdown {
+      display: none;
 
-    @media (max-width: 1024px) {
       .btn {
-        width: 100%;
-        max-width: 100%;
-        font-size: 1.4rem;
+        width: 178pt;
+        height: 44pt;
+        border-radius: 0.33rem;
+
+        font-size: 1.6rem;
+        font-weight: bold;
+        justify-content: center;
+        align-content: center;
+        margin: 0 auto;
+        text-transform: none;
+        margin: 8pt;
+      }
+
+      @media (max-width: 990px) {
+        .btn {
+          width: 70%;
+          font-size: 1.4rem;
+        }
+      }
+
+      .primarybtn {
+        background-color: $primaryBlue;
+        border: none;
+        color: $white;
+        font-weight: bold;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          transform: scale(1.03);
+        }
+        &:disabled {
+          background-color: $disabledGrey;
+          color: $white !important;
+          cursor: not-allowed !important;
+          border: none !important;
+        }
+        &:focus {
+          outline: none;
+        }
       }
     }
 
-    .primarybtn {
-      background-color: rgb(64, 112, 224);
-      color: white;
-      font-weight: bold;
-      transition: all 0.2s ease-in-out;
-      &:hover {
-        transform: scale(1.03);
+    .skills-btns {
+      .btn {
+        width: 178pt;
+        height: 44pt;
+        border-radius: 0.33rem;
+
+        font-size: 1.6rem;
+        font-weight: bold;
+        justify-content: center;
+        align-content: center;
+        margin: 0 auto;
+        text-transform: none;
+        margin: 8pt;
+        transition: all 0.2s ease-in-out;
+        &:hover {
+          transform: scale(1.03);
+        }
       }
-      &:disabled {
-        background-color: lightgrey !important;
-        color: white !important;
-        cursor: not-allowed !important;
-        border: none !important;
+
+      .primarybtn {
+        background-color: $primaryBlue;
+        border: none;
+        color: $white;
+        font-weight: bold;
+
+        &:disabled {
+          background-color: $disabledGrey;
+          color: $white !important;
+          cursor: not-allowed !important;
+          border: none !important;
+          transform: none;
+        }
+        &:focus {
+          outline: none;
+        }
       }
-      &:focus {
-        outline: none;
+    }
+
+    //hide so we can show a dropdown menu instead
+    @media (max-width: 990px) {
+      .skills-btns {
+        display: none;
+      }
+      .skills-btns-dropdown {
+        display: block;
       }
     }
   }
@@ -68,7 +132,7 @@
     position: absolute;
     top: 45%;
     // height: ;
-    width: 760pt;
+    width: 770pt;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -82,7 +146,7 @@
     .inside-main {
       min-height: 257pt;
       width: 370pt;
-      background: white;
+      background: $white;
       margin: 10pt 5px 10pt 5pt;
       border-radius: 4pt;
       border: 1px solid lightgray;
@@ -154,9 +218,15 @@
         }
       }
     }
+
+    @media (max-width: 990px) {
+      .inside-main {
+        width: 100%;
+      }
+    }
   }
 
-  @media (max-width: 850px) {
+  @media (max-width: 990px) {
     .main {
       width: 90%;
     }
