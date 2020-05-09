@@ -34,10 +34,6 @@ class Trait extends Component {
     this.reviewSubject = new Subject();
   }
 
-  componentWillUnmount = () => {
-    this.reviewSubject$.unsubscribe();
-  }
-
   componentDidUpdate() {
     if (this.state.var !== this.props.var) {
       const props = this.props;

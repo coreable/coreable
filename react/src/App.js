@@ -140,7 +140,7 @@ class App extends Component {
       data,
       errors
     });
-  }
+  };
 
   componentDidMount = () => {
     this.refreshMe();

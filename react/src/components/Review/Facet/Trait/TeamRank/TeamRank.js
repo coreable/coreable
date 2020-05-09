@@ -19,6 +19,10 @@ class TeamRank extends Component {
     });
   }
 
+  componentWillUnmount = () => {
+    this.reviewSub$.unsubscribe();
+  }
+
   capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
