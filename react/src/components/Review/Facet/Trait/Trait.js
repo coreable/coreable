@@ -32,7 +32,6 @@ class Trait extends Component {
     };
 
     this.reviewSubject = new Subject();
-
   }
 
   componentWillUnmount = () => {
