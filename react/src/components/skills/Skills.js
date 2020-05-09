@@ -43,9 +43,7 @@ class Skills extends Component {
   }
 
   componentDidMount = async () => {
-    if (this.props.me) {
-      this.props.ReactGA.pageview("/skills");
-    }
+    this.props.ReactGA.pageview("/skills");
 
     const query = {
       query: `
@@ -123,7 +121,7 @@ class Skills extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        [JWT]: localStorage.getItem(JWT),
       },
       body: JSON.stringify(query),
     };
@@ -392,12 +390,8 @@ class Skills extends Component {
   };
 
   render() {
-    if (!this.props.me && !this.props.loading) {
+    if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
-    }
-
-    if (!this.props.me && this.props.loading) {
-      return <div></div>;
     }
 
     return (
