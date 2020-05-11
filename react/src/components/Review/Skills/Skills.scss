@@ -62,7 +62,7 @@ $max-width: 760px;
         font-weight: bold;
         transition: all 0.2s ease-in-out;
         &:hover {
-          transform: scale(1.03);
+          transform: none;
         }
         &:disabled {
           background-color: $disabledGrey;
@@ -120,7 +120,38 @@ $max-width: 760px;
         display: none;
       }
       .skills-btns-dropdown {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 1s ease-out;
+
+        .skills-dropdown-content {
+          position: absolute;
+          display: none;
+          top: 85%;
+          width: 70%;
+          background-color: $primaryBlue;
+          z-index: 300;
+
+          ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+              font-size: 1.4rem;
+              text-decoration: none;
+              margin: 20px;
+            }
+          }
+        }
+
+        &:hover {
+          .skills-dropdown-content {
+            display: block;
+          }
+        }
       }
     }
   }
