@@ -434,12 +434,13 @@ class Skills extends Component {
             </div>
             <div className="skills-btns-dropdown">
               <button className="btn primarybtn">All Core Skills</button>
-              <div className="skills-dropdown-content">
+              {/* Dropdown menu after we complete the other pages */}
+              {/* <div className="skills-dropdown-content">
                 <ul>
                   <li>Collaboration</li>
                   <li>Communication</li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
           <div
