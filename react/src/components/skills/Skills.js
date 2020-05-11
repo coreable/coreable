@@ -22,7 +22,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../../constants";
+import { JWT, API_URL } from "../../constants";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
@@ -43,9 +43,7 @@ class Skills extends Component {
   }
 
   componentDidMount = async () => {
-    if (this.props.me) {
-      this.props.ReactGA.pageview("/skills");
-    }
+    this.props.ReactGA.pageview("/skills");
 
     const query = {
       query: `
@@ -392,12 +390,8 @@ class Skills extends Component {
   };
 
   render() {
-    if (!this.props.me && !this.props.loading) {
+    if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
-    }
-
-    if (!this.props.me && this.props.loading) {
-      return <div></div>;
     }
 
     return (

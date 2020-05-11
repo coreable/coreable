@@ -260,7 +260,7 @@ class Review extends Component {
   submit = async () => {
     const review = JSON.parse(localStorage.getItem("review"));
     const promises = [];
-    const AUTH_TOKEN = localStorage.getItem(JWT);
+    const AUTH_TOKEN = this.props.app.JWT;
     const team_id = this.props.location.state.pending._id;
     const me_id = this.props.me._id;
 
@@ -357,15 +357,8 @@ class Review extends Component {
     /**
      * User is unauthenticated
      */
-    if (!this.props.me && !this.props.loading) {
+    if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
-    }
-
-    /**
-     * User is still loading from the database
-     */
-    if (!this.props.me && this.props.loading) {
-      return <div></div>;
     }
 
     /**
@@ -404,7 +397,7 @@ class Review extends Component {
         {...this.state.facets[currentIndex]}
         nextStep={this.nextStep}
         prevStep={this.prevStep}
-        me={this.props.me}
+        me={this.props.app.data.user}
         ReactGA={this.props.ReactGA}
         buttonLabel={this.state.buttonLabel}
       ></Facet>

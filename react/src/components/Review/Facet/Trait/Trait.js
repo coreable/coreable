@@ -15,6 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
+import { Subject } from 'rxjs';
 
 import { Typography, CardActions, Button } from "@material-ui/core";
 
@@ -29,6 +30,8 @@ class Trait extends Component {
       user: {},
       team: props.pending,
     };
+
+    this.reviewSubject = new Subject();
   }
 
   componentDidUpdate() {
@@ -45,6 +48,7 @@ class Trait extends Component {
   }
 
   setReview = (review) => {
+    this.reviewSubject.next({ review });
     localStorage.setItem("review", JSON.stringify(review));
   };
 
@@ -331,10 +335,14 @@ class Trait extends Component {
             return (
               <TeamRank
                 key={user._id}
-                name={user._d}
+                name={user._id}
+                me={this.props.me}
+                user={user}
+                team={this.props.pending}
                 value={this.state.val}
-                {...this.getScoreForDisplay(user)}
-                // backgroundImage={this.getSliderBackground}
+                trait={this.state.var}
+                defaultReview={this.getReview()}
+                reviewSubject={this.reviewSubject}
                 teamMemberCount={this.countTeam()}
               />
             );

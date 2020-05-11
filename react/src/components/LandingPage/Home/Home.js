@@ -34,18 +34,18 @@ class Home extends Component {
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
-      me: props.me,
+      me: props.app.data.user,
       steps: ["Self Review", "Team Review", "Final Review"],
       loading: true,
     };
   }
 
   componentDidMount = async () => {
-    if (!this.props.me) {
+    this.props.ReactGA.pageview("/home");
+
+    if (!this.props.app.data.user) {
       return false;
     }
-
-    this.props.ReactGA.pageview("/home");
 
     let grouped = {};
     const { me } = this.state;
@@ -193,7 +193,7 @@ class Home extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        [JWT]: localStorage.getItem(JWT),
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -212,11 +212,7 @@ class Home extends Component {
   };
 
   render() {
-    /**
-     * This is the application specific loading
-     * for the entire user object
-     */
-    if (!this.props.me && !this.props.loading) {
+    if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
     }
 

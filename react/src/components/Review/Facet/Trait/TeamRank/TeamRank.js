@@ -1,45 +1,87 @@
-import React from "react";
+import React, { Component } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import "./TeamRank.scss";
 
-const TeamRank = (props) => {
-  const { val, user, value } = props;
+class TeamRank extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      trait: props.trait,
+      team: props.team,
+      me: props.me,
+      user: props.user
+    };
+    this.reviewSub$ = props.reviewSubject.subscribe(({ review }) => {
+      this.setState({
+        ...this.state,
+        review: review
+      }, () => console.log(this.state));
+    });
+  }
 
-  const capitalize = (str) => {
+  componentWillUnmount = () => {
+    this.reviewSub$.unsubscribe();
+  }
+
+  capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  if (val === -1 || val === 0) {
-    return null;
-  }
+  render() {
+    if (this.state.val <= 0) {
+      return null;
+    }
 
-  //need this if conditon to not show bar if doing self review
-  if (props.teamMemberCount === 1) {
-    return null;
-  } else {
-    return (
-      <Grid className="team-rank-container">
-        <label
-          className="team-rating"
-          style={{
-            width: `${val * 4.7}px`,
-            backgroundImage:
-              "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
-          }}
-        ></label>
+    // not show bar if doing self review
+    if (this.props.teamMemberCount <= 1) {
+      return null;
+    }
 
-        <Typography
-          variant="caption"
-          style={{
-            marginLeft: "5px",
-            paddingBottom: "5px",
-            marginTop: "2px",
-          }}
-        >
-          {capitalize(user.firstName)}
-        </Typography>
-      </Grid>
-    );
+    let review = this.state.review;
+
+    if (!review) {
+      review = this.props.defaultReview;
+    }
+
+    const me_id = this.state.me._id;
+    const team_id = this.state.team._id;
+    const user_id = this.state.user._id;
+    const trait = this.state.trait;
+
+    if (!review) {
+      return null;
+    }
+
+    if (review[me_id][team_id]) {
+      if (review[me_id][team_id][user_id]) {
+        if (review[me_id][team_id][user_id][trait]) {
+          return (
+            <Grid className="team-rank-container">
+              <label
+                className="team-rating"
+                style={{
+                  width: `${review[me_id][team_id][user_id][trait].val * 4.7}px`,
+                  backgroundImage:
+                    "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
+                }}
+              ></label>
+
+              <Typography
+                variant="caption"
+                style={{
+                  marginLeft: "5px",
+                  paddingBottom: "5px",
+                  marginTop: "2px",
+                }}
+              >
+                {this.state.user.firstName}
+              </Typography>
+            </Grid>
+          );
+        }
+      }
+    }
+    return null;
   }
 };
 
