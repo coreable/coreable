@@ -452,9 +452,20 @@ class Skills extends Component {
               // height: "448pt",
             }}
           >
-            <Card variant="outlined" style={{ border: "1px solid lightgrey" }}>
+            <Card
+              variant="outlined"
+              style={{ border: "1px solid lightgrey", marginTop: "15px" }}
+            >
               <Radar {...this.state} />
             </Card>
+          </div>
+          <div>
+            <Typography
+              variant="h3"
+              style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
+            >
+              Your facets
+            </Typography>
           </div>
           <div
             style={{
