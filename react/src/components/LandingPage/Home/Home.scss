@@ -41,7 +41,7 @@ $max-width: 760px;
     background: transparent;
     border: none;
     position: absolute;
-    top: 45%;
+    top: 15%;
     // width: 75%;
     width: 760pt;
     position: absolute;
@@ -202,38 +202,7 @@ $max-width: 760px;
   @media (max-width: $max-width) {
     .main {
       width: 100%;
-      top: 35%;
+      top: 10%;
     }
   }
 }
-
-// .setup-container {
-//   padding-top: 56px;
-//   align-content: center;
-//   align-items: center;
-
-//   .MuiCard-root {
-//     background-color: #fff;
-//     min-height: 224pt;
-//     height: 224pt;
-//     max-height: 224pt;
-//   }
-
-//   a {
-//     text-decoration: none;
-//   }
-
-//   button {
-//     color: #ffffff;
-//     background: #4271f9;
-//   }
-
-//   .MuiStepIcon-root.MuiStepIcon-active {
-//     color: #4271f9;
-//   }
-
-//   .MuiStepIcon-root.MuiStepIcon-completed {
-//     color: #4271f9;
-//     background: white;
-//   }
-// }
