@@ -396,44 +396,53 @@ class Skills extends Component {
 
     return (
       <div className="review-container">
-        <div className="top-background">
-          <Typography
-            variant="h2"
-            style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
-          >
-            Your Skills
-          </Typography>
-          <p
+        <div className="top-background"></div>
+
+        <div className="skills-main">
+          <div
             style={{
-              fontSize: "1.4rem",
-              fontWeight: "bold",
-              marginBottom: "35pt",
-              color: "#d6d6d6",
+              paddingLeft: "0",
+              paddingRight: "0",
+              margin: "6px",
+              width: "100%",
+              // height: "448pt",
             }}
           >
-            All marks are average of 5 assessments{" "}
-          </p>
-          <div className="skills-btns">
-            <button className="btn primarybtn">All Core Skills</button>
-            <button className="btn primarybtn" disabled>
-              Collaboration
-            </button>
-            <button className="btn primarybtn" disabled>
-              Communication
-            </button>
-          </div>
-          <div className="skills-btns-dropdown">
-            <button className="btn primarybtn">All Core Skills</button>
-            <div className="skills-dropdown-content">
-              <ul>
-                <li>Collaboration</li>
-                <li>Communication</li>
-              </ul>
+            <Typography
+              variant="h2"
+              style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
+            >
+              Your Skills
+            </Typography>
+            <p
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                marginBottom: "35pt",
+                color: "#d6d6d6",
+              }}
+            >
+              All marks are average of 5 assessments{" "}
+            </p>
+            <div className="skills-btns">
+              <button className="btn primarybtn">All Core Skills</button>
+              <button className="btn primarybtn" disabled>
+                Collaboration
+              </button>
+              <button className="btn primarybtn" disabled>
+                Communication
+              </button>
+            </div>
+            <div className="skills-btns-dropdown">
+              <button className="btn primarybtn">All Core Skills</button>
+              <div className="skills-dropdown-content">
+                <ul>
+                  <li>Collaboration</li>
+                  <li>Communication</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="main">
           <div
             style={{
               paddingLeft: "0",
