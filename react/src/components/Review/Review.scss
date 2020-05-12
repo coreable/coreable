@@ -40,6 +40,32 @@ $max-width: 760px;
       width: 40%;
       margin: 0 auto;
       text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .stepper-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: relative;
+        height: 40px;
+        width: 70%;
+        margin-bottom: 30px;
+
+        span {
+          height: 24px;
+          width: 24px;
+          border: 2px solid $white;
+          border-radius: 50%;
+          background: $white;
+        }
+
+        .active {
+          border: 2px solid $primaryBlue;
+        }
+      }
 
       h1,
       p {

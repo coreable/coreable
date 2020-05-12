@@ -32,8 +32,7 @@ class Trait extends Component {
       team: props.pending,
       showPara: false,
       flip: "",
-      borderBottom: "1px solid black",
-      borderRight: "1px solid black",
+      border: "1px solid #707070",
     };
 
     this.reviewSubject = new Subject();
@@ -276,10 +275,10 @@ class Trait extends Component {
               marginTop: "8pt",
               marginBottom: "10pt",
               fontWeight: "bold",
-              width: "80%",
+              width: "70%",
             }}
           >
-            {this.state.desc}{" "}
+            {this.state.desc}
           </Typography>
           <span
             onClick={this.clickHandler}
@@ -288,8 +287,8 @@ class Trait extends Component {
               // position: "absolute",
               // top: "8px",
               // right: "5px",
-              borderBottom: this.state.borderBottom,
-              borderRight: this.state.borderRight,
+              borderBottom: this.state.border,
+              borderRight: this.state.border,
               height: "6px",
               width: "6px",
               marginBottom: "10px",

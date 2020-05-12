@@ -15,6 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
+import Stepper from "../../Stepper/Stepper";
 import "../Review.scss";
 
 class Facet extends Component {
@@ -25,6 +26,8 @@ class Facet extends Component {
       desc: props.desc,
       traits: props.traits,
       isSubmitDisabled: props.currentIndex === props.facetLength - 1,
+      stepsArray: props.facets,
+      currentStep: props.currentIndex,
     };
   }
 
@@ -130,10 +133,25 @@ class Facet extends Component {
   };
 
   render() {
+    const { currentStep, stepsArray } = this.state;
+
     return (
       <div className="team-container">
         <div className="top">
           <div className="facet-heading-desc">
+            <Stepper
+              currentStepNumber={currentStep}
+              steps={stepsArray}
+              stepColor="#4070e0"
+            />
+            {/* Stepper */}
+            {/* <div className="stepper-container">
+              <span className={this.state.active ? "active" : ""}></span>
+              <span className=""></span>
+              <span className=""></span>
+              <span className=""></span>
+              <span className=""></span>
+            </div> */}
             <Typography
               variant="h2"
               style={{ color: "white", fontWeight: "bold" }}
