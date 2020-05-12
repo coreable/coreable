@@ -122,6 +122,7 @@ class Facet extends Component {
     console.log(currentIndex);
     window.scrollTo({
       top: 0,
+      behavior: "smooth",
     });
   };
 
@@ -136,6 +137,7 @@ class Facet extends Component {
     this.setState({ currentIndex: currentIndex });
     window.scrollTo({
       top: 0,
+      behavior: "smooth",
     });
   };
 
