@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import "./Stepper.scss";
 
 export default class Stepper extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       // Completed - to add a check mark
       // Selected - to fill step with color
@@ -53,6 +53,7 @@ export default class Stepper extends Component {
         newSteps[stepCounter] = {
           ...newSteps[stepCounter],
           selected: true,
+          current: true,
           completed: false,
         };
         stepCounter++;
@@ -62,6 +63,7 @@ export default class Stepper extends Component {
         newSteps[stepCounter] = {
           ...newSteps[stepCounter],
           selected: true,
+          current: false,
           completed: true,
         };
         stepCounter++;
@@ -71,6 +73,7 @@ export default class Stepper extends Component {
         newSteps[stepCounter] = {
           ...newSteps[stepCounter],
           selected: false,
+          current: false,
           completed: false,
         };
         stepCounter++;
@@ -81,26 +84,28 @@ export default class Stepper extends Component {
   }
 
   render() {
-    const { stepColor } = this.props;
     const { steps } = this.state;
-    const stepsJSX = steps.map((step, index) => {
+    const stepper = steps.map((step, index) => {
       return (
         <div className="step-wrapper" key={index}>
           <div
-            className={`step-number ${
-              step.selected ? "step-number-selected" : "step-number-disabled"
-            }`}
-            style={{ background: `${step.selected ? stepColor : "none"}` }}
-          >
-            {step.completed ? <span>&#10003;</span> : index + 1}
+            className={`step-circle ${
+              step.selected ? "step-circle-selected" : "step-circle-disabled"
+            } ${step.current ? "step-circle-current" : ""}`}
+            // style={{ background: `${step.selected ? stepColor : "#fff"}` }}
+          ></div>
+          <div className="step-bar-container">
+            <div
+              className={`step-bar ${
+                step.selected ? "step-bar-selected" : "step-bar-disabled"
+              } ${step.current ? "step-number-current" : ""}`}
+              // style={{ background: `${step.selected ? stepColor : "#fff"}` }}
+            ></div>
           </div>
-          {/* {index !== steps.length - 1 && (
-            <div className={`divider-line divider-line-${steps.length}`} />
-          )} */}
         </div>
       );
     });
 
-    return <div className="stepper-wrapper-horizontal">{stepsJSX}</div>;
+    return <div className="stepper-wrapper">{stepper}</div>;
   }
 }

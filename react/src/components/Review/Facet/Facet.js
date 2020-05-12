@@ -27,7 +27,7 @@ class Facet extends Component {
       traits: props.traits,
       isSubmitDisabled: props.currentIndex === props.facetLength - 1,
       stepsArray: props.facets,
-      currentStep: props.currentIndex,
+      currentIndex: props.currentIndex,
     };
   }
 
@@ -116,6 +116,10 @@ class Facet extends Component {
       e.stopPropagation();
     }
     this.props.nextStep();
+    let currentIndex = this.state.currentIndex;
+    currentIndex++;
+    this.setState({ currentIndex: currentIndex });
+    console.log(currentIndex);
     window.scrollTo({
       top: 0,
     });
@@ -127,34 +131,31 @@ class Facet extends Component {
       e.stopPropagation();
     }
     this.props.prevStep();
+    let currentIndex = this.state.currentIndex;
+    currentIndex--;
+    this.setState({ currentIndex: currentIndex });
     window.scrollTo({
       top: 0,
     });
   };
 
   render() {
-    const { currentStep, stepsArray } = this.state;
+    const { currentIndex, stepsArray } = this.state;
 
     return (
       <div className="team-container">
         <div className="top">
           <div className="facet-heading-desc">
-            <Stepper
-              currentStepNumber={currentStep}
-              steps={stepsArray}
-              stepColor="#4070e0"
-            />
-            {/* Stepper */}
-            {/* <div className="stepper-container">
-              <span className={this.state.active ? "active" : ""}></span>
-              <span className=""></span>
-              <span className=""></span>
-              <span className=""></span>
-              <span className=""></span>
-            </div> */}
+            <div style={{ width: "100%" }}>
+              <Stepper
+                currentStepNumber={currentIndex}
+                steps={stepsArray}
+                stepColor="#4070e0"
+              />
+            </div>
             <Typography
               variant="h2"
-              style={{ color: "white", fontWeight: "bold" }}
+              style={{ color: "white", fontWeight: "bold", width: "100%" }}
             >
               {this.state.name}
             </Typography>

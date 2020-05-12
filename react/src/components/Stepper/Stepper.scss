@@ -7,9 +7,13 @@ $offWhite: #fafafa;
 $white: #fff;
 $disabledGrey: #d6d6d6;
 
-.stepper-wrapper-horizontal {
+.stepper-wrapper {
   display: flex;
+  width: 60%;
+  margin: 0 auto;
+  align-items: center;
   justify-content: space-between;
+  margin-bottom: 32px;
 
   .step-wrapper {
     width: 23%;
@@ -18,50 +22,62 @@ $disabledGrey: #d6d6d6;
     align-items: center;
     justify-content: center;
     position: relative;
+
+    .step-circle {
+      border-radius: 50%;
+      border: 2px solid $primaryBlue;
+      width: 16px;
+      height: 16px;
+      padding: 3px;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .step-circle-selected {
+      // background: purple;
+      border: 2px solid $primaryBlue;
+      background: $primaryBlue;
+      color: #fff;
+    }
+
+    .step-circle-current {
+      // background: purple;
+      border: 2px solid $primaryBlue;
+      background: white;
+      color: #fff;
+    }
+
+    .step-circle-disabled {
+      border: 2px solid $white;
+      background: $white;
+    }
+
+    .step-bar-container {
+      position: absolute;
+      z-index: -1;
+      top: 9px;
+      left: -26px;
+
+      .step-bar {
+        width: 50px;
+        height: 4px;
+        text-align: center;
+        margin-bottom: 1.2rem;
+      }
+
+      .step-bar-selected {
+        border: 2px solid $primaryBlue;
+        background: $primaryBlue;
+      }
+
+      .step-bar-disabled {
+        border: 2px solid $white;
+        background: $white;
+      }
+    }
   }
+}
 
-  .step-number {
-    border-radius: 50%;
-    border: 2px solid $primaryBlue;
-    width: 24px;
-    height: 24px;
-    padding: 3px;
-    text-align: center;
-    margin-bottom: 1.2rem;
-  }
-
-  .step-number-selected {
-    // background: purple;
-    border: 2px solid $primaryBlue;
-    color: #fff;
-  }
-
-  .step-number-disabled {
-    border: 1px solid $disabledGrey;
-    background: $disabledGrey;
-  }
-
-  //   .divider-line {
-  //     height: 1px;
-  //     background-color: #bdbdbd;
-  //     position: absolute;
-  //     top: 20%;
-  //     left: 70%;
-  //   }
-
-  //   .divider-line-2 {
-  //     width: 296%;
-  //   }
-
-  //   .divider-line-3 {
-  //     width: 125%;
-  //   }
-
-  //   .divider-line-4 {
-  //     width: 70%;
-  //   }
-
-  //   .divider-line-5 {
-  //     width: 60%;
-  //   }
+.step-wrapper:nth-child(1) .step-bar-container {
+  display: none;
 }

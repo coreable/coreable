@@ -427,6 +427,7 @@ class Review extends Component {
         me={this.props.app.data.user}
         ReactGA={this.props.ReactGA}
         buttonLabel={this.state.buttonLabel}
+        facets={this.state.facets}
       ></Facet>
     );
   }
