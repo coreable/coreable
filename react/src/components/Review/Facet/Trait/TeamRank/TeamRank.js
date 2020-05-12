@@ -9,19 +9,22 @@ class TeamRank extends Component {
       trait: props.trait,
       team: props.team,
       me: props.me,
-      user: props.user
+      user: props.user,
     };
     this.reviewSub$ = props.reviewSubject.subscribe(({ review }) => {
-      this.setState({
-        ...this.state,
-        review: review
-      }, () => console.log(this.state));
+      this.setState(
+        {
+          ...this.state,
+          review: review,
+        },
+        () => console.log(this.state)
+      );
     });
   }
 
   componentWillUnmount = () => {
     this.reviewSub$.unsubscribe();
-  }
+  };
 
   capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -60,7 +63,8 @@ class TeamRank extends Component {
               <label
                 className="team-rating"
                 style={{
-                  width: `${review[me_id][team_id][user_id][trait].val * 4.7}px`,
+                  width: `${review[me_id][team_id][user_id][trait].val *
+                    4.7}px`,
                   backgroundImage:
                     "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
                 }}
@@ -74,7 +78,7 @@ class TeamRank extends Component {
                   marginTop: "2px",
                 }}
               >
-                {this.state.user.firstName}
+                {this.capitalize(this.state.user.firstName)}
               </Typography>
             </Grid>
           );
@@ -83,6 +87,6 @@ class TeamRank extends Component {
     }
     return null;
   }
-};
+}
 
 export default TeamRank;

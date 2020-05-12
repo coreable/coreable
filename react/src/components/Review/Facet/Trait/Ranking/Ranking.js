@@ -61,7 +61,7 @@ class Ranking extends Component {
             variant="h6"
             style={{ color: "rgb(200, 200, 200)", fontWeight: "bold" }}
           >
-            Neglects to attempt
+            Fails to attempt
           </Typography>
         </div>
       );
