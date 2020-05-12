@@ -146,9 +146,9 @@ class App extends Component {
 
     this.setState({
       ...this.state,
-      fetching: false,
       data,
-      errors
+      errors,
+      fetching: false
     });
   };
 
