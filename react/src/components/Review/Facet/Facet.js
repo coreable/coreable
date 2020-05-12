@@ -182,6 +182,7 @@ class Facet extends Component {
             className="btn primarybtn"
             onClick={this.continue}
             disabled={this.state.isSubmitDisabled}
+            style={{ marginTop: "20px" }}
           >
             {this.props.buttonLabel}
           </Button>
