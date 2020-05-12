@@ -132,7 +132,17 @@ class App extends Component {
     };
 
     const res = await fetch(API_URL, options).then((res) => res.json());
-    const { data, errors } = res.data.me;
+    let { data, errors } = res.data.me;
+
+    if (!data) {
+      data = {
+        user: null
+      };
+    }
+
+    if (!errors) {
+      errors = [];
+    }
 
     this.setState({
       ...this.state,

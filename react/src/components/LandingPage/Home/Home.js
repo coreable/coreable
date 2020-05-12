@@ -34,7 +34,7 @@ class Home extends Component {
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
-      me: props.app.errors.length <= 0 ? props.app.data.user : null,
+      me: props.app.data.user,
       steps: ["Self Review", "Team Review", "Final Review"],
       loading: true,
     };
@@ -212,7 +212,7 @@ class Home extends Component {
   };
 
   render() {
-    if (!this.props.app.data) {
+    if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
     }
 

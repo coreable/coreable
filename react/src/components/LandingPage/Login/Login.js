@@ -135,7 +135,7 @@ class Login extends Component {
   };
 
   render() {
-    if (this.props.me) {
+    if (this.props.app.data.user) {
       return <Redirect to="/home"></Redirect>;
     }
 
