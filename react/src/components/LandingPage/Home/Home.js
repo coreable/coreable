@@ -34,7 +34,7 @@ class Home extends Component {
     this.state = {
       sideDrawerOpen: false,
       inviteCode: "",
-      me: props.app.data.user,
+      me: props.app.errors.length <= 0 ? props.app.data.user : null,
       steps: ["Self Review", "Team Review", "Final Review"],
       loading: true,
     };
@@ -43,7 +43,7 @@ class Home extends Component {
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/home");
 
-    if (!this.props.app.data.user) {
+    if (!this.props.app.data) {
       return false;
     }
 
@@ -212,7 +212,7 @@ class Home extends Component {
   };
 
   render() {
-    if (!this.props.app.data.user) {
+    if (!this.props.app.data) {
       return <Redirect to="/"></Redirect>;
     }
 
