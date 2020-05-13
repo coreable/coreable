@@ -25,22 +25,26 @@ import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() => import("./components/LandingPage/Register/Register"));
+const Register = lazy(() =>
+  import("./components/LandingPage/Register/Register")
+);
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
 
+const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "JWT": null,
-      "data": {
-        "user": null
+      JWT: null,
+      data: {
+        user: null,
       },
-      "errors": [],
-      "fetching": true
+      errors: [],
+      fetching: true,
     };
     ReactGA.initialize("UA-165578445-1");
   }
@@ -48,16 +52,19 @@ class App extends Component {
   updateJWT = () => {
     const jwt_token = localStorage.getItem(JWT);
     return new Promise((r, f) => {
-      this.setState({
-        ...this.state,
-        JWT: jwt_token
-      }, () => {
-        return r(this.state);
-      });
+      this.setState(
+        {
+          ...this.state,
+          JWT: jwt_token,
+        },
+        () => {
+          return r(this.state);
+        }
+      );
     });
-  }
+  };
 
-  refreshMe = async() => {
+  refreshMe = async () => {
     if (!this.state.JWT) {
       await this.updateJWT();
     }
@@ -72,7 +79,7 @@ class App extends Component {
     );
   };
 
-  fetchMe = async() => {
+  fetchMe = async () => {
     const query = {
       query: `
         query {
@@ -126,7 +133,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.state.JWT,
+        JWT: this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -136,7 +143,7 @@ class App extends Component {
 
     if (!data) {
       data = {
-        user: null
+        user: null,
       };
     }
 
@@ -148,13 +155,13 @@ class App extends Component {
       ...this.state,
       data,
       errors,
-      fetching: false
+      fetching: false,
     });
   };
 
   componentDidMount = () => {
     this.refreshMe();
-    ReactGA.pageview('/');
+    ReactGA.pageview("/");
   };
 
   render() {
@@ -257,7 +264,18 @@ class App extends Component {
                 />
               )}
             />
-
+            <Route
+              exact
+              path="/intro"
+              component={(props) => (
+                <Onboarding
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
             <Route exact path="/loading" component={Loader} />
           </Suspense>
         </div>
