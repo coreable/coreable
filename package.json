@@ -51,7 +51,7 @@
     "@types/lodash": "^4.14.149",
     "@types/md5": "^2.1.33",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.11.1",
+    "@types/node": "^14.0.1",
     "@types/validator": "^13.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
