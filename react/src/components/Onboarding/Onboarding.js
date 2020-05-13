@@ -113,6 +113,8 @@ class Onboarding extends Component {
   };
 
   render() {
+    const bullets = [...document.querySelectorAll(".bullet")];
+
     return (
       <div className="team-container">
         <div className="top"></div>
