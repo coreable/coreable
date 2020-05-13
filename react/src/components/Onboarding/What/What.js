@@ -4,10 +4,15 @@ import { Typography } from "@material-ui/core";
 export default function What() {
   return (
     <React.Fragment>
-      <Typography variant="h4" style={{ fontWeight: "bold" }}>
+      <Typography
+        variant="h4"
+        style={{ fontWeight: "bold", textAlign: "left" }}
+      >
         Facets and traits
       </Typography>
-      <Typography style={{ fontSize: "1.6rem" }}>
+      <Typography
+        style={{ fontSize: "1.6rem", textAlign: "left", padding: "16pt 0" }}
+      >
         Core skills are broken down into multiple facets, and facets are broken
         down into behavioural based traits. <br /> <br />
         For example collaboration consists of five facets, one include emotional

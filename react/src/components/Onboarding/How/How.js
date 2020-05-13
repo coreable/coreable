@@ -4,10 +4,15 @@ import { Typography } from "@material-ui/core";
 export default function How() {
   return (
     <React.Fragment>
-      <Typography variant="h4" style={{ fontWeight: "bold" }}>
+      <Typography
+        variant="h4"
+        style={{ fontWeight: "bold", textAlign: "left" }}
+      >
         Behaviour based reviews
       </Typography>
-      <Typography style={{ fontSize: "1.6rem" }}>
+      <Typography
+        style={{ fontSize: "1.6rem", textAlign: "left", padding: "16pt 0" }}
+      >
         Coreable uses a behaviour based five band system to assist in measuring
         these facets and traits: <br /> <br />
         Unable to, Under prompting, Habitually, Encourages Others and Teaches.{" "}
