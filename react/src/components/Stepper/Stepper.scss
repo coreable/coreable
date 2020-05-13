@@ -32,6 +32,13 @@ $disabledGrey: #d6d6d6;
       margin-bottom: 1.2rem;
     }
 
+    @media (max-width: 760px) {
+      .step-circle {
+        width: 10px;
+        height: 10px;
+      }
+    }
+
     .step-circle-selected {
       // background: purple;
       border: 2px solid $primaryBlue;
@@ -70,6 +77,12 @@ $disabledGrey: #d6d6d6;
 
       .step-bar-disabled {
         background: $white;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .step-bar-container {
+        top: 7px;
       }
     }
   }
