@@ -96,24 +96,23 @@ class Onboarding extends Component {
     }
   };
 
-  render() {
-    let { onboardingNum } = this.state;
-    function onboardingSlide() {
-      switch (onboardingNum) {
-        case 1:
-          return <Why />;
-          break;
-        case 2:
-          return <What />;
-          break;
-        case 3:
-          return <How />;
-          break;
-        default:
-          break;
-      }
+  onboardingSlide = (slideNum) => {
+    switch (slideNum) {
+      case 1:
+        return <Why />;
+        break;
+      case 2:
+        return <What />;
+        break;
+      case 3:
+        return <How />;
+        break;
+      default:
+        break;
     }
+  };
 
+  render() {
     return (
       <div className="team-container">
         <div className="top"></div>
@@ -127,7 +126,7 @@ class Onboarding extends Component {
                 <div className="bullet"></div>
               </div>
             </div>
-            {onboardingSlide()}
+            {this.onboardingSlide(this.state.onboardingNum)}
           </div>
 
           <Button className="btn primarybtn" onClick={this.next}>
