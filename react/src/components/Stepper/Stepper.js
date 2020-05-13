@@ -5,9 +5,6 @@ export default class Stepper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Completed - to add a check mark
-      // Selected - to fill step with color
-      // Highlighted - to make text of selected step bold
       steps: [],
     };
   }
@@ -43,9 +40,6 @@ export default class Stepper extends Component {
   updateStep(stepNumber, steps) {
     const newSteps = [...steps];
     let stepCounter = 0;
-
-    // Completed - to add a check mark
-    // Selected - to fill step with color
 
     while (stepCounter < newSteps.length) {
       // Current step
@@ -92,14 +86,12 @@ export default class Stepper extends Component {
             className={`step-circle ${
               step.selected ? "step-circle-selected" : "step-circle-disabled"
             } ${step.current ? "step-circle-current" : ""}`}
-            // style={{ background: `${step.selected ? stepColor : "#fff"}` }}
           ></div>
           <div className="step-bar-container">
             <div
               className={`step-bar ${
                 step.selected ? "step-bar-selected" : "step-bar-disabled"
               } ${step.current ? "step-number-current" : ""}`}
-              // style={{ background: `${step.selected ? stepColor : "#fff"}` }}
             ></div>
           </div>
         </div>
