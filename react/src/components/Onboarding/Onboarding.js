@@ -9,33 +9,41 @@ import How from "./How/How";
 class Onboarding extends Component {
   state = {
     onboardingNum: 1,
+    isDisabled: true,
   };
 
   next = () => {
-    if (this.state.onboardingNum === 3) {
-      return;
-    } else {
-      const page = this.state.onboardingNum + 1;
+    if (this.state.onboardingNum < 3) {
       this.setState({
-        onboardingNum: page,
+        onboardingNum: this.state.onboardingNum + 1,
       });
+      if (this.state.onboardingNum >= 1) {
+        this.setState({
+          isDisabled: false,
+        });
+      }
+    } else {
+      return;
     }
   };
 
   back = () => {
-    if (this.state.onboardingNum === 1) {
-      return;
-    } else {
-      const page = this.state.onboardingNum - 1;
+    if (this.state.onboardingNum > 1) {
       this.setState({
-        onboardingNum: page,
+        onboardingNum: this.state.onboardingNum - 1,
       });
+      if (this.state.onboardingNum <= 2) {
+        this.setState({
+          isDisabled: true,
+        });
+      }
+    } else {
+      return;
     }
   };
 
   render() {
     let { onboardingNum } = this.state;
-    console.log(onboardingNum);
     function onboardingSlide() {
       switch (onboardingNum) {
         case 1:
@@ -62,7 +70,11 @@ class Onboarding extends Component {
           <Button className="btn primarybtn" onClick={this.next}>
             Next
           </Button>
-          <Button className="btn transparentbtn" onClick={this.back}>
+          <Button
+            className="btn transparentbtn"
+            onClick={this.back}
+            disabled={this.state.isDisabled ? "disabled" : null}
+          >
             Back
           </Button>
         </div>
