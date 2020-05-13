@@ -37,10 +37,10 @@ class Onboarding extends Component {
     } else {
       return;
     }
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
   };
 
   back = () => {
@@ -67,10 +67,10 @@ class Onboarding extends Component {
     } else {
       return;
     }
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: 0,
+    //   behavior: "smooth",
+    // });
   };
 
   onboardingTitle = () => {

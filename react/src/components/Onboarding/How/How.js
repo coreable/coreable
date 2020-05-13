@@ -26,7 +26,9 @@ export default function How() {
           width: "100%",
           background: "lightgrey",
         }}
-      ></div>
+      >
+        <img src="/Users/hans/Documents/coreable/react/src/components/Onboarding/How/Group421.svg" />
+      </div>
     </React.Fragment>
   );
 }
