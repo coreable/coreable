@@ -255,9 +255,7 @@ class Review extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.me) {
-      this.props.ReactGA.pageview("/review");
-    }
+    this.props.ReactGA.pageview("/review");
   };
 
   nextStep = () => {

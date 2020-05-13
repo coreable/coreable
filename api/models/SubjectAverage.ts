@@ -9,6 +9,30 @@ class SubjectAverage extends Model {
   public subject_id!: string;
   public industry_id!: string;
 
+  public calm!: number;
+  // public change!: number;
+  public clearInstructions!: number;
+  public cooperatively!: number;
+  public crossTeam!: number;
+  public distractions!: number;
+  public easilyExplainsComplexIdeas!: number;
+  // public emotionalResponse!: number;
+  public empathy!: number;
+  public eyeContact!: number;
+  /* public faith!: number; */
+  public influences!: number;
+  public managesOwn!: number;
+  public newIdeas!: number;
+  public openToShare!: number;
+  public positiveBelief!: number;
+  /* public preventsMisunderstandings!: number; */
+  public proactive!: number;
+  public resilienceFeedback!: number;
+  public signifiesInterest!: number;
+  // public tone!: number;
+  // public verbalAttentiveFeedback!: number;
+  public workDemands!: number;  
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -23,10 +47,6 @@ const sync = (sequelize: Sequelize) => {
     'subject_id': {
       type: DataTypes.UUID,
       allowNull: true
-    },
-    'emotionalResponse': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
     },
     'empathy': {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -49,10 +69,6 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'calm': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    'change': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
@@ -84,10 +100,6 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    'tone': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
     'crossTeam': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
@@ -104,10 +116,6 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    'verbalAttentiveFeedback': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    }
   }, {
     'tableName': 'SUBJECT_AVERAGE',
     'sequelize': sequelize

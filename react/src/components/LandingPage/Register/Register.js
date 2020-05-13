@@ -47,9 +47,7 @@ class Register extends Component {
   }
 
   componentDidMount = () => {
-    if (!this.props.me) {
-      this.props.ReactGA.pageview("/signup");
-    }
+    this.props.ReactGA.pageview("/signup");
   };
 
   errors = () => {
