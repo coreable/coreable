@@ -17,11 +17,21 @@ export default function Welcome() {
           <div>
             <Typography
               variant="h4"
-              style={{ fontWeight: "bold", color: "black" }}
+              style={{
+                fontWeight: "bold",
+                color: "black",
+                marginBottom: "16pt",
+              }}
             >
               Collaboration
             </Typography>
-            <Typography style={{ fontSize: "1.6rem", color: "black" }}>
+            <Typography
+              style={{
+                fontSize: "1.6rem",
+                color: "black",
+                marginBottom: "8pt",
+              }}
+            >
               Collaboration is formed from five key facets, <br /> these
               include:
             </Typography>

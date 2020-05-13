@@ -115,12 +115,17 @@ $max-width: 760px;
         width: 90pt;
         margin: 8pt;
         border-radius: 0.33rem;
-        background: $disabledGrey;
-        color: $white;
+        background: #f7f9fc;
+        color: black;
         justify-content: center;
         display: flex;
         align-items: center;
         font-size: 1.4rem;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+          transform: scale(1.05);
+        }
       }
     }
 
