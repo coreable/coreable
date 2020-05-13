@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import svg from "./Group423.svg";
 
 export default function Why() {
   return (
@@ -13,19 +14,21 @@ export default function Why() {
       <Typography
         style={{ fontSize: "1.6rem", textAlign: "left", padding: "16pt 0" }}
       >
-        Coreable provides you the ability to measure, reflect and develop your
-        core skills through a growth mindset. <br /> <br /> Gaining team wide
-        feedback to identify your strengths, areas to improve, brightspot and
-        blindspots.
+        Coreable enables you to measure, reflect and develop your core skills.{" "}
+        <br />
+        <br />
+        By collating peers feedback we will identify your strengths, areas of
+        improvement, brightspots and blindspots.
       </Typography>
 
-      <div
+      <img
+        src={svg}
         style={{
-          height: "204pt",
           width: "100%",
-          background: "lightgrey",
+          height: "auto",
+          borderRadius: "0.33rem",
         }}
-      ></div>
+      />
     </React.Fragment>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import svg from "./Group422.svg";
 
 export default function What() {
   return (
@@ -13,20 +14,18 @@ export default function What() {
       <Typography
         style={{ fontSize: "1.6rem", textAlign: "left", padding: "16pt 0" }}
       >
-        Core skills are broken down into multiple facets, and facets are broken
-        down into behavioural based traits. <br /> <br />
-        For example collaboration consists of five facets, one include emotional
-        intelligence. Emotional intelligence is further broken down into three
-        behavioural traits, one including managing own emotions.
+        The core skills are first broken down into multiple facets and facets
+        then broken down into behaviour based traits. <br /> <br />
+        For example collaboration consists of five facets, one of which is:
+        Emotional Intelligence. <br /> <br />
+        Emotional Intelligence is than broken down into three behavioural
+        traits, one of which is: Shows Empathy
       </Typography>
 
-      <div
-        style={{
-          height: "204pt",
-          width: "100%",
-          background: "lightgrey",
-        }}
-      ></div>
+      <img
+        src={svg}
+        style={{ width: "100%", height: "auto", borderRadius: "0.33rem" }}
+      />
     </React.Fragment>
   );
 }

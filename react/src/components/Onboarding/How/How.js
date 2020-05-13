@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import svg from "./Group421.svg";
 
 export default function How() {
   return (
@@ -13,22 +14,18 @@ export default function How() {
       <Typography
         style={{ fontSize: "1.6rem", textAlign: "left", padding: "16pt 0" }}
       >
-        Coreable uses a behaviour based five band system to assist in measuring
-        these facets and traits: <br /> <br />
-        Unable to, Under prompting, Habitually, Encourages Others and Teaches.{" "}
-        <br /> <br />
-        Coreable allows you to provide the data for yourself and team reviews.
+        Coreable uses a behaviour-based five-band system to measure these
+        traits. <br /> <br />
+        The five bands are: unable to, under prompting, habitually, encourages
+        others and teaches others. <br /> <br />
+        You will be required to provide feedback on yourself and each member of
+        your team.
       </Typography>
 
-      <div
-        style={{
-          height: "204pt",
-          width: "100%",
-          background: "lightgrey",
-        }}
-      >
-        <img src="/Users/hans/Documents/coreable/react/src/components/Onboarding/How/Group421.svg" />
-      </div>
+      <img
+        src={svg}
+        style={{ width: "100%", height: "auto", borderRadius: "0.33rem" }}
+      />
     </React.Fragment>
   );
 }
