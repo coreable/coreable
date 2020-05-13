@@ -10,7 +10,7 @@ class Onboarding extends Component {
   state = {
     onboardingNum: 1,
     isDisabled: true,
-    onboardingTitle: ["Why use Coreable?", "What are Facets and Traits?"],
+    onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
     startButton: "Next",
   };
 

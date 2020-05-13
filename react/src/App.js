@@ -34,6 +34,7 @@ const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
 
 const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
+const Welcome = lazy(() => import("./components/Onboarding/Welcome/Welcome"));
 
 class App extends Component {
   constructor(props) {
@@ -269,6 +270,18 @@ class App extends Component {
               path="/intro"
               component={(props) => (
                 <Onboarding
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/welcome"
+              component={(props) => (
+                <Welcome
                   {...props}
                   app={this.state}
                   refreshMe={this.refreshMe}
