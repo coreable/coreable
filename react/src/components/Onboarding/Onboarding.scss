@@ -51,7 +51,7 @@ $max-width: 760px;
     top: 25%;
     // height: ;
     //if this is dynamic, mobile capability is bad
-    width: 50%;
+    width: 373pt;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -111,12 +111,19 @@ $max-width: 760px;
       padding: 20px;
     }
 
+    // @media (max-width: $max-width) {
+    //   .inside-main {
+    //     width: 100%;
+    //   }
+    // }
+
     .inside-main:nth-child(1) {
       margin-top: 20px;
     }
 
     .btn {
-      width: 60%;
+      width: 90%;
+      margin: 10px;
       // max-width: 30%;
       height: 40pt;
       border-radius: 0.33rem;
