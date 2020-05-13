@@ -41,9 +41,6 @@ export default {
       description: 'The subject the review belongs to'
     },
     // Reviews 
-    emotionalResponse: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
     empathy: {
       type: new GraphQLNonNull(GraphQLInt),
     },
@@ -60,9 +57,6 @@ export default {
       type: new GraphQLNonNull(GraphQLInt),
     },
     calm: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    change: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     newIdeas: {
@@ -86,9 +80,6 @@ export default {
     openToShare: {
       type: new GraphQLNonNull(GraphQLInt),
     },
-    tone: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
     crossTeam: {
       type: new GraphQLNonNull(GraphQLInt),
     },
@@ -99,9 +90,6 @@ export default {
       type: new GraphQLNonNull(GraphQLInt),
     },
     signifiesInterest: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    verbalAttentiveFeedback: {
       type: new GraphQLNonNull(GraphQLInt),
     }
   },
@@ -171,14 +159,12 @@ export default {
           submitter_id: context.USER._id,
           subject_id: args.subject_id,
           state: subject.state,
-          emotionalResponse: args.emotionalResponse,
           empathy: args.empathy,
           managesOwn: args.managesOwn,
           cooperatively: args.cooperatively,
           positiveBelief: args.positiveBelief,
           resilienceFeedback: args.resilienceFeedback,
           calm: args.calm,
-          change: args.change,
           newIdeas: args.newIdeas,
           workDemands: args.workDemands,
           proactive: args.proactive,
@@ -186,12 +172,10 @@ export default {
           clearInstructions: args.clearInstructions,
           easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
           openToShare: args.openToShare,
-          tone: args.tone,
           crossTeam: args.crossTeam,
           distractions: args.distractions,
           eyeContact: args.eyeContact,
-          signifiesInterest: args.signifiesInterest,
-          verbalAttentiveFeedback: args.verbalAttentiveFeedback
+          signifiesInterest: args.signifiesInterest
         });
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });

@@ -29,13 +29,13 @@ class Review extends Model {
   public subject!: Subject;
 
   public calm!: number;
-  public change!: number;
+  // public change!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
   public crossTeam!: number;
   public distractions!: number;
   public easilyExplainsComplexIdeas!: number;
-  public emotionalResponse!: number;
+  // public emotionalResponse!: number;
   public empathy!: number;
   public eyeContact!: number;
   /* public faith!: number; */
@@ -48,8 +48,8 @@ class Review extends Model {
   public proactive!: number;
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
-  public tone!: number;
-  public verbalAttentiveFeedback!: number;
+  // public tone!: number;
+  // public verbalAttentiveFeedback!: number;
   public workDemands!: number;  
   public state!: number;
 
@@ -76,10 +76,6 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.UUID,
       allowNull: false
     },
-    'emotionalResponse': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-    },
     'empathy': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
@@ -101,10 +97,6 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'calm': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    'change': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
@@ -136,10 +128,6 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    'tone': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
     'crossTeam': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
@@ -153,10 +141,6 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'signifiesInterest': {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false
-    },
-    'verbalAttentiveFeedback': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },

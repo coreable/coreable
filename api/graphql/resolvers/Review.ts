@@ -56,12 +56,6 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.submitter;
         }
       },
-      'emotionalResponse': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.emotionalResponse;
-        }
-      },
       'empathy': {
         type: GraphQLFloat,
         resolve(review, args, context) {
@@ -90,12 +84,6 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         type: GraphQLFloat,
         resolve(review, args, context) {
           return review.calm;
-        }
-      },
-      'change': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.change;
         }
       },
       'newIdeas': {
@@ -140,12 +128,6 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.openToShare;
         }
       },
-      'tone': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.tone;
-        }
-      },
       'crossTeam': {
         type: GraphQLFloat,
         resolve(review, args, context) {
@@ -174,12 +156,6 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         type: GraphQLFloat,
         resolve(review, args, context) {
           return review.signifiesInterest;
-        }
-      },
-      'verbalAttentiveFeedback': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.verbalAttentiveFeedback;
         }
       },
       'createdAt': {
