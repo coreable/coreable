@@ -127,6 +127,11 @@ $max-width: 760px;
           transform: scale(1.05);
         }
       }
+      @media (max-width: 390px) {
+        span {
+          width: 100%;
+        }
+      }
     }
 
     // @media (max-width: $max-width) {
