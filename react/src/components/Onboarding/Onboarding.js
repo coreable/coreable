@@ -11,6 +11,7 @@ class Onboarding extends Component {
     onboardingNum: 1,
     isDisabled: true,
     onboardingTitle: ["Why use Coreable?", "What are Facets and Traits?"],
+    startButton: "Next",
   };
 
   next = () => {
@@ -23,6 +24,9 @@ class Onboarding extends Component {
 
     if (this.state.onboardingNum === 2) {
       bullets[2].classList.add("green");
+      this.setState({
+        startButton: "Start",
+      });
     }
 
     if (this.state.onboardingNum < 3) {
@@ -49,6 +53,9 @@ class Onboarding extends Component {
 
     if (this.state.onboardingNum === 3) {
       bullets[2].classList = "bullet";
+      this.setState({
+        startButton: "Next",
+      });
     }
 
     if (this.state.onboardingNum === 2) {
@@ -124,7 +131,7 @@ class Onboarding extends Component {
           </div>
 
           <Button className="btn primarybtn" onClick={this.next}>
-            Next
+            {this.state.startButton}
           </Button>
           <Button
             className="btn transparentbtn"
