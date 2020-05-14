@@ -26,7 +26,7 @@ import {
   StepLabel,
 } from "@material-ui/core";
 
-import { API_URL, hasCompletedTutorial } from "../../constants";
+import { API_URL } from "../../constants";
 
 class Home extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Home extends Component {
       me: props.app.data.user,
       steps: ["Self Review", "Team Review", "Final Review"],
       loading: true,
-      pathName: "/welcome",
+      completedTutorial: false,
     };
   }
 
@@ -213,12 +213,14 @@ class Home extends Component {
   };
 
   firstReview = () => {
-    if (!hasCompletedTutorial) {
-      this.setState({
-        pathName: "/review",
+    if (!localStorage.getItem("hasCompletedTutorial")) {
+      localStorage.setItem("hasCompletedTutorial", true);
+      console.log(localStorage.getItem("hasCompletedTutorial"));
+    } else if (localStorage.getItem("hasCompletedTutorial")) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
       });
-    } else {
-      console.log(this.state.pathName);
     }
   };
 
@@ -325,7 +327,10 @@ class Home extends Component {
 
                       <Link
                         to={{
-                          pathname: "/welcome",
+                          // pathname: "/welcome",
+                          pathname: localStorage.getItem("hasCompletedTutorial")
+                            ? "/review"
+                            : "/welcome",
                           state: {
                             team_id: team._id,
                             pending: this.getPendingUser(team._id),
