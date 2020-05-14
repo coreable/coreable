@@ -18,5 +18,14 @@ const LAST_NAME = "lastName";
 const USERID = "user_id";
 const TEAMID = "team_id";
 const API_URL = "https://coreable.app/graphql";
+const hasCompletedTutorial = false;
 
-export { JWT, USER_NAME, LAST_NAME, USERID, TEAMID, API_URL };
+export {
+  JWT,
+  USER_NAME,
+  LAST_NAME,
+  USERID,
+  TEAMID,
+  API_URL,
+  hasCompletedTutorial,
+};

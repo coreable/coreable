@@ -26,7 +26,7 @@ import {
   StepLabel,
 } from "@material-ui/core";
 
-import { API_URL } from "../../constants";
+import { API_URL, hasCompletedTutorial } from "../../constants";
 
 class Home extends Component {
   constructor(props) {
@@ -37,6 +37,7 @@ class Home extends Component {
       me: props.app.data.user,
       steps: ["Self Review", "Team Review", "Final Review"],
       loading: true,
+      pathName: "/welcome",
     };
   }
 
@@ -211,6 +212,16 @@ class Home extends Component {
     }
   };
 
+  firstReview = () => {
+    if (!hasCompletedTutorial) {
+      this.setState({
+        pathName: "/review",
+      });
+    } else {
+      console.log(this.state.pathName);
+    }
+  };
+
   render() {
     if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
@@ -311,9 +322,10 @@ class Home extends Component {
                           );
                         })}
                       </Stepper>
+
                       <Link
                         to={{
-                          pathname: "/review",
+                          pathname: "/welcome",
                           state: {
                             team_id: team._id,
                             pending: this.getPendingUser(team._id),
@@ -322,6 +334,7 @@ class Home extends Component {
                       >
                         <Button
                           className="btn primarybtn"
+                          onClick={this.firstReview}
                           disabled={this.getReviewButtonState(team._id)}
                           disableElevation
                         >

@@ -43,7 +43,7 @@ $max-width: 760px;
     }
   }
 
-  .main {
+  .main-welcome {
     // z-index: 3;
     background: transparent;
     border: none;
@@ -145,7 +145,7 @@ $max-width: 760px;
     }
 
     .btn {
-      width: 90%;
+      // width: 100%;
       margin: 10px;
       // max-width: 30%;
       height: 40pt;
@@ -160,7 +160,7 @@ $max-width: 760px;
 
     @media (max-width: $max-width) {
       .btn {
-        width: 90%;
+        width: 300px;
         font-size: 1.4rem;
       }
     }
@@ -205,7 +205,7 @@ $max-width: 760px;
   }
 
   @media (max-width: $max-width) {
-    .main {
+    .main-welcome {
       width: 90%;
       // top: 310px;
     }
