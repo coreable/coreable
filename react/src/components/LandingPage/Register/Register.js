@@ -155,8 +155,12 @@ class Register extends Component {
     }
 
     if (data) {
-      localStorage.setItem(JWT, data.token);
-      this.props.refreshMe();
+      (async () => {
+        await Promise.resolve();
+        return localStorage.setItem(JWT, data.token);
+      })().then(async () => {
+        await this.props.refreshMe(true);
+      });
     }
   };
 

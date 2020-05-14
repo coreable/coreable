@@ -26,7 +26,7 @@ import {
   StepLabel,
 } from "@material-ui/core";
 
-import { JWT, API_URL } from "../../../constants";
+import { API_URL } from "../../../constants";
 
 class Home extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class Home extends Component {
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/home");
 
-    if (!this.props.app.data) {
+    if (!this.props.app.data.user) {
       return false;
     }
 

@@ -103,27 +103,23 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                   averages = await getIndustryAverages(industry);
                   averages = await IndustryAverage.create({
                     industry_id: industry._id,
-                    emotionalResponse: averages.dataValues.emotionalResponse,
-                    empathy: averages.dataValues.empathy,
-                    managesOwn: averages.dataValues.managesOwn,
-                    cooperatively: averages.dataValues.cooperatively,
-                    positiveBelief: averages.dataValues.positiveBelief,
-                    resilienceFeedback: averages.dataValues.resilienceFeedback,
                     calm: averages.dataValues.calm,
-                    change: averages.dataValues.change,
-                    newIdeas: averages.dataValues.newIdeas,
-                    workDemands: averages.dataValues.workDemands,
-                    proactive: averages.dataValues.proactive,
-                    influences: averages.dataValues.influences,
                     clearInstructions: averages.dataValues.clearInstructions,
-                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
-                    openToShare: averages.dataValues.openToShare,
-                    tone: averages.dataValues.tone,
+                    cooperatively: averages.dataValues.cooperatively,
                     crossTeam: averages.dataValues.crossTeam,
                     distractions: averages.dataValues.distractions,
-                    eyeContact: averages.dataValues.eyeContact,
+                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
+                    empathy: averages.dataValues.empathy,
+                    usesRegulators: averages.dataValues.usesRegulators,
+                    influences: averages.dataValues.influences,
+                    managesOwn: averages.dataValues.managesOwn,
+                    newIdeas: averages.dataValues.newIdeas,
+                    openToShare: averages.dataValues.openToShare,
+                    positiveBelief: averages.dataValues.positiveBelief,
+                    proactive: averages.dataValues.proactive,
+                    resilienceFeedback: averages.dataValues.resilienceFeedback,
                     signifiesInterest: averages.dataValues.signifiesInterest,
-                    verbalAttentiveFeedback: averages.dataValues.verbalAttentiveFeedback
+                    workDemands: averages.dataValues.workDemands,
                   });
                   return averages;
                 }
@@ -161,27 +157,23 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
                   averages = await getIndustryAverages(industry);
                   averages = await IndustryAverage.create({
                     industry_id: industry._id,
-                    emotionalResponse: averages.dataValues.emotionalResponse,
-                    empathy: averages.dataValues.empathy,
-                    managesOwn: averages.dataValues.managesOwn,
-                    cooperatively: averages.dataValues.cooperatively,
-                    positiveBelief: averages.dataValues.positiveBelief,
-                    resilienceFeedback: averages.dataValues.resilienceFeedback,
                     calm: averages.dataValues.calm,
-                    change: averages.dataValues.change,
-                    newIdeas: averages.dataValues.newIdeas,
-                    workDemands: averages.dataValues.workDemands,
-                    proactive: averages.dataValues.proactive,
-                    influences: averages.dataValues.influences,
                     clearInstructions: averages.dataValues.clearInstructions,
-                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
-                    openToShare: averages.dataValues.openToShare,
-                    tone: averages.dataValues.tone,
+                    cooperatively: averages.dataValues.cooperatively,
                     crossTeam: averages.dataValues.crossTeam,
                     distractions: averages.dataValues.distractions,
-                    eyeContact: averages.dataValues.eyeContact,
+                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
+                    empathy: averages.dataValues.empathy,
+                    usesRegulators: averages.dataValues.usesRegulators,
+                    influences: averages.dataValues.influences,
+                    managesOwn: averages.dataValues.managesOwn,
+                    newIdeas: averages.dataValues.newIdeas,
+                    openToShare: averages.dataValues.openToShare,
+                    positiveBelief: averages.dataValues.positiveBelief,
+                    proactive: averages.dataValues.proactive,
+                    resilienceFeedback: averages.dataValues.resilienceFeedback,
                     signifiesInterest: averages.dataValues.signifiesInterest,
-                    verbalAttentiveFeedback: averages.dataValues.verbalAttentiveFeedback
+                    workDemands: averages.dataValues.workDemands,
                   });
                   if (!Array.isArray(averages)) {
                     averages = [averages];
@@ -240,18 +232,8 @@ export function getIndustryAverages(industry: Industry) {
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('users.reviews.distractions')),
-            'distractions'
-          ],
-          [
-            sequelize.fn('avg',
               sequelize.col('users.reviews.easilyExplainsComplexIdeas')),
             'easilyExplainsComplexIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.emotionalResponse')),
-            'emotionalResponse'
           ],
           [
             sequelize.fn('avg',
@@ -260,8 +242,8 @@ export function getIndustryAverages(industry: Industry) {
           ],
           [
             sequelize.fn('avg',
-              sequelize.col('users.reviews.eyeContact')),
-            'eyeContact'
+              sequelize.col('users.reviews.usesRegulators')),
+            'usesRegulators'
           ],
           [
             sequelize.fn('avg',
@@ -302,16 +284,6 @@ export function getIndustryAverages(industry: Industry) {
             sequelize.fn('avg',
               sequelize.col('users.reviews.signifiesInterest')),
             'signifiesInterest'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.tone')),
-            'tone'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.verbalAttentiveFeedback')),
-            'verbalAttentiveFeedback'
           ],
           [
             sequelize.fn('avg',

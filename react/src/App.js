@@ -65,19 +65,40 @@ class App extends Component {
     });
   };
 
-  refreshMe = async () => {
+  removeJWT = () => {
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          JWT: null,
+        },
+        () => {
+          return r(this.state);
+        }
+      );
+    });
+  }
+
+  refreshMe = async (removeJWT = false) => {
+    // removeJWT Used for Login/Register
+    if (removeJWT === true) {
+      await this.removeJWT();
+    }
     if (!this.state.JWT) {
       await this.updateJWT();
     }
-    this.setState(
-      {
-        ...this.state,
-        fetching: true,
-      },
-      () => {
-        this.fetchMe();
-      }
-    );
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          fetching: true,
+        },
+        async () => {
+          const state = await this.fetchMe();
+          return r(state);
+        }
+      );
+    })
   };
 
   fetchMe = async () => {
@@ -134,7 +155,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.state.JWT,
+        "JWT": this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -151,12 +172,24 @@ class App extends Component {
     if (!errors) {
       errors = [];
     }
+    console.log({
+      'app.js': {
+        data, 
+        errors,
+        state: this.state
+      }
+    });
 
-    this.setState({
+    return this.setState({
       ...this.state,
       data,
       errors,
       fetching: false,
+    }, () => {
+      return {
+        data,
+        errors
+      };
     });
   };
 

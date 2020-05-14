@@ -41,43 +41,13 @@ export default {
       description: 'The subject the review belongs to'
     },
     // Reviews 
-    empathy: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    managesOwn: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    cooperatively: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    positiveBelief: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    resilienceFeedback: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
     calm: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    newIdeas: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    workDemands: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    proactive: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    influences: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     clearInstructions: {
       type: new GraphQLNonNull(GraphQLInt),
     },
-    easilyExplainsComplexIdeas: {
-      type: new GraphQLNonNull(GraphQLInt),
-    },
-    openToShare: {
+    cooperatively: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     crossTeam: {
@@ -86,12 +56,42 @@ export default {
     distractions: {
       type: new GraphQLNonNull(GraphQLInt),
     },
-    eyeContact: {
+    easilyExplainsComplexIdeas: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    empathy: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    usesRegulators: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    influences: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    managesOwn: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    newIdeas: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    openToShare: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    positiveBelief: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    proactive: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    resilienceFeedback: {
       type: new GraphQLNonNull(GraphQLInt),
     },
     signifiesInterest: {
       type: new GraphQLNonNull(GraphQLInt),
-    }
+    },
+    workDemands: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
   },
   async resolve(root: any, args: any, context: any) {
     // @todo #1 Should reviews have a team ID and be team specific?
@@ -159,23 +159,23 @@ export default {
           submitter_id: context.USER._id,
           subject_id: args.subject_id,
           state: subject.state,
-          empathy: args.empathy,
-          managesOwn: args.managesOwn,
-          cooperatively: args.cooperatively,
-          positiveBelief: args.positiveBelief,
-          resilienceFeedback: args.resilienceFeedback,
           calm: args.calm,
-          newIdeas: args.newIdeas,
-          workDemands: args.workDemands,
-          proactive: args.proactive,
-          influences: args.influences,
           clearInstructions: args.clearInstructions,
-          easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
-          openToShare: args.openToShare,
+          cooperatively: args.cooperatively,
           crossTeam: args.crossTeam,
           distractions: args.distractions,
-          eyeContact: args.eyeContact,
-          signifiesInterest: args.signifiesInterest
+          easilyExplainsComplexIdeas: args.easilyExplainsComplexIdeas,
+          empathy: args.empathy,
+          usesRegulators: args.usesRegulators,
+          influences: args.influences,
+          managesOwn: args.managesOwn,
+          newIdeas: args.newIdeas,
+          openToShare: args.openToShare,
+          positiveBelief: args.positiveBelief,
+          proactive: args.proactive,
+          resilienceFeedback: args.resilienceFeedback,
+          signifiesInterest: args.signifiesInterest,
+          workDemands: args.workDemands
         });
       } catch (err) {
         errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
