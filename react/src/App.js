@@ -23,16 +23,13 @@ import "./App.scss";
 
 import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
-const Login = lazy(() => import("./components/LandingPage/Login/Login"));
+const Login = lazy(() => import("./components/login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() =>
-  import("./components/LandingPage/Register/Register")
-);
-const Home = lazy(() => import("./components/LandingPage/Home/Home"));
+const Register = lazy(() => import("./components/register/Register"));
+const Home = lazy(() => import("./components/home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
-
 const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
 const Welcome = lazy(() => import("./components/Onboarding/Welcome/Welcome"));
 
@@ -65,19 +62,40 @@ class App extends Component {
     });
   };
 
-  refreshMe = async () => {
+  removeJWT = () => {
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          JWT: null,
+        },
+        () => {
+          return r(this.state);
+        }
+      );
+    });
+  }
+
+  refreshMe = async (removeJWT = false) => {
+    // removeJWT Used for Login/Register
+    if (removeJWT === true) {
+      await this.removeJWT();
+    }
     if (!this.state.JWT) {
       await this.updateJWT();
     }
-    this.setState(
-      {
-        ...this.state,
-        fetching: true,
-      },
-      () => {
-        this.fetchMe();
-      }
-    );
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          fetching: true,
+        },
+        async () => {
+          const state = await this.fetchMe();
+          return r(state);
+        }
+      );
+    })
   };
 
   fetchMe = async () => {
@@ -134,7 +152,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.state.JWT,
+        "JWT": this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -151,12 +169,24 @@ class App extends Component {
     if (!errors) {
       errors = [];
     }
+    console.log({
+      'app.js': {
+        data, 
+        errors,
+        state: this.state
+      }
+    });
 
-    this.setState({
+    return this.setState({
       ...this.state,
       data,
       errors,
       fetching: false,
+    }, () => {
+      return {
+        data,
+        errors
+      };
     });
   };
 

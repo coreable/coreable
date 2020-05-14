@@ -15,10 +15,10 @@ Coreable source code.
 // TODO: Disable register button while waiting for submit
 
 import React, { Component } from "react";
-import "../../../App.scss";
-import "../Login/Login.scss";
+import "../../App.scss";
+import "../login/Login.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../../constants";
+import { JWT, API_URL } from "../../constants";
 
 import {
   Typography,
@@ -155,9 +155,13 @@ class Register extends Component {
     }
 
     if (data) {
-      localStorage.setItem(JWT, data.token);
-      this.props.refreshMe();
-      this.props.history.push("/intro");
+      (async () => {
+        await Promise.resolve();
+        return localStorage.setItem(JWT, data.token);
+      })().then(async () => {
+        await this.props.refreshMe(true);
+        this.props.history.push("/intro");
+      });
     }
   };
 

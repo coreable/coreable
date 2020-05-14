@@ -65,9 +65,8 @@ class Skills extends Component {
                       crossTeam
                       distractions
                       easilyExplainsComplexIdeas
-                      emotionalResponse
                       empathy
-                      eyeContact
+                      usesRegulators
                       influences
                       managesOwn
                       newIdeas
@@ -76,7 +75,6 @@ class Skills extends Component {
                       proactive
                       resilienceFeedback
                       signifiesInterest
-                      tone
                       verbalAttentiveFeedback
                       workDemands
                     }
@@ -94,9 +92,8 @@ class Skills extends Component {
                   crossTeam
                   distractions
                   easilyExplainsComplexIdeas
-                  emotionalResponse
                   empathy
-                  eyeContact
+                  usesRegulators
                   influences
                   managesOwn
                   newIdeas
@@ -105,7 +102,6 @@ class Skills extends Component {
                   proactive
                   resilienceFeedback
                   signifiesInterest
-                  tone
                   verbalAttentiveFeedback
                   workDemands
                 }
@@ -120,7 +116,7 @@ class Skills extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        [JWT]: localStorage.getItem(JWT),
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -181,16 +177,14 @@ class Skills extends Component {
 
   getCorrectVariableName = (skill) => {
     if (skill === "calm") return "Calm";
-    if (skill === "change") return "Change";
     if (skill === "clearInstructions") return "Clear instructions";
     if (skill === "cooperatively") return "Cooperatively";
     if (skill === "crossTeam") return "Cross team";
     if (skill === "distractions") return "Distractions";
     if (skill === "easilyExplainsComplexIdeas")
       return "Easily explains complex ideas";
-    if (skill === "emotionalResponse") return "Emotional response";
     if (skill === "empathy") return "Empathy";
-    if (skill === "eyeContact") return "Eye contact";
+    if (skill === "usesRegulators") return "Uses regluators";
     if (skill === "influences") return "Influences";
     if (skill === "managesOwn") return "Manages own";
     if (skill === "newIdeas") return "New ideas";
@@ -199,8 +193,6 @@ class Skills extends Component {
     if (skill === "proactive") return "Proactive";
     if (skill === "resilienceFeedback") return "Resilience feedback";
     if (skill === "signifiesInterest") return "Signifies interest";
-    if (skill === "tone") return "Tone";
-    if (skill === "verbalAttentiveFeedback") return "Verbal attentive feeback";
     if (skill === "workDemands") return "Work demands";
     return "";
   };
@@ -330,18 +322,18 @@ class Skills extends Component {
       resilience: 0,
     };
     try {
-      result.emotionalIntelligence =
-        (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
+      // Collaboration
+      result.emotionalIntelligence = (clone.empathy + clone.managesOwn) / 2;
       result.initiative = (clone.proactive + clone.influences) / 2;
       result.trust = (clone.cooperatively + clone.positiveBelief) / 2;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.clarity = clone.clearInstructions / 1;
-      result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
-      result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
-      result.attentive =
-        (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
-      result.resilience =
-        (clone.resilienceFeedback + clone.calm + clone.change) / 3;
+      result.resilience = (clone.resilienceFeedback + clone.calm) / 2;
+
+      // Communication
+      result.clarity = (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
+      result.culture = (clone.openToShare + clone.crossTeam) / 2;
+      result.nonVerbal = (clone.distractions + clone.usesRegulators) / 2;
+      result.attentive = (clone.signifiesInterest) / 1;
     } catch {
       console.log({
         code: "ERR",
@@ -366,18 +358,18 @@ class Skills extends Component {
       resilience: 0,
     };
     try {
-      result.emotionalIntelligence =
-        (clone.emotionalResponse + clone.empathy + clone.managesOwn) / 3;
+      // Collaboration
+      result.emotionalIntelligence = (clone.empathy + clone.managesOwn) / 2;
       result.initiative = (clone.proactive + clone.influences) / 2;
-      result.trust = (clone.cooperatively + clone.positiveBelief) / 3;
+      result.trust = (clone.cooperatively + clone.positiveBelief) / 2;
       result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.clarity = clone.clearInstructions / 1;
-      result.culture = (clone.openToShare + clone.tone + clone.crossTeam) / 3;
-      result.nonVerbal = (clone.distractions + clone.eyeContact) / 2;
-      result.attentive =
-        (clone.signifiesInterest + clone.verbalAttentiveFeedback) / 2;
-      result.resilience =
-        (clone.resilienceFeedback + clone.calm + clone.change) / 3;
+      result.resilience = (clone.resilienceFeedback + clone.calm) / 2;
+
+      // Communication
+      result.clarity = (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
+      result.culture = (clone.openToShare + clone.crossTeam) / 2;
+      result.nonVerbal = (clone.distractions + clone.usesRegulators) / 2;
+      result.attentive = (clone.signifiesInterest) / 1;
     } catch {
       console.log({
         code: "ERR",

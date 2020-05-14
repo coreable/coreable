@@ -29,27 +29,21 @@ class Review extends Model {
   public subject!: Subject;
 
   public calm!: number;
-  // public change!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
   public crossTeam!: number;
   public distractions!: number;
   public easilyExplainsComplexIdeas!: number;
-  // public emotionalResponse!: number;
   public empathy!: number;
-  public eyeContact!: number;
-  /* public faith!: number; */
+  public usesRegulators!: number;
   public influences!: number;
   public managesOwn!: number;
   public newIdeas!: number;
   public openToShare!: number;
   public positiveBelief!: number;
-  /* public preventsMisunderstandings!: number; */
   public proactive!: number;
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
-  // public tone!: number;
-  // public verbalAttentiveFeedback!: number;
   public workDemands!: number;  
   public state!: number;
 
@@ -136,7 +130,7 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
-    'eyeContact': {
+    'usesRegulators': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },

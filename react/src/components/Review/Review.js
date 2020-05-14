@@ -33,12 +33,6 @@ class Review extends Component {
           desc:
             "Ability to perceive, use, and understand our personality traits to manage and deal with emotions",
           traits: [
-            // {
-            //   name: "Emotional response",
-            //   var: "emotionalResponse",
-            //   val: 0,
-            //   desc: "Responds to emotions in others",
-            // },
             {
               name: "Empathy",
               var: "empathy",
@@ -141,12 +135,6 @@ class Review extends Component {
               para:
                 "Is able to maintain concentration and work through high stress situations without disruption",
             },
-            // {
-            //   name: "Change",
-            //   var: "change",
-            //   val: 0,
-            //   desc: "Adapts to change easily",
-            // },
           ],
         },
         {
@@ -184,12 +172,6 @@ class Review extends Component {
               para:
                 "When this person is around you feel comfortable to share ideas without judgement",
             },
-            // {
-            //   name: "Tone",
-            //   var: "tone",
-            //   val: 0,
-            //   desc: "Encourages creative potential in others",
-            // },
             {
               name: "Cross team",
               var: "crossTeam",
@@ -237,13 +219,6 @@ class Review extends Component {
               para:
                 "This person actively contributes to conversations ensuring they understand and otherwise asking for clarifcation",
             },
-            // {
-            //   name: "Verbal attentive feedback",
-            //   var: "verbalAttentiveFeedback",
-            //   val: 0,
-            //   desc:
-            //     "Is able to self reflect on interaction and receive feedback",
-            // },
           ],
         },
       ],
@@ -298,27 +273,23 @@ class Review extends Component {
                 receiver_id: "${user}", 
                 team_id: "${team_id}", 
                 subject_id: "${this.props.location.state.pending.subject._id}",
-                emotionalResponse: ${review[me_id][team_id][user]["emotionalResponse"].val}, 
-                empathy: ${review[me_id][team_id][user]["empathy"].val},
-                managesOwn: ${review[me_id][team_id][user]["managesOwn"].val},
-                cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
-                positiveBelief: ${review[me_id][team_id][user]["positiveBelief"].val},
-                resilienceFeedback: ${review[me_id][team_id][user]["resilienceFeedback"].val},
                 calm: ${review[me_id][team_id][user]["calm"].val},
-                change: ${review[me_id][team_id][user]["change"].val},
-                newIdeas: ${review[me_id][team_id][user]["newIdeas"].val},
-                workDemands: ${review[me_id][team_id][user]["workDemands"].val},
-                proactive: ${review[me_id][team_id][user]["proactive"].val},
-                influences: ${review[me_id][team_id][user]["influences"].val},
-                clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
-                easilyExplainsComplexIdeas: ${review[me_id][team_id][user]["easilyExplainsComplexIdeas"].val},
-                openToShare: ${review[me_id][team_id][user]["openToShare"].val},
-                tone: ${review[me_id][team_id][user]["tone"].val},
+                clearInstructions: clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
+                cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
                 crossTeam: ${review[me_id][team_id][user]["crossTeam"].val},
                 distractions: ${review[me_id][team_id][user]["distractions"].val},
-                eyeContact: ${review[me_id][team_id][user]["eyeContact"].val},
+                easilyExplainsComplexIdeas: ${review[me_id][team_id][user]["easilyExplainsComplexIdeas"].val},
+                empathy: ${review[me_id][team_id][user]["empathy"].val},
+                usesRegulators: ${review[me_id][team_id][user]["usesRegulators"].val},
+                influences: ${review[me_id][team_id][user]["influences"].val},
+                managesOwn: ${review[me_id][team_id][user]["managesOwn"].val},
+                newIdeas: ${review[me_id][team_id][user]["newIdeas"].val},
+                openToShare: ${review[me_id][team_id][user]["openToShare"].val},
+                positiveBelief: ${review[me_id][team_id][user]["positiveBelief"].val},,
+                proactive: ${review[me_id][team_id][user]["proactive"].val},
+                resilienceFeedback: ${review[me_id][team_id][user]["resilienceFeedback"].val},
                 signifiesInterest: ${review[me_id][team_id][user]["signifiesInterest"].val},
-                verbalAttentiveFeedback: ${review[me_id][team_id][user]["verbalAttentiveFeedback"].val}
+                workDemands: ${review[me_id][team_id][user]["workDemands"].val},
               ) {
                 errors {
                   path

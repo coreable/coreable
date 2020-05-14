@@ -50,15 +50,13 @@ class Facet extends Component {
 
   validateReview = (review) => {
     if (!review["calm"]) return false;
-    if (!review["change"]) return false;
     if (!review["clearInstructions"]) return false;
     if (!review["cooperatively"]) return false;
     if (!review["crossTeam"]) return false;
     if (!review["distractions"]) return false;
     if (!review["easilyExplainsComplexIdeas"]) return false;
-    if (!review["emotionalResponse"]) return false;
     if (!review["empathy"]) return false;
-    if (!review["eyeContact"]) return false;
+    if (!review["usesRegulators"]) return false;
     if (!review["influences"]) return false;
     if (!review["managesOwn"]) return false;
     if (!review["newIdeas"]) return false;
@@ -67,8 +65,6 @@ class Facet extends Component {
     if (!review["proactive"]) return false;
     if (!review["resilienceFeedback"]) return false;
     if (!review["signifiesInterest"]) return false;
-    if (!review["tone"]) return false;
-    if (!review["verbalAttentiveFeedback"]) return false;
     if (!review["workDemands"]) return false;
     return true;
   };

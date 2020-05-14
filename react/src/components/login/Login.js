@@ -15,7 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import "./Login.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../../constants";
+import { JWT, API_URL } from "../../constants";
 
 import {
   Typography,
@@ -25,8 +25,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
-// import "../../../global.scss";
-import "../../../App.scss";
+import "../../App.scss";
 
 class Login extends Component {
   constructor(props) {
@@ -45,6 +44,7 @@ class Login extends Component {
 
   componentDidMount = () => {
     this.props.ReactGA.pageview("/login");
+    console.log(this.props);
   };
 
   errors = () => {
@@ -129,8 +129,12 @@ class Login extends Component {
     }
 
     if (data) {
-      localStorage.setItem(JWT, data.token);
-      this.props.refreshMe();
+      (async () => {
+        await Promise.resolve();
+        return localStorage.setItem(JWT, data.token);
+      })().then(async () => {
+        await this.props.refreshMe(true);
+      });
     }
   };
 
