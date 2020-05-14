@@ -15,7 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import "./Login.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../../constants";
+import { JWT, API_URL } from "../../constants";
 
 import {
   Typography,
@@ -25,8 +25,7 @@ import {
   TextField,
   FormControl,
 } from "@material-ui/core";
-// import "../../../global.scss";
-import "../../../App.scss";
+import "../../App.scss";
 
 class Login extends Component {
   constructor(props) {

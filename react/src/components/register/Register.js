@@ -15,10 +15,10 @@ Coreable source code.
 // TODO: Disable register button while waiting for submit
 
 import React, { Component } from "react";
-import "../../../App.scss";
-import "../Login/Login.scss";
+import "../../App.scss";
+import "../login/Login.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../../constants";
+import { JWT, API_URL } from "../../constants";
 
 import {
   Typography,

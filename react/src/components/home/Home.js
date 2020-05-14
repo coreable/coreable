@@ -26,7 +26,7 @@ import {
   StepLabel,
 } from "@material-ui/core";
 
-import { API_URL } from "../../../constants";
+import { API_URL } from "../../constants";
 
 class Home extends Component {
   constructor(props) {

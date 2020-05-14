@@ -23,16 +23,13 @@ import "./App.scss";
 
 import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
-const Login = lazy(() => import("./components/LandingPage/Login/Login"));
+const Login = lazy(() => import("./components/login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() =>
-  import("./components/LandingPage/Register/Register")
-);
-const Home = lazy(() => import("./components/LandingPage/Home/Home"));
+const Register = lazy(() => import("./components/register/Register"));
+const Home = lazy(() => import("./components/home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
-
 const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
 const Welcome = lazy(() => import("./components/Onboarding/Welcome/Welcome"));
 

@@ -172,12 +172,6 @@ class Review extends Component {
               para:
                 "When this person is around you feel comfortable to share ideas without judgement",
             },
-            // {
-            //   name: "Tone",
-            //   var: "tone",
-            //   val: 0,
-            //   desc: "Encourages creative potential in others",
-            // },
             {
               name: "Cross team",
               var: "crossTeam",
