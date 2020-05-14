@@ -157,6 +157,7 @@ class Register extends Component {
     if (data) {
       localStorage.setItem(JWT, data.token);
       this.props.refreshMe();
+      this.props.history.push("/intro");
     }
   };
 

@@ -39,7 +39,7 @@ class Onboarding extends Component {
         });
       }
     } else {
-      return;
+      this.props.history.push("/home");
     }
     // window.scrollTo({
     //   top: 0,
