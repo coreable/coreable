@@ -25,9 +25,7 @@ class SubjectAverage extends Model {
   public proactive!: number;
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
-  public workDemands!: number;  
-  public state!: number;
-
+  public workDemands!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
