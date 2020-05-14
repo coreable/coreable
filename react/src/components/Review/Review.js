@@ -34,22 +34,19 @@ class Review extends Component {
             "Ability to perceive, use, and understand our personality traits to manage and deal with emotions",
           traits: [
             {
-              name: "Emotional response",
-              var: "emotionalResponse",
-              val: 0,
-              desc: "Responds to emotions in others",
-            },
-            {
               name: "Empathy",
               var: "empathy",
               val: 0,
               desc: "Demonstrates empathy",
+              para: "Is able to understand and share feelings of another",
             },
             {
               name: "Manages own",
               var: "managesOwn",
               val: 0,
               desc: "Manages own emotions",
+              para:
+                "Is able to maintain control of emotions in professonal environments",
             },
           ],
         },
@@ -63,12 +60,15 @@ class Review extends Component {
               var: "proactive",
               val: 0,
               desc: "Proactive and self-starting",
+              para:
+                "The ability to make things happen, instead of waiting for them to happen",
             },
             {
               name: "Influences",
               var: "influences",
               val: 0,
               desc: "Actively influences events",
+              para: "Makes an effort to contribute and be involved ",
             },
           ],
         },
@@ -81,12 +81,15 @@ class Review extends Component {
               var: "cooperatively",
               val: 0,
               desc: "Ability to work cooperatively",
+              para:
+                "Is able to work in a way that involves mutual assistance in working towards a common goal",
             },
             {
               name: "Positive belief",
               var: "positiveBelief",
               val: 0,
               desc: "Has a positive belief about the dependability of others",
+              para: "Has faith that other members will complete their role",
             },
           ],
         },
@@ -100,12 +103,15 @@ class Review extends Component {
               var: "newIdeas",
               val: 0,
               desc: "Adaptable and receptive to new ideas",
+              para: "Is open to different ideas that may not be their own",
             },
             {
               name: "Work demands",
               var: "workDemands",
               val: 0,
               desc: "Adjusts easily to a change in work demands",
+              para:
+                "Is able to productively change and complete unexpected tasks as they arise",
             },
           ],
         },
@@ -119,18 +125,15 @@ class Review extends Component {
               var: "resilienceFeedback",
               val: 0,
               desc: "Accepts constructive feedback",
+              para: "Is receptive and takes on board others opinions",
             },
             {
               name: "Calm",
               var: "calm",
               val: 0,
               desc: "Remains calm under pressure",
-            },
-            {
-              name: "Change",
-              var: "change",
-              val: 0,
-              desc: "Adapts to change easily",
+              para:
+                "Is able to maintain concentration and work through high stress situations without disruption",
             },
           ],
         },
@@ -144,12 +147,15 @@ class Review extends Component {
               var: "clearInstructions",
               val: 0,
               desc: "Gives clear instructions",
+              para: "Is able to communicate tasks without repeating themselves",
             },
             {
               name: "Complex ideas",
               var: "easilyExplainsComplexIdeas",
               val: 0,
               desc: "Easily explains complex ideas",
+              para:
+                "Is able to communicate complicated concepts in a way that someone who is uneducated on the topic could understand",
             },
           ],
         },
@@ -163,19 +169,23 @@ class Review extends Component {
               var: "openToShare",
               val: 0,
               desc: "Builds a strong sense of openness, trust and community",
+              para:
+                "When this person is around you feel comfortable to share ideas without judgement",
             },
-            {
-              name: "Tone",
-              var: "tone",
-              val: 0,
-              desc: "Encourages creative potential in others",
-            },
+            // {
+            //   name: "Tone",
+            //   var: "tone",
+            //   val: 0,
+            //   desc: "Encourages creative potential in others",
+            // },
             {
               name: "Cross team",
               var: "crossTeam",
               val: 0,
               desc:
                 "Creates an environment where individuals feel safe to report errors",
+              para:
+                "When this person is around you feel comfortable to share mistakes without judgement",
             },
           ],
         },
@@ -189,13 +199,16 @@ class Review extends Component {
               var: "distractions",
               val: 0,
               desc: "Avoids distractions if at all possible",
+              para: "This person maintains concentration when spoken to",
             },
             {
-              name: "Eye contact",
-              var: "eyeContact",
+              name: "Uses Regulators",
+              var: "usesRegulators",
               val: 0,
               desc:
                 "Demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments during interactions",
+              para:
+                "During interactions demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments",
             },
           ],
         },
@@ -209,13 +222,8 @@ class Review extends Component {
               var: "signifiesInterest",
               val: 0,
               desc: "Signifies interest in what other people have to say",
-            },
-            {
-              name: "Verbal attentive feedback",
-              var: "verbalAttentiveFeedback",
-              val: 0,
-              desc:
-                "Is able to self reflect on interaction and receive feedback",
+              para:
+                "This person actively contributes to conversations ensuring they understand and otherwise asking for clarifcation",
             },
           ],
         },
@@ -228,9 +236,7 @@ class Review extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.me) {
-      this.props.ReactGA.pageview("/review");
-    }
+    this.props.ReactGA.pageview("/review");
   };
 
   nextStep = () => {
@@ -273,27 +279,23 @@ class Review extends Component {
                 receiver_id: "${user}", 
                 team_id: "${team_id}", 
                 subject_id: "${this.props.location.state.pending.subject._id}",
-                emotionalResponse: ${review[me_id][team_id][user]["emotionalResponse"].val}, 
-                empathy: ${review[me_id][team_id][user]["empathy"].val},
-                managesOwn: ${review[me_id][team_id][user]["managesOwn"].val},
-                cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
-                positiveBelief: ${review[me_id][team_id][user]["positiveBelief"].val},
-                resilienceFeedback: ${review[me_id][team_id][user]["resilienceFeedback"].val},
                 calm: ${review[me_id][team_id][user]["calm"].val},
-                change: ${review[me_id][team_id][user]["change"].val},
-                newIdeas: ${review[me_id][team_id][user]["newIdeas"].val},
-                workDemands: ${review[me_id][team_id][user]["workDemands"].val},
-                proactive: ${review[me_id][team_id][user]["proactive"].val},
-                influences: ${review[me_id][team_id][user]["influences"].val},
-                clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
-                easilyExplainsComplexIdeas: ${review[me_id][team_id][user]["easilyExplainsComplexIdeas"].val},
-                openToShare: ${review[me_id][team_id][user]["openToShare"].val},
-                tone: ${review[me_id][team_id][user]["tone"].val},
+                clearInstructions: clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
+                cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
                 crossTeam: ${review[me_id][team_id][user]["crossTeam"].val},
                 distractions: ${review[me_id][team_id][user]["distractions"].val},
-                eyeContact: ${review[me_id][team_id][user]["eyeContact"].val},
+                easilyExplainsComplexIdeas: ${review[me_id][team_id][user]["easilyExplainsComplexIdeas"].val},
+                empathy: ${review[me_id][team_id][user]["empathy"].val},
+                usesRegulators: ${review[me_id][team_id][user]["usesRegulators"].val},
+                influences: ${review[me_id][team_id][user]["influences"].val},
+                managesOwn: ${review[me_id][team_id][user]["managesOwn"].val},
+                newIdeas: ${review[me_id][team_id][user]["newIdeas"].val},
+                openToShare: ${review[me_id][team_id][user]["openToShare"].val},
+                positiveBelief: ${review[me_id][team_id][user]["positiveBelief"].val},,
+                proactive: ${review[me_id][team_id][user]["proactive"].val},
+                resilienceFeedback: ${review[me_id][team_id][user]["resilienceFeedback"].val},
                 signifiesInterest: ${review[me_id][team_id][user]["signifiesInterest"].val},
-                verbalAttentiveFeedback: ${review[me_id][team_id][user]["verbalAttentiveFeedback"].val}
+                workDemands: ${review[me_id][team_id][user]["workDemands"].val},
               ) {
                 errors {
                   path
@@ -400,6 +402,7 @@ class Review extends Component {
         me={this.props.app.data.user}
         ReactGA={this.props.ReactGA}
         buttonLabel={this.state.buttonLabel}
+        facets={this.state.facets}
       ></Facet>
     );
   }

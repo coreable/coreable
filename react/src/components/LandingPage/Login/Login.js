@@ -45,6 +45,7 @@ class Login extends Component {
 
   componentDidMount = () => {
     this.props.ReactGA.pageview("/login");
+    console.log(this.props);
   };
 
   errors = () => {
@@ -129,13 +130,17 @@ class Login extends Component {
     }
 
     if (data) {
-      localStorage.setItem(JWT, data.token);
-      this.props.refreshMe();
+      (async () => {
+        await Promise.resolve();
+        return localStorage.setItem(JWT, data.token);
+      })().then(async () => {
+        await this.props.refreshMe(true);
+      });
     }
   };
 
   render() {
-    if (this.props.me) {
+    if (this.props.app.data.user) {
       return <Redirect to="/home"></Redirect>;
     }
 

@@ -26,7 +26,7 @@ import {
   StepLabel,
 } from "@material-ui/core";
 
-import { JWT, API_URL } from "../../../constants";
+import { API_URL } from "../../../constants";
 
 class Home extends Component {
   constructor(props) {
@@ -193,7 +193,7 @@ class Home extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -227,17 +227,33 @@ class Home extends Component {
     return (
       <div>
         <div className="review-container">
-          <div className="top-background">
-            <Typography
-              variant="h2"
-              style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
-            >
-              Your teams
-            </Typography>
-            <p style={{ fontSize: "1.4rem" }}>View, review and join teams.</p>
-          </div>
+          <div className="top-background"></div>
 
           <div className="main">
+            <div
+              style={{
+                paddingLeft: "0",
+                paddingRight: "0",
+                margin: "6px",
+                marginBottom: "40px",
+                width: "100%",
+                // height: "448pt",
+              }}
+            >
+              <Typography
+                variant="h2"
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  marginTop: "40pt",
+                }}
+              >
+                Your teams
+              </Typography>
+              <p style={{ fontSize: "1.4rem", color: "white" }}>
+                View, review and join teams.
+              </p>
+            </div>
             {this.state.me.teams.map((team, index) => {
               if (team._id !== "joinTeam") {
                 return (

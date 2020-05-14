@@ -47,9 +47,7 @@ class Register extends Component {
   }
 
   componentDidMount = () => {
-    if (!this.props.me) {
-      this.props.ReactGA.pageview("/signup");
-    }
+    this.props.ReactGA.pageview("/signup");
   };
 
   errors = () => {
@@ -142,7 +140,7 @@ class Register extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -157,13 +155,17 @@ class Register extends Component {
     }
 
     if (data) {
-      localStorage.setItem(JWT, data.token);
-      this.props.refreshMe();
+      (async () => {
+        await Promise.resolve();
+        return localStorage.setItem(JWT, data.token);
+      })().then(async () => {
+        await this.props.refreshMe(true);
+      });
     }
   };
 
   render() {
-    if (this.props.me) {
+    if (this.props.app.data.user) {
       return <Redirect to="/home"></Redirect>;
     }
 

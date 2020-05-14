@@ -16,16 +16,11 @@ import React from "react";
 import { Radar } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
 
+import "./Radar.scss";
+
 const RadarChart = (props) => {
   return (
-    <Container
-      style={{
-        marginTop: "16px",
-        marginBottom: "16pt",
-        width: "100%",
-        height: "448pt",
-      }}
-    >
+    <Container className="radar-container">
       <Radar
         options={{
           maintainAspectRatio: false,

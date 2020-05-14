@@ -19,7 +19,6 @@ import {
   Container,
   Card,
   CardContent,
-  Button,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../constants";
@@ -121,7 +120,7 @@ class Skills extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        [JWT]: localStorage.getItem(JWT),
+        [JWT]: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -396,38 +395,9 @@ class Skills extends Component {
 
     return (
       <div className="review-container">
-        <div className="top-background">
-          <Typography
-            variant="h2"
-            style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
-          >
-            Your Skills
-          </Typography>
-          <p
-            style={{
-              fontSize: "1.4rem",
-              fontWeight: "bold",
-              marginBottom: "35pt",
-              color: "#d6d6d6",
-            }}
-          >
-            All marks are average of 5 assessments{" "}
-          </p>
-          <div className="skills-btns">
-            <button className="btn primarybtn">All Core Skills</button>
-            <button className="btn primarybtn" disabled>
-              Collaboration
-            </button>
-            <button className="btn primarybtn" disabled>
-              Communication
-            </button>
-          </div>
-          <div className="skills-btns-dropdown">
-            <button className="btn primarybtn">All Core Skills</button>
-          </div>
-        </div>
+        <div className="top-background"></div>
 
-        <div className="main">
+        <div className="skills-main">
           <div
             style={{
               paddingLeft: "0",
@@ -437,9 +407,65 @@ class Skills extends Component {
               // height: "448pt",
             }}
           >
-            <Card variant="outlined" style={{ border: "1px solid lightgrey" }}>
+            <Typography
+              variant="h2"
+              style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
+            >
+              Your Skills
+            </Typography>
+            <p
+              style={{
+                fontSize: "1.4rem",
+                fontWeight: "bold",
+                marginBottom: "35pt",
+                color: "#d6d6d6",
+              }}
+            >
+              All marks are average of 5 assessments{" "}
+            </p>
+            <div className="skills-btns">
+              <button className="btn primarybtn">All Core Skills</button>
+              <button className="btn primarybtn" disabled>
+                Collaboration
+              </button>
+              <button className="btn primarybtn" disabled>
+                Communication
+              </button>
+            </div>
+            <div className="skills-btns-dropdown">
+              <button className="btn primarybtn">All Core Skills</button>
+              {/* Dropdown menu after we complete the other pages */}
+              {/* <div className="skills-dropdown-content">
+                <ul>
+                  <li>Collaboration</li>
+                  <li>Communication</li>
+                </ul>
+              </div> */}
+            </div>
+          </div>
+          <div
+            style={{
+              paddingLeft: "0",
+              paddingRight: "0",
+              margin: "6px",
+              width: "100%",
+              // height: "448pt",
+            }}
+          >
+            <Card
+              variant="outlined"
+              style={{ border: "1px solid lightgrey", marginTop: "15px" }}
+            >
               <Radar {...this.state} />
             </Card>
+          </div>
+          <div>
+            <Typography
+              variant="h3"
+              style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
+            >
+              Your facets
+            </Typography>
           </div>
           <div
             style={{

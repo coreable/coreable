@@ -126,15 +126,13 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                 resolve(reviews, args, context) {
                   const average: any = {
                     calm: 0,
-                    change: 0,
                     clearInstructions: 0,
                     cooperatively: 0,
                     crossTeam: 0,
                     distractions: 0,
                     easilyExplainsComplexIdeas: 0,
-                    emotionalResponse: 0,
                     empathy: 0,
-                    eyeContact: 0,
+                    usesRegulators: 0,
                     influences: 0,
                     managesOwn: 0,
                     newIdeas: 0,
@@ -143,22 +141,19 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                     proactive: 0,
                     resilienceFeedback: 0,
                     signifiesInterest: 0,
-                    tone: 0,
-                    verbalAttentiveFeedback: 0,
                     workDemands: 0
                   };
+
                   let counter = 0;
                   for (const review of reviews) {
                     average.calm += review.calm;
-                    average.change += review.change;
                     average.clearInstructions += review.clearInstructions;
                     average.cooperatively += review.cooperatively;
                     average.crossTeam += review.crossTeam;
                     average.distractions += review.distractions;
                     average.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
-                    average.emotionalResponse += review.emotionalResponse;
                     average.empathy += review.empathy;
-                    average.eyeContact += review.eyeContact;
+                    average.usesRegulators += review.usesRegulators;
                     average.influences += review.influences;
                     average.managesOwn += review.managesOwn;
                     average.newIdeas += review.newIdeas;
@@ -167,8 +162,6 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
                     average.proactive += review.proactive;
                     average.resilienceFeedback += review.resilienceFeedback;
                     average.signifiesInterest += review.signifiesInterest;
-                    average.tone += review.tone;
-                    average.verbalAttentiveFeedback += review.verbalAttentiveFeedback;
                     average.workDemands += review.workDemands;
                     counter++;
                   }
@@ -245,15 +238,13 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           }
           const average: any = {
             calm: 0,
-            change: 0,
             clearInstructions: 0,
             cooperatively: 0,
             crossTeam: 0,
             distractions: 0,
             easilyExplainsComplexIdeas: 0,
-            emotionalResponse: 0,
             empathy: 0,
-            eyeContact: 0,
+            usesRegulators: 0,
             influences: 0,
             managesOwn: 0,
             newIdeas: 0,
@@ -262,22 +253,19 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             proactive: 0,
             resilienceFeedback: 0,
             signifiesInterest: 0,
-            tone: 0,
-            verbalAttentiveFeedback: 0,
             workDemands: 0
           };
+          
           let counter = 0;
           for (const review of reflection) {
             average.calm += review.calm;
-            average.change += review.change;
             average.clearInstructions += review.clearInstructions;
             average.cooperatively += review.cooperatively;
             average.crossTeam += review.crossTeam;
             average.distractions += review.distractions;
             average.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
-            average.emotionalResponse += review.emotionalResponse;
             average.empathy += review.empathy;
-            average.eyeContact += review.eyeContact;
+            average.usesRegulators += review.usesRegulators;
             average.influences += review.influences;
             average.managesOwn += review.managesOwn;
             average.newIdeas += review.newIdeas;
@@ -286,8 +274,6 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             average.proactive += review.proactive;
             average.resilienceFeedback += review.resilienceFeedback;
             average.signifiesInterest += review.signifiesInterest;
-            average.tone += review.tone;
-            average.verbalAttentiveFeedback += review.verbalAttentiveFeedback;
             average.workDemands += review.workDemands;
             counter++;
           }

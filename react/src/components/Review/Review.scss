@@ -40,6 +40,32 @@ $max-width: 760px;
       width: 40%;
       margin: 0 auto;
       text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .stepper-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: relative;
+        height: 40px;
+        width: 70%;
+        margin-bottom: 30px;
+
+        span {
+          height: 24px;
+          width: 24px;
+          border: 2px solid $white;
+          border-radius: 50%;
+          background: $white;
+        }
+
+        .active {
+          border: 2px solid $primaryBlue;
+        }
+      }
 
       h1,
       p {
@@ -53,7 +79,7 @@ $max-width: 760px;
 
     @media (max-width: $max-width) {
       .facet-heading-desc {
-        width: 70%;
+        width: 80%;
       }
     }
   }
@@ -337,7 +363,6 @@ $max-width: 760px;
         // color: white;
         // background-color: rgb(64, 112, 224);
         background-color: transparent;
-        border: 2px solid rgb(64, 112, 224);
         transition: all 0.2s ease-in-out;
       }
     }
@@ -346,7 +371,7 @@ $max-width: 760px;
   @media (max-width: $max-width) {
     .main {
       width: 90%;
-      top: 310px;
+      // top: 310px;
     }
   }
 }

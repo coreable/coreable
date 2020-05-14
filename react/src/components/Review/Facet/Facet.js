@@ -15,6 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
+import Stepper from "../../Stepper/Stepper";
 import "../Review.scss";
 
 class Facet extends Component {
@@ -25,6 +26,8 @@ class Facet extends Component {
       desc: props.desc,
       traits: props.traits,
       isSubmitDisabled: props.currentIndex === props.facetLength - 1,
+      stepsArray: props.facets,
+      currentIndex: props.currentIndex,
     };
   }
 
@@ -47,15 +50,13 @@ class Facet extends Component {
 
   validateReview = (review) => {
     if (!review["calm"]) return false;
-    if (!review["change"]) return false;
     if (!review["clearInstructions"]) return false;
     if (!review["cooperatively"]) return false;
     if (!review["crossTeam"]) return false;
     if (!review["distractions"]) return false;
     if (!review["easilyExplainsComplexIdeas"]) return false;
-    if (!review["emotionalResponse"]) return false;
     if (!review["empathy"]) return false;
-    if (!review["eyeContact"]) return false;
+    if (!review["usesRegulators"]) return false;
     if (!review["influences"]) return false;
     if (!review["managesOwn"]) return false;
     if (!review["newIdeas"]) return false;
@@ -64,8 +65,6 @@ class Facet extends Component {
     if (!review["proactive"]) return false;
     if (!review["resilienceFeedback"]) return false;
     if (!review["signifiesInterest"]) return false;
-    if (!review["tone"]) return false;
-    if (!review["verbalAttentiveFeedback"]) return false;
     if (!review["workDemands"]) return false;
     return true;
   };
@@ -113,8 +112,13 @@ class Facet extends Component {
       e.stopPropagation();
     }
     this.props.nextStep();
+    let currentIndex = this.state.currentIndex;
+    currentIndex++;
+    this.setState({ currentIndex: currentIndex });
+    console.log(currentIndex);
     window.scrollTo({
       top: 0,
+      behavior: "smooth",
     });
   };
 
@@ -124,19 +128,32 @@ class Facet extends Component {
       e.stopPropagation();
     }
     this.props.prevStep();
+    let currentIndex = this.state.currentIndex;
+    currentIndex--;
+    this.setState({ currentIndex: currentIndex });
     window.scrollTo({
       top: 0,
+      behavior: "smooth",
     });
   };
 
   render() {
+    const { currentIndex, stepsArray } = this.state;
+
     return (
       <div className="team-container">
         <div className="top">
           <div className="facet-heading-desc">
+            <div style={{ width: "100%" }}>
+              <Stepper
+                currentStepNumber={currentIndex}
+                steps={stepsArray}
+                stepColor="#4070e0"
+              />
+            </div>
             <Typography
               variant="h2"
-              style={{ color: "white", fontWeight: "bold" }}
+              style={{ color: "white", fontWeight: "bold", width: "100%" }}
             >
               {this.state.name}
             </Typography>
@@ -163,6 +180,7 @@ class Facet extends Component {
             className="btn primarybtn"
             onClick={this.continue}
             disabled={this.state.isSubmitDisabled}
+            style={{ marginTop: "20px" }}
           >
             {this.props.buttonLabel}
           </Button>

@@ -25,22 +25,27 @@ import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
 const Login = lazy(() => import("./components/LandingPage/Login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() => import("./components/LandingPage/Register/Register"));
+const Register = lazy(() =>
+  import("./components/LandingPage/Register/Register")
+);
 const Home = lazy(() => import("./components/LandingPage/Home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
 
+const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
+const Welcome = lazy(() => import("./components/Onboarding/Welcome/Welcome"));
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      "JWT": null,
-      "data": {
-        "user": null
+      JWT: null,
+      data: {
+        user: null,
       },
-      "errors": [],
-      "fetching": true
+      errors: [],
+      fetching: true,
     };
     ReactGA.initialize("UA-165578445-1");
   }
@@ -48,31 +53,55 @@ class App extends Component {
   updateJWT = () => {
     const jwt_token = localStorage.getItem(JWT);
     return new Promise((r, f) => {
-      this.setState({
-        ...this.state,
-        JWT: jwt_token
-      }, () => {
-        return r(this.state);
-      });
+      this.setState(
+        {
+          ...this.state,
+          JWT: jwt_token,
+        },
+        () => {
+          return r(this.state);
+        }
+      );
+    });
+  };
+
+  removeJWT = () => {
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          JWT: null,
+        },
+        () => {
+          return r(this.state);
+        }
+      );
     });
   }
 
-  refreshMe = async() => {
+  refreshMe = async (removeJWT = false) => {
+    // removeJWT Used for Login/Register
+    if (removeJWT === true) {
+      await this.removeJWT();
+    }
     if (!this.state.JWT) {
       await this.updateJWT();
     }
-    this.setState(
-      {
-        ...this.state,
-        fetching: true,
-      },
-      () => {
-        this.fetchMe();
-      }
-    );
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          fetching: true,
+        },
+        async () => {
+          const state = await this.fetchMe();
+          return r(state);
+        }
+      );
+    })
   };
 
-  fetchMe = async() => {
+  fetchMe = async () => {
     const query = {
       query: `
         query {
@@ -132,19 +161,41 @@ class App extends Component {
     };
 
     const res = await fetch(API_URL, options).then((res) => res.json());
-    const { data, errors } = res.data.me;
+    let { data, errors } = res.data.me;
 
-    this.setState({
+    if (!data) {
+      data = {
+        user: null,
+      };
+    }
+
+    if (!errors) {
+      errors = [];
+    }
+    console.log({
+      'app.js': {
+        data, 
+        errors,
+        state: this.state
+      }
+    });
+
+    return this.setState({
       ...this.state,
-      fetching: false,
       data,
-      errors
+      errors,
+      fetching: false,
+    }, () => {
+      return {
+        data,
+        errors
+      };
     });
   };
 
   componentDidMount = () => {
     this.refreshMe();
-    ReactGA.pageview('/');
+    ReactGA.pageview("/");
   };
 
   render() {
@@ -247,7 +298,30 @@ class App extends Component {
                 />
               )}
             />
-
+            <Route
+              exact
+              path="/intro"
+              component={(props) => (
+                <Onboarding
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/welcome"
+              component={(props) => (
+                <Welcome
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
             <Route exact path="/loading" component={Loader} />
           </Suspense>
         </div>

@@ -15,7 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
-import { Subject } from 'rxjs';
+import { Subject } from "rxjs";
 
 import { Typography, CardActions, Button } from "@material-ui/core";
 
@@ -27,8 +27,12 @@ class Trait extends Component {
       var: props.var,
       val: props.val,
       desc: props.desc,
+      para: props.para,
       user: {},
       team: props.pending,
+      showPara: false,
+      flip: "",
+      border: "1px solid #707070",
     };
 
     this.reviewSubject = new Subject();
@@ -241,15 +245,69 @@ class Trait extends Component {
     }
   };
 
+  clickHandler = () => {
+    if (!this.state.showPara) {
+      this.setState({
+        showPara: !this.state.showPara,
+        flip: "scaleY(-1) scaleX(-1)",
+      });
+    } else {
+      this.setState({
+        showPara: !this.state.showPara,
+        flip: "",
+      });
+    }
+  };
+
   render() {
     return (
-      <React.Fragment>
-        <Typography
-          variant="h4"
-          style={{ marginTop: "8pt", marginBottom: "16pt", fontWeight: "bold" }}
+      <div style={{ position: "relative" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          {this.state.desc}
-        </Typography>
+          <Typography
+            variant="h4"
+            style={{
+              marginTop: "8pt",
+              marginBottom: "10pt",
+              fontWeight: "bold",
+              width: "70%",
+            }}
+          >
+            {this.state.desc}
+          </Typography>
+          <span
+            onClick={this.clickHandler}
+            style={{
+              display: "inline",
+              // position: "absolute",
+              // top: "8px",
+              // right: "5px",
+              borderBottom: this.state.border,
+              borderRight: this.state.border,
+              height: "6px",
+              width: "6px",
+              marginBottom: "10px",
+              transform: `rotate(45deg) ${this.state.flip}`,
+            }}
+          ></span>
+        </div>
+        {this.state.showPara ? (
+          <Typography
+            variant="subtitle1"
+            style={{
+              marginBottom: "16pt",
+              color: "#707070",
+              transition: "all 0.5s easeOut",
+            }}
+          >
+            {this.state.para}
+          </Typography>
+        ) : null}
 
         <Ranking {...this.state} />
 
@@ -348,7 +406,7 @@ class Trait extends Component {
             );
           })}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

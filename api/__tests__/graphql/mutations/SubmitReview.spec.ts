@@ -110,7 +110,28 @@ describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => 
     const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
       query:
       `mutation {
-        submitReview(receiver_id: "${user4._id}", team_id: "${team0._id}", subject_id: "${team0.subject._id}", signifiesInterest: 1, calm: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+        submitReview(
+          receiver_id: "${user4._id}",
+          team_id: "${team0._id}",
+          subject_id: "${team0.subject._id}",
+          calm: 1,
+          clearInstructions: 1,
+          cooperatively: 1,
+          crossTeam: 1,
+          distractions: 1,
+          easilyExplainsComplexIdeas: 1,
+          empathy: 1,
+          usesRegulators: 1,
+          influences: 1,
+          managesOwn: 1,
+          newIdeas: 1,
+          openToShare: 1,
+          positiveBelief: 1,
+          proactive: 1,
+          resilienceFeedback: 1,
+          signifiesInterest: 1,
+          workDemands: 1
+        ) {
           data {
             review {
               submitter_id
@@ -134,7 +155,28 @@ describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => 
     const res = await chai.request(server).post('/graphQL').set('JWT', 'unittest').send({
       query:
       `mutation {
-        submitReview(receiver_id: "${user1._id}", team_id: "${team0._id}", subject_id: "${team0.subject._id}", signifiesInterest: 1, calm: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+        submitReview(
+          receiver_id: "${user1._id}",
+          team_id: "${team0._id}",
+          subject_id: "${team0.subject._id}",
+          calm: 1,
+          clearInstructions: 1,
+          cooperatively: 1,
+          crossTeam: 1,
+          distractions: 1,
+          easilyExplainsComplexIdeas: 1,
+          empathy: 1,
+          usesRegulators: 1,
+          influences: 1,
+          managesOwn: 1,
+          newIdeas: 1,
+          openToShare: 1,
+          positiveBelief: 1,
+          proactive: 1,
+          resilienceFeedback: 1,
+          signifiesInterest: 1,
+          workDemands: 1
+        ) {
           data {
             review {
               submitter_id
@@ -157,7 +199,28 @@ describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => 
     const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
       query:
       `mutation {
-        submitReview(receiver_id: "unittest", team_id: "${team0._id}", subject_id: "${team0.subject._id}", signifiesInterest: 1, calm: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+        submitReview(
+          receiver_id: "unittest",
+          team_id: "${team0._id}",
+          subject_id: "${team0.subject._id}",
+          calm: 1,
+          clearInstructions: 1,
+          cooperatively: 1,
+          crossTeam: 1,
+          distractions: 1,
+          easilyExplainsComplexIdeas: 1,
+          empathy: 1,
+          usesRegulators: 1,
+          influences: 1,
+          managesOwn: 1,
+          newIdeas: 1,
+          openToShare: 1,
+          positiveBelief: 1,
+          proactive: 1,
+          resilienceFeedback: 1,
+          signifiesInterest: 1,
+          workDemands: 1
+        ) {
           data {
             review {
               submitter_id
@@ -180,7 +243,28 @@ describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => 
     const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
       query:
       `mutation {
-        submitReview(receiver_id: "${user3._id}", team_id: "${team0._id}", subject_id: "${team0.subject._id}", signifiesInterest: 1, calm: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+        submitReview(
+          receiver_id: "${user3._id}",
+          team_id: "${team0._id}",
+          subject_id: "${team0.subject._id}",
+          calm: 1,
+          clearInstructions: 1,
+          cooperatively: 1,
+          crossTeam: 1,
+          distractions: 1,
+          easilyExplainsComplexIdeas: 1,
+          empathy: 1,
+          usesRegulators: 1,
+          influences: 1,
+          managesOwn: 1,
+          newIdeas: 1,
+          openToShare: 1,
+          positiveBelief: 1,
+          proactive: 1,
+          resilienceFeedback: 1,
+          signifiesInterest: 1,
+          workDemands: 1
+        ) {
           data {
             review {
               submitter_id
@@ -203,7 +287,28 @@ describe('SubmitReview Mutation [api/graphql/mutations/SubmitReview.ts]', () => 
     const res = await chai.request(server).post('/graphQL').set('JWT', session_u0).send({
       query:
       `mutation {
-        submitReview(receiver_id: "${user1._id}", team_id: "${team0._id}", subject_id: "${team0.subject._id}", signifiesInterest: 1, calm: 1, change: 1, empathy: 1, newIdeas: 1, proactive: 1, crossTeam: 1, managesOwn: 1, eyeContact: 1, workDemands: 1, openToShare: 1, distractions: 1, cooperatively: 1, emotionalResponse: 1, positiveBelief: 1, resilienceFeedback: 1, influences: 1, clearInstructions: 1, easilyExplainsComplexIdeas: 1, tone: 1, verbalAttentiveFeedback: 1) {
+        submitReview(
+          receiver_id: "${user1._id}",
+          team_id: "${team0._id}",
+          subject_id: "${team0.subject._id}",
+          calm: 1,
+          clearInstructions: 1,
+          cooperatively: 1,
+          crossTeam: 1,
+          distractions: 1,
+          easilyExplainsComplexIdeas: 1,
+          empathy: 1,
+          usesRegulators: 1,
+          influences: 1,
+          managesOwn: 1,
+          newIdeas: 1,
+          openToShare: 1,
+          positiveBelief: 1,
+          proactive: 1,
+          resilienceFeedback: 1,
+          signifiesInterest: 1,
+          workDemands: 1
+        ) {
           data {
             review {
               submitter_id

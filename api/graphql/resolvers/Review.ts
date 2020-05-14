@@ -56,22 +56,16 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.submitter;
         }
       },
-      'emotionalResponse': {
+      'calm': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.emotionalResponse;
+          return review.calm;
         }
       },
-      'empathy': {
+      'clearInstructions': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.empathy;
-        }
-      },
-      'managesOwn': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.managesOwn;
+          return review.clearInstructions;
         }
       },
       'cooperatively': {
@@ -80,82 +74,10 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.cooperatively;
         }
       },
-      'positiveBelief': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.positiveBelief;
-        }
-      },
-      'calm': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.calm;
-        }
-      },
-      'change': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.change;
-        }
-      },
-      'newIdeas': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.newIdeas;
-        }
-      },
-      'workDemands': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.workDemands;
-        }
-      },
-      'proactive': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.proactive;
-        }
-      },
-      'influences': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.proactive;
-        }
-      },
-      'clearInstructions': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.proactive;
-        }
-      },
-      'easilyExplainsComplexIdeas': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.easilyExplainsComplexIdeas;
-        }
-      },
-      'openToShare': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.openToShare;
-        }
-      },
-      'tone': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.tone;
-        }
-      },
       'crossTeam': {
         type: GraphQLFloat,
         resolve(review, args, context) {
           return review.crossTeam;
-        }
-      },
-      'resilienceFeedback': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.resilienceFeedback;
         }
       },
       'distractions': {
@@ -164,10 +86,64 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.distractions;
         }
       },
-      'eyeContact': {
+      'easilyExplainsComplexIdeas': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.eyeContact;
+          return review.easilyExplainsComplexIdeas;
+        }
+      },
+      'empathy': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.empathy;
+        }
+      },
+      'usesRegulators': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.usesRegulators;
+        }
+      },
+      'influences': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.influences;
+        }
+      },
+      'managesOwn': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.managesOwn;
+        }
+      },
+      'newIdeas': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.newIdeas;
+        }
+      },
+      'openToShare': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.openToShare;
+        }
+      },
+      'positiveBelief': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.positiveBelief;
+        }
+      },
+      'proactive': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.proactive;
+        }
+      },
+      'resilienceFeedback': {
+        type: GraphQLFloat,
+        resolve(review, args, context) {
+          return review.resilienceFeedback;
         }
       },
       'signifiesInterest': {
@@ -176,10 +152,10 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
           return review.signifiesInterest;
         }
       },
-      'verbalAttentiveFeedback': {
+      'workDemands': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.verbalAttentiveFeedback;
+          return review.workDemands;
         }
       },
       'createdAt': {

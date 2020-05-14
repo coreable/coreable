@@ -30,6 +30,25 @@ $max-width: 760px;
     width: 100%;
     z-index: 0;
     color: $white;
+  }
+
+  .skills-main {
+    z-index: 1;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 15%;
+    // height: ;
+    width: 770pt;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
     .skills-btns-dropdown {
       display: none;
@@ -62,7 +81,7 @@ $max-width: 760px;
         font-weight: bold;
         transition: all 0.2s ease-in-out;
         &:hover {
-          transform: scale(1.03);
+          transform: none;
         }
         &:disabled {
           background-color: $disabledGrey;
@@ -120,28 +139,40 @@ $max-width: 760px;
         display: none;
       }
       .skills-btns-dropdown {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 1s ease-out;
+
+        .skills-dropdown-content {
+          position: absolute;
+          display: none;
+          top: 85%;
+          width: 70%;
+          background-color: $primaryBlue;
+          z-index: 300;
+
+          ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+              font-size: 1.4rem;
+              text-decoration: none;
+              margin: 20px;
+            }
+          }
+        }
+
+        &:hover {
+          .skills-dropdown-content {
+            display: block;
+          }
+        }
       }
     }
-  }
-
-  .main {
-    z-index: 1;
-    background: transparent;
-    border: none;
-    position: absolute;
-    top: 45%;
-    // height: ;
-    width: 770pt;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 
     .inside-main {
       min-height: 257pt;
@@ -161,55 +192,6 @@ $max-width: 760px;
         text-align: left;
         padding: 33pt 36pt 33pt 36pt;
 
-        // .btn {
-        //   width: 100%;
-        //   max-width: 100%;
-        //   height: 40pt;
-        //   border-radius: 0.8rem;
-        //   font-size: 1.6rem;
-        //   font-weight: bold;
-        //   justify-content: center;
-        //   align-content: center;
-        //   margin: 0 auto;
-        //   text-transform: none;
-        // }
-
-        // @media (min-width: 776px) {
-        //   .btn {
-        //     width: 100%;
-        //     max-width: 100%;
-        //   }
-        // }
-
-        // @media (max-width: 1024px) {
-        //   .btn {
-        //     width: 100%;
-        //     max-width: 100%;
-        //     font-size: 1.4rem;
-        //   }
-        // }
-
-        // .primarybtn {
-        //   background-color: rgb(64, 112, 224);
-        //   color: white;
-        //   font-weight: bold;
-        //   &:hover {
-        //     background-color: white;
-        //     border: 2px solid rgb(64, 112, 224);
-        //     color: rgb(64, 112, 224);
-        //     transition: all 0.2s ease-in-out;
-        //   }
-        //   &:disabled {
-        //     background-color: lightgrey !important;
-        //     color: white !important;
-        //     cursor: not-allowed !important;
-        //     border: none !important;
-        //   }
-        //   &:focus {
-        //     outline: none;
-        //   }
-        // }
-
         .MuiFormControl-root {
           width: 100%;
           .MuiOutlinedInput-root {
@@ -227,7 +209,7 @@ $max-width: 760px;
   }
 
   @media (max-width: 990px) {
-    .main {
+    .skills-main {
       width: 90%;
     }
   }

@@ -1,0 +1,99 @@
+// @import "../../App.scss";
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+.stepper-wrapper {
+  display: flex;
+  width: 70%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  .step-wrapper {
+    width: 23%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    .step-circle {
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      padding: 3px;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    @media (max-width: 760px) {
+      .step-circle {
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    .step-circle-selected {
+      // background: purple;
+      border: 2px solid $primaryBlue;
+      background: $primaryBlue;
+      color: #fff;
+    }
+
+    .step-circle-current {
+      // background: purple;
+      border: 2px solid $primaryBlue;
+      background: white;
+      color: #fff;
+    }
+
+    .step-circle-disabled {
+      border: 2px solid $white;
+      background: $white;
+    }
+
+    .step-bar-container {
+      position: absolute;
+      z-index: -1;
+      top: 10px;
+      left: -50%;
+      width: 100%;
+
+      .step-bar {
+        width: 100%;
+        height: 6px;
+        text-align: center;
+      }
+
+      .step-bar-selected {
+        background: $primaryBlue;
+      }
+
+      .step-bar-disabled {
+        background: $white;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .step-bar-container {
+        top: 7px;
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .stepper-wrapper {
+    width: 100%;
+  }
+}
+
+.step-wrapper:nth-child(1) .step-bar-container {
+  display: none;
+}
