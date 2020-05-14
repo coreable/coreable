@@ -79,7 +79,7 @@ $max-width: 760px;
 
     @media (max-width: $max-width) {
       .facet-heading-desc {
-        width: 80%;
+        width: 60%;
       }
     }
   }
@@ -98,7 +98,7 @@ $max-width: 760px;
     top: 45%;
     // height: ;
     //if this is dynamic, mobile capability is bad
-    width: 50%;
+    width: 373pt;
     position: absolute;
     margin-left: auto;
     margin-right: auto;

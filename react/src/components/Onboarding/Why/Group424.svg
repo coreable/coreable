@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="324" height="195" viewBox="0 0 324 195">
+  <g id="Group_424" data-name="Group 424" transform="translate(-478 -508)">
+    <rect id="Rectangle_3138" data-name="Rectangle 3138" width="324" height="195" transform="translate(478 508)" fill="#f7f9fc"/>
+    <g id="Group_420" data-name="Group 420">
+      <text id="Collaboration" transform="translate(676 563.691)" fill="#191919" font-size="16" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-51.555" y="0">Collaboration</tspan></text>
+      <text id="Emotional_Inteligence" data-name="Emotional Inteligence" transform="translate(676 602.903)" fill="#4271f9" font-size="12" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-62.01" y="0">Emotional Inteligence</tspan></text>
+      <text id="Manages_their_own_emotions" data-name="Manages their own emotions" transform="translate(557 628.903)" fill="#2dd775" font-size="12" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="5.491" y="9">Manages their own </tspan><tspan x="32.831" y="23">emotions</tspan></text>
+      <text id="Demonstrates_empathy" data-name="Demonstrates empathy" transform="translate(695 628.903)" fill="#2dd775" font-size="12" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="1.486" y="9">Demonstrates </tspan><tspan x="16.826" y="23">empathy</tspan></text>
+      <path id="Path_1282" data-name="Path 1282" d="M-12018.5-3811.224v16.469" transform="translate(12695 4382)" fill="none" stroke="#d6d6d6" stroke-width="1"/>
+      <path id="Path_1283" data-name="Path 1283" d="M-12018.5-3771.6v10.047h-60.18v8.175" transform="translate(12695 4381)" fill="none" stroke="#d6d6d6" stroke-width="1"/>
+      <path id="Path_1284" data-name="Path 1284" d="M-12078.68-3771.6v10.047h60.18v8.175" transform="translate(12755 4381)" fill="none" stroke="#d6d6d6" stroke-width="1"/>
+      <text id="Facets" transform="translate(521 602.903)" fill="#4271f9" font-size="12" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-19.011" y="0">Facets</tspan></text>
+      <text id="Core_Skills" data-name="Core Skills" transform="translate(530 564.903)" fill="#0b152f" font-size="12" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-31.014" y="0">Core Skills</tspan></text>
+      <text id="Traits" transform="translate(517 643.903)" fill="#2dd775" font-size="12" font-family="Helvetica-Bold, Helvetica" font-weight="700"><tspan x="-16.011" y="0">Traits</tspan></text>
+    </g>
+  </g>
+</svg>

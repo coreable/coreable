@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import svg from "./Group423.svg";
+import svg from "./Group424.svg";
 
 export default function Why() {
   return (

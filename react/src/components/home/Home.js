@@ -215,7 +215,6 @@ class Home extends Component {
   firstReview = () => {
     if (!localStorage.getItem("hasCompletedTutorial")) {
       localStorage.setItem("hasCompletedTutorial", true);
-      console.log(localStorage.getItem("hasCompletedTutorial"));
     } else if (localStorage.getItem("hasCompletedTutorial")) {
       window.scrollTo({
         top: 0,
@@ -327,7 +326,6 @@ class Home extends Component {
 
                       <Link
                         to={{
-                          // pathname: "/welcome",
                           pathname: localStorage.getItem("hasCompletedTutorial")
                             ? "/review"
                             : "/welcome",
