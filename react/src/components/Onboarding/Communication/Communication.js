@@ -3,7 +3,7 @@ import { Button, Typography } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 
 import "./Communication.scss";
-import img from "./welcome.png";
+import img from "./Communication.png";
 
 class Communication extends Component {
   constructor(props) {

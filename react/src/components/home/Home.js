@@ -326,9 +326,10 @@ class Home extends Component {
 
                       <Link
                         to={{
-                          pathname: localStorage.getItem("hasCompletedTutorial")
-                            ? "/review"
-                            : "/collaboration",
+                          // pathname: localStorage.getItem("hasCompletedTutorial")
+                          //   ? "/review"
+                          //   : "/collaboration",
+                          pathname: "/collaboration",
                           state: {
                             team_id: team._id,
                             pending: this.getPendingUser(team._id),
