@@ -448,12 +448,20 @@ class Skills extends Component {
             </Card>
           </div>
           <div>
-            <Typography
-              variant="h3"
-              style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
-            >
-              Your facets
-            </Typography>
+            {
+              (() => {
+                if (this.state.strengths.length > 0 && this.state.improve.length > 0) {
+                  return (
+                    <Typography
+                      variant="h3"
+                      style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
+                    >
+                      Your facets
+                    </Typography>
+                  );
+                }
+              })()
+            }
           </div>
           <div
             style={{
