@@ -23,7 +23,6 @@ class Review extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // currentIndex: !this.props.location.state.index ? 0 : 5,
       currentIndex: !this.props.location.state.index
         ? 0
         : this.props.location.state.index === 4
