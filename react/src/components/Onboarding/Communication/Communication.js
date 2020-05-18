@@ -18,7 +18,6 @@ class Communication extends Component {
   }
 
   render() {
-    console.log(this.state.pending);
     return (
       <div className="team-container">
         <div className="top"></div>
@@ -74,7 +73,7 @@ class Communication extends Component {
             to={{
               pathname: "/review",
               state: {
-                index: this.state.currentIndex,
+                index: 5,
                 team_id: this.state.team_id,
                 pending: this.state.pending,
               },
@@ -96,9 +95,24 @@ class Communication extends Component {
           <Link
             to={{
               pathname: "/review",
+              state: {
+                index: this.state.currentIndex,
+                team_id: this.state.team_id,
+                pending: this.state.pending,
+              },
             }}
           >
-            <Button className="btn transparentbtn">Back</Button>
+            <Button
+              className="btn transparentbtn"
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+            >
+              Back
+            </Button>
           </Link>
         </div>
       </div>
