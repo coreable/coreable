@@ -59,7 +59,6 @@ class Skills extends Component {
                   report {
                     average {
                       calm
-                      change
                       clearInstructions
                       cooperatively
                       crossTeam
@@ -75,7 +74,6 @@ class Skills extends Component {
                       proactive
                       resilienceFeedback
                       signifiesInterest
-                      verbalAttentiveFeedback
                       workDemands
                     }
                     sorted {
@@ -86,7 +84,6 @@ class Skills extends Component {
                 }
                 reflection {
                   calm
-                  change
                   clearInstructions
                   cooperatively
                   crossTeam
@@ -102,7 +99,6 @@ class Skills extends Component {
                   proactive
                   resilienceFeedback
                   signifiesInterest
-                  verbalAttentiveFeedback
                   workDemands
                 }
               }

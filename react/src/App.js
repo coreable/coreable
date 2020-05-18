@@ -169,13 +169,6 @@ class App extends Component {
     if (!errors) {
       errors = [];
     }
-    console.log({
-      'app.js': {
-        data, 
-        errors,
-        state: this.state
-      }
-    });
 
     return this.setState({
       ...this.state,

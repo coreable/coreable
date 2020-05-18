@@ -17,7 +17,8 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
-  GraphQLFloat
+  GraphQLFloat,
+  GraphQLBoolean
 } from 'graphql';
 
 import { User } from '../../models/User';
@@ -282,6 +283,12 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           }
           user.reflection = average;
           return user.reflection;
+        }
+      },
+      'completedOnboarding': {
+        type: GraphQLBoolean,
+        resolve(user, args, context) {
+          return user.completedOnboarding;
         }
       }
     }
