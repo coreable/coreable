@@ -32,6 +32,7 @@ class User extends Model {
   public passwordResetToken!: string;
   public passwordResetExpiry!: Date
   public industry_id!: string;
+  public completedOnboarding!: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -81,6 +82,11 @@ const sync = (sequelize: Sequelize) => {
     'industry_id': {
       'type': DataTypes.UUID,
       'allowNull': true
+    },
+    'completedOnboarding': {
+      'type': DataTypes.BOOLEAN,
+      'allowNull': false,
+      'defaultValue': false
     }
   }, {
     'tableName': 'USER',

@@ -21,7 +21,7 @@ import {
   CardContent,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../constants";
+import { API_URL } from "../../constants";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
@@ -59,7 +59,6 @@ class Skills extends Component {
                   report {
                     average {
                       calm
-                      change
                       clearInstructions
                       cooperatively
                       crossTeam
@@ -75,7 +74,6 @@ class Skills extends Component {
                       proactive
                       resilienceFeedback
                       signifiesInterest
-                      verbalAttentiveFeedback
                       workDemands
                     }
                     sorted {
@@ -86,7 +84,6 @@ class Skills extends Component {
                 }
                 reflection {
                   calm
-                  change
                   clearInstructions
                   cooperatively
                   crossTeam
@@ -102,7 +99,6 @@ class Skills extends Component {
                   proactive
                   resilienceFeedback
                   signifiesInterest
-                  verbalAttentiveFeedback
                   workDemands
                 }
               }
@@ -396,7 +392,6 @@ class Skills extends Component {
               paddingRight: "0",
               margin: "6px",
               width: "100%",
-              // height: "448pt",
             }}
           >
             <Typography
@@ -452,12 +447,20 @@ class Skills extends Component {
             </Card>
           </div>
           <div>
-            <Typography
-              variant="h3"
-              style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
-            >
-              Your facets
-            </Typography>
+            {
+              (() => {
+                if (this.state.strengths.length > 0 && this.state.improve.length > 0) {
+                  return (
+                    <Typography
+                      variant="h3"
+                      style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
+                    >
+                      Your facets
+                    </Typography>
+                  );
+                }
+              })()
+            }
           </div>
           <div
             style={{

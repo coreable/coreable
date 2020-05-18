@@ -44,7 +44,6 @@ class Login extends Component {
 
   componentDidMount = () => {
     this.props.ReactGA.pageview("/login");
-    console.log(this.props);
   };
 
   errors = () => {

@@ -25,6 +25,7 @@ export default function How() {
       <img
         src={svg}
         style={{ width: "100%", height: "auto", borderRadius: "0.33rem" }}
+        alt="How coreable works"
       />
     </React.Fragment>
   );

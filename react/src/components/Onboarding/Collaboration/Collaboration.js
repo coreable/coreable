@@ -27,7 +27,7 @@ class Welcome extends Component {
             Welcome to Collaboration
           </Typography>
           <div className="inside-main">
-            <img src={img} style={{ width: "100%", height: "auto" }} />
+            <img src={img} style={{ width: "100%", height: "auto" }} alt="welcome" />
             <div>
               <Typography
                 variant="h4"

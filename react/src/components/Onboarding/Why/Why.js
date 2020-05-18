@@ -28,6 +28,7 @@ export default function Why() {
           height: "auto",
           borderRadius: "0.33rem",
         }}
+        alt="Why chose coreable"
       />
     </React.Fragment>
   );
