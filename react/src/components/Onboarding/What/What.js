@@ -25,6 +25,7 @@ export default function What() {
       <img
         src={svg}
         style={{ width: "100%", height: "auto", borderRadius: "0.33rem" }}
+        alt="Facets and traits"
       />
     </React.Fragment>
   );

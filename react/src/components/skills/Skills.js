@@ -21,7 +21,7 @@ import {
   CardContent,
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../constants";
+import { API_URL } from "../../constants";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
@@ -392,7 +392,6 @@ class Skills extends Component {
               paddingRight: "0",
               margin: "6px",
               width: "100%",
-              // height: "448pt",
             }}
           >
             <Typography

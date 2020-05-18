@@ -100,15 +100,12 @@ class Onboarding extends Component {
     switch (slideNum) {
       case 1:
         return <Why />;
-        break;
       case 2:
         return <What />;
-        break;
       case 3:
         return <How />;
-        break;
       default:
-        break;
+        return null;
     }
   };
 
