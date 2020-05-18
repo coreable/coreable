@@ -328,7 +328,7 @@ class Home extends Component {
                         to={{
                           pathname: localStorage.getItem("hasCompletedTutorial")
                             ? "/review"
-                            : "/welcome",
+                            : "/collaboration",
                           state: {
                             team_id: team._id,
                             pending: this.getPendingUser(team._id),

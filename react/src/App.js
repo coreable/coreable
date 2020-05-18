@@ -31,7 +31,12 @@ const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
 const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
-const Welcome = lazy(() => import("./components/Onboarding/Welcome/Welcome"));
+const Collaboration = lazy(() =>
+  import("./components/Onboarding/Collaboration/Collaboration")
+);
+const Communication = lazy(() =>
+  import("./components/Onboarding/Communication/Communication")
+);
 
 class App extends Component {
   constructor(props) {
@@ -74,7 +79,7 @@ class App extends Component {
         }
       );
     });
-  }
+  };
 
   refreshMe = async (removeJWT = false) => {
     // removeJWT Used for Login/Register
@@ -95,7 +100,7 @@ class App extends Component {
           return r(state);
         }
       );
-    })
+    });
   };
 
   fetchMe = async () => {
@@ -152,7 +157,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.state.JWT,
+        JWT: this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -170,24 +175,27 @@ class App extends Component {
       errors = [];
     }
     console.log({
-      'app.js': {
-        data, 
+      "app.js": {
+        data,
         errors,
-        state: this.state
-      }
+        state: this.state,
+      },
     });
 
-    return this.setState({
-      ...this.state,
-      data,
-      errors,
-      fetching: false,
-    }, () => {
-      return {
+    return this.setState(
+      {
+        ...this.state,
         data,
-        errors
-      };
-    });
+        errors,
+        fetching: false,
+      },
+      () => {
+        return {
+          data,
+          errors,
+        };
+      }
+    );
   };
 
   componentDidMount = () => {
@@ -309,9 +317,21 @@ class App extends Component {
             />
             <Route
               exact
-              path="/welcome"
+              path="/collaboration"
               component={(props) => (
-                <Welcome
+                <Collaboration
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/communication"
+              component={(props) => (
+                <Communication
                   {...props}
                   app={this.state}
                   refreshMe={this.refreshMe}

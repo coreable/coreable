@@ -1,0 +1,213 @@
+//Colours
+$primaryBlue: #4070e0;
+$secondaryBlue: #0c152e;
+$green: #2dd775;
+$offWhite: #fafafa;
+$white: #fff;
+$disabledGrey: #d6d6d6;
+
+//Responsive width
+$max-width: 760px;
+
+.team-container {
+  background: rgb(245, 245, 245);
+  position: relative;
+  margin: 0 auto;
+  align-items: center;
+  width: 100%;
+  //overflow:auto doesnt allow it to scroll up.
+  // overflow: auto;
+  min-height: 100vh;
+
+  .top {
+    background: $secondaryBlue;
+    position: absolute;
+    top: 0px;
+    padding-top: 140px;
+    margin: 0 auto;
+    text-align: center;
+    height: 50%;
+    width: 100%;
+    z-index: 0;
+    color: $white;
+    // background: $secondaryBlue;
+    // margin: 0 auto;
+    // text-align: center;
+    // height: 50%;
+    // padding-top: 100px;
+  }
+
+  @media (max-width: $max-width) {
+    .top {
+      height: 40%;
+    }
+  }
+
+  .main-welcome {
+    // z-index: 3;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 25%;
+    // height: ;
+    //if this is dynamic, mobile capability is bad
+    width: 373pt;
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .step-progress-bar {
+      height: 20px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20pt 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .steps {
+        width: 20%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .bullet {
+          height: 10px;
+          width: 10px;
+          border-radius: 50%;
+          background: $disabledGrey;
+        }
+
+        .done {
+          background: $primaryBlue;
+        }
+
+        .teel {
+          background: #00b3e5;
+        }
+
+        .green {
+          background: $green;
+        }
+      }
+    }
+
+    .inside-main {
+      min-height: 200px;
+      width: 373pt;
+      //   min-width: 300px;
+      background: white;
+      border-radius: 0.33rem;
+      margin: 10pt;
+      margin-top: 40pt;
+      padding: 20px;
+
+      span {
+        height: 60pt;
+        width: 90pt;
+        margin: 8pt;
+        border-radius: 0.33rem;
+        background: #f7f9fc;
+        color: black;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        font-size: 1.4rem;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+      @media (max-width: 390px) {
+        span {
+          width: 100%;
+        }
+      }
+    }
+
+    // @media (max-width: $max-width) {
+    //   .inside-main {
+    //     width: 100%;
+    //   }
+    // }
+
+    .inside-main:nth-child(1) {
+      margin-top: 20px;
+    }
+
+    .btn {
+      // width: 100%;
+      margin: 10px;
+      // max-width: 30%;
+      height: 40pt;
+      border-radius: 0.33rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      justify-content: center;
+      align-content: center;
+      // margin: 10px auto;
+      text-transform: none;
+    }
+
+    @media (max-width: $max-width) {
+      .btn {
+        width: 300px;
+        font-size: 1.4rem;
+      }
+    }
+
+    .primarybtn {
+      background-color: rgb(64, 112, 224);
+      color: white;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        transform: scale(1.03);
+      }
+      &:disabled {
+        background-color: lightgrey !important;
+        color: white !important;
+        cursor: not-allowed !important;
+        border: none !important;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .transparentbtn {
+      border: none;
+      background-color: transparent;
+      color: rgb(64, 112, 224);
+      font-weight: bold;
+      &:hover {
+        // color: white;
+        // background-color: rgb(64, 112, 224);
+        background-color: transparent;
+        transition: all 0.2s ease-in-out;
+      }
+      &:disabled {
+        // background-color: lightgrey !important;
+        color: lightgray !important;
+        cursor: not-allowed !important;
+        border: none !important;
+      }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .main-welcome {
+      width: 90%;
+      // top: 310px;
+    }
+  }
+}

@@ -22,9 +22,9 @@ import Loader from "../Loading/Loading";
 class Review extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      currentIndex: 0,
+      currentIndex: !this.props.location.state.index ? 0 : 5,
+      index: 0,
       buttonLabel: "Next",
       submitting: false,
       facets: [
@@ -235,6 +235,18 @@ class Review extends Component {
 
   nextStep = () => {
     let { currentIndex } = this.state;
+
+    //navigating to communication
+    if (currentIndex === 4) {
+      this.props.history.push({
+        pathname: "/communication",
+        state: {
+          currentIndex: currentIndex,
+          pending: this.props.location.state.pending,
+        },
+      });
+    }
+
     currentIndex++;
     this.setState({
       ...this.state,
@@ -349,6 +361,20 @@ class Review extends Component {
   render() {
     const { currentIndex } = this.state;
     const reviewDone = this.state.currentIndex >= this.state.facets.length;
+
+    // if (currentIndex === 5) {
+    //   return (
+    //     <Redirect
+    //       to={{
+    //         pathname: "/communication",
+    //         state: {
+    //           currentIndex: currentIndex,
+    //           pending: this.props.location.state.pending,
+    //         },
+    //       }}
+    //     ></Redirect>
+    //   );
+    // }
 
     /**
      * User is unauthenticated

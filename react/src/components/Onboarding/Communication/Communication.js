@@ -2,16 +2,19 @@ import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
 import { Redirect, Link } from "react-router-dom";
 
-import "./Welcome.scss";
+import "./Communication.scss";
 import img from "./welcome.png";
 
-class Welcome extends Component {
+class Communication extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      team_id: this.props.location.state.team_id,
+      currentIndex: this.props.location.state.currentIndex,
       pending: this.props.location.state.pending,
+      // nextStep: this.props.location.state.nextStep,
+      // prevStep: this.props.location.state.prevStep,
     };
+    console.log(this.state.currentIndex);
   }
 
   render() {
@@ -24,7 +27,7 @@ class Welcome extends Component {
             variant="h3"
             style={{ fontWeight: "bold", color: "white" }}
           >
-            Welcome to Collaboration
+            Welcome to Communication
           </Typography>
           <div className="inside-main">
             <img src={img} style={{ width: "100%", height: "auto" }} />
@@ -37,7 +40,7 @@ class Welcome extends Component {
                   marginBottom: "16pt",
                 }}
               >
-                Collaboration
+                Communication
               </Typography>
               <Typography
                 style={{
@@ -46,7 +49,7 @@ class Welcome extends Component {
                   marginBottom: "8pt",
                 }}
               >
-                Collaboration is formed from five key facets, <br /> these
+                Communication is formed from four key facets, <br /> these
                 include:
               </Typography>
             </div>
@@ -58,13 +61,12 @@ class Welcome extends Component {
                 width: "100%",
               }}
             >
+              <span>Clarity</span>
+              <span>Culture</span>
+              <span>Non Verbal</span>
               <span>
-                Emotional <br /> Intelligence
+                Verbal <br /> Attentiveness
               </span>
-              <span>Resilience</span>
-              <span>Flexibility</span>
-              <span>Trust</span>
-              <span>Initiative</span>
             </div>
           </div>
 
@@ -72,6 +74,7 @@ class Welcome extends Component {
             to={{
               pathname: "/review",
               state: {
+                index: this.state.currentIndex,
                 team_id: this.state.team_id,
                 pending: this.state.pending,
               },
@@ -92,7 +95,7 @@ class Welcome extends Component {
 
           <Link
             to={{
-              pathname: "/home",
+              pathname: "/review",
             }}
           >
             <Button className="btn transparentbtn">Back</Button>
@@ -103,4 +106,4 @@ class Welcome extends Component {
   }
 }
 
-export default Welcome;
+export default Communication;
