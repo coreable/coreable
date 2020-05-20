@@ -1,87 +1,47 @@
-//Colours
-$primaryBlue: #4070e0;
-$secondaryBlue: #0c152e;
-$green: #2dd775;
-$offWhite: #fafafa;
-$white: #fff;
-$disabledGrey: #d6d6d6;
-
-//Responsive width
-$max-width: 760px;
+@import "./Scss/variables.scss";
+@import "./Scss/mixins.scss";
 
 body {
   background-color: $offWhite;
 }
 
-//Coreable Container
 .container {
-  padding-top: 96px;
-  justify-content: center;
-  align-content: center;
-  margin: 0 auto;
-  text-align: center;
-  color: white;
-  width: 312pt;
-}
+  @include container;
 
-@media (max-width: $max-width) {
-  .container {
-    // padding-top: 64px;
-    width: 90%;
-  }
-}
+  .grid {
+    @include grid-12;
 
-//Coreable Branded Button
-.btn {
-  width: 312pt;
-  height: 40pt;
-  border-radius: 0.33rem;
-  font-size: 1.6rem;
-  font-weight: bold;
-  justify-content: center;
-  align-content: center;
-  margin: 0 auto;
-  text-transform: none;
-}
+    .grid-card {
+      grid-column: 5/9;
+      text-align: center;
 
-@media (max-width: $max-width) {
-  .btn {
-    width: 100%;
-  }
-}
+      .btn {
+        @include button;
+      }
 
-.primarybtn {
-  background-color: $primaryBlue;
-  color: $white;
-  font-weight: bold;
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    background: $primaryBlue;
-    transform: scale(1.03);
-    cursor: pointer;
-  }
-  &:disabled {
-    background-color: $disabledGrey !important;
-    color: $white !important;
-    cursor: not-allowed !important;
-    border: none !important;
-  }
-  &:focus {
-    outline: none;
-  }
-}
+      // @media (max-width: $max-width) {
+      //   .btn {
+      //     width: 80%;
+      //   }
+      // }
 
-.transparentbtn {
-  border: 1px solid $white;
-  background-color: transparent;
-  color: $white;
-  font-weight: bold;
-  transition: all 0.2s ease-in-out;
-  &:hover {
-    transform: scale(1.03);
-  }
-}
+      .primarybtn {
+        @include primary-button;
+      }
 
-a {
-  text-decoration: none;
+      .transparentbtn {
+        @include transparent-button;
+      }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .grid {
+      @include grid-4;
+
+      .grid-card {
+        grid-column: 1/5;
+      }
+    }
+  }
 }

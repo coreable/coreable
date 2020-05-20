@@ -366,20 +366,6 @@ class Review extends Component {
     const { currentIndex } = this.state;
     const reviewDone = this.state.currentIndex >= this.state.facets.length;
 
-    // if (currentIndex === 5) {
-    //   return (
-    //     <Redirect
-    //       to={{
-    //         pathname: "/communication",
-    //         state: {
-    //           currentIndex: currentIndex,
-    //           pending: this.props.location.state.pending,
-    //         },
-    //       }}
-    //     ></Redirect>
-    //   );
-    // }
-
     /**
      * User is unauthenticated
      */

@@ -1,0 +1,81 @@
+//Mixins
+
+//Buttons
+//Coreable Button Template
+@mixin button {
+  width: 100%;
+  height: 40pt;
+  border-radius: 0.33rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-transform: none;
+}
+
+//Coreable Primary Button Template
+@mixin primary-button {
+  background-color: $primaryBlue;
+  color: $white;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  &:hover {
+    background: $primaryBlue;
+    transform: scale(1.03);
+    cursor: pointer;
+  }
+  &:disabled {
+    background-color: $disabledGrey !important;
+    color: $white !important;
+    cursor: not-allowed !important;
+    border: none !important;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+//Coreable Transparent Button Template
+@mixin transparent-button {
+  border: 1px solid $white;
+  background-color: transparent;
+  color: $white;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+//Input Field
+
+//Grid
+@mixin grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 8px;
+  max-width: 972px;
+  margin: 0 auto;
+}
+
+//For Mobile
+@mixin grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 8px;
+  width: 324px;
+  margin: 0 auto;
+}
+
+//Container
+@mixin container {
+  padding-top: 96px;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  width: 100%;
+}

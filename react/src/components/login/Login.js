@@ -114,7 +114,7 @@ class Login extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -143,79 +143,73 @@ class Login extends Component {
     }
 
     return (
-      <Container
-        maxWidth={false}
-        style={{
-          background: "white",
-          height: "100vh",
-        }}
-      >
-        <div className="container">
-          {/* <Container maxWidth="md" style={{ marginTop: "10pt" }}> */}
-          <Typography
-            variant="h3"
-            component="h1"
-            style={{
-              fontWeight: "bold",
-              textAlign: "left",
-              color: "#000",
-            }}
-          >
-            Welcome,
-          </Typography>
-          <Typography
-            variant="h3"
-            component="h1"
-            style={{ textAlign: "left", color: "#707070" }}
-          >
-            sign in to continue
-          </Typography>
-          <FormControl
-            style={{
-              marginTop: "16pt",
-              autocomplete: "off",
-            }}
-          >
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="Email"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="email"
-              error={this.shouldMarkError("email")}
-              value={this.state.email}
-              type="email"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("email")}
+      <div className="container">
+        <div className="grid">
+          <div className="grid-card">
+            <Typography
+              variant="h3"
+              component="h1"
               style={{
-                marginTop: "20pt",
+                fontWeight: "bold",
+                textAlign: "left",
+                color: "#000",
               }}
-            />
-            <TextField
-              InputLabelProps={{ style: { fontSize: 12 } }}
-              label="Password"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              name="password"
-              error={this.shouldMarkError("password")}
-              value={this.state.password}
-              type="password"
-              onChange={this.handleChange}
-              onBlur={this.handleBlur("password")}
-              onKeyPress={async (e) => {
-                if (e.key === "Enter") {
-                  await this.loginUser();
-                }
-              }}
+            >
+              Welcome,
+            </Typography>
+            <Typography
+              variant="h3"
+              component="h1"
+              style={{ textAlign: "left", color: "#707070" }}
+            >
+              sign in to continue
+            </Typography>
+            <FormControl
               style={{
-                marginTop: "8pt",
-                marginBottom: "8pt",
+                marginTop: "16pt",
+                autocomplete: "off",
               }}
-            />
-            <StylesProvider injectFirst>
-              <Button
+            >
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Email"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="email"
+                error={this.shouldMarkError("email")}
+                value={this.state.email}
+                type="email"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("email")}
+                style={{
+                  marginTop: "20pt",
+                }}
+              />
+              <TextField
+                InputLabelProps={{ style: { fontSize: 12 } }}
+                label="Password"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                name="password"
+                error={this.shouldMarkError("password")}
+                value={this.state.password}
+                type="password"
+                onChange={this.handleChange}
+                onBlur={this.handleBlur("password")}
+                onKeyPress={async (e) => {
+                  if (e.key === "Enter") {
+                    await this.loginUser();
+                  }
+                }}
+                style={{
+                  marginTop: "8pt",
+                  marginBottom: "8pt",
+                }}
+              />
+
+              <button
                 className="btn primarybtn"
                 disabled={this.isDisabled()}
                 onClick={async () => {
@@ -224,7 +218,7 @@ class Login extends Component {
                 style={{ marginTop: "10px" }}
               >
                 Login
-              </Button>
+              </button>
               <div style={{ marginTop: "15px" }}>
                 <Link
                   to="/forgot"
@@ -248,11 +242,10 @@ class Login extends Component {
                   Create account
                 </Link>
               </div>
-            </StylesProvider>
-          </FormControl>
-          {/* </Container> */}
+            </FormControl>
+          </div>
         </div>
-      </Container>
+      </div>
     );
   }
 }
