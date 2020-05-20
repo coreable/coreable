@@ -18,7 +18,7 @@ import React, { Component } from "react";
 import "../../App.scss";
 import "../login/Login.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL, hasCompletedTutorial } from "../../constants";
+import { JWT, API_URL } from "../../constants";
 
 import {
   Typography,
