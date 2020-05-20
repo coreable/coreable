@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./Communication.scss";
 import img from "./Communication.png";
@@ -29,7 +29,7 @@ class Communication extends Component {
             Welcome to Communication
           </Typography>
           <div className="inside-main">
-            <img src={img} style={{ width: "100%", height: "auto" }} />
+            <img src={img} style={{ width: "100%", height: "auto" }} alt="communication" />
             <div>
               <Typography
                 variant="h4"

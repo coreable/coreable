@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Typography } from "@material-ui/core";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "./Collaboration.scss";
 import img from "./welcome.png";
