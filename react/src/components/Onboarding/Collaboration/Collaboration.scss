@@ -34,6 +34,7 @@ p {
 
   .main-welcome {
     @include main;
+    display: inline;
 
     .step-progress-bar {
       height: 20px;
@@ -127,24 +128,38 @@ p {
     .inside-main:nth-child(1) {
       margin-top: 20px;
     }
+    .btn-container {
+      width: 400px;
+      margin: auto;
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
 
-    .btn {
-      @include button;
-    }
-
-    @media (max-width: $max-width) {
       .btn {
-        width: 300px;
-        font-size: 1.4rem;
+        @include button;
+        width: 375px;
+      }
+
+      @media (max-width: $max-width) {
+        .btn {
+          width: 300px;
+          font-size: 1.4rem;
+        }
+      }
+
+      .primarybtn {
+        @include primary-button;
+      }
+
+      .transparentbtn {
+        @include transparent-button-blue-text;
       }
     }
-
-    .primarybtn {
-      @include primary-button;
-    }
-
-    .transparentbtn {
-      @include transparent-button-blue-text;
+    @media (max-width: $max-width) {
+      .btn-container {
+        width: 100%;
+      }
     }
   }
 

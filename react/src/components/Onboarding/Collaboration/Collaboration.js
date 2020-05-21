@@ -14,7 +14,6 @@ class Welcome extends Component {
   }
 
   render() {
-    console.log(this.state.pending);
     return (
       <div className="team-container">
         <div className="top"></div>
@@ -55,35 +54,37 @@ class Welcome extends Component {
             </div>
           </div>
 
-          <Link
-            to={{
-              pathname: "/review",
-              state: {
-                team_id: this.state.team_id,
-                pending: this.state.pending,
-              },
-            }}
-          >
-            <button
-              className="btn primarybtn"
-              onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
+          <div className="btn-container">
+            <Link
+              to={{
+                pathname: "/review",
+                state: {
+                  team_id: this.state.team_id,
+                  pending: this.state.pending,
+                },
               }}
             >
-              Next
-            </button>
-          </Link>
+              <button
+                className="btn primarybtn"
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                Next
+              </button>
+            </Link>
 
-          <Link
-            to={{
-              pathname: "/home",
-            }}
-          >
-            <button className="btn transparentbtn">Back</button>
-          </Link>
+            <Link
+              to={{
+                pathname: "/home",
+              }}
+            >
+              <button className="btn transparentbtn">Back</button>
+            </Link>
+          </div>
         </div>
       </div>
     );

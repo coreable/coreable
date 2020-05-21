@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Button, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import "./Communication.scss";
+import "../Collaboration/Collaboration.scss";
 import img from "./Communication.png";
 
 class Communication extends Component {
@@ -11,10 +10,7 @@ class Communication extends Component {
     this.state = {
       currentIndex: this.props.location.state.currentIndex,
       pending: this.props.location.state.pending,
-      // nextStep: this.props.location.state.nextStep,
-      // prevStep: this.props.location.state.prevStep,
     };
-    console.log(this.state.currentIndex);
   }
 
   render() {
@@ -22,98 +18,88 @@ class Communication extends Component {
       <div className="team-container">
         <div className="top"></div>
         <div className="main-welcome">
-          <Typography
-            variant="h3"
-            style={{ fontWeight: "bold", color: "white" }}
-          >
-            Welcome to Communication
-          </Typography>
-          <div className="inside-main">
-            <img src={img} style={{ width: "100%", height: "auto" }} alt="communication" />
-            <div>
-              <Typography
-                variant="h4"
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  marginBottom: "16pt",
-                }}
-              >
-                Communication
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "1.6rem",
-                  color: "black",
-                  marginBottom: "8pt",
-                }}
-              >
-                Communication is formed from four key facets, <br /> these
-                include:
-              </Typography>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                width: "100%",
-              }}
-            >
-              <span>Clarity</span>
-              <span>Culture</span>
-              <span>Non Verbal</span>
-              <span>
-                Verbal <br /> Attentiveness
-              </span>
+          <h1 style={{ color: "white" }}>Welcome to Collaboration</h1>
+          <div className="grid">
+            <div className="grid-card">
+              <div className="inside-main">
+                <img
+                  src={img}
+                  style={{ width: "100%", height: "auto" }}
+                  alt="Communication image"
+                />
+                <div>
+                  <h1 style={{ marginBottom: "16pt" }}>Communication</h1>
+                  <p style={{ marginBottom: "8pt" }}>
+                    Communication is formed from four key facets, <br /> these
+                    include:
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    width: "100%",
+                  }}
+                >
+                  <span>Clarity</span>
+                  <span>Culture</span>
+                  <span>Non Verbal</span>
+                  <span>
+                    Verbal <br /> Attentiveness
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <Link
-            to={{
-              pathname: "/review",
-              state: {
-                index: 5,
-                team_id: this.state.team_id,
-                pending: this.state.pending,
-              },
-            }}
-          >
-            <Button
-              className="btn primarybtn"
-              onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
+          <div className="btn-container">
+            <Link
+              to={{
+                pathname: "/review",
+                state: {
+                  index: 5,
+                  team_id: this.state.team_id,
+                  pending: this.state.pending,
+                },
               }}
             >
-              Next
-            </Button>
-          </Link>
+              <button
+                className="btn primarybtn"
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                Next
+              </button>
+            </Link>
 
-          <Link
-            to={{
-              pathname: "/review",
-              state: {
-                index: this.state.currentIndex,
-                team_id: this.state.team_id,
-                pending: this.state.pending,
-              },
-            }}
-          >
-            <Button
-              className="btn transparentbtn"
-              onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
+            <Link
+              to={{
+                pathname: "/review",
+                state: {
+                  index: this.state.currentIndex,
+                  team_id: this.state.team_id,
+                  pending: this.state.pending,
+                },
               }}
             >
-              Back
-            </Button>
-          </Link>
+              <button
+                className="btn transparentbtn"
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                Back
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     );
