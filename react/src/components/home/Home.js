@@ -252,10 +252,7 @@ class Home extends Component {
                     <div className="grid-card" key={index}>
                       <div className="team-card">
                         <h1>{this.capitalize(team.subject.name)}</h1>
-
-                        <p style={{ marginTop: "10pt" }}>
-                          {this.capitalize(team.name)}
-                        </p>
+                        <p>{this.capitalize(team.name)}</p>
 
                         <span className="stepper-line"> </span>
                         <Stepper
@@ -323,10 +320,7 @@ class Home extends Component {
                   <div className="grid-card" key={index}>
                     <div className="team-card">
                       <h1>Join team</h1>
-
-                      <p style={{ marginTop: "10pt" }}>
-                        Enter your team code below
-                      </p>
+                      <p>Enter your team code below</p>
 
                       <TextField
                         label="Team Code"

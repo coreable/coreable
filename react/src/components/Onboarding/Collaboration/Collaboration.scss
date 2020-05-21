@@ -1,13 +1,5 @@
-//Colours
-$primaryBlue: #4070e0;
-$secondaryBlue: #0c152e;
-$green: #2dd775;
-$offWhite: #fafafa;
-$white: #fff;
-$disabledGrey: #d6d6d6;
-
-//Responsive width
-$max-width: 760px;
+@import "../../../Scss/mixins.scss";
+@import "../../../Scss/variables.scss";
 
 .team-container {
   background: rgb(245, 245, 245);
@@ -20,26 +12,12 @@ $max-width: 760px;
   min-height: 100vh;
 
   .top {
-    background: $secondaryBlue;
-    position: absolute;
-    top: 0px;
-    padding-top: 140px;
-    margin: 0 auto;
-    text-align: center;
-    height: 50%;
-    width: 100%;
-    z-index: 0;
-    color: $white;
-    // background: $secondaryBlue;
-    // margin: 0 auto;
-    // text-align: center;
-    // height: 50%;
-    // padding-top: 100px;
+    @include top;
   }
 
   @media (max-width: $max-width) {
     .top {
-      height: 40%;
+      height: 30%;
     }
   }
 
@@ -134,28 +112,12 @@ $max-width: 760px;
       }
     }
 
-    // @media (max-width: $max-width) {
-    //   .inside-main {
-    //     width: 100%;
-    //   }
-    // }
-
     .inside-main:nth-child(1) {
       margin-top: 20px;
     }
 
     .btn {
-      // width: 100%;
-      margin: 10px;
-      // max-width: 30%;
-      height: 40pt;
-      border-radius: 0.33rem;
-      font-size: 1.6rem;
-      font-weight: bold;
-      justify-content: center;
-      align-content: center;
-      // margin: 10px auto;
-      text-transform: none;
+      @include button;
     }
 
     @media (max-width: $max-width) {
@@ -166,41 +128,11 @@ $max-width: 760px;
     }
 
     .primarybtn {
-      background-color: rgb(64, 112, 224);
-      color: white;
-      font-weight: bold;
-      transition: all 0.2s ease-in-out;
-      &:hover {
-        transform: scale(1.03);
-      }
-      &:disabled {
-        background-color: lightgrey !important;
-        color: white !important;
-        cursor: not-allowed !important;
-        border: none !important;
-      }
-      &:focus {
-        outline: none;
-      }
+      @include primary-button;
     }
 
     .transparentbtn {
-      border: none;
-      background-color: transparent;
-      color: rgb(64, 112, 224);
-      font-weight: bold;
-      &:hover {
-        // color: white;
-        // background-color: rgb(64, 112, 224);
-        background-color: transparent;
-        transition: all 0.2s ease-in-out;
-      }
-      &:disabled {
-        // background-color: lightgrey !important;
-        color: lightgray !important;
-        cursor: not-allowed !important;
-        border: none !important;
-      }
+      @include transparent-button-blue-text;
     }
   }
 
