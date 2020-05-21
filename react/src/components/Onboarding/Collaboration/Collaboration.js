@@ -20,14 +20,13 @@ class Welcome extends Component {
       <div className="team-container">
         <div className="top"></div>
         <div className="main-welcome">
-          <Typography
-            variant="h3"
-            style={{ fontWeight: "bold", color: "white" }}
-          >
-            Welcome to Collaboration
-          </Typography>
+          <h1 style={{ color: "white" }}>Welcome to Collaboration</h1>
           <div className="inside-main">
-            <img src={img} style={{ width: "100%", height: "auto" }} alt="welcome" />
+            <img
+              src={img}
+              style={{ width: "100%", height: "auto" }}
+              alt="welcome"
+            />
             <div>
               <Typography
                 variant="h4"

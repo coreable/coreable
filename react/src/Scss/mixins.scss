@@ -116,11 +116,13 @@
 @mixin h1 {
   font-size: 3.2rem;
   font-weight: bolder;
+  margin: 0;
 }
 
 @mixin h2 {
   font-size: 3.2rem;
   font-weight: normal;
+  margin: 0;
 }
 
 //Layout

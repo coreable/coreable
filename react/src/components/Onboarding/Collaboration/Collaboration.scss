@@ -1,6 +1,11 @@
 @import "../../../Scss/mixins.scss";
 @import "../../../Scss/variables.scss";
 
+h1 {
+  @include h1;
+  margin: 0;
+}
+
 .team-container {
   background: rgb(245, 245, 245);
   position: relative;
@@ -26,7 +31,7 @@
     background: transparent;
     border: none;
     position: absolute;
-    top: 25%;
+    top: 15%;
     // height: ;
     //if this is dynamic, mobile capability is bad
     width: 373pt;
