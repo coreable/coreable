@@ -240,7 +240,6 @@ class Home extends Component {
       <div>
         <div className="review-container">
           <div className="top-background"></div>
-
           <div className="main">
             <div
               style={{
@@ -249,7 +248,6 @@ class Home extends Component {
                 margin: "6px",
                 marginBottom: "40px",
                 width: "100%",
-                // height: "448pt",
               }}
             >
               <Typography
@@ -266,140 +264,126 @@ class Home extends Component {
                 View, review and join teams.
               </p>
             </div>
-            {this.state.me.teams.map((team, index) => {
-              if (team._id !== "joinTeam") {
+            <div className="grid">
+              {this.state.me.teams.map((team, index) => {
+                if (team._id !== "joinTeam") {
+                  return (
+                    <div className="grid-card" key={index}>
+                      <div className="team-card">
+                        <Typography variant="h3" style={{ fontWeight: "bold" }}>
+                          {this.capitalize(team.subject.name)}
+                        </Typography>
+
+                        <p style={{ marginTop: "10pt" }}>
+                          {this.capitalize(team.name)}
+                        </p>
+
+                        <span className="stepper-line"> </span>
+                        <Stepper
+                          activeStep={team.subject.state - 1}
+                          alternativeLabel
+                          style={{
+                            padding: "25px 0 22px 0",
+                            position: "relative",
+                          }}
+                        >
+                          {this.state.steps.map((label, index) => {
+                            const isDisabled = this.getReviewButtonState(
+                              team._id
+                            );
+                            let props = {};
+                            if (isDisabled && index === 0) {
+                              props.optional = (
+                                <Typography
+                                  variant="caption"
+                                  style={{
+                                    display: "flex",
+                                    justify: "center",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  Completed
+                                </Typography>
+                              );
+                            }
+                            return (
+                              <Step key={label}>
+                                <StepLabel {...props}>{label}</StepLabel>
+                              </Step>
+                            );
+                          })}
+                        </Stepper>
+
+                        <Link
+                          to={{
+                            // pathname: localStorage.getItem("hasCompletedTutorial")
+                            //   ? "/review"
+                            //   : "/collaboration",
+                            pathname: "/collaboration",
+                            state: {
+                              team_id: team._id,
+                              pending: this.getPendingUser(team._id),
+                            },
+                          }}
+                        >
+                          <button
+                            className="btn primarybtn"
+                            onClick={this.firstReview}
+                            disabled={this.getReviewButtonState(team._id)}
+                            disableElevation
+                          >
+                            Start Review
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                }
                 return (
-                  <Grid
-                    container
-                    direction="row"
-                    justify="center"
-                    alignItems="stretch"
-                    spacing={1}
-                    className="inside-main-div"
-                    key={index}
-                  >
+                  <div className="grid-card" key={index}>
                     <div className="team-card">
                       <Typography variant="h3" style={{ fontWeight: "bold" }}>
-                        {this.capitalize(team.subject.name)}
+                        Join team
                       </Typography>
 
                       <p style={{ marginTop: "10pt" }}>
-                        {this.capitalize(team.name)}
+                        Enter your team code below
                       </p>
 
-                      <span className="stepper-line"> </span>
-                      <Stepper
-                        activeStep={team.subject.state - 1}
-                        alternativeLabel
-                        style={{
-                          padding: "25px 0 22px 0",
-                          position: "relative",
-                        }}
-                      >
-                        {this.state.steps.map((label, index) => {
-                          const isDisabled = this.getReviewButtonState(
-                            team._id
-                          );
-                          let props = {};
-                          if (isDisabled && index === 0) {
-                            props.optional = (
-                              <Typography
-                                variant="caption"
-                                style={{
-                                  display: "flex",
-                                  justify: "center",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                }}
-                              >
-                                Completed
-                              </Typography>
-                            );
+                      <TextField
+                        label="Team Code"
+                        placeholder="eg: Team 1"
+                        fullWidth
+                        margin="normal"
+                        InputLabelProps={{ style: { fontSize: 12 } }}
+                        variant="outlined"
+                        name="inviteCode"
+                        value={this.state.inviteCode}
+                        type="text"
+                        onChange={this.handleChange}
+                        onBlur={this.handleBlur("inviteCode")}
+                        onKeyPress={async (e) => {
+                          if (e.key === "Enter") {
+                            await this.joinTeam();
                           }
-                          return (
-                            <Step key={label}>
-                              <StepLabel {...props}>{label}</StepLabel>
-                            </Step>
-                          );
-                        })}
-                      </Stepper>
-
-                      <Link
-                        to={{
-                          // pathname: localStorage.getItem("hasCompletedTutorial")
-                          //   ? "/review"
-                          //   : "/collaboration",
-                          pathname: "/collaboration",
-                          state: {
-                            team_id: team._id,
-                            pending: this.getPendingUser(team._id),
-                          },
+                        }}
+                        style={{ marginTop: "20pt", paddingBottom: "33px" }}
+                      />
+                      <Button
+                        className="btn primarybtn"
+                        disabled={this.isDisabled()}
+                        onClick={async () => {
+                          await this.joinTeam();
                         }}
                       >
-                        <Button
-                          className="btn primarybtn"
-                          onClick={this.firstReview}
-                          disabled={this.getReviewButtonState(team._id)}
-                          disableElevation
-                        >
-                          Start Review
-                        </Button>
-                      </Link>
+                        Join Team
+                      </Button>
                     </div>
-                  </Grid>
-                );
-              }
-              return (
-                <Grid
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="stretch"
-                  spacing={1}
-                  className="inside-main-div"
-                  key={index}
-                >
-                  <div className="team-card">
-                    <Typography variant="h3" style={{ fontWeight: "bold" }}>
-                      Join team
-                    </Typography>
-
-                    <p style={{ marginTop: "10pt" }}>
-                      Enter your team code below
-                    </p>
-
-                    <TextField
-                      label="Team Code"
-                      placeholder="eg: Team 1"
-                      fullWidth
-                      margin="normal"
-                      InputLabelProps={{ style: { fontSize: 12 } }}
-                      variant="outlined"
-                      name="inviteCode"
-                      value={this.state.inviteCode}
-                      type="text"
-                      onChange={this.handleChange}
-                      onBlur={this.handleBlur("inviteCode")}
-                      onKeyPress={async (e) => {
-                        if (e.key === "Enter") {
-                          await this.joinTeam();
-                        }
-                      }}
-                      style={{ marginTop: "20pt", paddingBottom: "15px" }}
-                    />
-                    <Button
-                      className="btn primarybtn"
-                      disabled={this.isDisabled()}
-                      onClick={async () => {
-                        await this.joinTeam();
-                      }}
-                    >
-                      Join Team
-                    </Button>
                   </div>
-                </Grid>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
