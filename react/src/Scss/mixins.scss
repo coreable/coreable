@@ -60,6 +60,14 @@
   margin: 0 auto;
 }
 
+@mixin grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 8px;
+  max-width: 486px;
+  margin: 0 auto;
+}
+
 //For Mobile
 @mixin grid-4 {
   display: grid;
@@ -78,4 +86,15 @@
   text-align: center;
   color: white;
   width: 100%;
+}
+
+//Fonts
+@mixin h1 {
+  font-size: 3.2rem;
+  font-weight: bolder;
+}
+
+@mixin h2 {
+  font-size: 3.2rem;
+  font-weight: normal;
 }

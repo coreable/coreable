@@ -15,7 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 
-import "../../App.scss";
+import "../LandingPage/LandingPage.scss";
 
 class LandingPage extends Component {
   constructor(props) {
@@ -39,15 +39,7 @@ class LandingPage extends Component {
       >
         <div className="grid">
           <div className="grid-card">
-            <h1
-              style={{
-                fontSize: "3.2rem",
-                fontWeight: "bolder",
-                marginTop: "48pt",
-              }}
-            >
-              Welcome to Coreable
-            </h1>
+            <h1 style={{ marginTop: "48pt" }}> Welcome to Coreable </h1>
             <div
               style={{
                 fontSize: "1.6rem",

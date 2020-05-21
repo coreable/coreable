@@ -1,20 +1,50 @@
-// .landing-container {
-//   padding-top: 16px;
-//   justify-content: center;
-//   align-content: center;
-//   margin: 0 auto;
-//   text-align: center;
-//   color: white;
+@import "../../Scss/variables.scss";
+@import "../../Scss/mixins.scss";
 
-//   @media (max-width: 776px) {
-//     .landing-container {
-//       padding-top: 64px;
-//     }
-//   }
+.container {
+  @include container;
 
-//   @media (max-width: 1024px) {
-//     .landing-container {
-//       padding-top: 64px;
-//     }
-//   }
-// }
+  .grid {
+    @include grid-12;
+
+    .grid-card {
+      grid-column: 5/9;
+      text-align: center;
+
+      h1 {
+        @include h1;
+      }
+      h2 {
+        @include h2;
+      }
+      .btn {
+        @include button;
+      }
+      .primarybtn {
+        @include primary-button;
+      }
+      .transparentbtn {
+        @include transparent-button;
+      }
+      .MuiFormControl-root {
+        width: 100%;
+        border-radius: 4pt;
+      }
+
+      .MuiOutlinedInput-input {
+        font-size: 1.6rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .grid {
+      @include grid-4;
+
+      .grid-card {
+        grid-column: 1/5;
+      }
+    }
+  }
+}

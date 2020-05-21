@@ -15,17 +15,11 @@ Coreable source code.
 // TODO: Disable register button while waiting for submit
 
 import React, { Component } from "react";
-import "../../App.scss";
-// import "../login/Login.scss";
+import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../constants";
 
-import {
-  Typography,
-  Container,
-  TextField,
-  FormControl,
-} from "@material-ui/core";
+import { TextField, FormControl } from "@material-ui/core";
 
 class Register extends Component {
   constructor(props) {
@@ -174,24 +168,12 @@ class Register extends Component {
       <div className="container">
         <div className="grid">
           <div className="grid-card">
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{
-                fontWeight: "bold",
-                textAlign: "left",
-                color: "#000",
-              }}
-            >
+            <h1 style={{ textAlign: "left", color: "#000", margin: "0" }}>
               Welcome,
-            </Typography>
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{ textAlign: "left", color: "#707070" }}
-            >
+            </h1>
+            <h2 style={{ textAlign: "left", color: "#707070", margin: "0" }}>
               sign up to continue
-            </Typography>
+            </h2>
             <FormControl style={{ marginTop: "16pt", width: "100%" }}>
               <TextField
                 InputLabelProps={{ style: { fontSize: 12 } }}
@@ -291,7 +273,6 @@ class Register extends Component {
                 </Link>
               </div>
             </FormControl>
-            {/* </Container> */}
           </div>
         </div>
       </div>

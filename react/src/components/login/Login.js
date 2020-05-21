@@ -13,19 +13,11 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import "./Login.scss";
+import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
 import { JWT, API_URL } from "../../constants";
 
-import {
-  Typography,
-  Container,
-  Button,
-  StylesProvider,
-  TextField,
-  FormControl,
-} from "@material-ui/core";
-import "../../App.scss";
+import { TextField, FormControl } from "@material-ui/core";
 
 class Login extends Component {
   constructor(props) {
@@ -146,30 +138,13 @@ class Login extends Component {
       <div className="container">
         <div className="grid">
           <div className="grid-card">
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{
-                fontWeight: "bold",
-                textAlign: "left",
-                color: "#000",
-              }}
-            >
+            <h1 style={{ textAlign: "left", color: "#000", margin: "0" }}>
               Welcome,
-            </Typography>
-            <Typography
-              variant="h3"
-              component="h1"
-              style={{ textAlign: "left", color: "#707070" }}
-            >
+            </h1>
+            <h2 style={{ textAlign: "left", color: "#707070", margin: "0" }}>
               sign in to continue
-            </Typography>
-            <FormControl
-              style={{
-                marginTop: "16pt",
-                autocomplete: "off",
-              }}
-            >
+            </h2>
+            <FormControl style={{ marginTop: "16pt", autocomplete: "off" }}>
               <TextField
                 InputLabelProps={{ style: { fontSize: 12 } }}
                 label="Email"
