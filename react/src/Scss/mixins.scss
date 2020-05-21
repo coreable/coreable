@@ -139,3 +139,21 @@
   z-index: 0;
   color: $white;
 }
+
+//Main Div - Transparent
+@mixin main {
+  background: transparent;
+  border: none;
+  position: absolute;
+  top: 15%;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

@@ -27,24 +27,8 @@ h1 {
   }
 
   .main-welcome {
-    // z-index: 3;
-    background: transparent;
-    border: none;
-    position: absolute;
-    top: 15%;
-    // height: ;
-    //if this is dynamic, mobile capability is bad
+    @include main;
     width: 373pt;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    padding-bottom: 20px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 
     .step-progress-bar {
       height: 20px;
