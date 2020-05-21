@@ -101,6 +101,7 @@
   margin: 0 auto;
 }
 
+//Grid 12 / 6 bar width
 @mixin grid-1-6-bars {
   display: grid;
   grid-template-columns: repeat(1, 1fr);

@@ -13,13 +13,22 @@
     @include top;
 
     .facet-heading-desc {
-      width: 40%;
+      width: 550px;
       margin: 0 auto;
       text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
+
+      .text-div {
+        width: 80%;
+      }
+      @media (max-width: $max-width) {
+        .text-div {
+          width: 100%;
+        }
+      }
 
       .stepper-container {
         display: flex;
@@ -42,14 +51,14 @@
     }
     @media (max-width: $max-width) {
       .facet-heading-desc {
-        width: 60%;
+        width: 80%;
       }
     }
   }
 
   @media (max-width: $max-width) {
     .top {
-      height: 40%;
+      height: 35%;
     }
   }
 
@@ -264,10 +273,10 @@
       }
     }
     @media (max-width: $max-width) {
-      .grid {
+      .grid-review {
         @include grid-1;
 
-        .grid-card {
+        .grid-card-review {
           grid-column: 1/5;
         }
       }
@@ -276,7 +285,7 @@
     .btn-container {
       width: 400px;
       margin: auto;
-      margin-top: 20px;
+      margin-top: 10px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
@@ -293,35 +302,11 @@
       }
 
       .primarybtn {
-        background-color: rgb(64, 112, 224);
-        color: white;
-        font-weight: bold;
-        transition: all 0.2s ease-in-out;
-        &:hover {
-          transform: scale(1.03);
-        }
-        &:disabled {
-          background-color: lightgrey !important;
-          color: white !important;
-          cursor: not-allowed !important;
-          border: none !important;
-        }
-        &:focus {
-          outline: none;
-        }
+        @include primary-button;
       }
 
       .transparentbtn {
-        border: none;
-        background-color: transparent;
-        color: rgb(64, 112, 224);
-        font-weight: bold;
-        &:hover {
-          // color: white;
-          // background-color: rgb(64, 112, 224);
-          background-color: transparent;
-          transition: all 0.2s ease-in-out;
-        }
+        @include transparent-button-blue-text;
       }
     }
     @media (max-width: $max-width) {
@@ -332,29 +317,10 @@
   }
 
   @media (max-width: $max-width) {
-    .main {
-      width: 90%;
+    .main-review {
+      // width: 90%;
       top: 40%;
       // top: 310px;
     }
-  }
-}
-
-.facet-card {
-  background-color: white;
-  padding: 32pt;
-  margin: 16pt;
-  .facet-name {
-    color: black;
-    font-size: 24pt;
-  }
-  .facet-heading {
-    color: rgb(66, 113, 249);
-    margin-top: 24pt;
-    margin-bottom: 0pt;
-  }
-  .facet-info {
-    margin-bottom: 31pt;
-    margin-top: 5pt;
   }
 }

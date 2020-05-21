@@ -150,8 +150,10 @@ class Facet extends Component {
                 stepColor="#4070e0"
               />
             </div>
-            <h1 style={{ width: "100%" }}>{this.state.name}</h1>
-            <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
+            <div className="text-div">
+              <h1 style={{ width: "100%" }}>{this.state.name}</h1>
+              <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
+            </div>
           </div>
         </div>
         <div className="main-review">
@@ -177,7 +179,6 @@ class Facet extends Component {
               className="btn primarybtn"
               onClick={this.continue}
               disabled={this.state.isSubmitDisabled}
-              style={{ marginTop: "20px" }}
             >
               {this.props.buttonLabel}
             </button>
