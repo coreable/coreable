@@ -101,6 +101,14 @@
   margin: 0 auto;
 }
 
+@mixin grid-1-6-bars {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 8px;
+  width: 486px;
+  margin: 0 auto;
+}
+
 //Container
 @mixin container {
   padding-top: 96px;
@@ -138,7 +146,7 @@
   padding-top: 80px;
   margin: 0 auto;
   text-align: center;
-  height: 30%;
+  height: 35%;
   width: 100%;
   z-index: 0;
   color: $white;

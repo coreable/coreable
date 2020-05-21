@@ -37,13 +37,13 @@ h1 {
       }
     }
 
-    .grid {
+    .grid-home {
       @include grid-2;
       grid-auto-flow: row;
       background: transparent;
       border: none;
 
-      .grid-card {
+      .grid-card-home {
         text-align: center;
         min-height: 253px;
         background: white;

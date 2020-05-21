@@ -13,7 +13,6 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import { Button, Typography } from "@material-ui/core";
 import Trait from "./Trait/Trait";
 import Stepper from "../../Stepper/Stepper";
 import "../Review.scss";
@@ -141,7 +140,7 @@ class Facet extends Component {
     const { currentIndex, stepsArray } = this.state;
 
     return (
-      <div className="team-container">
+      <div className="review-container">
         <div className="top">
           <div className="facet-heading-desc">
             <div style={{ width: "100%" }}>
@@ -151,42 +150,41 @@ class Facet extends Component {
                 stepColor="#4070e0"
               />
             </div>
-            <Typography
-              variant="h2"
-              style={{ color: "white", fontWeight: "bold", width: "100%" }}
-            >
-              {this.state.name}
-            </Typography>
+            <h1 style={{ width: "100%" }}>{this.state.name}</h1>
             <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
           </div>
         </div>
-        <div className="main">
-          {this.state.traits.map((trait, index) => {
-            return (
-              <div className="inside-main" key={index}>
-                <Trait
-                  {...trait}
-                  name={this.state.name}
-                  key={trait.name}
-                  me={this.props.me}
-                  traitName={this.state.traits.name}
-                  pending={this.props.pending}
-                  sliderUpdatedHandler={this.sliderUpdatedHandler}
-                ></Trait>
-              </div>
-            );
-          })}
-          <Button
-            className="btn primarybtn"
-            onClick={this.continue}
-            disabled={this.state.isSubmitDisabled}
-            style={{ marginTop: "20px" }}
-          >
-            {this.props.buttonLabel}
-          </Button>
-          <Button className="btn transparentbtn" onClick={this.back}>
-            Back
-          </Button>
+        <div className="main-review">
+          <div className="grid-review">
+            {this.state.traits.map((trait, index) => {
+              return (
+                <div className="inside-main-review" key={index}>
+                  <Trait
+                    {...trait}
+                    name={this.state.name}
+                    key={trait.name}
+                    me={this.props.me}
+                    traitName={this.state.traits.name}
+                    pending={this.props.pending}
+                    sliderUpdatedHandler={this.sliderUpdatedHandler}
+                  ></Trait>
+                </div>
+              );
+            })}
+          </div>
+          <div className="btn-container">
+            <button
+              className="btn primarybtn"
+              onClick={this.continue}
+              disabled={this.state.isSubmitDisabled}
+              style={{ marginTop: "20px" }}
+            >
+              {this.props.buttonLabel}
+            </button>
+            <button className="btn transparentbtn" onClick={this.back}>
+              Back
+            </button>
+          </div>
         </div>
       </div>
     );

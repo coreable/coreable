@@ -245,11 +245,11 @@ class Home extends Component {
                 View, review and join teams.
               </p>
             </div>
-            <div className="grid">
+            <div className="grid-home">
               {this.state.me.teams.map((team, index) => {
                 if (team._id !== "joinTeam") {
                   return (
-                    <div className="grid-card" key={index}>
+                    <div className="grid-card-home" key={index}>
                       <div className="team-card">
                         <h1>{this.capitalize(team.subject.name)}</h1>
                         <p>{this.capitalize(team.name)}</p>
@@ -317,7 +317,7 @@ class Home extends Component {
                   );
                 }
                 return (
-                  <div className="grid-card" key={index}>
+                  <div className="grid-card-home" key={index}>
                     <div className="team-card">
                       <h1>Join team</h1>
                       <p>Enter your team code below</p>
