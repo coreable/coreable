@@ -6,14 +6,20 @@ h1 {
   margin: 0;
 }
 
+h2 {
+  @include h2;
+}
+
+p {
+  @include body-font;
+}
+
 .team-container {
   background: rgb(245, 245, 245);
   position: relative;
   margin: 0 auto;
   align-items: center;
   width: 100%;
-  //overflow:auto doesnt allow it to scroll up.
-  // overflow: auto;
   min-height: 100vh;
 
   .top {
@@ -28,7 +34,6 @@ h1 {
 
   .main-welcome {
     @include main;
-    width: 373pt;
 
     .step-progress-bar {
       height: 20px;
@@ -67,36 +72,54 @@ h1 {
       }
     }
 
-    .inside-main {
-      min-height: 200px;
-      width: 373pt;
-      //   min-width: 300px;
-      background: white;
-      border-radius: 0.33rem;
-      margin: 10pt;
-      margin-top: 40pt;
-      padding: 20px;
+    .grid {
+      @include grid-12;
 
-      span {
-        height: 60pt;
-        width: 90pt;
-        margin: 8pt;
+      .grid-card {
+        grid-column: 4/10;
+        text-align: center;
+        min-height: 200px;
         border-radius: 0.33rem;
-        background: #f7f9fc;
-        color: black;
-        justify-content: center;
-        display: flex;
-        align-items: center;
-        font-size: 1.4rem;
-        transition: all 0.2s ease-out;
+        margin-top: 40pt;
 
-        &:hover {
-          transform: scale(1.05);
+        .inside-main {
+          min-height: 200px;
+          background: white;
+          border-radius: 0.33rem;
+          margin-top: 40pt;
+          padding: 20px;
+
+          span {
+            height: 60pt;
+            width: 90pt;
+            margin: 8pt;
+            border-radius: 0.33rem;
+            background: #f7f9fc;
+            color: black;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            transition: all 0.2s ease-out;
+
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+          @media (max-width: 390px) {
+            span {
+              width: 100%;
+            }
+          }
         }
       }
-      @media (max-width: 390px) {
-        span {
-          width: 100%;
+    }
+    @media (max-width: $max-width) {
+      .grid {
+        @include grid-4;
+
+        .grid-card {
+          grid-column: 1/5;
         }
       }
     }

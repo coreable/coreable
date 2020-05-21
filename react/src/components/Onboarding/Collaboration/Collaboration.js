@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Button, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import "./Collaboration.scss";
@@ -21,49 +20,38 @@ class Welcome extends Component {
         <div className="top"></div>
         <div className="main-welcome">
           <h1 style={{ color: "white" }}>Welcome to Collaboration</h1>
-          <div className="inside-main">
-            <img
-              src={img}
-              style={{ width: "100%", height: "auto" }}
-              alt="welcome"
-            />
-            <div>
-              <Typography
-                variant="h4"
-                style={{
-                  fontWeight: "bold",
-                  color: "black",
-                  marginBottom: "16pt",
-                }}
-              >
-                Collaboration
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "1.6rem",
-                  color: "black",
-                  marginBottom: "8pt",
-                }}
-              >
-                Collaboration is formed from five key facets, <br /> these
-                include:
-              </Typography>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                width: "100%",
-              }}
-            >
-              <span>
-                Emotional <br /> Intelligence
-              </span>
-              <span>Resilience</span>
-              <span>Flexibility</span>
-              <span>Trust</span>
-              <span>Initiative</span>
+          <div className="grid">
+            <div className="grid-card">
+              <div className="inside-main">
+                <img
+                  src={img}
+                  style={{ width: "100%", height: "auto" }}
+                  alt="Collaborating image"
+                />
+                <div>
+                  <h1 style={{ marginBottom: "16pt" }}>Collaboration</h1>
+                  <p style={{ marginBottom: "8pt" }}>
+                    Collaboration is formed from five key facets, <br /> these
+                    include:
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                    width: "100%",
+                  }}
+                >
+                  <span>
+                    Emotional <br /> Intelligence
+                  </span>
+                  <span>Resilience</span>
+                  <span>Flexibility</span>
+                  <span>Trust</span>
+                  <span>Initiative</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -76,7 +64,7 @@ class Welcome extends Component {
               },
             }}
           >
-            <Button
+            <button
               className="btn primarybtn"
               onClick={() => {
                 window.scrollTo({
@@ -86,7 +74,7 @@ class Welcome extends Component {
               }}
             >
               Next
-            </Button>
+            </button>
           </Link>
 
           <Link
@@ -94,7 +82,7 @@ class Welcome extends Component {
               pathname: "/home",
             }}
           >
-            <Button className="btn transparentbtn">Back</Button>
+            <button className="btn transparentbtn">Back</button>
           </Link>
         </div>
       </div>
