@@ -59,15 +59,6 @@
         border-radius: 0.33rem;
         padding: 20px;
 
-        // .inside-main-div {
-        //   height: 253pt;
-        //   width: 275pt;
-
-        //   margin: 12.5pt;
-        //   padding: 24pt 24pt 28pt 25pt;
-        //   border-radius: 4pt;
-        //   position: relative;
-
         .team-card {
           text-align: left;
           position: relative;
@@ -198,7 +189,11 @@
             }
           }
         }
-        // }
+      }
+    }
+    @media (max-width: $max-width) {
+      .grid {
+        @include grid-1;
       }
     }
   }

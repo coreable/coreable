@@ -93,6 +93,14 @@
   margin: 0 auto;
 }
 
+@mixin grid-1 {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 8px;
+  width: 324px;
+  margin: 0 auto;
+}
+
 //Container
 @mixin container {
   padding-top: 96px;
