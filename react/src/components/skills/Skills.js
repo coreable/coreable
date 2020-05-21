@@ -112,7 +112,7 @@ class Skills extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -326,10 +326,11 @@ class Skills extends Component {
       result.resilience = (clone.resilienceFeedback + clone.calm) / 2;
 
       // Communication
-      result.clarity = (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
+      result.clarity =
+        (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
       result.culture = (clone.openToShare + clone.crossTeam) / 2;
       result.nonVerbal = (clone.distractions + clone.usesRegulators) / 2;
-      result.attentive = (clone.signifiesInterest) / 1;
+      result.attentive = clone.signifiesInterest / 1;
     } catch {
       console.log({
         code: "ERR",
@@ -362,10 +363,11 @@ class Skills extends Component {
       result.resilience = (clone.resilienceFeedback + clone.calm) / 2;
 
       // Communication
-      result.clarity = (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
+      result.clarity =
+        (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
       result.culture = (clone.openToShare + clone.crossTeam) / 2;
       result.nonVerbal = (clone.distractions + clone.usesRegulators) / 2;
-      result.attentive = (clone.signifiesInterest) / 1;
+      result.attentive = clone.signifiesInterest / 1;
     } catch {
       console.log({
         code: "ERR",
@@ -394,12 +396,7 @@ class Skills extends Component {
               width: "100%",
             }}
           >
-            <Typography
-              variant="h2"
-              style={{ color: "white", fontWeight: "bold", marginTop: "40pt" }}
-            >
-              Your Skills
-            </Typography>
+            <h1 style={{ color: "white" }}>Your Skills</h1>
             <p
               style={{
                 fontSize: "1.4rem",
@@ -411,13 +408,28 @@ class Skills extends Component {
               All marks are average of 5 assessments{" "}
             </p>
             <div className="skills-btns">
-              <button className="btn primarybtn">All Core Skills</button>
-              <button className="btn primarybtn" disabled>
-                Collaboration
-              </button>
-              <button className="btn primarybtn" disabled>
-                Communication
-              </button>
+              <div className="skills-grid">
+                <button
+                  className="btn primarybtn"
+                  style={{ gridColumn: "4/6" }}
+                >
+                  All Core Skills
+                </button>
+                <button
+                  className="btn primarybtn"
+                  style={{ gridColumn: "6/8" }}
+                  disabled
+                >
+                  Collaboration
+                </button>
+                <button
+                  className="btn primarybtn"
+                  style={{ gridColumn: "8/10" }}
+                  disabled
+                >
+                  Communication
+                </button>
+              </div>
             </div>
             <div className="skills-btns-dropdown">
               <button className="btn primarybtn">All Core Skills</button>
@@ -430,37 +442,31 @@ class Skills extends Component {
               </div> */}
             </div>
           </div>
-          <div
-            style={{
-              paddingLeft: "0",
-              paddingRight: "0",
-              margin: "6px",
-              width: "100%",
-              // height: "448pt",
-            }}
-          >
-            <Card
-              variant="outlined"
-              style={{ border: "1px solid lightgrey", marginTop: "15px" }}
-            >
-              <Radar {...this.state} />
-            </Card>
+
+          <div className="radar-div">
+            <Radar {...this.state} />
           </div>
+
           <div>
-            {
-              (() => {
-                if (this.state.strengths.length > 0 && this.state.improve.length > 0) {
-                  return (
-                    <Typography
-                      variant="h3"
-                      style={{ color: "black", fontWeight: "bold", marginTop: "40pt" }}
-                    >
-                      Your facets
-                    </Typography>
-                  );
-                }
-              })()
-            }
+            {(() => {
+              if (
+                this.state.strengths.length > 0 &&
+                this.state.improve.length > 0
+              ) {
+                return (
+                  <Typography
+                    variant="h3"
+                    style={{
+                      color: "black",
+                      fontWeight: "bold",
+                      marginTop: "40pt",
+                    }}
+                  >
+                    Your facets
+                  </Typography>
+                );
+              }
+            })()}
           </div>
           <div
             style={{

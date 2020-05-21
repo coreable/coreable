@@ -110,17 +110,6 @@
   margin: 0 auto;
 }
 
-//Container
-@mixin container {
-  padding-top: 96px;
-  justify-content: center;
-  align-content: center;
-  margin: 0 auto;
-  text-align: center;
-  color: white;
-  width: 100%;
-}
-
 //Fonts
 @mixin h1 {
   font-size: 3.2rem;
@@ -139,6 +128,18 @@
 }
 
 //Layout
+
+//Container
+@mixin container {
+  padding-top: 96px;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  text-align: center;
+  color: white;
+  width: 100%;
+}
+
 //Top Navy Box
 @mixin top {
   background: $secondaryBlue;
@@ -159,7 +160,6 @@
   border: none;
   position: absolute;
   top: 15%;
-  position: absolute;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 20px;
