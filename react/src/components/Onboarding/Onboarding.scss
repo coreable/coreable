@@ -2,7 +2,6 @@
 @import "../../Scss/mixins.scss";
 
 .team-container {
-  // background: rgb(245, 245, 245);
   position: relative;
   margin: 0 auto;
   align-items: center;
@@ -12,21 +11,7 @@
   min-height: 100vh;
 
   .top {
-    background: $secondaryBlue;
-    position: absolute;
-    top: 0px;
-    padding-top: 140px;
-    margin: 0 auto;
-    text-align: center;
-    height: 50%;
-    width: 100%;
-    z-index: 0;
-    color: $white;
-    // background: $secondaryBlue;
-    // margin: 0 auto;
-    // text-align: center;
-    // height: 50%;
-    // padding-top: 100px;
+    @include top;
   }
 
   @media (max-width: $max-width) {
@@ -41,9 +26,6 @@
     border: none;
     position: absolute;
     top: 25%;
-    // height: ;
-    //if this is dynamic, mobile capability is bad
-
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -56,8 +38,6 @@
       @include grid-12;
       background: transparent;
       border: none;
-
-      //if this is dynamic, mobile capability is bad
 
       .grid-card {
         grid-column: 4/10;
@@ -90,10 +70,6 @@
               border-radius: 50%;
               background: $disabledGrey;
               transition: all 0.3s ease-out;
-
-              //   &:hover {
-              //     transform: scale(1.5);
-              //   }
             }
 
             .done {
@@ -153,28 +129,12 @@
       }
 
       .transparentbtn {
-        border: none;
-        background-color: transparent;
-        color: rgb(64, 112, 224);
-        font-weight: bold;
-        &:hover {
-          // color: white;
-          // background-color: rgb(64, 112, 224);
-          background-color: transparent;
-          transition: all 0.2s ease-in-out;
-        }
-        &:disabled {
-          // background-color: lightgrey !important;
-          color: lightgray !important;
-          cursor: not-allowed !important;
-          border: none !important;
-        }
+        @include transparent-button-blue-text;
       }
 
       @media (max-width: $max-width) {
         .main {
           width: 90%;
-          // top: 310px;
         }
       }
     }

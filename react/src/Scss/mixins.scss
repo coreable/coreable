@@ -37,7 +37,7 @@
   }
 }
 
-//Coreable Transparent Button Template
+//Coreable Transparent Button Template - landing page ONLY
 @mixin transparent-button {
   border: 1px solid $white;
   background-color: transparent;
@@ -49,6 +49,22 @@
   }
 }
 
+//Coreable Transparent Button Template - other pages
+@mixin transparent-button-blue-text {
+  border: none;
+  background-color: transparent;
+  color: rgb(64, 112, 224);
+  font-weight: bold;
+  &:hover {
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+  }
+  &:disabled {
+    color: lightgray !important;
+    cursor: not-allowed !important;
+    border: none !important;
+  }
+}
 //Input Field
 
 //Grid
@@ -97,4 +113,19 @@
 @mixin h2 {
   font-size: 3.2rem;
   font-weight: normal;
+}
+
+//Layout
+//Top Navy Box
+@mixin top {
+  background: $secondaryBlue;
+  position: absolute;
+  top: 0px;
+  padding-top: 140px;
+  margin: 0 auto;
+  text-align: center;
+  height: 50%;
+  width: 100%;
+  z-index: 0;
+  color: $white;
 }

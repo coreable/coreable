@@ -115,7 +115,6 @@ class Onboarding extends Component {
         <div className="top"></div>
         <div className="main">
           {this.onboardingTitle()}
-          {/* <div className="inside-main"> */}
           <div className="grid">
             <div className="grid-card">
               <div className="step-progress-bar">
