@@ -1,8 +1,13 @@
 @import "../../Scss/variables.scss";
 @import "../../Scss/mixins.scss";
 
+h1 {
+  @include h1;
+  margin: 0;
+}
+
 .review-container {
-  background: rgb(245, 245, 245);
+  background: whitesmoke;
   position: relative;
   margin: 0 auto;
   align-items: center;
@@ -45,6 +50,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
+    .inside-main {
+      width: 100%;
+      margin-bottom: 40px;
+
+      h1 {
+        color: $white;
+      }
+    }
 
     .grid {
       @include grid-2;

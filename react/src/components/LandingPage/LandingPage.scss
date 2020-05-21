@@ -3,6 +3,7 @@
 
 .container {
   @include container;
+  max-height: 100vh;
 
   .grid {
     @include grid-12;

@@ -18,7 +18,6 @@ import "./Home.scss";
 
 import {
   Typography,
-  Button,
   TextField,
   Stepper,
   Step,
@@ -240,25 +239,8 @@ class Home extends Component {
         <div className="review-container">
           <div className="top-background"></div>
           <div className="main">
-            <div
-              style={{
-                paddingLeft: "0",
-                paddingRight: "0",
-                margin: "6px",
-                marginBottom: "40px",
-                width: "100%",
-              }}
-            >
-              <Typography
-                variant="h2"
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  marginTop: "40pt",
-                }}
-              >
-                Your teams
-              </Typography>
+            <div className="inside-main">
+              <h1>Your teams</h1>
               <p style={{ fontSize: "1.4rem", color: "white" }}>
                 View, review and join teams.
               </p>
@@ -269,9 +251,7 @@ class Home extends Component {
                   return (
                     <div className="grid-card" key={index}>
                       <div className="team-card">
-                        <Typography variant="h3" style={{ fontWeight: "bold" }}>
-                          {this.capitalize(team.subject.name)}
-                        </Typography>
+                        <h1>{this.capitalize(team.subject.name)}</h1>
 
                         <p style={{ marginTop: "10pt" }}>
                           {this.capitalize(team.name)}
@@ -342,9 +322,7 @@ class Home extends Component {
                 return (
                   <div className="grid-card" key={index}>
                     <div className="team-card">
-                      <Typography variant="h3" style={{ fontWeight: "bold" }}>
-                        Join team
-                      </Typography>
+                      <h1>Join team</h1>
 
                       <p style={{ marginTop: "10pt" }}>
                         Enter your team code below
@@ -369,7 +347,7 @@ class Home extends Component {
                         }}
                         style={{ marginTop: "20pt", paddingBottom: "33px" }}
                       />
-                      <Button
+                      <button
                         className="btn primarybtn"
                         disabled={this.isDisabled()}
                         onClick={async () => {
@@ -377,7 +355,7 @@ class Home extends Component {
                         }}
                       >
                         Join Team
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 );
