@@ -1,8 +1,8 @@
-//Responsive width
-$max-width: 760px;
+@import "../../Scss/variables.scss";
+@import "../../Scss/mixins.scss";
 
 .menubtn {
-  color: white;
+  color: $white;
   text-decoration: none;
 }
 
@@ -11,7 +11,7 @@ $max-width: 760px;
   width: 100%;
   z-index: 3;
   height: 50px;
-  background: #0c152e;
+  background: $secondaryBlue;
 }
 
 .navBar ul {
@@ -27,7 +27,7 @@ $max-width: 760px;
   padding: 15px 25px;
   font-size: 1.5rem;
   text-decoration: none;
-  color: white;
+  color: $white;
   margin: auto;
 }
 
@@ -38,13 +38,13 @@ $max-width: 760px;
   /* display: block; */
   padding: 15px 20px;
   text-decoration: none;
-  color: white;
+  color: $white;
 }
 
 .navBar .menu {
   clear: both;
   max-height: 0;
-  background: #0c152e;
+  background: $secondaryBlue;
   transition: max-height 0.4s ease-out;
 }
 
@@ -57,7 +57,7 @@ $max-width: 760px;
 }
 
 .navBar .menu-icon .nav-icon {
-  background: white;
+  background: $white;
   border-radius: 4px;
   display: block;
   height: 2px;
@@ -68,7 +68,7 @@ $max-width: 760px;
 
 .navBar .menu-icon .nav-icon::before,
 .navBar .menu-icon .nav-icon::after {
-  background-color: white;
+  background-color: $white;
   border-radius: 4px;
   content: "";
   display: block;
@@ -109,19 +109,11 @@ $max-width: 760px;
   top: 0;
 }
 
-/* .spacer {
-    flex: 1;
-  } */
-
 .navBar li:nth-last-child(3),
 .navBar li:nth-last-child(2),
 .navBar li:nth-last-child(1) {
   display: block;
 }
-
-/* .navBar .menu-right {
-    display: none;
-  } */
 
 .second-menu {
   display: none;
@@ -132,10 +124,6 @@ $max-width: 760px;
 }
 
 @media (min-width: $max-width) {
-  //   .active {
-  //     border-bottom: 4px solid rgb(45, 215, 117);
-  //   }
-
   .navBar {
     height: 50px;
     width: 100%;
@@ -149,7 +137,7 @@ $max-width: 760px;
 
   .menubtn {
     float: left;
-    color: white;
+    color: $white;
 
     // width: 40px;
   }
@@ -185,7 +173,7 @@ $max-width: 760px;
     display: block;
     position: relative;
     // background: transparent;
-    color: white;
+    color: $white;
     // display: inline-block;
     float: right;
     padding: 15px 50px;
@@ -205,7 +193,7 @@ $max-width: 760px;
     position: absolute;
     top: 50px;
     right: 0;
-    background-color: #0c152e;
+    background-color: $secondaryBlue;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 3;
@@ -214,7 +202,7 @@ $max-width: 760px;
 
   .dropdown:hover {
     // background: lightpink;
-    border-bottom: 2px solid rgb(45, 215, 117);
+    border-bottom: 2px solid $green;
 
     .dropdown-content {
       display: block;
@@ -222,7 +210,7 @@ $max-width: 760px;
   }
 
   .dropdown-content a {
-    color: white;
+    color: $white;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -231,8 +219,4 @@ $max-width: 760px;
   .dropdown-content a:hover {
     font-weight: bold;
   }
-
-  //   .dropdown:hover .dropdown-content {
-  //     display: block;
-  //   }
 }

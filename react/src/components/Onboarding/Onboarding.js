@@ -110,34 +110,38 @@ class Onboarding extends Component {
   };
 
   render() {
-//    const bullets = [...document.querySelectorAll(".bullet")];
-
     return (
       <div className="team-container">
         <div className="top"></div>
         <div className="main">
           {this.onboardingTitle()}
-          <div className="inside-main">
-            <div className="step-progress-bar">
-              <div className="steps">
-                <div className="bullet done"></div>
-                <div className="bullet"></div>
-                <div className="bullet"></div>
+          {/* <div className="inside-main"> */}
+          <div className="grid">
+            <div className="grid-card">
+              <div className="step-progress-bar">
+                <div className="steps">
+                  <div className="bullet done"></div>
+                  <div className="bullet"></div>
+                  <div className="bullet"></div>
+                </div>
               </div>
+              {this.onboardingSlide(this.state.onboardingNum)}
             </div>
-            {this.onboardingSlide(this.state.onboardingNum)}
           </div>
-
-          <Button className="btn primarybtn" onClick={this.next}>
-            {this.state.startButton}
-          </Button>
-          <Button
-            className="btn transparentbtn"
-            onClick={this.back}
-            disabled={this.state.isDisabled ? "disabled" : null}
-          >
-            Back
-          </Button>
+          <div className="btn-grid">
+            <div className="btn-grid-card">
+              <Button className="btn primarybtn" onClick={this.next}>
+                {this.state.startButton}
+              </Button>
+              <Button
+                className="btn transparentbtn"
+                onClick={this.back}
+                disabled={this.state.isDisabled ? "disabled" : null}
+              >
+                Back
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );
