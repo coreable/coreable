@@ -400,7 +400,6 @@ class Skills extends Component {
             <p
               style={{
                 fontSize: "1.4rem",
-                fontWeight: "bold",
                 marginBottom: "35pt",
                 color: "#d6d6d6",
               }}
