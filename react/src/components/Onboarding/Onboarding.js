@@ -7,12 +7,17 @@ import What from "./What/What";
 import How from "./How/How";
 
 class Onboarding extends Component {
-  state = {
-    onboardingNum: 1,
-    isDisabled: true,
-    onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
-    startButton: "Next",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      onboardingNum: 1,
+      isDisabled: true,
+      onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
+      startButton: "Next",
+      team_id: this.props.location.state.team_id,
+      pending: this.props.location.state.pending,
+    };
+  }
 
   next = () => {
     //stepper
@@ -39,8 +44,15 @@ class Onboarding extends Component {
         });
       }
     } else {
-      this.props.history.push("/home");
+      this.props.history.push({
+        pathname: "/review",
+        state: {
+          team_id: this.state.team_id,
+          pending: this.state.pending,
+        },
+      });
     }
+
     // window.scrollTo({
     //   top: 0,
     //   behavior: "smooth",

@@ -37,6 +37,7 @@ class Home extends Component {
       loading: true,
       completedTutorial: false,
     };
+    // console.log(this.state.me.teams[0].subject.state);
   }
 
   componentDidMount = async () => {
@@ -296,7 +297,10 @@ class Home extends Component {
                             // pathname: localStorage.getItem("hasCompletedTutorial")
                             //   ? "/review"
                             //   : "/collaboration",
-                            pathname: "/collaboration",
+                            pathname:
+                              this.state.me.teams[index].subject.state === 1
+                                ? "/intro"
+                                : "/collaboration",
                             state: {
                               team_id: team._id,
                               pending: this.getPendingUser(team._id),
