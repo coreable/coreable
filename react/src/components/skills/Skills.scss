@@ -5,6 +5,17 @@ h1 {
   @include h1;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+
+  li {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+  }
+}
+
 .review-container {
   background: rgb(245, 245, 245);
   position: relative;
@@ -21,6 +32,15 @@ h1 {
     z-index: 1;
     width: 100%;
     @include main;
+
+    .skills-main-grid {
+      @include grid-12;
+
+      .skills-grid {
+        grid-column: 3/7;
+        text-align: left;
+      }
+    }
 
     .skills-btns-dropdown {
       display: none;
@@ -52,8 +72,24 @@ h1 {
     }
 
     .skills-btns {
+      background: white;
+      box-shadow: 0 2px 6px -4px grey;
+
       .skills-grid {
         @include grid-12;
+        margin: 0 auto;
+        text-decoration: none;
+        list-style: none;
+        height: 58px;
+        align-items: center;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: bold;
+
+        a {
+          color: grey;
+          padding-bottom: 19px;
+        }
 
         .btn {
           @include button;
@@ -152,6 +188,60 @@ h1 {
     @media (max-width: 990px) {
       .inside-main {
         width: 100%;
+      }
+    }
+
+    .main-skills-container {
+      display: grid;
+      grid-gap: 8px;
+      width: 972px;
+      margin: 0 auto;
+      margin-top: 24pt;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas:
+        "filter top-strength areas-to-improve"
+        "filter over-estimation under-estimation";
+
+      .filter {
+        grid-area: filter;
+        width: 100%;
+        min-height: 200pt;
+        border-radius: 4pt;
+        background: $dataBlue;
+        position: sticky;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+
+        span,
+        label {
+          font-weight: bold;
+          font-size: 1.6rem;
+        }
+
+        button:nth-child(2),
+        span:nth-child(2) {
+          margin-left: 24px;
+        }
+
+        button {
+          font-size: 1.6rem;
+          width: 82px;
+          height: 35px;
+          background: white;
+          border-radius: 4px;
+        }
+
+        .selected {
+          background: $primaryBlue;
+          color: white;
+        }
+
+        select {
+          margin-top: 4px;
+          width: 100%;
+          height: 30px;
+          background: white;
+          border: none;
+        }
       }
     }
   }

@@ -1,0 +1,41 @@
+@import "../../../Scss/variables.scss";
+@import "../../../Scss/mixins.scss";
+
+.navBar-skills {
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+  height: 50px;
+  background: $white;
+
+  .menubtn {
+    color: $primaryBlue;
+    text-decoration: none;
+  }
+
+  .navBar-skills ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow: hidden;
+    text-align: center;
+    @include grid-1-6-bars;
+  }
+
+  .nav-link {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: rgb(15, 28, 63);
+    margin-top: 10px;
+    margin-left: 20px;
+    padding-bottom: 10px;
+  }
+}
+
+.navBar-skills li:nth-last-child(3),
+.navBar-skills li:nth-last-child(2),
+.navBar-skills li:nth-last-child(1) {
+  display: block;
+}
