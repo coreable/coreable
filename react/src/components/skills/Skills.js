@@ -446,7 +446,7 @@ class Skills extends Component {
             </div>
             <div className="skills-btns">
               <ul className="skills-grid">
-                <div style={{ gridColumn: "3/5" }}>
+                <div style={{ gridColumn: "3" }}>
                   <li>
                     <NavLink
                       exact
@@ -461,7 +461,7 @@ class Skills extends Component {
                     </NavLink>
                   </li>
                 </div>
-                <div style={{ gridColumn: "5/7" }}>
+                <div>
                   <li>
                     <NavLink
                       to={`/skills/communication`}
@@ -525,7 +525,8 @@ class Skills extends Component {
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "left",
+                  // justifyContent: "left",
+                  borderRadius: "4px 4px 0 0",
                   alignItems: "center",
                   height: "30px",
                   background: "white",
@@ -557,7 +558,7 @@ class Skills extends Component {
                   <select>
                     {this.state.teams.map((team) => {
                       return (
-                        <option>
+                        <option key={team._id}>
                           {team.name.charAt(0).toUpperCase() +
                             team.name.slice(1)}
                         </option>
