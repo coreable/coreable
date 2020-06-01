@@ -402,6 +402,8 @@ class Skills extends Component {
 
   render() {
     const btns = document.querySelectorAll(".facet-button");
+    const tabs = document.querySelectorAll(".tab");
+
     for (let i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function() {
         this.classList.add("selected");
@@ -411,6 +413,18 @@ class Skills extends Component {
           btns[0].classList = "facet-button";
         }
         btns[i].blur();
+      });
+    }
+
+    for (let i = 0; i < tabs.length; i++) {
+      tabs[i].addEventListener("click", function() {
+        this.classList.add("active");
+        console.log(tabs[i].textContent);
+        if (i === 0) {
+          tabs[1].classList = "tab";
+        } else {
+          tabs[0].classList = "tab";
+        }
       });
     }
 
@@ -446,9 +460,19 @@ class Skills extends Component {
             </div>
             <div className="skills-btns">
               <ul className="skills-grid">
-                <div style={{ gridColumn: "3/5" }}>
-                  <li>
-                    <NavLink
+                <div
+                  style={{
+                    gridColumn: "3/5",
+                    textAlign: "left",
+                    // height: "100%",
+                    // display: "flex",
+                    // justifyContent: "left",
+                    // alignItems: "center",
+                    // marginTop: "20px",
+                  }}
+                >
+                  <li className="tab active">
+                    {/* <NavLink
                       exact
                       to={`/skills`}
                       activeStyle={{
@@ -456,23 +480,33 @@ class Skills extends Component {
                         color: "rgb(66, 113, 249)",
                         height: "100%",
                       }}
-                    >
-                      Collaboration
-                    </NavLink>
+                    > */}
+                    Collaboration
+                    {/* </NavLink> */}
                   </li>
                 </div>
-                <div style={{ gridColumn: "5/7" }}>
-                  <li>
-                    <NavLink
+                <div
+                  style={{
+                    gridColumn: "5/7",
+                    textAlign: "left",
+                    // height: "100%",
+                    // display: "flex",
+                    // justifyContent: "center",
+                    // alignItems: "center",
+                    // marginTop: "20px",
+                  }}
+                >
+                  <li className="tab">
+                    {/* <NavLink
                       to={`/skills/communication`}
                       activeStyle={{
                         borderBottom: "2px solid rgb(66, 113, 249)",
                         color: "rgb(66, 113, 249)",
                         height: "100%",
                       }}
-                    >
-                      Communication
-                    </NavLink>
+                    > */}
+                    Communication
+                    {/* </NavLink> */}
                   </li>
                 </div>
               </ul>

@@ -92,6 +92,22 @@ ul {
           margin-right: 24px;
         }
 
+        li {
+          display: inline;
+          color: grey;
+          border-bottom: 2px solid transparent;
+          padding-bottom: 19px;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        .active {
+          color: $primaryBlue;
+          border-bottom: 2px solid rgb(66, 113, 249);
+          padding-bottom: 19px;
+        }
+
         .btn {
           @include button;
           height: 35pt;
@@ -243,6 +259,10 @@ ul {
           height: 30px;
           background: white;
           border: none;
+          transition: all 0.1s ease-out;
+          &:hover {
+            transform: scale(1.02);
+          }
         }
       }
     }
