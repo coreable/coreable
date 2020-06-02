@@ -13,13 +13,7 @@ Coreable source code.
 */
 
 import React, { Component } from "react";
-import {
-  Grid,
-  Typography,
-  Container,
-  Card,
-  CardContent,
-} from "@material-ui/core";
+
 import { Redirect, NavLink, Route } from "react-router-dom";
 import { API_URL } from "../../constants";
 import Radar from "./Radar";
@@ -43,6 +37,12 @@ class Skills extends Component {
       bright: [],
       blind: [],
       teams: [],
+      strengthsByFacet: [],
+      improveByFacet: [],
+      brightByFacet: [],
+      blindByFacet: [],
+      isFacet: false,
+      isTrait: true,
     };
   }
 
@@ -143,15 +143,20 @@ class Skills extends Component {
     let bright;
     let blind;
     let teams;
+    let strengthsByFacet;
+    let improveByFacet;
+    let brightByFacet;
+    let blindByFacet;
 
     try {
       averages = this.calculateTeamAverage(data.user.reviews.report.average);
       reflection = this.calculateSelfAverage(data.user.reflection);
-      strengths = this.getStrengthAreasTop3(
+      //By Traits
+      strengths = this.getStrengthAreas(
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
-      improve = this.getImproveAreasTop3(
+      improve = this.getImproveAreas(
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
@@ -164,6 +169,23 @@ class Skills extends Component {
         data.user.reflection
       );
       teams = data.user.teams;
+      //By Facets
+      strengthsByFacet = this.getStrengthAreas(
+        data.user.reviews.report.sorted,
+        data.user.reviews.report.average
+      );
+      improveByFacet = this.getImproveAreas(
+        data.user.reviews.report.sorted,
+        data.user.reviews.report.average
+      );
+      brightByFacet = this.getBrightSpots(
+        data.user.reviews.report.sorted,
+        data.user.reflection
+      );
+      blindByFacet = this.getBlindSpots(
+        data.user.reviews.report.sorted,
+        data.user.reflection
+      );
       console.log(teams);
     } catch (err) {
       // Ignore
@@ -181,31 +203,78 @@ class Skills extends Component {
       blind,
       teams,
     });
+
+    console.log(this.state.bright);
   };
 
   getCorrectVariableName = (skill) => {
     // if (skill === "calm") return "Calm";
-    if (skill === "calm") return ["Calm", "Resilience"];
-    if (skill === "clearInstructions") return ["Clear instructions", "Clarity"];
-    if (skill === "cooperatively") return ["Cooperatively", "Trust"];
-    if (skill === "crossTeam") return ["Cross team", "Trust"];
-    if (skill === "distractions") return ["Distractions", "Non-verbal"];
+    if (skill === "calm")
+      return ["Calm", "Remains calm under pressure", "Resilience"];
+    if (skill === "clearInstructions")
+      return ["Clear instructions", "Gives clear instructions", "Clarity"];
+    if (skill === "cooperatively")
+      return ["Cooperatively", "Is able to work cooperatively", "Trust"];
+    if (skill === "crossTeam")
+      return [
+        "Cross team",
+        "Has a positive belief about the dependability of others",
+        "Trust",
+      ];
+    if (skill === "distractions")
+      return [
+        "Distractions",
+        "Avoids distractions if at all possible",
+        "Non-verbal",
+      ];
     if (skill === "easilyExplainsComplexIdeas")
-      return ["Easily explains complex ideas", "Clarity"];
-    if (skill === "empathy") return ["Empathy", "Emotional intelligence"];
-    if (skill === "usesRegulators") return ["Uses regulators", "Non-verbal"];
-    if (skill === "influences") return ["Influences", "Initiative"];
+      return ["Explains ideas", "Easily Explains Complex Ideas", "Clarity"];
+    if (skill === "empathy")
+      return ["Empathy", "Demonstrates empathy", "Emotional intelligence"];
+    if (skill === "usesRegulators")
+      return ["Regulators", "Uses regulators", "Non-verbal"];
+    if (skill === "influences")
+      return ["Influences", "Actively influences events", "Initiative"];
     if (skill === "managesOwn")
-      return ["Manages own", "Emotional intelligence"];
-    if (skill === "newIdeas") return ["New ideas", "Flexibility"];
-    if (skill === "openToShare") return ["Open to share", "Culture"];
-    if (skill === "positiveBelief") return ["Positive belief", "Trust"];
-    if (skill === "proactive") return ["Proactive", "Initiative"];
+      return ["Manages own", "Manages own emotions", "Emotional intelligence"];
+    if (skill === "newIdeas")
+      return [
+        "New ideas",
+        "Adaptable and receptive to new ideas",
+        "Flexibility",
+      ];
+    if (skill === "openToShare")
+      return [
+        "Open to share",
+        "Creates an environment where individuals are safe to report errors",
+        "Culture",
+      ];
+    if (skill === "positiveBelief")
+      return [
+        "Positive belief",
+        "Has a positive belief about the dependability of others",
+        "Trust",
+      ];
+    if (skill === "proactive")
+      return ["Proactive", "Proactive and self-starting", "Initiative"];
     if (skill === "resilienceFeedback")
-      return ["Resilience feedback", "Resilience"];
+      return [
+        "Resilience feedback",
+        "Accepts all forms of constructive feedback",
+        "Resilience",
+      ];
     if (skill === "signifiesInterest")
-      return ["Signifies interest", "Verbal attentiveness"];
-    if (skill === "workDemands") return ["Work demands", "Flexibility"];
+      return [
+        "Signifies interest",
+        "Signifies interest in what other people have to say",
+        "Verbal attentiveness",
+      ];
+    if (skill === "workDemands")
+      return [
+        "Work demands",
+        "Adjusts easily to changing work demands",
+        "Flexibility",
+      ];
     return "";
   };
 
@@ -229,7 +298,8 @@ class Skills extends Component {
           }
         }
       }
-      result = result.slice(0, 3);
+      // result = result.slice(0, 3);
+      result = result;
     } catch (err) {
       console.error(err);
     }
@@ -256,19 +326,19 @@ class Skills extends Component {
           }
         }
       }
-      result = result.slice(0, 3);
+      result = result;
     } catch (err) {
       console.error(err);
     }
     return result;
   };
 
-  getStrengthAreasTop3 = (sorted, reflection) => {
+  getStrengthAreas = (sorted, reflection) => {
     const result = [];
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       clone = clone.reverse();
-      clone = clone.slice(0, 3);
+      // clone = clone.slice(0, 3);
       for (let i = 0; i < clone.length; i++) {
         const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
@@ -292,11 +362,12 @@ class Skills extends Component {
     return result;
   };
 
-  getImproveAreasTop3 = (sorted, reflection) => {
+  getImproveAreas = (sorted, reflection) => {
     const result = [];
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
-      clone = clone.slice(0, 3);
+      // clone = clone.slice(0, 3);
+      console.log(clone);
       for (let i = 0; i < clone.length; i++) {
         const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
@@ -314,6 +385,7 @@ class Skills extends Component {
         }
       }
       result.sort((a, b) => a.value - b.value);
+      console.log(result);
     } catch (err) {
       console.error(err);
     }
@@ -547,10 +619,7 @@ class Skills extends Component {
                 <span style={{ color: "#4070e0" }}>Team review</span>
                 <span style={{ color: "#2dd775" }}>Self review</span>
                 <div style={{ margin: "16px 0" }}>
-                  <button
-                    className="facet-button "
-                    onClick={this.facetToggleHandler}
-                  >
+                  <button className="facet-button " onClick={() => {}}>
                     Facets
                   </button>
                   <button
@@ -595,9 +664,14 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.strengths.map((strength, idx) => {
-                        return <SkillBar key={idx} values={strength} />;
-                      })}
+                      {/* //toggle - default is true for isTrait when loaded */}
+                      {this.state.isTrait
+                        ? this.state.strengths
+                            .slice(0, 3)
+                            .map((strength, idx) => {
+                              return <SkillBar key={idx} values={strength} />;
+                            })
+                        : null}
                     </div>
                   </div>
                 );
@@ -616,10 +690,12 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.improve.sort((a, b) => {
-                        return b.value - a.value;
-                      }) &&
-                        this.state.improve.map((improve, idx) => {
+                      {this.state.improve
+                        .slice(0, 3)
+                        .sort((a, b) => {
+                          return b.value - a.value;
+                        })
+                        .map((improve, idx) => {
                           return <SkillBar key={idx} values={improve} />;
                         })}
                     </div>
@@ -643,7 +719,7 @@ class Skills extends Component {
                       {this.state.blind.sort((a, b) => {
                         return b.self - a.self;
                       }) &&
-                        this.state.blind.map((improve, idx) => {
+                        this.state.blind.slice(0, 3).map((improve, idx) => {
                           return <SkillBar key={idx} values={improve} />;
                         })}
                     </div>
@@ -667,7 +743,7 @@ class Skills extends Component {
                       {this.state.bright.sort((a, b) => {
                         return b.team - a.team;
                       }) &&
-                        this.state.bright.map((improve, idx) => {
+                        this.state.bright.slice(0, 3).map((improve, idx) => {
                           return <SkillBar key={idx} values={improve} />;
                         })}
                     </div>

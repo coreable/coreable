@@ -1,10 +1,8 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
 
 import "./SkillBar.scss";
 
 export default function SkillBar(props) {
-  console.log(props.values);
   const { value, name, self, team } = props.values;
 
   function convertToText(num) {
@@ -52,18 +50,20 @@ export default function SkillBar(props) {
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
           <div style={{ position: "relative", display: "flex" }}>
-            <Typography
-              variant="h5"
-              // component="h1"
+            <p
               style={{
+                margin: "0",
+                padding: "0",
+                fontSize: "1.4rem",
                 textAlign: "left",
                 color: "black",
                 paddingTop: "10px",
                 paddingBottom: "8pt",
+                width: "70%",
               }}
             >
-              {name[0]}
-            </Typography>
+              {name[1]}
+            </p>
             <span
               className="result-text"
               // style={{
@@ -105,18 +105,20 @@ export default function SkillBar(props) {
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
           <div style={{ position: "relative", display: "flex" }}>
-            <Typography
-              variant="h5"
-              // component="h1"
+            <p
               style={{
+                margin: "0",
+                padding: "0",
+                fontSize: "1.4rem",
                 textAlign: "left",
                 color: "black",
                 paddingTop: "10px",
                 paddingBottom: "8pt",
+                width: "70%",
               }}
             >
-              {name[0]}
-            </Typography>
+              {name[1]}
+            </p>
             <span className="result-text">{overEstimation(self, team)}</span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -153,18 +155,20 @@ export default function SkillBar(props) {
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
           <div style={{ position: "relative", display: "flex" }}>
-            <Typography
-              variant="h5"
-              // component="h1"
+            <p
               style={{
+                margin: "0",
+                padding: "0",
+                fontSize: "1.4rem",
                 textAlign: "left",
                 color: "black",
                 paddingTop: "10px",
                 paddingBottom: "8pt",
+                width: "70%",
               }}
             >
-              {name[0]}
-            </Typography>
+              {name[1]}
+            </p>
             <span className="result-text">{underEstimation(self, team)}</span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
