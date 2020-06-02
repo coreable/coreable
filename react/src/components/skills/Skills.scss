@@ -5,6 +5,11 @@ h1 {
   @include h1;
 }
 
+h2 {
+  padding: 0;
+  margin: 0;
+}
+
 ul {
   margin: 0;
   padding: 0;
@@ -26,6 +31,7 @@ ul {
 
   .top-background {
     @include top;
+    height: 220px;
   }
 
   .skills-main {
@@ -263,6 +269,34 @@ ul {
             transform: scale(1.02);
           }
         }
+      }
+
+      .top-strength {
+        grid-area: top-strength;
+        min-width: 316px;
+        min-height: 200pt;
+        border-radius: 4pt;
+      }
+
+      .areas-to-improve {
+        grid-area: areas-to-improve;
+        min-width: 316px;
+        min-height: 200pt;
+        border-radius: 4pt;
+      }
+
+      .over-estimation {
+        grid-area: over-estimation;
+        min-width: 316px;
+        min-height: 200pt;
+        border-radius: 4pt;
+      }
+
+      .under-estimation {
+        grid-area: under-estimation;
+        min-width: 316px;
+        min-height: 200pt;
+        border-radius: 4pt;
       }
     }
   }
