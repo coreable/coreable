@@ -185,7 +185,7 @@ class Skills extends Component {
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      // console.log(strengthsByFacet);
+      console.log(strengthsByFacet);
     } catch (err) {
       // Ignore
     }
@@ -447,16 +447,42 @@ class Skills extends Component {
 
       console.log(result);
 
-      let emotionalIntelligence = this.getFacetAverage(
+      let emotionalIntelligence = this.calculateFacetAverage(
         result,
         "Emotional intelligence"
       );
-      finalResult.push({ "Emotional intelligence": emotionalIntelligence });
-      console.log("Emotional intelligence: " + emotionalIntelligence);
+      let trust = this.calculateFacetAverage(result, "Trust");
+      let resilience = this.calculateFacetAverage(result, "Resilience");
+      let clarity = this.calculateFacetAverage(result, "Clarity");
+      let culture = this.calculateFacetAverage(result, "Culture");
+      let flexibility = this.calculateFacetAverage(result, "Flexibility");
+      let nonVerbal = this.calculateFacetAverage(result, "Non-verbal");
+      let initiative = this.calculateFacetAverage(result, "Initiative");
+      let verbalAttentiveness = this.calculateFacetAverage(
+        result,
+        "Verbal attentiveness"
+      );
+
+      finalResult.push(
+        { facet: "Emotional intelligence", value: emotionalIntelligence },
+        { facet: "Trust", value: trust },
+        { facet: "Resilience", value: resilience },
+        { facet: "Clarity", value: clarity },
+        { facet: "Culture", value: culture },
+        { facet: "Flexibility", value: flexibility },
+        { facet: "Non-verbal", value: nonVerbal },
+        { facet: "Initiative", value: initiative },
+        { facet: "Verbal attentiveness", value: verbalAttentiveness }
+      );
+      finalResult.sort((a, b) => {
+        return b.value - a.value;
+      });
+
+      console.log(finalResult);
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return finalResult;
   };
 
   getImproveAreas = (sorted, reflection) => {
@@ -517,7 +543,7 @@ class Skills extends Component {
     return result;
   };
 
-  getFacetAverage = (array, facet) => {
+  calculateFacetAverage = (array, facet) => {
     return (
       array
         .filter((item) => {
