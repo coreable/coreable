@@ -170,19 +170,19 @@ class Skills extends Component {
       );
       teams = data.user.teams;
       //By Facets
-      strengthsByFacet = this.getStrengthAreas(
+      strengthsByFacet = this.getStrengthAreasByFacet(
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
-      improveByFacet = this.getImproveAreas(
+      improveByFacet = this.getImproveAreasByFacet(
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
-      brightByFacet = this.getBrightSpots(
+      brightByFacet = this.getBrightSpotsByFacet(
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      blindByFacet = this.getBlindSpots(
+      blindByFacet = this.getBlindSpotsByFacet(
         data.user.reviews.report.sorted,
         data.user.reflection
       );
@@ -202,6 +202,10 @@ class Skills extends Component {
       bright,
       blind,
       teams,
+      strengthsByFacet,
+      improveByFacet,
+      brightByFacet,
+      blindByFacet,
     });
 
     console.log(this.state.bright);
@@ -306,7 +310,62 @@ class Skills extends Component {
     return result;
   };
 
+  getBrightSpotsByFacet = (sorted, reflection) => {
+    let result = [];
+    try {
+      for (const obj of sorted) {
+        if (reflection[obj["field"]] < obj["value"]) {
+          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
+            if (
+              !Number.isNaN(reflection[obj["field"]]) &&
+              Number.isFinite(reflection[obj["field"]])
+            ) {
+              result.push({
+                field: obj["field"],
+                name: this.getCorrectVariableName(obj["field"]),
+                self: reflection[obj["field"]],
+                team: obj["value"],
+              });
+            }
+          }
+        }
+      }
+      // result = result.slice(0, 3);
+      result = result;
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  };
+
   getBlindSpots = (sorted, reflection) => {
+    let result = [];
+    try {
+      for (const obj of sorted) {
+        if (reflection[obj["field"]] > obj["value"]) {
+          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
+            if (
+              !Number.isNaN(reflection[obj["field"]]) &&
+              Number.isFinite(reflection[obj["field"]])
+            ) {
+              result.push({
+                field: obj["field"],
+                name: this.getCorrectVariableName(obj["field"]),
+                self: reflection[obj["field"]],
+                team: obj["value"],
+              });
+            }
+          }
+        }
+      }
+      result = result;
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  };
+
+  getBlindSpotsByFacet = (sorted, reflection) => {
     let result = [];
     try {
       for (const obj of sorted) {
@@ -362,7 +421,66 @@ class Skills extends Component {
     return result;
   };
 
+  getStrengthAreasByFacet = (sorted, reflection) => {
+    const result = [];
+    try {
+      let clone = JSON.parse(JSON.stringify(sorted));
+      clone = clone.reverse();
+      // clone = clone.slice(0, 3);
+      for (let i = 0; i < clone.length; i++) {
+        const selfScore = reflection[clone[i]["field"]];
+        if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
+          clone[i]["value"] += selfScore;
+          clone[i]["value"] /= 2;
+        }
+        if (
+          !Number.isNaN(clone[i]["value"]) &&
+          Number.isFinite(clone[i]["value"])
+        ) {
+          result.push({
+            ...clone[i],
+            name: this.getCorrectVariableName(clone[i]["field"]),
+          });
+        }
+      }
+      result.sort((a, b) => a.value - b.value).reverse();
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  };
+
   getImproveAreas = (sorted, reflection) => {
+    const result = [];
+    try {
+      let clone = JSON.parse(JSON.stringify(sorted));
+      // clone = clone.slice(0, 3);
+      console.log(clone);
+      for (let i = 0; i < clone.length; i++) {
+        const selfScore = reflection[clone[i]["field"]];
+        if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
+          clone[i]["value"] += selfScore;
+          clone[i]["value"] /= 2;
+        }
+        if (
+          !Number.isNaN(clone[i]["value"]) &&
+          Number.isFinite(clone[i]["value"])
+        ) {
+          result.push({
+            ...clone[i],
+            name: this.getCorrectVariableName(clone[i]["field"]),
+          });
+        }
+      }
+      result.sort((a, b) => a.value - b.value);
+      console.log(result);
+    } catch (err) {
+      console.error(err);
+    }
+    return result;
+  };
+
+  getImproveAreasByFacet = (sorted, reflection) => {
     const result = [];
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
