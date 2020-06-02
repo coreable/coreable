@@ -6,6 +6,9 @@ import "./SkillBar.scss";
 export default function SkillBar(props) {
   const { value, name, self, team } = props.values;
 
+  // console.log(`self score is: ${self}`);
+  console.log(`team score is: ${team}`);
+
   function convertToText(num) {
     if (num < 20) {
       return "Fails to attempt";
@@ -21,6 +24,28 @@ export default function SkillBar(props) {
     }
     if (num <= 100) {
       return "Teaches";
+    }
+  }
+
+  function underEstimation(self, team) {
+    if (team - self >= 20) {
+      return "High";
+    }
+    if (team - self >= 10 || team - self < 20) {
+      return "Medium";
+    } else {
+      return "Low";
+    }
+  }
+
+  function overEstimation(self, team) {
+    if (self - team >= 20) {
+      return "High";
+    }
+    if (self - team >= 10 || self - team < 20) {
+      return "Medium";
+    } else {
+      return "Low";
     }
   }
 
@@ -78,18 +103,18 @@ export default function SkillBar(props) {
             >
               {name}
             </Typography>
-            <span className="result-text">{convertToText(team)}</span>
+            <span className="result-text">{overEstimation(self, team)}</span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
-              className="skillbar-container blue"
+              className="skillbar-container green"
               style={{
                 width: `${self}%`,
               }}
             />
             <div
-              className="skillbar-container green"
+              className="skillbar-container blue"
               style={{
                 width: `${team}%`,
                 zIndex: "300",
@@ -126,18 +151,18 @@ export default function SkillBar(props) {
             >
               {name}
             </Typography>
-            <span className="result-text">{convertToText(team)}</span>
+            <span className="result-text">{underEstimation(self, team)}</span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
-              className="skillbar-container green"
+              className="skillbar-container blue"
               style={{
                 width: `${team}%`,
               }}
             />
             <div
-              className="skillbar-container blue"
+              className="skillbar-container green"
               style={{
                 width: `${self}%`,
                 zIndex: "100",
