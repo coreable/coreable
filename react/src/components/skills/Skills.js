@@ -19,6 +19,7 @@ import { API_URL } from "../../constants";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
+import { ListItemAvatar } from "@material-ui/core";
 
 function Communication() {
   return <h1 style={{ color: "black" }}>Hello</h1>;
@@ -41,7 +42,6 @@ class Skills extends Component {
       improveByFacet: [],
       brightByFacet: [],
       blindByFacet: [],
-      isFacet: false,
       isTrait: true,
     };
   }
@@ -133,7 +133,6 @@ class Skills extends Component {
       console.error(errors);
       return false;
     }
-    console.log(data);
     // Chart Data
     let sorted;
     let averages;
@@ -186,7 +185,7 @@ class Skills extends Component {
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      console.log(strengthsByFacet);
+      // console.log(strengthsByFacet);
     } catch (err) {
       // Ignore
     }
@@ -208,7 +207,7 @@ class Skills extends Component {
       blindByFacet,
     });
 
-    console.log(this.state.bright);
+    // console.log(this.state.bright);
   };
 
   getCorrectVariableName = (skill) => {
@@ -423,6 +422,7 @@ class Skills extends Component {
 
   getStrengthAreasByFacet = (sorted, reflection) => {
     const result = [];
+    const finalResult = [];
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       clone = clone.reverse();
@@ -444,6 +444,15 @@ class Skills extends Component {
         }
       }
       result.sort((a, b) => a.value - b.value).reverse();
+
+      console.log(result);
+
+      let emotionalIntelligence = this.getFacetAverage(
+        result,
+        "Emotional intelligence"
+      );
+      finalResult.push({ "Emotional intelligence": emotionalIntelligence });
+      console.log("Emotional intelligence: " + emotionalIntelligence);
     } catch (err) {
       console.error(err);
     }
@@ -455,7 +464,7 @@ class Skills extends Component {
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       // clone = clone.slice(0, 3);
-      console.log(clone);
+      // console.log(clone);
       for (let i = 0; i < clone.length; i++) {
         const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
@@ -473,7 +482,6 @@ class Skills extends Component {
         }
       }
       result.sort((a, b) => a.value - b.value);
-      console.log(result);
     } catch (err) {
       console.error(err);
     }
@@ -485,7 +493,7 @@ class Skills extends Component {
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       // clone = clone.slice(0, 3);
-      console.log(clone);
+      // console.log(clone);
       for (let i = 0; i < clone.length; i++) {
         const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
@@ -503,11 +511,26 @@ class Skills extends Component {
         }
       }
       result.sort((a, b) => a.value - b.value);
-      console.log(result);
     } catch (err) {
       console.error(err);
     }
     return result;
+  };
+
+  getFacetAverage = (array, facet) => {
+    return (
+      array
+        .filter((item) => {
+          return item.name[2] === facet;
+        })
+        .map((item) => {
+          return item.value;
+        })
+        .reduce((a, b) => a + b, 0) /
+      array.filter((item) => {
+        return item.name[2] === facet;
+      }).length
+    );
   };
 
   calculateSelfAverage = (reflection) => {
