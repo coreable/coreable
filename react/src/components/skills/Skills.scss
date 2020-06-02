@@ -271,32 +271,28 @@ ul {
         }
       }
 
-      .top-strength {
-        grid-area: top-strength;
+      .grid-areas {
         min-width: 316px;
         min-height: 200pt;
         border-radius: 4pt;
-      }
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
+        border: 1pt solid #d6d6d6;
 
-      .areas-to-improve {
-        grid-area: areas-to-improve;
-        min-width: 316px;
-        min-height: 200pt;
-        border-radius: 4pt;
-      }
+        .heading {
+          background: white;
+          height: 30px;
+          padding: 24px;
+          border-radius: 4px 4px 0 0;
+          border-bottom: 0.5pt solid #d6d6d6;
+          text-align: left;
+        }
 
-      .over-estimation {
-        grid-area: over-estimation;
-        min-width: 316px;
-        min-height: 200pt;
-        border-radius: 4pt;
-      }
-
-      .under-estimation {
-        grid-area: under-estimation;
-        min-width: 316px;
-        min-height: 200pt;
-        border-radius: 4pt;
+        .grid-area-inside {
+          background: $dataBlue;
+          border: 0.5pt solid #d6d6d6;
+          padding: 8px;
+          margin: 8px;
+        }
       }
     }
   }

@@ -526,8 +526,8 @@ class Skills extends Component {
               <div
                 style={{
                   display: "flex",
-                  // justifyContent: "left",
                   borderRadius: "4px 4px 0 0",
+                  borderBottom: "0.5pt solid #d6d6d6",
                   alignItems: "center",
                   height: "30px",
                   background: "white",
@@ -578,29 +578,14 @@ class Skills extends Component {
             {(() => {
               if (this.state.strengths.length > 0) {
                 return (
-                  <div className="top-strength">
-                    <div style={{ background: "white" }}>
-                      <Typography
-                        variant="h4"
-                        component="h1"
-                        style={{
-                          fontWeight: "bold",
-                          paddingBottom: "5pt",
-                        }}
-                      >
-                        Top Strengths
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        component="h1"
-                        style={{
-                          color: "rgb(97,103,121",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Top facets are sorted highest to lowest
-                      </Typography>
-
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "top-strength" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px" }}>Top Strengths</h1>
+                    </div>
+                    <div className="grid-area-inside">
                       {this.state.strengths.map((strength, idx) => {
                         return <SkillBar key={idx} values={strength} />;
                       })}
@@ -612,28 +597,14 @@ class Skills extends Component {
             {(() => {
               if (this.state.improve.length > 0) {
                 return (
-                  <div className="areas-to-improve">
-                    <div style={{ background: "white" }}>
-                      <Typography
-                        variant="h4"
-                        component="h1"
-                        style={{
-                          fontWeight: "bold",
-                          paddingBottom: "5pt",
-                        }}
-                      >
-                        Areas to improve
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        component="h1"
-                        style={{
-                          color: "rgb(97,103,121",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Top facets are sorted highest to lowest
-                      </Typography>
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "areas-to-improve" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px" }}>Areas to improve</h1>
+                    </div>
+                    <div className="grid-area-inside">
                       {this.state.improve.sort((a, b) => {
                         return b.value - a.value;
                       }) &&
@@ -648,28 +619,14 @@ class Skills extends Component {
             {(() => {
               if (this.state.blind.length > 0) {
                 return (
-                  <div className="over-estimation">
-                    <div style={{ background: "white" }}>
-                      <Typography
-                        variant="h4"
-                        component="h1"
-                        style={{
-                          fontWeight: "bold",
-                          paddingBottom: "5pt",
-                        }}
-                      >
-                        Over estimation
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        component="h1"
-                        style={{
-                          color: "rgb(97,103,121",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Top facets are sorted highest to lowest
-                      </Typography>
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "over-estimation" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px" }}>Over estimation</h1>
+                    </div>
+                    <div className="grid-area-inside">
                       {this.state.blind.sort((a, b) => {
                         return b.self - a.self;
                       }) &&
@@ -684,28 +641,14 @@ class Skills extends Component {
             {(() => {
               if (this.state.bright.length > 0) {
                 return (
-                  <div className="under-estimation">
-                    <div style={{ background: "white" }}>
-                      <Typography
-                        variant="h4"
-                        component="h1"
-                        style={{
-                          fontWeight: "bold",
-                          paddingBottom: "5pt",
-                        }}
-                      >
-                        Under estimation
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        component="h1"
-                        style={{
-                          color: "rgb(97,103,121",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Top facets are sorted highest to lowest
-                      </Typography>
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "under-estimation" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px" }}>Under estimation</h1>
+                    </div>
+                    <div className="grid-area-inside">
                       {this.state.bright.sort((a, b) => {
                         return b.team - a.team;
                       }) &&
