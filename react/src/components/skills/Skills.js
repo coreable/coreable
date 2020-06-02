@@ -133,7 +133,7 @@ class Skills extends Component {
       console.error(errors);
       return false;
     }
-    console.log(res);
+    console.log(data);
     // Chart Data
     let sorted;
     let averages;
@@ -434,7 +434,7 @@ class Skills extends Component {
 
     return (
       <div className="review-container">
-        <div className="top-background" style={{ height: "20%" }}></div>
+        <div className="top-background"></div>
 
         <div className="skills-main">
           <div
@@ -464,50 +464,17 @@ class Skills extends Component {
                   style={{
                     gridColumn: "3/5",
                     textAlign: "left",
-                    // height: "100%",
-                    // display: "flex",
-                    // justifyContent: "left",
-                    // alignItems: "center",
-                    // marginTop: "20px",
                   }}
                 >
-                  <li className="tab active">
-                    {/* <NavLink
-                      exact
-                      to={`/skills`}
-                      activeStyle={{
-                        borderBottom: "2px solid rgb(66, 113, 249)",
-                        color: "rgb(66, 113, 249)",
-                        height: "100%",
-                      }}
-                    > */}
-                    Collaboration
-                    {/* </NavLink> */}
-                  </li>
+                  <li className="tab active">Collaboration</li>
                 </div>
                 <div
                   style={{
                     gridColumn: "5/7",
                     textAlign: "left",
-                    // height: "100%",
-                    // display: "flex",
-                    // justifyContent: "center",
-                    // alignItems: "center",
-                    // marginTop: "20px",
                   }}
                 >
-                  <li className="tab">
-                    {/* <NavLink
-                      to={`/skills/communication`}
-                      activeStyle={{
-                        borderBottom: "2px solid rgb(66, 113, 249)",
-                        color: "rgb(66, 113, 249)",
-                        height: "100%",
-                      }}
-                    > */}
-                    Communication
-                    {/* </NavLink> */}
-                  </li>
+                  <li className="tab">Communication</li>
                 </div>
               </ul>
               <Route
@@ -532,7 +499,7 @@ class Skills extends Component {
             <Radar {...this.state} />
           </div> */}
 
-          <div>
+          {/* <div>
             {(() => {
               if (
                 this.state.strengths.length > 0 &&
@@ -552,7 +519,7 @@ class Skills extends Component {
                 );
               }
             })()}
-          </div>
+          </div> */}
 
           <div className="main-skills-container">
             <div className="filter">
