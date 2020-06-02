@@ -4,6 +4,7 @@ import { Typography } from "@material-ui/core";
 import "./SkillBar.scss";
 
 export default function SkillBar(props) {
+  console.log(props.values);
   const { value, name, self, team } = props.values;
 
   function convertToText(num) {
@@ -61,22 +62,22 @@ export default function SkillBar(props) {
                 paddingBottom: "8pt",
               }}
             >
-              {name}
+              {name[0]}
             </Typography>
             <span
               className="result-text"
-              style={{
-                color:
-                  value < 20
-                    ? "#4070e0"
-                    : value < 40
-                    ? "#0096f8"
-                    : value < 60
-                    ? "#00b3e5"
-                    : value < 80
-                    ? "#00c8b3"
-                    : "#2dd775",
-              }}
+              // style={{
+              //   color:
+              //     value < 20
+              //       ? "#4070e0"
+              //       : value < 40
+              //       ? "#0096f8"
+              //       : value < 60
+              //       ? "#00b3e5"
+              //       : value < 80
+              //       ? "#00c8b3"
+              //       : "#2dd775",
+              // }}
             >
               {convertToText(value)}
             </span>
@@ -114,7 +115,7 @@ export default function SkillBar(props) {
                 paddingBottom: "8pt",
               }}
             >
-              {name}
+              {name[0]}
             </Typography>
             <span className="result-text">{overEstimation(self, team)}</span>
           </div>
@@ -162,7 +163,7 @@ export default function SkillBar(props) {
                 paddingBottom: "8pt",
               }}
             >
-              {name}
+              {name[0]}
             </Typography>
             <span className="result-text">{underEstimation(self, team)}</span>
           </div>

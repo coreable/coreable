@@ -184,24 +184,28 @@ class Skills extends Component {
   };
 
   getCorrectVariableName = (skill) => {
-    if (skill === "calm") return "Calm";
-    if (skill === "clearInstructions") return "Clear instructions";
-    if (skill === "cooperatively") return "Cooperatively";
-    if (skill === "crossTeam") return "Cross team";
-    if (skill === "distractions") return "Distractions";
+    // if (skill === "calm") return "Calm";
+    if (skill === "calm") return ["Calm", "Resilience"];
+    if (skill === "clearInstructions") return ["Clear instructions", "Clarity"];
+    if (skill === "cooperatively") return ["Cooperatively", "Trust"];
+    if (skill === "crossTeam") return ["Cross team", "Trust"];
+    if (skill === "distractions") return ["Distractions", "Non-verbal"];
     if (skill === "easilyExplainsComplexIdeas")
-      return "Easily explains complex ideas";
-    if (skill === "empathy") return "Empathy";
-    if (skill === "usesRegulators") return "Uses regluators";
-    if (skill === "influences") return "Influences";
-    if (skill === "managesOwn") return "Manages own";
-    if (skill === "newIdeas") return "New ideas";
-    if (skill === "openToShare") return "Open to share";
-    if (skill === "positiveBelief") return "Positive belief";
-    if (skill === "proactive") return "Proactive";
-    if (skill === "resilienceFeedback") return "Resilience feedback";
-    if (skill === "signifiesInterest") return "Signifies interest";
-    if (skill === "workDemands") return "Work demands";
+      return ["Easily explains complex ideas", "Clarity"];
+    if (skill === "empathy") return ["Empathy", "Emotional intelligence"];
+    if (skill === "usesRegulators") return ["Uses regulators", "Non-verbal"];
+    if (skill === "influences") return ["Influences", "Initiative"];
+    if (skill === "managesOwn")
+      return ["Manages own", "Emotional intelligence"];
+    if (skill === "newIdeas") return ["New ideas", "Flexibility"];
+    if (skill === "openToShare") return ["Open to share", "Culture"];
+    if (skill === "positiveBelief") return ["Positive belief", "Trust"];
+    if (skill === "proactive") return ["Proactive", "Initiative"];
+    if (skill === "resilienceFeedback")
+      return ["Resilience feedback", "Resilience"];
+    if (skill === "signifiesInterest")
+      return ["Signifies interest", "Verbal attentiveness"];
+    if (skill === "workDemands") return ["Work demands", "Flexibility"];
     return "";
   };
 
@@ -544,13 +548,13 @@ class Skills extends Component {
                 <span style={{ color: "#2dd775" }}>Self review</span>
                 <div style={{ margin: "16px 0" }}>
                   <button
-                    className="facet-button selected"
+                    className="facet-button "
                     onClick={this.facetToggleHandler}
                   >
                     Facets
                   </button>
                   <button
-                    className="facet-button"
+                    className="facet-button selected"
                     onClick={this.facetToggleHandler}
                   >
                     Traits
