@@ -499,7 +499,7 @@ class Skills extends Component {
             <Radar {...this.state} />
           </div> */}
 
-          {/* <div>
+          <div>
             {(() => {
               if (
                 this.state.strengths.length > 0 &&
@@ -519,7 +519,7 @@ class Skills extends Component {
                 );
               }
             })()}
-          </div> */}
+          </div>
 
           <div className="main-skills-container">
             <div className="filter">
