@@ -534,7 +534,9 @@ class Skills extends Component {
                   padding: "24px",
                 }}
               >
-                <h1 style={{ fontSize: "24px" }}>Student dashboard</h1>
+                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                  Student dashboard
+                </h1>
               </div>
               <div style={{ textAlign: "left", padding: "24px" }}>
                 <span style={{ color: "#4070e0" }}>Team review</span>
@@ -583,7 +585,9 @@ class Skills extends Component {
                     style={{ gridArea: "top-strength" }}
                   >
                     <div className="heading">
-                      <h1 style={{ fontSize: "24px" }}>Top Strengths</h1>
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Top Strengths
+                      </h1>
                     </div>
                     <div className="grid-area-inside">
                       {this.state.strengths.map((strength, idx) => {
@@ -602,7 +606,9 @@ class Skills extends Component {
                     style={{ gridArea: "areas-to-improve" }}
                   >
                     <div className="heading">
-                      <h1 style={{ fontSize: "24px" }}>Areas to improve</h1>
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Areas to improve
+                      </h1>
                     </div>
                     <div className="grid-area-inside">
                       {this.state.improve.sort((a, b) => {
@@ -624,7 +630,9 @@ class Skills extends Component {
                     style={{ gridArea: "over-estimation" }}
                   >
                     <div className="heading">
-                      <h1 style={{ fontSize: "24px" }}>Over estimation</h1>
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Over estimation
+                      </h1>
                     </div>
                     <div className="grid-area-inside">
                       {this.state.blind.sort((a, b) => {
@@ -646,7 +654,9 @@ class Skills extends Component {
                     style={{ gridArea: "under-estimation" }}
                   >
                     <div className="heading">
-                      <h1 style={{ fontSize: "24px" }}>Under estimation</h1>
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Under estimation
+                      </h1>
                     </div>
                     <div className="grid-area-inside">
                       {this.state.bright.sort((a, b) => {

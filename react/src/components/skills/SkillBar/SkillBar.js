@@ -8,31 +8,32 @@ export default function SkillBar(props) {
 
   if (team === undefined || self === undefined) {
     return (
-      <div>
-        <Typography
-          variant="h5"
-          // component="h1"
-          style={{
-            fontWeight: "bold",
-            textAlign: "left",
-            color: "black",
-            paddingTop: "10px",
-            paddingBottom: "8pt",
-          }}
-        >
-          {name}
-        </Typography>
-        <div style={{ position: "relative", paddingBottom: "8pt" }}>
-          <div className="skillbar-container grey" />
-          <div
-            className="skillbar-container blue"
-            style={{ width: `${value}%`, zIndex: "200" }}
-          />
-          <div className="interval-container">
-            <span />
-            <span />
-            <span />
-            <span />
+      <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
+        <div style={{ margin: "0 16px" }}>
+          <Typography
+            variant="h5"
+            // component="h1"
+            style={{
+              textAlign: "left",
+              color: "black",
+              paddingTop: "10px",
+              paddingBottom: "8pt",
+            }}
+          >
+            {name}
+          </Typography>
+          <div style={{ position: "relative", paddingBottom: "8pt" }}>
+            <div className="skillbar-container grey" />
+            <div
+              className="skillbar-container blue"
+              style={{ width: `${value}%`, zIndex: "200" }}
+            />
+            <div className="interval-container">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         </div>
       </div>
@@ -41,42 +42,43 @@ export default function SkillBar(props) {
 
   if (self > team) {
     return (
-      <div>
-        <Typography
-          variant="h5"
-          // component="h1"
-          style={{
-            fontWeight: "bold",
-            textAlign: "left",
-            color: "black",
-            paddingTop: "10px",
-            paddingBottom: "8pt",
-          }}
-        >
-          {name}
-        </Typography>
-        <div style={{ position: "relative", paddingBottom: "8pt" }}>
-          <div className="skillbar-container grey" />
-          <div
-            className="skillbar-container blue"
+      <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
+        <div style={{ margin: "0 16px" }}>
+          <Typography
+            variant="h5"
+            // component="h1"
             style={{
-              width: `${self}%`,
+              textAlign: "left",
+              color: "black",
+              paddingTop: "10px",
+              paddingBottom: "8pt",
             }}
-          />
-          <div
-            className="skillbar-container green"
-            style={{
-              width: `${team}%`,
-              zIndex: "300",
-              position: "absolute",
-              top: "0",
-            }}
-          />
-          <div className="interval-container">
-            <span />
-            <span />
-            <span />
-            <span />
+          >
+            {name}
+          </Typography>
+          <div style={{ position: "relative", paddingBottom: "8pt" }}>
+            <div className="skillbar-container grey" />
+            <div
+              className="skillbar-container blue"
+              style={{
+                width: `${self}%`,
+              }}
+            />
+            <div
+              className="skillbar-container green"
+              style={{
+                width: `${team}%`,
+                zIndex: "300",
+                position: "absolute",
+                top: "0",
+              }}
+            />
+            <div className="interval-container">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         </div>
       </div>
@@ -85,42 +87,43 @@ export default function SkillBar(props) {
 
   if (team > self) {
     return (
-      <div>
-        <Typography
-          variant="h5"
-          // component="h1"
-          style={{
-            fontWeight: "bold",
-            textAlign: "left",
-            color: "black",
-            paddingTop: "10px",
-            paddingBottom: "8pt",
-          }}
-        >
-          {name}
-        </Typography>
-        <div style={{ position: "relative", paddingBottom: "8pt" }}>
-          <div className="skillbar-container grey" />
-          <div
-            className="skillbar-container green"
+      <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
+        <div style={{ margin: "0 16px" }}>
+          <Typography
+            variant="h5"
+            // component="h1"
             style={{
-              width: `${team}%`,
+              textAlign: "left",
+              color: "black",
+              paddingTop: "10px",
+              paddingBottom: "8pt",
             }}
-          />
-          <div
-            className="skillbar-container blue"
-            style={{
-              width: `${self}%`,
-              zIndex: "100",
-              position: "absolute",
-              top: "0",
-            }}
-          />
-          <div className="interval-container">
-            <span />
-            <span />
-            <span />
-            <span />
+          >
+            {name}
+          </Typography>
+          <div style={{ position: "relative", paddingBottom: "8pt" }}>
+            <div className="skillbar-container grey" />
+            <div
+              className="skillbar-container green"
+              style={{
+                width: `${team}%`,
+              }}
+            />
+            <div
+              className="skillbar-container blue"
+              style={{
+                width: `${self}%`,
+                zIndex: "100",
+                position: "absolute",
+                top: "0",
+              }}
+            />
+            <div className="interval-container">
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
           </div>
         </div>
       </div>
