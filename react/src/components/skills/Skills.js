@@ -454,7 +454,8 @@ class Skills extends Component {
                     color: "#d6d6d6",
                   }}
                 >
-                  All marks are average of 5 assessments
+                  All marks are average of 5 assessments <br /> (Unless
+                  otherwise specified)
                 </p>
               </div>
             </div>

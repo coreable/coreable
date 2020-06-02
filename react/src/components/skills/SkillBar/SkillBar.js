@@ -6,9 +6,6 @@ import "./SkillBar.scss";
 export default function SkillBar(props) {
   const { value, name, self, team } = props.values;
 
-  // console.log(`self score is: ${self}`);
-  console.log(`team score is: ${team}`);
-
   function convertToText(num) {
     if (num < 20) {
       return "Fails to attempt";
@@ -66,7 +63,23 @@ export default function SkillBar(props) {
             >
               {name}
             </Typography>
-            <span className="result-text">{convertToText(value)}</span>
+            <span
+              className="result-text"
+              style={{
+                color:
+                  value < 20
+                    ? "#4070e0"
+                    : value < 40
+                    ? "#0096f8"
+                    : value < 60
+                    ? "#00b3e5"
+                    : value < 80
+                    ? "#00c8b3"
+                    : "#2dd775",
+              }}
+            >
+              {convertToText(value)}
+            </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
