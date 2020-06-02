@@ -186,7 +186,7 @@ class Skills extends Component {
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      console.log(teams);
+      console.log(strengthsByFacet);
     } catch (err) {
       // Ignore
     }
@@ -737,12 +737,23 @@ class Skills extends Component {
                 <span style={{ color: "#4070e0" }}>Team review</span>
                 <span style={{ color: "#2dd775" }}>Self review</span>
                 <div style={{ margin: "16px 0" }}>
-                  <button className="facet-button " onClick={() => {}}>
+                  <button
+                    className="facet-button "
+                    onClick={() => {
+                      this.setState({
+                        isTrait: !this.state.isTrait,
+                      });
+                    }}
+                  >
                     Facets
                   </button>
                   <button
                     className="facet-button selected"
-                    onClick={this.facetToggleHandler}
+                    onClick={() => {
+                      this.setState({
+                        isTrait: !this.state.isTrait,
+                      });
+                    }}
                   >
                     Traits
                   </button>
