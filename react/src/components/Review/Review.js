@@ -278,7 +278,7 @@ class Review extends Component {
     const promises = [];
     const AUTH_TOKEN = this.props.app.JWT;
     const team_id = this.props.location.state.pending._id;
-    const me_id = this.props.me._id;
+    const me_id = this.props.app.data.user._id;
 
     for (const user in review[me_id][team_id]) {
       try {
