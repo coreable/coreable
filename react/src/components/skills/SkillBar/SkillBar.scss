@@ -45,3 +45,11 @@ $disabledGrey: #d6d6d6;
     border-right: 0.01em solid $white;
   }
 }
+
+.result-text {
+  text-align: right;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  color: $primaryBlue;
+}

@@ -6,22 +6,43 @@ import "./SkillBar.scss";
 export default function SkillBar(props) {
   const { value, name, self, team } = props.values;
 
+  function convertToText(num) {
+    if (num < 20) {
+      return "Fails to attempt";
+    }
+    if (num < 40) {
+      return "Under promoting";
+    }
+    if (num < 60) {
+      return "Habitually";
+    }
+    if (num < 80) {
+      return "Encourages";
+    }
+    if (num <= 100) {
+      return "Teaches";
+    }
+  }
+
   if (team === undefined || self === undefined) {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
-          <Typography
-            variant="h5"
-            // component="h1"
-            style={{
-              textAlign: "left",
-              color: "black",
-              paddingTop: "10px",
-              paddingBottom: "8pt",
-            }}
-          >
-            {name}
-          </Typography>
+          <div style={{ position: "relative", display: "flex" }}>
+            <Typography
+              variant="h5"
+              // component="h1"
+              style={{
+                textAlign: "left",
+                color: "black",
+                paddingTop: "10px",
+                paddingBottom: "8pt",
+              }}
+            >
+              {name}
+            </Typography>
+            <span className="result-text">{convertToText(value)}</span>
+          </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
@@ -44,18 +65,21 @@ export default function SkillBar(props) {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
-          <Typography
-            variant="h5"
-            // component="h1"
-            style={{
-              textAlign: "left",
-              color: "black",
-              paddingTop: "10px",
-              paddingBottom: "8pt",
-            }}
-          >
-            {name}
-          </Typography>
+          <div style={{ position: "relative", display: "flex" }}>
+            <Typography
+              variant="h5"
+              // component="h1"
+              style={{
+                textAlign: "left",
+                color: "black",
+                paddingTop: "10px",
+                paddingBottom: "8pt",
+              }}
+            >
+              {name}
+            </Typography>
+            <span className="result-text">{convertToText(team)}</span>
+          </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
@@ -89,18 +113,21 @@ export default function SkillBar(props) {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
-          <Typography
-            variant="h5"
-            // component="h1"
-            style={{
-              textAlign: "left",
-              color: "black",
-              paddingTop: "10px",
-              paddingBottom: "8pt",
-            }}
-          >
-            {name}
-          </Typography>
+          <div style={{ position: "relative", display: "flex" }}>
+            <Typography
+              variant="h5"
+              // component="h1"
+              style={{
+                textAlign: "left",
+                color: "black",
+                paddingTop: "10px",
+                paddingBottom: "8pt",
+              }}
+            >
+              {name}
+            </Typography>
+            <span className="result-text">{convertToText(team)}</span>
+          </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
