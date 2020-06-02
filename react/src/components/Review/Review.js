@@ -16,14 +16,23 @@ import React, { Component } from "react";
 import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../constants";
+import { API_URL } from "../../constants";
 import Loader from "../Loading/Loading";
 
 class Review extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    if (!props.location.state) {
+      // web page is broken, redirect to index
+      this.state = {
+        currentIndex: -1,
+        facets: []
+      };
+      return;
+    }
     this.state = {
-      currentIndex: !this.props.location.state.index
+      currentIndex: !props.location.state.index
         ? 0
         : this.props.location.state.index === 4
         ? 4
@@ -278,6 +287,7 @@ class Review extends Component {
     const promises = [];
     const AUTH_TOKEN = this.props.app.JWT;
     const team_id = this.props.location.state.pending._id;
+    const subject_id = this.props.location.state.pending.subject._id;
     const me_id = this.props.app.data.user._id;
 
     for (const user in review[me_id][team_id]) {
@@ -288,9 +298,9 @@ class Review extends Component {
               submitReview(
                 receiver_id: "${user}", 
                 team_id: "${team_id}", 
-                subject_id: "${this.props.location.state.pending.subject._id}",
+                subject_id: "${subject_id}",
                 calm: ${review[me_id][team_id][user]["calm"].val},
-                clearInstructions: clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
+                clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
                 cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
                 crossTeam: ${review[me_id][team_id][user]["crossTeam"].val},
                 distractions: ${review[me_id][team_id][user]["distractions"].val},
@@ -326,7 +336,7 @@ class Review extends Component {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            [JWT]: AUTH_TOKEN,
+            JWT: AUTH_TOKEN,
           },
           body: JSON.stringify(query),
         };
@@ -334,7 +344,7 @@ class Review extends Component {
           new Promise((r, f) => {
             fetch(API_URL, options)
               .then(r)
-              .catch(r);
+              .catch(f);
           })
         );
       } catch (err) {
@@ -343,23 +353,22 @@ class Review extends Component {
     }
 
     Promise.all(promises).then(() => {
+      try {
+        const reviews = JSON.parse(localStorage.getItem("review"));
+        delete reviews[team_id];
+        localStorage.setItem("review", JSON.stringify(reviews));
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+      this.props.refreshMe();
       this.setState(
         {
           ...this.state,
           submitting: false,
-        },
-        () => {
-          this.props.refreshMe();
-          try {
-            const reviews = JSON.parse(localStorage.getItem("review"));
-            delete reviews[team_id];
-            localStorage.setItem("review", JSON.stringify(reviews));
-          } catch (err) {
-            console.error(err);
-          }
         }
       );
-    });
+    }).catch((err) => console.error(err));
   };
 
   render() {
