@@ -112,6 +112,7 @@ class Login extends Component {
     };
 
     const res = await fetch(API_URL, options).then((data) => data.json());
+    console.log(res);
     const { data, errors } = res.data.login;
 
     if (errors) {
