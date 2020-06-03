@@ -62,7 +62,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name[1]}
+              {name[0]}
             </p>
             <span
               className="result-text"
@@ -117,7 +117,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name[1]}
+              {name[0]}
             </p>
             <span className="result-text">{overEstimation(self, team)}</span>
           </div>
@@ -167,7 +167,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name[1]}
+              {name[0]}
             </p>
             <span className="result-text">{underEstimation(self, team)}</span>
           </div>

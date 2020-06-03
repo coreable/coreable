@@ -213,69 +213,69 @@ class Skills extends Component {
   getCorrectVariableName = (skill) => {
     // if (skill === "calm") return "Calm";
     if (skill === "calm")
-      return ["Calm", "Remains calm under pressure", "Resilience"];
+      return ["Remains calm under pressure", "Calm", "Resilience"];
     if (skill === "clearInstructions")
-      return ["Clear instructions", "Gives clear instructions", "Clarity"];
+      return ["Gives clear instructions", "Clear instructions", "Clarity"];
     if (skill === "cooperatively")
-      return ["Cooperatively", "Is able to work cooperatively", "Trust"];
+      return ["Is able to work cooperatively", "Cooperatively", "Trust"];
     if (skill === "crossTeam")
       return [
-        "Cross team",
         "Has a positive belief about the dependability of others",
+        "Cross team",
         "Trust",
       ];
     if (skill === "distractions")
       return [
-        "Distractions",
         "Avoids distractions if at all possible",
+        "Distractions",
         "Non-verbal",
       ];
     if (skill === "easilyExplainsComplexIdeas")
-      return ["Explains ideas", "Easily Explains Complex Ideas", "Clarity"];
+      return ["Easily Explains Complex Ideas", "Explains ideas", "Clarity"];
     if (skill === "empathy")
-      return ["Empathy", "Demonstrates empathy", "Emotional intelligence"];
+      return ["Demonstrates empathy", "Empathy", "Emotional intelligence"];
     if (skill === "usesRegulators")
-      return ["Regulators", "Uses regulators", "Non-verbal"];
+      return ["Uses regulators", "Regulators", "Non-verbal"];
     if (skill === "influences")
-      return ["Influences", "Actively influences events", "Initiative"];
+      return ["Actively influences events", "Influences", "Initiative"];
     if (skill === "managesOwn")
-      return ["Manages own", "Manages own emotions", "Emotional intelligence"];
+      return ["Manages own emotions", "Manages own", "Emotional intelligence"];
     if (skill === "newIdeas")
       return [
-        "New ideas",
         "Adaptable and receptive to new ideas",
+        "New ideas",
         "Flexibility",
       ];
     if (skill === "openToShare")
       return [
-        "Open to share",
         "Creates an environment where individuals are safe to report errors",
+        "Open to share",
         "Culture",
       ];
     if (skill === "positiveBelief")
       return [
-        "Positive belief",
         "Has a positive belief about the dependability of others",
+        "Positive belief",
         "Trust",
       ];
     if (skill === "proactive")
-      return ["Proactive", "Proactive and self-starting", "Initiative"];
+      return ["Proactive and self-starting", "Proactive", "Initiative"];
     if (skill === "resilienceFeedback")
       return [
-        "Resilience feedback",
         "Accepts all forms of constructive feedback",
+        "Resilience feedback",
         "Resilience",
       ];
     if (skill === "signifiesInterest")
       return [
-        "Signifies interest",
         "Signifies interest in what other people have to say",
+        "Signifies interest",
         "Verbal attentiveness",
       ];
     if (skill === "workDemands")
       return [
-        "Work demands",
         "Adjusts easily to changing work demands",
+        "Work demands",
         "Flexibility",
       ];
     return "";
@@ -445,7 +445,7 @@ class Skills extends Component {
       }
       result.sort((a, b) => a.value - b.value).reverse();
 
-      console.log(result);
+      // console.log(result);
 
       let emotionalIntelligence = this.calculateFacetAverage(
         result,
@@ -464,15 +464,15 @@ class Skills extends Component {
       );
 
       finalResult.push(
-        { facet: "Emotional intelligence", value: emotionalIntelligence },
-        { facet: "Trust", value: trust },
-        { facet: "Resilience", value: resilience },
-        { facet: "Clarity", value: clarity },
-        { facet: "Culture", value: culture },
-        { facet: "Flexibility", value: flexibility },
-        { facet: "Non-verbal", value: nonVerbal },
-        { facet: "Initiative", value: initiative },
-        { facet: "Verbal attentiveness", value: verbalAttentiveness }
+        { name: ["Emotional intelligence"], value: emotionalIntelligence },
+        { name: ["Trust"], value: trust },
+        { name: ["Resilience"], value: resilience },
+        { name: ["Clarity"], value: clarity },
+        { name: ["Culture"], value: culture },
+        { name: ["Flexibility"], value: flexibility },
+        { name: ["Non-verbal"], value: nonVerbal },
+        { name: ["Initiative"], value: initiative },
+        { name: ["Verbal attentiveness"], value: verbalAttentiveness }
       );
       finalResult.sort((a, b) => {
         return b.value - a.value;
@@ -516,6 +516,7 @@ class Skills extends Component {
 
   getImproveAreasByFacet = (sorted, reflection) => {
     const result = [];
+    const finalResult = [];
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       // clone = clone.slice(0, 3);
@@ -537,10 +538,41 @@ class Skills extends Component {
         }
       }
       result.sort((a, b) => a.value - b.value);
+      let emotionalIntelligence = this.calculateFacetAverage(
+        result,
+        "Emotional intelligence"
+      );
+      let trust = this.calculateFacetAverage(result, "Trust");
+      let resilience = this.calculateFacetAverage(result, "Resilience");
+      let clarity = this.calculateFacetAverage(result, "Clarity");
+      let culture = this.calculateFacetAverage(result, "Culture");
+      let flexibility = this.calculateFacetAverage(result, "Flexibility");
+      let nonVerbal = this.calculateFacetAverage(result, "Non-verbal");
+      let initiative = this.calculateFacetAverage(result, "Initiative");
+      let verbalAttentiveness = this.calculateFacetAverage(
+        result,
+        "Verbal attentiveness"
+      );
+
+      finalResult.push(
+        { name: ["Emotional intelligence"], value: emotionalIntelligence },
+        { name: ["Trust"], value: trust },
+        { name: ["Resilience"], value: resilience },
+        { name: ["Clarity"], value: clarity },
+        { name: ["Culture"], value: culture },
+        { name: ["Flexibility"], value: flexibility },
+        { name: ["Non-verbal"], value: nonVerbal },
+        { name: ["Initiative"], value: initiative },
+        { name: ["Verbal attentiveness"], value: verbalAttentiveness }
+      );
+      finalResult.sort((a, b) => {
+        return a.value - b.value;
+      });
+      // console.log(finalResult);
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return finalResult;
   };
 
   calculateFacetAverage = (array, facet) => {
@@ -849,7 +881,11 @@ class Skills extends Component {
                             .map((strength, idx) => {
                               return <SkillBar key={idx} values={strength} />;
                             })
-                        : null}
+                        : this.state.strengthsByFacet
+                            .slice(0, 3)
+                            .map((strength, idx) => {
+                              return <SkillBar key={idx} values={strength} />;
+                            })}
                     </div>
                   </div>
                 );
@@ -864,18 +900,27 @@ class Skills extends Component {
                   >
                     <div className="heading">
                       <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Areas to improve
+                        Areas to Improve
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.improve
-                        .slice(0, 3)
-                        .sort((a, b) => {
-                          return b.value - a.value;
-                        })
-                        .map((improve, idx) => {
-                          return <SkillBar key={idx} values={improve} />;
-                        })}
+                      {this.state.isTrait
+                        ? this.state.improve
+                            .slice(0, 3)
+                            .sort((a, b) => {
+                              return b.value - a.value;
+                            })
+                            .map((improve, idx) => {
+                              return <SkillBar key={idx} values={improve} />;
+                            })
+                        : this.state.improveByFacet
+                            .slice(0, 3)
+                            .sort((a, b) => {
+                              return b.value - a.value;
+                            })
+                            .map((improve, idx) => {
+                              return <SkillBar key={idx} values={improve} />;
+                            })}
                     </div>
                   </div>
                 );
@@ -890,7 +935,7 @@ class Skills extends Component {
                   >
                     <div className="heading">
                       <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Over estimation
+                        Overestimation
                       </h1>
                     </div>
                     <div className="grid-area-inside">
@@ -914,7 +959,7 @@ class Skills extends Component {
                   >
                     <div className="heading">
                       <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Under estimation
+                        Underestimation
                       </h1>
                     </div>
                     <div className="grid-area-inside">
