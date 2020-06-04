@@ -285,44 +285,25 @@ class Skills extends Component {
   };
 
   getBrightSpots = (sorted, reflection) => {
+    let clone = JSON.parse(JSON.stringify(sorted));
     try {
-      sorted = sorted.map((obj) => {
+      clone = clone.map((obj) => {
         return {
           field: obj['field'],
           name: this.getCorrectVariableName(obj['field']),
           self: reflection[obj['field']],
           team: obj['value'],
+          dist: reflection[obj['field']] - obj['value']
         }
       });
 
-      sorted = sorted.sort((a, b) => {
-        const aSelf = a['self'];
-        const bSelf = b['self'];
-        const aTeam = a['value'];
-        const bTeam = b['value'];
-
-        if (aSelf === bSelf) {
-          if (aTeam < bTeam) {
-            return -1;
-          };
-          if (aTeam > bTeam) {
-            return 1;
-          }
-          return 0;
-        } else {
-          if (aSelf < bSelf) {
-            return -1;
-          }
-          if (bSelf > aSelf) {
-            return 1;
-          }
-          return 0;
-        }
+      clone = clone.sort((a, b) => {
+        return a['dist'] - b['dist'];
       });
     } catch (err) {
       console.error(err);
     }
-    return sorted;
+    return clone;
   };
 
   getBrightSpotsByFacet = (sorted, reflection) => {
@@ -357,44 +338,25 @@ class Skills extends Component {
   };
 
   getBlindSpots = (sorted, reflection) => {
+    let clone = JSON.parse(JSON.stringify(sorted));
     try {
-      sorted = sorted.map((obj) => {
+      clone = clone.map((obj) => {
         return {
           field: obj['field'],
           name: this.getCorrectVariableName(obj['field']),
           self: reflection[obj['field']],
           team: obj['value'],
+          dist: reflection[obj['field']] - obj['value']
         }
       });
 
-      sorted = sorted.sort((a, b) => {
-        const aSelf = a['self'];
-        const bSelf = b['self'];
-        const aTeam = a['value'];
-        const bTeam = b['value'];
-
-        if (aSelf === bSelf) {
-          if (aTeam > bTeam) {
-            return -1;
-          };
-          if (aTeam < bTeam) {
-            return 1;
-          }
-          return 0;
-        } else {
-          if (aSelf > bSelf) {
-            return -1;
-          }
-          if (bSelf < aSelf) {
-            return 1;
-          }
-          return 0;
-        }
+      clone = clone.sort((a, b) => {
+        return b['dist'] - a['dist'];
       });
     } catch (err) {
       console.error(err);
     }
-    return sorted;
+    return clone;
   };
 
   //Returns array of blind spots by facet - DONE
@@ -987,15 +949,11 @@ class Skills extends Component {
                     </div>
                     <div className="grid-area-inside">
                       {this.state.isTrait
-                        ? this.state.blind.sort((a, b) => {
-                          return b.self - a.self;
-                        }) &&
+                        ?
                         this.state.blind.slice(0, 3).map((improve, idx) => {
                           return <SkillBar key={idx} values={improve} />;
                         })
-                        : this.state.blindByFacet.sort((a, b) => {
-                          return b.self - a.self;
-                        }) &&
+                        :
                         this.state.blindByFacet
                           .slice(0, 3)
                           .map((improve, idx) => {
@@ -1020,15 +978,11 @@ class Skills extends Component {
                     </div>
                     <div className="grid-area-inside">
                       {this.state.isTrait
-                        ? this.state.bright.sort((a, b) => {
-                          return b.team - a.team;
-                        }) &&
+                        ?
                         this.state.bright.slice(0, 3).map((improve, idx) => {
                           return <SkillBar key={idx} values={improve} />;
                         })
-                        : this.state.brightByFacet.sort((a, b) => {
-                          return b.team - a.team;
-                        }) &&
+                        :
                         this.state.brightByFacet
                           .slice(0, 3)
                           .map((improve, idx) => {
