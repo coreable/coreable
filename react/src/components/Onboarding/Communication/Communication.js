@@ -25,7 +25,7 @@ class Communication extends Component {
                 <img
                   src={img}
                   style={{ width: "100%", height: "auto" }}
-                  alt="Communication image"
+                  alt="Communication"
                 />
                 <div>
                   <h1 style={{ marginBottom: "16pt" }}>Communication</h1>

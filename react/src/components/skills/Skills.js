@@ -14,12 +14,16 @@ Coreable source code.
 
 import React, { Component } from "react";
 
-import { Redirect, NavLink, Route } from "react-router-dom";
+import {
+  Redirect,
+  // NavLink,
+  Route,
+} from "react-router-dom";
 import { API_URL } from "../../constants";
-import Radar from "./Radar";
+// import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
-import { ListItemAvatar } from "@material-ui/core";
+// import { ListItemAvatar } from "@material-ui/core";
 
 function Communication() {
   return <h1 style={{ color: "black" }}>Hello</h1>;
@@ -185,7 +189,6 @@ class Skills extends Component {
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      console.log(strengthsByFacet);
     } catch (err) {
       // Ignore
     }
@@ -302,7 +305,6 @@ class Skills extends Component {
         }
       }
       // result = result.slice(0, 3);
-      result = result;
     } catch (err) {
       console.error(err);
     }
@@ -311,6 +313,7 @@ class Skills extends Component {
 
   getBrightSpotsByFacet = (sorted, reflection) => {
     let result = [];
+    let finalResult = [];
     try {
       for (const obj of sorted) {
         if (reflection[obj["field"]] < obj["value"]) {
@@ -330,11 +333,13 @@ class Skills extends Component {
         }
       }
       // result = result.slice(0, 3);
-      result = result;
+      finalResult = this.filterByFacet(result).filter((item) => {
+        return !isNaN(item.self) || !isNaN(item.team);
+      });
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return finalResult;
   };
 
   getBlindSpots = (sorted, reflection) => {
@@ -357,15 +362,17 @@ class Skills extends Component {
           }
         }
       }
-      result = result;
     } catch (err) {
       console.error(err);
     }
     return result;
   };
 
+  //Returns array of blind spots by facet - DONE
   getBlindSpotsByFacet = (sorted, reflection) => {
     let result = [];
+    let finalResult = [];
+
     try {
       for (const obj of sorted) {
         if (reflection[obj["field"]] > obj["value"]) {
@@ -384,11 +391,13 @@ class Skills extends Component {
           }
         }
       }
-      result = result;
+      finalResult = this.filterByFacet(result).filter((item) => {
+        return !isNaN(item.self) || !isNaN(item.team);
+      });
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return finalResult;
   };
 
   getStrengthAreas = (sorted, reflection) => {
@@ -422,7 +431,7 @@ class Skills extends Component {
 
   getStrengthAreasByFacet = (sorted, reflection) => {
     const result = [];
-    const finalResult = [];
+    let finalResult;
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       clone = clone.reverse();
@@ -445,40 +454,9 @@ class Skills extends Component {
       }
       result.sort((a, b) => a.value - b.value).reverse();
 
-      // console.log(result);
-
-      let emotionalIntelligence = this.calculateFacetAverage(
-        result,
-        "Emotional intelligence"
+      finalResult = this.filterByFacet(result, 1).sort(
+        (a, b) => b.value - a.value
       );
-      let trust = this.calculateFacetAverage(result, "Trust");
-      let resilience = this.calculateFacetAverage(result, "Resilience");
-      let clarity = this.calculateFacetAverage(result, "Clarity");
-      let culture = this.calculateFacetAverage(result, "Culture");
-      let flexibility = this.calculateFacetAverage(result, "Flexibility");
-      let nonVerbal = this.calculateFacetAverage(result, "Non-verbal");
-      let initiative = this.calculateFacetAverage(result, "Initiative");
-      let verbalAttentiveness = this.calculateFacetAverage(
-        result,
-        "Verbal attentiveness"
-      );
-
-      finalResult.push(
-        { name: ["Emotional intelligence"], value: emotionalIntelligence },
-        { name: ["Trust"], value: trust },
-        { name: ["Resilience"], value: resilience },
-        { name: ["Clarity"], value: clarity },
-        { name: ["Culture"], value: culture },
-        { name: ["Flexibility"], value: flexibility },
-        { name: ["Non-verbal"], value: nonVerbal },
-        { name: ["Initiative"], value: initiative },
-        { name: ["Verbal attentiveness"], value: verbalAttentiveness }
-      );
-      finalResult.sort((a, b) => {
-        return b.value - a.value;
-      });
-
-      console.log(finalResult);
     } catch (err) {
       console.error(err);
     }
@@ -516,7 +494,7 @@ class Skills extends Component {
 
   getImproveAreasByFacet = (sorted, reflection) => {
     const result = [];
-    const finalResult = [];
+    let finalResult;
     try {
       let clone = JSON.parse(JSON.stringify(sorted));
       // clone = clone.slice(0, 3);
@@ -538,41 +516,81 @@ class Skills extends Component {
         }
       }
       result.sort((a, b) => a.value - b.value);
-      let emotionalIntelligence = this.calculateFacetAverage(
-        result,
-        "Emotional intelligence"
+      finalResult = this.filterByFacet(result, 1).sort(
+        (a, b) => a.value - b.value
       );
-      let trust = this.calculateFacetAverage(result, "Trust");
-      let resilience = this.calculateFacetAverage(result, "Resilience");
-      let clarity = this.calculateFacetAverage(result, "Clarity");
-      let culture = this.calculateFacetAverage(result, "Culture");
-      let flexibility = this.calculateFacetAverage(result, "Flexibility");
-      let nonVerbal = this.calculateFacetAverage(result, "Non-verbal");
-      let initiative = this.calculateFacetAverage(result, "Initiative");
-      let verbalAttentiveness = this.calculateFacetAverage(
-        result,
-        "Verbal attentiveness"
-      );
-
-      finalResult.push(
-        { name: ["Emotional intelligence"], value: emotionalIntelligence },
-        { name: ["Trust"], value: trust },
-        { name: ["Resilience"], value: resilience },
-        { name: ["Clarity"], value: clarity },
-        { name: ["Culture"], value: culture },
-        { name: ["Flexibility"], value: flexibility },
-        { name: ["Non-verbal"], value: nonVerbal },
-        { name: ["Initiative"], value: initiative },
-        { name: ["Verbal attentiveness"], value: verbalAttentiveness }
-      );
-      finalResult.sort((a, b) => {
-        return a.value - b.value;
-      });
-      // console.log(finalResult);
     } catch (err) {
       console.error(err);
     }
     return finalResult;
+  };
+
+  filterByFacet = (...obj) => {
+    const facetArr = [
+      "Non-verbal",
+      "Trust",
+      "Emotional intelligence",
+      "Resilience",
+      "Culture",
+      "Flexibility",
+      "Initiative",
+      "Clarity",
+      "Verbal attentiveness",
+    ];
+
+    let result = [];
+
+    if (obj.length === 1) {
+      for (let i = 0; i < facetArr.length; i++) {
+        result.push({
+          name: [facetArr[i]],
+          self:
+            obj[0]
+              .filter((item) => {
+                return item.name[2] === facetArr[i];
+              })
+              .map((item) => {
+                return item.self;
+              })
+              .reduce((a, b) => a + b, 0) /
+            obj[0].filter((item) => {
+              return item.name[2] === facetArr[i];
+            }).length,
+          team:
+            obj[0]
+              .filter((item) => {
+                return item.name[2] === facetArr[i];
+              })
+              .map((item) => {
+                return item.team;
+              })
+              .reduce((a, b) => a + b, 0) /
+            obj[0].filter((item) => {
+              return item.name[2] === facetArr[i];
+            }).length,
+        });
+      }
+    } else {
+      for (let i = 0; i < facetArr.length; i++) {
+        result.push({
+          name: [facetArr[i]],
+          value:
+            obj[0]
+              .filter((item) => {
+                return item.name[2] === facetArr[i];
+              })
+              .map((item) => {
+                return item.value;
+              })
+              .reduce((a, b) => a + b, 0) /
+            obj[0].filter((item) => {
+              return item.name[2] === facetArr[i];
+            }).length,
+        });
+      }
+    }
+    // console.log(result);
+    return result;
   };
 
   calculateFacetAverage = (array, facet) => {
@@ -939,12 +957,21 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.blind.sort((a, b) => {
-                        return b.self - a.self;
-                      }) &&
-                        this.state.blind.slice(0, 3).map((improve, idx) => {
-                          return <SkillBar key={idx} values={improve} />;
-                        })}
+                      {this.state.isTrait
+                        ? this.state.blind.sort((a, b) => {
+                            return b.self - a.self;
+                          }) &&
+                          this.state.blind.slice(0, 3).map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })
+                        : this.state.blindByFacet.sort((a, b) => {
+                            return b.self - a.self;
+                          }) &&
+                          this.state.blindByFacet
+                            .slice(0, 3)
+                            .map((improve, idx) => {
+                              return <SkillBar key={idx} values={improve} />;
+                            })}
                     </div>
                   </div>
                 );
@@ -963,12 +990,21 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.bright.sort((a, b) => {
-                        return b.team - a.team;
-                      }) &&
-                        this.state.bright.slice(0, 3).map((improve, idx) => {
-                          return <SkillBar key={idx} values={improve} />;
-                        })}
+                      {this.state.isTrait
+                        ? this.state.bright.sort((a, b) => {
+                            return b.team - a.team;
+                          }) &&
+                          this.state.bright.slice(0, 3).map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })
+                        : this.state.brightByFacet.sort((a, b) => {
+                            return b.team - a.team;
+                          }) &&
+                          this.state.brightByFacet
+                            .slice(0, 3)
+                            .map((improve, idx) => {
+                              return <SkillBar key={idx} values={improve} />;
+                            })}
                     </div>
                   </div>
                 );
