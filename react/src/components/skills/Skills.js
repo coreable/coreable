@@ -512,7 +512,7 @@ class Skills extends Component {
         (a, b) => a.value - b.value
       );
 
-      
+
     } catch (err) {
       console.error(err);
     }
