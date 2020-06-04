@@ -285,30 +285,44 @@ class Skills extends Component {
   };
 
   getBrightSpots = (sorted, reflection) => {
-    let result = [];
     try {
-      for (const obj of sorted) {
-        if (reflection[obj["field"]] < obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                name: this.getCorrectVariableName(obj["field"]),
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
-            }
-          }
+      sorted = sorted.map((obj) => {
+        return {
+          field: obj['field'],
+          name: this.getCorrectVariableName(obj['field']),
+          self: reflection[obj['field']],
+          team: obj['value'],
         }
-      }
-      // result = result.slice(0, 3);
+      });
+
+      sorted = sorted.sort((a, b) => {
+        const aSelf = a['self'];
+        const bSelf = b['self'];
+        const aTeam = a['value'];
+        const bTeam = b['value'];
+
+        if (aSelf === bSelf) {
+          if (aTeam < bTeam) {
+            return -1;
+          };
+          if (aTeam > bTeam) {
+            return 1;
+          }
+          return 0;
+        } else {
+          if (aSelf < bSelf) {
+            return -1;
+          }
+          if (bSelf > aSelf) {
+            return 1;
+          }
+          return 0;
+        }
+      });
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return sorted;
   };
 
   getBrightSpotsByFacet = (sorted, reflection) => {
@@ -343,29 +357,44 @@ class Skills extends Component {
   };
 
   getBlindSpots = (sorted, reflection) => {
-    let result = [];
     try {
-      for (const obj of sorted) {
-        if (reflection[obj["field"]] > obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                name: this.getCorrectVariableName(obj["field"]),
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
-            }
-          }
+      sorted = sorted.map((obj) => {
+        return {
+          field: obj['field'],
+          name: this.getCorrectVariableName(obj['field']),
+          self: reflection[obj['field']],
+          team: obj['value'],
         }
-      }
+      });
+
+      sorted = sorted.sort((a, b) => {
+        const aSelf = a['self'];
+        const bSelf = b['self'];
+        const aTeam = a['value'];
+        const bTeam = b['value'];
+
+        if (aSelf === bSelf) {
+          if (aTeam > bTeam) {
+            return -1;
+          };
+          if (aTeam < bTeam) {
+            return 1;
+          }
+          return 0;
+        } else {
+          if (aSelf > bSelf) {
+            return -1;
+          }
+          if (bSelf < aSelf) {
+            return 1;
+          }
+          return 0;
+        }
+      });
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return sorted;
   };
 
   //Returns array of blind spots by facet - DONE
@@ -698,7 +727,7 @@ class Skills extends Component {
     const tabs = document.querySelectorAll(".tab");
 
     for (let i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function() {
+      btns[i].addEventListener("click", function () {
         this.classList.add("selected");
         if (i === 0) {
           btns[1].classList = "facet-button";
@@ -710,7 +739,7 @@ class Skills extends Component {
     }
 
     for (let i = 0; i < tabs.length; i++) {
-      tabs[i].addEventListener("click", function() {
+      tabs[i].addEventListener("click", function () {
         this.classList.add("active");
         console.log(tabs[i].textContent);
         if (i === 0) {
@@ -895,15 +924,15 @@ class Skills extends Component {
                       {/* //toggle - default is true for isTrait when loaded */}
                       {this.state.isTrait
                         ? this.state.strengths
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })
+                          .slice(0, 3)
+                          .map((strength, idx) => {
+                            return <SkillBar key={idx} values={strength} />;
+                          })
                         : this.state.strengthsByFacet
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })}
+                          .slice(0, 3)
+                          .map((strength, idx) => {
+                            return <SkillBar key={idx} values={strength} />;
+                          })}
                     </div>
                   </div>
                 );
@@ -924,21 +953,21 @@ class Skills extends Component {
                     <div className="grid-area-inside">
                       {this.state.isTrait
                         ? this.state.improve
-                            .slice(0, 3)
-                            .sort((a, b) => {
-                              return b.value - a.value;
-                            })
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })
+                          .slice(0, 3)
+                          .sort((a, b) => {
+                            return b.value - a.value;
+                          })
+                          .map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })
                         : this.state.improveByFacet
-                            .slice(0, 3)
-                            .sort((a, b) => {
-                              return b.value - a.value;
-                            })
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })}
+                          .slice(0, 3)
+                          .sort((a, b) => {
+                            return b.value - a.value;
+                          })
+                          .map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })}
                     </div>
                   </div>
                 );
@@ -959,19 +988,19 @@ class Skills extends Component {
                     <div className="grid-area-inside">
                       {this.state.isTrait
                         ? this.state.blind.sort((a, b) => {
-                            return b.self - a.self;
-                          }) &&
-                          this.state.blind.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
+                          return b.self - a.self;
+                        }) &&
+                        this.state.blind.slice(0, 3).map((improve, idx) => {
+                          return <SkillBar key={idx} values={improve} />;
+                        })
                         : this.state.blindByFacet.sort((a, b) => {
-                            return b.self - a.self;
-                          }) &&
-                          this.state.blindByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })}
+                          return b.self - a.self;
+                        }) &&
+                        this.state.blindByFacet
+                          .slice(0, 3)
+                          .map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })}
                     </div>
                   </div>
                 );
@@ -992,19 +1021,19 @@ class Skills extends Component {
                     <div className="grid-area-inside">
                       {this.state.isTrait
                         ? this.state.bright.sort((a, b) => {
-                            return b.team - a.team;
-                          }) &&
-                          this.state.bright.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
+                          return b.team - a.team;
+                        }) &&
+                        this.state.bright.slice(0, 3).map((improve, idx) => {
+                          return <SkillBar key={idx} values={improve} />;
+                        })
                         : this.state.brightByFacet.sort((a, b) => {
-                            return b.team - a.team;
-                          }) &&
-                          this.state.brightByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })}
+                          return b.team - a.team;
+                        }) &&
+                        this.state.brightByFacet
+                          .slice(0, 3)
+                          .map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })}
                     </div>
                   </div>
                 );
