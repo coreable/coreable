@@ -286,36 +286,31 @@ class Skills extends Component {
   };
 
   getBrightSpots = (sorted, reflection) => {
-    let result = [];
+    let clone = JSON.parse(JSON.stringify(sorted));
     try {
-      for (const obj of sorted) {
-        if (reflection[obj["field"]] < obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                name: this.getCorrectVariableName(obj["field"]),
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
-            }
-          }
+      clone = clone.map((obj) => {
+        return {
+          field: obj['field'],
+          name: this.getCorrectVariableName(obj['field']),
+          self: reflection[obj['field']],
+          team: obj['value'],
+          dist: reflection[obj['field']] - obj['value']
         }
-      }
-      // result = result.slice(0, 3);
+      });
+
+      clone = clone.sort((a, b) => {
+        return a['dist'] - b['dist'];
+      });
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return clone;
   };
 
   getBrightSpotsByFacet = (sorted, reflection) => {
-    let result = [];
-    let finalResult = [];
+    let clone = JSON.parse(JSON.stringify(sorted));
     try {
+<<<<<<< HEAD
       for (const obj of sorted) {
         if (reflection[obj["field"]] < obj["value"]) {
           // if (reflection[obj["field"]]) {
@@ -332,74 +327,92 @@ class Skills extends Component {
               });
             }
           }
+=======
+      clone = clone.map((obj) => {
+        return {
+          field: obj['field'],
+          name: this.getCorrectVariableName(obj['field']),
+          self: reflection[obj['field']],
+          team: obj['value'],
+          dist: reflection[obj['field']] - obj['value']
+>>>>>>> 6cc6eb0cb4edebd5bd8cbbc94c7ae9b9854613a1
         }
-      }
-      // result = result.slice(0, 3);
-      finalResult = this.filterByFacet(result).filter((item) => {
+      });
+
+      clone = this.filterByFacet(clone).filter((item) => {
         return !isNaN(item.self) || !isNaN(item.team);
+      });
+
+      clone = clone.map((obj) => {
+        return {
+          ...obj,
+          dist: obj['self'] - obj['team']
+        }
+      });
+
+      clone = clone.sort((a, b) => {
+        return b['dist'] - a['dist'];
       });
     } catch (err) {
       console.error(err);
     }
-    return finalResult;
+    return clone;
   };
 
   getBlindSpots = (sorted, reflection) => {
-    let result = [];
+    let clone = JSON.parse(JSON.stringify(sorted));
     try {
-      for (const obj of sorted) {
-        if (reflection[obj["field"]] > obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                name: this.getCorrectVariableName(obj["field"]),
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
-            }
-          }
+      clone = clone.map((obj) => {
+        return {
+          field: obj['field'],
+          name: this.getCorrectVariableName(obj['field']),
+          self: reflection[obj['field']],
+          team: obj['value'],
+          dist: reflection[obj['field']] - obj['value']
         }
-      }
+      });
+
+      clone = clone.sort((a, b) => {
+        return b['dist'] - a['dist'];
+      });
     } catch (err) {
       console.error(err);
     }
-    return result;
+    return clone;
   };
 
   //Returns array of blind spots by facet - DONE
   getBlindSpotsByFacet = (sorted, reflection) => {
-    let result = [];
-    let finalResult = [];
-
+    let clone = JSON.parse(JSON.stringify(sorted));
     try {
-      for (const obj of sorted) {
-        if (reflection[obj["field"]] > obj["value"]) {
-          if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
-            if (
-              !Number.isNaN(reflection[obj["field"]]) &&
-              Number.isFinite(reflection[obj["field"]])
-            ) {
-              result.push({
-                field: obj["field"],
-                name: this.getCorrectVariableName(obj["field"]),
-                self: reflection[obj["field"]],
-                team: obj["value"],
-              });
-            }
-          }
+      clone = clone.map((obj) => {
+        return {
+          field: obj['field'],
+          name: this.getCorrectVariableName(obj['field']),
+          self: reflection[obj['field']],
+          team: obj['value'],
+          dist: reflection[obj['field']] - obj['value']
         }
-      }
-      finalResult = this.filterByFacet(result).filter((item) => {
+      });
+
+      clone = this.filterByFacet(clone).filter((item) => {
         return !isNaN(item.self) || !isNaN(item.team);
+      });
+
+      clone = clone.map((obj) => {
+        return {
+          ...obj,
+          dist: obj['self'] - obj['team']
+        }
+      });
+
+      clone = clone.sort((a, b) => {
+        return a['dist'] - b['dist'];
       });
     } catch (err) {
       console.error(err);
     }
-    return finalResult;
+    return clone;
   };
 
   getStrengthAreas = (sorted, reflection) => {
@@ -495,12 +508,9 @@ class Skills extends Component {
   };
 
   getImproveAreasByFacet = (sorted, reflection) => {
+    let clone = JSON.parse(JSON.stringify(sorted));
     const result = [];
-    let finalResult;
     try {
-      let clone = JSON.parse(JSON.stringify(sorted));
-      // clone = clone.slice(0, 3);
-      // console.log(clone);
       for (let i = 0; i < clone.length; i++) {
         const selfScore = reflection[clone[i]["field"]];
         if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
@@ -517,14 +527,16 @@ class Skills extends Component {
           });
         }
       }
-      result.sort((a, b) => a.value - b.value);
-      finalResult = this.filterByFacet(result, 1).sort(
+
+      clone = this.filterByFacet(result, 1).sort(
         (a, b) => a.value - b.value
       );
+
+
     } catch (err) {
       console.error(err);
     }
-    return finalResult;
+    return clone;
   };
 
   filterByFacet = (...obj) => {
@@ -539,9 +551,7 @@ class Skills extends Component {
       "Clarity",
       "Verbal attentiveness",
     ];
-
     let result = [];
-
     if (obj.length === 1) {
       for (let i = 0; i < facetArr.length; i++) {
         result.push({
@@ -569,7 +579,7 @@ class Skills extends Component {
               .reduce((a, b) => a + b, 0) /
             obj[0].filter((item) => {
               return item.name[2] === facetArr[i];
-            }).length,
+            }).length
         });
       }
     } else {
@@ -591,7 +601,7 @@ class Skills extends Component {
         });
       }
     }
-    // console.log(result);
+
     return result;
   };
 
@@ -751,7 +761,7 @@ class Skills extends Component {
     const tabs = document.querySelectorAll(".tab");
 
     for (let i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function() {
+      btns[i].addEventListener("click", function () {
         this.classList.add("selected");
         if (i === 0) {
           btns[1].classList = "facet-button";
@@ -763,8 +773,14 @@ class Skills extends Component {
     }
 
     for (let i = 0; i < tabs.length; i++) {
+<<<<<<< HEAD
       tabs[i].addEventListener("click", function() {
         tabs[i].classList = " tab active";
+=======
+      tabs[i].addEventListener("click", function () {
+        this.classList.add("active");
+        console.log(tabs[i].textContent);
+>>>>>>> 6cc6eb0cb4edebd5bd8cbbc94c7ae9b9854613a1
         if (i === 0) {
           tabs[1].classList = "tab";
           tabs[2].classList = "tab";
@@ -976,15 +992,15 @@ class Skills extends Component {
                       {/* //toggle - default is true for isTrait when loaded */}
                       {this.state.isTrait
                         ? this.state.strengths
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })
+                          .slice(0, 3)
+                          .map((strength, idx) => {
+                            return <SkillBar key={idx} values={strength} />;
+                          })
                         : this.state.strengthsByFacet
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })}
+                          .slice(0, 3)
+                          .map((strength, idx) => {
+                            return <SkillBar key={idx} values={strength} />;
+                          })}
                     </div>
                   </div>
                 );
@@ -1005,21 +1021,15 @@ class Skills extends Component {
                     <div className="grid-area-inside">
                       {this.state.isTrait
                         ? this.state.improve
-                            .slice(0, 3)
-                            .sort((a, b) => {
-                              return b.value - a.value;
-                            })
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })
+                          .slice(0, 3)
+                          .map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })
                         : this.state.improveByFacet
-                            .slice(0, 3)
-                            .sort((a, b) => {
-                              return b.value - a.value;
-                            })
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })}
+                          .slice(0, 3)
+                          .map((improve, idx) => {
+                            return <SkillBar key={idx} values={improve} />;
+                          })}
                     </div>
                   </div>
                 );
@@ -1039,20 +1049,16 @@ class Skills extends Component {
                     </div>
                     <div className="grid-area-inside">
                       {this.state.isTrait
-                        ? this.state.blind.sort((a, b) => {
-                            return b.self - a.self;
-                          }) &&
-                          this.state.blind.slice(0, 3).map((improve, idx) => {
+                        ?
+                        this.state.blind.slice(0, 3).map((improve, idx) => {
+                          return <SkillBar key={idx} values={improve} />;
+                        })
+                        :
+                        this.state.blindByFacet
+                          .slice(0, 3)
+                          .map((improve, idx) => {
                             return <SkillBar key={idx} values={improve} />;
-                          })
-                        : this.state.blindByFacet.sort((a, b) => {
-                            return b.self - a.self;
-                          }) &&
-                          this.state.blindByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })}
+                          })}
                     </div>
                   </div>
                 );
@@ -1072,20 +1078,16 @@ class Skills extends Component {
                     </div>
                     <div className="grid-area-inside">
                       {this.state.isTrait
-                        ? this.state.bright.sort((a, b) => {
-                            return b.team - a.team;
-                          }) &&
-                          this.state.bright.slice(0, 3).map((improve, idx) => {
+                        ?
+                        this.state.bright.slice(0, 3).map((improve, idx) => {
+                          return <SkillBar key={idx} values={improve} />;
+                        })
+                        :
+                        this.state.brightByFacet
+                          .slice(0, 3)
+                          .map((improve, idx) => {
                             return <SkillBar key={idx} values={improve} />;
-                          })
-                        : this.state.brightByFacet.sort((a, b) => {
-                            return b.team - a.team;
-                          }) &&
-                          this.state.brightByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })}
+                          })}
                     </div>
                   </div>
                 );
