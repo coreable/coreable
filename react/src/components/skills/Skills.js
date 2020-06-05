@@ -1015,7 +1015,7 @@ class Skills extends Component {
                 }}
               >
                 <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Student dashboard
+                  Dashboard
                 </h1>
               </div>
               <div style={{ textAlign: "left", padding: "24px" }}>
