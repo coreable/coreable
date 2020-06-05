@@ -759,12 +759,11 @@ class Skills extends Component {
   };
 
   filterResults = (c, ft) => {
-    // console.log(`${c} and ${ft}`);
     let strengthsFiltered;
     let improveFiltered;
     let blindFiltered;
     let brightFiltered;
-
+    
     //filter: Top strengths
     strengthsFiltered = this.getStrengthAreas(
       this.state.sorted,
@@ -791,11 +790,6 @@ class Skills extends Component {
         }
       );
     }
-    this.setState({
-      ...this.state,
-      improve: improveFiltered,
-      strengths: strengthsFiltered,
-    });
     //filter: Overestimation - blindspots
     blindFiltered = this.getBlindSpots(
       this.state.sorted,
@@ -823,6 +817,7 @@ class Skills extends Component {
         return !isNaN(item.self) || !isNaN(item.team);
       });
     }
+
     this.setState({
       ...this.state,
       improve: improveFiltered,
