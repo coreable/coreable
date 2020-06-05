@@ -14,11 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 
-import {
-  Redirect,
-  // NavLink,
-  Route,
-} from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { API_URL } from "../../constants";
 // import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
@@ -38,15 +34,11 @@ class Skills extends Component {
       averagesRaw: {},
       reflection: {},
       reflectionRaw: {},
-      //before filtering
       strengths: [],
       improve: [],
       bright: [],
       blind: [],
       teams: [],
-
-      isTrait: "trait",
-      isCollaboration: "collaboration",
     };
   }
 
@@ -180,23 +172,6 @@ class Skills extends Component {
       );
       blind = this.filterByCommCollab(blind, "collaboration");
       teams = data.user.teams;
-      // By Facets
-      // strengthsByFacet = this.getStrengthAreasByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reviews.report.average
-      // );
-      // improveByFacet = this.getImproveAreasByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reviews.report.average
-      // );
-      // brightByFacet = this.getBrightSpotsByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reflection
-      // );
-      // blindByFacet = this.getBlindSpotsByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reflection
-      // );
     } catch (err) {
       // Ignore
     }
@@ -219,7 +194,6 @@ class Skills extends Component {
   };
 
   getCorrectVariableName = (skill) => {
-    // if (skill === "calm") return "Calm";
     if (skill === "calm")
       return [
         "Remains calm under pressure",
