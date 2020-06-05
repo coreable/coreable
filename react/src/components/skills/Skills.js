@@ -47,6 +47,7 @@ class Skills extends Component {
       brightByFacet: [],
       blindByFacet: [],
       isTrait: true,
+      loadedDefault: { softSkill: "overview", type: "traits" },
     };
   }
 
@@ -317,6 +318,7 @@ class Skills extends Component {
     try {
       for (const obj of sorted) {
         if (reflection[obj["field"]] < obj["value"]) {
+          // if (reflection[obj["field"]]) {
           if (!Number.isNaN(obj["value"]) && Number.isFinite(obj["value"])) {
             if (
               !Number.isNaN(reflection[obj["field"]]) &&
@@ -683,15 +685,66 @@ class Skills extends Component {
     return result;
   };
 
-  // facetToggleHandler = (e) => {
-  //   const btns = document.querySelectorAll(".facet-button");
-  //   for (let i = 0; i < btns.length; i++) {
-  //     btns[i].onClick = function() {
-  //       console.log(this);
-  //       this.classList.add("selected");
-  //     };
-  //   }
-  // };
+  filterToggle = (e) => {
+    // default is "overview" and "traits"
+    const { loadedDefault } = this.state;
+    const filterValue = e.target.dataset.id;
+    // this.setState({
+    //   isTrait: !this.state.isTrait,
+    // });
+    if (
+      filterValue === loadedDefault.softSkill ||
+      filterValue === loadedDefault.type
+    ) {
+      return;
+    }
+    if (filterValue === "overview") {
+      console.log("you pressed overview");
+      this.setState((prevState) => ({
+        loadedDefault: {
+          ...prevState.loadedDefault,
+          softSkill: "overview",
+        },
+      }));
+    }
+    if (filterValue === "collaboration") {
+      console.log("you pressed collaboration");
+      this.setState((prevState) => ({
+        loadedDefault: {
+          ...prevState.loadedDefault,
+          softSkill: "collaboration",
+        },
+      }));
+      // console.log(this.state.loadedDefault);
+    }
+    if (filterValue === "communication") {
+      console.log("you pressed communication");
+      this.setState((prevState) => ({
+        loadedDefault: {
+          ...prevState.loadedDefault,
+          softSkill: "communication",
+        },
+      }));
+    }
+    if (filterValue === "facets") {
+      console.log("you pressed facet");
+      this.setState((prevState) => ({
+        loadedDefault: {
+          ...prevState.loadedDefault,
+          type: "facets",
+        },
+      }));
+    }
+    if (filterValue === "traits") {
+      console.log("you pressed trait");
+      this.setState((prevState) => ({
+        loadedDefault: {
+          ...prevState.loadedDefault,
+          type: "traits",
+        },
+      }));
+    }
+  };
 
   render() {
     const btns = document.querySelectorAll(".facet-button");
@@ -711,12 +764,18 @@ class Skills extends Component {
 
     for (let i = 0; i < tabs.length; i++) {
       tabs[i].addEventListener("click", function() {
-        this.classList.add("active");
-        console.log(tabs[i].textContent);
+        tabs[i].classList = " tab active";
         if (i === 0) {
           tabs[1].classList = "tab";
-        } else {
+          tabs[2].classList = "tab";
+        }
+        if (i === 1) {
           tabs[0].classList = "tab";
+          tabs[2].classList = "tab";
+        }
+        if (i === 2) {
+          tabs[0].classList = "tab";
+          tabs[1].classList = "tab";
         }
       });
     }
@@ -760,7 +819,13 @@ class Skills extends Component {
                     textAlign: "left",
                   }}
                 >
-                  <li className="tab active">Collaboration</li>
+                  <li
+                    className="tab active"
+                    onClick={this.filterToggle}
+                    data-id="overview"
+                  >
+                    Overview
+                  </li>
                 </div>
                 <div
                   style={{
@@ -768,7 +833,27 @@ class Skills extends Component {
                     textAlign: "left",
                   }}
                 >
-                  <li className="tab">Communication</li>
+                  <li
+                    className="tab"
+                    onClick={this.filterToggle}
+                    data-id="collaboration"
+                  >
+                    Collaboration
+                  </li>
+                </div>
+                <div
+                  style={{
+                    gridColumn: "7/9",
+                    textAlign: "left",
+                  }}
+                >
+                  <li
+                    className="tab"
+                    onClick={this.filterToggle}
+                    data-id="communication"
+                  >
+                    Communication
+                  </li>
                 </div>
               </ul>
               <Route
@@ -838,21 +923,17 @@ class Skills extends Component {
                 <div style={{ margin: "16px 0" }}>
                   <button
                     className="facet-button "
-                    onClick={() => {
-                      this.setState({
-                        isTrait: !this.state.isTrait,
-                      });
-                    }}
+                    // value="facets"
+                    data-id="facets"
+                    onClick={this.filterToggle}
                   >
                     Facets
                   </button>
                   <button
                     className="facet-button selected"
-                    onClick={() => {
-                      this.setState({
-                        isTrait: !this.state.isTrait,
-                      });
-                    }}
+                    // value="traits"
+                    data-id="traits"
+                    onClick={this.filterToggle}
                   >
                     Traits
                   </button>
