@@ -25,6 +25,9 @@ import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
 // import { ListItemAvatar } from "@material-ui/core";
 
+let collabState = "collaboration";
+let traitState = "trait";
+
 class Skills extends Component {
   constructor(props) {
     super(props);
@@ -46,14 +49,10 @@ class Skills extends Component {
       improveByFacet: [],
       brightByFacet: [],
       blindByFacet: [],
-      isTrait: true,
-      isCollaboration: true,
+      isTrait: "trait",
+      isCollaboration: "collaboration",
     };
   }
-
-  // componentDidUpdate = () => {
-  //   console.log(this.state.isTrait);
-  // };
 
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/skills");
@@ -164,45 +163,48 @@ class Skills extends Component {
       averagesRaw = data.user.reviews.report.average;
       reflection = this.calculateSelfAverage(data.user.reflection);
       reflectionRaw = data.user.reflection;
-      //By Traits
+      //top strengths
       strengths = this.getStrengthAreas(
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
+      strengths = this.filterByCommCollab(strengths, "collaboration");
+      //areas to improve
       improve = this.getImproveAreas(
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
+      improve = this.filterByCommCollab(improve, "collaboration");
       //brightspots
       bright = this.getBrightSpots(
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      bright = this.filterByCollaboration(bright);
+      bright = this.filterByCommCollab(bright, "collaboration");
       //blindspots
       blind = this.getBlindSpots(
         data.user.reviews.report.sorted,
         data.user.reflection
       );
-      blind = this.filterByCollaboration(blind);
+      blind = this.filterByCommCollab(blind, "collaboration");
       teams = data.user.teams;
-      //By Facets
-      strengthsByFacet = this.getStrengthAreasByFacet(
-        data.user.reviews.report.sorted,
-        data.user.reviews.report.average
-      );
-      improveByFacet = this.getImproveAreasByFacet(
-        data.user.reviews.report.sorted,
-        data.user.reviews.report.average
-      );
-      brightByFacet = this.getBrightSpotsByFacet(
-        data.user.reviews.report.sorted,
-        data.user.reflection
-      );
-      blindByFacet = this.getBlindSpotsByFacet(
-        data.user.reviews.report.sorted,
-        data.user.reflection
-      );
+      // By Facets
+      // strengthsByFacet = this.getStrengthAreasByFacet(
+      //   data.user.reviews.report.sorted,
+      //   data.user.reviews.report.average
+      // );
+      // improveByFacet = this.getImproveAreasByFacet(
+      //   data.user.reviews.report.sorted,
+      //   data.user.reviews.report.average
+      // );
+      // brightByFacet = this.getBrightSpotsByFacet(
+      //   data.user.reviews.report.sorted,
+      //   data.user.reflection
+      // );
+      // blindByFacet = this.getBlindSpotsByFacet(
+      //   data.user.reviews.report.sorted,
+      //   data.user.reflection
+      // );
     } catch (err) {
       // Ignore
     }
@@ -368,18 +370,6 @@ class Skills extends Component {
       console.error(err);
     }
     return clone;
-  };
-
-  filterByCollaboration = (...obj) => {
-    return obj[0].filter((item) => {
-      return item.name[3] === "collaboration";
-    });
-  };
-
-  filterByCommunication = (...obj) => {
-    return obj[0].filter((item) => {
-      return item.name[3] === "communication";
-    });
   };
 
   getBrightSpotsByFacet = (sorted, reflection) => {
@@ -591,72 +581,6 @@ class Skills extends Component {
     return clone;
   };
 
-  filterByFacet = (...obj) => {
-    const facetArr = [
-      "Non-verbal",
-      "Trust",
-      "Emotional intelligence",
-      "Resilience",
-      "Culture",
-      "Flexibility",
-      "Initiative",
-      "Clarity",
-      "Verbal attentiveness",
-    ];
-    let result = [];
-    if (obj.length === 1) {
-      for (let i = 0; i < facetArr.length; i++) {
-        result.push({
-          name: [facetArr[i]],
-          self:
-            obj[0]
-              .filter((item) => {
-                return item.name[2] === facetArr[i];
-              })
-              .map((item) => {
-                return item.self;
-              })
-              .reduce((a, b) => a + b, 0) /
-            obj[0].filter((item) => {
-              return item.name[2] === facetArr[i];
-            }).length,
-          team:
-            obj[0]
-              .filter((item) => {
-                return item.name[2] === facetArr[i];
-              })
-              .map((item) => {
-                return item.team;
-              })
-              .reduce((a, b) => a + b, 0) /
-            obj[0].filter((item) => {
-              return item.name[2] === facetArr[i];
-            }).length,
-        });
-      }
-    } else {
-      for (let i = 0; i < facetArr.length; i++) {
-        result.push({
-          name: [facetArr[i]],
-          value:
-            obj[0]
-              .filter((item) => {
-                return item.name[2] === facetArr[i];
-              })
-              .map((item) => {
-                return item.value;
-              })
-              .reduce((a, b) => a + b, 0) /
-            obj[0].filter((item) => {
-              return item.name[2] === facetArr[i];
-            }).length,
-        });
-      }
-    }
-
-    return result;
-  };
-
   calculateFacetAverage = (array, facet) => {
     return (
       array
@@ -747,75 +671,172 @@ class Skills extends Component {
     return result;
   };
 
+  filterByCommCollab = (arr, c) => {
+    return arr.filter((item) => {
+      return item.name[3] === c;
+    });
+  };
+
+  filterByFacetTraitSelfTeam = (arr, ft) => {
+    const facetArr = [
+      "Non-verbal",
+      "Trust",
+      "Emotional intelligence",
+      "Resilience",
+      "Culture",
+      "Flexibility",
+      "Initiative",
+      "Clarity",
+      "Verbal attentiveness",
+    ];
+    let result = [];
+    if (ft === "facets") {
+      for (let i = 0; i < facetArr.length; i++) {
+        result.push({
+          name: [facetArr[i]],
+          self:
+            arr
+              .filter((item) => {
+                return item.name[2] === facetArr[i];
+              })
+              .map((item) => {
+                return item.self;
+              })
+              .reduce((a, b) => a + b, 0) /
+            arr.filter((item) => {
+              return item.name[2] === facetArr[i];
+            }).length,
+          team:
+            arr
+              .filter((item) => {
+                return item.name[2] === facetArr[i];
+              })
+              .map((item) => {
+                return item.team;
+              })
+              .reduce((a, b) => a + b, 0) /
+            arr.filter((item) => {
+              return item.name[2] === facetArr[i];
+            }).length,
+        });
+      }
+    }
+    // if( ft === "traits"){
+
+    // }
+
+    return result;
+  };
+
+  filterByFacetSelf = (arr) => {
+    const facetArr = [
+      "Non-verbal",
+      "Trust",
+      "Emotional intelligence",
+      "Resilience",
+      "Culture",
+      "Flexibility",
+      "Initiative",
+      "Clarity",
+      "Verbal attentiveness",
+    ];
+    let result = [];
+    for (let i = 0; i < facetArr.length; i++) {
+      result.push({
+        name: [facetArr[i]],
+        value:
+          arr
+            .filter((item) => {
+              return item.name[2] === facetArr[i];
+            })
+            .map((item) => {
+              return item.value;
+            })
+            .reduce((a, b) => a + b, 0) /
+          arr.filter((item) => {
+            return item.name[2] === facetArr[i];
+          }).length,
+      });
+    }
+    return result;
+  };
+
   filterResults = (c, ft) => {
-    console.log(`${c} and ${ft}`);
+    // console.log(`${c} and ${ft}`);
+    let strengthsFiltered;
+    let improveFiltered;
+    let blindFiltered;
+    let brightFiltered;
+
+    //filter: Top strengths
+    strengthsFiltered = this.getStrengthAreas(
+      this.state.sorted,
+      this.state.reflectionRaw
+    );
+    strengthsFiltered = this.filterByCommCollab(strengthsFiltered, c);
+    if (ft === "facets") {
+      strengthsFiltered = this.filterByFacetSelf(strengthsFiltered).filter(
+        (item) => {
+          return !isNaN(item.value);
+        }
+      );
+    }
+    //filter: Areas to improve
+    improveFiltered = this.getImproveAreas(
+      this.state.sorted,
+      this.state.reflectionRaw
+    );
+    improveFiltered = this.filterByCommCollab(improveFiltered, c);
+    if (ft === "facets") {
+      improveFiltered = this.filterByFacetSelf(improveFiltered).filter(
+        (item) => {
+          return !isNaN(item.value);
+        }
+      );
+    }
+    this.setState({
+      ...this.state,
+      improve: improveFiltered,
+      strengths: strengthsFiltered,
+    });
+    //filter: Overestimation - blindspots
+    //filter: Underestimation - brightspots
   };
 
   filterToggle = (e) => {
-    const { isCollaboration, isTrait } = this.state;
-    let communicatonOrCollaboration = e.target.dataset.id;
-    let facetOrTrait = e.target.value;
-
-    if (communicatonOrCollaboration === "communication" && !isCollaboration) {
-      return;
-    }
-    if (communicatonOrCollaboration === "collaboration" && isCollaboration) {
-      return;
-    }
-    if (facetOrTrait === "traits" && isTrait) {
-      return;
-    }
-    if (facetOrTrait === "facets" && !isTrait) {
-      return;
-    }
-
-    if (communicatonOrCollaboration === "communication") {
-      this.setState({ isCollaboration: !isCollaboration });
-      this.state.isTrait
+    if (e.target.value === "communication") {
+      this.setState({ isCollaboration: "communication" });
+      //value saved outside of class/state
+      collabState = "communication";
+      traitState === "trait"
         ? this.filterResults("communication", "traits")
         : this.filterResults("communication", "facets");
+      return;
     }
-    if (communicatonOrCollaboration === "collaboration") {
-      this.setState({ isCollaboration: !isCollaboration });
-      this.state.isTrait
+    if (e.target.value === "collaboration") {
+      this.setState({ isCollaboration: "collaboration" });
+      collabState = "collaboration";
+      traitState === "trait"
         ? this.filterResults("collaboration", "traits")
         : this.filterResults("collaboration", "facets");
+      return;
     }
-    if (facetOrTrait === "traits") {
-      this.setState({ isTrait: true });
-      this.state.isCollaboration
+    if (e.target.value === "traits") {
+      this.setState({ isTrait: "trait" });
+      traitState = "trait";
+      collabState === "collaboration"
         ? this.filterResults("collaboration", "traits")
         : this.filterResults("communication", "traits");
+      return;
     }
-    if (facetOrTrait === "facets") {
-      this.setState({ isTrait: false });
-      this.state.isCollaboration
-        ? this.filterResults("collaboration", "facets")
-        : this.filterResults("communication", "facets");
+    if (e.target.value === "facets") {
+      this.setState({ isTrait: "facet" });
+      traitState = "facet";
+      collabState === "communication"
+        ? this.filterResults("communication", "facets")
+        : this.filterResults("collaboration", "facets");
+      return;
     }
-
-    // if (filterValue === "communication") {
-    //   this.setState((prevState) => ({
-    //     loadedDefault: {
-    //       ...prevState.loadedDefault,
-    //       softSkill: "communication",
-    //     },
-    //   }));
-    //   //filter: Top strengths
-    //   //filter: Areas to improve
-    //   //filter: Overestimation - blindspots
-    //   //filter: Underestimation - brightspots
-    //   let bright = this.getBrightSpots(
-    //     this.state.sorted,
-    //     this.state.reflectionRaw
-    //   );
-    //   bright = this.filterByCommunication(bright);
-    //   this.setState({
-    //     ...this.state,
-    //     bright,
-    //   });
-    //   console.log(bright);
-    // }
   };
 
   render() {
@@ -885,12 +906,10 @@ class Skills extends Component {
                     textAlign: "left",
                   }}
                 >
-                  <li
-                    className="tab active"
-                    onClick={this.filterToggle}
-                    data-id="collaboration"
-                  >
-                    Collaboration
+                  <li className="tab active">
+                    <button onClick={this.filterToggle} value="collaboration">
+                      Collaboration
+                    </button>
                   </li>
                 </div>
                 <div
@@ -899,12 +918,10 @@ class Skills extends Component {
                     textAlign: "left",
                   }}
                 >
-                  <li
-                    className="tab"
-                    onClick={this.filterToggle}
-                    data-id="communication"
-                  >
-                    Communication
+                  <li className="tab">
+                    <button onClick={this.filterToggle} value="communication">
+                      Communication
+                    </button>
                   </li>
                 </div>
               </ul>
@@ -970,7 +987,6 @@ class Skills extends Component {
                 <div style={{ margin: "16px 0" }}>
                   <button
                     className="facet-button "
-                    // value="facets"
                     value="facets"
                     onClick={this.filterToggle}
                   >
@@ -978,7 +994,6 @@ class Skills extends Component {
                   </button>
                   <button
                     className="facet-button selected"
-                    // value="traits"
                     value="traits"
                     onClick={this.filterToggle}
                   >
@@ -1021,7 +1036,7 @@ class Skills extends Component {
                     </div>
                     <div className="grid-area-inside">
                       {/* //toggle - default is true for isTrait when loaded */}
-                      {this.state.isTrait
+                      {/* {this.state.isTrait
                         ? this.state.strengths
                             .slice(0, 3)
                             .map((strength, idx) => {
@@ -1031,7 +1046,10 @@ class Skills extends Component {
                             .slice(0, 3)
                             .map((strength, idx) => {
                               return <SkillBar key={idx} values={strength} />;
-                            })}
+                            })} */}
+                      {this.state.strengths.slice(0, 3).map((strength, idx) => {
+                        return <SkillBar key={idx} values={strength} />;
+                      })}
                     </div>
                   </div>
                 );
@@ -1050,7 +1068,7 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.isTrait
+                      {/* {this.state.isTrait
                         ? this.state.improve
                             .slice(0, 3)
                             .sort((a, b) => b.value - a.value)
@@ -1062,7 +1080,13 @@ class Skills extends Component {
                             .sort((a, b) => b.value - a.value)
                             .map((improve, idx) => {
                               return <SkillBar key={idx} values={improve} />;
-                            })}
+                            })} */}
+                      {this.state.improve
+                        .slice(0, 3)
+                        .sort((a, b) => b.value - a.value)
+                        .map((improve, idx) => {
+                          return <SkillBar key={idx} values={improve} />;
+                        })}
                     </div>
                   </div>
                 );
@@ -1081,7 +1105,7 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.isTrait
+                      {/* {this.state.isTrait
                         ? this.state.blind.slice(0, 3).map((improve, idx) => {
                             return <SkillBar key={idx} values={improve} />;
                           })
@@ -1089,7 +1113,10 @@ class Skills extends Component {
                             .slice(0, 3)
                             .map((improve, idx) => {
                               return <SkillBar key={idx} values={improve} />;
-                            })}
+                            })} */}
+                      {this.state.blind.slice(0, 3).map((improve, idx) => {
+                        return <SkillBar key={idx} values={improve} />;
+                      })}
                     </div>
                   </div>
                 );
@@ -1108,7 +1135,7 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.isTrait
+                      {/* {this.state.isTrait
                         ? this.state.bright.slice(0, 3).map((improve, idx) => {
                             return <SkillBar key={idx} values={improve} />;
                           })
@@ -1116,7 +1143,10 @@ class Skills extends Component {
                             .slice(0, 3)
                             .map((improve, idx) => {
                               return <SkillBar key={idx} values={improve} />;
-                            })}
+                            })} */}
+                      {this.state.bright.slice(0, 3).map((improve, idx) => {
+                        return <SkillBar key={idx} values={improve} />;
+                      })}
                     </div>
                   </div>
                 );
