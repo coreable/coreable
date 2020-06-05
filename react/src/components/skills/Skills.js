@@ -25,10 +25,6 @@ import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
 // import { ListItemAvatar } from "@material-ui/core";
 
-function Communication() {
-  return <h1 style={{ color: "black" }}>Hello</h1>;
-}
-
 class Skills extends Component {
   constructor(props) {
     super(props);
@@ -36,20 +32,28 @@ class Skills extends Component {
       loading: true,
       sorted: [],
       averages: {},
+      averagesRaw: {},
       reflection: {},
+      reflectionRaw: {},
+      //before filtering
       strengths: [],
       improve: [],
       bright: [],
       blind: [],
       teams: [],
+      //after filtering
       strengthsByFacet: [],
       improveByFacet: [],
       brightByFacet: [],
       blindByFacet: [],
       isTrait: true,
-      loadedDefault: { softSkill: "overview", type: "traits" },
+      isCollaboration: true,
     };
   }
+
+  // componentDidUpdate = () => {
+  //   console.log(this.state.isTrait);
+  // };
 
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/skills");
@@ -141,7 +145,9 @@ class Skills extends Component {
     // Chart Data
     let sorted;
     let averages;
+    let averagesRaw;
     let reflection;
+    let reflectionRaw;
     let strengths;
     let improve;
     let bright;
@@ -153,8 +159,11 @@ class Skills extends Component {
     let blindByFacet;
 
     try {
+      sorted = data.user.reviews.report.sorted;
       averages = this.calculateTeamAverage(data.user.reviews.report.average);
+      averagesRaw = data.user.reviews.report.average;
       reflection = this.calculateSelfAverage(data.user.reflection);
+      reflectionRaw = data.user.reflection;
       //By Traits
       strengths = this.getStrengthAreas(
         data.user.reviews.report.sorted,
@@ -164,14 +173,18 @@ class Skills extends Component {
         data.user.reviews.report.sorted,
         data.user.reviews.report.average
       );
+      //brightspots
       bright = this.getBrightSpots(
         data.user.reviews.report.sorted,
         data.user.reflection
       );
+      bright = this.filterByCollaboration(bright);
+      //blindspots
       blind = this.getBlindSpots(
         data.user.reviews.report.sorted,
         data.user.reflection
       );
+      blind = this.filterByCollaboration(blind);
       teams = data.user.teams;
       //By Facets
       strengthsByFacet = this.getStrengthAreasByFacet(
@@ -199,88 +212,138 @@ class Skills extends Component {
       loading: false,
       sorted,
       averages,
+      averagesRaw,
       reflection,
+      reflectionRaw,
+      //before filtering
       strengths,
       improve,
       bright,
       blind,
       teams,
+      //after filtering
       strengthsByFacet,
       improveByFacet,
       brightByFacet,
       blindByFacet,
     });
-
-    // console.log(this.state.bright);
   };
 
   getCorrectVariableName = (skill) => {
     // if (skill === "calm") return "Calm";
     if (skill === "calm")
-      return ["Remains calm under pressure", "Calm", "Resilience"];
+      return [
+        "Remains calm under pressure",
+        "Calm",
+        "Resilience",
+        "collaboration",
+      ];
     if (skill === "clearInstructions")
-      return ["Gives clear instructions", "Clear instructions", "Clarity"];
+      return [
+        "Gives clear instructions",
+        "Clear instructions",
+        "Clarity",
+        "communication",
+      ];
     if (skill === "cooperatively")
-      return ["Is able to work cooperatively", "Cooperatively", "Trust"];
+      return [
+        "Is able to work cooperatively",
+        "Cooperatively",
+        "Trust",
+        "collaboration",
+      ];
     if (skill === "crossTeam")
       return [
         "Has a positive belief about the dependability of others",
         "Cross team",
         "Trust",
+        "collaboration",
       ];
     if (skill === "distractions")
       return [
         "Avoids distractions if at all possible",
         "Distractions",
         "Non-verbal",
+        "communication",
       ];
     if (skill === "easilyExplainsComplexIdeas")
-      return ["Easily Explains Complex Ideas", "Explains ideas", "Clarity"];
+      return [
+        "Easily Explains Complex Ideas",
+        "Explains ideas",
+        "Clarity",
+        "communication",
+      ];
     if (skill === "empathy")
-      return ["Demonstrates empathy", "Empathy", "Emotional intelligence"];
+      return [
+        "Demonstrates empathy",
+        "Empathy",
+        "Emotional intelligence",
+        "collaboration",
+      ];
     if (skill === "usesRegulators")
-      return ["Uses regulators", "Regulators", "Non-verbal"];
+      return ["Uses regulators", "Regulators", "Non-verbal", "communication"];
     if (skill === "influences")
-      return ["Actively influences events", "Influences", "Initiative"];
+      return [
+        "Actively influences events",
+        "Influences",
+        "Initiative",
+        "collaboration",
+      ];
     if (skill === "managesOwn")
-      return ["Manages own emotions", "Manages own", "Emotional intelligence"];
+      return [
+        "Manages own emotions",
+        "Manages own",
+        "Emotional intelligence",
+        "collaboration",
+      ];
     if (skill === "newIdeas")
       return [
         "Adaptable and receptive to new ideas",
         "New ideas",
         "Flexibility",
+        "collaboration",
       ];
     if (skill === "openToShare")
       return [
         "Creates an environment where individuals are safe to report errors",
         "Open to share",
         "Culture",
+        "communication",
       ];
     if (skill === "positiveBelief")
       return [
         "Has a positive belief about the dependability of others",
         "Positive belief",
         "Trust",
+        "collaboration",
       ];
     if (skill === "proactive")
-      return ["Proactive and self-starting", "Proactive", "Initiative"];
+      return [
+        "Proactive and self-starting",
+        "Proactive",
+        "Initiative",
+        "collaboration",
+      ];
     if (skill === "resilienceFeedback")
       return [
         "Accepts all forms of constructive feedback",
         "Resilience feedback",
         "Resilience",
+        "collaboration",
       ];
     if (skill === "signifiesInterest")
       return [
         "Signifies interest in what other people have to say",
         "Signifies interest",
         "Verbal attentiveness",
+        "communication",
       ];
     if (skill === "workDemands")
       return [
         "Adjusts easily to changing work demands",
         "Work demands",
         "Flexibility",
+        "collaboration",
       ];
     return "";
   };
@@ -305,6 +368,18 @@ class Skills extends Component {
       console.error(err);
     }
     return clone;
+  };
+
+  filterByCollaboration = (...obj) => {
+    return obj[0].filter((item) => {
+      return item.name[3] === "collaboration";
+    });
+  };
+
+  filterByCommunication = (...obj) => {
+    return obj[0].filter((item) => {
+      return item.name[3] === "communication";
+    });
   };
 
   getBrightSpotsByFacet = (sorted, reflection) => {
@@ -672,65 +747,75 @@ class Skills extends Component {
     return result;
   };
 
+  filterResults = (c, ft) => {
+    console.log(`${c} and ${ft}`);
+  };
+
   filterToggle = (e) => {
-    // default is "overview" and "traits"
-    const { loadedDefault } = this.state;
-    const filterValue = e.target.dataset.id;
-    // this.setState({
-    //   isTrait: !this.state.isTrait,
-    // });
-    if (
-      filterValue === loadedDefault.softSkill ||
-      filterValue === loadedDefault.type
-    ) {
+    const { isCollaboration, isTrait } = this.state;
+    let communicatonOrCollaboration = e.target.dataset.id;
+    let facetOrTrait = e.target.value;
+
+    if (communicatonOrCollaboration === "communication" && !isCollaboration) {
       return;
     }
-    if (filterValue === "overview") {
-      console.log("you pressed overview");
-      this.setState((prevState) => ({
-        loadedDefault: {
-          ...prevState.loadedDefault,
-          softSkill: "overview",
-        },
-      }));
+    if (communicatonOrCollaboration === "collaboration" && isCollaboration) {
+      return;
     }
-    if (filterValue === "collaboration") {
-      console.log("you pressed collaboration");
-      this.setState((prevState) => ({
-        loadedDefault: {
-          ...prevState.loadedDefault,
-          softSkill: "collaboration",
-        },
-      }));
-      // console.log(this.state.loadedDefault);
+    if (facetOrTrait === "traits" && isTrait) {
+      return;
     }
-    if (filterValue === "communication") {
-      console.log("you pressed communication");
-      this.setState((prevState) => ({
-        loadedDefault: {
-          ...prevState.loadedDefault,
-          softSkill: "communication",
-        },
-      }));
+    if (facetOrTrait === "facets" && !isTrait) {
+      return;
     }
-    if (filterValue === "facets") {
-      console.log("you pressed facet");
-      this.setState((prevState) => ({
-        loadedDefault: {
-          ...prevState.loadedDefault,
-          type: "facets",
-        },
-      }));
+
+    if (communicatonOrCollaboration === "communication") {
+      this.setState({ isCollaboration: !isCollaboration });
+      this.state.isTrait
+        ? this.filterResults("communication", "traits")
+        : this.filterResults("communication", "facets");
     }
-    if (filterValue === "traits") {
-      console.log("you pressed trait");
-      this.setState((prevState) => ({
-        loadedDefault: {
-          ...prevState.loadedDefault,
-          type: "traits",
-        },
-      }));
+    if (communicatonOrCollaboration === "collaboration") {
+      this.setState({ isCollaboration: !isCollaboration });
+      this.state.isTrait
+        ? this.filterResults("collaboration", "traits")
+        : this.filterResults("collaboration", "facets");
     }
+    if (facetOrTrait === "traits") {
+      this.setState({ isTrait: true });
+      this.state.isCollaboration
+        ? this.filterResults("collaboration", "traits")
+        : this.filterResults("communication", "traits");
+    }
+    if (facetOrTrait === "facets") {
+      this.setState({ isTrait: false });
+      this.state.isCollaboration
+        ? this.filterResults("collaboration", "facets")
+        : this.filterResults("communication", "facets");
+    }
+
+    // if (filterValue === "communication") {
+    //   this.setState((prevState) => ({
+    //     loadedDefault: {
+    //       ...prevState.loadedDefault,
+    //       softSkill: "communication",
+    //     },
+    //   }));
+    //   //filter: Top strengths
+    //   //filter: Areas to improve
+    //   //filter: Overestimation - blindspots
+    //   //filter: Underestimation - brightspots
+    //   let bright = this.getBrightSpots(
+    //     this.state.sorted,
+    //     this.state.reflectionRaw
+    //   );
+    //   bright = this.filterByCommunication(bright);
+    //   this.setState({
+    //     ...this.state,
+    //     bright,
+    //   });
+    //   console.log(bright);
+    // }
   };
 
   render() {
@@ -752,18 +837,11 @@ class Skills extends Component {
     for (let i = 0; i < tabs.length; i++) {
       tabs[i].addEventListener("click", function() {
         this.classList.add("active");
-        console.log(tabs[i].textContent);
         if (i === 0) {
           tabs[1].classList = "tab";
-          tabs[2].classList = "tab";
         }
         if (i === 1) {
           tabs[0].classList = "tab";
-          tabs[2].classList = "tab";
-        }
-        if (i === 2) {
-          tabs[0].classList = "tab";
-          tabs[1].classList = "tab";
         }
       });
     }
@@ -810,20 +888,6 @@ class Skills extends Component {
                   <li
                     className="tab active"
                     onClick={this.filterToggle}
-                    data-id="overview"
-                  >
-                    Overview
-                  </li>
-                </div>
-                <div
-                  style={{
-                    gridColumn: "5/7",
-                    textAlign: "left",
-                  }}
-                >
-                  <li
-                    className="tab"
-                    onClick={this.filterToggle}
                     data-id="collaboration"
                   >
                     Collaboration
@@ -831,7 +895,7 @@ class Skills extends Component {
                 </div>
                 <div
                   style={{
-                    gridColumn: "7/9",
+                    gridColumn: "5/7",
                     textAlign: "left",
                   }}
                 >
@@ -844,11 +908,6 @@ class Skills extends Component {
                   </li>
                 </div>
               </ul>
-              <Route
-                exact
-                path="/skills/communication"
-                component={Communication}
-              />
             </div>
             <div className="skills-btns-dropdown">
               <button className="btn primarybtn">All Core Skills</button>
@@ -912,7 +971,7 @@ class Skills extends Component {
                   <button
                     className="facet-button "
                     // value="facets"
-                    data-id="facets"
+                    value="facets"
                     onClick={this.filterToggle}
                   >
                     Facets
@@ -920,7 +979,7 @@ class Skills extends Component {
                   <button
                     className="facet-button selected"
                     // value="traits"
-                    data-id="traits"
+                    value="traits"
                     onClick={this.filterToggle}
                   >
                     Traits
