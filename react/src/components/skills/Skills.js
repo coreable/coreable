@@ -14,11 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 
-import {
-  Redirect,
-  // NavLink,
-  Route,
-} from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { API_URL } from "../../constants";
 // import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
@@ -38,19 +34,11 @@ class Skills extends Component {
       averagesRaw: {},
       reflection: {},
       reflectionRaw: {},
-      //before filtering
       strengths: [],
       improve: [],
       bright: [],
       blind: [],
       teams: [],
-      //after filtering
-      // strengthsByFacet: [],
-      // improveByFacet: [],
-      // brightByFacet: [],
-      // blindByFacet: [],
-      isTrait: "trait",
-      isCollaboration: "collaboration",
     };
   }
 
@@ -152,10 +140,6 @@ class Skills extends Component {
     let bright;
     let blind;
     let teams;
-    // let strengthsByFacet;
-    // let improveByFacet;
-    // let brightByFacet;
-    // let blindByFacet;
 
     try {
       sorted = data.user.reviews.report.sorted;
@@ -188,23 +172,6 @@ class Skills extends Component {
       );
       blind = this.filterByCommCollab(blind, "collaboration");
       teams = data.user.teams;
-      // By Facets
-      // strengthsByFacet = this.getStrengthAreasByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reviews.report.average
-      // );
-      // improveByFacet = this.getImproveAreasByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reviews.report.average
-      // );
-      // brightByFacet = this.getBrightSpotsByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reflection
-      // );
-      // blindByFacet = this.getBlindSpotsByFacet(
-      //   data.user.reviews.report.sorted,
-      //   data.user.reflection
-      // );
     } catch (err) {
       // Ignore
     }
@@ -217,22 +184,16 @@ class Skills extends Component {
       averagesRaw,
       reflection,
       reflectionRaw,
-      //before filtering
+
       strengths,
       improve,
       bright,
       blind,
       teams,
-      //after filtering
-      // strengthsByFacet,
-      // improveByFacet,
-      // brightByFacet,
-      // blindByFacet,
     });
   };
 
   getCorrectVariableName = (skill) => {
-    // if (skill === "calm") return "Calm";
     if (skill === "calm")
       return [
         "Remains calm under pressure",
@@ -759,7 +720,6 @@ class Skills extends Component {
   };
 
   filterResults = (c, ft) => {
-    // console.log(`${c} and ${ft}`);
     let strengthsFiltered;
     let improveFiltered;
     let blindFiltered;
@@ -791,11 +751,6 @@ class Skills extends Component {
         }
       );
     }
-    this.setState({
-      ...this.state,
-      improve: improveFiltered,
-      strengths: strengthsFiltered,
-    });
     //filter: Overestimation - blindspots
     blindFiltered = this.getBlindSpots(
       this.state.sorted,
@@ -823,6 +778,7 @@ class Skills extends Component {
         return !isNaN(item.self) || !isNaN(item.team);
       });
     }
+
     this.setState({
       ...this.state,
       improve: improveFiltered,
@@ -834,37 +790,20 @@ class Skills extends Component {
 
   filterToggle = (e) => {
     if (e.target.value === "communication") {
-      this.setState({ isCollaboration: "communication" });
-      //value saved outside of class/state
       collabState = "communication";
-      traitState === "trait"
-        ? this.filterResults("communication", "traits")
-        : this.filterResults("communication", "facets");
-      return;
+      this.filterResults(e.target.value, traitState);
     }
     if (e.target.value === "collaboration") {
-      this.setState({ isCollaboration: "collaboration" });
       collabState = "collaboration";
-      traitState === "trait"
-        ? this.filterResults("collaboration", "traits")
-        : this.filterResults("collaboration", "facets");
-      return;
+      this.filterResults(e.target.value, traitState);
     }
     if (e.target.value === "traits") {
-      this.setState({ isTrait: "trait" });
-      traitState = "trait";
-      collabState === "collaboration"
-        ? this.filterResults("collaboration", "traits")
-        : this.filterResults("communication", "traits");
-      return;
+      traitState = "traits";
+      this.filterResults(collabState, e.target.value);
     }
     if (e.target.value === "facets") {
-      this.setState({ isTrait: "facet" });
-      traitState = "facet";
-      collabState === "communication"
-        ? this.filterResults("communication", "facets")
-        : this.filterResults("collaboration", "facets");
-      return;
+      traitState = "facets";
+      this.filterResults(collabState, e.target.value);
     }
   };
 
@@ -1072,18 +1011,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* //toggle - default is true for isTrait when loaded */}
-                      {/* {this.state.isTrait
-                        ? this.state.strengths
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })
-                        : this.state.strengthsByFacet
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })} */}
                       {this.state.strengths.slice(0, 3).map((strength, idx) => {
                         return <SkillBar key={idx} values={strength} />;
                       })}
@@ -1105,19 +1032,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* {this.state.isTrait
-                        ? this.state.improve
-                            .slice(0, 3)
-                            .sort((a, b) => b.value - a.value)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })
-                        : this.state.improveByFacet
-                            .slice(0, 3)
-                            .sort((a, b) => b.value - a.value)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })} */}
                       {this.state.improve
                         .slice(0, 3)
                         .sort((a, b) => b.value - a.value)
@@ -1142,15 +1056,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* {this.state.isTrait
-                        ? this.state.blind.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
-                        : this.state.blindByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })} */}
                       {this.state.blind.slice(0, 3).map((improve, idx) => {
                         return <SkillBar key={idx} values={improve} />;
                       })}
@@ -1172,15 +1077,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* {this.state.isTrait
-                        ? this.state.bright.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
-                        : this.state.brightByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })} */}
                       {this.state.bright.slice(0, 3).map((improve, idx) => {
                         return <SkillBar key={idx} values={improve} />;
                       })}

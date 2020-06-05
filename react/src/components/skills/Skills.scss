@@ -38,6 +38,7 @@ ul {
     z-index: 1;
     width: 100%;
     @include main;
+    padding-bottom: 90px;
 
     .skills-main-grid {
       @include grid-12;
