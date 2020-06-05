@@ -834,37 +834,20 @@ class Skills extends Component {
 
   filterToggle = (e) => {
     if (e.target.value === "communication") {
-      this.setState({ isCollaboration: "communication" });
-      //value saved outside of class/state
       collabState = "communication";
-      traitState === "trait"
-        ? this.filterResults("communication", "traits")
-        : this.filterResults("communication", "facets");
-      return;
+      this.filterResults(e.target.value, traitState);
     }
     if (e.target.value === "collaboration") {
-      this.setState({ isCollaboration: "collaboration" });
       collabState = "collaboration";
-      traitState === "trait"
-        ? this.filterResults("collaboration", "traits")
-        : this.filterResults("collaboration", "facets");
-      return;
+      this.filterResults(e.target.value, traitState);
     }
     if (e.target.value === "traits") {
-      this.setState({ isTrait: "trait" });
-      traitState = "trait";
-      collabState === "collaboration"
-        ? this.filterResults("collaboration", "traits")
-        : this.filterResults("communication", "traits");
-      return;
+      traitState = "traits";
+      this.filterResults(collabState, e.target.value);
     }
     if (e.target.value === "facets") {
-      this.setState({ isTrait: "facet" });
-      traitState = "facet";
-      collabState === "communication"
-        ? this.filterResults("communication", "facets")
-        : this.filterResults("collaboration", "facets");
-      return;
+      traitState = "facets";
+      this.filterResults(collabState, e.target.value);
     }
   };
 
