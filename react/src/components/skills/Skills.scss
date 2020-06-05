@@ -98,11 +98,19 @@ ul {
           margin-right: 24px;
         }
 
-        li {
+        button {
           display: inline;
           color: grey;
+          background: none;
+          border: none;
           border-bottom: 2px solid transparent;
           padding-bottom: 19px;
+          font-size: 1.4rem;
+          margin-top: 19px;
+          font-weight: bold;
+          &:focus {
+            outline: none;
+          }
           &:hover {
             cursor: pointer;
           }
@@ -267,6 +275,9 @@ ul {
           transition: all 0.1s ease-out;
           &:hover {
             transform: scale(1.02);
+          }
+          &:focus {
+            outline: none;
           }
         }
       }
