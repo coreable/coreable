@@ -1072,18 +1072,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* //toggle - default is true for isTrait when loaded */}
-                      {/* {this.state.isTrait
-                        ? this.state.strengths
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })
-                        : this.state.strengthsByFacet
-                            .slice(0, 3)
-                            .map((strength, idx) => {
-                              return <SkillBar key={idx} values={strength} />;
-                            })} */}
                       {this.state.strengths.slice(0, 3).map((strength, idx) => {
                         return <SkillBar key={idx} values={strength} />;
                       })}
@@ -1105,19 +1093,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* {this.state.isTrait
-                        ? this.state.improve
-                            .slice(0, 3)
-                            .sort((a, b) => b.value - a.value)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })
-                        : this.state.improveByFacet
-                            .slice(0, 3)
-                            .sort((a, b) => b.value - a.value)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })} */}
                       {this.state.improve
                         .slice(0, 3)
                         .sort((a, b) => b.value - a.value)
@@ -1142,15 +1117,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* {this.state.isTrait
-                        ? this.state.blind.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
-                        : this.state.blindByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })} */}
                       {this.state.blind.slice(0, 3).map((improve, idx) => {
                         return <SkillBar key={idx} values={improve} />;
                       })}
@@ -1172,15 +1138,6 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {/* {this.state.isTrait
-                        ? this.state.bright.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
-                        : this.state.brightByFacet
-                            .slice(0, 3)
-                            .map((improve, idx) => {
-                              return <SkillBar key={idx} values={improve} />;
-                            })} */}
                       {this.state.bright.slice(0, 3).map((improve, idx) => {
                         return <SkillBar key={idx} values={improve} />;
                       })}
