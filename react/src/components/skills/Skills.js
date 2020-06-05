@@ -992,11 +992,15 @@ class Skills extends Component {
                     </div>
                     <div className="grid-area-inside">
                       {this.state.isTrait
-                        ? this.state.improve.slice(0, 3).map((improve, idx) => {
-                            return <SkillBar key={idx} values={improve} />;
-                          })
+                        ? this.state.improve
+                            .slice(0, 3)
+                            .sort((a, b) => b.value - a.value)
+                            .map((improve, idx) => {
+                              return <SkillBar key={idx} values={improve} />;
+                            })
                         : this.state.improveByFacet
                             .slice(0, 3)
+                            .sort((a, b) => b.value - a.value)
                             .map((improve, idx) => {
                               return <SkillBar key={idx} values={improve} />;
                             })}
