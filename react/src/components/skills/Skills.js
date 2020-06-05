@@ -720,17 +720,14 @@ class Skills extends Component {
   };
 
   filterResults = (c, ft) => {
-    let strengthsFiltered;
-    let improveFiltered;
-    let blindFiltered;
-    let brightFiltered;
-
     //filter: Top strengths
-    strengthsFiltered = this.getStrengthAreas(
+    let strengthsFiltered = this.getStrengthAreas(
       this.state.sorted,
       this.state.averagesRaw
     );
+
     strengthsFiltered = this.filterByCommCollab(strengthsFiltered, c);
+
     if (ft === "facets") {
       strengthsFiltered = this.filterByFacetSelf(strengthsFiltered)
         .filter((item) => {
@@ -739,11 +736,13 @@ class Skills extends Component {
         .sort((a, b) => b.value - a.value);
     }
     //filter: Areas to improve
-    improveFiltered = this.getImproveAreas(
+    let improveFiltered = this.getImproveAreas(
       this.state.sorted,
       this.state.averagesRaw
     );
+
     improveFiltered = this.filterByCommCollab(improveFiltered, c);
+
     if (ft === "facets") {
       improveFiltered = this.filterByFacetSelf(improveFiltered).filter(
         (item) => {
@@ -752,11 +751,13 @@ class Skills extends Component {
       );
     }
     //filter: Overestimation - blindspots
-    blindFiltered = this.getBlindSpots(
+    let blindFiltered = this.getBlindSpots(
       this.state.sorted,
       this.state.reflectionRaw
     );
+
     blindFiltered = this.filterByCommCollab(blindFiltered, c);
+
     if (ft === "facets") {
       blindFiltered = this.filterByFacetTraitSelfTeam(blindFiltered, ft).filter(
         (item) => {
@@ -765,11 +766,13 @@ class Skills extends Component {
       );
     }
     //filter: Underestimation - brightspots
-    brightFiltered = this.getBrightSpots(
+    let brightFiltered = this.getBrightSpots(
       this.state.sorted,
       this.state.reflectionRaw
     );
+
     brightFiltered = this.filterByCommCollab(brightFiltered, c);
+
     if (ft === "facets") {
       brightFiltered = this.filterByFacetTraitSelfTeam(
         brightFiltered,
