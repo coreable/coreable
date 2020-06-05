@@ -44,11 +44,7 @@ class Skills extends Component {
       bright: [],
       blind: [],
       teams: [],
-      //after filtering
-      // strengthsByFacet: [],
-      // improveByFacet: [],
-      // brightByFacet: [],
-      // blindByFacet: [],
+
       isTrait: "trait",
       isCollaboration: "collaboration",
     };
@@ -152,10 +148,6 @@ class Skills extends Component {
     let bright;
     let blind;
     let teams;
-    // let strengthsByFacet;
-    // let improveByFacet;
-    // let brightByFacet;
-    // let blindByFacet;
 
     try {
       sorted = data.user.reviews.report.sorted;
@@ -217,17 +209,12 @@ class Skills extends Component {
       averagesRaw,
       reflection,
       reflectionRaw,
-      //before filtering
+
       strengths,
       improve,
       bright,
       blind,
       teams,
-      //after filtering
-      // strengthsByFacet,
-      // improveByFacet,
-      // brightByFacet,
-      // blindByFacet,
     });
   };
 
@@ -763,7 +750,7 @@ class Skills extends Component {
     let improveFiltered;
     let blindFiltered;
     let brightFiltered;
-    
+
     //filter: Top strengths
     strengthsFiltered = this.getStrengthAreas(
       this.state.sorted,
