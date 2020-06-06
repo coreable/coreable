@@ -603,6 +603,8 @@ class Skills extends Component {
           }).length,
       });
     }
+
+    console.log(result);
     return result;
   };
 
