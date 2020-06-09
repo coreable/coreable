@@ -14,7 +14,10 @@ Coreable source code.
 
 import React, { Component } from "react";
 
-import { Redirect, Route } from "react-router-dom";
+import {
+  Redirect,
+  // Route
+} from "react-router-dom";
 import { API_URL } from "../../constants";
 // import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
