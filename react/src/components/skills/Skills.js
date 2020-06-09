@@ -803,10 +803,6 @@ class Skills extends Component {
         return a["dist"] - b["dist"];
       });
 
-    // .filter((item) => {
-    //   return item["dist"] >= 0;
-    // });
-
     console.log(brightFiltered);
 
     this.setState({
