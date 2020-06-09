@@ -33,7 +33,7 @@ ul {
     @include top;
     height: 220px;
   }
-  @media (max-width: $max-width) {
+  @media (max-width: 990px) {
     .top-background {
       height: 40%;
     }
@@ -309,13 +309,13 @@ ul {
           margin: 8px;
         }
       }
-      @media (max-width: $max-width) {
+      @media (max-width: 990px) {
         .grid-areas {
           width: 100%;
         }
       }
     }
-    @media (max-width: $max-width) {
+    @media (max-width: 990px) {
       .main-skills-container {
         display: flex;
         flex-wrap: wrap;
