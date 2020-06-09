@@ -634,13 +634,13 @@ class Skills extends Component {
     return result;
   };
 
-  filterByCommCollab = (arr, c) => {
+  filterByCommCollab = (arr, commOrCollab) => {
     return arr.filter((item) => {
-      return item.name[3] === c;
+      return item.name[3] === commOrCollab;
     });
   };
 
-  filterByFacetTraitSelfTeam = (arr, ft) => {
+  filterByFacetTraitSelfTeam = (arr, facetOrTrait) => {
     const facetArr = [
       "Non-verbal",
       "Trust",
@@ -653,7 +653,7 @@ class Skills extends Component {
       "Verbal attentiveness",
     ];
     let result = [];
-    if (ft === "facets") {
+    if (facetOrTrait === "facets") {
       for (let i = 0; i < facetArr.length; i++) {
         result.push({
           name: [facetArr[i]],
@@ -681,12 +681,24 @@ class Skills extends Component {
             arr.filter((item) => {
               return item.name[2] === facetArr[i];
             }).length,
+          dist:
+            arr
+              .filter((item) => {
+                return item.name[2] === facetArr[i];
+              })
+              .map((item) => {
+                return item.dist;
+              })
+              .reduce((a, b) => a + b, 0) /
+            arr.filter((item) => {
+              return item.name[2] === facetArr[i];
+            }).length,
         });
       }
       return result;
     }
 
-    return result;
+    return arr;
   };
 
   filterByFacetSelf = (arr) => {
@@ -744,7 +756,7 @@ class Skills extends Component {
     return arr;
   };
 
-  filterResults = (commOrCollab, facetOrTrait) => {
+  filterResults = (commOrCollab, ft) => {
     //Create new instances of strength, improve, bright, blind
     let strengthsFiltered = this.getStrengthAreas(
       this.state.sorted,
@@ -762,30 +774,40 @@ class Skills extends Component {
       this.state.sorted,
       this.state.reflectionRaw
     );
-    //For each instance => filter
+
     strengthsFiltered = this.filterByCommCollab(
       strengthsFiltered,
       commOrCollab
     );
-    strengthsFiltered = this.filterByFacetOrTrait(
-      strengthsFiltered,
-      facetOrTrait
-    );
     improveFiltered = this.filterByCommCollab(improveFiltered, commOrCollab);
-    improveFiltered = this.filterByFacetOrTrait(improveFiltered, facetOrTrait);
-
     blindFiltered = this.filterByCommCollab(blindFiltered, commOrCollab);
-    blindFiltered = this.filterByFacetOrTrait(
-      blindFiltered,
-      facetOrTrait,
-      "blind"
-    );
     brightFiltered = this.filterByCommCollab(brightFiltered, commOrCollab);
-    brightFiltered = this.filterByFacetOrTrait(
-      brightFiltered,
-      facetOrTrait,
-      "bright"
-    );
+
+    strengthsFiltered = this.filterByFacetOrTrait(strengthsFiltered, ft);
+    improveFiltered = this.filterByFacetOrTrait(improveFiltered, ft);
+    blindFiltered = this.filterByFacetOrTrait(blindFiltered, ft, "blind");
+    brightFiltered = this.filterByFacetOrTrait(brightFiltered, ft, "bright");
+
+    blindFiltered = blindFiltered
+      .filter((item) => {
+        return item["team"] < item["self"];
+      })
+      .sort((a, b) => {
+        return b["dist"] - a["dist"];
+      });
+    brightFiltered = brightFiltered
+      .filter((item) => {
+        return item["team"] > item["self"];
+      })
+      .sort((a, b) => {
+        return a["dist"] - b["dist"];
+      });
+
+    // .filter((item) => {
+    //   return item["dist"] >= 0;
+    // });
+
+    console.log(brightFiltered);
 
     this.setState({
       ...this.state,
