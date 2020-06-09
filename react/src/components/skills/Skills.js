@@ -719,68 +719,75 @@ class Skills extends Component {
     return result;
   };
 
-  filterResults = (c, ft) => {
+  filterByFacetOrTrait = (arr, facetOrTrait, blindOrBright) => {
+    let result;
+    if (!blindOrBright) {
+      if (facetOrTrait === "facets") {
+        result = this.filterByFacetSelf(arr).filter((item) => {
+          return !isNaN(item.value);
+        });
+        return result;
+      }
+    } else {
+      if (facetOrTrait === "facets") {
+        result = this.filterByFacetTraitSelfTeam(arr, facetOrTrait).filter(
+          (item) => {
+            return !isNaN(item.self) || !isNaN(item.team);
+          }
+        );
+        return result;
+      }
+    }
+    return arr;
+  };
+
+  filterResults = (commOrCollab, facetOrTrait) => {
     //filter: Top strengths
     let strengthsFiltered = this.getStrengthAreas(
       this.state.sorted,
       this.state.averagesRaw
     );
-
-    strengthsFiltered = this.filterByCommCollab(strengthsFiltered, c);
-
-    if (ft === "facets") {
-      strengthsFiltered = this.filterByFacetSelf(strengthsFiltered)
-        .filter((item) => {
-          return !isNaN(item.value);
-        })
-        .sort((a, b) => b.value - a.value);
-    }
     //filter: Areas to improve
     let improveFiltered = this.getImproveAreas(
       this.state.sorted,
       this.state.averagesRaw
     );
-
-    improveFiltered = this.filterByCommCollab(improveFiltered, c);
-
-    if (ft === "facets") {
-      improveFiltered = this.filterByFacetSelf(improveFiltered).filter(
-        (item) => {
-          return !isNaN(item.value);
-        }
-      );
-    }
     //filter: Overestimation - blindspots
     let blindFiltered = this.getBlindSpots(
       this.state.sorted,
       this.state.reflectionRaw
     );
-
-    blindFiltered = this.filterByCommCollab(blindFiltered, c);
-
-    if (ft === "facets") {
-      blindFiltered = this.filterByFacetTraitSelfTeam(blindFiltered, ft).filter(
-        (item) => {
-          return !isNaN(item.self) || !isNaN(item.team);
-        }
-      );
-    }
     //filter: Underestimation - brightspots
     let brightFiltered = this.getBrightSpots(
       this.state.sorted,
       this.state.reflectionRaw
     );
 
-    brightFiltered = this.filterByCommCollab(brightFiltered, c);
+    strengthsFiltered = this.filterByCommCollab(
+      strengthsFiltered,
+      commOrCollab
+    );
+    strengthsFiltered = this.filterByFacetOrTrait(
+      strengthsFiltered,
+      facetOrTrait
+    );
+    // .sort((a, b) => b.value - a.value);
+    improveFiltered = this.filterByCommCollab(improveFiltered, commOrCollab);
+    improveFiltered = this.filterByFacetOrTrait(improveFiltered, facetOrTrait);
 
-    if (ft === "facets") {
-      brightFiltered = this.filterByFacetTraitSelfTeam(
-        brightFiltered,
-        ft
-      ).filter((item) => {
-        return !isNaN(item.self) || !isNaN(item.team);
-      });
-    }
+    blindFiltered = this.filterByCommCollab(blindFiltered, commOrCollab);
+    blindFiltered = this.filterByFacetOrTrait(
+      blindFiltered,
+      facetOrTrait,
+      "blind"
+    );
+
+    brightFiltered = this.filterByCommCollab(brightFiltered, commOrCollab);
+    brightFiltered = this.filterByFacetOrTrait(
+      brightFiltered,
+      facetOrTrait,
+      "bright"
+    );
 
     this.setState({
       ...this.state,
