@@ -1072,7 +1072,7 @@ class Skills extends Component {
                     <div className="grid-area-inside">
                       {this.state.improve
                         .slice(0, 3)
-                        .sort((a, b) => b.value - a.value)
+                        .sort((a, b) => a.value - b.value)
                         .map((improve, idx) => {
                           return <SkillBar key={idx} values={improve} />;
                         })}
