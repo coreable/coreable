@@ -911,14 +911,23 @@ class Skills extends Component {
               </ul>
             </div>
             <div className="skills-btns-dropdown">
-              <button className="btn primarybtn">All Core Skills</button>
-              {/* Dropdown menu after we complete the other pages */}
-              {/* <div className="skills-dropdown-content">
-                <ul>
-                  <li>Collaboration</li>
-                  <li>Communication</li>
-                </ul>
-              </div> */}
+              <button
+                className="btn primarybtn"
+                onClick={this.filterToggle}
+                value="collaboration"
+              >
+                Collaboration
+              </button>
+
+              <div className="skills-dropdown-content">
+                <button
+                  className="btn primarybtn"
+                  onClick={this.filterToggle}
+                  value="communication"
+                >
+                  Communication
+                </button>
+              </div>
             </div>
           </div>
           {/* 
