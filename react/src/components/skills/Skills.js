@@ -742,27 +742,24 @@ class Skills extends Component {
   };
 
   filterResults = (commOrCollab, facetOrTrait) => {
-    //filter: Top strengths
+    //Create new instances of strength, improve, bright, blind
     let strengthsFiltered = this.getStrengthAreas(
       this.state.sorted,
       this.state.averagesRaw
     );
-    //filter: Areas to improve
     let improveFiltered = this.getImproveAreas(
       this.state.sorted,
       this.state.averagesRaw
     );
-    //filter: Overestimation - blindspots
     let blindFiltered = this.getBlindSpots(
       this.state.sorted,
       this.state.reflectionRaw
     );
-    //filter: Underestimation - brightspots
     let brightFiltered = this.getBrightSpots(
       this.state.sorted,
       this.state.reflectionRaw
     );
-
+    //For each instance => filter
     strengthsFiltered = this.filterByCommCollab(
       strengthsFiltered,
       commOrCollab
@@ -771,7 +768,6 @@ class Skills extends Component {
       strengthsFiltered,
       facetOrTrait
     );
-    // .sort((a, b) => b.value - a.value);
     improveFiltered = this.filterByCommCollab(improveFiltered, commOrCollab);
     improveFiltered = this.filterByFacetOrTrait(improveFiltered, facetOrTrait);
 
@@ -781,7 +777,6 @@ class Skills extends Component {
       facetOrTrait,
       "blind"
     );
-
     brightFiltered = this.filterByCommCollab(brightFiltered, commOrCollab);
     brightFiltered = this.filterByFacetOrTrait(
       brightFiltered,
@@ -1021,9 +1016,12 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.strengths.slice(0, 3).map((strength, idx) => {
-                        return <SkillBar key={idx} values={strength} />;
-                      })}
+                      {this.state.strengths
+                        .sort((a, b) => b.value - a.value)
+                        .slice(0, 3)
+                        .map((strength, idx) => {
+                          return <SkillBar key={idx} values={strength} />;
+                        })}
                     </div>
                   </div>
                 );
