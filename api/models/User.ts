@@ -32,6 +32,8 @@ class User extends Model {
   public passwordResetToken!: string;
   public passwordResetExpiry!: Date
   public industry_id!: string;
+  public incorrectPasswordAttempts!: number;
+  public incorrectPasswordTimer!: Date;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -80,6 +82,15 @@ const sync = (sequelize: Sequelize) => {
     },
     'industry_id': {
       'type': DataTypes.UUID,
+      'allowNull': true
+    },
+    'incorrectPasswordAttempts ': {
+      'type': DataTypes.INTEGER,
+      'allowNull': false,
+      'defaultValue': 0
+    },
+    'incorrectPasswordTimer': {
+      'type': DataTypes.DATE,
       'allowNull': true
     }
   }, {
