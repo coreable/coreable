@@ -144,6 +144,14 @@ ul {
         }
       }
     }
+
+    .fixed {
+      position: fixed;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      z-index: 300;
+    }
     //hide so we can show a dropdown menu instead
     @media (max-width: 990px) {
       .skills-btns {
