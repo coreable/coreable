@@ -336,39 +336,6 @@ class Skills extends Component {
     return clone;
   };
 
-  // getBrightSpotsByFacet = (sorted, reflection) => {
-  //   let clone = JSON.parse(JSON.stringify(sorted));
-  //   try {
-  //     clone = clone.map((obj) => {
-  //       return {
-  //         field: obj["field"],
-  //         name: this.getCorrectVariableName(obj["field"]),
-  //         self: reflection[obj["field"]],
-  //         team: obj["value"],
-  //         dist: reflection[obj["field"]] - obj["value"],
-  //       };
-  //     });
-
-  //     clone = this.filterByFacet(clone).filter((item) => {
-  //       return !isNaN(item.self) || !isNaN(item.team);
-  //     });
-
-  //     clone = clone.map((obj) => {
-  //       return {
-  //         ...obj,
-  //         dist: obj["self"] - obj["team"],
-  //       };
-  //     });
-
-  //     clone = clone.sort((a, b) => {
-  //       return b["dist"] - a["dist"];
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   return clone;
-  // };
-
   getBlindSpots = (sorted, reflection) => {
     let clone = JSON.parse(JSON.stringify(sorted));
     try {
@@ -390,39 +357,6 @@ class Skills extends Component {
     }
     return clone;
   };
-
-  // getBlindSpotsByFacet = (sorted, reflection) => {
-  //   let clone = JSON.parse(JSON.stringify(sorted));
-  //   try {
-  //     clone = clone.map((obj) => {
-  //       return {
-  //         field: obj["field"],
-  //         name: this.getCorrectVariableName(obj["field"]),
-  //         self: reflection[obj["field"]],
-  //         team: obj["value"],
-  //         dist: reflection[obj["field"]] - obj["value"],
-  //       };
-  //     });
-
-  //     clone = this.filterByFacet(clone).filter((item) => {
-  //       return !isNaN(item.self) || !isNaN(item.team);
-  //     });
-
-  //     clone = clone.map((obj) => {
-  //       return {
-  //         ...obj,
-  //         dist: obj["self"] - obj["team"],
-  //       };
-  //     });
-
-  //     clone = clone.sort((a, b) => {
-  //       return a["dist"] - b["dist"];
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   return clone;
-  // };
 
   getStrengthAreas = (sorted, reflection) => {
     const result = [];
@@ -453,40 +387,6 @@ class Skills extends Component {
     return result;
   };
 
-  // getStrengthAreasByFacet = (sorted, reflection) => {
-  //   const result = [];
-  //   let finalResult;
-  //   try {
-  //     let clone = JSON.parse(JSON.stringify(sorted));
-  //     clone = clone.reverse();
-  //     // clone = clone.slice(0, 3);
-  //     for (let i = 0; i < clone.length; i++) {
-  //       const selfScore = reflection[clone[i]["field"]];
-  //       if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
-  //         clone[i]["value"] += selfScore;
-  //         clone[i]["value"] /= 2;
-  //       }
-  //       if (
-  //         !Number.isNaN(clone[i]["value"]) &&
-  //         Number.isFinite(clone[i]["value"])
-  //       ) {
-  //         result.push({
-  //           ...clone[i],
-  //           name: this.getCorrectVariableName(clone[i]["field"]),
-  //         });
-  //       }
-  //     }
-  //     result.sort((a, b) => a.value - b.value).reverse();
-
-  //     finalResult = this.filterByFacet(result, 1).sort(
-  //       (a, b) => b.value - a.value
-  //     );
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   return finalResult;
-  // };
-
   getImproveAreas = (sorted, reflection) => {
     const result = [];
     try {
@@ -515,34 +415,6 @@ class Skills extends Component {
     }
     return result;
   };
-
-  // getImproveAreasByFacet = (sorted, reflection) => {
-  //   let clone = JSON.parse(JSON.stringify(sorted));
-  //   const result = [];
-  //   try {
-  //     for (let i = 0; i < clone.length; i++) {
-  //       const selfScore = reflection[clone[i]["field"]];
-  //       if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
-  //         clone[i]["value"] += selfScore;
-  //         clone[i]["value"] /= 2;
-  //       }
-  //       if (
-  //         !Number.isNaN(clone[i]["value"]) &&
-  //         Number.isFinite(clone[i]["value"])
-  //       ) {
-  //         result.push({
-  //           ...clone[i],
-  //           name: this.getCorrectVariableName(clone[i]["field"]),
-  //         });
-  //       }
-  //     }
-
-  //     clone = this.filterByFacet(result, 1).sort((a, b) => a.value - b.value);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  //   return clone;
-  // };
 
   calculateFacetAverage = (array, facet) => {
     return (
