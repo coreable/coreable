@@ -902,7 +902,8 @@ class Skills extends Component {
                     Traits
                   </button>
                 </div>
-                <div>
+                {/* TEAM FILTER */}
+                {/* <div>
                   <label>Team</label>
                   <br />
                   <select
@@ -920,7 +921,7 @@ class Skills extends Component {
                       );
                     })}
                   </select>
-                </div>
+                </div> */}
               </div>
             </div>
 
