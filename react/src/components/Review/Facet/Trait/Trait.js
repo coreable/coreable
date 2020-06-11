@@ -23,6 +23,7 @@ class Trait extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user_id: props.user_id,
       name: props.name,
       var: props.var,
       val: props.val,
@@ -33,8 +34,9 @@ class Trait extends Component {
       showPara: false,
       flip: "",
       border: "1px solid #707070",
+      reviewState: props.reviewState,
     };
-
+    console.log(this.state.name);
     this.reviewSubject = new Subject();
   }
 
@@ -370,22 +372,43 @@ class Trait extends Component {
             marginTop: "10pt",
           }}
         >
-          {this.props.pending.pending.map((user, index) => {
-            return (
-              <Button
-                className="select-user-button"
-                size="small"
-                variant="contained"
-                color="primary"
-                style={this.getButtonStyles(user)}
-                disableElevation
-                key={index}
-                onClick={() => this.handleSelectedUserChange(user)}
-              >
-                {user.firstName + " " + user.lastName}
-              </Button>
-            );
-          })}
+          {this.state.reviewState === 1
+            ? this.props.pending.pending
+                .filter((user) => {
+                  return user._id === this.state.user_id;
+                })
+                .map((user, index) => {
+                  return (
+                    <Button
+                      className="select-user-button"
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      style={this.getButtonStyles(user)}
+                      disableElevation
+                      key={index}
+                      onClick={() => this.handleSelectedUserChange(user)}
+                    >
+                      {user.firstName + " " + user.lastName}
+                    </Button>
+                  );
+                })
+            : this.props.pending.pending.map((user, index) => {
+                return (
+                  <Button
+                    className="select-user-button"
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    style={this.getButtonStyles(user)}
+                    disableElevation
+                    key={index}
+                    onClick={() => this.handleSelectedUserChange(user)}
+                  >
+                    {user.firstName + " " + user.lastName}
+                  </Button>
+                );
+              })}
         </CardActions>
 
         <div style={{ marginTop: "10px" }}>

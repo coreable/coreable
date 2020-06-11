@@ -27,6 +27,8 @@ class Facet extends Component {
       isSubmitDisabled: props.currentIndex === props.facetLength - 1,
       stepsArray: props.facets,
       currentIndex: props.currentIndex,
+      reviewState: props.reviewState,
+      user_id: props.user_id,
     };
   }
 
@@ -169,6 +171,8 @@ class Facet extends Component {
                     traitName={this.state.traits.name}
                     pending={this.props.pending}
                     sliderUpdatedHandler={this.sliderUpdatedHandler}
+                    reviewState={this.state.reviewState}
+                    user_id={this.state.user_id}
                   ></Trait>
                 </div>
               );

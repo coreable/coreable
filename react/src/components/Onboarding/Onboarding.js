@@ -14,6 +14,8 @@ class Onboarding extends Component {
       isDisabled: true,
       onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
       startButton: "Next",
+      reviewState: this.props.location.state.reviewState,
+      user_id: this.props.location.state.user_id,
       team_id: this.props.location.state.team_id,
       pending: this.props.location.state.pending,
     };
@@ -47,6 +49,8 @@ class Onboarding extends Component {
       this.props.history.push({
         pathname: "/review",
         state: {
+          reviewState: this.state.reviewState,
+          user_id: this.state.user_id,
           team_id: this.state.team_id,
           pending: this.state.pending,
         },

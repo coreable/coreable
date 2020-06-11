@@ -22,16 +22,18 @@ import Loader from "../Loading/Loading";
 class Review extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
     if (!props.location.state) {
       // web page is broken, redirect to index
       this.state = {
         currentIndex: -1,
-        facets: []
+        facets: [],
       };
       return;
     }
     this.state = {
+      reviewState: this.props.location.state.reviewState,
+      user_id: this.props.location.state.user_id,
       currentIndex: !props.location.state.index
         ? 0
         : this.props.location.state.index === 4
@@ -352,23 +354,23 @@ class Review extends Component {
       }
     }
 
-    Promise.all(promises).then(() => {
-      try {
-        const reviews = JSON.parse(localStorage.getItem("review"));
-        delete reviews[team_id];
-        localStorage.setItem("review", JSON.stringify(reviews));
-      } catch (err) {
-        console.error(err);
-        return false;
-      }
-      this.props.refreshMe();
-      this.setState(
-        {
+    Promise.all(promises)
+      .then(() => {
+        try {
+          const reviews = JSON.parse(localStorage.getItem("review"));
+          delete reviews[team_id];
+          localStorage.setItem("review", JSON.stringify(reviews));
+        } catch (err) {
+          console.error(err);
+          return false;
+        }
+        this.props.refreshMe();
+        this.setState({
           ...this.state,
           submitting: false,
-        }
-      );
-    }).catch((err) => console.error(err));
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
   render() {
@@ -412,6 +414,8 @@ class Review extends Component {
 
     return (
       <Facet
+        user_id={this.state.user_id}
+        reviewState={this.state.reviewState}
         pending={this.props.location.state.pending}
         currentIndex={this.state.currentIndex}
         facetLength={this.state.facets.length}

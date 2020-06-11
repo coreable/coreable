@@ -37,7 +37,7 @@ class Home extends Component {
       loading: true,
       completedTutorial: false,
     };
-    // console.log(this.state.me);
+    console.log(this.state.me["_id"]);
   }
 
   componentDidMount = async () => {
@@ -302,6 +302,9 @@ class Home extends Component {
                                 ? "/intro"
                                 : "/collaboration",
                             state: {
+                              reviewState: this.state.me.teams[index].subject
+                                .state,
+                              user_id: this.state.me["_id"],
                               team_id: team._id,
                               pending: this.getPendingUser(team._id),
                             },
