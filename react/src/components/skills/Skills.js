@@ -667,6 +667,7 @@ class Skills extends Component {
       .sort((a, b) => {
         return b["dist"] - a["dist"];
       });
+
     brightFiltered = brightFiltered
       .filter((item) => {
         return item["team"] > item["self"];
