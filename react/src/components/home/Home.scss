@@ -38,7 +38,9 @@ h1 {
     }
 
     .grid-home {
-      @include grid-2;
+      display: grid;
+      grid-template-columns: 1, 1fr;
+      grid-gap: 8px;
       grid-auto-flow: row;
       background: transparent;
       border: none;
