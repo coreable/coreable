@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,6 +20,7 @@ import {
 
 import { Review } from '../../models/Review';
 import { UserResolver } from './User';
+import { TeamResolver } from './Team';
 
 export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
   name: 'ReviewResolver',
@@ -54,6 +55,18 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         type: UserResolver,
         resolve(review, args, context) {
           return review.submitter;
+        }
+      },
+      'team': {
+        type: TeamResolver,
+        resolve(review, args, context) {
+          return review.team;
+        }
+      },
+      'team_id': {
+        type: GraphQLString,
+        resolve(review, args, context) {
+          return review.team_id;
         }
       },
       'calm': {

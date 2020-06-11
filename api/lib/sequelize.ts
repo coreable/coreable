@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -71,36 +71,6 @@ _sequelize.assosciate = (async () => {
 
 (async() => {
   await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
-  // const qantas = await Subject.Subject.create({
-  //   name: 'Qantas',
-  //   state: 2
-  // });
-  // const investible = await Subject.Subject.create({
-  //   name: 'Investible',
-  //   state: 2
-  // });
-  // const n2 = await Subject.Subject.create({
-  //   name: 'N2',
-  //   state: 2
-  // });
-  // const qantasT = await Team.Team.create({
-  //   name: 'Qantas001',
-  //   inviteCode: 'Qantas001',
-  //   subject_id: qantas._id
-  // });
-  // const investibleT = await Team.Team.create({
-  //   name: 'Investible001',
-  //   inviteCode: 'Investible001',
-  //   subject_id: investible._id
-  // });
-  // const n2T = await Team.Team.create({
-  //   name: 'N2',
-  //   inviteCode: 'N2',
-  //   subject_id: n2._id
-  // });
-  // console.log(qantasT);
-  // console.log(investibleT);
-  // console.log(n2T);
 })().then(() => true);
 
 export { sequelize };

@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,6 +27,8 @@ class Manager extends Model {
   public password!: string;
   public passwordResetToken!: string;
   public passwordResetExpiry!: Date
+  public lockoutAttempts!: number;
+  public lockoutTimer!: Date;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -66,6 +68,15 @@ const sync = (sequelize: Sequelize) => {
       'allowNull': true
     },
     'passwordResetExpiry': {
+      'type': DataTypes.DATE,
+      'allowNull': true
+    },
+    'lockoutAttempts': {
+      'type': DataTypes.INTEGER,
+      'allowNull': false,
+      'defaultValue': 0
+    },
+    'lockoutTimer': {
       'type': DataTypes.DATE,
       'allowNull': true
     }

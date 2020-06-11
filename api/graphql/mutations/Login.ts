@@ -24,7 +24,6 @@ import { sequelize } from "../../lib/sequelize";
 import { SessionObjectCommand } from "../command/object/Session";
 import { Manager } from "../../models/Manager";
 import { Team } from "../../models/Team";
-import { User } from "../../models/User";
 import { Subject } from "../../models/Subject";
 import { Industry } from "../../models/Industry";
 

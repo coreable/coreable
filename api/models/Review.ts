@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +15,7 @@ Coreable source code.
 import { Model, DataTypes, Sequelize, BelongsTo } from 'sequelize';
 import { User } from './User';
 import { Subject } from './Subject';
+import { Team } from './Team';
 
 class Review extends Model {
   // PK
@@ -27,6 +28,8 @@ class Review extends Model {
   public submitter!: User;
   public subject_id!: string;
   public subject!: Subject;
+  public team_id!: string;
+  public team!: Team;
 
   public calm!: number;
   public clearInstructions!: number;
@@ -67,6 +70,10 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'subject_id': {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    'team_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -157,11 +164,13 @@ const sync = (sequelize: Sequelize) => {
 let ReviewResultsUser: BelongsTo<Review, User> ;
 let ReviewSubmittedUser: BelongsTo<Review, User>;
 let ReviewSubject: BelongsTo<Review, Subject>;
+let ReviewTeam: BelongsTo<Review, Team>;
 
 const assosciate = () => {
   ReviewResultsUser = Review.belongsTo(User, { foreignKey: 'receiver_id', targetKey: '_id', as: 'receiver' });
   ReviewSubmittedUser = Review.belongsTo(User, { foreignKey: 'submitter_id', targetKey: '_id', as: 'submitter' });
   ReviewSubject = Review.belongsTo(Subject, { foreignKey: 'subject_id', targetKey: '_id', as: 'subject' });
+  ReviewTeam = Review.belongsTo(Team, { foreignKey: 'team_id', targetKey: '_id', as: 'team' })
   return Review;
 }
 
@@ -171,5 +180,6 @@ export {
   ReviewResultsUser,
   ReviewSubmittedUser,
   ReviewSubject,
+  ReviewTeam,
   Review
 };
