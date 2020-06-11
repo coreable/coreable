@@ -320,6 +320,7 @@ ul {
       @media (max-width: 990px) {
         .grid-areas {
           width: 100%;
+          margin-bottom: 10px;
         }
       }
     }
@@ -329,6 +330,7 @@ ul {
         flex-wrap: wrap;
         // margin-top: 24pt;
         .filter {
+          margin-bottom: 10px;
           width: 100%;
           min-height: 200pt;
           border-radius: 4pt;
