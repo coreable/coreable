@@ -37,7 +37,6 @@ class Home extends Component {
       loading: true,
       completedTutorial: false,
     };
-    console.log(this.state.me["_id"]);
   }
 
   componentDidMount = async () => {

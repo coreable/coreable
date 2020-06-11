@@ -38,9 +38,7 @@ h1 {
     }
 
     .grid-home {
-      display: grid;
-      grid-template-columns: 1, 1fr;
-      grid-gap: 8px;
+      @include grid-2;
       grid-auto-flow: row;
       background: transparent;
       border: none;
@@ -155,7 +153,10 @@ h1 {
       }
     }
     @media (max-width: $max-width) {
-      .grid {
+      .grid-home {
+        display: grid;
+        grid-template-columns: 1, 1fr;
+        grid-gap: 8px;
         @include grid-1;
       }
     }
