@@ -8,6 +8,8 @@ class Communication extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      reviewState: this.props.location.state.reviewState,
+      user_id: this.props.location.state.user_id,
       currentIndex: this.props.location.state.currentIndex,
       pending: this.props.location.state.pending,
     };
@@ -59,6 +61,8 @@ class Communication extends Component {
                 pathname: "/review",
                 state: {
                   index: 5,
+                  reviewState: this.state.reviewState,
+                  user_id: this.state.user_id,
                   team_id: this.state.team_id,
                   pending: this.state.pending,
                 },
@@ -82,6 +86,8 @@ class Communication extends Component {
                 pathname: "/review",
                 state: {
                   index: this.state.currentIndex,
+                  reviewState: this.state.reviewState,
+                  user_id: this.state.user_id,
                   team_id: this.state.team_id,
                   pending: this.state.pending,
                 },

@@ -175,6 +175,7 @@ class Skills extends Component {
       );
       blind = this.filterByCommCollab(blind, "collaboration");
       teams = data.user.teams;
+      console.log(blind);
     } catch (err) {
       // Ignore
     }
@@ -712,24 +713,24 @@ class Skills extends Component {
     const btns = document.querySelectorAll(".facet-button");
     const tabs = document.querySelectorAll(".tab");
 
-    window.onscroll = function() {
-      filterBar();
-    };
+    // window.onscroll = function() {
+    //   filterBar();
+    // };
 
-    function filterBar() {
-      if (
-        document.body.scrollTop > 210 ||
-        document.documentElement.scrollTop > 210
-      ) {
-        document.querySelector(".main-skills-container").style.marginTop =
-          "85px";
-        document.querySelector(".skills-btns").className = "skills-btns fixed";
-      } else {
-        document.querySelector(".main-skills-container").style.marginTop =
-          "24px";
-        document.querySelector(".skills-btns").className = "skills-btns";
-      }
-    }
+    // function filterBar() {
+    //   if (
+    //     document.body.scrollTop > 210 ||
+    //     document.documentElement.scrollTop > 210
+    //   ) {
+    //     document.querySelector(".main-skills-container").style.marginTop =
+    //       "85px";
+    //     document.querySelector(".skills-btns").className = "skills-btns fixed";
+    //   } else {
+    //     document.querySelector(".main-skills-container").style.marginTop =
+    //       "24px";
+    //     document.querySelector(".skills-btns").className = "skills-btns";
+    //   }
+    // }
 
     for (let i = 0; i < btns.length; i++) {
       btns[i].addEventListener("click", function() {

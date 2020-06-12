@@ -256,6 +256,8 @@ class Review extends Component {
       this.props.history.push({
         pathname: "/communication",
         state: {
+          reviewState: this.state.reviewState,
+          user_id: this.state.user_id,
           currentIndex: currentIndex,
           pending: this.props.location.state.pending,
         },
@@ -369,8 +371,15 @@ class Review extends Component {
           ...this.state,
           submitting: false,
         });
+        this.props.history.push({
+          pathname: "/skills",
+        });
       })
       .catch((err) => console.error(err));
+
+    // this.props.history.push({
+    //   pathname: "/skills",
+    // });
   };
 
   render() {
