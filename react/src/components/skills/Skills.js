@@ -787,7 +787,7 @@ class Skills extends Component {
                 </p>
               </div>
             </div>
-            <div className="skills-btns">
+            {/* <div className="skills-btns">
               <ul className="skills-grid">
                 <div
                   style={{
@@ -822,8 +822,8 @@ class Skills extends Component {
                   </li>
                 </div>
               </ul>
-            </div>
-            <div className="skills-btns-dropdown">
+            </div> */}
+            {/* <div className="skills-btns-dropdown">
               <button
                 className="btn primarybtn"
                 onClick={this.filterToggle}
@@ -841,7 +841,7 @@ class Skills extends Component {
                   Communication
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="radar-div">
