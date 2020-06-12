@@ -19,7 +19,7 @@ import {
   // Route
 } from "react-router-dom";
 import { API_URL } from "../../constants";
-// import Radar from "./Radar";
+import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
 // import { ListItemAvatar } from "@material-ui/core";
@@ -843,10 +843,10 @@ class Skills extends Component {
               </div>
             </div>
           </div>
-          {/* 
+
           <div className="radar-div">
             <Radar {...this.state} />
-          </div> */}
+          </div>
 
           {/* <div>
             {(() => {
@@ -870,7 +870,7 @@ class Skills extends Component {
             })()}
           </div> */}
 
-          <div className="main-skills-container">
+          {/* <div className="main-skills-container">
             <div className="filter">
               <div
                 style={{
@@ -905,9 +905,9 @@ class Skills extends Component {
                   >
                     Traits
                   </button>
-                </div>
-                {/* TEAM FILTER */}
-                {/* <div>
+                </div> */}
+          {/* TEAM FILTER */}
+          {/* <div>
                   <label>Team</label>
                   <br />
                   <select
@@ -926,10 +926,10 @@ class Skills extends Component {
                     })}
                   </select>
                 </div> */}
-              </div>
-            </div>
+          {/* </div>
+            </div> */}
 
-            {(() => {
+          {/* {(() => {
               if (this.state.strengths.length > 0) {
                 return (
                   <div
@@ -976,8 +976,8 @@ class Skills extends Component {
                   </div>
                 );
               }
-            })()}
-            {(() => {
+            })()} */}
+          {/* {(() => {
               if (this.state.blind.length > 0) {
                 return (
                   <div
@@ -1019,7 +1019,7 @@ class Skills extends Component {
                 );
               }
             })()}
-          </div>
+          </div> */}
         </div>
       </div>
     );
