@@ -64,7 +64,7 @@ class TeamRank extends Component {
                 className="team-rating"
                 style={{
                   width: `${review[me_id][team_id][user_id][trait].val *
-                    4.3}px`,
+                    3.3}px`,
                   backgroundImage:
                     "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
                 }}

@@ -191,7 +191,8 @@ class Trait extends Component {
 
   getSliderBackground = () => {
     const user_id = this.state.user._id;
-    if (!user_id) {
+    console.log(user_id);
+    if (!user_id || this.state.val < 0) {
       return `linear-gradient(90deg, rgb(66, 113, 249) 0%, rgb(214, 214, 214) 0%)`;
     } else {
       return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
