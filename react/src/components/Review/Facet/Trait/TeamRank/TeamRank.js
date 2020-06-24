@@ -16,8 +16,8 @@ class TeamRank extends Component {
         {
           ...this.state,
           review: review,
-        },
-        () => console.log(this.state)
+        }
+        // () => console.log(this.state)
       );
     });
   }

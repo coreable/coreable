@@ -15,6 +15,7 @@ Coreable source code.
 import React, { Component } from "react";
 import Ranking from "./Ranking/Ranking";
 import TeamRank from "./TeamRank/TeamRank";
+import SliderIndicator from "./SliderIndicator";
 import { Subject } from "rxjs";
 
 import { Typography, CardActions, Button } from "@material-ui/core";
@@ -223,30 +224,6 @@ class Trait extends Component {
     return teamMemberCount;
   };
 
-  getPointColor = (val) => {
-    if (val > 19) {
-      return "#0096f8";
-    }
-  };
-
-  getPointColor2 = (val) => {
-    if (val > 39) {
-      return "#00b3e5";
-    }
-  };
-
-  getPointColor3 = (val) => {
-    if (val > 59) {
-      return "#00c8b3";
-    }
-  };
-
-  getPointColor4 = (val) => {
-    if (val > 79) {
-      return "#2dd775";
-    }
-  };
-
   clickHandler = () => {
     if (!this.state.showPara) {
       this.setState({
@@ -334,8 +311,8 @@ class Trait extends Component {
               onChange={this.handleSliderChange}
               style={{
                 backgroundImage: this.getSliderBackground(),
-                marginTop: "8pt",
-                marginBottom: "12pt",
+                marginTop: "24pt",
+                marginBottom: "4pt",
                 transition: "none",
                 borderRadius: "0.33rem",
                 height: "30px",
@@ -343,32 +320,7 @@ class Trait extends Component {
               }}
             />
 
-            <div className="slider-bar-border-container">
-              <div
-                className="bar"
-                style={{ background: this.getPointColor(this.state.val) }}
-              >
-                {" "}
-              </div>
-              <div
-                className="bar"
-                style={{ background: this.getPointColor2(this.state.val) }}
-              >
-                {" "}
-              </div>
-              <div
-                className="bar"
-                style={{ background: this.getPointColor3(this.state.val) }}
-              >
-                {" "}
-              </div>
-              <div
-                className="bar"
-                style={{ background: this.getPointColor4(this.state.val) }}
-              >
-                {" "}
-              </div>
-            </div>
+            <SliderIndicator value={this.state.val} />
           </div>
 
           <CardActions
