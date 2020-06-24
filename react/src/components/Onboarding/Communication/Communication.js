@@ -18,9 +18,10 @@ class Communication extends Component {
   render() {
     return (
       <div className="team-container">
-        <div className="top"></div>
+        <div className="top">
+          <h1 style={{ color: "white" }}>Welcome to Communication</h1>
+        </div>
         <div className="main-welcome">
-          <h1 style={{ color: "white" }}>Welcome to Collaboration</h1>
           <div className="grid">
             <div className="grid-card">
               <div className="inside-main">

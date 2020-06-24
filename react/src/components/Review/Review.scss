@@ -18,11 +18,40 @@
       text-align: center;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       flex-wrap: wrap;
+      flex-direction: column;
 
       .text-div {
         width: 80%;
+
+        div {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          left: 0;
+          text-align: center;
+        }
+
+        span {
+          display: inline;
+          border-bottom: 1px solid white;
+          border-right: 1px solid white;
+          height: 6px;
+          width: 6px;
+          margin-bottom: 10px;
+          position: absolute;
+          top: 195px;
+          right: 35%;
+        }
+
+        @media (max-width: $max-width) {
+          span {
+            right: 30px;
+          }
+        }
       }
       @media (max-width: $max-width) {
         .text-div {
@@ -53,12 +82,6 @@
       .facet-heading-desc {
         width: 80%;
       }
-    }
-  }
-
-  @media (max-width: $max-width) {
-    .top {
-      height: 35%;
     }
   }
 

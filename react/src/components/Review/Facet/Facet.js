@@ -29,6 +29,8 @@ class Facet extends Component {
       currentIndex: props.currentIndex,
       reviewState: props.reviewState,
       user_id: props.user_id,
+      showPara: false,
+      flip: "",
     };
   }
 
@@ -138,6 +140,20 @@ class Facet extends Component {
     });
   };
 
+  showPara = () => {
+    if (!this.state.showPara) {
+      this.setState({
+        showPara: !this.state.showPara,
+        flip: "scaleY(-1) scaleX(-1)",
+      });
+    } else {
+      this.setState({
+        showPara: !this.state.showPara,
+        flip: "",
+      });
+    }
+  };
+
   render() {
     const { currentIndex, stepsArray } = this.state;
 
@@ -154,7 +170,26 @@ class Facet extends Component {
             </div>
             <div className="text-div">
               <h1 style={{ width: "100%" }}>{this.state.name}</h1>
-              <p style={{ fontSize: "1.4rem" }}>{this.props.desc} </p>
+              <span
+                onClick={this.showPara}
+                style={{
+                  transform: `rotate(45deg) ${this.state.flip}`,
+                }}
+              ></span>
+              <div>
+                {this.state.showPara && (
+                  <p
+                    style={{
+                      margin: "0",
+                      padding: "0",
+                      fontSize: "1.3rem",
+                      width: "90%",
+                    }}
+                  >
+                    {this.props.desc}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>

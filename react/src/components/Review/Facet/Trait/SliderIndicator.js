@@ -7,11 +7,10 @@ export default function SliderIndicator(props) {
   };
   return (
     <div className="slider-bar-border-container">
-      <div className="bar" style={getBackgroundColor(props.value, 0)}></div>
-      <div className="bar" style={getBackgroundColor(props.value, 20)}></div>
-      <div className="bar" style={getBackgroundColor(props.value, 40)}></div>
-      <div className="bar" style={getBackgroundColor(props.value, 60)}></div>
-      <div className="bar" style={getBackgroundColor(props.value, 80)}></div>
+      <div className="bar" style={getBackgroundColor(props.value, 0)} />
+      <div className="bar" style={getBackgroundColor(props.value, 20)} />
+      <div className="bar" style={getBackgroundColor(props.value, 40)} />
+      <div className="bar" style={getBackgroundColor(props.value, 60)} />
     </div>
   );
 }
