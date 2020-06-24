@@ -312,7 +312,7 @@ class Trait extends Component {
               onChange={this.handleSliderChange}
               style={{
                 backgroundImage: this.getSliderBackground(),
-                marginTop: "40pt",
+                marginTop: "30pt",
                 marginBottom: "4pt",
                 transition: "none",
                 borderRadius: "0.33rem",
@@ -333,12 +333,13 @@ class Trait extends Component {
             <SliderIndicator value={this.state.val} />
           </div>
 
-          <CardActions
+          <div
             style={{
+              display: "flex",
               flexWrap: "wrap",
               justifyContent: "left",
               padding: "0",
-              marginTop: "10pt",
+              marginTop: "5pt",
             }}
           >
             {this.state.reviewState === 1
@@ -378,7 +379,7 @@ class Trait extends Component {
                     </Button>
                   );
                 })}
-          </CardActions>
+          </div>
 
           <div style={{ marginTop: "10px" }}>
             {this.props.pending.pending.map((user, index) => {
