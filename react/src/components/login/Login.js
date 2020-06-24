@@ -26,7 +26,6 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-
       touched: {
         email: false,
         password: false,
@@ -61,7 +60,8 @@ class Login extends Component {
 
   getColour = (field) => {
     if (this.state.touched[field] && !this.errors()[field]) {
-      return "#e8f0fe";
+      // return "#e8f0fe";
+      return "#f7f9fc";
     }
     return "#f7f9fc";
   };
@@ -143,7 +143,7 @@ class Login extends Component {
               Welcome,
             </h1>
             <h2 style={{ textAlign: "left", color: "#707070", margin: "0" }}>
-              sign in to continue
+              login to start
             </h2>
             <FormControl style={{ marginTop: "16pt", autocomplete: "off" }}>
               <TextField
@@ -187,7 +187,7 @@ class Login extends Component {
 
               <button
                 className="btn primarybtn"
-                disabled={this.isDisabled()}
+                // disabled={this.isDisabled()}
                 onClick={async () => {
                   await this.loginUser();
                 }}
@@ -195,6 +195,23 @@ class Login extends Component {
               >
                 Login
               </button>
+
+              <Link
+                to="/signup"
+                style={{
+                  marginTop: "8pt",
+                  textDecoration: "none",
+                  color: "lightgrey",
+                }}
+              >
+                <button
+                  className="btn blueTextButton"
+                  style={{ marginTop: "10px" }}
+                >
+                  Sign up
+                </button>
+              </Link>
+
               <div style={{ marginTop: "15px" }}>
                 <Link
                   to="/forgot"
@@ -205,17 +222,6 @@ class Login extends Component {
                   }}
                 >
                   Forgot password
-                </Link>
-                <span> |||||| </span>
-                <Link
-                  to="/signup"
-                  style={{
-                    marginTop: "8pt",
-                    textDecoration: "none",
-                    color: "lightgrey",
-                  }}
-                >
-                  Create account
                 </Link>
               </div>
             </FormControl>

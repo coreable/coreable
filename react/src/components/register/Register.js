@@ -169,10 +169,10 @@ class Register extends Component {
         <div className="grid">
           <div className="grid-card">
             <h1 style={{ textAlign: "left", color: "#000", margin: "0" }}>
-              Welcome,
+              Start your journey,
             </h1>
             <h2 style={{ textAlign: "left", color: "#707070", margin: "0" }}>
-              sign up to continue
+              the future of work is here
             </h2>
             <FormControl style={{ marginTop: "16pt", width: "100%" }}>
               <TextField

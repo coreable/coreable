@@ -71,7 +71,7 @@
 @mixin grid-12 {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-gap: 8px;
+  grid-gap: 15px;
   max-width: 972px;
   margin: 0 auto;
 }
@@ -79,7 +79,7 @@
 @mixin grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 8px;
+  grid-gap: 15px;
   max-width: 648px;
   margin: 0 auto;
 }
@@ -142,24 +142,32 @@
 
 //Top Navy Box
 @mixin top {
-  background: $secondaryBlue;
-  position: absolute;
+  background: $backgroundBlue;
+  // position: absolute;
   top: 0px;
-  padding-top: 80px;
+  padding-top: 50px;
   margin: 0 auto;
   text-align: center;
   height: 225px;
   width: 100%;
   z-index: 0;
   color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@mixin top-mobile {
 }
 
 //Main Div - Transparent
 @mixin main {
   background: transparent;
   border: none;
-  position: absolute;
-  top: 15%;
+  // position: absolute;
+  // top: 15%;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 20px;

@@ -16,13 +16,9 @@ import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 import "./Home.scss";
 
-import {
-  Typography,
-  TextField,
-  Stepper,
-  Step,
-  StepLabel,
-} from "@material-ui/core";
+import Stepper from "./Stepper";
+
+import { TextField } from "@material-ui/core";
 
 import { API_URL } from "../../constants";
 
@@ -94,6 +90,8 @@ class Home extends Component {
       loading: false,
       me,
     });
+
+    // console.log(this.state.me.teams);
   };
 
   drawerToggleClickHandler = () => {
@@ -237,14 +235,13 @@ class Home extends Component {
     return (
       <div>
         <div className="review-container">
-          <div className="top-background"></div>
+          <div className="top-background">
+            <h1>Your teams</h1>
+            <p style={{ fontSize: "1.4rem", color: "white" }}>
+              View, review and join teams.
+            </p>
+          </div>
           <div className="main">
-            <div className="inside-main">
-              <h1>Your teams</h1>
-              <p style={{ fontSize: "1.4rem", color: "white" }}>
-                View, review and join teams.
-              </p>
-            </div>
             <div className="grid-home">
               {this.state.me.teams.map((team, index) => {
                 if (team._id !== "joinTeam") {
@@ -253,43 +250,7 @@ class Home extends Component {
                       <div className="team-card">
                         <h1>{this.capitalize(team.subject.name)}</h1>
                         <p>{this.capitalize(team.name)}</p>
-
-                        <span className="stepper-line"> </span>
-                        <Stepper
-                          activeStep={team.subject.state - 1}
-                          alternativeLabel
-                          style={{
-                            padding: "25px 0 22px 0",
-                            position: "relative",
-                          }}
-                        >
-                          {this.state.steps.map((label, index) => {
-                            const isDisabled = this.getReviewButtonState(
-                              team._id
-                            );
-                            let props = {};
-                            if (isDisabled && index === 0) {
-                              props.optional = (
-                                <Typography
-                                  variant="caption"
-                                  style={{
-                                    display: "flex",
-                                    justify: "center",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  Completed
-                                </Typography>
-                              );
-                            }
-                            return (
-                              <Step key={label}>
-                                <StepLabel {...props}>{label}</StepLabel>
-                              </Step>
-                            );
-                          })}
-                        </Stepper>
+                        <Stepper reviewState={team.subject.state} />
 
                         <Link
                           to={{
@@ -327,7 +288,6 @@ class Home extends Component {
                     <div className="team-card">
                       <h1>Join team</h1>
                       <p>Enter your team code below</p>
-
                       <TextField
                         label="Team Code"
                         placeholder="eg: Team 1"
@@ -345,7 +305,7 @@ class Home extends Component {
                             await this.joinTeam();
                           }
                         }}
-                        style={{ marginTop: "20pt", paddingBottom: "33px" }}
+                        style={{ background: "#F7F9FC" }}
                       />
                       <button
                         className="btn primarybtn"

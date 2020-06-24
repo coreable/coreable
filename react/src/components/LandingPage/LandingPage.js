@@ -33,18 +33,17 @@ class LandingPage extends Component {
     }
 
     return (
-      <div
-        style={{ backgroundColor: "#0b152f", height: "100vh" }}
-        className="container"
-      >
+      <div className="container">
         <div className="grid">
           <div className="grid-card">
-            <h1 style={{ marginTop: "48pt" }}> Welcome to Coreable </h1>
+            <h1 style={{ marginTop: "48pt", color: "black" }}>
+              Welcome to Coreable
+            </h1>
             <div
               style={{
                 fontSize: "1.6rem",
                 marginTop: "32pt",
-                color: "lightgrey",
+                color: "rgb(112, 112, 112)",
               }}
             >
               Create an account or sign in to manage <br /> your Coreable
@@ -52,7 +51,7 @@ class LandingPage extends Component {
             </div>
             <div style={{ marginTop: "48pt" }}>
               <Link to="/login">
-                <button className="btn transparentbtn">Login</button>
+                <button className="btn blueTextButton">Login</button>
               </Link>
             </div>
             <div style={{ marginTop: "8pt" }}>
