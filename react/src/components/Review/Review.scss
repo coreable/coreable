@@ -295,6 +295,11 @@
               background-color: #f7f9fc;
               z-index: 3;
             }
+
+            span:nth-child(2),
+            span:nth-child(3) {
+              transform: translateX(1px);
+            }
           }
         }
 
