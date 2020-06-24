@@ -73,6 +73,9 @@ class TeamRank extends Component {
               <Typography
                 variant="caption"
                 style={{
+                  fontSize: "1rem",
+                  fontWeight: "400",
+                  color: "#4070e0",
                   marginLeft: "5px",
                   paddingBottom: "5px",
                   marginTop: "2px",

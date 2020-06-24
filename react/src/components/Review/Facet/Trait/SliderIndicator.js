@@ -11,6 +11,7 @@ export default function SliderIndicator(props) {
       <div className="bar" style={getBackgroundColor(props.value, 20)} />
       <div className="bar" style={getBackgroundColor(props.value, 40)} />
       <div className="bar" style={getBackgroundColor(props.value, 60)} />
+      <div className="bar" style={getBackgroundColor(props.value, 80)} />
     </div>
   );
 }
