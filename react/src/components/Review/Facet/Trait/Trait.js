@@ -311,7 +311,7 @@ class Trait extends Component {
               onChange={this.handleSliderChange}
               style={{
                 backgroundImage: this.getSliderBackground(),
-                marginTop: "24pt",
+                marginTop: "40pt",
                 marginBottom: "4pt",
                 transition: "none",
                 borderRadius: "0.33rem",
@@ -319,6 +319,15 @@ class Trait extends Component {
                 // zIndex: "2",
               }}
             />
+
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
 
             <SliderIndicator value={this.state.val} />
           </div>

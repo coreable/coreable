@@ -277,6 +277,25 @@
           input[type="range"]:focus::-ms-fill-upper {
             background: rgb(64, 112, 224);
           }
+
+          div {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            top: 53px;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            span {
+              display: inline-block;
+              width: 0.5pt;
+              height: 30px;
+              background-color: #f7f9fc;
+              z-index: 3;
+            }
+          }
         }
 
         .element-div {
