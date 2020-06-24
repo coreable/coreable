@@ -279,12 +279,12 @@ class Trait extends Component {
           <div style={{ width: "100%" }}>
             {this.state.showPara ? (
               <p
-                variant="subtitle1"
                 style={{
-                  padding: "15px",
-                  marginTop: "34pt",
+                  // padding: "15px",
+                  // marginTop: "34pt",
                   color: "#707070",
                   transition: "all 0.5s easeOut",
+                  fontSize: "1.4rem",
                 }}
               >
                 {this.state.para}

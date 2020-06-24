@@ -118,16 +118,18 @@
           border-radius: 4pt 4pt 0 0;
           border-bottom: 1px solid #d6d6d6;
           width: 100%;
-          min-height: 77px;
+          // min-height: 77px;
+          padding-top: 10px;
+          padding-bottom: 10px;
           text-align: center;
 
           .inside-text-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            position: absolute;
-            top: 10px;
-            left: 0;
+            // position: absolute;
+            // top: 10px;
+            // left: 0;
             width: 100%;
           }
         }
