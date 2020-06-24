@@ -263,121 +263,144 @@ class Trait extends Component {
 
   render() {
     return (
-      <div style={{ position: "relative" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            variant="h4"
-            style={{
-              marginTop: "8pt",
-              marginBottom: "10pt",
-              fontWeight: "bold",
-              width: "70%",
-            }}
-          >
-            {this.state.desc}
-          </Typography>
-          <span
-            onClick={this.clickHandler}
-            style={{
-              display: "inline",
-              // position: "absolute",
-              // top: "8px",
-              // right: "5px",
-              borderBottom: this.state.border,
-              borderRight: this.state.border,
-              height: "6px",
-              width: "6px",
-              marginBottom: "10px",
-              transform: `rotate(45deg) ${this.state.flip}`,
-            }}
-          ></span>
-        </div>
-        {this.state.showPara ? (
-          <Typography
-            variant="subtitle1"
-            style={{
-              marginBottom: "16pt",
-              color: "#707070",
-              transition: "all 0.5s easeOut",
-            }}
-          >
-            {this.state.para}
-          </Typography>
-        ) : null}
+      <div
+        style={{
+          position: "relative",
+          background: "#F7F9FC",
+          borderRadius: "4pt",
+        }}
+      >
+        <div className="text-container">
+          <div className="inside-text-container">
+            <h1
+              style={{
+                fontSize: "2rem",
+                marginTop: "8pt",
+                marginBottom: "10pt",
+                fontWeight: "bold",
+                width: "90%",
+              }}
+            >
+              {this.state.desc}
+            </h1>
+            <span
+              onClick={this.clickHandler}
+              style={{
+                display: "inline",
+                borderBottom: this.state.border,
+                borderRight: this.state.border,
+                height: "6px",
+                width: "6px",
+                marginBottom: "10px",
+                position: "absolute",
+                right: "15px",
+                transform: `rotate(45deg) ${this.state.flip}`,
+              }}
+            ></span>
+          </div>
 
-        <Ranking {...this.state} />
-
-        <div className="slider-bar-container">
-          <input
-            type="range"
-            min={0}
-            max={100}
-            step={5}
-            key={this.state.var}
-            id={this.state.var}
-            name={this.state.var}
-            value={!!this.state.val ? this.state.val : 0}
-            disabled={!this.state.user._id}
-            className="rating"
-            onChange={this.handleSliderChange}
-            style={{
-              backgroundImage: this.getSliderBackground(),
-              marginTop: "8pt",
-              marginBottom: "12pt",
-              transition: "none",
-              borderRadius: "0.33rem",
-              // zIndex: "2",
-            }}
-          />
-
-          <div className="slider-bar-border-container">
-            <div
-              className="bar"
-              style={{ background: this.getPointColor(this.state.val) }}
-            >
-              {" "}
-            </div>
-            <div
-              className="bar"
-              style={{ background: this.getPointColor2(this.state.val) }}
-            >
-              {" "}
-            </div>
-            <div
-              className="bar"
-              style={{ background: this.getPointColor3(this.state.val) }}
-            >
-              {" "}
-            </div>
-            <div
-              className="bar"
-              style={{ background: this.getPointColor4(this.state.val) }}
-            >
-              {" "}
-            </div>
+          <div style={{ width: "100%" }}>
+            {this.state.showPara ? (
+              <p
+                variant="subtitle1"
+                style={{
+                  padding: "15px",
+                  marginTop: "34pt",
+                  color: "#707070",
+                  transition: "all 0.5s easeOut",
+                }}
+              >
+                {this.state.para}
+              </p>
+            ) : null}
           </div>
         </div>
 
-        <CardActions
-          style={{
-            flexWrap: "wrap",
-            justifyContent: "left",
-            padding: "0",
-            marginTop: "10pt",
-          }}
-        >
-          {this.state.reviewState === 1
-            ? this.props.pending.pending
-                .filter((user) => {
-                  return user._id === this.state.user_id;
-                })
-                .map((user, index) => {
+        <div className="trait-container">
+          <Ranking {...this.state} />
+
+          <div className="slider-bar-container">
+            <input
+              type="range"
+              min={0}
+              max={100}
+              step={5}
+              key={this.state.var}
+              id={this.state.var}
+              name={this.state.var}
+              value={!!this.state.val ? this.state.val : 0}
+              disabled={!this.state.user._id}
+              className="rating"
+              onChange={this.handleSliderChange}
+              style={{
+                backgroundImage: this.getSliderBackground(),
+                marginTop: "8pt",
+                marginBottom: "12pt",
+                transition: "none",
+                borderRadius: "0.33rem",
+                height: "30px",
+                // zIndex: "2",
+              }}
+            />
+
+            <div className="slider-bar-border-container">
+              <div
+                className="bar"
+                style={{ background: this.getPointColor(this.state.val) }}
+              >
+                {" "}
+              </div>
+              <div
+                className="bar"
+                style={{ background: this.getPointColor2(this.state.val) }}
+              >
+                {" "}
+              </div>
+              <div
+                className="bar"
+                style={{ background: this.getPointColor3(this.state.val) }}
+              >
+                {" "}
+              </div>
+              <div
+                className="bar"
+                style={{ background: this.getPointColor4(this.state.val) }}
+              >
+                {" "}
+              </div>
+            </div>
+          </div>
+
+          <CardActions
+            style={{
+              flexWrap: "wrap",
+              justifyContent: "left",
+              padding: "0",
+              marginTop: "10pt",
+            }}
+          >
+            {this.state.reviewState === 1
+              ? this.props.pending.pending
+                  .filter((user) => {
+                    return user._id === this.state.user_id;
+                  })
+                  .map((user, index) => {
+                    return (
+                      <Button
+                        className="select-user-button"
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        style={this.getButtonStyles(user)}
+                        disableElevation
+                        key={index}
+                        onClick={() => this.handleSelectedUserChange(user)}
+                      >
+                        {user.firstName + " " + user.lastName}
+                      </Button>
+                    );
+                  })
+              : this.props.pending.pending.map((user, index) => {
                   return (
                     <Button
                       className="select-user-button"
@@ -392,42 +415,27 @@ class Trait extends Component {
                       {user.firstName + " " + user.lastName}
                     </Button>
                   );
-                })
-            : this.props.pending.pending.map((user, index) => {
-                return (
-                  <Button
-                    className="select-user-button"
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    style={this.getButtonStyles(user)}
-                    disableElevation
-                    key={index}
-                    onClick={() => this.handleSelectedUserChange(user)}
-                  >
-                    {user.firstName + " " + user.lastName}
-                  </Button>
-                );
-              })}
-        </CardActions>
+                })}
+          </CardActions>
 
-        <div style={{ marginTop: "10px" }}>
-          {this.props.pending.pending.map((user, index) => {
-            return (
-              <TeamRank
-                key={user._id}
-                name={user._id}
-                me={this.props.me}
-                user={user}
-                team={this.props.pending}
-                value={this.state.val}
-                trait={this.state.var}
-                defaultReview={this.getReview()}
-                reviewSubject={this.reviewSubject}
-                teamMemberCount={this.countTeam()}
-              />
-            );
-          })}
+          <div style={{ marginTop: "10px" }}>
+            {this.props.pending.pending.map((user, index) => {
+              return (
+                <TeamRank
+                  key={user._id}
+                  name={user._id}
+                  me={this.props.me}
+                  user={user}
+                  team={this.props.pending}
+                  value={this.state.val}
+                  trait={this.state.var}
+                  defaultReview={this.getReview()}
+                  reviewSubject={this.reviewSubject}
+                  teamMemberCount={this.countTeam()}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     );

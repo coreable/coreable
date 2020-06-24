@@ -146,9 +146,12 @@ h1 {
           .primarybtn {
             @include primary-button;
             &:disabled {
-              color: $primaryBlue !important;
+              color: $disabledGrey !important;
               background-color: transparent !important;
-              border: 2px solid $primaryBlue !important;
+              border: 2px solid $disabledGrey !important;
+              &:hover {
+                transform: scale(1);
+              }
             }
           }
 

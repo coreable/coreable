@@ -26,12 +26,6 @@ p {
     @include top;
   }
 
-  @media (max-width: $max-width) {
-    .top {
-      height: 30%;
-    }
-  }
-
   .main-welcome {
     @include main;
     display: inline;
@@ -75,20 +69,22 @@ p {
 
     .grid {
       @include grid-12;
+      grid-gap: 0;
 
       .grid-card {
         grid-column: 4/10;
         text-align: center;
         min-height: 200px;
         border-radius: 0.33rem;
-        margin-top: 40pt;
+        // margin-top: 40pt;
 
         .inside-main {
           min-height: 200px;
           background: white;
           border-radius: 0.33rem;
-          margin-top: 40pt;
+          // margin-top: 40pt;
           padding: 20px;
+          @include boxshadow;
 
           span {
             height: 60pt;
@@ -117,11 +113,9 @@ p {
     }
     @media (max-width: $max-width) {
       .grid {
-        @include grid-4;
-
-        .grid-card {
-          grid-column: 1/5;
-        }
+        @include grid-2;
+        max-width: 90%;
+        grid-gap: 0;
       }
     }
 
@@ -139,6 +133,7 @@ p {
       .btn {
         @include button;
         width: 375px;
+        border-radius: 8pt;
       }
 
       @media (max-width: $max-width) {
