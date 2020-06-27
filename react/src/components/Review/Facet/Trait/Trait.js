@@ -277,7 +277,7 @@ class Trait extends Component {
             ></span>
           </div>
 
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "90%", paddingLeft: "5%", paddingRight: "5%" }}>
             {this.state.showPara ? (
               <p
                 style={{

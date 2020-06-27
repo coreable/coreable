@@ -182,7 +182,7 @@ class Facet extends Component {
                     style={{
                       margin: "0",
                       padding: "0",
-                      fontSize: "1.3rem",
+                      fontSize: "1.1rem",
                       width: "90%",
                     }}
                   >
