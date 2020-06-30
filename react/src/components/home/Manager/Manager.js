@@ -18,7 +18,6 @@ import {
   Redirect,
   // Route
 } from "react-router-dom";
-
 import "./Manager.scss";
 
 class Skills extends Component {
@@ -26,10 +25,33 @@ class Skills extends Component {
     super(props);
   }
 
-  render() {
-    const btns = document.querySelectorAll(".facet-button");
-    const tabs = document.querySelectorAll(".tab");
+  filter = {
+    default: [
+      { subject: "" },
+      { tutorials: "" },
+      { team: "" },
+      { individuals: "" },
+      { commOrCollab: "collaboration" },
+    ],
+    getFilteredResults: (e) => {
+      this.view.toggleTab(e);
+    },
+  };
 
+  view = {
+    toggleTab: (e) => {
+      let currentBtn = e.target;
+      if (currentBtn.className === "tab") {
+        let btns = document.querySelectorAll("#tab");
+        btns.forEach((btn) => {
+          btn.className = "tab";
+        });
+        currentBtn.classList.add("active");
+      }
+    },
+  };
+
+  render() {
     window.onscroll = function() {
       filterBar();
     };
@@ -56,17 +78,21 @@ class Skills extends Component {
     return (
       <div className="review-container">
         <div className="top-background">
-          <h1 style={{ color: "white" }}>Your Skills</h1>
-          <p
-            style={{
-              fontSize: "1.4rem",
-              marginBottom: "35pt",
-              color: "#d6d6d6",
-            }}
-          >
-            All marks are average of 5 assessments <br /> (Unless otherwise
-            specified)
-          </p>
+          <div className="skills-main-grid">
+            <div className="skill-grid">
+              <h1 style={{ color: "white" }}>Your Skills</h1>
+              <p
+                style={{
+                  fontSize: "1.4rem",
+                  marginBottom: "35pt",
+                  color: "#d6d6d6",
+                }}
+              >
+                All marks are average of 5 assessments <br /> (Unless otherwise
+                specified)
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="skills-main">
@@ -87,8 +113,9 @@ class Skills extends Component {
                 >
                   <li>
                     <button
+                      id="tab"
                       className="tab active"
-                      onClick={this.filterToggle}
+                      onClick={this.filter.getFilteredResults}
                       value="collaboration"
                     >
                       Collaboration
@@ -103,8 +130,9 @@ class Skills extends Component {
                 >
                   <li>
                     <button
+                      id="tab"
                       className="tab"
-                      onClick={this.filterToggle}
+                      onClick={this.filter.getFilteredResults}
                       value="communication"
                     >
                       Communication
@@ -135,10 +163,6 @@ class Skills extends Component {
             </div> */}
           </div>
 
-          {/* <div className="radar-div">
-            <Radar {...this.state} />
-          </div> */}
-
           <div className="main-skills-container">
             <div className="filter">
               <div
@@ -153,38 +177,35 @@ class Skills extends Component {
                 }}
               >
                 <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Dashboard
+                  Managers dashboard
                 </h1>
               </div>
-              <div style={{ textAlign: "left", padding: "24px" }}>
-                <span style={{ color: "#4070e0" }}>Team review</span>
-                <span style={{ color: "#2dd775" }}>Self review</span>
-                <div style={{ margin: "16px 0" }}>
-                  <button
-                    className="facet-button "
-                    value="facets"
-                    onClick={this.filterToggle}
-                  >
-                    Facets
-                  </button>
-                  <button
-                    className="facet-button selected"
-                    value="traits"
-                    onClick={this.filterToggle}
-                  >
-                    Traits
-                  </button>
+              <div
+                className="dashboard-menu"
+                style={{ textAlign: "left", padding: "24px" }}
+              >
+                <div>
+                  <label>Subject</label>
+                  <select>
+                    <option value="">test</option>
+                  </select>
                 </div>
-                {/* TEAM FILTER */}
+                <div>
+                  <label>Tutorials</label>
+                  <select>
+                    <option value="">test</option>
+                  </select>
+                </div>
                 <div>
                   <label>Team</label>
-                  <br />
-                  <select
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                    }}
-                  >
-                    <option>All</option>
+                  <select>
+                    <option value="">test</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Individuals</label>
+                  <select>
+                    <option value="">test</option>
                   </select>
                 </div>
               </div>
@@ -192,14 +213,18 @@ class Skills extends Component {
 
             <div
               className="grid-areas"
-              style={{ gridArea: "index", height: "439pt" }}
+              style={{ gridArea: "index", height: "439px" }}
             >
               <div className="heading">
                 <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
                   Collaboration Index
                 </h1>
               </div>
-              <div className="grid-area-inside"></div>
+              <div className="grid-area-inside">
+                {/* <div className="radar-div">
+            <Radar {...this.state} />
+          </div> */}
+              </div>
             </div>
 
             <div className="grid-areas" style={{ gridArea: "top-strength" }}>
