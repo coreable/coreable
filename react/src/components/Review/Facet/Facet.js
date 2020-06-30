@@ -118,7 +118,6 @@ class Facet extends Component {
     let currentIndex = this.state.currentIndex;
     currentIndex++;
     this.setState({ currentIndex: currentIndex });
-    console.log(currentIndex);
     window.scrollTo({
       top: 0,
       behavior: "smooth",

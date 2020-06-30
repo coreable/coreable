@@ -44,70 +44,66 @@ class Register extends Component {
     this.props.ReactGA.pageview("/signup");
   };
 
-  errors = () => {
-    return this.validate(
-      this.state.email,
-      this.state.password,
-      this.state.firstName,
-      this.state.lastName
-    );
-  };
-
-  validate = (email, password, firstName, lastName) => {
-    return {
-      email: email.length === 0 || !email.includes("@"),
-      password: password.length < 6,
-      firstName: firstName.length <= 1,
-      lastName: lastName.length <= 1,
-    };
-  };
-
-  handleChange = (evt) => {
-    this.setState({ [evt.target.name]: evt.target.value });
-  };
-
-  handleBlur = (field) => (evt) => {
-    this.setState({
-      touched: { ...this.state.touched, [field]: true },
-    });
-  };
-
-  getColour = (field) => {
-    if (this.state.touched[field] && !this.errors()[field]) {
-      return "#e8f0fe";
-    }
-    return "#f7f9fc";
-  };
-
-  handleSubmit = (evt) => {
-    if (!this.isDisabled) {
-      evt.preventDefault();
-      return false;
-    }
-  };
-
-  shouldMarkError = (field) => {
-    const hasError = this.errors()[field];
-    const shouldShow = this.state.touched[field];
-    return hasError ? shouldShow : false;
-  };
-
-  helperText = (field) => {
-    const hasError = this.errors()[field];
-    const shouldShow = this.state.touched[field];
-    if (hasError && shouldShow) {
-      if (field === "password" && this.state.password.length === 0) {
-        return "Invalid password";
+  handlers = {
+    errors: () => {
+      return this.handlers.validate(
+        this.state.email,
+        this.state.password,
+        this.state.firstName,
+        this.state.lastName
+      );
+    },
+    validate: (email, password, firstName, lastName) => {
+      return {
+        email: email.length === 0 || !email.includes("@"),
+        password: password.length <= 4,
+        firstName: firstName.length <= 1 || !isNaN(firstName),
+        lastName: lastName.length <= 1 || !isNaN(lastName),
+      };
+    },
+    change: (e) => {
+      this.setState({ [e.target.name]: e.target.value });
+    },
+    blur: (field) => (e) => {
+      this.setState({
+        touched: { ...this.state.touched, [field]: true },
+      });
+    },
+    getColour: (field) => {
+      if (this.state.touched[field] && !this.handlers.errors()[field]) {
+        return "#e8f0fe";
       }
-      if (field === "password") {
-        return `Password must be longer than 5 characters`;
-      } else {
-        return "Invalid email";
+      return "#f7f9fc";
+    },
+    handleSubmit: (e) => {
+      if (!this.isDisabled) {
+        e.preventDefault();
+        return false;
       }
-    }
+    },
+    shouldMarkError: (field) => {
+      const hasError = this.handlers.errors()[field];
+      const shouldShow = this.state.touched[field];
+      return hasError ? shouldShow : false;
+    },
+    helperText: (field) => {
+      const hasError = this.handlers.errors()[field];
+      const shouldShow = this.state.touched[field];
+      if (hasError && shouldShow) {
+        if (field === "password" && this.state.password.length === 0) {
+          return "Invalid password";
+        }
+        if (field === "password") {
+          return `Password must be longer than 5 characters`;
+        } else {
+          return "Invalid email";
+        }
+      }
+    },
   };
 
-  isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
+  isDisabled = () =>
+    Object.keys(this.handlers.errors()).some((x) => this.handlers.errors()[x]);
 
   registerUser = async () => {
     const query = {
@@ -182,11 +178,11 @@ class Register extends Component {
                 margin="normal"
                 variant="outlined"
                 name="firstName"
-                error={this.shouldMarkError("firstName")}
+                error={this.handlers.shouldMarkError("firstName")}
                 value={this.state.firstName}
                 type="text"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("firstName")}
+                onChange={this.handlers.change}
+                onBlur={this.handlers.blur("firstName")}
                 style={{
                   marginTop: "16pt",
                 }}
@@ -198,11 +194,11 @@ class Register extends Component {
                 margin="normal"
                 variant="outlined"
                 name="lastName"
-                error={this.shouldMarkError("lastName")}
+                error={this.handlers.shouldMarkError("lastName")}
                 value={this.state.lastName}
                 type="text"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("lastName")}
+                onChange={this.handlers.change}
+                onBlur={this.handlers.blur("lastName")}
                 style={{
                   marginTop: "8pt",
                 }}
@@ -214,12 +210,12 @@ class Register extends Component {
                 margin="normal"
                 variant="outlined"
                 name="email"
-                error={this.shouldMarkError("email")}
-                helperText={this.helperText("email")}
+                error={this.handlers.shouldMarkError("email")}
+                helperText={this.handlers.helperText("email")}
                 value={this.state.email}
                 type="email"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("email")}
+                onChange={this.handlers.change}
+                onBlur={this.handlers.blur("email")}
                 style={{
                   marginTop: "8pt",
                 }}
@@ -231,12 +227,12 @@ class Register extends Component {
                 margin="normal"
                 variant="outlined"
                 name="password"
-                error={this.shouldMarkError("password")}
-                helperText={this.helperText("password")}
+                error={this.handlers.shouldMarkError("password")}
+                helperText={this.handlers.helperText("password")}
                 value={this.state.password}
                 type="password"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("password")}
+                onChange={this.handlers.change}
+                onBlur={this.handlers.blur("password")}
                 onKeyPress={async (e) => {
                   if (e.key === "Enter") {
                     await this.registerUser();

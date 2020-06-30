@@ -262,7 +262,16 @@ class Review extends Component {
           pending: this.props.location.state.pending,
         },
       });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
 
     currentIndex++;
     this.setState({
@@ -283,6 +292,10 @@ class Review extends Component {
     this.setState({
       ...this.state,
       currentIndex: currentIndex - 1,
+    });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
   };
 

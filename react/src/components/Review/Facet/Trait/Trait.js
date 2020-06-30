@@ -37,7 +37,6 @@ class Trait extends Component {
       border: "1px solid #707070",
       reviewState: props.reviewState,
     };
-    console.log(this.state.name);
     this.reviewSubject = new Subject();
   }
 
@@ -191,7 +190,6 @@ class Trait extends Component {
 
   getSliderBackground = () => {
     const user_id = this.state.user._id;
-    console.log(user_id);
     if (!user_id || this.state.val < 0) {
       return `linear-gradient(90deg, rgb(66, 113, 249) 0%, rgb(214, 214, 214) 0%)`;
     } else {

@@ -37,6 +37,7 @@ const Collaboration = lazy(() =>
 const Communication = lazy(() =>
   import("./components/Onboarding/Communication/Communication")
 );
+const Manager = lazy(() => import("./components/home/Manager/Manager"));
 
 class App extends Component {
   constructor(props) {
@@ -325,6 +326,18 @@ class App extends Component {
               path="/communication"
               component={(props) => (
                 <Communication
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/manager"
+              component={(props) => (
+                <Manager
                   {...props}
                   app={this.state}
                   refreshMe={this.refreshMe}

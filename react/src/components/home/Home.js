@@ -100,9 +100,9 @@ class Home extends Component {
     });
   };
 
-  backdropClickHandler = () => {
-    this.setState({ sideDrawerOpen: false });
-  };
+  // backdropClickHandler = () => {
+  //   this.setState({ sideDrawerOpen: false });
+  // };
 
   getIsValidInviteCode = (inviteCode) => {
     return {
@@ -208,14 +208,20 @@ class Home extends Component {
     }
   };
 
-  firstReview = () => {
-    if (!localStorage.getItem("hasCompletedTutorial")) {
-      localStorage.setItem("hasCompletedTutorial", true);
-    } else if (localStorage.getItem("hasCompletedTutorial")) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+  ReviewCardHandler = (e) => {
+    function firstReview() {
+      if (!localStorage.getItem("hasCompletedTutorial")) {
+        localStorage.setItem("hasCompletedTutorial", true);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      } else if (localStorage.getItem("hasCompletedTutorial")) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
@@ -235,18 +241,139 @@ class Home extends Component {
     return (
       <div>
         <div className="review-container">
-          <div className="top-background">
-            <h1>Your teams</h1>
-            <p style={{ fontSize: "1.4rem", color: "white" }}>
-              View, review and join teams.
-            </p>
-          </div>
+          <PageHeading />
           <div className="main">
             <div className="grid-home">
               {this.state.me.teams.map((team, index) => {
                 if (team._id !== "joinTeam") {
                   return (
-                    <div className="grid-card-home" key={index}>
+                    <ReviewCard
+                      team={team}
+                      key={index}
+                      onClick={this.ReviewCardHandler}
+                      capitalize={this.capitalize}
+                      disabled={this.getReviewButtonState(team._id)}
+                      teamSubjectState={
+                        this.state.me.teams[index].subject.state
+                      }
+                      reviewState={this.state.me.teams[index].subject.state}
+                      user_id={this.state.me["_id"]}
+                      pending={this.getPendingUser(team._id)}
+                    />
+                  );
+                }
+                return (
+                  <JoinCard
+                    key={index}
+                    value={this.state.inviteCode}
+                    onChange={this.handleChange}
+                    onBlur={this.handleBlur("inviteCode")}
+                    onKeyPress={async (e) => {
+                      if (e.key === "Enter") {
+                        await this.joinTeam();
+                      }
+                    }}
+                    disabled={this.isDisabled()}
+                    onClick={async () => {
+                      await this.joinTeam();
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+const PageHeading = () => {
+  return (
+    <div className="top-background">
+      <h1>Your teams</h1>
+      <p style={{ fontSize: "1.4rem", color: "white" }}>
+        View, review and join teams.
+      </p>
+    </div>
+  );
+};
+
+const ReviewCard = (props) => {
+  const team = props.team;
+
+  return (
+    <div className="grid-card-home">
+      <div className="team-card">
+        <h1>{props.capitalize(team.subject.name)}</h1>
+        <p>{props.capitalize(team.name)}</p>
+        <Stepper reviewState={team.subject.state} />
+
+        <Link
+          to={{
+            // pathname: localStorage.getItem("hasCompletedTutorial")
+            //   ? "/review"
+            //   : "/collaboration",
+            pathname:
+              props.teamSubjectState === 1 ? "/intro" : "/collaboration",
+            state: {
+              reviewState: props.reviewState,
+              user_id: props.user_id,
+              team_id: team._id,
+              pending: props.pending,
+            },
+          }}
+        >
+          <button
+            className="btn primarybtn"
+            onClick={props.onClick}
+            disabled={props.disabled}
+            disableElevation
+          >
+            Start Review
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+const JoinCard = (props) => {
+  return (
+    <div className="grid-card-home">
+      <div className="team-card">
+        <h1>Join team</h1>
+        <p>Enter your team code below</p>
+        <TextField
+          label="Team Code"
+          placeholder="eg: Team 1"
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ style: { fontSize: 12 } }}
+          variant="outlined"
+          name="inviteCode"
+          value={props.value}
+          type="text"
+          onChange={props.onChange}
+          onBlur={props.onBlur}
+          onKeyPress={props.onKeyPress}
+          style={{ background: "#F7F9FC" }}
+        />
+        <button
+          className="btn primarybtn"
+          disabled={props.disabled}
+          onClick={props.onClick}
+        >
+          Join Team
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+
+/* <div className="grid-card-home" key={index}>
                       <div className="team-card">
                         <h1>{this.capitalize(team.subject.name)}</h1>
                         <p>{this.capitalize(team.name)}</p>
@@ -280,11 +407,9 @@ class Home extends Component {
                           </button>
                         </Link>
                       </div>
-                    </div>
-                  );
-                }
-                return (
-                  <div className="grid-card-home" key={index}>
+                    </div> */
+
+/* <div className="grid-card-home" key={index}>
                     <div className="team-card">
                       <h1>Join team</h1>
                       <p>Enter your team code below</p>
@@ -317,15 +442,4 @@ class Home extends Component {
                         Join Team
                       </button>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-export default Home;
+                  </div> */

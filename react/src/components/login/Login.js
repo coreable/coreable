@@ -37,47 +37,46 @@ class Login extends Component {
     this.props.ReactGA.pageview("/login");
   };
 
-  errors = () => {
-    return this.validate(this.state.email, this.state.password);
+  handlers = {
+    errors: () => {
+      return this.handlers.validate(this.state.email, this.state.password);
+    },
+    validate: (email, password) => {
+      return {
+        email: email.length === 0 || !email.includes("@"),
+        password: password.length <= 4,
+      };
+    },
+    change: (e) => {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    },
+    blur: (field) => (e) => {
+      this.setState({
+        touched: { ...this.state.touched, [field]: true },
+      });
+    },
+    getColor: (field) => {
+      if (this.state.touched[field] && !this.errors()[field]) {
+        return "#f7f9fc";
+      } else {
+        return "#f7f9fc";
+      }
+    },
+    submit: (e) => {
+      if (!this.isDisabled) {
+        e.preventDefault();
+        return false;
+      }
+    },
+    shouldMarkError: (field) => {
+      // const hasError = this.errors()[field];
+      const hasError = this.handlers.errors()[field];
+      const shouldShow = this.state.touched[field];
+      return hasError ? shouldShow : false;
+    },
   };
-
-  validate = (email, password) => {
-    return {
-      email: email.length === 0 || !email.includes("@"),
-      password: password.length <= 4,
-    };
-  };
-
-  handleChange = (evt) => {
-    this.setState({ [evt.target.name]: evt.target.value });
-  };
-
-  handleBlur = (field) => (evt) => {
-    this.setState({
-      touched: { ...this.state.touched, [field]: true },
-    });
-  };
-
-  getColour = (field) => {
-    if (this.state.touched[field] && !this.errors()[field]) {
-      // return "#e8f0fe";
-      return "#f7f9fc";
-    }
-    return "#f7f9fc";
-  };
-
-  handleSubmit = (evt) => {
-    if (!this.isDisabled) {
-      evt.preventDefault();
-      return false;
-    }
-  };
-
-  shouldMarkError(field) {
-    const hasError = this.errors()[field];
-    const shouldShow = this.state.touched[field];
-    return hasError ? shouldShow : false;
-  }
 
   isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
 
@@ -153,11 +152,11 @@ class Login extends Component {
                 margin="normal"
                 variant="outlined"
                 name="email"
-                error={this.shouldMarkError("email")}
+                error={this.handlers.shouldMarkError("email")}
                 value={this.state.email}
                 type="email"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("email")}
+                onChange={this.handlers.change}
+                onBlur={this.handlers.blur("email")}
                 style={{
                   marginTop: "20pt",
                 }}
@@ -169,11 +168,11 @@ class Login extends Component {
                 margin="normal"
                 variant="outlined"
                 name="password"
-                error={this.shouldMarkError("password")}
+                error={this.handlers.shouldMarkError("password")}
                 value={this.state.password}
                 type="password"
-                onChange={this.handleChange}
-                onBlur={this.handleBlur("password")}
+                onChange={this.handlers.change}
+                onBlur={this.handlers.blur("password")}
                 onKeyPress={async (e) => {
                   if (e.key === "Enter") {
                     await this.loginUser();
