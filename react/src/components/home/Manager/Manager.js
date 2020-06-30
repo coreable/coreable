@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import "./Manager.scss";
 
-class Skills extends Component {
+class Manager extends Component {
   constructor(props) {
     super(props);
   }
@@ -101,6 +101,8 @@ class Skills extends Component {
     );
   }
 }
+
+export default Manager;
 
 const Heading = () => {
   return (
@@ -286,5 +288,3 @@ const Underestimation = () => {
     </div>
   );
 };
-
-export default Skills;
