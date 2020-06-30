@@ -58,8 +58,8 @@ class Skills extends Component {
 
     function filterBar() {
       if (
-        document.body.scrollTop > 210 ||
-        document.documentElement.scrollTop > 210
+        document.body.scrollTop > 212 ||
+        document.documentElement.scrollTop > 212
       ) {
         document.querySelector(".main-skills-container").style.marginTop =
           "85px";
@@ -77,24 +77,7 @@ class Skills extends Component {
 
     return (
       <div className="review-container">
-        <div className="top-background">
-          <div className="skills-main-grid">
-            <div className="skill-grid">
-              <h1 style={{ color: "white" }}>Your Skills</h1>
-              <p
-                style={{
-                  fontSize: "1.4rem",
-                  marginBottom: "35pt",
-                  color: "#d6d6d6",
-                }}
-              >
-                All marks are average of 5 assessments <br /> (Unless otherwise
-                specified)
-              </p>
-            </div>
-          </div>
-        </div>
-
+        <Heading />
         <div className="skills-main">
           <div
             style={{
@@ -103,176 +86,205 @@ class Skills extends Component {
               width: "100%",
             }}
           >
-            <div className="skills-btns">
-              <ul className="skills-grid">
-                <div
-                  style={{
-                    gridColumn: "3/5",
-                    textAlign: "left",
-                  }}
-                >
-                  <li>
-                    <button
-                      id="tab"
-                      className="tab active"
-                      onClick={this.filter.getFilteredResults}
-                      value="collaboration"
-                    >
-                      Collaboration
-                    </button>
-                  </li>
-                </div>
-                <div
-                  style={{
-                    gridColumn: "5/7",
-                    textAlign: "left",
-                  }}
-                >
-                  <li>
-                    <button
-                      id="tab"
-                      className="tab"
-                      onClick={this.filter.getFilteredResults}
-                      value="communication"
-                    >
-                      Communication
-                    </button>
-                  </li>
-                </div>
-              </ul>
-            </div>
-
-            {/* <div className="skills-btns-dropdown">
-              <button
-                className="btn primarybtn"
-                onClick={this.filterToggle}
-                value="collaboration"
-              >
-                Collaboration
-              </button>
-
-              <div className="skills-dropdown-content">
-                <button
-                  className="btn primarybtn"
-                  onClick={this.filterToggle}
-                  value="communication"
-                >
-                  Communication
-                </button>
-              </div>
-            </div> */}
+            <CommunicationCollaborationTab />
           </div>
-
           <div className="main-skills-container">
-            <div className="filter">
-              <div
-                style={{
-                  display: "flex",
-                  borderRadius: "4px 4px 0 0",
-                  borderBottom: "0.5pt solid #d6d6d6",
-                  alignItems: "center",
-                  height: "30px",
-                  background: "white",
-                  padding: "24px",
-                }}
-              >
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Managers dashboard
-                </h1>
-              </div>
-              <div
-                className="dashboard-menu"
-                style={{ textAlign: "left", padding: "24px" }}
-              >
-                <div>
-                  <label>Subject</label>
-                  <select>
-                    <option value="">test</option>
-                  </select>
-                </div>
-                <div>
-                  <label>Tutorials</label>
-                  <select>
-                    <option value="">test</option>
-                  </select>
-                </div>
-                <div>
-                  <label>Team</label>
-                  <select>
-                    <option value="">test</option>
-                  </select>
-                </div>
-                <div>
-                  <label>Individuals</label>
-                  <select>
-                    <option value="">test</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="grid-areas"
-              style={{ gridArea: "index", height: "439px" }}
-            >
-              <div className="heading">
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Collaboration Index
-                </h1>
-              </div>
-              <div className="grid-area-inside">
-                {/* <div className="radar-div">
-            <Radar {...this.state} />
-          </div> */}
-              </div>
-            </div>
-
-            <div className="grid-areas" style={{ gridArea: "top-strength" }}>
-              <div className="heading">
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Top Strengths
-                </h1>
-              </div>
-              <div className="grid-area-inside"></div>
-            </div>
-
-            <div
-              className="grid-areas"
-              style={{ gridArea: "areas-to-improve" }}
-            >
-              <div className="heading">
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Areas to Improve
-                </h1>
-              </div>
-              <div className="grid-area-inside"></div>
-            </div>
-
-            <div className="grid-areas" style={{ gridArea: "over-estimation" }}>
-              <div className="heading">
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Overestimation
-                </h1>
-              </div>
-              <div className="grid-area-inside"></div>
-            </div>
-
-            <div
-              className="grid-areas"
-              style={{ gridArea: "under-estimation" }}
-            >
-              <div className="heading">
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Underestimation
-                </h1>
-              </div>
-              <div className="grid-area-inside"></div>
-            </div>
+            <DashboardFilter />
+            <CollaborationIndex />
+            <TopStrengths />
+            <AreasToImprove />
+            <Overestimation />
+            <Underestimation />
           </div>
         </div>
       </div>
     );
   }
 }
+
+const Heading = () => {
+  return (
+    <div className="top-background">
+      <div className="skills-main-grid">
+        <div className="skill-grid">
+          <h1 style={{ color: "white" }}>Your Skills</h1>
+          <p
+            style={{
+              fontSize: "1.4rem",
+              marginBottom: "35pt",
+              color: "#d6d6d6",
+            }}
+          >
+            All marks are average of 5 assessments <br /> (Unless otherwise
+            specified)
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DashboardFilter = () => {
+  return (
+    <div className="filter">
+      <div
+        style={{
+          display: "flex",
+          borderRadius: "4px 4px 0 0",
+          borderBottom: "0.5pt solid #d6d6d6",
+          alignItems: "center",
+          height: "30px",
+          background: "white",
+          padding: "24px",
+        }}
+      >
+        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+          Managers dashboard
+        </h1>
+      </div>
+      <div
+        className="dashboard-menu"
+        style={{ textAlign: "left", padding: "24px" }}
+      >
+        <div>
+          <label>Subject</label>
+          <select>
+            <option value="">test</option>
+          </select>
+        </div>
+        <div>
+          <label>Tutorials</label>
+          <select>
+            <option value="">test</option>
+          </select>
+        </div>
+        <div>
+          <label>Team</label>
+          <select>
+            <option value="">test</option>
+          </select>
+        </div>
+        <div>
+          <label>Individuals</label>
+          <select>
+            <option value="">test</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CommunicationCollaborationTab = () => {
+  return (
+    <div className="skills-btns">
+      <ul className="skills-grid">
+        <div
+          style={{
+            gridColumn: "3/5",
+            textAlign: "left",
+          }}
+        >
+          <li>
+            <button
+              id="tab"
+              className="tab active"
+              onClick={this.filter.getFilteredResults}
+              value="collaboration"
+            >
+              Collaboration
+            </button>
+          </li>
+        </div>
+        <div
+          style={{
+            gridColumn: "5/7",
+            textAlign: "left",
+          }}
+        >
+          <li>
+            <button
+              id="tab"
+              className="tab"
+              onClick={this.filter.getFilteredResults}
+              value="communication"
+            >
+              Communication
+            </button>
+          </li>
+        </div>
+      </ul>
+    </div>
+  );
+};
+
+const CollaborationIndex = () => {
+  return (
+    <div className="grid-areas" style={{ gridArea: "index", height: "439px" }}>
+      <div className="heading">
+        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+          Collaboration Index
+        </h1>
+      </div>
+      <div className="grid-area-inside">
+        {/* <div className="radar-div">
+  <Radar {...this.state} />
+</div> */}
+      </div>
+    </div>
+  );
+};
+
+const TopStrengths = () => {
+  return (
+    <div className="grid-areas" style={{ gridArea: "top-strength" }}>
+      <div className="heading">
+        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+          Top Strengths
+        </h1>
+      </div>
+      <div className="grid-area-inside"></div>
+    </div>
+  );
+};
+
+const AreasToImprove = () => {
+  return (
+    <div className="grid-areas" style={{ gridArea: "areas-to-improve" }}>
+      <div className="heading">
+        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+          Areas to Improve
+        </h1>
+      </div>
+      <div className="grid-area-inside"></div>
+    </div>
+  );
+};
+
+const Overestimation = () => {
+  return (
+    <div className="grid-areas" style={{ gridArea: "over-estimation" }}>
+      <div className="heading">
+        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+          Overestimation
+        </h1>
+      </div>
+      <div className="grid-area-inside"></div>
+    </div>
+  );
+};
+
+const Underestimation = () => {
+  return (
+    <div className="grid-areas" style={{ gridArea: "under-estimation" }}>
+      <div className="heading">
+        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+          Underestimation
+        </h1>
+      </div>
+      <div className="grid-area-inside"></div>
+    </div>
+  );
+};
 
 export default Skills;
