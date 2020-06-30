@@ -44,6 +44,7 @@ ul {
     width: 100%;
     @include main;
     padding-bottom: 90px;
+    margin-top: 0;
 
     .skills-main-grid {
       @include grid-12;
@@ -242,16 +243,15 @@ ul {
       margin-top: 24pt;
       grid-template-columns: repeat(3, 1fr);
       grid-template-areas:
-        "filter top-strength areas-to-improve"
-        "filter over-estimation under-estimation";
+        "filter filter filter"
+        "index top-strength areas-to-improve"
+        "index over-estimation under-estimation";
 
       .filter {
         grid-area: filter;
-        min-width: 316px;
-        // min-height: 200pt;
+        height: 200pt;
         border-radius: 4pt;
         background: $dataBlue;
-        position: fixed;
         box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
         border: 1pt solid #d6d6d6;
 
@@ -285,9 +285,7 @@ ul {
           background: white;
           border: none;
           transition: all 0.1s ease-out;
-          &:hover {
-            transform: scale(1.02);
-          }
+
           &:focus {
             outline: none;
           }
@@ -296,7 +294,7 @@ ul {
 
       .grid-areas {
         min-width: 316px;
-        min-height: 200pt;
+        min-height: 340px;
         border-radius: 4pt;
         box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
         border: 1pt solid #d6d6d6;

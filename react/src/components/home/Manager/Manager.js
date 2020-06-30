@@ -55,7 +55,19 @@ class Skills extends Component {
 
     return (
       <div className="review-container">
-        <div className="top-background"></div>
+        <div className="top-background">
+          <h1 style={{ color: "white" }}>Your Skills</h1>
+          <p
+            style={{
+              fontSize: "1.4rem",
+              marginBottom: "35pt",
+              color: "#d6d6d6",
+            }}
+          >
+            All marks are average of 5 assessments <br /> (Unless otherwise
+            specified)
+          </p>
+        </div>
 
         <div className="skills-main">
           <div
@@ -65,21 +77,6 @@ class Skills extends Component {
               width: "100%",
             }}
           >
-            <div className="skills-main-grid">
-              <div className="skills-grid">
-                <h1 style={{ color: "white" }}>Your Skills</h1>
-                <p
-                  style={{
-                    fontSize: "1.4rem",
-                    marginBottom: "35pt",
-                    color: "#d6d6d6",
-                  }}
-                >
-                  All marks are average of 5 assessments <br /> (Unless
-                  otherwise specified)
-                </p>
-              </div>
-            </div>
             <div className="skills-btns">
               <ul className="skills-grid">
                 <div
@@ -116,7 +113,8 @@ class Skills extends Component {
                 </div>
               </ul>
             </div>
-            <div className="skills-btns-dropdown">
+
+            {/* <div className="skills-btns-dropdown">
               <button
                 className="btn primarybtn"
                 onClick={this.filterToggle}
@@ -134,7 +132,7 @@ class Skills extends Component {
                   Communication
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* <div className="radar-div">
@@ -190,6 +188,18 @@ class Skills extends Component {
                   </select>
                 </div>
               </div>
+            </div>
+
+            <div
+              className="grid-areas"
+              style={{ gridArea: "index", height: "439pt" }}
+            >
+              <div className="heading">
+                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                  Collaboration Index
+                </h1>
+              </div>
+              <div className="grid-area-inside"></div>
             </div>
 
             <div className="grid-areas" style={{ gridArea: "top-strength" }}>
