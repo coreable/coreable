@@ -1,0 +1,183 @@
+@import "../../Scss/variables.scss";
+@import "../../Scss/mixins.scss";
+
+h1 {
+  @include h1;
+  margin: 0;
+}
+
+.review-container {
+  background: whitesmoke;
+  position: relative;
+  margin: 0 auto;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+
+  .top-background {
+    @include top;
+  }
+
+  .main {
+    @include main;
+    z-index: 1;
+
+    .inside-main {
+      width: 100%;
+      margin-bottom: 40px;
+
+      h1 {
+        color: $white;
+      }
+    }
+
+    .grid-home {
+      @include grid-2;
+      grid-auto-flow: row;
+      background: transparent;
+      border: none;
+
+      .grid-card-home {
+        text-align: center;
+        width: 275px;
+        height: 244px;
+        // min-height: 253px;
+        background: white;
+        border-radius: 0.33rem;
+        padding: 20px;
+        -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+
+        .team-card {
+          text-align: left;
+          position: relative;
+          background: $white;
+          height: 100%;
+
+          p {
+            font-size: 1.6rem;
+            color: rgb(97, 103, 121);
+            margin-top: 10pt;
+          }
+
+          .stepper-line {
+            border-bottom: 4px solid;
+            border-color: rgb(199, 199, 199);
+            height: 20px;
+            width: 65%;
+            position: absolute;
+            z-index: 1;
+            top: 104px;
+            left: 50px;
+          }
+
+          @media (max-width: $max-width) {
+            .stepper-line {
+              left: 55px;
+            }
+          }
+
+          .MuiStepper-root {
+            padding: 20px;
+            padding-top: 15px;
+
+            .MuiStepConnector-lineHorizontal {
+              border-top-style: none;
+              border-top-width: none;
+
+              position: absolute;
+            }
+
+            .MuiStepLabel-label.MuiStepLabel-alternativeLabel {
+              margin-top: 10pt;
+              font-size: 10pt;
+            }
+
+            .MuiTypography-root.MuiStepLabel-label.MuiStepLabel-alternativeLabel.MuiStepLabel-active,
+            .MuiTypography-root.MuiStepLabel-label.MuiStepLabel-alternativeLabel.MuiStepLabel-completed {
+              color: $primaryBlue;
+            }
+
+            .MuiStepIcon-root {
+              color: rgb(199, 199, 199);
+              height: 1.8rem;
+              width: 1.8rem;
+              z-index: 3;
+
+              .MuiStepIcon-text {
+                font-size: 1rem;
+              }
+            }
+
+            .MuiStepIcon-root.MuiStepIcon-completed,
+            .MuiStepIcon-root.MuiStepIcon-active {
+              color: $primaryBlue;
+              height: 1.8rem;
+              width: 1.8rem;
+              z-index: 3;
+              background: white;
+
+              .MuiStepIcon-text {
+                font-size: 1rem;
+              }
+            }
+          }
+
+          .MuiFormControl-root .MuiOutlinedInput-root {
+            border-radius: 0.33rem !important;
+          }
+
+          .btn {
+            @include button;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-radius: 8pt;
+          }
+
+          @media (max-width: $max-width) {
+            .btn {
+              width: 100%;
+              max-width: 100%;
+            }
+          }
+
+          .primarybtn {
+            @include primary-button;
+            &:disabled {
+              color: $disabledGrey !important;
+              background-color: transparent !important;
+              border: 2px solid $disabledGrey !important;
+              &:hover {
+                transform: scale(1);
+              }
+            }
+          }
+
+          .MuiFormControl-root {
+            width: 100%;
+            .MuiOutlinedInput-root {
+              border-radius: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+    @media (max-width: $max-width) {
+      .grid-home {
+        display: grid;
+        grid-template-columns: 1, 1fr;
+        grid-gap: 8px;
+        @include grid-1;
+      }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .main {
+      width: 100%;
+      top: 10%;
+    }
+  }
+}

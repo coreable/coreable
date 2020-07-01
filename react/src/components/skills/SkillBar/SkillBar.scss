@@ -40,8 +40,16 @@ $disabledGrey: #d6d6d6;
   z-index: 300;
 
   span {
-    height: 20pt;
+    height: 16pt;
     width: 20%;
     border-right: 0.01em solid $white;
   }
+}
+
+.result-text {
+  text-align: right;
+  position: absolute;
+  right: 0;
+  top: 15px;
+  color: $primaryBlue;
 }

@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -112,6 +112,7 @@ export async function generator() {
       receiver_id: users[0]._id,
       submitter_id: users[0]._id,
       subject_id: subjects[0]._id,
+      team_id: teams[0]._id,
       state: 1,
       ...stats
     });
@@ -125,6 +126,7 @@ export async function generator() {
       receiver_id: users[1]._id,
       submitter_id: users[0]._id,
       subject_id: subjects[0]._id,
+      team_id: teams[0]._id,
       state: 2,
       ...stats
     });
@@ -138,6 +140,7 @@ export async function generator() {
       receiver_id: users[0]._id,
       submitter_id: users[1]._id,
       subject_id: subjects[0]._id,
+      team_id: teams[0]._id,
       state: 2,
       ...stats
     });
@@ -151,6 +154,7 @@ export async function generator() {
       receiver_id: users[2]._id,
       submitter_id: users[1]._id,
       subject_id: subjects[0]._id,
+      team_id: teams[0]._id,
       state: 2,
       ...stats
     });
@@ -164,6 +168,7 @@ export async function generator() {
       receiver_id: users[1]._id,
       submitter_id: users[2]._id,
       subject_id: subjects[0]._id,
+      team_id: teams[0]._id,
       state: 2,
       ...stats
     });
@@ -177,6 +182,7 @@ export async function generator() {
       receiver_id: users[2]._id,
       submitter_id: users[2]._id,
       subject_id: subjects[0]._id,
+      team_id: teams[0]._id,
       state: 1,
       ...stats
     });

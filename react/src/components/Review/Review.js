@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,15 +16,30 @@ import React, { Component } from "react";
 import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../constants";
+import { API_URL } from "../../constants";
 import Loader from "../Loading/Loading";
 
 class Review extends Component {
   constructor(props) {
     super(props);
-
+    // console.log(props);
+    if (!props.location.state) {
+      // web page is broken, redirect to index
+      this.state = {
+        currentIndex: -1,
+        facets: [],
+      };
+      return;
+    }
     this.state = {
-      currentIndex: 0,
+      reviewState: this.props.location.state.reviewState,
+      user_id: this.props.location.state.user_id,
+      currentIndex: !props.location.state.index
+        ? 0
+        : this.props.location.state.index === 4
+        ? 4
+        : 5,
+      index: 0,
       buttonLabel: "Next",
       submitting: false,
       facets: [
@@ -172,12 +187,6 @@ class Review extends Component {
               para:
                 "When this person is around you feel comfortable to share ideas without judgement",
             },
-            // {
-            //   name: "Tone",
-            //   var: "tone",
-            //   val: 0,
-            //   desc: "Encourages creative potential in others",
-            // },
             {
               name: "Cross team",
               var: "crossTeam",
@@ -241,6 +250,29 @@ class Review extends Component {
 
   nextStep = () => {
     let { currentIndex } = this.state;
+
+    //navigating to communication
+    if (currentIndex === 4) {
+      this.props.history.push({
+        pathname: "/communication",
+        state: {
+          reviewState: this.state.reviewState,
+          user_id: this.state.user_id,
+          currentIndex: currentIndex,
+          pending: this.props.location.state.pending,
+        },
+      });
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     currentIndex++;
     this.setState({
       ...this.state,
@@ -261,6 +293,10 @@ class Review extends Component {
       ...this.state,
       currentIndex: currentIndex - 1,
     });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   submit = async () => {
@@ -268,7 +304,8 @@ class Review extends Component {
     const promises = [];
     const AUTH_TOKEN = this.props.app.JWT;
     const team_id = this.props.location.state.pending._id;
-    const me_id = this.props.me._id;
+    const subject_id = this.props.location.state.pending.subject._id;
+    const me_id = this.props.app.data.user._id;
 
     for (const user in review[me_id][team_id]) {
       try {
@@ -278,9 +315,9 @@ class Review extends Component {
               submitReview(
                 receiver_id: "${user}", 
                 team_id: "${team_id}", 
-                subject_id: "${this.props.location.state.pending.subject._id}",
+                subject_id: "${subject_id}",
                 calm: ${review[me_id][team_id][user]["calm"].val},
-                clearInstructions: clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
+                clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
                 cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
                 crossTeam: ${review[me_id][team_id][user]["crossTeam"].val},
                 distractions: ${review[me_id][team_id][user]["distractions"].val},
@@ -316,7 +353,7 @@ class Review extends Component {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            [JWT]: AUTH_TOKEN,
+            JWT: AUTH_TOKEN,
           },
           body: JSON.stringify(query),
         };
@@ -324,7 +361,7 @@ class Review extends Component {
           new Promise((r, f) => {
             fetch(API_URL, options)
               .then(r)
-              .catch(r);
+              .catch(f);
           })
         );
       } catch (err) {
@@ -332,24 +369,30 @@ class Review extends Component {
       }
     }
 
-    Promise.all(promises).then(() => {
-      this.setState(
-        {
+    Promise.all(promises)
+      .then(() => {
+        try {
+          const reviews = JSON.parse(localStorage.getItem("review"));
+          delete reviews[team_id];
+          localStorage.setItem("review", JSON.stringify(reviews));
+        } catch (err) {
+          console.error(err);
+          return false;
+        }
+        this.props.refreshMe();
+        this.setState({
           ...this.state,
           submitting: false,
-        },
-        () => {
-          this.props.refreshMe();
-          try {
-            const reviews = JSON.parse(localStorage.getItem("review"));
-            delete reviews[team_id];
-            localStorage.setItem("review", JSON.stringify(reviews));
-          } catch (err) {
-            console.error(err);
-          }
-        }
-      );
-    });
+        });
+        this.props.history.push({
+          pathname: "/skills",
+        });
+      })
+      .catch((err) => console.error(err));
+
+    // this.props.history.push({
+    //   pathname: "/skills",
+    // });
   };
 
   render() {
@@ -393,6 +436,8 @@ class Review extends Component {
 
     return (
       <Facet
+        user_id={this.state.user_id}
+        reviewState={this.state.reviewState}
         pending={this.props.location.state.pending}
         currentIndex={this.state.currentIndex}
         facetLength={this.state.facets.length}

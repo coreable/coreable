@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -23,18 +23,21 @@ import "./App.scss";
 
 import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
-const Login = lazy(() => import("./components/LandingPage/Login/Login"));
+const Login = lazy(() => import("./components/login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
-const Register = lazy(() =>
-  import("./components/LandingPage/Register/Register")
-);
-const Home = lazy(() => import("./components/LandingPage/Home/Home"));
+const Register = lazy(() => import("./components/register/Register"));
+const Home = lazy(() => import("./components/home/Home"));
 const Review = lazy(() => import("./components/Review/Review"));
 const Skills = lazy(() => import("./components/skills/Skills"));
 const Goals = lazy(() => import("./components/Goals/Goals"));
-
 const Onboarding = lazy(() => import("./components/Onboarding/Onboarding"));
-const Welcome = lazy(() => import("./components/Onboarding/Welcome/Welcome"));
+const Collaboration = lazy(() =>
+  import("./components/Onboarding/Collaboration/Collaboration")
+);
+const Communication = lazy(() =>
+  import("./components/Onboarding/Communication/Communication")
+);
+const Manager = lazy(() => import("./components/home/Manager/Manager"));
 
 class App extends Component {
   constructor(props) {
@@ -77,7 +80,7 @@ class App extends Component {
         }
       );
     });
-  }
+  };
 
   refreshMe = async (removeJWT = false) => {
     // removeJWT Used for Login/Register
@@ -98,7 +101,7 @@ class App extends Component {
           return r(state);
         }
       );
-    })
+    });
   };
 
   fetchMe = async () => {
@@ -155,7 +158,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.state.JWT,
+        JWT: this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -172,25 +175,21 @@ class App extends Component {
     if (!errors) {
       errors = [];
     }
-    console.log({
-      'app.js': {
-        data, 
-        errors,
-        state: this.state
-      }
-    });
 
-    return this.setState({
-      ...this.state,
-      data,
-      errors,
-      fetching: false,
-    }, () => {
-      return {
+    return this.setState(
+      {
+        ...this.state,
         data,
-        errors
-      };
-    });
+        errors,
+        fetching: false,
+      },
+      () => {
+        return {
+          data,
+          errors,
+        };
+      }
+    );
   };
 
   componentDidMount = () => {
@@ -312,9 +311,33 @@ class App extends Component {
             />
             <Route
               exact
-              path="/welcome"
+              path="/collaboration"
               component={(props) => (
-                <Welcome
+                <Collaboration
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/communication"
+              component={(props) => (
+                <Communication
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/manager"
+              component={(props) => (
+                <Manager
                   {...props}
                   app={this.state}
                   refreshMe={this.refreshMe}

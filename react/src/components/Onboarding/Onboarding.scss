@@ -1,40 +1,18 @@
-//Colours
-$primaryBlue: #4070e0;
-$secondaryBlue: #0c152e;
-$green: #2dd775;
-$offWhite: #fafafa;
-$white: #fff;
-$disabledGrey: #d6d6d6;
-
-//Responsive width
-$max-width: 760px;
+@import "../../Scss/variables.scss";
+@import "../../Scss/mixins.scss";
 
 .team-container {
-  background: rgb(245, 245, 245);
   position: relative;
   margin: 0 auto;
   align-items: center;
   width: 100%;
+  background: whitesmoke;
   //overflow:auto doesnt allow it to scroll up.
   // overflow: auto;
   min-height: 100vh;
 
   .top {
-    background: $secondaryBlue;
-    position: absolute;
-    top: 0px;
-    padding-top: 140px;
-    margin: 0 auto;
-    text-align: center;
-    height: 50%;
-    width: 100%;
-    z-index: 0;
-    color: $white;
-    // background: $secondaryBlue;
-    // margin: 0 auto;
-    // text-align: center;
-    // height: 50%;
-    // padding-top: 100px;
+    @include top;
   }
 
   @media (max-width: $max-width) {
@@ -49,9 +27,6 @@ $max-width: 760px;
     border: none;
     position: absolute;
     top: 25%;
-    // height: ;
-    //if this is dynamic, mobile capability is bad
-    width: 373pt;
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -59,137 +34,120 @@ $max-width: 760px;
     left: 0;
     right: 0;
     text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 
-    .step-progress-bar {
-      height: 20px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 20pt 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
+    .grid {
+      @include grid-12;
+      background: transparent;
+      border: none;
 
-      .steps {
-        width: 20%;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
+      .grid-card {
+        grid-column: 4/10;
+        text-align: center;
+        min-height: 200px;
+        background: white;
+        border-radius: 0.33rem;
+        margin-top: 40pt;
+        padding: 20px;
 
-        .bullet {
-          height: 10px;
-          width: 10px;
-          border-radius: 50%;
-          background: $disabledGrey;
-          transition: all 0.3s ease-out;
+        .step-progress-bar {
+          height: 20px;
+          width: 100%;
+          margin: 0 auto;
+          padding: 20pt 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
 
-          //   &:hover {
-          //     transform: scale(1.5);
-          //   }
-        }
+          .steps {
+            width: 20%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
 
-        .done {
-          background: $primaryBlue;
-        }
+            .bullet {
+              height: 10px;
+              width: 10px;
+              border-radius: 50%;
+              background: $disabledGrey;
+              transition: all 0.3s ease-out;
+            }
 
-        .teel {
-          background: #00b3e5;
-        }
+            .done {
+              background: $primaryBlue;
+            }
 
-        .green {
-          background: $green;
+            .teel {
+              background: #00b3e5;
+            }
+
+            .green {
+              background: $green;
+            }
+          }
         }
       }
-    }
-
-    .inside-main {
-      min-height: 200px;
-      width: 373pt;
-      //   min-width: 300px;
-      background: white;
-      border-radius: 0.33rem;
-      margin: 10pt;
-      margin-top: 40pt;
-      padding: 20px;
-    }
-
-    // @media (max-width: $max-width) {
-    //   .inside-main {
-    //     width: 100%;
-    //   }
-    // }
-
-    .inside-main:nth-child(1) {
-      margin-top: 20px;
-    }
-
-    .btn {
-      width: 90%;
-      margin: 10px;
-      // max-width: 30%;
-      height: 40pt;
-      border-radius: 0.33rem;
-      font-size: 1.6rem;
-      font-weight: bold;
-      justify-content: center;
-      align-content: center;
-      // margin: 10px auto;
-      text-transform: none;
     }
 
     @media (max-width: $max-width) {
-      .btn {
-        width: 90%;
-        font-size: 1.4rem;
+      .grid {
+        @include grid-4;
+
+        .grid-card {
+          grid-column: 1/5;
+        }
       }
     }
 
-    .primarybtn {
-      background-color: rgb(64, 112, 224);
-      color: white;
-      font-weight: bold;
-      transition: all 0.2s ease-in-out;
-      &:hover {
-        transform: scale(1.03);
-      }
-      &:disabled {
-        background-color: lightgrey !important;
-        color: white !important;
-        cursor: not-allowed !important;
-        border: none !important;
-      }
-      &:focus {
-        outline: none;
-      }
-    }
-
-    .transparentbtn {
+    .btn-grid {
+      @include grid-12;
+      background: transparent;
       border: none;
-      background-color: transparent;
-      color: rgb(64, 112, 224);
-      font-weight: bold;
-      &:hover {
-        // color: white;
-        // background-color: rgb(64, 112, 224);
-        background-color: transparent;
-        transition: all 0.2s ease-in-out;
+
+      .btn-grid-card {
+        grid-column: 4/10;
+        text-align: center;
+        margin-top: 40pt;
       }
-      &:disabled {
-        // background-color: lightgrey !important;
-        color: lightgray !important;
-        cursor: not-allowed !important;
-        border: none !important;
+
+      .inside-main:nth-child(1) {
+        margin-top: 20px;
+      }
+
+      .btn {
+        @include button;
+      }
+
+      @media (max-width: $max-width) {
+        .btn {
+          width: 100%;
+          font-size: 1.4rem;
+        }
+      }
+
+      .primarybtn {
+        @include primary-button;
+      }
+
+      .transparentbtn {
+        @include transparent-button-blue-text;
+      }
+
+      @media (max-width: $max-width) {
+        .main {
+          width: 90%;
+        }
       }
     }
-  }
 
-  @media (max-width: $max-width) {
-    .main {
-      width: 90%;
-      // top: 310px;
+    @media (max-width: $max-width) {
+      .btn-grid {
+        @include grid-4;
+
+        .btn-grid-card {
+          grid-column: 1/5;
+        }
+      }
     }
   }
 }

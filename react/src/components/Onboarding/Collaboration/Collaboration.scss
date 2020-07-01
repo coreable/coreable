@@ -1,0 +1,167 @@
+@import "../../../Scss/mixins.scss";
+@import "../../../Scss/variables.scss";
+
+h1 {
+  @include h1;
+  margin: 0;
+}
+
+h2 {
+  @include h2;
+}
+
+p {
+  @include body-font;
+}
+
+.team-container {
+  background: rgb(245, 245, 245);
+  position: relative;
+  margin: 0 auto;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+
+  .top {
+    @include top;
+  }
+
+  .main-welcome {
+    @include main;
+    display: inline;
+
+    .step-progress-bar {
+      height: 20px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20pt 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      .steps {
+        width: 20%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .bullet {
+          height: 10px;
+          width: 10px;
+          border-radius: 50%;
+          background: $disabledGrey;
+        }
+
+        .done {
+          background: $primaryBlue;
+        }
+
+        .teel {
+          background: #00b3e5;
+        }
+
+        .green {
+          background: $green;
+        }
+      }
+    }
+
+    .grid {
+      @include grid-12;
+      grid-gap: 0;
+
+      .grid-card {
+        grid-column: 4/10;
+        text-align: center;
+        min-height: 200px;
+        border-radius: 0.33rem;
+        // margin-top: 40pt;
+
+        .inside-main {
+          min-height: 200px;
+          background: white;
+          border-radius: 0.33rem;
+          // margin-top: 40pt;
+          padding: 20px;
+          @include boxshadow;
+
+          span {
+            height: 60pt;
+            width: 90pt;
+            margin: 8pt;
+            border-radius: 0.33rem;
+            background: #f7f9fc;
+            color: black;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            transition: all 0.2s ease-out;
+
+            &:hover {
+              transform: scale(1.05);
+            }
+          }
+          @media (max-width: 390px) {
+            span {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    @media (max-width: $max-width) {
+      .grid {
+        @include grid-2;
+        max-width: 90%;
+        grid-gap: 0;
+      }
+    }
+
+    .inside-main:nth-child(1) {
+      margin-top: 20px;
+    }
+    .btn-container {
+      width: 400px;
+      margin: auto;
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .btn {
+        @include button;
+        width: 375px;
+        border-radius: 8pt;
+      }
+
+      @media (max-width: $max-width) {
+        .btn {
+          width: 300px;
+          font-size: 1.4rem;
+        }
+      }
+
+      .primarybtn {
+        @include primary-button;
+      }
+
+      .transparentbtn {
+        @include transparent-button-blue-text;
+      }
+    }
+    @media (max-width: $max-width) {
+      .btn-container {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .main-welcome {
+      width: 90%;
+      // top: 310px;
+    }
+  }
+}

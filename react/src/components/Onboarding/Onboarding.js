@@ -7,12 +7,19 @@ import What from "./What/What";
 import How from "./How/How";
 
 class Onboarding extends Component {
-  state = {
-    onboardingNum: 1,
-    isDisabled: true,
-    onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
-    startButton: "Next",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      onboardingNum: 1,
+      isDisabled: true,
+      onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
+      startButton: "Next",
+      reviewState: this.props.location.state.reviewState,
+      user_id: this.props.location.state.user_id,
+      team_id: this.props.location.state.team_id,
+      pending: this.props.location.state.pending,
+    };
+  }
 
   next = () => {
     //stepper
@@ -39,8 +46,17 @@ class Onboarding extends Component {
         });
       }
     } else {
-      return;
+      this.props.history.push({
+        pathname: "/review",
+        state: {
+          reviewState: this.state.reviewState,
+          user_id: this.state.user_id,
+          team_id: this.state.team_id,
+          pending: this.state.pending,
+        },
+      });
     }
+
     // window.scrollTo({
     //   top: 0,
     //   behavior: "smooth",
@@ -100,47 +116,47 @@ class Onboarding extends Component {
     switch (slideNum) {
       case 1:
         return <Why />;
-        break;
       case 2:
         return <What />;
-        break;
       case 3:
         return <How />;
-        break;
       default:
-        break;
+        return null;
     }
   };
 
   render() {
-    const bullets = [...document.querySelectorAll(".bullet")];
-
     return (
       <div className="team-container">
         <div className="top"></div>
         <div className="main">
           {this.onboardingTitle()}
-          <div className="inside-main">
-            <div className="step-progress-bar">
-              <div className="steps">
-                <div className="bullet done"></div>
-                <div className="bullet"></div>
-                <div className="bullet"></div>
+          <div className="grid">
+            <div className="grid-card">
+              <div className="step-progress-bar">
+                <div className="steps">
+                  <div className="bullet done"></div>
+                  <div className="bullet"></div>
+                  <div className="bullet"></div>
+                </div>
               </div>
+              {this.onboardingSlide(this.state.onboardingNum)}
             </div>
-            {this.onboardingSlide(this.state.onboardingNum)}
           </div>
-
-          <Button className="btn primarybtn" onClick={this.next}>
-            {this.state.startButton}
-          </Button>
-          <Button
-            className="btn transparentbtn"
-            onClick={this.back}
-            disabled={this.state.isDisabled ? "disabled" : null}
-          >
-            Back
-          </Button>
+          <div className="btn-grid">
+            <div className="btn-grid-card">
+              <Button className="btn primarybtn" onClick={this.next}>
+                {this.state.startButton}
+              </Button>
+              <Button
+                className="btn transparentbtn"
+                onClick={this.back}
+                disabled={this.state.isDisabled ? "disabled" : null}
+              >
+                Back
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     );

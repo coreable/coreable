@@ -16,8 +16,8 @@ class TeamRank extends Component {
         {
           ...this.state,
           review: review,
-        },
-        () => console.log(this.state)
+        }
+        // () => console.log(this.state)
       );
     });
   }
@@ -64,7 +64,7 @@ class TeamRank extends Component {
                 className="team-rating"
                 style={{
                   width: `${review[me_id][team_id][user_id][trait].val *
-                    4.7}px`,
+                    3.3}px`,
                   backgroundImage:
                     "linear-gradient(to right, #4070e0, #0096f8, #00b3e5, #00c8b3, #2dd775)",
                 }}
@@ -73,6 +73,9 @@ class TeamRank extends Component {
               <Typography
                 variant="caption"
                 style={{
+                  fontSize: "1rem",
+                  fontWeight: "400",
+                  color: "#4070e0",
                   marginLeft: "5px",
                   paddingBottom: "5px",
                   marginTop: "2px",

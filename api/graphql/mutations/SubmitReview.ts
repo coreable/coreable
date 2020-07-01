@@ -2,7 +2,7 @@
 ===========================================================================
 Copyright (C) 2020 Coreable
 This file is part of Coreable's source code.
-Corables source code is free software; you can redistribute it
+Coreables source code is free software; you can redistribute it
 and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -109,9 +109,26 @@ export default {
       }
     }
     if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.findOne({ where: { _id: args.receiver_id }, include: [{ model: Team, as: 'teams', attributes: { exclude:  ['inviteCode'] } }] });
+      userBeingReviewed = await sequelize.models.User.findOne(
+        {
+          where: { _id: args.receiver_id },
+          include: [
+            { 
+              model: Team, as: 'teams', attributes: {
+                exclude:  ['inviteCode']
+              }
+            }
+          ] 
+        }
+      );
       if (!userBeingReviewed) {
-        errors.push({ code: 'ER_USER_UNKNOWN', path: '_id', message: `No user found with _id ${args.receiver_id}` });
+        errors.push(
+          { 
+            code: 'ER_USER_UNKNOWN',
+            path: '_id',
+            message: `No user found with _id ${args.receiver_id}`
+          }
+        );
       }
     }
     if (!errors.length) {
@@ -128,7 +145,14 @@ export default {
         }
       }
       if (!userCommonTeam) {
-        errors.push({ code: 'ER_TEAM_UNKNOWN', path: '_id', message: `Logged in user with _id ${context.USER._id} and user being reviewed with _id ${args.receiver_id} have no common team with _id ${args.team_id}` });
+        errors.push(
+          {
+            code: 'ER_TEAM_UNKNOWN',
+            path: '_id',
+            message: 
+            `Logged in user with _id ${context.USER._id} and user being reviewed with _id ${args.receiver_id} have no common team with _id ${args.team_id}` 
+          }
+        );
       }
     }
     if (!errors.length) {
@@ -138,7 +162,7 @@ export default {
       }
     }
     if (!errors.length) {
-      let hasCompleted = await sequelize.models.Review.findOne(
+      const hasCompleted = await sequelize.models.Review.findOne(
         {
           where: {
             receiver_id: args.receiver_id,
@@ -149,7 +173,13 @@ export default {
         }
       );
       if (hasCompleted) {
-        errors.push({ code: 'ER_REVIEW_COMPLETE', path: '_id', message: `user with _id ${context.USER._id} has already submitted a reivew on user with _id ${args.receiver_id} for state ${subject.state}` });
+        errors.push(
+          { 
+            code: 'ER_REVIEW_COMPLETE',
+            path: '_id',
+            message: `user with _id ${context.USER._id} has already submitted a reivew on user with _id ${args.receiver_id} for state ${subject.state}`
+          }
+        );
       }
     }
     if (!errors.length) {
@@ -158,6 +188,7 @@ export default {
           receiver_id: args.receiver_id,
           submitter_id: context.USER._id,
           subject_id: args.subject_id,
+          team_id: args.team_id,
           state: subject.state,
           calm: args.calm,
           clearInstructions: args.clearInstructions,
@@ -189,6 +220,7 @@ export default {
               receiver_id: args.receiver_id,
               submitter_id: context.USER._id,
               subject_id: subject._id,
+              team_id: args.team_id,
               state: subject.state 
             }, 
             exclude: ['receiver_id']

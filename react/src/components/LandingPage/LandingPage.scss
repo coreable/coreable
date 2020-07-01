@@ -1,20 +1,75 @@
-// .landing-container {
-//   padding-top: 16px;
-//   justify-content: center;
-//   align-content: center;
-//   margin: 0 auto;
-//   text-align: center;
-//   color: white;
+@import "../../Scss/variables.scss";
+@import "../../Scss/mixins.scss";
 
-//   @media (max-width: 776px) {
-//     .landing-container {
-//       padding-top: 64px;
-//     }
-//   }
+.container {
+  @include container;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $backgroundBlue;
 
-//   @media (max-width: 1024px) {
-//     .landing-container {
-//       padding-top: 64px;
-//     }
-//   }
-// }
+  padding: 0;
+
+  .grid {
+    @include grid-12;
+    width: 1000px;
+
+    .grid-card {
+      grid-column: 5/9;
+      text-align: center;
+      background-color: $white;
+      padding: 24px;
+      border-radius: 4pt;
+
+      h1 {
+        @include h1;
+        font-weight: normal;
+      }
+      h2 {
+        font-size: 2.2rem;
+        font-weight: normal;
+      }
+      .btn {
+        @include button;
+      }
+      .primarybtn {
+        @include primary-button;
+      }
+      .transparentbtn {
+        @include transparent-button;
+      }
+
+      .blueTextButton {
+        @include transparent-button-blue-text;
+        // color: $disabledGrey;
+        border: 1px solid $primaryBlue;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+
+      .MuiFormControl-root {
+        width: 100%;
+        border-radius: 4pt;
+      }
+
+      .MuiOutlinedInput-input {
+        font-size: 1.6rem;
+        font-weight: bold;
+        background-color: #f7f9fc;
+      }
+    }
+  }
+
+  @media (max-width: $max-width) {
+    .grid {
+      @include grid-4;
+
+      .grid-card {
+        grid-column: 1/5;
+      }
+    }
+  }
+}

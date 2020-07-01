@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import svg from "./group422.svg";
+import svg from "./Group425.svg";
 
 export default function What() {
   return (
@@ -25,6 +25,7 @@ export default function What() {
       <img
         src={svg}
         style={{ width: "100%", height: "auto", borderRadius: "0.33rem" }}
+        alt="Facets and traits"
       />
     </React.Fragment>
   );
