@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 // import SkillBar from "../../skills/SkillBar/SkillBar";
 import {
   Redirect,
@@ -127,7 +127,15 @@ const Heading = () => {
 };
 
 const DashboardFilter = () => {
-  function selectBoxHandler() {}
+  useEffect(() => {
+    handlers.selectBox();
+    // return () => {
+    //   cleanup;
+    // };
+  });
+  const handlers = {
+    selectBox: function() {},
+  };
 
   return (
     <div className="filter">
@@ -150,34 +158,10 @@ const DashboardFilter = () => {
         className="dashboard-menu"
         style={{ textAlign: "left", padding: "24px" }}
       >
-        <SubjectFilter />
-        <div>
-          <label>Subject</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
-        <TutorialFilter />
-        <div>
-          <label>Tutorials</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
-        <TeamFilter />
-        <div>
-          <label>Team</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
-        <IndividualFilter />
-        <div>
-          <label>Individuals</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
+        <SelectBox />
+        <SelectBox />
+        <SelectBox />
+        <SelectBox />
       </div>
     </div>
   );
@@ -295,18 +279,29 @@ const Underestimation = () => {
   );
 };
 
-const SubjectFilter = () => {
-  return <></>;
+const SelectBox = (props) => {
+  return (
+    <div className="select-box">
+      <div className="selected">Select {props.title}...</div>
+      <div className="options-container">
+        {props.options.map((option) => {
+          return (
+            <div className="option">
+              <input type="checkbox" name="" id="" />
+              <label htmlFor=""></label>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
-const TutorialFilter = () => {
-  return <></>;
-};
-
-const TeamFilter = () => {
-  return <></>;
-};
-
-const IndividualFilter = () => {
-  return <></>;
-};
+{
+  /* <div>
+          <label>Individuals</label>
+          <select>
+            <option value="">test</option>
+          </select>
+        </div> */
+}
