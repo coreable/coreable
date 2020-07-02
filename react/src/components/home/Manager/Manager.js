@@ -127,6 +127,8 @@ const Heading = () => {
 };
 
 const DashboardFilter = () => {
+  function selectBoxHandler() {}
+
   return (
     <div className="filter">
       <div
@@ -148,24 +150,28 @@ const DashboardFilter = () => {
         className="dashboard-menu"
         style={{ textAlign: "left", padding: "24px" }}
       >
+        <SubjectFilter />
         <div>
           <label>Subject</label>
           <select>
             <option value="">test</option>
           </select>
         </div>
+        <TutorialFilter />
         <div>
           <label>Tutorials</label>
           <select>
             <option value="">test</option>
           </select>
         </div>
+        <TeamFilter />
         <div>
           <label>Team</label>
           <select>
             <option value="">test</option>
           </select>
         </div>
+        <IndividualFilter />
         <div>
           <label>Individuals</label>
           <select>
@@ -287,4 +293,20 @@ const Underestimation = () => {
       <div className="grid-area-inside"></div>
     </div>
   );
+};
+
+const SubjectFilter = () => {
+  return <></>;
+};
+
+const TutorialFilter = () => {
+  return <></>;
+};
+
+const TeamFilter = () => {
+  return <></>;
+};
+
+const IndividualFilter = () => {
+  return <></>;
 };
