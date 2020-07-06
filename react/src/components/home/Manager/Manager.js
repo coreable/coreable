@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 // import SkillBar from "../../skills/SkillBar/SkillBar";
 import {
   Redirect,
@@ -127,6 +127,16 @@ const Heading = () => {
 };
 
 const DashboardFilter = () => {
+  useEffect(() => {
+    handlers.selectBox();
+    // return () => {
+    //   cleanup;
+    // };
+  });
+  const handlers = {
+    selectBox: function() {},
+  };
+
   return (
     <div className="filter">
       <div
@@ -148,30 +158,10 @@ const DashboardFilter = () => {
         className="dashboard-menu"
         style={{ textAlign: "left", padding: "24px" }}
       >
-        <div>
-          <label>Subject</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
-        <div>
-          <label>Tutorials</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
-        <div>
-          <label>Team</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
-        <div>
-          <label>Individuals</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div>
+        <SelectBox />
+        <SelectBox />
+        <SelectBox />
+        <SelectBox />
       </div>
     </div>
   );
@@ -288,3 +278,30 @@ const Underestimation = () => {
     </div>
   );
 };
+
+const SelectBox = (props) => {
+  return (
+    <div className="select-box">
+      <div className="selected">Select {props.title}...</div>
+      <div className="options-container">
+        {props.options.map((option) => {
+          return (
+            <div className="option">
+              <input type="checkbox" name="" id="" />
+              <label htmlFor=""></label>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+{
+  /* <div>
+          <label>Individuals</label>
+          <select>
+            <option value="">test</option>
+          </select>
+        </div> */
+}
