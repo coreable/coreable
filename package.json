@@ -75,7 +75,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.10.2",
     "faker": "^4.1.0",
-    "graphql": "^14.6.0",
+    "graphql": "^15.3.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "mysql2": "^2.1.0",
