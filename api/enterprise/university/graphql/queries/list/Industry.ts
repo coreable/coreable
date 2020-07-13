@@ -10,22 +10,25 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/
+*/ 
 
-const JWT = "JWT";
-const USER_NAME = "firstName";
-const LAST_NAME = "lastName";
-const USERID = "user_id";
-const TEAMID = "team_id";
-const API_URL = "http://localhost:8080/graphql";
-const hasCompletedTutorial = false;
+import { sequelize } from "../../../../lib/sequelize";
 
-export {
-  JWT,
-  USER_NAME,
-  LAST_NAME,
-  USERID,
-  TEAMID,
-  API_URL,
-  hasCompletedTutorial,
-};
+import { CoreableError } from "../../../models/CoreableError";
+import { IndustryListCommand } from "../../command/list/Industry";
+
+export default {
+  type: IndustryListCommand, 
+  async resolve(root: any, args: any, context: any) {
+    let errors: CoreableError[] = [];
+    if (!context.USER) {
+      errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
+    }
+    return {
+      'data': !errors.length ? {
+        'industry': await sequelize.models.Industry.findAll()
+      } : null,
+      'errors': errors.length > 0 ? errors : null
+    }
+  }
+}

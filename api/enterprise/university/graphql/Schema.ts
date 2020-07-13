@@ -10,22 +10,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/
+*/ 
 
-const JWT = "JWT";
-const USER_NAME = "firstName";
-const LAST_NAME = "lastName";
-const USERID = "user_id";
-const TEAMID = "team_id";
-const API_URL = "http://localhost:8080/graphql";
-const hasCompletedTutorial = false;
+import { GraphQLSchema } from "graphql";
+import { Query } from "./Query";
+import { Mutation } from './Mutation';
 
-export {
-  JWT,
-  USER_NAME,
-  LAST_NAME,
-  USERID,
-  TEAMID,
-  API_URL,
-  hasCompletedTutorial,
-};
+// Here we import the Query and Mutation schemas and combine them to use
+// in the /api/lib/express.ts file with the graphql-express package.
+export const UniversitySchema: GraphQLSchema = new GraphQLSchema({
+  query: Query,
+  mutation: Mutation
+});

@@ -12,27 +12,24 @@
   ===========================================================================
 */
 
-import { app } from './express';
-import { sequelize } from './sequelize';
-import { generator } from './generator';
-import { config } from '../config/config';
+import { GraphQLString, GraphQLNonNull } from "graphql";
+import { MeCommand } from "../command/Me";
+import { ChangePassword } from '../../../../identity/logic/mutations/ChangePassword';
 
-// run the startup config
-app._startup = (async () => {
-  switch (config.NODE_ENV) {
-    case "pipeline":
-    case "test":
-      await sequelize.sync({ force: true });
-      await generator();
-      break;
-    case "development":
-      await sequelize.sync({ force: false });
-      break;
-    case "production":
-    default:
-      await sequelize.authenticate();
-      break;
+export default {
+  type: MeCommand,
+  args: {
+    currentPassword: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    newPassword: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    confirmPassword: {
+      type: new GraphQLNonNull(GraphQLString)
+    }
+  },
+  async resolve(root: any, args: any, context: any) {
+    return await ChangePassword(root, args, context);
   }
-})().then(() => true);
-
-export { app };
+}

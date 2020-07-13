@@ -12,27 +12,17 @@
   ===========================================================================
 */
 
-import { app } from './express';
-import { sequelize } from './sequelize';
-import { generator } from './generator';
-import { config } from '../config/config';
+// import { Model, Sequelize, DataTypes } from "sequelize";
+// import { Manager } from "./Manager";
 
-// run the startup config
-app._startup = (async () => {
-  switch (config.NODE_ENV) {
-    case "pipeline":
-    case "test":
-      await sequelize.sync({ force: true });
-      await generator();
-      break;
-    case "development":
-      await sequelize.sync({ force: false });
-      break;
-    case "production":
-    default:
-      await sequelize.authenticate();
-      break;
-  }
-})().then(() => true);
+// class Organisation extends Model {
+//   // PK
+//   public orgID!: string;
 
-export { app };
+//   public orgName!: string;
+
+//   public readonly createdAt!: Date;
+//   public readonly updatedAt!: Date;
+// }
+
+ 

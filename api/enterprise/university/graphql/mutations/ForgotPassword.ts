@@ -12,27 +12,18 @@
   ===========================================================================
 */
 
-import { app } from './express';
-import { sequelize } from './sequelize';
-import { generator } from './generator';
-import { config } from '../config/config';
+import { GraphQLString, GraphQLNonNull } from "graphql";
+import { ForgotPassword } from '../../../../identity/logic/mutations/ForgotPassword';
+import { SessionObjectCommand } from "../../../../identity/graphql/command/object/Session";
 
-// run the startup config
-app._startup = (async () => {
-  switch (config.NODE_ENV) {
-    case "pipeline":
-    case "test":
-      await sequelize.sync({ force: true });
-      await generator();
-      break;
-    case "development":
-      await sequelize.sync({ force: false });
-      break;
-    case "production":
-    default:
-      await sequelize.authenticate();
-      break;
+export default {
+  type: SessionObjectCommand,
+  args: {
+    email: {
+      type: new GraphQLNonNull(GraphQLString)
+    }
+  },
+  async resolve(root: any, args: any, context: any) {
+    return await ForgotPassword(root, args, context);
   }
-})().then(() => true);
-
-export { app };
+}

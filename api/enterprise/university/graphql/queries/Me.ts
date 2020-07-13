@@ -10,29 +10,14 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/
+*/ 
 
-import { app } from './express';
-import { sequelize } from './sequelize';
-import { generator } from './generator';
-import { config } from '../config/config';
+import { MeCommand } from "../command/Me";
+import { Me } from '../../logic/queries/Me';
 
-// run the startup config
-app._startup = (async () => {
-  switch (config.NODE_ENV) {
-    case "pipeline":
-    case "test":
-      await sequelize.sync({ force: true });
-      await generator();
-      break;
-    case "development":
-      await sequelize.sync({ force: false });
-      break;
-    case "production":
-    default:
-      await sequelize.authenticate();
-      break;
+export default {
+  type: MeCommand,
+  async resolve(root: any, args: any, context: any) {
+    return await Me(root, args, context);
   }
-})().then(() => true);
-
-export { app };
+}

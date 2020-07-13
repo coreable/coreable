@@ -10,22 +10,26 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 You should have received a copy of the license along with the 
 Coreable source code.
 ===========================================================================
-*/
+*/ 
 
-const JWT = "JWT";
-const USER_NAME = "firstName";
-const LAST_NAME = "lastName";
-const USERID = "user_id";
-const TEAMID = "team_id";
-const API_URL = "http://localhost:8080/graphql";
-const hasCompletedTutorial = false;
+import { 
+  GraphQLObjectType
+} from "graphql";
 
-export {
-  JWT,
-  USER_NAME,
-  LAST_NAME,
-  USERID,
-  TEAMID,
-  API_URL,
-  hasCompletedTutorial,
-};
+import { UserResolver } from "../resolvers/User";
+// import { ManagerResolver } from '../resolvers/Manager';
+
+export const MeMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'MeMediator',
+  description: 'MeMediator',
+  fields: () => {
+    return {
+      'user': {
+        type: UserResolver,
+        resolve(data) {
+          return data.user;
+        }
+      }
+    }
+  }
+});
