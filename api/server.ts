@@ -18,7 +18,7 @@ import { createServer, Server } from 'http';
   
 declare global {
   interface CoreableServer extends Server {
-    // Has the server finished startup configuration
+    // _done = Has the server finished startup configuration?
     _done: Promise<Boolean>;
   }
 }
