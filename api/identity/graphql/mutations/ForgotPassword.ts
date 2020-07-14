@@ -13,23 +13,17 @@
 */
 
 import { GraphQLString, GraphQLNonNull } from "graphql";
-import { MeCommand } from "../command/Me";
-import { ChangePassword } from '../../../../identity/logic/mutations/ChangePassword';
+import { ForgotPassword } from '../../logic/mutations/ForgotPassword';
+import { SessionObjectCommand } from "../command/object/Session";
 
-export default {
-  type: MeCommand,
+export default {  
+  type: SessionObjectCommand,
   args: {
-    currentPassword: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    newPassword: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    confirmPassword: {
+    email: {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
   async resolve(root: any, args: any, context: any) {
-    return await ChangePassword(root, args, context);
+    return await ForgotPassword(root, args, context);
   }
 }

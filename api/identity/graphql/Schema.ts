@@ -12,18 +12,13 @@
   ===========================================================================
 */
 
-import { GraphQLString, GraphQLNonNull } from "graphql";
-import { ForgotPassword } from '../../../../identity/logic/mutations/ForgotPassword';
-import { SessionObjectCommand } from "../../../../identity/graphql/command/object/Session";
+import { GraphQLSchema } from "graphql";
+import { Query } from "./Query";
+import { Mutation } from './Mutation';
 
-export default {
-  type: SessionObjectCommand,
-  args: {
-    email: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
-  },
-  async resolve(root: any, args: any, context: any) {
-    return await ForgotPassword(root, args, context);
-  }
-}
+// Here we import the Query and Mutation schemas and combine them to use
+// in the /api/lib/express.ts file with the graphql-express package.
+export const IdentitySchema: GraphQLSchema = new GraphQLSchema({
+  query: Query,
+  mutation: Mutation
+});

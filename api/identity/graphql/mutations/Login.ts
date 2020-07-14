@@ -17,9 +17,7 @@ import {
   GraphQLString
 } from "graphql";
 
-import { CoreableError } from "../../../models/CoreableError";
-import { encodeJWT } from "../../logic/mutations/Login";
-import { sequelize } from "../../../lib/sequelize";
+import { Login } from "../../logic/mutations/Login";
 import { SessionObjectCommand } from "../command/object/Session";
 
 export default {
@@ -33,75 +31,6 @@ export default {
     }
   },
   async resolve(root: any, args: any, context: any) {
-    let errors: CoreableError[] = [];
-    let user: any;
-    let isCorrectPassword: boolean = false;
-    let token: string | undefined;
-    if (context.USER) {
-      errors.push(
-        { 
-          code: 'ER_AUTH_FAILURE',
-          path: 'JWT',
-          message: 'User already authenticated'
-        }
-      );
-    }
-    if (!errors.length) {
-      user = await sequelize.models.User.findOne(
-        { 
-          where: { email: args.email.toLowerCase() }, 
-          include: [
-            { 
-              model: Team, as: 'teams', 
-              attributes: {
-                exclude:  ['inviteCode']
-              } 
-            },
-            { model: Industry, as: 'industry' }
-          ]
-        }
-      );
-      if (!user) {
-        errors.push(
-          {
-            code: 'ER_USER_UNKNOWN',
-            path: 'email',
-            message: `No user found with email ${args.email}`
-          }
-        );
-      }
-    }
-    if (!errors.length) {
-      isCorrectPassword = await user.login(args.password);
-      if (!isCorrectPassword) {
-        errors.push(
-          { 
-            code: 'ER_AUTH_FAILURE',
-            path: 'password',
-            message: 'Password invalid' 
-          }
-        );
-      }
-    }
-    if (!errors.length) {
-      try {
-        token = await encodeJWT(
-          { 
-            _id: user._id,
-            email: user.email,
-            enterprise: 'university'
-          }
-        );
-      } catch (err) {
-        errors.push({ code: err.code, path: 'JWT', message: err.message });
-      }
-    }
-    return {
-      'data': !errors.length ? { 
-        'user': user,
-        'token': token
-      } : null,
-      'errors': errors.length > 0 ? errors : null
-    };
+    return await Login(root, args, context);
   }
 }

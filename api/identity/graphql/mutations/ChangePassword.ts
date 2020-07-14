@@ -12,22 +12,24 @@
   ===========================================================================
 */
 
-import {
-  GraphQLNonNull,
-  GraphQLString,
-} from "graphql";
-
-import { UserObjectCommand } from "../command/object/User";
-import { LeaveTeam } from "../../logic/mutations/LeaveTeam";
+import { GraphQLString, GraphQLNonNull } from "graphql";
+import { SessionObjectCommand } from "../command/object/Session";
+import { ChangePassword } from '../../logic/mutations/ChangePassword';
 
 export default {
-  type: UserObjectCommand,
+  type: SessionObjectCommand,
   args: {
-    team_id: {
+    currentPassword: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    newPassword: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    confirmPassword: {
       type: new GraphQLNonNull(GraphQLString)
     }
   },
   async resolve(root: any, args: any, context: any) {
-    return await LeaveTeam(root, args, context);
+    return await ChangePassword(root, args, context);
   }
 }

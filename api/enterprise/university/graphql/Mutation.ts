@@ -17,13 +17,10 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-import RegisterMutation from '../../../identity/graphql/mutations/Register';
-import LoginMutation from '../../../identity/graphql/mutations/Login';
 import JoinTeamMutation from './mutations/JoinTeam';
 import LeaveTeamMutation from './mutations/LeaveTeam';
 import SubmitReviewMutation from './mutations/SubmitReview';
-import ChangeSubjectStateMutation from './mutations/ChangeSubjectState';
-import ChangePasswordMutation from './mutations/ChangePassword';
+// import ChangeSubjectStateMutation from './mutations/ChangeSubjectState';
 import JoinIndustryMutaton from './mutations/JoinIndustry';
 
 export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
@@ -31,13 +28,10 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
   description: 'This is the root mutation',
   fields: () => {
     return {
-      'register': RegisterMutation,
-      'login': LoginMutation,
       'joinTeam': JoinTeamMutation,
       'leaveTeam': LeaveTeamMutation,
       'submitReview': SubmitReviewMutation,
-      'changeSubjectState': ChangeSubjectStateMutation,
-      'changePassword': ChangePasswordMutation,
+      // 'changeSubjectState': ChangeSubjectStateMutation,
       'joinIndustry': JoinIndustryMutaton
     }
   }

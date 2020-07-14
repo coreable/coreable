@@ -44,6 +44,7 @@ export async function ForgotPassword(root: any, { email }: any, { USER }: any) {
     const tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
     
     // converting 24 hours to database readable..
+    // TODO: find an easier way
     const resetExpiry =
           tomorrow.getFullYear() + "-" +
           ("00" + (tomorrow.getMonth() + 1)).slice(-2) + "-" +

@@ -14,34 +14,47 @@
 
 import { CoreableError } from "../../../models/CoreableError";
 import { sequelize } from "../../../lib/sequelize";
-// import { UniversityUser } from "../../../models/User";
 
 export async function ChangePassword(_: any, { email, currentPassword, confirmPassword, newPassword }: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
 
   if (!context.USER) {
-    errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
+    errors.push({
+      code: 'ER_AUTH_FAILURE',
+      path: 'JWT',
+      message: 'User unauthenticated'
+    });
   }
   if (!errors.length) {
     if (confirmPassword !== newPassword) {
-      errors.push({ code: 'ER_PASSWORD_CONFIRM', message: 'Passwords must match', path: 'confirmPassword' });
+      errors.push({
+        code: 'ER_PASSWORD_CONFIRM',
+        message: 'Passwords must match',
+        path: 'confirmPassword'
+      });
     }
   }
   if (!errors.length) {
-    user = await sequelize.models.User.findOne(
-      {
-        where: { _id: context.USER._id }
-      }
-    );
+    user = await sequelize.models.User.findOne({
+      where: { _id: context.USER._id }
+    });
     if (!user) {
-      errors.push({ code: 'ER_USER_UNKNOWN', path: 'JWT', message: `No user found with email ${email}` });
+      errors.push({ 
+        code: 'ER_USER_UNKNOWN',
+        path: 'JWT',
+        message: `No user found with email ${email}`
+      });
     }
   }
   if (!errors.length) {
     const isCorrectPassword = await user.login(currentPassword);
     if (!isCorrectPassword) {
-      errors.push({ code: 'ER_PASSWORD_CURRENT', path: 'password', message: 'Password invalid' });
+      errors.push({ 
+        code: 'ER_PASSWORD_CURRENT',
+        path: 'password',
+        message: 'Password invalid'
+      });
     }
   }
   if (!errors.length) {
@@ -50,7 +63,11 @@ export async function ChangePassword(_: any, { email, currentPassword, confirmPa
         password: newPassword
       });
     } catch (err) {
-      errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
+      errors.push({ 
+        code: err.original.code, 
+        message: err.original.sqlMessage,
+        path: 'SQL'
+      });
     }
   }
   return {

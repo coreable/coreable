@@ -12,22 +12,12 @@
   ===========================================================================
 */
 
-import {
-  GraphQLNonNull,
-  GraphQLString,
-} from "graphql";
+import { UniversityTeam } from "../../models/Team";
 
-import { UserObjectCommand } from "../command/object/User";
-import { LeaveTeam } from "../../logic/mutations/LeaveTeam";
-
-export default {
-  type: UserObjectCommand,
-  args: {
-    team_id: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
-  },
-  async resolve(root: any, args: any, context: any) {
-    return await LeaveTeam(root, args, context);
-  }
+export async function GetUniversityAccountWithTeams(context: any) {
+  return await context.USER.getUniversityAccount({
+    include: [
+      { model: UniversityTeam, as: 'teams' }
+    ]
+  });
 }

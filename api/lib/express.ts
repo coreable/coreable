@@ -32,6 +32,7 @@ import { decodeJWT } from '../identity/logic/mutations/Login';
 import { sequelize } from './sequelize';
 
 import { User } from '../identity/models/User';
+import { IdentitySchema } from '../identity/graphql/Schema';
 
 // A hack to add the JWT decoded token to the request object
 declare global {
@@ -95,6 +96,12 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 // GraphQL
 app.use('/graphql', graphqlHTTP({
   schema: UniversitySchema,
+  pretty: config.NODE_ENV === 'development',
+  graphiql: config.NODE_ENV === 'development'
+}));
+
+app.use('/identity', graphqlHTTP({
+  schema: IdentitySchema,
   pretty: config.NODE_ENV === 'development',
   graphiql: config.NODE_ENV === 'development'
 }));

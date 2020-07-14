@@ -12,22 +12,21 @@
   ===========================================================================
 */
 
+import { QueryInterface } from "sequelize/types";
 import {
-  GraphQLNonNull,
-  GraphQLString,
+  GraphQLObjectType,
 } from "graphql";
 
-import { UserObjectCommand } from "../command/object/User";
-import { LeaveTeam } from "../../logic/mutations/LeaveTeam";
+import RegisterMutation from './mutations/Register';
+import LoginMutation from './mutations/Login';
 
-export default {
-  type: UserObjectCommand,
-  args: {
-    team_id: {
-      type: new GraphQLNonNull(GraphQLString)
+export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'Mutation',
+  description: 'This is the root mutation',
+  fields: () => {
+    return {
+      'register': RegisterMutation,
+      'login': LoginMutation
     }
-  },
-  async resolve(root: any, args: any, context: any) {
-    return await LeaveTeam(root, args, context);
   }
-}
+});
