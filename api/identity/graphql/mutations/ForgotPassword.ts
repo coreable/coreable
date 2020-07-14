@@ -13,7 +13,7 @@
 */
 
 import { GraphQLString, GraphQLNonNull } from "graphql";
-import { ForgotPassword } from '../../logic/mutations/ForgotPassword';
+import { ForgotPassword } from '../../logic/functions/ForgotPassword';
 import { SessionObjectCommand } from "../command/object/Session";
 
 export default {  

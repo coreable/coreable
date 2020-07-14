@@ -12,15 +12,11 @@
   ===========================================================================
 */
 
-import { sequelize } from "../../../../lib/sequelize";
-import { UniversityTeam } from "../../models/Team";
-import { UniversitySubject } from "../../models/Subject";
+import { sequelize } from "../../../lib/sequelize";
+import { UniversityTeam } from "../models/Team";
+import { UniversitySubject } from "../models/Subject";
 
 export async function GetUserSubjects(user: any, args: any, { USER }: any) {
-  if (USER._id !== user._id) {
-    return null;
-  }
-
   const res = await sequelize.models.User.findOne(
     {
       where: { _id: USER._id },
@@ -54,6 +50,7 @@ export async function GetUserSubjects(user: any, args: any, { USER }: any) {
           model: UniversitySubject,
           as: 'subject',
           group: ['_id'],
+          where: args,
           attributes: {
             exclude: [
               'updatedAt',
@@ -80,10 +77,6 @@ export async function GetUserSubjects(user: any, args: any, { USER }: any) {
 }
 
 export async function GetPendingUsersNeedingReview(user: any, args: any, { USER }: any) {
-  if (USER._id !== user._id) {
-    return null;
-  }
-
   const teams = await (user as any).getTeams(
     {
       model: UniversityTeam,

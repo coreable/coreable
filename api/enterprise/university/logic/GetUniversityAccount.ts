@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { UniversityTeam } from "../../models/Team";
+import { UniversityTeam } from "../models/Team";
 
 export async function GetUniversityAccountWithTeams(context: any) {
   return await context.USER.getUniversityAccount({

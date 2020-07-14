@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import { sequelize } from "../../../lib/sequelize";
+import { sequelize } from "../../../../lib/sequelize";
 import { 
   GraphQLNonNull,
   GraphQLString,

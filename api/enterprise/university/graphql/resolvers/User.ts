@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */
 
-import { sequelize } from '../../../lib/sequelize';
+import { sequelize } from '../../../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLString,
@@ -20,18 +20,17 @@ import {
   GraphQLFloat
 } from 'graphql';
 
-import { User } from '../../models/User';
+import { UniversityUser } from '../../models/User';
 import { TeamResolver } from './Team';
 import { ReviewResolver } from './Review';
 import { Op } from 'sequelize';
-// import { Team } from '../../models/Team';
-// import { Subject } from '../../models/Subject';
 import { IndustryResolver } from './Industry';
-import { GetAverageReflectionResult, GetPendingUsersNeedingReview, GetUserSubjects } from '../../logic/resolvers/User';
-// import { resolve } from 'bluebird';
+import { GetAverageReflectionResult, GetPendingUsersNeedingReview, GetUserSubjects } from '../../logic/User';
 import { SubjectResolver } from './Subject';
+import { UserResolver } from '../../../../identity/graphql/resolvers/User';
+import { UniversityReview } from '../../models/Review';
 
-export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
+export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UserResolver',
   description: 'This represents a User',
   fields: () => {
@@ -42,36 +41,39 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return user._id;
         }
       },
-      'firstName': {
-        type: GraphQLString,
-        resolve(user, args, context) {
-          return user.firstName;
-        }
-      },
-      'lastName': {
-        type: GraphQLString,
-        resolve(user, args, context) {
-          return user.lastName;
-        }
-      },
-      'email': {
-        type: GraphQLString,
-        resolve(user, args, context) {
-          return user.email
+      'user': {
+        type: UserResolver,
+        async resolve(user: any, args, context) {
+          return await user.getUser({
+            exclude: ['password']
+          });
         }
       },
       'team': {
         type: GraphQLList(TeamResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
         async resolve(user: any, args, context) {
           if (context.USER._id !== user._id) {
             return null;
           }
-          return await user.getTeams();
+          return await user.getTeams({ where: args });
         }
       },
       'subject': {
         type: GraphQLList(SubjectResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
         async resolve(user, args, context) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
           return await GetUserSubjects(user, args, context);
         }
       },
@@ -199,12 +201,10 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             return null;
           }
 
-          return await sequelize.models.Review.findAll(
-            {
-              attributes: { exclude: ['submitter_id'] },
-              where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } }
-            }
-          );
+          return await UniversityReview.findAll({
+            attributes: { exclude: ['submitter_id'] },
+            where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } }
+          });
         }
       },
       'submissions': {
@@ -214,23 +214,27 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
             return null;
           }
 
-          return await sequelize.models.Review.findAll(
-            {
-              attributes: { exclude: ['receiver_id'] },
-              where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
-            }
-          );
+          return await UniversityReview.findAll({
+            attributes: { exclude: ['receiver_id'] },
+            where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
+          });
         }
       },
       'pending': {
         type: new GraphQLList(TeamResolver),
         async resolve(user, args, context) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
           return await GetPendingUsersNeedingReview(user, args, context);
         }
       },
       'reflection': {
         type: ReviewResolver,
         async resolve(user: any, args: any, context: any) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
           return await GetAverageReflectionResult(user, args, context);
         }
       }

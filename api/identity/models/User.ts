@@ -17,7 +17,7 @@ import {
   Sequelize,
   DataTypes
 } from 'sequelize';
-import { generatePasswordHash, checkPassword } from '../logic/mutations/Login';
+import { generatePasswordHash, checkPassword } from '../logic/functions/Hash';
 import { UniversityUser } from '../../enterprise/university/models/User';
 
 class User extends Model {

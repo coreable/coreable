@@ -13,7 +13,7 @@
 */ 
 
 import { MeCommand } from "../command/Me";
-import { Me } from '../../logic/queries/Me';
+import { Me } from '../../logic/Me';
 
 export default {
   type: MeCommand,

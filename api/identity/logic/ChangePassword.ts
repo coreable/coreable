@@ -12,8 +12,8 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../models/CoreableError";
-import { sequelize } from "../../../lib/sequelize";
+import { CoreableError } from "../../models/CoreableError";
+import { sequelize } from "../../lib/sequelize";
 
 export async function ChangePassword(_: any, { email, currentPassword, confirmPassword, newPassword }: any, context: any) {
   let errors: CoreableError[] = [];

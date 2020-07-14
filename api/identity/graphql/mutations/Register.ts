@@ -18,7 +18,7 @@ import {
 } from "graphql";
 
 import { SessionObjectCommand } from "../command/object/Session";
-import { Register } from "../../logic/mutations/Register";
+import { Register } from "../../logic/functions/Register";
 
 export default {
   type: SessionObjectCommand,

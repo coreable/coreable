@@ -10,7 +10,7 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
 import {
   DataTypes,
@@ -58,42 +58,32 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  UniversityUser.belongsToMany(UniversityTeam, 
-    { 
-      through: 'UNIVERSITY_USER_TEAM',
-      sourceKey: '_id',
-      foreignKey: 'user_id',
-      as: 'teams' 
-    }
-  );
-  UniversityUser.hasMany(UniversityReview, 
-    {
-      sourceKey: '_id',
-      foreignKey: 'receiver_id',
-      as: 'reviews'
-    }
-  );
-  UniversityUser.hasMany(UniversityReview, 
-    {
-      sourceKey: '_id',
-      foreignKey: 'submitter_id',
-      as: 'submissions'
-    }
-  );
-  UniversityUser.belongsTo(UniversityIndustry, 
-    {
-      foreignKey: 'industry_id',
-      targetKey: '_id',
-      as: 'industry'
-    }
-  );
-  UniversityUser.belongsTo(User, 
-    { 
-      foreignKey: 'user_id',
-      targetKey: '_id',
-      as: 'user'
-    }
-  );
+  UniversityUser.belongsToMany(UniversityTeam, {
+    through: 'UNIVERSITY_USER_TEAM',
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'teams'
+  });
+  UniversityUser.hasMany(UniversityReview, {
+    sourceKey: '_id',
+    foreignKey: 'receiver_id',
+    as: 'reviews'
+  });
+  UniversityUser.hasMany(UniversityReview, {
+    sourceKey: '_id',
+    foreignKey: 'submitter_id',
+    as: 'submissions'
+  });
+  UniversityUser.belongsTo(UniversityIndustry, {
+    foreignKey: 'industry_id',
+    targetKey: '_id',
+    as: 'industry'
+  });
+  UniversityUser.belongsTo(User, {
+    foreignKey: 'user_id',
+    targetKey: '_id',
+    as: 'user'
+  });
   return UniversityUser;
 }
 

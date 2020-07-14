@@ -12,8 +12,8 @@
   ===========================================================================
 */
 
-import { sequelize } from "../../../../lib/sequelize";
-import { CoreableError } from '../../../../models/CoreableError';
+import { sequelize } from "../../../lib/sequelize";
+import { CoreableError } from '../../../models/CoreableError';
 
 export async function Me(root: any, args: any, { USER }: any) {
   let errors: CoreableError[] = [];
