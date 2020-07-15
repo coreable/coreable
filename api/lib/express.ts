@@ -28,7 +28,7 @@ import cors from 'cors';
 import { UniversitySchema } from '../enterprise/university/graphql/Schema';
 
 import { config } from '../config/config';
-import { decodeJWT } from '../identity/logic/functions/JWT';
+import { decodeJWT } from '../identity/logic/JWT';
 import { sequelize } from './sequelize';
 
 import { User } from '../identity/models/User';

@@ -145,6 +145,7 @@ const assosciate = () => {
     targetKey: '_id',
     as: 'industry'
   });
+  
   return UniversityIndustryAverage;
 }
 

@@ -12,8 +12,8 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../../models/CoreableError";
-import { UniversityTeam } from "../../models/Team";
+import { CoreableError } from "../../../models/CoreableError";
+import { UniversityTeam } from "../models/Team";
 import { GetUniversityAccountWithTeams } from './GetUniversityAccount';
 
 export async function LeaveTeam(root: any, args: any, context: any) {

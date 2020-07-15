@@ -12,10 +12,9 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../../models/CoreableError";
-// import { sequelize } from "../../../../lib/sequelize";
+import { CoreableError } from "../../../models/CoreableError";
 import { GetUniversityAccountWithTeams } from './GetUniversityAccount';
-import { UniversityTeam } from "../../models/Team";
+import { UniversityTeam } from "../models/Team";
 
 export async function JoinTeam(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];

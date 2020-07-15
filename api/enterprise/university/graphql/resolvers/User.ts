@@ -1,15 +1,15 @@
 /*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Coreables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
+  ===========================================================================
+    Copyright (C) 2020 Coreable
+    This file is part of Coreable's source code.
+    Coreables source code is free software; you can redistribute it
+    and/or modify it under the terms of the End-user license agreement.
+    Coreable's source code is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the license along with the 
+    Coreable source code.
+  ===========================================================================
 */
 
 import {
@@ -30,8 +30,8 @@ import { UserResolver } from '../../../../identity/graphql/resolvers/User';
 import { UniversityReview } from '../../models/Review';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
-  name: 'UserResolver',
-  description: 'This represents a User',
+  name: 'UniversityUserResolver',
+  description: 'This represents a UniversityUser',
   fields: () => {
     return {
       '_id': {
@@ -235,6 +235,18 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
             return null;
           }
           return await GetAverageReflectionResult(user, args, context);
+        }
+      },
+      'createdAt': {
+        type: GraphQLString,
+        resolve(user: any, args: any, context: any) {
+          return user.createdAt;
+        }
+      },
+      'updatedAt': {
+        type: GraphQLString,
+        resolve(user: any, args: any, context: any) {
+          return user.updatedAt;
         }
       }
     }

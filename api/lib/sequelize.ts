@@ -15,6 +15,10 @@
 import { Sequelize } from 'sequelize';
 import { config } from '../config/config';
 
+(async () => {
+  await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
+})().then(() => true);
+
 import * as User from '../enterprise/university/models/User';
 import * as Team from '../enterprise/university/models/Team';
 import * as Review from '../enterprise/university/models/Review';
@@ -26,17 +30,17 @@ import * as TeamAverage from '../enterprise/university/models/TeamAverage';
 
 var fs = require('fs');
 var path = require('path');
-var walk = function(dir: string, done: Function) {
+var walk = function (dir: string, done: Function) {
   let results: any[] = [];
-  fs.readdir(dir, function(err: any, list: any) {
+  fs.readdir(dir, function (err: any, list: any) {
     if (err) return done(err);
     var pending = list.length;
     if (!pending) return done(null, results);
-    list.forEach(function(file: any) {
+    list.forEach(function (file: any) {
       file = path.resolve(dir, file);
-      fs.stat(file, function(err: any, stat: any) {
+      fs.stat(file, function (err: any, stat: any) {
         if (stat && stat.isDirectory()) {
-          walk(file, function(err: any, res: any) {
+          walk(file, function (err: any, res: any) {
             results = results.concat(res);
             if (!--pending) done(null, results);
           });
@@ -52,22 +56,20 @@ var walk = function(dir: string, done: Function) {
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
 
-const sequelize = new _sequelize(
-  {
-    username: config.MYSQL_USERNAME,
-    password: config.MYSQL_PASSWORD,
-    database: config.MYSQL_DATABASE,
-    dialect: 'mysql',
-    host: config.MYSQL_HOST,
-    port: config.MYSQL_PORT,
-    logging: config.NODE_ENV === "development" ? console.log : null,
-    dialectOptions: {
-      socketPath: config.MYSQL_SOCKETPATH,
-      supportBigNumbers: true,
-      decimalNumbers: true
-    }
+const sequelize = new _sequelize({
+  username: config.MYSQL_USERNAME,
+  password: config.MYSQL_PASSWORD,
+  database: config.MYSQL_DATABASE,
+  dialect: 'mysql',
+  host: config.MYSQL_HOST,
+  port: config.MYSQL_PORT,
+  logging: config.NODE_ENV === "development" ? console.log : null,
+  dialectOptions: {
+    socketPath: config.MYSQL_SOCKETPATH,
+    supportBigNumbers: true,
+    decimalNumbers: true
   }
-);
+});
 
 _sequelize.sync = (async () => {
   User.sync(sequelize);
@@ -90,9 +92,5 @@ _sequelize.assosciate = (async () => {
   TeamAverage.assosciate();
   SubjectAverage.assosciate();
 })();
-
-(async() => {
-  await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
-})().then(() => true);
 
 export { sequelize };

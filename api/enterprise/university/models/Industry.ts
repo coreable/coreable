@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { 
+import {
   Model,
   Sequelize,
   DataTypes
@@ -26,10 +26,10 @@ class UniversityIndustry extends Model {
 
   // Relationships
   public users!: [UniversityUser];
-  
+
   // Properties
   public name!: string;
-  
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -40,7 +40,7 @@ const sync = (sequelize: Sequelize) => {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
-    },  
+    },
     'name': {
       'type': DataTypes.STRING,
       'allowNull': false
@@ -54,20 +54,17 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  UniversityIndustry.hasMany(UniversityUser, 
-    {
-      sourceKey: '_id',
-      foreignKey: 'industry_id',
-      as: 'users'
-    }
-  );
-  UniversityIndustry.hasMany(UniversityIndustryAverage, 
-    {
-      sourceKey: '_id',
-      foreignKey: 'industry_id',
-      as: 'averages'
-    }
-  );
+  UniversityIndustry.hasMany(UniversityUser, {
+    sourceKey: '_id',
+    foreignKey: 'industry_id',
+    as: 'users'
+  });
+  UniversityIndustry.hasMany(UniversityIndustryAverage, {
+    sourceKey: '_id',
+    foreignKey: 'industry_id',
+    as: 'averages'
+  });
+  
   return UniversityIndustry;
 }
 

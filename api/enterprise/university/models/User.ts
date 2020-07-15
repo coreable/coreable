@@ -45,6 +45,10 @@ const sync = (sequelize: Sequelize) => {
       'type': DataTypes.STRING,
       'allowNull': false
     },
+    'user_id': {
+      'type': DataTypes.UUID,
+      'allowNull': false
+    },
     'industry_id': {
       'type': DataTypes.UUID,
       'allowNull': true

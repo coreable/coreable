@@ -22,19 +22,15 @@ export async function Me(root: any, args: any, { USER }: any) {
     errors.push({ code: 'ER_UNAUTH', path: 'JWT', message: 'User unauthenticated' });
   }
   if (!errors.length) {
-    user = await sequelize.models.User.findOne(
-      {
-        where: { _id: USER._id }
-      }
-    );
+    user = await sequelize.models.User.findOne({
+      where: { _id: USER._id }
+    });
     if (!user) {
-      errors.push(
-        {
-          code: 'ER_USER_UNKNOWN',
-          path: `_id`,
-          message: `No user found with _id ${USER._id}`
-        }
-      );
+      errors.push({
+        code: 'ER_USER_UNKNOWN',
+        path: `_id`,
+        message: `No user found with _id ${USER._id}`
+      });
     }
   }
   return {
