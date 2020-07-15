@@ -18,18 +18,26 @@ import {
   DataTypes
 } from "sequelize";
 import { UniversityTeam } from "./Team";
+import { UniversitySubject } from "./Subject";
+import { UniversityIndustry } from "./Industry";
+import { UniversityTutorial } from "./Tutorial";
 
-class UniversityTeamAverage extends Model {
+class UniversityTutorialAverage extends Model {
   // Primary Key
   public _id!: string;
 
   // Foreign Keys
   public team_id!: string;
+  public subject_id!: string;
+  public industry_id!: string;
+  public tutorial_id!: string;
 
   // Relationships
+  public subject!: UniversitySubject;
   public team!: UniversityTeam;
+  public industry!: UniversityIndustry;
+  public tutorial!: UniversityTutorial;
 
-  // Properties
   public calm!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
@@ -53,13 +61,13 @@ class UniversityTeamAverage extends Model {
 }
 
 const sync = (sequelize: Sequelize) => {
-  UniversityTeamAverage.init({
+  UniversityTutorialAverage.init({
     '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
-    'team_id': {
+    'tutorial_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -132,24 +140,24 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
   }, {
-    'tableName': 'UNIVERSITY_TEAM_AVERAGE',
+    'tableName': 'UNIVERSITY_TUTORIAL_AVERAGE',
     'sequelize': sequelize
   });
 
-  return UniversityTeamAverage;
+  return UniversityTutorialAverage;
 }
 
 const assosciate = () => {
-  UniversityTeamAverage.belongsTo(UniversityTeam, {
-    foreignKey: 'team_id',
+  UniversityTutorialAverage.belongsTo(UniversityTutorial, {
+    foreignKey: 'tutorial_id',
     targetKey: '_id',
     as: 'team'
   });
-  return UniversityTeamAverage;
+  return UniversityTutorialAverage;
 }
 
 export {
-  UniversityTeamAverage,
+  UniversityTutorialAverage,
   sync,
   assosciate
 }

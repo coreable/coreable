@@ -19,22 +19,26 @@ import {
 } from 'sequelize';
 import { UniversityUser } from './User';
 import { UniversitySubject } from './Subject';
-import { TeamAverage } from './TeamAverage';
+import { UniversityTeamAverage } from './TeamAverage';
 import { UniversityReview } from './Review';
+import { UniversityTutorial } from './Tutorial';
 
 class UniversityTeam extends Model {
   // Primary Key
   public _id!: string;
 
-  public name!: string;
-  public inviteCode!: string;
-  public subject_id!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-
+  // Relationships
   public subject!: UniversitySubject;
   public users!: [UniversityUser];
   public reviews!: [UniversityReview];
+
+  // Properties
+  public name!: string;
+  public inviteCode!: string;
+  public tutorial_id!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 const sync = (sequelize: Sequelize) => {
@@ -52,7 +56,7 @@ const sync = (sequelize: Sequelize) => {
       'type': DataTypes.STRING,
       'allowNull': false
     },
-    'subject_id': {
+    'tutorial_id': {
       'type': DataTypes.UUID,
       'allowNull': false
     }
@@ -65,35 +69,27 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  UniversityTeam.belongsToMany(UniversityUser, 
-    {
-      through: 'UNIVERSITY_USER_TEAM',
-      sourceKey: '_id',
-      foreignKey: 'team_id',
-      as: 'users'
-    }
-  );
-  UniversityTeam.belongsTo(UniversitySubject, 
-    {
-      targetKey: '_id',
-      foreignKey: 'subject_id',
-      as: 'subject'
-    }
-  );
-  UniversityTeam.hasMany(TeamAverage, 
-    {
-      sourceKey: '_id',
-      foreignKey: 'team_id',
-      as: 'averages'
-    }
-  );
-  UniversityTeam.hasMany(UniversityReview, 
-    {
-      sourceKey: '_id',
-      foreignKey: 'team_id',
-      as: 'reviews'
-    }
-  );
+  UniversityTeam.belongsToMany(UniversityUser, {
+    through: 'UNIVERSITY_USER_TEAM',
+    sourceKey: '_id',
+    foreignKey: 'team_id',
+    as: 'users'
+  });
+  UniversityTeam.belongsTo(UniversityTutorial, {
+    targetKey: '_id',
+    foreignKey: 'tutorial_id',
+    as: 'tutorial'
+  });
+  UniversityTeam.hasMany(UniversityTeamAverage, {
+    sourceKey: '_id',
+    foreignKey: 'team_id',
+    as: 'averages'
+  });
+  UniversityTeam.hasMany(UniversityReview, {
+    sourceKey: '_id',
+    foreignKey: 'team_id',
+    as: 'reviews'
+  });
   return UniversityTeam;
 }
 

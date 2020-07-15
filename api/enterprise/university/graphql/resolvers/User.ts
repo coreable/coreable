@@ -12,7 +12,6 @@ Coreable source code.
 ===========================================================================
 */
 
-import { sequelize } from '../../../../lib/sequelize';
 import {
   GraphQLObjectType,
   GraphQLString,

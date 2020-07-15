@@ -12,28 +12,22 @@
   ===========================================================================
 */
 
-import { 
+import {
   Model,
   Sequelize,
   DataTypes
 } from "sequelize";
-import { UniversityTeam } from "./Team";
 import { UniversitySubject } from "./Subject";
-import { UniversityIndustry } from "./Industry";
 
 class SubjectAverage extends Model {
   // Primary Key
   public _id!: string;
 
   // Foreign Keys
-  public team_id!: string;
   public subject_id!: string;
-  public industry_id!: string;
 
   // Relationships
   public subject!: UniversitySubject;
-  public team!: UniversityTeam;
-  public industry!: UniversityIndustry;
 
   public calm!: number;
   public clearInstructions!: number;
@@ -66,7 +60,7 @@ const sync = (sequelize: Sequelize) => {
     },
     'subject_id': {
       type: DataTypes.UUID,
-      allowNull: true
+      allowNull: false
     },
     'empathy': {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -145,13 +139,11 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  SubjectAverage.belongsTo(UniversityTeam, 
-    { 
-      foreignKey: 'team_id',
-      targetKey: '_id',
-      as: 'team'
-    }
-  );
+  SubjectAverage.belongsTo(UniversitySubject, {
+    foreignKey: 'subject_id',
+    targetKey: '_id',
+    as: 'team'
+  });
   return SubjectAverage;
 }
 

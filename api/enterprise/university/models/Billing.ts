@@ -18,6 +18,7 @@ class Billing extends Model {
   // PK
   public _id!: string;
 
+  // Properties
   public contactEmail!: string;
   public contactPhone!: string;
   public contactName!: string;

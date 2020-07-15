@@ -18,23 +18,18 @@ import {
   DataTypes
 } from "sequelize";
 import { UniversityIndustry } from "./Industry";
-import { UniversitySubject } from "./Subject";
-import { UniversityTeam } from "./Team";
 
 class UniversityIndustryAverage extends Model {
   // Primary Key
   public _id!: string;
 
   // Foreign Keys
-  public team_id!: string;
-  public subject_id!: string;
   public industry_id!: string;
 
   // Relationships
-  public subject!: UniversitySubject;
-  public team!: UniversityTeam;
   public industry!: UniversityIndustry;
 
+  // Properties
   public calm!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
@@ -52,7 +47,7 @@ class UniversityIndustryAverage extends Model {
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
   public workDemands!: number;
-
+  
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -66,7 +61,7 @@ const sync = (sequelize: Sequelize) => {
     },
     'industry_id': {
       type: DataTypes.UUID,
-      allowNull: true
+      allowNull: false
     },
     'empathy': {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -145,13 +140,11 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  UniversityIndustryAverage.belongsTo(UniversityIndustry,
-    {
-      foreignKey: 'industry_id',
-      targetKey: '_id',
-      as: 'industry'
-    }
-  );
+  UniversityIndustryAverage.belongsTo(UniversityIndustry, {
+    foreignKey: 'industry_id',
+    targetKey: '_id',
+    as: 'industry'
+  });
   return UniversityIndustryAverage;
 }
 

@@ -27,8 +27,9 @@ class UniversityIndustry extends Model {
   // Relationships
   public users!: [UniversityUser];
   
+  // Properties
   public name!: string;
-
+  
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }

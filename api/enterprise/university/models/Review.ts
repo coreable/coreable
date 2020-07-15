@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { 
+import {
   Model,
   DataTypes,
   Sequelize
@@ -20,6 +20,7 @@ import {
 import { UniversityUser } from './User';
 import { UniversitySubject } from './Subject';
 import { UniversityTeam } from './Team';
+import { UniversityTutorial } from './Tutorial';
 
 class UniversityReview extends Model {
   // Primary Key
@@ -30,13 +31,16 @@ class UniversityReview extends Model {
   public submitter_id!: string;
   public subject_id!: string;
   public team_id!: string;
+  public tutorial_id!: string;
 
   // Relationships
   public receiver!: UniversityUser;
   public submitter!: UniversityUser;
   public subject!: UniversitySubject;
   public team!: UniversityTeam;
+  public tutorial!: UniversityTutorial;
 
+  // Properties
   public calm!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
@@ -53,9 +57,9 @@ class UniversityReview extends Model {
   public proactive!: number;
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
-  public workDemands!: number;  
+  public workDemands!: number;
   public state!: number;
-
+  
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -80,6 +84,10 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'team_id': {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    'tutorial_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -168,34 +176,31 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  UniversityReview.belongsTo(UniversityUser, 
-    {
-      foreignKey: 'receiver_id',
-      targetKey: '_id',
-      as: 'receiver'
-    }
-  );
-  UniversityReview.belongsTo(UniversityUser,
-    {
-      foreignKey: 'submitter_id',
-      targetKey: '_id',
-      as: 'submitter'
-    }
-  );
-  UniversityReview.belongsTo(UniversitySubject, 
-    {
-      foreignKey: 'subject_id',
-      targetKey: '_id',
-      as: 'subject'
-    }
-  );
-  UniversityReview.belongsTo(UniversityTeam, 
-    {
-      foreignKey: 'team_id',
-      targetKey: '_id',
-      as: 'team'
-    }
-  );
+  UniversityReview.belongsTo(UniversityUser, {
+    foreignKey: 'receiver_id',
+    targetKey: '_id',
+    as: 'receiver'
+  });
+  UniversityReview.belongsTo(UniversityUser, {
+    foreignKey: 'submitter_id',
+    targetKey: '_id',
+    as: 'submitter'
+  });
+  UniversityReview.belongsTo(UniversitySubject, {
+    foreignKey: 'subject_id',
+    targetKey: '_id',
+    as: 'subject'
+  });
+  UniversityReview.belongsTo(UniversityTeam, {
+    foreignKey: 'team_id',
+    targetKey: '_id',
+    as: 'team'
+  });
+  UniversityReview.belongsTo(UniversityTutorial, {
+    foreignKey: 'tutorial_id',
+    targetKey: '_id',
+    as: 'tutorial'
+  });
   return UniversityReview;
 }
 
