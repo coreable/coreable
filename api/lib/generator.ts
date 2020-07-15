@@ -1,33 +1,31 @@
 /*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Coreables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
+  ===========================================================================
+    Copyright (C) 2020 Coreable
+    This file is part of Coreable's source code.
+    Coreables source code is free software; you can redistribute it
+    and/or modify it under the terms of the End-user license agreement.
+    Coreable's source code is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the license along with the 
+    Coreable source code.
+  ===========================================================================
 */
 
 import { times } from 'lodash';
 import Faker from 'faker';
 
-import { User } from '../models/User';
-import { Team } from '../models/Team';
-import { Subject } from '../models/Subject';
-import { Review } from '../models/Review';
-import { Manager } from '../models/Manager';
-import { Industry } from '../models/Industry';
+import { User } from '../identity/models/User';
+import { UniversityTeam } from '../enterprise/university/models/Team';
+import { UniversitySubject } from '../enterprise/university/models/Subject';
+import { UniversityReview } from '../enterprise/university/models/Review';
+import { UniversityIndustry } from '../enterprise/university/models/Industry';
 
-const industrys: Industry[] = [];
+const industrys: UniversityIndustry[] = [];
 const users: User[] = [];
-const teams: Team[] = [];
-const reviews: Review[] = [];
-const subjects: Subject[] = [];
-const managers: Manager[] = [];
+const teams: UniversityTeam[] = [];
+const reviews: UniversityReview[] = [];
+const subjects: UniversitySubject[] = [];
 
 // Generates fake data for the database
 export async function generator() {
@@ -36,7 +34,7 @@ export async function generator() {
   // Create Industry
   times(2, (i) => {
     promises.push(async function () {
-      const industry = await Industry.create({
+      const industry = await UniversityIndustry.create({
         name: Faker.address.city()
       });
       return industrys.push(industry);
@@ -66,7 +64,7 @@ export async function generator() {
   // Create Subject
   times(3, (i) => {
     promises.push(async function () {
-      const subject = await Subject.create({
+      const subject = await UniversitySubject.create({
         name: `subject ${i}`,
         state: 2
       });
@@ -80,7 +78,7 @@ export async function generator() {
   // Create Team
   times(3, (i) => {
     promises.push(async function () {
-      const team = await Team.create({
+      const team = await UniversityTeam.create({
         name: `team ${i}`,
         inviteCode: `team${i}`,
         subject_id: `${subjects[i]._id}`
@@ -97,7 +95,7 @@ export async function generator() {
   times(3, (i) => {
     promises.push(async function () {
       const user: any = await User.findOne({ where: { _id: users[i]._id } });
-      const team: any = await Team.findOne({ where: { _id: teams[0]._id } });
+      const team: any = await UniversityTeam.findOne({ where: { _id: teams[0]._id } });
       return await user.addTeam(team);
     });
   });
@@ -108,7 +106,7 @@ export async function generator() {
   // User 0 reviews themself
   promises.push(async function () {
     const stats = generateReview();
-    const review = await Review.create({
+    const review = await UniversityReview.create({
       receiver_id: users[0]._id,
       submitter_id: users[0]._id,
       subject_id: subjects[0]._id,
@@ -122,7 +120,7 @@ export async function generator() {
   // User 0 reviews User 1
   promises.push(async function () {
     const stats = generateReview();
-    const review = await Review.create({
+    const review = await UniversityReview.create({
       receiver_id: users[1]._id,
       submitter_id: users[0]._id,
       subject_id: subjects[0]._id,
@@ -136,7 +134,7 @@ export async function generator() {
   // User 1 reviews User 0
   promises.push(async function () {
     const stats = generateReview();
-    const review = await Review.create({
+    const review = await UniversityReview.create({
       receiver_id: users[0]._id,
       submitter_id: users[1]._id,
       subject_id: subjects[0]._id,
@@ -150,7 +148,7 @@ export async function generator() {
   // User 1 reviews User 2
   promises.push(async function () {
     const stats = generateReview();
-    const review = await Review.create({
+    const review = await UniversityReview.create({
       receiver_id: users[2]._id,
       submitter_id: users[1]._id,
       subject_id: subjects[0]._id,
@@ -164,7 +162,7 @@ export async function generator() {
   // User 2 reviews User 1
   promises.push(async function () {
     const stats = generateReview();
-    const review = await Review.create({
+    const review = await UniversityReview.create({
       receiver_id: users[1]._id,
       submitter_id: users[2]._id,
       subject_id: subjects[0]._id,
@@ -178,7 +176,7 @@ export async function generator() {
   // User 2 reviews User 2
   promises.push(async function () {
     const stats = generateReview();
-    const review = await Review.create({
+    const review = await UniversityReview.create({
       receiver_id: users[2]._id,
       submitter_id: users[2]._id,
       subject_id: subjects[0]._id,
@@ -193,31 +191,31 @@ export async function generator() {
   });
 
   // Managers
-  times(3, (i) => {
-    promises.push(async function () {
-      const manager = await Manager.create({
-        firstName: `manager ${i}`,
-        lastName: `$manager ${i}`,
-        email: `m${i}@${i}.com`,
-        password: 'unittest'
-      });
-      return managers.push(manager);
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
+  // times(3, (i) => {
+  //   promises.push(async function () {
+  //     const manager = await Manager.create({
+  //       firstName: `manager ${i}`,
+  //       lastName: `$manager ${i}`,
+  //       email: `m${i}@${i}.com`,
+  //       password: 'unittest'
+  //     });
+  //     return managers.push(manager);
+  //   });
+  // });
+  // await inSequence(promises).then(() => {
+  //   promises = [];
+  // });
 
   // Add manager0 to subject0
   // Add manager1 to subject1
-  times(2, (i) => {
-    promises.push(async function () {
-      (managers[i] as any).addSubject(subjects[i]);
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
+  // times(2, (i) => {
+  //   promises.push(async function () {
+  //     (managers[i] as any).addSubject(subjects[i]);
+  //   });
+  // });
+  // await inSequence(promises).then(() => {
+  //   promises = [];
+  // });
 
   return true;
 }
