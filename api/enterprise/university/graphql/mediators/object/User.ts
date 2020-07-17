@@ -15,15 +15,15 @@ Coreable source code.
 import { 
   GraphQLObjectType,
 } from "graphql";
-import { UserResolver } from "../../resolvers/User";
+import { UniversityUserResolver } from "../../resolvers/User";
 
-export const UserObjectMediator: GraphQLObjectType = new GraphQLObjectType({
+export const UniversityUserObjectMediator: GraphQLObjectType = new GraphQLObjectType({
   name: 'UserObjectMediator',
   description: 'UserObjectMediator',
   fields: () => {
     return {
       'user': {
-        type: UserResolver,
+        type: UniversityUserResolver,
         resolve(data) {
           return data.user;
         }

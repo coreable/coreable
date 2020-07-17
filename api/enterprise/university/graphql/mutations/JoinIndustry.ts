@@ -12,18 +12,18 @@ Coreable source code.
 ===========================================================================
 */
 
-import { sequelize } from "../../../lib/sequelize";
+import { sequelize } from "../../../../lib/sequelize";
 import {
   GraphQLNonNull,
   GraphQLString,
 } from "graphql";
 
-import { CoreableError } from "../../models/CoreableError";
+import { CoreableError } from "../../../../models/CoreableError";
 import { UserObjectCommand } from "../command/object/User";
 // import { Manager } from "../../models/Manager";
-import { Team } from "../../models/Team";
-import { Subject } from "../../models/Subject";
-import { Industry } from "../../models/Industry";
+import { UniversityTeam } from "../../models/Team";
+import { UniversitySubject } from "../../models/Subject";
+import { UniversityIndustry } from "../../models/Industry";
 
 export default {
   type: UserObjectCommand,

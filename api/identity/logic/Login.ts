@@ -12,8 +12,8 @@
   ===========================================================================
 */
 
-import { CoreableError } from '../../../models/CoreableError';
-import { User } from '../../models/User';
+import { CoreableError } from '../../models/CoreableError';
+import { User } from '../models/User';
 import { encodeJWT } from './JWT';
 
 export async function Login(root: any, args: any, context: any) {

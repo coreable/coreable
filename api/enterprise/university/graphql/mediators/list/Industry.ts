@@ -16,15 +16,16 @@ import {
   GraphQLObjectType, 
   GraphQLList
 } from "graphql";
-import { IndustryResolver } from "../../resolvers/Industry";
 
-export const IndustryListMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'IndustryListMediator',
-  description: 'IndustryListMediator',
+import { UniversityIndustryResolver } from "../../resolvers/Industry";
+
+export const UniversityIndustryListMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityIndustryListMediator',
+  description: 'UniversityIndustryListMediator',
   fields: () => {
     return {
       'industry': {
-        type: new GraphQLList(IndustryResolver),
+        type: new GraphQLList(UniversityIndustryResolver),
         resolve(data) {
           return data.industry;
         }

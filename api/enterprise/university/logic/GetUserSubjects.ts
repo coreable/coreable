@@ -15,14 +15,17 @@
 import { UniversityUser } from "../models/User";
 import { UniversityTeam } from "../models/Team";
 import { UniversitySubject } from "../models/Subject";
+import { sequelize } from "../../../lib/sequelize";
+import { UniversityTutorial } from "../models/Tutorial";
 // import { sequelize } from "../../../lib/sequelize";
 
 export async function GetUserSubjects(user: any, args: any, { USER }: any) {
-  const res: any = await UniversityUser.findOne({
-    where: { _id: USER._id },
+  const subjects: any = await UniversityUser.findOne({
+    where: { user_id: USER._id },
     group: ['_id'],
     attributes: {
       exclude: [
+        '_id',
         'email',
         'firstName',
         'lastName',
@@ -34,6 +37,17 @@ export async function GetUserSubjects(user: any, args: any, { USER }: any) {
         'lockoutTimer',
         'updatedAt',
         'createdAt'
+      ],
+      include: [
+        [
+          sequelize.col('teams.tutorial.subject.name'), 'name'
+        ],
+        [
+          sequelize.col('teams.tutorial.subject.state'), 'state'
+        ],
+        [
+          sequelize.col('teams.tutorial.subject._id'), '_id'
+        ]
       ]
     },
     include: [{
@@ -41,34 +55,36 @@ export async function GetUserSubjects(user: any, args: any, { USER }: any) {
       as: 'teams',
       attributes: {
         exclude: [
+          '_id',
+          'inviteCode',
+          'tutorial_id',
           'updatedAt',
           'createdAt'
         ]
       },
       include: [{
-        model: UniversitySubject,
-        as: 'subject',
-        where: args,
+        model: UniversityTutorial,
+        as: 'tutorial',
         attributes: {
           exclude: [
-            'updatedAt',
-            'createdAt'
-          ],
-          include: [
             '_id',
             'name',
-            'state'
+            'subject_id'
           ]
-        }
+        },
+        include: [{
+          model: UniversitySubject,
+          as: 'subject',
+          where: args,
+          attributes: {
+            exclude: [
+              'updatedAt',
+              'createdAt'
+            ]
+          }
+        }]
       }]
     }]
   });
-
-  // TODO: Remove this loop and make the Sequelize query do it
-  // Not sure how at the moment, I know it's doable
-  const subjects = [];
-  for (const team of res.teams) {
-    subjects.push(team.subject);
-  }
   return subjects;
 }

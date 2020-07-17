@@ -18,15 +18,15 @@ import {
 } from "graphql";
  
 import { CoreableErrorResolver } from "../../resolvers/CorableError";
-import { IndustryListMediator } from "../../mediators/list/Industry";
+import { UniversityIndustryListMediator } from "../../mediators/list/Industry";
 
-export const IndustryListCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'IndustryListCommand',
-  description: 'IndustryListCommand',
+export const UniversityIndustryListCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityIndustryListCommand',
+  description: 'UniversityIndustryListCommand',
   fields: () => {
     return {
       'data': {
-        type: IndustryListMediator,
+        type: UniversityIndustryListMediator,
         resolve(value) {
           return value.data;
         }

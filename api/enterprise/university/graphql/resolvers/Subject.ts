@@ -17,16 +17,15 @@ import {
   GraphQLInt,
   GraphQLString,
   GraphQLList,
-  GraphQLFloat,
-  GraphQLNonNull,
+  GraphQLFloat
 } from 'graphql';
 
 import { UniversitySubject } from '../../models/Subject';
 import { UniversityTeamResolver } from './Team';
-import { ReviewResolver } from './Review';
-import { sequelize } from '../../../../lib/sequelize';
+import { UniversityReviewResolver } from './Review';
+
 import { Op } from 'sequelize';
-import { SubjectAverage } from '../../models/SubjectAverage';
+import { UniversitySubjectAverage } from '../../models/SubjectAverage';
 import { GetSubjectAverages } from '../../logic/GetSubjectAverages';
 
 export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
@@ -52,10 +51,10 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           return subject.state;
         }
       },
-      'teams': {
+      'tutorials': {
         type: new GraphQLList(UniversityTeamResolver),
         async resolve(subject: any, args, context) {
-          return await subject.getTeams();
+          return await subject.getTutorials();
         }
       },
       'report': {
@@ -64,14 +63,22 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           fields: () => {
             return {
               'average': {
+                args: {
+                  endDate: {
+                    type: GraphQLString,
+                  },
+                  startDate: {
+                    type: GraphQLString,
+                  }
+                },
                 type: new GraphQLObjectType({
                   name: 'UniversitySubjectAverageSingle',
                   fields: () => {
                     return {
                       'default': {
-                        type: ReviewResolver,
-                        resolve(average, args, context) {
-                          return average;
+                        type: new GraphQLList(UniversityReviewResolver),
+                        resolve(averages, args, context) {
+                          return averages;
                         }
                       },
                       'sorted': {
@@ -95,115 +102,80 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                           }
                         })),
                         resolve(average, args, context) {
-                          average = average.dataValues;
-                          const sortable = [];
-                          for (const field in average) {
-                            if (!isNaN(average[field]) && Number.isFinite(average[field])) {
-                              sortable.push([field, average[field]]);
+                          if (average.length === 1) {
+                            average = average.dataValues;
+                            const sortable = [];
+                            for (const field in average) {
+                              if (!isNaN(average[field]) && Number.isFinite(average[field])) {
+                                sortable.push([field, average[field]]);
+                              }
                             }
+                            sortable.sort((a, b) => {
+                              return a[1] - b[1]
+                            });
+                            return sortable;
                           }
-                          sortable.sort((a, b) => {
-                            return a[1] - b[1]
-                          });
-                          return sortable;
+                          return null;
                         }
                       }
                     }
                   }
                 }),
                 async resolve(subject, args, context) {
-                  let averages: any;
-                  let week;
-                  week = 7 * 60 * 60 * 24 * 1000; // week = 7 * 60 * 60 * 24 * 1000;
-                  week = new Date(Date.now() - week);
-                  averages = await sequelize.models.SubjectAverage.findOne({
-                    where: {
-                      subject_id: subject._id,
-                      createdAt: {
-                        [Op.gte]: week
-                      }
+                  // ALWAYS CALCULATE AND STORE THE NEWEST VALUE IF
+                  // THE TOP RECORD IN THE DATABASE IS OLDER THAN A WEEK OLD
+                  const latestAverage: any = await GetSubjectAverages(subject, args, context);
+                  const topRecord: any = await UniversitySubjectAverage.findOne({
+                    where: { subject_id: subject._id },
+                    order: [['createdAt', 'DESC']]
+                  });
+
+                  const weekAgo = Date.now() - 604800000;
+
+                  if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
+                    await UniversitySubjectAverage.create({
+                      ...latestAverage.dataValues,
+                      subject_id: subject._id
+                    });
+                  }
+
+                  if (args.startDate) {
+                    try {
+                      args.startDate = Date.parse(args.startDate);
+                      args.startDate = new Date(args.startDate);
+                    } catch (err) {
+                      return err;
                     }
-                  });
-                  if (averages) {
-                    return averages;
                   }
-                  averages = await GetSubjectAverages(subject, args, context);
-                  averages = await SubjectAverage.create({
-                    subject_id: subject._id,
-                    calm: averages.dataValues.calm,
-                    clearInstructions: averages.dataValues.clearInstructions,
-                    cooperatively: averages.dataValues.cooperatively,
-                    crossTeam: averages.dataValues.crossTeam,
-                    distractions: averages.dataValues.distractions,
-                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
-                    empathy: averages.dataValues.empathy,
-                    usesRegulators: averages.dataValues.usesRegulators,
-                    influences: averages.dataValues.influences,
-                    managesOwn: averages.dataValues.managesOwn,
-                    newIdeas: averages.dataValues.newIdeas,
-                    openToShare: averages.dataValues.openToShare,
-                    positiveBelief: averages.dataValues.positiveBelief,
-                    proactive: averages.dataValues.proactive,
-                    resilienceFeedback: averages.dataValues.resilienceFeedback,
-                    signifiesInterest: averages.dataValues.signifiesInterest,
-                    workDemands: averages.dataValues.workDemands,
-                  });
-                  return averages;
-                }
-              },
-              'averages': {
-                type: new GraphQLList(ReviewResolver),
-                args: {
-                  limit: {
-                    type: GraphQLInt,
-                  },
-                  start: {
-                    type: new GraphQLNonNull(GraphQLString),
+
+                  if (args.endDate) {
+                    try {
+                      args.endDate = Date.parse(args.endDate);
+                      args.endDate = new Date(args.endDate);
+                    } catch (err) {
+                      return err;
+                    }
                   }
-                },
-                async resolve(subject, args, context) {
-                  let averages: any;
-                  try {
-                    args.start = Date.parse(args.start);
-                    args.start = new Date(args.start);
-                  } catch (err) {
-                    return err;
+
+                  // if no start or end date is specified
+                  // return only the latest average
+                  if (!args.startDate && !args.endDate) {
+                    return [latestAverage];
                   }
-                  averages = await sequelize.models.SubjectAverage.findAll({
+
+                  const averages: any = await UniversitySubjectAverage.findAll({
                     where: {
                       subject_id: subject._id,
                       createdAt: {
-                        [Op.gte]: args.start
+                        [Op.gte]: args.startDate,
+                        [Op.lte]: args.endDate
                       }
                     },
                     limit: args.limit
                   });
-                  if (averages) {
-                    return averages;
-                  }
-                  averages = await GetSubjectAverages(subject, args, context);
-                  averages = await SubjectAverage.create({
-                    subject_id: subject._id,
-                    calm: averages.dataValues.calm,
-                    clearInstructions: averages.dataValues.clearInstructions,
-                    cooperatively: averages.dataValues.cooperatively,
-                    crossTeam: averages.dataValues.crossTeam,
-                    distractions: averages.dataValues.distractions,
-                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
-                    empathy: averages.dataValues.empathy,
-                    usesRegulators: averages.dataValues.usesRegulators,
-                    influences: averages.dataValues.influences,
-                    managesOwn: averages.dataValues.managesOwn,
-                    newIdeas: averages.dataValues.newIdeas,
-                    openToShare: averages.dataValues.openToShare,
-                    positiveBelief: averages.dataValues.positiveBelief,
-                    proactive: averages.dataValues.proactive,
-                    resilienceFeedback: averages.dataValues.resilienceFeedback,
-                    signifiesInterest: averages.dataValues.signifiesInterest,
-                    workDemands: averages.dataValues.workDemands,
-                  });
+
                   if (!Array.isArray(averages)) {
-                    averages = [averages];
+                    return [averages];
                   }
                   return averages;
                 }

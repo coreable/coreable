@@ -17,15 +17,15 @@ import {
   GraphQLList
 } from "graphql";
 
-import { UserResolver } from "../../resolvers/User";
+import { UniversityUserResolver } from "../../resolvers/User";
 
-export const UserListMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UserListMediator',
-  description: 'UserListMediator',
+export const UniversityUserListMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityUserListMediator',
+  description: 'UniversityUserListMediator',
   fields: () => {
     return {
       'user': {
-        type: new GraphQLList(UserResolver),
+        type: new GraphQLList(UniversityUserResolver),
         resolve(data) {
           return data.user;
         }

@@ -42,7 +42,9 @@ class UniversityUser extends Model {
 const sync = (sequelize: Sequelize) => {
   UniversityUser.init({
     '_id': {
-      'type': DataTypes.STRING,
+      'primaryKey': true,
+      'type': DataTypes.UUID,
+      'defaultValue': DataTypes.UUIDV4,
       'allowNull': false
     },
     'user_id': {

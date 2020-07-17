@@ -22,8 +22,8 @@ import { UniversityReview } from '../../models/Review';
 import { UniversityUserResolver } from './User';
 import { UniversityTeamResolver } from './Team';
 
-export const ReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
-  name: 'ReviewResolver',
+export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
+  name: 'UniversityReviewResolver',
   description: 'The representation of a Review',
   fields: () => {
     return {

@@ -21,7 +21,7 @@ import JoinTeamMutation from './mutations/JoinTeam';
 import LeaveTeamMutation from './mutations/LeaveTeam';
 import SubmitReviewMutation from './mutations/SubmitReview';
 // import ChangeSubjectStateMutation from './mutations/ChangeSubjectState';
-import JoinIndustryMutaton from './mutations/JoinIndustry';
+// import JoinIndustryMutaton from './mutations/JoinIndustry';
 
 export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'Mutation',
@@ -32,7 +32,7 @@ export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType
       'leaveTeam': LeaveTeamMutation,
       'submitReview': SubmitReviewMutation,
       // 'changeSubjectState': ChangeSubjectStateMutation,
-      'joinIndustry': JoinIndustryMutaton
+      // 'joinIndustry': JoinIndustryMutaton
     }
   }
 });

@@ -18,7 +18,7 @@ import {
   DataTypes
 } from "sequelize";
 import { UniversityTeam } from "./Team";
-import { SubjectAverage } from "./SubjectAverage";
+import { UniversitySubjectAverage } from "./SubjectAverage";
 import { UniversityReview } from "./Review";
 import { UniversityTutorial } from "./Tutorial";
 
@@ -70,9 +70,9 @@ const assosciate = () => {
   UniversitySubject.hasMany(UniversityTutorial, {
     sourceKey: '_id',
     foreignKey: 'subject_id',
-    as: 'teams'
+    as: 'tutorials'
   });
-  UniversitySubject.hasMany(SubjectAverage, {
+  UniversitySubject.hasMany(UniversitySubjectAverage, {
     sourceKey: '_id',
     foreignKey: 'subject_id',
     as: 'averages'

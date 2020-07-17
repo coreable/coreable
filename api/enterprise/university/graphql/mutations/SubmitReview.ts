@@ -20,10 +20,9 @@ import {
 } from "graphql";
 
 import { ReviewObjectCommand } from "../command/object/Review";
-import { CoreableError } from "../../models/CoreableError";
-import { Team } from "../../models/Team";
-import { Review } from "../../models/Review";
-// import { Manager } from "../../models/Manager";
+import { CoreableError } from "../../../../models/CoreableError";
+import { UniversityTeam } from "../../models/Team";
+import { UniversityReview } from "../../models/Review";
 
 export default {
   type: ReviewObjectCommand,
@@ -35,6 +34,10 @@ export default {
     team_id: {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The team they have in common'
+    },
+    tutorial_id: {
+      type: new GraphQLNonNull(GraphQLString),
+      description: 'The tutorial they have in common'
     },
     subject_id: {
       type: new GraphQLNonNull(GraphQLString),
@@ -103,32 +106,23 @@ export default {
     if (!context.USER) {
       errors.push({ code: 'ER_AUTH_FAILURE', path: 'JWT', message: 'User unauthenticated' });
     }
-    // if (!errors.length) {
-    //   if (context.USER instanceof Manager) {
-    //     errors.push({ code: 'ER_MANAGER', message: 'Managers can not submit reviews', path: 'JWT' });
-    //   }
-    // }
     if (!errors.length) {
-      userBeingReviewed = await sequelize.models.User.findOne(
-        {
+      userBeingReviewed = await sequelize.models.User.findOne({
           where: { _id: args.receiver_id },
           include: [
             { 
-              model: Team, as: 'teams', attributes: {
+              model: UniversityTeam, as: 'teams', attributes: {
                 exclude:  ['inviteCode']
               }
             }
           ] 
-        }
-      );
+        });
       if (!userBeingReviewed) {
-        errors.push(
-          { 
+        errors.push({ 
             code: 'ER_USER_UNKNOWN',
             path: '_id',
             message: `No user found with _id ${args.receiver_id}`
-          }
-        );
+          });
       }
     }
     if (!errors.length) {
@@ -145,14 +139,12 @@ export default {
         }
       }
       if (!userCommonTeam) {
-        errors.push(
-          {
+        errors.push({
             code: 'ER_TEAM_UNKNOWN',
             path: '_id',
             message: 
             `Logged in user with _id ${context.USER._id} and user being reviewed with _id ${args.receiver_id} have no common team with _id ${args.team_id}` 
-          }
-        );
+          });
       }
     }
     if (!errors.length) {
@@ -162,31 +154,28 @@ export default {
       }
     }
     if (!errors.length) {
-      const hasCompleted = await sequelize.models.Review.findOne(
-        {
+      const hasCompleted = await sequelize.models.Review.findOne({
           where: {
             receiver_id: args.receiver_id,
             submitter_id: context.USER._id,
             subject_id: args.subject_id,
             state: subject.state
           }
-        }
-      );
+        });
       if (hasCompleted) {
-        errors.push(
-          { 
+        errors.push({
             code: 'ER_REVIEW_COMPLETE',
             path: '_id',
             message: `user with _id ${context.USER._id} has already submitted a reivew on user with _id ${args.receiver_id} for state ${subject.state}`
-          }
-        );
+          });
       }
     }
     if (!errors.length) {
       try {
-        await Review.create({
+        await UniversityReview.create({
           receiver_id: args.receiver_id,
           submitter_id: context.USER._id,
+          tutorial_id: args.tutorial_id,
           subject_id: args.subject_id,
           team_id: args.team_id,
           state: subject.state,

@@ -12,22 +12,7 @@
   ===========================================================================
 */
 
-import {
-  GraphQLNonNull,
-  GraphQLString,
-} from "graphql";
+export async function GetTutorialAverages(tutorial: any, args: any, context: any) {
 
-import { UniversityUserObjectCommand } from "../command/object/User";
-import { JoinTeam } from "../../logic/JoinTeam";
-
-export default {
-  type: UniversityUserObjectCommand,
-  args: {
-    inviteCode: {
-      type: new GraphQLNonNull(GraphQLString)
-    }
-  },
-  async resolve(root: any, args: any, context: any) {
-    return await JoinTeam(root, args, context);
-  }
+  return {}
 }

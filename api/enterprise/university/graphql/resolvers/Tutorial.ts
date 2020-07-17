@@ -12,13 +12,166 @@
   ===========================================================================
 */
 
-import { GraphQLObjectType } from "graphql";
+import { GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLList } from "graphql";
+import { UniversitySubjectResolver } from "./Subject";
+import { UniversityTutorialAverage } from "../../models/TutorialAverage";
+import { Op } from "sequelize";
+import { UniversityReviewResolver } from "./Review";
+import { GetTutorialAverages } from "../../logic/GetTutorialAverages";
 
 export const UniversityTutorialResolver = new GraphQLObjectType({
   name: 'UniversityTutorialResolver',
   description: 'This represents a UniversityTutorial',
   fields: () => {
     return {
+      '_id': {
+        type: GraphQLString,
+        resolve(tutorial, args, context) {
+          return tutorial._id;
+        }
+      },
+      'name': {
+        type: GraphQLString,
+        resolve(tutorial, args, context) {
+          return tutorial.name;
+        }
+      },
+      'subject': {
+        type: UniversitySubjectResolver,
+        async resolve(tutorial, args, context) {
+          return await tutorial.getSubject();
+        }
+      },
+      'report': {
+        type: new GraphQLObjectType({
+          name: 'UniversityTutorialAverageReport',
+          fields: () => {
+            return {
+              'average': {
+                args: {
+                  endDate: {
+                    type: GraphQLString,
+                  },
+                  startDate: {
+                    type: GraphQLString,
+                  }
+                },
+                type: new GraphQLObjectType({
+                  name: 'UniversityTutorialAverageSingle',
+                  fields: () => {
+                    return {
+                      'default': {
+                        type: new GraphQLList(UniversityReviewResolver),
+                        resolve(averages, args, context) {
+                          return averages;
+                        }
+                      },
+                      'sorted': {
+                        type: new GraphQLList(new GraphQLObjectType({
+                          name: 'UniversityTutorialSortedAverageArray',
+                          fields: () => {
+                            return {
+                              'field': {
+                                type: GraphQLString,
+                                resolve(sortable, args, context) {
+                                  return sortable[0];
+                                }
+                              },
+                              'value': {
+                                type: GraphQLFloat,
+                                resolve(sortable, args, context) {
+                                  return sortable[1];
+                                }
+                              }
+                            }
+                          }
+                        })),
+                        resolve(average, args, context) {
+                          if (average.length === 1) {
+                            average = average.dataValues;
+                            const sortable = [];
+                            for (const field in average) {
+                              if (!isNaN(average[field]) && Number.isFinite(average[field])) {
+                                sortable.push([field, average[field]]);
+                              }
+                            }
+                            sortable.sort((a, b) => {
+                              return a[1] - b[1]
+                            });
+                            return sortable;
+                          }
+                          return null;
+                        }
+                      }
+                    }
+                  }
+                }),
+                async resolve(tutorial, args, context) {
+                  // ALWAYS CALCULATE AND STORE THE NEWEST VALUE IF
+                  // THE TOP RECORD IN THE DATABASE IS OLDER THAN A WEEK OLD
+                  const latestAverage: any = await GetTutorialAverages(tutorial, args, context);
+                  const topRecord: any = await UniversityTutorialAverage.findOne({
+                    where: { tutorial_id: tutorial._id },
+                    order: [['createdAt', 'DESC']]
+                  });
+
+                  const weekAgo = Date.now() - 604800000;
+
+                  if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
+                    await UniversityTutorialAverage.create({
+                      ...latestAverage.dataValues,
+                      tutorial_id: tutorial._id
+                    });
+                  }
+
+                  if (args.startDate) {
+                    try {
+                      args.startDate = Date.parse(args.startDate);
+                      args.startDate = new Date(args.startDate);
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  if (args.endDate) {
+                    try {
+                      args.endDate = Date.parse(args.endDate);
+                      args.endDate = new Date(args.endDate);
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  // if no start or end date is specified
+                  // return only the latest average
+                  if (!args.startDate && !args.endDate) {
+                    return [latestAverage];
+                  }
+
+                  const averages: any = await UniversityTutorialAverage.findAll({
+                    where: {
+                      tutorial_id: tutorial._id,
+                      createdAt: {
+                        [Op.gte]: args.startDate,
+                        [Op.lte]: args.endDate
+                      }
+                    },
+                    limit: args.limit
+                  });
+
+                  if (!Array.isArray(averages)) {
+                    return [averages];
+                  }
+                  return averages;
+                }
+              }
+            }
+          }
+        }),
+        resolve(subject, args, context) {
+          return subject;
+        }
+      }
     }
   }
 });

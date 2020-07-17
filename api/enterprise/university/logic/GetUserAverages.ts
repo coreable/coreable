@@ -12,31 +12,36 @@
   ===========================================================================
 */
 
-import { UniversityTeam } from "../models/Team";
-import { sequelize } from "../../../lib/sequelize";
 import { UniversityUser } from "../models/User";
 import { UniversityReview } from "../models/Review";
+import { sequelize } from "../../../lib/sequelize";
+import { Op } from "sequelize";
 
-export async function GetTeamAverages(team: any, args: any, context: any) {
-  return await UniversityTeam.findOne({
-    where: { _id: team._id },
-    group: ['_id'],
+export async function GetUserAverages(user: any, args: any, context: any) {
+  return await UniversityUser.findOne({
+    where: {
+      _id: user._id
+    },
     attributes: {
       exclude: [
-        '_id',
-        'name',
-        'inviteCode',
-        'updatedAt',
+        'firstName',
+        'lastName',
+        'email',
+        'password',
+        'passwordResetToken',
+        'passwordResetExpiry',
+        'createdAt',
+        'updatedAt'
       ],
       include: [
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.calm')),
+            sequelize.col('reviews.calm')),
           'calm'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.change')),
+            sequelize.col('reviews.change')),
           'change'
         ],
         [
@@ -46,106 +51,94 @@ export async function GetTeamAverages(team: any, args: any, context: any) {
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.cooperatively')),
+            sequelize.col('reviews.cooperatively')),
           'cooperatively'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.crossTeam')),
+            sequelize.col('reviews.crossTeam')),
           'crossTeam'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.easilyExplainsComplexIdeas')),
+            sequelize.col('reviews.easilyExplainsComplexIdeas')),
           'easilyExplainsComplexIdeas'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.empathy')),
+            sequelize.col('reviews.empathy')),
           'empathy'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.usesRegulators')),
+            sequelize.col('reviews.usesRegulators')),
           'usesRegulators'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.influences')),
+            sequelize.col('reviews.influences')),
           'influences'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.managesOwn')),
+            sequelize.col('reviews.managesOwn')),
           'managesOwn'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.newIdeas')),
+            sequelize.col('reviews.newIdeas')),
           'newIdeas'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.openToShare')),
+            sequelize.col('reviews.openToShare')),
           'openToShare'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.positiveBelief')),
+            sequelize.col('reviews.positiveBelief')),
           'positiveBelief'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.proactive')),
+            sequelize.col('reviews.proactive')),
           'proactive'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.resilienceFeedback')),
+            sequelize.col('reviews.resilienceFeedback')),
           'resilienceFeedback'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.signifiesInterest')),
+            sequelize.col('reviews.signifiesInterest')),
           'signifiesInterest'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.verbalAttentiveFeedback')),
+            sequelize.col('reviews.verbalAttentiveFeedback')),
           'verbalAttentiveFeedback'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.workDemands')),
+            sequelize.col('reviews.workDemands')),
           'workDemands'
-        ],
+        ]
       ]
     },
     include: [{
-      model: UniversityUser,
-      as: 'users',
+      model: UniversityReview,
+      as: 'reviews',
+      where: {
+        receiver_id: user._id, 
+        submitter_id: { [Op.not]: user._id }
+      },
       attributes: {
         exclude: [
-          'firstName',
-          'lastName',
-          'email',
-          'password',
-          'passwordResetToken',
-          'passwordResetExpiry',
-          'createdAt',
-          'updatedAt'
+          'updatedAt',
+          'createdAt'
         ]
-      },
-      include: [{
-        model: UniversityReview,
-        as: 'reviews',
-        attributes: {
-          exclude: [
-            'updatedAt',
-            'createdAt'
-          ]
-        }
-      }]
+      }
     }]
   });
 }

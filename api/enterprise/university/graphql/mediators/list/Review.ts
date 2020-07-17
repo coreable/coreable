@@ -17,15 +17,15 @@ import {
   GraphQLList
 } from "graphql";
 
-import { ReviewResolver } from "../../resolvers/Review";
+import { UniversityReviewResolver } from "../../resolvers/Review";
 
-export const ReviewListMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'ReviewListMediator',
-  description: 'ReviewListMediator',
+export const UniversityReviewListMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityReviewListMediator',
+  description: 'UniversityReviewListMediator',
   fields: () => {
     return {
       'review': {
-        type: new GraphQLList(ReviewResolver),
+        type: new GraphQLList(UniversityReviewResolver),
         resolve(data) {
           return data.review;
         }

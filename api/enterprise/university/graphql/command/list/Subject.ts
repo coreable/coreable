@@ -18,15 +18,15 @@ import {
 } from "graphql";
 
 import { CoreableErrorResolver } from "../../resolvers/CorableError";
-import { SubjectListMediator } from "../../mediators/list/Subject";
+import { UniversitySubjectListMediator } from "../../mediators/list/Subject";
 
-export const SubjectListCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'SubjectListCommand',
-  description: 'SubjectListCommand',
+export const UniversitySubjectListCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversitySubjectListCommand',
+  description: 'UniversitySubjectListCommand',
   fields: () => {
     return {
       'data': {
-        type: SubjectListMediator,
+        type: UniversitySubjectListMediator,
         resolve(value) {
           return value.data;
         }

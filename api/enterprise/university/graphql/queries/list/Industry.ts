@@ -12,13 +12,13 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import { sequelize } from "../../../../lib/sequelize";
 
-import { CoreableError } from "../../../models/CoreableError";
-import { IndustryListCommand } from "../../command/list/Industry";
+import { CoreableError } from "../../../../../models/CoreableError";
+import { UniversityIndustryListCommand } from "../../command/list/Industry";
+import { UniversityIndustry } from "../../../models/Industry";
 
 export default {
-  type: IndustryListCommand, 
+  type: UniversityIndustryListCommand, 
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
     if (!context.USER) {
@@ -26,7 +26,7 @@ export default {
     }
     return {
       'data': !errors.length ? {
-        'industry': await sequelize.models.Industry.findAll()
+        'industry': await UniversityIndustry.findAll()
       } : null,
       'errors': errors.length > 0 ? errors : null
     }

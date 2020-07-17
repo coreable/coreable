@@ -17,7 +17,7 @@ import {
   Sequelize,
   DataTypes
 } from 'sequelize';
-import { generatePasswordHash, checkPassword } from '../logic/functions/Hash';
+import { generatePasswordHash, checkPassword } from '../logic/Hash';
 import { UniversityUser } from '../../enterprise/university/models/User';
 
 class User extends Model {
@@ -118,7 +118,11 @@ const sync = (sequelize: Sequelize) => {
 };
 
 const assosciate = () => {
-  User.hasMany(UniversityUser, { sourceKey: '_id', foreignKey: 'account_id', as: 'universityAccount' });
+  User.hasMany(UniversityUser, { 
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'universityAccount' 
+  });
   return User;
 }
 
