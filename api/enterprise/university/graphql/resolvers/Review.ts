@@ -18,11 +18,11 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Review } from '../../models/Review';
-import { UserResolver } from './User';
-import { TeamResolver } from './Team';
+import { UniversityReview } from '../../models/Review';
+import { UniversityUserResolver } from './User';
+import { UniversityTeamResolver } from './Team';
 
-export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
+export const ReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
   name: 'ReviewResolver',
   description: 'The representation of a Review',
   fields: () => {
@@ -40,8 +40,9 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         }
       },
       'receiver': {
-        type: UserResolver,
+        type: UniversityUserResolver,
         async resolve(review: any, args, context) {
+          return null;
           return await review.getReceiver();
         }
       },
@@ -52,13 +53,14 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         }
       },
       'submitter': {
-        type: UserResolver,
+        type: UniversityUserResolver,
         async resolve(review: any, args, context) {
+          return null;
           return await review.getSubmitter();
         }
       },
       'team': {
-        type: TeamResolver,
+        type: UniversityTeamResolver,
         async resolve(review: any, args, context) {
           return await review.getTeam();
         }

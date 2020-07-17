@@ -10,38 +10,15 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
-import {
-  GraphQLObjectType,
-  GraphQLString
-} from "graphql";
+import { GraphQLObjectType } from "graphql";
 
-import { CoreableError } from "../../../../models/CoreableError";
-
-export const CoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
-  name: 'CoreableErrorResolver',
-  description: 'CoreableErrorResolver',
+export const UniversityTutorialResolver = new GraphQLObjectType({
+  name: 'UniversityTutorialResolver',
+  description: 'This represents a UniversityTutorial',
   fields: () => {
     return {
-      'message': {
-        type: GraphQLString,
-        resolve(error) {
-          return error.message;
-        }
-      },
-      'path': {
-        type: GraphQLString,
-        resolve(error) {
-          return error.path
-        }
-      },
-      'code': {
-        type: GraphQLString,
-        resolve(error) {
-          return error.code;
-        }
-      }
     }
   }
 });

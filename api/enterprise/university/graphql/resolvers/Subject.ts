@@ -21,19 +21,17 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 
-import { Subject } from '../../models/Subject';
-import { TeamResolver } from './Team';
+import { UniversitySubject } from '../../models/Subject';
+import { UniversityTeamResolver } from './Team';
 import { ReviewResolver } from './Review';
-import { sequelize } from '../../../lib/sequelize';
-import { Team } from '../../models/Team';
-import { User } from '../../models/User';
-import { Review } from '../../models/Review';
+import { sequelize } from '../../../../lib/sequelize';
 import { Op } from 'sequelize';
 import { SubjectAverage } from '../../models/SubjectAverage';
+import { GetSubjectAverages } from '../../logic/GetSubjectAverages';
 
-export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
-  name: 'SubjectResolver',
-  description: 'This represents a Subject',
+export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
+  name: 'UniversitySubjectResolver',
+  description: 'This represents a UniversitySubject',
   fields: () => {
     return {
       '_id': {
@@ -55,19 +53,19 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
         }
       },
       'teams': {
-        type: new GraphQLList(TeamResolver),
+        type: new GraphQLList(UniversityTeamResolver),
         async resolve(subject: any, args, context) {
           return await subject.getTeams();
         }
       },
       'report': {
         type: new GraphQLObjectType({
-          name: 'SubjectAverageReport',
+          name: 'UniversitySubjectAverageReport',
           fields: () => {
             return {
               'average': {
                 type: new GraphQLObjectType({
-                  name: 'SubjectAverageSingle',
+                  name: 'UniversitySubjectAverageSingle',
                   fields: () => {
                     return {
                       'default': {
@@ -78,7 +76,7 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                       },
                       'sorted': {
                         type: new GraphQLList(new GraphQLObjectType({
-                          name: 'SubjectSortedAverageArray',
+                          name: 'UniversitySubjectSortedAverageArray',
                           fields: () => {
                             return {
                               'field': {
@@ -129,7 +127,7 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                   if (averages) {
                     return averages;
                   }
-                  averages = await getSubjectAverages(subject);
+                  averages = await GetSubjectAverages(subject, args, context);
                   averages = await SubjectAverage.create({
                     subject_id: subject._id,
                     calm: averages.dataValues.calm,
@@ -183,7 +181,7 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                   if (averages) {
                     return averages;
                   }
-                  averages = await getSubjectAverages(subject);
+                  averages = await GetSubjectAverages(subject, args, context);
                   averages = await SubjectAverage.create({
                     subject_id: subject._id,
                     calm: averages.dataValues.calm,
@@ -219,138 +217,4 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
       }
     }
   }
-});
-
-export function getSubjectAverages(subject: Subject) {
-  return sequelize.models.Subject.findOne(
-    {
-      where: { _id: subject._id },
-      group: ['_id'],
-      attributes: {
-        exclude: [
-          '_id',
-          'name',
-          'state',
-          'createdAt',
-          'updatedAt'
-        ],
-        include: [
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.calm')),
-            'calm'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.clearInstructions')),
-            'clearInstructions'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.cooperatively')),
-            'cooperatively'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.crossTeam')),
-            'crossTeam'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.easilyExplainsComplexIdeas')),
-            'easilyExplainsComplexIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.empathy')),
-            'empathy'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.usesRegulators')),
-            'usesRegulators'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.influences')),
-            'influences'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.managesOwn')),
-            'managesOwn'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.newIdeas')),
-            'newIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.openToShare')),
-            'openToShare'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.positiveBelief')),
-            'positiveBelief'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.proactive')),
-            'proactive'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.resilienceFeedback')),
-            'resilienceFeedback'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.signifiesInterest')),
-            'signifiesInterest'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.workDemands')),
-            'workDemands'
-          ],
-        ]
-      },
-      include: [{
-        model: Team, as: 'teams',
-        attributes: {
-          exclude: [
-            'name',
-            'inviteCode',
-            'createdAt',
-            'updatedAt'
-          ]
-        },
-        include: [{
-          model: User, as: 'users',
-          attributes: {
-            exclude: [
-              'firstName',
-              'lastName',
-              'email',
-              'password',
-              'passwordResetToken',
-              'passwordResetExpiry',
-              'createdAt',
-              'updatedAt'
-            ]
-          },
-          include: [{
-            model: Review, as: 'reviews', attributes: {
-              exclude: [
-                'createdAt',
-                'updatedAt'
-              ]
-            }
-          }]
-        }]
-      }]
-    }
-  );
-}
+}); 

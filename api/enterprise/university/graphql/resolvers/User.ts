@@ -20,14 +20,20 @@ import {
 } from 'graphql';
 
 import { UniversityUser } from '../../models/User';
-import { TeamResolver } from './Team';
+import { UniversityTeamResolver } from './Team';
 import { ReviewResolver } from './Review';
-import { Op } from 'sequelize';
+import { UniversitySubjectResolver } from './Subject';
 import { IndustryResolver } from './Industry';
-import { GetAverageReflectionResult, GetPendingUsersNeedingReview, GetUserSubjects } from '../../logic/User';
-import { SubjectResolver } from './Subject';
 import { UserResolver } from '../../../../identity/graphql/resolvers/User';
+
 import { UniversityReview } from '../../models/Review';
+
+import { Op } from 'sequelize';
+import { GetReflectionAverages } from '../../logic/GetReflectionAverages';
+// import { GetUserSubjects } from '../../logic/GetUserSubjects';
+import { GetPendingUsersNeedingReview } from '../../logic/GetPendingUsersNeedingReview';
+import { CalculateReviewAverage } from '../../logic/CalculateReviewAverage';
+import { UniversityTutorialResolver } from './Tutorial';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -43,13 +49,11 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'user': {
         type: UserResolver,
         async resolve(user: any, args, context) {
-          return await user.getUser({
-            exclude: ['password']
-          });
+          return await user.getUser();
         }
       },
       'team': {
-        type: GraphQLList(TeamResolver),
+        type: GraphQLList(UniversityTeamResolver),
         args: {
           _id: {
             type: GraphQLString
@@ -63,17 +67,32 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
         }
       },
       'subject': {
-        type: GraphQLList(SubjectResolver),
+        type: GraphQLList(UniversitySubjectResolver),
         args: {
           _id: {
             type: GraphQLString
           }
         },
-        async resolve(user, args, context) {
+        async resolve(user: any, args, context) {
           if (context.USER._id !== user._id) {
             return null;
           }
-          return await GetUserSubjects(user, args, context);
+          return await user.getSubjects({ where: args });
+          // return await GetUserSubjects(user, args, context);
+        }
+      },
+      'tutorial': {
+        type: GraphQLList(UniversityTutorialResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(user: any, args, context) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
+          return await user.getTutorials({ where: args });
         }
       },
       'industry': {
@@ -136,54 +155,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   }
                 }),
                 resolve(reviews, args, context) {
-                  const average: any = {
-                    calm: 0,
-                    clearInstructions: 0,
-                    cooperatively: 0,
-                    crossTeam: 0,
-                    distractions: 0,
-                    easilyExplainsComplexIdeas: 0,
-                    empathy: 0,
-                    usesRegulators: 0,
-                    influences: 0,
-                    managesOwn: 0,
-                    newIdeas: 0,
-                    openToShare: 0,
-                    positiveBelief: 0,
-                    proactive: 0,
-                    resilienceFeedback: 0,
-                    signifiesInterest: 0,
-                    workDemands: 0
-                  };
-
-                  let counter = 0;
-                  for (const review of reviews) {
-                    average.calm += review.calm;
-                    average.clearInstructions += review.clearInstructions;
-                    average.cooperatively += review.cooperatively;
-                    average.crossTeam += review.crossTeam;
-                    average.distractions += review.distractions;
-                    average.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
-                    average.empathy += review.empathy;
-                    average.usesRegulators += review.usesRegulators;
-                    average.influences += review.influences;
-                    average.managesOwn += review.managesOwn;
-                    average.newIdeas += review.newIdeas;
-                    average.openToShare += review.openToShare;
-                    average.positiveBelief += review.positiveBelief;
-                    average.proactive += review.proactive;
-                    average.resilienceFeedback += review.resilienceFeedback;
-                    average.signifiesInterest += review.signifiesInterest;
-                    average.workDemands += review.workDemands;
-                    counter++;
-                  }
-                  for (const key in average) {
-                    average[key] = average[key] / counter;
-                  }
-                  return {
-                    'reviews': reviews,
-                    'average': average
-                  };
+                  return CalculateReviewAverage(reviews, args, context);
                 }
               },
               'default': {
@@ -220,7 +192,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
         }
       },
       'pending': {
-        type: new GraphQLList(TeamResolver),
+        type: new GraphQLList(UniversityTeamResolver),
         async resolve(user, args, context) {
           if (context.USER._id !== user._id) {
             return null;
@@ -234,7 +206,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           if (context.USER._id !== user._id) {
             return null;
           }
-          return await GetAverageReflectionResult(user, args, context);
+          return await GetReflectionAverages(user, args, context);
         }
       },
       'createdAt': {

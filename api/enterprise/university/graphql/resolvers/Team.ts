@@ -1,39 +1,38 @@
 /*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Coreables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
+  ===========================================================================
+    Copyright (C) 2020 Coreable
+    This file is part of Coreable's source code.
+    Coreables source code is free software; you can redistribute it
+    and/or modify it under the terms of the End-user license agreement.
+    Coreable's source code is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the license along with the 
+    Coreable source code.
+  ===========================================================================
 */
 
 import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList,
-  GraphQLFloat,
-  GraphQLInt,
-  GraphQLNonNull
+  GraphQLFloat
 } from 'graphql';
 
-import { Team } from '../../models/Team';
-import { SubjectResolver } from './Subject';
-import { UserResolver } from './User';
+import { UniversityTeam } from '../../models/Team';
+import { UniversitySubjectResolver } from './Subject';
+import { UniversityUserResolver } from './User';
 import { ReviewResolver } from './Review';
-import { sequelize } from '../../../lib/sequelize';
-import { User } from '../../models/User';
-import { Review } from '../../models/Review';
-import { Op } from 'sequelize';
-import { TeamAverage } from '../../models/TeamAverage';
 
-export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
-  name: 'TeamResolver',
-  description: 'This represents a Team',
+import { sequelize } from '../../../../lib/sequelize';
+import { UniversityUser } from '../../models/User';
+import { UniversityReview } from '../../models/Review';
+import { UniversityTeamAverage } from '../../models/TeamAverage';
+import { Op } from 'sequelize';
+
+export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new GraphQLObjectType({
+  name: 'UniversityTeamResolver',
+  description: 'This represents a UniversityTeam',
   fields: () => {
     return {
       '_id': {
@@ -55,25 +54,25 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
         }
       },
       'subject': {
-        type: SubjectResolver,
+        type: UniversitySubjectResolver,
         async resolve(team: any, args, context) {
           return await team.getSubject();
         }
       },
       'users': {
-        type: new GraphQLList(UserResolver),
+        type: new GraphQLList(UniversityUserResolver),
         async resolve(team: any, args, context) {
           return await team.getUsers();
         }
       },
       'report': {
         type: new GraphQLObjectType({
-          name: 'TeamAverageReport',
+          name: 'UniversityTeamAverageReport',
           fields: () => {
             return {
               'average': {
                 type: new GraphQLObjectType({
-                  name: 'TeamAverageSingle',
+                  name: 'UniversityTeamAverageSingle',
                   fields: () => {
                     return {
                       'default': {
@@ -84,7 +83,7 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
                       },
                       'sorted': {
                         type: new GraphQLList(new GraphQLObjectType({
-                          name: 'TeamSortedAverageArray',
+                          name: 'UniversityTeamSortedAverageArray',
                           fields: () => {
                             return {
                               'field': {
@@ -136,7 +135,7 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
                     return averages;
                   }
                   averages = await getTeamAverages(team);
-                  averages = await TeamAverage.create({
+                  averages = await UniversityTeamAverage.create({
                     team_id: team._id,
                     calm: averages.dataValues.calm,
                     clearInstructions: averages.dataValues.clearInstructions,
@@ -162,20 +161,31 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
               'averages': {
                 type: new GraphQLList(ReviewResolver),
                 args: {
-                  limit: {
-                    type: GraphQLInt,
+                  endDate: {
+                    type: GraphQLString,
                   },
-                  start: {
-                    type: new GraphQLNonNull(GraphQLString),
+                  startDate: {
+                    type: GraphQLString,
                   }
                 },
                 async resolve(team, args, context) {
                   let averages: any;
-                  try {
-                    args.start = Date.parse(args.start);
-                    args.start = new Date(args.start);
-                  } catch (err) {
-                    return err;
+                  if (args.startDate) {
+                    try {
+                      args.startDate = Date.parse(args.startDate);
+                      args.startDate = new Date(args.startDate);
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+                  if (args.endDate) {
+                    try {
+
+                      args.endDate = Date.parse(args.endDate);
+                      args.endDate = new Date(args.endDate);
+                    } catch (err) {
+                      return err;
+                    }
                   }
                   averages = await sequelize.models.TeamAverage.findAll({
                     where: {
@@ -190,7 +200,7 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
                     return averages;
                   }
                   averages = await getTeamAverages(team);
-                  averages = await TeamAverage.create({
+                  averages = await UniversityTeamAverage.create({
                     team_id: team._id,
                     calm: averages.dataValues.calm,
                     clearInstructions: averages.dataValues.clearInstructions,
@@ -227,8 +237,8 @@ export const TeamResolver: GraphQLObjectType<Team> = new GraphQLObjectType({
   }
 });
 
-export function getTeamAverages(team: Team) {
-  return sequelize.models.Team.findOne(
+export function getTeamAverages(team: UniversityTeam) {
+  return UniversityTeam.findOne(
     {
       where: { _id: team._id },
       group: ['_id'],
@@ -333,9 +343,8 @@ export function getTeamAverages(team: Team) {
         ]
       },
       include: [{
-        model: User,
+        model: UniversityUser,
         as: 'users',
-        group: ['_id'],
         attributes: {
           exclude: [
             'firstName',
@@ -350,15 +359,14 @@ export function getTeamAverages(team: Team) {
         },
         include: [
           {
-            model: Review,
+            model: UniversityReview,
             as: 'reviews',
             attributes: {
               exclude: [
                 'updatedAt',
                 'createdAt'
               ]
-            },
-            group: ['_id'],
+            }
           }
         ]
       }]
