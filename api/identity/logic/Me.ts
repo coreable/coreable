@@ -12,24 +12,24 @@
   ===========================================================================
 */
 
-import { CoreableError } from '../../../models/CoreableError';
-import { UniversityUser } from "../models/User";
+import { User } from "../models/User";
+import { CoreableError } from "../../models/CoreableError";
 
-export async function UniversityMe(root: any, args: any, { USER }: any) {
+export async function IdentityMe(root: any, args: any, { USER }: any) {
   let errors: CoreableError[] = [];
-  let user;
+  let user: any;
   if (!USER) {
     errors.push({ code: 'ER_UNAUTH', path: 'JWT', message: 'User unauthenticated' });
   }
   if (!errors.length) {
-    user = await UniversityUser.findOne({
-      where: { user_id: USER._id }
+    user = await User.findOne({
+      where: { _id: USER._id }
     });
     if (!user) {
       errors.push({
         code: 'ER_USER_UNKNOWN',
         path: `_id`,
-        message: `No user found with user_id ${USER._id}`
+        message: `No user found with _id ${USER._id}`
       });
     }
   }

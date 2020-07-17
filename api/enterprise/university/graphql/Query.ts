@@ -17,15 +17,15 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-import MeQuery from './queries/Me';
+import UniversityMeQuery from './queries/Me';
 import IndustryListQuery from './queries/list/Industry';
 
-export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'Query',
+export const UniversityQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'UniversityQuery',
   description: 'This is the root university query',
   fields: () => {
     return {
-      'me': MeQuery,
+      'me': UniversityMeQuery,
       'industrys': IndustryListQuery
     }
   }

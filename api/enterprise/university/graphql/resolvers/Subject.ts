@@ -51,10 +51,15 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           return subject.state;
         }
       },
-      'tutorials': {
+      'tutorial': {
         type: new GraphQLList(UniversityTeamResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
         async resolve(subject: any, args, context) {
-          return await subject.getTutorials();
+          return await subject.getTutorials({ where: args });
         }
       },
       'report': {
@@ -131,10 +136,11 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                   });
 
                   const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
 
                   if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
                     await UniversitySubjectAverage.create({
-                      ...latestAverage.dataValues,
+                      ...latestAverage,
                       subject_id: subject._id
                     });
                   }
@@ -143,6 +149,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                     try {
                       args.startDate = Date.parse(args.startDate);
                       args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
                     } catch (err) {
                       return err;
                     }
@@ -152,6 +159,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                     try {
                       args.endDate = Date.parse(args.endDate);
                       args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
                     } catch (err) {
                       return err;
                     }
@@ -166,17 +174,10 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                   const averages: any = await UniversitySubjectAverage.findAll({
                     where: {
                       subject_id: subject._id,
-                      createdAt: {
-                        [Op.gte]: args.startDate,
-                        [Op.lte]: args.endDate
-                      }
-                    },
-                    limit: args.limit
+                      createdAt: DATE_QUERY
+                    }
                   });
 
-                  if (!Array.isArray(averages)) {
-                    return [averages];
-                  }
                   return averages;
                 }
               }
@@ -189,4 +190,4 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
       }
     }
   }
-}); 
+});

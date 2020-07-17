@@ -17,24 +17,19 @@ import { UniversityTeam } from "../models/Team";
 import { UniversitySubject } from "../models/Subject";
 import { sequelize } from "../../../lib/sequelize";
 import { UniversityTutorial } from "../models/Tutorial";
-// import { sequelize } from "../../../lib/sequelize";
 
-export async function GetUserSubjects(user: any, args: any, { USER }: any) {
-  const subjects: any = await UniversityUser.findOne({
-    where: { user_id: USER._id },
-    group: ['_id'],
+export function GetUserSubjects(user: any, args: any, { USER }: any) {
+  return UniversityUser.findAll({
+    where: { 
+      user_id: USER._id
+    },
+    raw: true,
+    group: ['teams.tutorial.subject_id'],
     attributes: {
       exclude: [
         '_id',
-        'email',
-        'firstName',
-        'lastName',
-        'password',
-        'passwordResetToken',
-        'passwordResetExpiry',
+        'user_id',
         'industry_id',
-        'lockoutAttempts',
-        'lockoutTimer',
         'updatedAt',
         'createdAt'
       ],
@@ -86,5 +81,4 @@ export async function GetUserSubjects(user: any, args: any, { USER }: any) {
       }]
     }]
   });
-  return subjects;
 }

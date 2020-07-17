@@ -12,27 +12,27 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import {
-  GraphQLObjectType, 
+import { 
+  GraphQLObjectType,
   GraphQLList
 } from "graphql";
- 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
-import { UniversityIndustryListMediator } from "../../mediators/list/Industry";
 
-export const UniversityIndustryListCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversityIndustryListCommand',
-  description: 'UniversityIndustryListCommand',
+import { IdentityMeMediator } from "../mediators/Me";
+import { IdentityCoreableErrorResolver } from "../resolvers/CoreableError";
+
+export const IdentityMeCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'IdentityMeCommand',
+  description: 'IdentityMeCommand',
   fields: () => {
     return {
       'data': {
-        type: UniversityIndustryListMediator,
+        type: IdentityMeMediator,
         resolve(value) {
           return value.data;
         }
       },
       'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
+        type: new GraphQLList(IdentityCoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

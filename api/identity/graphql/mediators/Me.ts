@@ -12,32 +12,23 @@
   ===========================================================================
 */ 
 
-import {
-  GraphQLObjectType,
-  GraphQLList
+import { 
+  GraphQLObjectType
 } from "graphql";
 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
-import { UniversitySubjectObjectMediator } from "../../mediators/object/Subject";
+import { UserResolver } from "../resolvers/User";
 
-export const SubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversitySubjectObjectCommand',
-  description: 'UniversitySubjectObjectCommand',
+export const IdentityMeMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'IdentityMeMediator',
+  description: 'IdentityMeMediator',
   fields: () => {
     return {
-      'data': {
-        type: UniversitySubjectObjectMediator,
-        resolve(value) {
-          return value.data;
-        }
-      },
-      'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
-        resolve(value) {
-          return value.errors;
+      'user': {
+        type: UserResolver,
+        resolve(data) {
+          return data.user;
         }
       }
     }
   }
 });
- 

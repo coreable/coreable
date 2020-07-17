@@ -17,22 +17,22 @@ import {
   GraphQLList
 } from "graphql";
 
-import { CoreableErrorResolver } from "../resolvers/CorableError";
-import { MeMediator } from "../mediators/Me";
+import { UniversityCoreableErrorResolver } from "../resolvers/CorableError";
+import { UniversityMeMediator } from "../mediators/Me";
 
-export const MeCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'MeCommand',
-  description: 'MeCommand',
+export const UniversityMeCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityMeCommand',
+  description: 'UniversityMeCommand',
   fields: () => {
     return {
       'data': {
-        type: MeMediator,
+        type: UniversityMeMediator,
         resolve(value) {
           return value.data;
         }
       },
       'errors': {
-        type: new GraphQLList(CoreableErrorResolver),
+        type: new GraphQLList(UniversityCoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

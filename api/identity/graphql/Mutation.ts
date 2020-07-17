@@ -20,9 +20,9 @@ import {
 import RegisterMutation from './mutations/Register';
 import LoginMutation from './mutations/Login';
 
-export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'Mutation',
-  description: 'This is the root mutation',
+export const IdentityMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'IdentityMutation',
+  description: 'This is the root identity mutation',
   fields: () => {
     return {
       'register': RegisterMutation,

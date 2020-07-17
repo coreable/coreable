@@ -116,10 +116,11 @@ export const UniversityTutorialResolver = new GraphQLObjectType({
                   });
 
                   const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
 
                   if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
                     await UniversityTutorialAverage.create({
-                      ...latestAverage.dataValues,
+                      ...latestAverage,
                       tutorial_id: tutorial._id
                     });
                   }
@@ -128,6 +129,7 @@ export const UniversityTutorialResolver = new GraphQLObjectType({
                     try {
                       args.startDate = Date.parse(args.startDate);
                       args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
                     } catch (err) {
                       return err;
                     }
@@ -137,6 +139,7 @@ export const UniversityTutorialResolver = new GraphQLObjectType({
                     try {
                       args.endDate = Date.parse(args.endDate);
                       args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
                     } catch (err) {
                       return err;
                     }
@@ -151,17 +154,10 @@ export const UniversityTutorialResolver = new GraphQLObjectType({
                   const averages: any = await UniversityTutorialAverage.findAll({
                     where: {
                       tutorial_id: tutorial._id,
-                      createdAt: {
-                        [Op.gte]: args.startDate,
-                        [Op.lte]: args.endDate
-                      }
-                    },
-                    limit: args.limit
+                      createdAt: DATE_QUERY
+                    }
                   });
 
-                  if (!Array.isArray(averages)) {
-                    return [averages];
-                  }
                   return averages;
                 }
               }

@@ -22,14 +22,13 @@ export async function GetUserAverages(user: any, args: any, context: any) {
     where: {
       _id: user._id
     },
+    raw: true,
+    group: ['reviews._id'],
     attributes: {
       exclude: [
-        'firstName',
-        'lastName',
-        'email',
-        'password',
-        'passwordResetToken',
-        'passwordResetExpiry',
+        '_id',
+        'user_id',
+        'industry_id',
         'createdAt',
         'updatedAt'
       ],
@@ -41,12 +40,7 @@ export async function GetUserAverages(user: any, args: any, context: any) {
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('reviews.change')),
-          'change'
-        ],
-        [
-          sequelize.fn('avg',
-            sequelize.col('users.reviews.clearInstructions')),
+            sequelize.col('reviews.clearInstructions')),
           'clearInstructions'
         ],
         [
@@ -58,6 +52,11 @@ export async function GetUserAverages(user: any, args: any, context: any) {
           sequelize.fn('avg',
             sequelize.col('reviews.crossTeam')),
           'crossTeam'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('reviews.distractions')),
+          'distractions'
         ],
         [
           sequelize.fn('avg',
@@ -113,11 +112,6 @@ export async function GetUserAverages(user: any, args: any, context: any) {
           sequelize.fn('avg',
             sequelize.col('reviews.signifiesInterest')),
           'signifiesInterest'
-        ],
-        [
-          sequelize.fn('avg',
-            sequelize.col('reviews.verbalAttentiveFeedback')),
-          'verbalAttentiveFeedback'
         ],
         [
           sequelize.fn('avg',

@@ -17,107 +17,120 @@ import { sequelize } from "../../../lib/sequelize";
 import { UniversityUser } from "../models/User";
 import { UniversityTeam } from "../models/Team";
 import { UniversityReview } from "../models/Review";
+import { UniversityTutorial } from "../models/Tutorial";
 
 export async function GetSubjectAverages(subject: any, args: any, context: any) {
-  return await UniversitySubject.findOne(
-    {
-      where: { _id: subject._id },
-      group: ['_id'],
-      attributes: {
-        exclude: [
-          '_id',
-          'name',
-          'state',
-          'createdAt',
-          'updatedAt'
+  return await UniversitySubject.findOne({
+    where: {
+      _id: subject._id
+    },
+    raw: true,
+    group: ['tutorials.teams.users.reviews._id'],
+    attributes: {
+      exclude: [
+        '_id',
+        'name',
+        'state',
+        'createdAt',
+        'updatedAt'
+      ],
+      include: [
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'calm'
         ],
-        include: [
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.calm')),
-            'calm'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.clearInstructions')),
-            'clearInstructions'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.cooperatively')),
-            'cooperatively'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.crossTeam')),
-            'crossTeam'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.easilyExplainsComplexIdeas')),
-            'easilyExplainsComplexIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.empathy')),
-            'empathy'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.usesRegulators')),
-            'usesRegulators'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.influences')),
-            'influences'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.managesOwn')),
-            'managesOwn'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.newIdeas')),
-            'newIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.openToShare')),
-            'openToShare'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.positiveBelief')),
-            'positiveBelief'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.proactive')),
-            'proactive'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.resilienceFeedback')),
-            'resilienceFeedback'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.signifiesInterest')),
-            'signifiesInterest'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.workDemands')),
-            'workDemands'
-          ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'clearInstructions'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'cooperatively'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'crossTeam'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'distractions'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'easilyExplainsComplexIdeas'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'empathy'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'usesRegulators'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'influences'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'managesOwn'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'newIdeas'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'openToShare'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'positiveBelief'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'proactive'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'resilienceFeedback'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'signifiesInterest'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('tutorials.teams.users.reviews.calm')),
+          'workDemands'
         ]
-      },
+      ]
+    },
+    include: [{
+      model: UniversityTutorial,
+      as: 'tutorials',
       include: [{
-        model: UniversityTeam, as: 'teams',
+        model: UniversityTeam,
+        as: 'teams',
         attributes: {
           exclude: [
+            '_id',
             'name',
             'inviteCode',
             'createdAt',
@@ -125,21 +138,21 @@ export async function GetSubjectAverages(subject: any, args: any, context: any) 
           ]
         },
         include: [{
-          model: UniversityUser, as: 'users',
+          model: UniversityUser,
+          as: 'users',
           attributes: {
             exclude: [
-              'firstName',
-              'lastName',
-              'email',
-              'password',
-              'passwordResetToken',
-              'passwordResetExpiry',
+              '_id',
+              'user_id',
+              'industry_id',
               'createdAt',
               'updatedAt'
             ]
           },
           include: [{
-            model: UniversityReview, as: 'reviews', attributes: {
+            model: UniversityReview,
+            as: 'reviews',
+            attributes: {
               exclude: [
                 'createdAt',
                 'updatedAt'
@@ -148,6 +161,6 @@ export async function GetSubjectAverages(subject: any, args: any, context: any) 
           }]
         }]
       }]
-    }
-  );
+    }]
+  });
 }

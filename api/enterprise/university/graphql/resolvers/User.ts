@@ -34,6 +34,9 @@ import { GetPendingUsersNeedingReview } from '../../logic/GetPendingUsersNeeding
 import { UniversityTutorialResolver } from './Tutorial';
 import { UniversityUserAverage } from '../../models/UserAverage';
 import { GetUserAverages } from '../../logic/GetUserAverages';
+import { GetUserSubjects } from '../../logic/GetUserSubjects';
+import { GetUserTutorials } from '../../logic/GetUserTutorials';
+import { GetUserTeams } from '../../logic/GetUserTeams';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -53,52 +56,54 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
         }
       },
       'team': {
-        type: GraphQLList(UniversityTeamResolver),
+        type: new GraphQLList(UniversityTeamResolver),
         args: {
           _id: {
             type: GraphQLString
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
-          return await user.getTeams({ where: args });
+
+          return await GetUserTeams(user, args, context);
         }
       },
       'subject': {
-        type: GraphQLList(UniversitySubjectResolver),
+        type: new GraphQLList(UniversitySubjectResolver),
         args: {
           _id: {
             type: GraphQLString
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
-          return await user.getSubjects({ where: args });
-          // return await GetUserSubjects(user, args, context);
+
+          return await GetUserSubjects(user, args, context);
         }
       },
       'tutorial': {
-        type: GraphQLList(UniversityTutorialResolver),
+        type: new GraphQLList(UniversityTutorialResolver),
         args: {
           _id: {
             type: GraphQLString
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
-          return await user.getTutorials({ where: args });
+
+          return await GetUserTutorials(user, args, context);
         }
       },
       'industry': {
         type: UniversityIndustryResolver,
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
           return await user.getIndustry();
@@ -112,7 +117,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
               'normal': {
                 type: new GraphQLList(UniversityReviewResolver),
                 async resolve(user, args, context) {
-                  if (context.USER._id !== user._id) {
+                  if (context.USER._id !== user.user_id) {
                     return null;
                   }
 
@@ -163,13 +168,12 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                             }
                           }
                         })),
-                        resolve(average, args, context) {
-                          if (average.length === 1) {
-                            average = average.dataValues;
+                        resolve(averages, args, context) {
+                          if (averages.length === 1) {
                             const sortable = [];
-                            for (const field in average) {
-                              if (!isNaN(average[field]) && Number.isFinite(average[field])) {
-                                sortable.push([field, average[field]]);
+                            for (const field in averages) {
+                              if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                sortable.push([field, averages[field]]);
                               }
                             }
                             sortable.sort((a, b) => {
@@ -193,10 +197,11 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   });
 
                   const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
 
                   if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
                     await UniversityUserAverage.create({
-                      ...latestAverage.dataValues,
+                      ...latestAverage,
                       user_id: user._id
                     });
                   }
@@ -205,6 +210,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                     try {
                       args.startDate = Date.parse(args.startDate);
                       args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
                     } catch (err) {
                       return err;
                     }
@@ -214,6 +220,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                     try {
                       args.endDate = Date.parse(args.endDate);
                       args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
                     } catch (err) {
                       return err;
                     }
@@ -228,17 +235,10 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   const averages: any = await UniversityUserAverage.findAll({
                     where: {
                       user_id: user._id,
-                      createdAt: {
-                        [Op.gte]: args.startDate,
-                        [Op.lte]: args.endDate
-                      }
-                    },
-                    limit: args.limit
+                      createdAt: DATE_QUERY
+                    }
                   });
 
-                  if (!Array.isArray(averages)) {
-                    return [averages];
-                  }
                   return averages;
                 }
               }
@@ -252,7 +252,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'submissions': {
         type: new GraphQLList(UniversityReviewResolver),
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
 
@@ -267,18 +267,20 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'pending': {
         type: new GraphQLList(UniversityTeamResolver),
         async resolve(user, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
+
           return await GetPendingUsersNeedingReview(user, args, context);
         }
       },
       'reflection': {
         type: UniversityReviewResolver,
         async resolve(user: any, args: any, context: any) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id) {
             return null;
           }
+
           return await GetReflectionAverages(user, args, context);
         }
       }

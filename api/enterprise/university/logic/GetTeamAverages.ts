@@ -19,8 +19,11 @@ import { UniversityReview } from "../models/Review";
 
 export async function GetTeamAverages(team: any, args: any, context: any) {
   return await UniversityTeam.findOne({
-    where: { _id: team._id },
-    group: ['_id'],
+    where: { 
+      _id: team._id
+    },
+    raw: true,
+    group: ['users.reviews._id'],
     attributes: {
       exclude: [
         '_id',
@@ -36,11 +39,6 @@ export async function GetTeamAverages(team: any, args: any, context: any) {
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.change')),
-          'change'
-        ],
-        [
-          sequelize.fn('avg',
             sequelize.col('users.reviews.clearInstructions')),
           'clearInstructions'
         ],
@@ -53,6 +51,11 @@ export async function GetTeamAverages(team: any, args: any, context: any) {
           sequelize.fn('avg',
             sequelize.col('users.reviews.crossTeam')),
           'crossTeam'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.distractions')),
+          'distractions'
         ],
         [
           sequelize.fn('avg',
@@ -111,14 +114,9 @@ export async function GetTeamAverages(team: any, args: any, context: any) {
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('users.reviews.verbalAttentiveFeedback')),
-          'verbalAttentiveFeedback'
-        ],
-        [
-          sequelize.fn('avg',
             sequelize.col('users.reviews.workDemands')),
           'workDemands'
-        ],
+        ]
       ]
     },
     include: [{

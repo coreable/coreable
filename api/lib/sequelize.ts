@@ -80,6 +80,7 @@ const sequelize = new _sequelize({
 
 (async () => {
   await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
+  await sequelize.query(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
 })().then(() => true);
 
 _sequelize.sync = (async () => {

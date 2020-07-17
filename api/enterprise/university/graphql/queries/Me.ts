@@ -12,12 +12,12 @@
   ===========================================================================
 */ 
 
-import { MeCommand } from "../command/Me";
-import { Me } from '../../logic/Me';
+import { UniversityMeCommand } from "../command/Me";
+import { UniversityMe } from '../../logic/Me';
 
 export default {
-  type: MeCommand,
+  type: UniversityMeCommand,
   async resolve(root: any, args: any, context: any) {
-    return await Me(root, args, context);
+    return await UniversityMe(root, args, context);
   }
 }

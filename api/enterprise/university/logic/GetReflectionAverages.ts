@@ -18,10 +18,16 @@ import { UniversityReview } from "../models/Review";
 
 export async function GetReflectionAverages(user: any, args: any, { USER }: any) {
   return await UniversityUser.findOne({
-    where: { user_id: USER._id },
-    group: ['_id'],
+    where: { 
+      _id: user._id
+    },
+    raw: true,
+    group: ['reviews._id'],
     attributes: {
       exclude: [
+        '_id',
+        'user_id',
+        'industry_id',
         'createdAt',
         'updatedAt'
       ],
@@ -30,11 +36,6 @@ export async function GetReflectionAverages(user: any, args: any, { USER }: any)
           sequelize.fn('avg',
             sequelize.col('reviews.calm')),
           'calm'
-        ],
-        [
-          sequelize.fn('avg',
-            sequelize.col('reviews.change')),
-          'change'
         ],
         [
           sequelize.fn('avg',
@@ -50,6 +51,11 @@ export async function GetReflectionAverages(user: any, args: any, { USER }: any)
           sequelize.fn('avg',
             sequelize.col('reviews.crossTeam')),
           'crossTeam'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('reviews.distractions')),
+          'distractions'
         ],
         [
           sequelize.fn('avg',
@@ -108,11 +114,6 @@ export async function GetReflectionAverages(user: any, args: any, { USER }: any)
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('reviews.verbalAttentiveFeedback')),
-          'verbalAttentiveFeedback'
-        ],
-        [
-          sequelize.fn('avg',
             sequelize.col('reviews.workDemands')),
           'workDemands'
         ]
@@ -121,7 +122,10 @@ export async function GetReflectionAverages(user: any, args: any, { USER }: any)
     include: [{
       model: UniversityReview,
       as: 'reviews',
-      where: { submitter_id: user._id, receiver_id: user._id },
+      where: { 
+        submitter_id: user._id,
+        receiver_id: user._id
+      },
       attributes: {
         exclude: [
           'createdAt',

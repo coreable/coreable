@@ -12,13 +12,12 @@
   ===========================================================================
 */ 
 
-import { GraphQLSchema } from "graphql";
-import { UniversityQuery } from "./Query";
-import { UniversityMutation } from './Mutation';
+import { IdentityMeCommand } from "../command/Me";
+import { IdentityMe } from "../../logic/Me";
 
-// Here we import the Query and Mutation schemas and combine them to use
-// in the /api/lib/express.ts file with the graphql-express package.
-export const UniversitySchema: GraphQLSchema = new GraphQLSchema({
-  query: UniversityQuery,
-  mutation: UniversityMutation
-});
+export default {
+  type: IdentityMeCommand,
+  async resolve(root: any, args: any, context: any) {
+    return await IdentityMe(root, args, context);
+  }
+}

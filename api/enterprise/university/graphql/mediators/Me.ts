@@ -19,9 +19,9 @@ import {
 import { UniversityUserResolver } from "../resolvers/User";
 // import { ManagerResolver } from '../resolvers/Manager';
 
-export const MeMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'MeMediator',
-  description: 'MeMediator',
+export const UniversityMeMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityMeMediator',
+  description: 'UniversityMeMediator',
   fields: () => {
     return {
       'user': {

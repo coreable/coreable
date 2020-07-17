@@ -19,9 +19,9 @@ import {
 
 import { CoreableError } from "../../../../models/CoreableError";
 
-export const CoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
-  name: 'CoreableErrorResolver',
-  description: 'CoreableErrorResolver',
+export const UniversityCoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
+  name: 'UniversityCoreableErrorResolver',
+  description: 'UniversityCoreableErrorResolver',
   fields: () => {
     return {
       'message': {

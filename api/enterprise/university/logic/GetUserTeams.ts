@@ -17,13 +17,13 @@ import { UniversityTeam } from "../models/Team";
 import { sequelize } from "../../../lib/sequelize";
 import { UniversityTutorial } from "../models/Tutorial";
 
-export function GetUserTutorials(user: any, args: any, { USER }: any) {
+export function GetUserTeams(user: any, args: any, { USER }: any) {
   return UniversityUser.findAll({
     where: { 
       user_id: USER._id
     },
     raw: true,
-    group: ['teams.tutorial._id'],
+    group: ['teams._id'],
     attributes: {
       exclude: [
         '_id',
@@ -34,10 +34,10 @@ export function GetUserTutorials(user: any, args: any, { USER }: any) {
       ],
       include: [
         [
-          sequelize.col('teams.tutorial._id'), '_id'
+          sequelize.col('teams._id'), '_id'
         ],
         [
-          sequelize.col('teams.tutorial.name'), 'name'
+          sequelize.col('teams.name'), 'name'
         ]
       ]
     },
@@ -56,13 +56,6 @@ export function GetUserTutorials(user: any, args: any, { USER }: any) {
       include: [{
         model: UniversityTutorial,
         as: 'tutorial',
-        attributes: {
-          exclude: [
-            '_id',
-            'name',
-            'subject_id'
-          ]
-        }
       }]
     }]
   });

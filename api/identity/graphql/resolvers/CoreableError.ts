@@ -14,30 +14,34 @@
 
 import {
   GraphQLObjectType,
-  GraphQLList
+  GraphQLString
 } from "graphql";
 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
-import { UniversitySubjectObjectMediator } from "../../mediators/object/Subject";
+import { CoreableError } from "../../../models/CoreableError";
 
-export const SubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversitySubjectObjectCommand',
-  description: 'UniversitySubjectObjectCommand',
+export const IdentityCoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
+  name: 'IdentityCoreableErrorResolver',
+  description: 'IdentityCoreableErrorResolver',
   fields: () => {
     return {
-      'data': {
-        type: UniversitySubjectObjectMediator,
-        resolve(value) {
-          return value.data;
+      'message': {
+        type: GraphQLString,
+        resolve(error) {
+          return error.message;
         }
       },
-      'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
-        resolve(value) {
-          return value.errors;
+      'path': {
+        type: GraphQLString,
+        resolve(error) {
+          return error.path
+        }
+      },
+      'code': {
+        type: GraphQLString,
+        resolve(error) {
+          return error.code;
         }
       }
     }
   }
 });
- 
