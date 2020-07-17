@@ -23,7 +23,6 @@ import {
 import { UniversityReviewResolver } from "./Review";
 import { Op } from "sequelize";
 import { UniversityIndustryAverage } from "../../models/IndustryAverage";
-import { UniversityTutorialAverage } from "../../models/TutorialAverage";
 import { GetIndustryAverages } from "../../logic/GetIndustryAverages";
 import { UniversityUserResolver } from "./User";
 
@@ -124,10 +123,11 @@ export const UniversityIndustryResolver: GraphQLObjectType<UniversityIndustry> =
                   });
 
                   const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
 
                   if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
-                    await UniversityTutorialAverage.create({
-                      ...latestAverage.dataValues,
+                    await UniversityIndustryAverage.create({
+                      ...latestAverage,
                       industry_id: industry._id
                     });
                   }
@@ -136,15 +136,17 @@ export const UniversityIndustryResolver: GraphQLObjectType<UniversityIndustry> =
                     try {
                       args.startDate = Date.parse(args.startDate);
                       args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
                     } catch (err) {
                       return err;
                     }
                   }
 
                   if (args.endDate) {
-                    try { 
+                    try {
                       args.endDate = Date.parse(args.endDate);
                       args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
                     } catch (err) {
                       return err;
                     }
@@ -159,17 +161,10 @@ export const UniversityIndustryResolver: GraphQLObjectType<UniversityIndustry> =
                   const averages: any =  await UniversityIndustryAverage.findAll({
                     where: {
                       industry_id: industry._id,
-                      createdAt: {
-                        [Op.gte]: args.startDate,
-                        [Op.lte]: args.endDate
-                      }
-                    },
-                    limit: args.limit
+                      createdAt: DATE_QUERY
+                    }
                   });
 
-                  if (!Array.isArray(averages)) {
-                    return [averages];
-                  }
                   return averages;
                 }
               }

@@ -18,132 +18,107 @@ import { sequelize } from "../../../lib/sequelize";
 import { UniversityIndustry } from "../models/Industry";
 
 export async function GetIndustryAverages(industry: any, args: any, context: any) {
-  return await UniversityIndustry.findOne(
-    {
-      where: { _id: industry._id },
-      group: ['_id'],
-      attributes: {
-        exclude: [
-          '_id',
-          'name',
-          'updatedAt',
-          'createdAt'
+  return await UniversityIndustry.findOne({
+    where: {
+      _id: industry._id
+    },
+    raw: true,
+    attributes: {
+      include: [
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.calm')),
+          'calm'
         ],
-        include: [
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.calm')),
-            'calm'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.change')),
-            'change'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.clearInstructions')),
-            'clearInstructions'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.cooperatively')),
-            'cooperatively'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.crossTeam')),
-            'crossTeam'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.easilyExplainsComplexIdeas')),
-            'easilyExplainsComplexIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.empathy')),
-            'empathy'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.usesRegulators')),
-            'usesRegulators'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.influences')),
-            'influences'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.managesOwn')),
-            'managesOwn'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.newIdeas')),
-            'newIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.openToShare')),
-            'openToShare'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.positiveBelief')),
-            'positiveBelief'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.proactive')),
-            'proactive'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.resilienceFeedback')),
-            'resilienceFeedback'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.signifiesInterest')),
-            'signifiesInterest'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('users.reviews.workDemands')),
-            'workDemands'
-          ]
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.clearInstructions')),
+          'clearInstructions'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.cooperatively')),
+          'cooperatively'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.crossTeam')),
+          'crossTeam'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.distractions')),
+          'distractions'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.easilyExplainsComplexIdeas')),
+          'easilyExplainsComplexIdeas'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.empathy')),
+          'empathy'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.usesRegulators')),
+          'usesRegulators'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.influences')),
+          'influences'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.managesOwn')),
+          'managesOwn'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.newIdeas')),
+          'newIdeas'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.openToShare')),
+          'openToShare'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.positiveBelief')),
+          'positiveBelief'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.proactive')),
+          'proactive'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.resilienceFeedback')),
+          'resilienceFeedback'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.signifiesInterest')),
+          'signifiesInterest'
+        ],
+        [
+          sequelize.fn('avg',
+            sequelize.col('users.reviews.workDemands')),
+          'workDemands'
         ]
-      },
+      ]
+    },
+    include: [{
+      model: UniversityUser,
+      as: 'users',
       include: [{
-        model: UniversityUser,
-        as: 'users',
-        attributes: {
-          exclude: [
-            'firstName',
-            'lastName',
-            'email',
-            'password',
-            'passwordResetToken',
-            'passwordResetExpiry',
-            'createdAt',
-            'updatedAt'
-          ]
-        },
-        include: [{
-          model: UniversityReview,
-          as: 'reviews',
-          attributes: {
-            exclude: [
-              'updatedAt',
-              'createdAt'
-            ]
-          },
-        }
-        ]
+        model: UniversityReview,
+        as: 'reviews'
       }]
-    }
-  );
+    }]
+  });
 }

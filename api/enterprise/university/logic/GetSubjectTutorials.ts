@@ -13,25 +13,24 @@
 */
 
 import { UniversityTutorial } from "../models/Tutorial";
-import { UniversitySubject } from "../models/Subject";
 import { sequelize } from "../../../lib/sequelize";
+import { UniversitySubject } from "../models/Subject";
 
-export async function GetTutorialSubject(tutorial: any, args: any, context: any) {
-  return await UniversityTutorial.findOne({
+export async function GetSubjectTutorials(subject: any, args: any, context: any) {
+  return await UniversitySubject.findAll({
     where: {
-      _id: tutorial._id
+      _id: subject._id
     },
     raw: true,
     attributes: {
       include: [
-        [ sequelize.col('subject._id'), '_id'],
-        [ sequelize.col('subject.name'), 'name'],
-        [ sequelize.col('subject.state'), 'state'],
+        [ sequelize.col('tutorials._id'), '_id'],
+        [ sequelize.col('tutorials.name'), 'name'],
       ]
     },
     include: [{
-      model: UniversitySubject,
-      as: 'subject'
+      model: UniversityTutorial,
+      as: 'tutorials'
     }]
   });
 }

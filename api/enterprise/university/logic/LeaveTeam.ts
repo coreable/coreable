@@ -14,7 +14,7 @@
 
 import { CoreableError } from "../../../models/CoreableError";
 import { UniversityTeam } from "../models/Team";
-import { GetUniversityAccountWithTeams } from './GetUniversityAccountWithTeams';
+import { GetUniversityAccountWithTeamsFromUser_id } from './GetUniversityAccountWithTeams';
 
 export async function LeaveTeam(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
@@ -28,7 +28,7 @@ export async function LeaveTeam(root: any, args: any, context: any) {
     });
   }
   if (!errors.length) {
-    UNIVERSITY_USER = await GetUniversityAccountWithTeams(context);
+    UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
     if (!UNIVERSITY_USER) {
       errors.push({
         code: 'ER_ACCOUNT_UNKNOWN',
@@ -77,7 +77,7 @@ export async function LeaveTeam(root: any, args: any, context: any) {
     }
   }
   if (!errors) {
-    UNIVERSITY_USER = await GetUniversityAccountWithTeams(context);
+    UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
   }
   return {
     'data': !errors.length ? {

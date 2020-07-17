@@ -13,11 +13,28 @@
 */
 
 import { UniversityTeam } from "../models/Team";
+import { UniversityUser } from "../models/User";
 
-export async function GetUniversityAccountWithTeams(context: any) {
-  return await context.USER.getUniversityAccount({
-    include: [
-      { model: UniversityTeam, as: 'teams' }
-    ]
+export async function GetUniversityAccountWithTeamsFromUser_id({ USER }: any) {
+  return await UniversityUser.findOne({
+    where: {
+      user_id: USER._id
+    },
+    include: [{
+      model: UniversityTeam,
+      as: 'teams'
+    }]
+  });
+}
+
+export async function GetUniversityAccountWithTeamsFromPrimaryKey({ USER }: any) {
+  return await UniversityUser.findOne({
+    where: {
+      _id: USER._id
+    },
+    include: [{
+      model: UniversityTeam,
+      as: 'teams'
+    }]
   });
 }

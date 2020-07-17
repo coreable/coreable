@@ -1,18 +1,17 @@
 /*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Coreables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
+  ===========================================================================
+    Copyright (C) 2020 Coreable
+    This file is part of Coreable's source code.
+    Coreables source code is free software; you can redistribute it
+    and/or modify it under the terms of the End-user license agreement.
+    Coreable's source code is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the license along with the 
+    Coreable source code.
+  ===========================================================================
 */
 
-import { sequelize } from "../../../../lib/sequelize";
 import {
   GraphQLNonNull,
   GraphQLString,
@@ -21,9 +20,9 @@ import {
 
 import { ReviewObjectCommand } from "../command/object/Review";
 import { CoreableError } from "../../../../models/CoreableError";
-import { UniversityTeam } from "../../models/Team";
 import { UniversityReview } from "../../models/Review";
-import { UniversityUser } from "../../models/User";
+import { GetUniversityAccountWithTeamsFromUser_id, GetUniversityAccountWithTeamsFromPrimaryKey } from "../../logic/GetUniversityAccountWithTeams";
+import { GetTeamSubject } from "../../logic/GetTeamSubject";
 
 export default {
   type: ReviewObjectCommand,
@@ -98,8 +97,6 @@ export default {
     },
   },
   async resolve(root: any, args: any, context: any) {
-    // @todo #1 Should reviews have a team ID and be team specific?
-    // @todo #2 Should self reviews be allowed after x amount of time and not per subject state? 
     let errors: CoreableError[] = [];
     let userBeingReviewed: any;
     let userSubmittingReview: any;
@@ -113,15 +110,8 @@ export default {
       });
     }
     if (!errors.length) {
-      userSubmittingReview = await UniversityUser.findOne({
-        where: { user_id: context.USER._id },
-        include: [{
-          model: UniversityTeam, as: 'teams', attributes: {
-            exclude: ['inviteCode']
-          }
-        }]
-      });
-      if (!userBeingReviewed) {
+      userSubmittingReview = await GetUniversityAccountWithTeamsFromUser_id(context);
+      if (!userSubmittingReview) {
         errors.push({
           code: 'ER_USER_UNKNOWN',
           path: '_id',
@@ -130,14 +120,7 @@ export default {
       }
     }
     if (!errors.length) {
-      userBeingReviewed = await UniversityUser.findOne({
-        where: { _id: args.receiver_id },
-        include: [{
-          model: UniversityTeam, as: 'teams', attributes: {
-            exclude: ['inviteCode']
-          }
-        }]
-      });
+      userBeingReviewed = await GetUniversityAccountWithTeamsFromPrimaryKey({ USER: { '_id': args.receiver_id } });
       if (!userBeingReviewed) {
         errors.push({
           code: 'ER_USER_UNKNOWN',
@@ -164,12 +147,12 @@ export default {
           code: 'ER_TEAM_UNKNOWN',
           path: '_id',
           message:
-            `Logged in user with _id ${context.USER._id} and user being reviewed with _id ${args.receiver_id} have no common team with _id ${args.team_id}`
+            `Logged in user with _id ${userSubmittingReview._id} and user being reviewed with _id ${userBeingReviewed._id} have no common team with _id ${args.team_id}`
         });
       }
     }
     if (!errors.length) {
-      subject = await userCommonTeam.getSubject();
+      subject = await GetTeamSubject(userCommonTeam, null, null);
       if (!subject) {
         errors.push({
           code: 'ER_SUBJECT_UNKNOWN',
@@ -179,11 +162,11 @@ export default {
       }
     }
     if (!errors.length) {
-      const hasCompleted = await sequelize.models.Review.findOne({
+      const hasCompleted = await UniversityReview.findOne({
         where: {
-          receiver_id: args.receiver_id,
-          submitter_id: context.USER._id,
-          subject_id: args.subject_id,
+          receiver_id: userBeingReviewed._id,
+          submitter_id: userSubmittingReview._id,
+          subject_id: subject._id,
           state: subject.state
         }
       });
@@ -198,12 +181,13 @@ export default {
     if (!errors.length) {
       try {
         await UniversityReview.create({
-          receiver_id: args.receiver_id,
+          receiver_id: userBeingReviewed._id,
           submitter_id: userSubmittingReview._id,
           tutorial_id: args.tutorial_id,
-          subject_id: args.subject_id,
-          team_id: args.team_id,
+          subject_id: subject._id,
+          team_id: userCommonTeam._id,
           state: subject.state,
+          
           calm: args.calm,
           clearInstructions: args.clearInstructions,
           cooperatively: args.cooperatively,
@@ -223,9 +207,9 @@ export default {
           workDemands: args.workDemands
         });
       } catch (err) {
-        errors.push({ 
+        errors.push({
           code: err.original.code,
-          message: err.original.sqlMessage, 
+          message: err.original.sqlMessage,
           path: 'SQL'
         });
       }
@@ -234,10 +218,10 @@ export default {
       'data': !errors.length ? {
         'review': await UniversityReview.findOne({
           where: {
-            receiver_id: args.receiver_id,
+            receiver_id: userBeingReviewed._id,
             submitter_id: userSubmittingReview._id,
             subject_id: subject._id,
-            team_id: args.team_id,
+            team_id: userCommonTeam._id,
             tutorial_id: args.tutorial_id,
             state: subject.state
           },

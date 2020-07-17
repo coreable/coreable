@@ -27,6 +27,9 @@ import { UniversityTeam } from '../../models/Team';
 import { Op } from 'sequelize';
 import { GetTeamAverages } from '../../logic/GetTeamAverages';
 import { UniversityTutorialResolver } from './Tutorial';
+import { GetTeamTutorial } from '../../logic/GetTeamTutorial';
+import { GetTeamSubject } from '../../logic/GetTeamSubject';
+import { UniversitySubjectResolver } from './Subject';
 
 export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new GraphQLObjectType({
   name: 'UniversityTeamResolver',
@@ -54,12 +57,19 @@ export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new Gra
       'tutorial': {
         type: UniversityTutorialResolver,
         async resolve(team: any, args, context) {
-          return await team.getTutorial();
+          return await GetTeamTutorial(team, args, context);
+        }
+      },
+      'subject': {
+        type: UniversitySubjectResolver,
+        async resolve(team: any, args, context) {
+          return await GetTeamSubject(team, args, context);
         }
       },
       'users': {
         type: new GraphQLList(UniversityUserResolver),
         async resolve(team: any, args, context) {
+          return null;
           return await team.getUsers();
         }
       },

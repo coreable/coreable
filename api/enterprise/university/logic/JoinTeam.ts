@@ -13,7 +13,7 @@
 */
 
 import { CoreableError } from "../../../models/CoreableError";
-import { GetUniversityAccountWithTeams } from './GetUniversityAccountWithTeams';
+import { GetUniversityAccountWithTeamsFromUser_id } from './GetUniversityAccountWithTeams';
 import { UniversityTeam } from "../models/Team";
 
 export async function JoinTeam(root: any, args: any, context: any) {
@@ -28,7 +28,7 @@ export async function JoinTeam(root: any, args: any, context: any) {
     });
   }
   if (!errors.length) {
-    UNIVERSITY_USER = await GetUniversityAccountWithTeams(context);
+    UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
     if (!UNIVERSITY_USER) {
       errors.push({
         code: 'ER_ACCOUNT_UNKNOWN',
@@ -73,7 +73,7 @@ export async function JoinTeam(root: any, args: any, context: any) {
     }
   }
   if (!errors.length) {
-    UNIVERSITY_USER = await GetUniversityAccountWithTeams(context);
+    UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
   }
   return {
     'data': !errors.length ? {

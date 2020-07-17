@@ -27,6 +27,8 @@ import { UniversityReviewResolver } from './Review';
 import { Op } from 'sequelize';
 import { UniversitySubjectAverage } from '../../models/SubjectAverage';
 import { GetSubjectAverages } from '../../logic/GetSubjectAverages';
+import { GetSubjectTutorials } from '../../logic/GetSubjectTutorials';
+import { GetSubjectTeams } from '../../logic/GetSubjectTeams';
 
 export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
   name: 'UniversitySubjectResolver',
@@ -58,8 +60,19 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
             type: GraphQLString
           }
         },
-        async resolve(subject: any, args, context) {
-          return await subject.getTutorials({ where: args });
+        async resolve(subject, args, context) {
+          return await GetSubjectTutorials(subject, args, context);
+        }
+      },
+      'teams': {
+        type: new GraphQLList(UniversityTeamResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(subject, args, context) {
+          return await GetSubjectTeams(subject, args, context);
         }
       },
       'report': {

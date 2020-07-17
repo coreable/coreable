@@ -124,12 +124,8 @@ export async function GetTeamAverages(team: any, args: any, context: any) {
       as: 'users',
       attributes: {
         exclude: [
-          'firstName',
-          'lastName',
-          'email',
-          'password',
-          'passwordResetToken',
-          'passwordResetExpiry',
+          '_id',
+          'user_id',
           'createdAt',
           'updatedAt'
         ]
