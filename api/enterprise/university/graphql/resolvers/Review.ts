@@ -21,6 +21,8 @@ import {
 import { UniversityReview } from '../../models/Review';
 import { UniversityUserResolver } from './User';
 import { UniversityTeamResolver } from './Team';
+import { UniversityTutorialResolver } from './Tutorial';
+import { UniversitySubjectResolver } from './Subject';
 
 export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
   name: 'UniversityReviewResolver',
@@ -57,6 +59,30 @@ export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new
         async resolve(review: any, args, context) {
           return null;
           return await review.getSubmitter();
+        }
+      },
+      'subject': {
+        type: UniversitySubjectResolver,
+        async resolve(review: any, args, context) {
+          return await review.getSubject();
+        }
+      },
+      'subject_id': {
+        type: GraphQLString,
+        resolve(review: any, args, context) {
+          return review.subject_id;
+        }
+      },
+      'tutorial': {
+        type: UniversityTutorialResolver,
+        async resolve(review: any, args, context) {
+          return await review.getTutorial();
+        }
+      },
+      'tutorial_id': {
+        type: GraphQLString,
+        resolve(review: any, args, context) {
+          return review.tutorial_id;
         }
       },
       'team': {

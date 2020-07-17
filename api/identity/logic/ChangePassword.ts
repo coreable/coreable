@@ -13,7 +13,7 @@
 */
 
 import { CoreableError } from "../../models/CoreableError";
-import { sequelize } from "../../lib/sequelize";
+import { User } from "../models/User";
 
 export async function ChangePassword(_: any, { email, currentPassword, confirmPassword, newPassword }: any, context: any) {
   let errors: CoreableError[] = [];
@@ -36,7 +36,7 @@ export async function ChangePassword(_: any, { email, currentPassword, confirmPa
     }
   }
   if (!errors.length) {
-    user = await sequelize.models.User.findOne({
+    user = await User.findOne({
       where: { _id: context.USER._id }
     });
     if (!user) {

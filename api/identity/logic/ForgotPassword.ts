@@ -12,8 +12,8 @@
   ===========================================================================
 */
 
-import { sequelize } from "../../../lib/sequelize";
-import { CoreableError } from "../../../models/CoreableError";
+import { CoreableError } from "../../models/CoreableError";
+import { User } from "../models/User";
 
 export function generateResetToken() {
   return 'xxxxxxxxxxxxxxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -28,15 +28,20 @@ export async function ForgotPassword(root: any, { email }: any, { USER }: any) {
   const resetToken = generateResetToken();
 
   if (USER) {
-    errors.push({ code: 'ER_AUTH', path: 'JWT', message: 'User is already authenticated' });
+    errors.push({
+      code: 'ER_AUTH',
+      path: 'JWT',
+      message: 'User is already authenticated'
+    });
   }
   if (!errors.length) {
-    user = await sequelize.models.User.findOne({ where: { email: email.toLowerCase() }});
+    user = await User.findOne({ where: { email: email.toLowerCase() }});
     if (!user) {
-      user = await sequelize.models.Manager.findOne({ where: { email: email.toLowerCase() }});
-    }
-    if (!user) {
-      errors.push({ code: 'ER_USER_UNKNONW', path: 'email', message: `Can not locate a user with email address ${email}` });
+      errors.push({ 
+        code: 'ER_USER_UNKNONW',
+        path: 'email',
+        message: `Can not locate a user with email address ${email}`
+      });
     }
   }
   if (!errors.length) {
@@ -59,7 +64,11 @@ export async function ForgotPassword(root: any, { email }: any, { USER }: any) {
         passwordResetExpiry: resetToken
       });
     } catch (err) {
-      errors.push({ 'code': err.original.code, 'message': err.original.sqlMessage, 'path': 'SQL' });
+      errors.push({ 
+        code: err.original.code, 
+        message: err.original.sqlMessage, 
+        path: 'SQL'
+      });
     }
   }
   return {
