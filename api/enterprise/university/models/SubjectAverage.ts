@@ -19,7 +19,7 @@ import {
 } from "sequelize";
 import { UniversitySubject } from "./Subject";
 
-class SubjectAverage extends Model {
+class UniversitySubjectAverage extends Model {
   // Primary Key
   public _id!: string;
 
@@ -52,7 +52,7 @@ class SubjectAverage extends Model {
 }
 
 const sync = (sequelize: Sequelize) => {
-  SubjectAverage.init({
+  UniversitySubjectAverage.init({
     '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
@@ -135,20 +135,20 @@ const sync = (sequelize: Sequelize) => {
     'sequelize': sequelize
   });
 
-  return SubjectAverage;
+  return UniversitySubjectAverage;
 }
 
 const assosciate = () => {
-  SubjectAverage.belongsTo(UniversitySubject, {
+  UniversitySubjectAverage.belongsTo(UniversitySubject, {
     foreignKey: 'subject_id',
     targetKey: '_id',
-    as: 'team'
+    as: 'subject'
   });
-  return SubjectAverage;
+  return UniversitySubjectAverage;
 }
 
 export {
-  SubjectAverage,
+  UniversitySubjectAverage,
   sync,
   assosciate
 }

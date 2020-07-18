@@ -12,12 +12,30 @@
   ===========================================================================
 */
 
+import { UniversitySubject } from "../models/Subject";
+import { sequelize } from "../../../lib/sequelize";
+import { UniversityTutorial } from "../models/Tutorial";
 import { UniversityTeam } from "../models/Team";
 
-export async function GetUniversityAccountWithTeams(context: any) {
-  return await context.USER.getUniversityAccount({
-    include: [
-      { model: UniversityTeam, as: 'teams' }
-    ]
+export async function GetSubjectTeams(subject: any, args: any, context: any) {
+  return await UniversitySubject.findAll({
+    where: {
+      _id: subject._id
+    },
+    raw: true,
+    attributes: {
+      include: [
+        [sequelize.col('tutorials.teams._id'), '_id'],
+        [sequelize.col('tutorials.teams.name'), 'name'],
+      ]
+    },
+    include: [{
+      model: UniversityTutorial,
+      as: 'tutorials',
+      include: [{
+        model: UniversityTeam,
+        as: 'teams'
+      }]
+    }]
   });
 }

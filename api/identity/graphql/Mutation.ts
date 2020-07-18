@@ -19,14 +19,18 @@ import {
 
 import RegisterMutation from './mutations/Register';
 import LoginMutation from './mutations/Login';
+import ManagerLoginMutation from './mutations/ManagerLogin';
+import ChangePasswordMutation from './mutations/ChangePassword';
 
-export const Mutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'Mutation',
-  description: 'This is the root mutation',
+export const IdentityMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'IdentityMutation',
+  description: 'This is the root identity mutation',
   fields: () => {
     return {
       'register': RegisterMutation,
-      'login': LoginMutation
+      'login': LoginMutation,
+      'changePasssword': ChangePasswordMutation,
+      'manager': ManagerLoginMutation
     }
   }
 });

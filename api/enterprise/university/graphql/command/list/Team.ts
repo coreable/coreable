@@ -17,22 +17,22 @@ import {
   GraphQLList
 } from "graphql";
 
-import { CoreableErrorResolver } from "../../resolvers/CorableError";
-import { TeamListMediator } from "../../mediators/list/Team";
+import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
+import { UniversityTeamListMediator } from "../../mediators/list/Team";
 
-export const TeamListCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'TeamListCommand',
-  description: 'TeamListCommand',
+export const UniversityTeamListCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityTeamListCommand',
+  description: 'UniversityTeamListCommand',
   fields: () => {
     return {
       'data': {
-        type: TeamListMediator,
+        type: UniversityTeamListMediator,
         resolve(value) {
           return value.data;
         }
       },
       'errors': {
-        type: new GraphQLList(CoreableErrorResolver),
+        type: new GraphQLList(UniversityCoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

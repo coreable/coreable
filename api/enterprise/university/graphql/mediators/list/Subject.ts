@@ -17,15 +17,15 @@ import {
   GraphQLList
 } from "graphql";
 
-import { SubjectResolver } from "../../resolvers/Subject";
+import { UniversitySubjectResolver } from "../../resolvers/Subject";
 
-export const SubjectListMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'SubjectListMediator',
-  description: 'SubjectListMediator',
+export const UniversitySubjectListMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversitySubjectListMediator',
+  description: 'UniversitySubjectListMediator',
   fields: () => {
     return {
       'subject': {
-        type: new GraphQLList(SubjectResolver),
+        type: new GraphQLList(UniversitySubjectResolver),
         resolve(data) {
           return data.subject;
         }

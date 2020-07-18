@@ -17,11 +17,11 @@ import {
   GraphQLString,
 } from "graphql";
 
-import { UserObjectCommand } from "../command/object/User";
-import { JoinTeam } from "../../logic/mutations/JoinTeam";
+import { UniversityUserObjectCommand } from "../command/object/User";
+import { JoinTeam } from "../../logic/JoinTeam";
 
 export default {
-  type: UserObjectCommand,
+  type: UniversityUserObjectCommand,
   args: {
     inviteCode: {
       type: new GraphQLNonNull(GraphQLString)

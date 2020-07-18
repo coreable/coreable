@@ -12,22 +12,29 @@ Coreable source code.
 ===========================================================================
 */ 
 
-import {
+import { 
   GraphQLObjectType,
-  GraphQLString
-} from 'graphql';
+  GraphQLList
+} from "graphql";
 
-import { Token } from '../../models/Token';
+import { IdentityMeMediator } from "../mediators/Me";
+import { IdentityCoreableErrorResolver } from "../resolvers/CoreableError";
 
-export const TokenResolver: GraphQLObjectType<Token> = new GraphQLObjectType({
-  name: 'TokenResolver',
-  description: 'This represents a Token',
+export const IdentityMeCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'IdentityMeCommand',
+  description: 'IdentityMeCommand',
   fields: () => {
     return {
-      'token': {
-        type: GraphQLString,
-        resolve(session, args, context) {
-          return session.token;
+      'data': {
+        type: IdentityMeMediator,
+        resolve(value) {
+          return value.data;
+        }
+      },
+      'errors': {
+        type: new GraphQLList(IdentityCoreableErrorResolver),
+        resolve(value) {
+          return value.errors;
         }
       }
     }

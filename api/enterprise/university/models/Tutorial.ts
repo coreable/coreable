@@ -22,6 +22,7 @@ import { UniversitySubject } from './Subject';
 import { UniversityReview } from './Review';
 import { UniversityTeam } from './Team';
 import { UniversityTutorialAverage } from './TutorialAverage';
+import { UniversityOrganisation } from './Organisation';
 
 class UniversityTutorial extends Model {
   // Primary Key
@@ -35,6 +36,7 @@ class UniversityTutorial extends Model {
   public teams!: [UniversityTeam];
   public users!: [UniversityUser];
   public reviews!: [UniversityReview];
+  public organisation!: UniversityOrganisation;
 
   // Properties
   public name!: string;
@@ -63,31 +65,31 @@ const sync = (sequelize: Sequelize) => {
     'sequelize': sequelize,
   });
 
-  return UniversityTeam;
+  return UniversityTutorial;
 }
 
 const assosciate = () => {
-  UniversityTeam.hasMany(UniversityTeam, {
+  UniversityTutorial.hasMany(UniversityTeam, {
     sourceKey: '_id',
     foreignKey: 'tutorial_id',
     as: 'teams'
   });
-  UniversityTeam.belongsTo(UniversitySubject, {
+  UniversityTutorial.belongsTo(UniversitySubject, {
     targetKey: '_id',
     foreignKey: 'subject_id',
     as: 'subject'
   });
-  UniversityTeam.hasMany(UniversityTutorialAverage, {
+  UniversityTutorial.hasMany(UniversityTutorialAverage, {
     sourceKey: '_id',
     foreignKey: 'team_id',
     as: 'averages'
   });
-  UniversityTeam.hasMany(UniversityReview, {
+  UniversityTutorial.hasMany(UniversityReview, {
     sourceKey: '_id',
     foreignKey: 'tutorial_id',
     as: 'reviews'
   });
-  return UniversityTeam;
+  return UniversityTutorial;
 }
 
 export {

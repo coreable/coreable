@@ -1,15 +1,15 @@
 /*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Coreables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
+  ===========================================================================
+    Copyright (C) 2020 Coreable
+    This file is part of Coreable's source code.
+    Coreables source code is free software; you can redistribute it
+    and/or modify it under the terms of the End-user license agreement.
+    Coreable's source code is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the license along with the 
+    Coreable source code.
+  ===========================================================================
 */ 
 
 import {
@@ -17,22 +17,22 @@ import {
   GraphQLList
 } from "graphql";
 
-import { CoreableErrorResolver } from "../../resolvers/CorableError";
-import { SubjectObjectMediator } from "../../mediators/object/Subject";
+import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
+import { UniversitySubjectObjectMediator } from "../../mediators/object/Subject";
 
-export const SubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'SubjectObjectCommand',
-  description: 'SubjectObjectCommand',
+export const UniversitySubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversitySubjectObjectCommand',
+  description: 'UniversitySubjectObjectCommand',
   fields: () => {
     return {
       'data': {
-        type: SubjectObjectMediator,
+        type: UniversitySubjectObjectMediator,
         resolve(value) {
           return value.data;
         }
       },
       'errors': {
-        type: new GraphQLList(CoreableErrorResolver),
+        type: new GraphQLList(UniversityCoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

@@ -13,14 +13,14 @@
 */
 
 import { CoreableError } from "../../../models/CoreableError";
-import { GetUniversityAccountWithTeams } from './GetUniversityAccount';
+import { GetUniversityAccountWithTeamsFromUser_id } from './GetUniversityAccountWithTeams';
 import { UniversityTeam } from "../models/Team";
 
 export async function JoinTeam(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let targetTeam: any;
   let UNIVERSITY_USER: any;
-  if (!context.USER) {
+  if (!context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
       path: 'JWT',
@@ -28,7 +28,14 @@ export async function JoinTeam(root: any, args: any, context: any) {
     });
   }
   if (!errors.length) {
-    UNIVERSITY_USER = await GetUniversityAccountWithTeams(context);
+    UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
+    if (!UNIVERSITY_USER) {
+      errors.push({
+        code: 'ER_ACCOUNT_UNKNOWN',
+        message: `University account with user_id ${context.JWT._id} not found!`,
+        path: 'user'
+      });
+    }
   }
   if (!errors.length) {
     targetTeam = await UniversityTeam.findOne({
@@ -66,7 +73,7 @@ export async function JoinTeam(root: any, args: any, context: any) {
     }
   }
   if (!errors.length) {
-    UNIVERSITY_USER = await GetUniversityAccountWithTeams(context);
+    UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
   }
   return {
     'data': !errors.length ? {

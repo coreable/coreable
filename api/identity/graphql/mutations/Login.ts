@@ -17,7 +17,7 @@ import {
   GraphQLString
 } from "graphql";
 
-import { Login } from "../../logic/Login";
+import { UserLogin } from "../../logic/UserLogin";
 import { SessionObjectCommand } from "../command/object/Session";
 
 export default {
@@ -31,6 +31,6 @@ export default {
     }
   },
   async resolve(root: any, args: any, context: any) {
-    return await Login(root, args, context);
+    return await UserLogin(root, args, context);
   }
 }

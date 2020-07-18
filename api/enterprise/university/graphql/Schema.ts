@@ -13,12 +13,12 @@
 */ 
 
 import { GraphQLSchema } from "graphql";
-import { Query } from "./Query";
-import { Mutation } from './Mutation';
+import { UniversityQuery } from "./Query";
+import { UniversityMutation } from './Mutation';
 
 // Here we import the Query and Mutation schemas and combine them to use
 // in the /api/lib/express.ts file with the graphql-express package.
 export const UniversitySchema: GraphQLSchema = new GraphQLSchema({
-  query: Query,
-  mutation: Mutation
+  query: UniversityQuery,
+  mutation: UniversityMutation
 });

@@ -16,15 +16,15 @@ import {
   GraphQLObjectType
 } from "graphql";
 
-import { SubjectResolver } from "../../resolvers/Subject";
+import { UniversitySubjectResolver } from "../../resolvers/Subject";
 
-export const SubjectObjectMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'SubjectObjectMediator',
-  description: 'SubjectObjectMediator',
+export const UniversitySubjectObjectMediator: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversitySubjectObjectMediator',
+  description: 'UniversitySubjectObjectMediator',
   fields: () => {
     return {
       'subject': {
-        type: SubjectResolver,
+        type: UniversitySubjectResolver,
         resolve(data) {
           return data.subject;
         }

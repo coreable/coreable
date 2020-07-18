@@ -143,7 +143,7 @@ const assosciate = () => {
   UniversityTutorialAverage.belongsTo(UniversityTutorial, {
     foreignKey: 'tutorial_id',
     targetKey: '_id',
-    as: 'team'
+    as: 'tutorial'
   });
   return UniversityTutorialAverage;
 }

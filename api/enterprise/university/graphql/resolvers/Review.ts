@@ -18,12 +18,19 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { Review } from '../../models/Review';
-import { UserResolver } from './User';
-import { TeamResolver } from './Team';
+import { UniversityReview } from '../../models/Review';
+import { UniversityUserResolver } from './User';
+import { UniversityTeamResolver } from './Team';
+import { UniversityTutorialResolver } from './Tutorial';
+import { UniversitySubjectResolver } from './Subject';
+import { UniversityUser } from '../../models/User';
+import { UniversityTutorial } from '../../models/Tutorial';
+import { UniversityTeam } from '../../models/Team';
+import { UniversityOrganisationResolver } from './Organisation';
+import { UniversityOrganisation } from '../../models/Organisation';
 
-export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
-  name: 'ReviewResolver',
+export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
+  name: 'UniversityReviewResolver',
   description: 'The representation of a Review',
   fields: () => {
     return {
@@ -36,37 +43,109 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
       'receiver_id': {
         type: GraphQLString,
         resolve(review, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
           return review.receiver_id;
         }
       },
       'receiver': {
-        type: UserResolver,
+        type: UniversityUserResolver,
         async resolve(review: any, args, context) {
-          return await review.getReceiver();
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await UniversityUser.findOne({
+            where: {
+              _id: review.receiver_id
+            }
+          });
         }
       },
       'submitter_id': {
         type: GraphQLString,
         resolve(review, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
           return review.submitter_id;
         }
       },
       'submitter': {
-        type: UserResolver,
+        type: UniversityUserResolver,
         async resolve(review: any, args, context) {
-          return await review.getSubmitter();
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await UniversityUser.findOne({
+            where: {
+              _id: review.submitter_id
+            }
+          });
+        }
+      },
+      'subject': {
+        type: UniversitySubjectResolver,
+        async resolve(review: any, args, context) {
+          return await UniversityReview.findOne({
+            where: {
+              _id: review.subject_id
+            }
+          });
+        }
+      },
+      'subject_id': {
+        type: GraphQLString,
+        resolve(review: any, args, context) {
+          return review.subject_id;
+        }
+      },
+      'tutorial': {
+        type: UniversityTutorialResolver,
+        async resolve(review: any, args, context) {
+          return await UniversityTutorial.findOne({
+            where: {
+              _id: review.tutorial_id
+            }
+          });
+        }
+      },
+      'tutorial_id': {
+        type: GraphQLString,
+        resolve(review: any, args, context) {
+          return review.tutorial_id;
         }
       },
       'team': {
-        type: TeamResolver,
+        type: UniversityTeamResolver,
         async resolve(review: any, args, context) {
-          return await review.getTeam();
+          return await UniversityTeam.findOne({
+            where: {
+              _id: review.team_id
+            }
+          });
         }
       },
       'team_id': {
         type: GraphQLString,
         resolve(review, args, context) {
           return review.team_id;
+        }
+      },
+      'organisation': {
+        type: UniversityOrganisationResolver,
+        async resolve(review: any, args, context) {
+          return await UniversityOrganisation.findOne({
+            where: {
+              _id: review.organisation_id
+            }
+          });
+        }
+      },
+      'organisation_id': {
+        type: GraphQLString,
+        resolve(review, args, context) {
+          return review.organisation_id;
         }
       },
       'calm': {

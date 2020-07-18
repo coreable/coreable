@@ -17,7 +17,9 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 chai.use(chaiHttp);
 
-import { generatePasswordHash, checkPassword, encodeJWT, decodeJWT } from '../../lib/hash';
+import { generatePasswordHash, checkPassword } from '../../identity/logic/Hash';
+import { encodeJWT, decodeJWT } from '../../identity/logic/JWT';
+
 
 describe('Hashing & JWT [api/lib/hash.ts]', () => {
   let user = { _id: 1, email: "unit@test.com", manager: false };

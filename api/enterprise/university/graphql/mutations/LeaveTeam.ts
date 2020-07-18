@@ -17,11 +17,11 @@ import {
   GraphQLString,
 } from "graphql";
 
-import { UserObjectCommand } from "../command/object/User";
-import { LeaveTeam } from "../../logic/mutations/LeaveTeam";
+import { UniversityUserObjectCommand } from "../command/object/User";
+import { LeaveTeam } from "../../logic/LeaveTeam";
 
 export default {
-  type: UserObjectCommand,
+  type: UniversityUserObjectCommand,
   args: {
     team_id: {
       type: new GraphQLNonNull(GraphQLString)

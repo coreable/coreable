@@ -20,14 +20,25 @@ import {
 } from 'graphql';
 
 import { UniversityUser } from '../../models/User';
-import { TeamResolver } from './Team';
-import { ReviewResolver } from './Review';
-import { Op } from 'sequelize';
-import { IndustryResolver } from './Industry';
-import { GetAverageReflectionResult, GetPendingUsersNeedingReview, GetUserSubjects } from '../../logic/User';
-import { SubjectResolver } from './Subject';
+import { UniversityTeamResolver } from './Team';
+import { UniversityReviewResolver } from './Review';
+import { UniversitySubjectResolver } from './Subject';
+import { UniversityIndustryResolver } from './Industry';
 import { UserResolver } from '../../../../identity/graphql/resolvers/User';
+
 import { UniversityReview } from '../../models/Review';
+
+import { Op } from 'sequelize';
+import { GetReflectionAverages } from '../../logic/GetReflectionAverages';
+import { GetPendingUsersNeedingReview } from '../../logic/GetPendingUsersNeedingReview';
+import { UniversityTutorialResolver } from './Tutorial';
+import { UniversityUserAverage } from '../../models/UserAverage';
+import { GetUserAverages } from '../../logic/GetUserAverages';
+import { GetUserSubjects } from '../../logic/GetUserSubjects';
+import { GetUserTutorials } from '../../logic/GetUserTutorials';
+import { GetUserTeams } from '../../logic/GetUserTeams';
+import { UniversityOrganisationResolver } from './Organisation';
+import { GetUserOrganisations } from '../../logic/GetUserOrganisation';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -43,210 +54,250 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'user': {
         type: UserResolver,
         async resolve(user: any, args, context) {
-          return await user.getUser({
-            exclude: ['password']
-          });
+          return await user.getUser();
         }
       },
       'team': {
-        type: GraphQLList(TeamResolver),
+        type: new GraphQLList(UniversityTeamResolver),
         args: {
           _id: {
             type: GraphQLString
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
-          return await user.getTeams({ where: args });
+          return await GetUserTeams(user, args, context);
         }
       },
       'subject': {
-        type: GraphQLList(SubjectResolver),
+        type: new GraphQLList(UniversitySubjectResolver),
         args: {
           _id: {
             type: GraphQLString
           }
         },
-        async resolve(user, args, context) {
-          if (context.USER._id !== user._id) {
+        async resolve(user: any, args, context) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
+
           return await GetUserSubjects(user, args, context);
         }
       },
-      'industry': {
-        type: IndustryResolver,
+      'tutorial': {
+        type: new GraphQLList(UniversityTutorialResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
+            return null;
+          }
+
+          return await GetUserTutorials(user, args, context);
+        }
+      },
+      'organisation': {
+        type: new GraphQLList(UniversityOrganisationResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(user: any, args, context) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
+            return null;
+          }
+
+          return await GetUserOrganisations(user, args, context);
+        }
+      },
+      'industry': {
+        type: UniversityIndustryResolver,
+        async resolve(user: any, args, context) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
           return await user.getIndustry();
         }
       },
-      'reviews': {
+      'report': {
         type: new GraphQLObjectType({
-          name: 'UserReviewSplit',
+          name: 'UniversityUserReport',
           fields: () => {
             return {
-              'report': {
+              'normal': {
+                type: new GraphQLList(UniversityReviewResolver),
+                async resolve(user, args, context) {
+                  if (context.USER._id !== user._id && !context.MANAGER) {
+                    return null;
+                  }
+
+                  return await UniversityReview.findAll({
+                    attributes: {
+                      exclude: ['createdAt', 'updatedAt']
+                    },
+                    where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } },
+                  });
+                }
+              },
+              'average': {
+                args: {
+                  endDate: {
+                    type: GraphQLString,
+                  },
+                  startDate: {
+                    type: GraphQLString,
+                  }
+                },
                 type: new GraphQLObjectType({
-                  name: 'UserReportSplit',
+                  name: 'UniversityUserAverageSingle',
                   fields: () => {
                     return {
-                      'average': {
-                        type: ReviewResolver,
-                        resolve(reviews, args, context) {
-                          return reviews.average;
+                      'default': {
+                        type: new GraphQLList(UniversityReviewResolver),
+                        resolve(averages, args, context) {
+                          return averages;
                         }
                       },
                       'sorted': {
                         type: new GraphQLList(new GraphQLObjectType({
-                          name: 'UserSortedAverageArray',
+                          name: 'UniversityUserSortedAverageArray',
                           fields: () => {
                             return {
                               'field': {
                                 type: GraphQLString,
-                                resolve(sorted, args, context) {
-                                  return sorted[0];
+                                resolve(sortable, args, context) {
+                                  return sortable[0];
                                 }
                               },
                               'value': {
                                 type: GraphQLFloat,
-                                resolve(sorted, args, context) {
-                                  return sorted[1];
+                                resolve(sortable, args, context) {
+                                  return sortable[1];
                                 }
                               }
                             }
                           }
                         })),
-                        resolve(reviews, args, context) {
-                          const sortable = [];
-                          for (const field in reviews.average) {
-                            sortable.push([field, reviews.average[field]]);
+                        resolve(averages, args, context) {
+                          if (averages.length === 1) {
+                            const sortable = [];
+                            for (const field in averages) {
+                              if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                sortable.push([field, averages[field]]);
+                              }
+                            }
+                            sortable.sort((a, b) => {
+                              return a[1] - b[1]
+                            });
+                            return sortable;
                           }
-                          sortable.sort((a, b) => {
-                            return a[1] - b[1]
-                          });
-                          return sortable;
+                          return null;
                         }
                       }
                     }
                   }
                 }),
-                resolve(reviews, args, context) {
-                  const average: any = {
-                    calm: 0,
-                    clearInstructions: 0,
-                    cooperatively: 0,
-                    crossTeam: 0,
-                    distractions: 0,
-                    easilyExplainsComplexIdeas: 0,
-                    empathy: 0,
-                    usesRegulators: 0,
-                    influences: 0,
-                    managesOwn: 0,
-                    newIdeas: 0,
-                    openToShare: 0,
-                    positiveBelief: 0,
-                    proactive: 0,
-                    resilienceFeedback: 0,
-                    signifiesInterest: 0,
-                    workDemands: 0
-                  };
+                async resolve(user, args, context) {
+                  // ALWAYS CALCULATE AND STORE THE NEWEST VALUE IF
+                  // THE TOP RECORD IN THE DATABASE IS OLDER THAN A WEEK OLD
+                  const latestAverage: any = await GetUserAverages(user, args, context);
+                  const topRecord: any = await UniversityUserAverage.findOne({
+                    where: { user_id: user._id },
+                    order: [['createdAt', 'DESC']]
+                  });
 
-                  let counter = 0;
-                  for (const review of reviews) {
-                    average.calm += review.calm;
-                    average.clearInstructions += review.clearInstructions;
-                    average.cooperatively += review.cooperatively;
-                    average.crossTeam += review.crossTeam;
-                    average.distractions += review.distractions;
-                    average.easilyExplainsComplexIdeas += review.easilyExplainsComplexIdeas;
-                    average.empathy += review.empathy;
-                    average.usesRegulators += review.usesRegulators;
-                    average.influences += review.influences;
-                    average.managesOwn += review.managesOwn;
-                    average.newIdeas += review.newIdeas;
-                    average.openToShare += review.openToShare;
-                    average.positiveBelief += review.positiveBelief;
-                    average.proactive += review.proactive;
-                    average.resilienceFeedback += review.resilienceFeedback;
-                    average.signifiesInterest += review.signifiesInterest;
-                    average.workDemands += review.workDemands;
-                    counter++;
+                  const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
+
+                  if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
+                    await UniversityUserAverage.create({
+                      ...latestAverage,
+                      user_id: user._id
+                    });
                   }
-                  for (const key in average) {
-                    average[key] = average[key] / counter;
+
+                  if (args.startDate) {
+                    try {
+                      args.startDate = Date.parse(args.startDate);
+                      args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
+                    } catch (err) {
+                      return err;
+                    }
                   }
-                  return {
-                    'reviews': reviews,
-                    'average': average
-                  };
-                }
-              },
-              'default': {
-                type: new GraphQLList(ReviewResolver),
-                resolve(reviews, args, context) {
-                  return reviews;
+
+                  if (args.endDate) {
+                    try {
+                      args.endDate = Date.parse(args.endDate);
+                      args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  // if no start or end date is specified
+                  // return only the latest average
+                  if (!args.startDate && !args.endDate) {
+                    return [latestAverage];
+                  }
+
+                  const averages: any = await UniversityUserAverage.findAll({
+                    where: {
+                      user_id: user._id,
+                      createdAt: DATE_QUERY
+                    }
+                  });
+
+                  return averages;
                 }
               }
             }
           }
         }),
-        async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
-            return null;
-          }
-
-          return await UniversityReview.findAll({
-            attributes: { exclude: ['submitter_id'] },
-            where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } }
-          });
+        resolve(user, args, context) {
+          return user;
         }
       },
       'submissions': {
-        type: new GraphQLList(ReviewResolver),
+        type: new GraphQLList(UniversityReviewResolver),
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id && !context.MANAGER) {
             return null;
           }
 
           return await UniversityReview.findAll({
-            attributes: { exclude: ['receiver_id'] },
+            attributes: {
+              exclude: ['createdAt', 'updatedAt']
+            },
             where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
           });
         }
       },
       'pending': {
-        type: new GraphQLList(TeamResolver),
+        type: new GraphQLList(UniversityTeamResolver),
         async resolve(user, args, context) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id && !context.MANAGER) {
             return null;
           }
+
           return await GetPendingUsersNeedingReview(user, args, context);
         }
       },
       'reflection': {
-        type: ReviewResolver,
+        type: UniversityReviewResolver,
         async resolve(user: any, args: any, context: any) {
-          if (context.USER._id !== user._id) {
+          if (context.USER._id !== user.user_id && !context.MANAGER) {
             return null;
           }
-          return await GetAverageReflectionResult(user, args, context);
-        }
-      },
-      'createdAt': {
-        type: GraphQLString,
-        resolve(user: any, args: any, context: any) {
-          return user.createdAt;
-        }
-      },
-      'updatedAt': {
-        type: GraphQLString,
-        resolve(user: any, args: any, context: any) {
-          return user.updatedAt;
+
+          return await GetReflectionAverages(user, args, context);
         }
       }
     }

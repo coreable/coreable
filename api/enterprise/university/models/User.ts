@@ -21,6 +21,7 @@ import { UniversityTeam } from './Team';
 import { UniversityReview } from './Review';
 import { UniversityIndustry } from './Industry';
 import { User } from '../../../identity/models/User';
+import { UniversityOrganisation } from './Organisation';
 
 class UniversityUser extends Model {
   // Primary Key
@@ -37,12 +38,18 @@ class UniversityUser extends Model {
   public teams!: [UniversityTeam];
   public submissions!: [UniversityReview];
   public reviews!: [UniversityReview];
+  public organisations!: [UniversityOrganisation];
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 const sync = (sequelize: Sequelize) => {
   UniversityUser.init({
     '_id': {
-      'type': DataTypes.STRING,
+      'primaryKey': true,
+      'type': DataTypes.UUID,
+      'defaultValue': DataTypes.UUIDV4,
       'allowNull': false
     },
     'user_id': {

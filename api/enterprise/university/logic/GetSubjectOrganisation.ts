@@ -12,31 +12,25 @@
   ===========================================================================
 */
 
+import { UniversityOrganisation } from "../models/Organisation";
+import { UniversitySubject } from "../models/Subject";
 import { sequelize } from "../../../lib/sequelize";
-import { CoreableError } from '../../../models/CoreableError';
 
-export async function Me(root: any, args: any, { USER }: any) {
-  let errors: CoreableError[] = [];
-  let user;
-  if (!USER) {
-    errors.push({ code: 'ER_UNAUTH', path: 'JWT', message: 'User unauthenticated' });
-  }
-  if (!errors.length) {
-    user = await sequelize.models.User.findOne({
-      where: { _id: USER._id }
-    });
-    if (!user) {
-      errors.push({
-        code: 'ER_USER_UNKNOWN',
-        path: `_id`,
-        message: `No user found with _id ${USER._id}`
-      });
-    }
-  }
-  return {
-    'data': !errors.length ? {
-      'user': user
-    } : null,
-    'errors': errors.length > 0 ? errors : null
-  }
+export async function GetSubjectOrganisation(subject: any, args: any, context: any) {
+  return await UniversitySubject.findOne({
+    where: {
+      _id: subject._id
+    },
+    attributes: {
+      include: [
+        [sequelize.col('organisation._id'), '_id'],
+        [sequelize.col('organisation.name'), 'name'],
+      ]
+    },
+    raw: true,
+    include: [{
+      model: UniversityOrganisation,
+      as: 'organisation'
+    }]
+  });
 }

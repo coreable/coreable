@@ -20,12 +20,20 @@ import { UniversityTeam } from '../enterprise/university/models/Team';
 import { UniversitySubject } from '../enterprise/university/models/Subject';
 import { UniversityReview } from '../enterprise/university/models/Review';
 import { UniversityIndustry } from '../enterprise/university/models/Industry';
+import { UniversityUser } from '../enterprise/university/models/User';
+import { UniversityTutorial } from '../enterprise/university/models/Tutorial';
+import { UniversityOrganisation } from '../enterprise/university/models/Organisation';
+import { UniversityManager } from '../enterprise/university/models/Manager';
 
-const industrys: UniversityIndustry[] = [];
 const users: User[] = [];
+const uniusers: UniversityUser[] = [];
+const industrys: UniversityIndustry[] = [];
 const teams: UniversityTeam[] = [];
 const reviews: UniversityReview[] = [];
 const subjects: UniversitySubject[] = [];
+const tutorials: UniversityTutorial[] = [];
+const organisations: UniversityOrganisation[] = [];
+const managers: UniversityManager[] = [];
 
 // Generates fake data for the database
 export async function generator() {
@@ -44,6 +52,33 @@ export async function generator() {
     promises = [];
   });
 
+  // Create Organisation
+  times(2, (i) => {
+    promises.push(async function () {
+      const organisation = await UniversityOrganisation.create({
+        name: Faker.company.companySuffix()
+      });
+      return organisations.push(organisation);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Create Managers
+  times(2, (i) => {
+    promises.push(async function () {
+      const manager = await UniversityManager.create({
+        name: Faker.company.companySuffix(),
+        organisation_id: organisations[i]._id
+      });
+      return managers.push(manager);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
   // Create User
   times(5, (i) => {
     promises.push(async function () {
@@ -51,10 +86,23 @@ export async function generator() {
         firstName: `user ${i}`,
         lastName: `user ${i}`,
         email: `u${i}@${i}.com`,
-        password: 'unittest',
-        industry_id: industrys[i % 2]._id
+        password: 'unittest'
       });
       return users.push(user);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Create Uni users
+  times(5, (i) => {
+    promises.push(async function () {
+      const uniuser = await UniversityUser.create({
+        user_id: users[i]._id,
+        industry_id: industrys[i % 2]._id
+      });
+      return uniusers.push(uniuser);
     });
   });
   await inSequence(promises).then(() => {
@@ -66,10 +114,25 @@ export async function generator() {
     promises.push(async function () {
       const subject = await UniversitySubject.create({
         name: `subject ${i}`,
-        state: 2
+        state: 2,
+        organisation_id: organisations[i]._id
       });
       return subjects.push(subject);
     });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Create Tutorials
+  times(3, (i) => {
+    promises.push(async function () {
+      const tutorial = await UniversityTutorial.create({
+        name: `tutorial ${i}`,
+        subject_id: subjects[i]._id
+      });
+      return tutorials.push(tutorial)
+    })
   });
   await inSequence(promises).then(() => {
     promises = [];
@@ -81,7 +144,7 @@ export async function generator() {
       const team = await UniversityTeam.create({
         name: `team ${i}`,
         inviteCode: `team${i}`,
-        subject_id: `${subjects[i]._id}`
+        tutorial_id: `${tutorials[i]._id}`
       });
       return teams.push(team);
     })
@@ -94,7 +157,7 @@ export async function generator() {
   // u3@3.com & u4@4.com are not in any team
   times(3, (i) => {
     promises.push(async function () {
-      const user: any = await User.findOne({ where: { _id: users[i]._id } });
+      const user: any = await UniversityUser.findOne({ where: { _id: uniusers[i]._id } });
       const team: any = await UniversityTeam.findOne({ where: { _id: teams[0]._id } });
       return await user.addTeam(team);
     });
@@ -107,10 +170,12 @@ export async function generator() {
   promises.push(async function () {
     const stats = generateReview();
     const review = await UniversityReview.create({
-      receiver_id: users[0]._id,
-      submitter_id: users[0]._id,
+      receiver_id: uniusers[0]._id,
+      submitter_id: uniusers[0]._id,
       subject_id: subjects[0]._id,
       team_id: teams[0]._id,
+      tutorial_id: tutorials[0]._id,
+      organisation_id: organisations[0]._id,
       state: 1,
       ...stats
     });
@@ -121,10 +186,12 @@ export async function generator() {
   promises.push(async function () {
     const stats = generateReview();
     const review = await UniversityReview.create({
-      receiver_id: users[1]._id,
-      submitter_id: users[0]._id,
+      receiver_id: uniusers[1]._id,
+      submitter_id: uniusers[0]._id,
       subject_id: subjects[0]._id,
+      tutorial_id: tutorials[0]._id,
       team_id: teams[0]._id,
+      organisation_id: organisations[0]._id,
       state: 2,
       ...stats
     });
@@ -135,10 +202,12 @@ export async function generator() {
   promises.push(async function () {
     const stats = generateReview();
     const review = await UniversityReview.create({
-      receiver_id: users[0]._id,
-      submitter_id: users[1]._id,
+      receiver_id: uniusers[0]._id,
+      submitter_id: uniusers[1]._id,
       subject_id: subjects[0]._id,
+      tutorial_id: tutorials[0]._id,
       team_id: teams[0]._id,
+      organisation_id: organisations[0]._id,
       state: 2,
       ...stats
     });
@@ -149,10 +218,12 @@ export async function generator() {
   promises.push(async function () {
     const stats = generateReview();
     const review = await UniversityReview.create({
-      receiver_id: users[2]._id,
-      submitter_id: users[1]._id,
+      receiver_id: uniusers[2]._id,
+      submitter_id: uniusers[1]._id,
       subject_id: subjects[0]._id,
+      tutorial_id: tutorials[0]._id,
       team_id: teams[0]._id,
+      organisation_id: organisations[0]._id,
       state: 2,
       ...stats
     });
@@ -163,10 +234,12 @@ export async function generator() {
   promises.push(async function () {
     const stats = generateReview();
     const review = await UniversityReview.create({
-      receiver_id: users[1]._id,
-      submitter_id: users[2]._id,
+      receiver_id: uniusers[1]._id,
+      submitter_id: uniusers[2]._id,
       subject_id: subjects[0]._id,
+      tutorial_id: tutorials[0]._id,
       team_id: teams[0]._id,
+      organisation_id: organisations[0]._id,
       state: 2,
       ...stats
     });
@@ -177,10 +250,12 @@ export async function generator() {
   promises.push(async function () {
     const stats = generateReview();
     const review = await UniversityReview.create({
-      receiver_id: users[2]._id,
-      submitter_id: users[2]._id,
+      receiver_id: uniusers[2]._id,
+      submitter_id: uniusers[2]._id,
       subject_id: subjects[0]._id,
+      tutorial_id: tutorials[0]._id,
       team_id: teams[0]._id,
+      organisation_id: organisations[0]._id,
       state: 1,
       ...stats
     });
@@ -189,33 +264,6 @@ export async function generator() {
   await inSequence(promises).then(() => {
     promises = [];
   });
-
-  // Managers
-  // times(3, (i) => {
-  //   promises.push(async function () {
-  //     const manager = await Manager.create({
-  //       firstName: `manager ${i}`,
-  //       lastName: `$manager ${i}`,
-  //       email: `m${i}@${i}.com`,
-  //       password: 'unittest'
-  //     });
-  //     return managers.push(manager);
-  //   });
-  // });
-  // await inSequence(promises).then(() => {
-  //   promises = [];
-  // });
-
-  // Add manager0 to subject0
-  // Add manager1 to subject1
-  // times(2, (i) => {
-  //   promises.push(async function () {
-  //     (managers[i] as any).addSubject(subjects[i]);
-  //   });
-  // });
-  // await inSequence(promises).then(() => {
-  //   promises = [];
-  // });
 
   return true;
 }

@@ -13,12 +13,12 @@
 */
 
 import { GraphQLSchema } from "graphql";
-import { Query } from "./Query";
-import { Mutation } from './Mutation';
+import { IdenttiyQuery } from "./Query";
+import { IdentityMutation } from './Mutation';
 
 // Here we import the Query and Mutation schemas and combine them to use
 // in the /api/lib/express.ts file with the graphql-express package.
 export const IdentitySchema: GraphQLSchema = new GraphQLSchema({
-  query: Query,
-  mutation: Mutation
+  query: IdenttiyQuery,
+  mutation: IdentityMutation
 });

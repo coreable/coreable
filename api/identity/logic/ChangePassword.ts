@@ -13,13 +13,13 @@
 */
 
 import { CoreableError } from "../../models/CoreableError";
-import { sequelize } from "../../lib/sequelize";
+import { User } from "../models/User";
 
 export async function ChangePassword(_: any, { email, currentPassword, confirmPassword, newPassword }: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
 
-  if (!context.USER) {
+  if (!context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
       path: 'JWT',
@@ -36,8 +36,8 @@ export async function ChangePassword(_: any, { email, currentPassword, confirmPa
     }
   }
   if (!errors.length) {
-    user = await sequelize.models.User.findOne({
-      where: { _id: context.USER._id }
+    user = await User.findOne({
+      where: { _id: context.JWT._id }
     });
     if (!user) {
       errors.push({ 

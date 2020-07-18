@@ -31,11 +31,14 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-export const Query: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'Identity',
+import IdentityMeQuery from './queries/Me';
+
+export const IdenttiyQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'IdentityQuery',
   description: 'This is the root identity query',
   fields: () => {
     return {
+      'me': IdentityMeQuery,
     }
   }
 });

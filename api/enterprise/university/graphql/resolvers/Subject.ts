@@ -17,23 +17,26 @@ import {
   GraphQLInt,
   GraphQLString,
   GraphQLList,
-  GraphQLFloat,
-  GraphQLNonNull,
+  GraphQLFloat
 } from 'graphql';
 
-import { Subject } from '../../models/Subject';
-import { TeamResolver } from './Team';
-import { ReviewResolver } from './Review';
-import { sequelize } from '../../../lib/sequelize';
-import { Team } from '../../models/Team';
-import { User } from '../../models/User';
-import { Review } from '../../models/Review';
-import { Op } from 'sequelize';
-import { SubjectAverage } from '../../models/SubjectAverage';
+import { UniversitySubject } from '../../models/Subject';
+import { UniversityTeamResolver } from './Team';
+import { UniversityReviewResolver } from './Review';
 
-export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType({
-  name: 'SubjectResolver',
-  description: 'This represents a Subject',
+import { Op } from 'sequelize';
+import { UniversitySubjectAverage } from '../../models/SubjectAverage';
+import { GetSubjectAverages } from '../../logic/GetSubjectAverages';
+import { GetSubjectTutorials } from '../../logic/GetSubjectTutorials';
+import { GetSubjectTeams } from '../../logic/GetSubjectTeams';
+import { UniversityOrganisationResolver } from './Organisation';
+import { GetSubjectOrganisation } from '../../logic/GetSubjectOrganisation';
+import { UniversityUserResolver } from './User';
+import { GetSubjectUsers } from '../../logic/GetSubjectUsers';
+
+export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
+  name: 'UniversitySubjectResolver',
+  description: 'This represents a UniversitySubject',
   fields: () => {
     return {
       '_id': {
@@ -54,31 +57,75 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
           return subject.state;
         }
       },
+      'tutorial': {
+        type: new GraphQLList(UniversityTeamResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(subject, args, context) {
+          return await GetSubjectTutorials(subject, args, context);
+        }
+      },
       'teams': {
-        type: new GraphQLList(TeamResolver),
-        async resolve(subject: any, args, context) {
-          return await subject.getTeams();
+        type: new GraphQLList(UniversityTeamResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(subject, args, context) {
+          return await GetSubjectTeams(subject, args, context);
+        }
+      },
+      'organisation': {
+        type: UniversityOrganisationResolver,
+        async resolve(subject, args, context) {
+          return await GetSubjectOrganisation(subject, args, context);
+        }
+      },
+      'users': {
+        type: new GraphQLList(UniversityUserResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(subject, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await GetSubjectUsers(subject, args, context);
         }
       },
       'report': {
         type: new GraphQLObjectType({
-          name: 'SubjectAverageReport',
+          name: 'UniversitySubjectAverageReport',
           fields: () => {
             return {
               'average': {
+                args: {
+                  endDate: {
+                    type: GraphQLString,
+                  },
+                  startDate: {
+                    type: GraphQLString,
+                  }
+                },
                 type: new GraphQLObjectType({
-                  name: 'SubjectAverageSingle',
+                  name: 'UniversitySubjectAverageSingle',
                   fields: () => {
                     return {
                       'default': {
-                        type: ReviewResolver,
-                        resolve(average, args, context) {
-                          return average;
+                        type: new GraphQLList(UniversityReviewResolver),
+                        resolve(averages, args, context) {
+                          return averages;
                         }
                       },
                       'sorted': {
                         type: new GraphQLList(new GraphQLObjectType({
-                          name: 'SubjectSortedAverageArray',
+                          name: 'UniversitySubjectSortedAverageArray',
                           fields: () => {
                             return {
                               'field': {
@@ -97,116 +144,77 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
                           }
                         })),
                         resolve(average, args, context) {
-                          average = average.dataValues;
-                          const sortable = [];
-                          for (const field in average) {
-                            if (!isNaN(average[field]) && Number.isFinite(average[field])) {
-                              sortable.push([field, average[field]]);
+                          if (average.length === 1) {
+                            average = average.dataValues;
+                            const sortable = [];
+                            for (const field in average) {
+                              if (!isNaN(average[field]) && Number.isFinite(average[field])) {
+                                sortable.push([field, average[field]]);
+                              }
                             }
+                            sortable.sort((a, b) => {
+                              return a[1] - b[1]
+                            });
+                            return sortable;
                           }
-                          sortable.sort((a, b) => {
-                            return a[1] - b[1]
-                          });
-                          return sortable;
+                          return null;
                         }
                       }
                     }
                   }
                 }),
                 async resolve(subject, args, context) {
-                  let averages: any;
-                  let week;
-                  week = 7 * 60 * 60 * 24 * 1000; // week = 7 * 60 * 60 * 24 * 1000;
-                  week = new Date(Date.now() - week);
-                  averages = await sequelize.models.SubjectAverage.findOne({
+                  // ALWAYS CALCULATE AND STORE THE NEWEST VALUE IF
+                  // THE TOP RECORD IN THE DATABASE IS OLDER THAN A WEEK OLD
+                  const latestAverage: any = await GetSubjectAverages(subject, args, context);
+                  const topRecord: any = await UniversitySubjectAverage.findOne({
+                    where: { subject_id: subject._id },
+                    order: [['createdAt', 'DESC']]
+                  });
+
+                  const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
+
+                  if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
+                    await UniversitySubjectAverage.create({
+                      ...latestAverage,
+                      subject_id: subject._id
+                    });
+                  }
+
+                  if (args.startDate) {
+                    try {
+                      args.startDate = Date.parse(args.startDate);
+                      args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  if (args.endDate) {
+                    try {
+                      args.endDate = Date.parse(args.endDate);
+                      args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  // if no start or end date is specified
+                  // return only the latest average
+                  if (!args.startDate && !args.endDate) {
+                    return [latestAverage];
+                  }
+
+                  const averages: any = await UniversitySubjectAverage.findAll({
                     where: {
                       subject_id: subject._id,
-                      createdAt: {
-                        [Op.gte]: week
-                      }
+                      createdAt: DATE_QUERY
                     }
                   });
-                  if (averages) {
-                    return averages;
-                  }
-                  averages = await getSubjectAverages(subject);
-                  averages = await SubjectAverage.create({
-                    subject_id: subject._id,
-                    calm: averages.dataValues.calm,
-                    clearInstructions: averages.dataValues.clearInstructions,
-                    cooperatively: averages.dataValues.cooperatively,
-                    crossTeam: averages.dataValues.crossTeam,
-                    distractions: averages.dataValues.distractions,
-                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
-                    empathy: averages.dataValues.empathy,
-                    usesRegulators: averages.dataValues.usesRegulators,
-                    influences: averages.dataValues.influences,
-                    managesOwn: averages.dataValues.managesOwn,
-                    newIdeas: averages.dataValues.newIdeas,
-                    openToShare: averages.dataValues.openToShare,
-                    positiveBelief: averages.dataValues.positiveBelief,
-                    proactive: averages.dataValues.proactive,
-                    resilienceFeedback: averages.dataValues.resilienceFeedback,
-                    signifiesInterest: averages.dataValues.signifiesInterest,
-                    workDemands: averages.dataValues.workDemands,
-                  });
-                  return averages;
-                }
-              },
-              'averages': {
-                type: new GraphQLList(ReviewResolver),
-                args: {
-                  limit: {
-                    type: GraphQLInt,
-                  },
-                  start: {
-                    type: new GraphQLNonNull(GraphQLString),
-                  }
-                },
-                async resolve(subject, args, context) {
-                  let averages: any;
-                  try {
-                    args.start = Date.parse(args.start);
-                    args.start = new Date(args.start);
-                  } catch (err) {
-                    return err;
-                  }
-                  averages = await sequelize.models.SubjectAverage.findAll({
-                    where: {
-                      subject_id: subject._id,
-                      createdAt: {
-                        [Op.gte]: args.start
-                      }
-                    },
-                    limit: args.limit
-                  });
-                  if (averages) {
-                    return averages;
-                  }
-                  averages = await getSubjectAverages(subject);
-                  averages = await SubjectAverage.create({
-                    subject_id: subject._id,
-                    calm: averages.dataValues.calm,
-                    clearInstructions: averages.dataValues.clearInstructions,
-                    cooperatively: averages.dataValues.cooperatively,
-                    crossTeam: averages.dataValues.crossTeam,
-                    distractions: averages.dataValues.distractions,
-                    easilyExplainsComplexIdeas: averages.dataValues.easilyExplainsComplexIdeas,
-                    empathy: averages.dataValues.empathy,
-                    usesRegulators: averages.dataValues.usesRegulators,
-                    influences: averages.dataValues.influences,
-                    managesOwn: averages.dataValues.managesOwn,
-                    newIdeas: averages.dataValues.newIdeas,
-                    openToShare: averages.dataValues.openToShare,
-                    positiveBelief: averages.dataValues.positiveBelief,
-                    proactive: averages.dataValues.proactive,
-                    resilienceFeedback: averages.dataValues.resilienceFeedback,
-                    signifiesInterest: averages.dataValues.signifiesInterest,
-                    workDemands: averages.dataValues.workDemands,
-                  });
-                  if (!Array.isArray(averages)) {
-                    averages = [averages];
-                  }
+
                   return averages;
                 }
               }
@@ -220,137 +228,3 @@ export const SubjectResolver: GraphQLObjectType<Subject> = new GraphQLObjectType
     }
   }
 });
-
-export function getSubjectAverages(subject: Subject) {
-  return sequelize.models.Subject.findOne(
-    {
-      where: { _id: subject._id },
-      group: ['_id'],
-      attributes: {
-        exclude: [
-          '_id',
-          'name',
-          'state',
-          'createdAt',
-          'updatedAt'
-        ],
-        include: [
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.calm')),
-            'calm'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.clearInstructions')),
-            'clearInstructions'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.cooperatively')),
-            'cooperatively'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.crossTeam')),
-            'crossTeam'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.easilyExplainsComplexIdeas')),
-            'easilyExplainsComplexIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.empathy')),
-            'empathy'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.usesRegulators')),
-            'usesRegulators'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.influences')),
-            'influences'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.managesOwn')),
-            'managesOwn'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.newIdeas')),
-            'newIdeas'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.openToShare')),
-            'openToShare'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.positiveBelief')),
-            'positiveBelief'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.proactive')),
-            'proactive'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.resilienceFeedback')),
-            'resilienceFeedback'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.signifiesInterest')),
-            'signifiesInterest'
-          ],
-          [
-            sequelize.fn('avg',
-              sequelize.col('teams.users.reviews.workDemands')),
-            'workDemands'
-          ],
-        ]
-      },
-      include: [{
-        model: Team, as: 'teams',
-        attributes: {
-          exclude: [
-            'name',
-            'inviteCode',
-            'createdAt',
-            'updatedAt'
-          ]
-        },
-        include: [{
-          model: User, as: 'users',
-          attributes: {
-            exclude: [
-              'firstName',
-              'lastName',
-              'email',
-              'password',
-              'passwordResetToken',
-              'passwordResetExpiry',
-              'createdAt',
-              'updatedAt'
-            ]
-          },
-          include: [{
-            model: Review, as: 'reviews', attributes: {
-              exclude: [
-                'createdAt',
-                'updatedAt'
-              ]
-            }
-          }]
-        }]
-      }]
-    }
-  );
-}
