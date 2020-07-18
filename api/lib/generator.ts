@@ -56,7 +56,7 @@ export async function generator() {
   times(2, (i) => {
     promises.push(async function () {
       const organisation = await UniversityOrganisation.create({
-        name: Faker.company.companySuffix()
+        name: Faker.company.bsNoun()
       });
       return organisations.push(organisation);
     });
@@ -69,7 +69,8 @@ export async function generator() {
   times(2, (i) => {
     promises.push(async function () {
       const manager = await UniversityManager.create({
-        name: Faker.company.companySuffix(),
+        name: Faker.name.firstName(),
+        password: `unittest`,
         organisation_id: organisations[i]._id
       });
       return managers.push(manager);

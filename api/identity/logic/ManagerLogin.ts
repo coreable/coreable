@@ -32,6 +32,7 @@ export async function ManagerLogin(root: any, args: any, context: any) {
   if (!errors.length) {
     try {
       hash = await generatePasswordHash(args.password);
+      console.log(hash);
     } catch (err) {
       errors.push({ 
         code: err.code, 
@@ -46,9 +47,9 @@ export async function ManagerLogin(root: any, args: any, context: any) {
     });
     if (!manager) {
       errors.push({
-        code: 'ER_USER_UNKNOWN',
-        path: 'email',
-        message: `No user found with email ${args.email}`
+        code: 'ER_AUTH_FAILURE',
+        path: 'password',
+        message: `Incorrect Password`
       });
     }
   }

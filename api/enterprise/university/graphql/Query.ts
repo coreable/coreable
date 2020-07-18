@@ -26,7 +26,7 @@ export const UniversityQuery: GraphQLObjectType<QueryInterface> = new GraphQLObj
   fields: () => {
     return {
       'me': UniversityMeQuery,
-      'industrys': IndustryListQuery
+      'industry': IndustryListQuery
     }
   }
 });

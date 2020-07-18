@@ -18,7 +18,7 @@ import {
   Model
 } from 'sequelize';
 import { UniversityOrganisation } from './Organisation';
-import { generatePasswordHash, checkPassword } from '../../../identity/logic/Hash';
+import { generatePasswordHash } from '../../../identity/logic/Hash';
 
 class UniversityManager extends Model {
   // Primary Key
@@ -31,12 +31,8 @@ class UniversityManager extends Model {
   public organisation!: UniversityOrganisation;
 
   // Properties
-  // TODO: Generate this password, store it and send to client, hash it, check the hash when login
   public password!: string;
   public name!: string;
-
-  // Mad different methods
-  public login: ((payload: string) => Promise<boolean>) | undefined;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -51,7 +47,7 @@ const sync = (sequelize: Sequelize) => {
       'allowNull': false
     },
     'password': {
-      'type': DataTypes.UUID,
+      'type': DataTypes.STRING,
       'allowNull': false,
       'defaultValue': DataTypes.UUIDV4
     },
@@ -87,10 +83,6 @@ const sync = (sequelize: Sequelize) => {
       }
     }
   });
-
-  UniversityManager.prototype.login = async function (payload: string) {
-    return await checkPassword(payload, this.password);
-  }
 
   return UniversityManager;
 }

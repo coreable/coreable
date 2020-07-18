@@ -25,6 +25,7 @@ import { Op } from "sequelize";
 import { UniversityIndustryAverage } from "../../models/IndustryAverage";
 import { GetIndustryAverages } from "../../logic/GetIndustryAverages";
 import { UniversityUserResolver } from "./User";
+import { UniversityUser } from "../../models/User";
 
 export const UniversityIndustryResolver: GraphQLObjectType<UniversityIndustry> = new GraphQLObjectType({
   name: 'UniversityIndustryResolver',
@@ -46,7 +47,14 @@ export const UniversityIndustryResolver: GraphQLObjectType<UniversityIndustry> =
       'users': {
         type: new GraphQLList(UniversityUserResolver),
         async resolve(industry: any, args, context) {
-          return await industry.getUsers();
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await UniversityUser.findAll({
+            where: {
+              industry_id: industry._id
+            }
+          });
         }
       },
       'report': {
