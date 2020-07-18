@@ -19,7 +19,7 @@ export async function ChangePassword(_: any, { email, currentPassword, confirmPa
   let errors: CoreableError[] = [];
   let user: any;
 
-  if (!context.USER) {
+  if (!context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
       path: 'JWT',
@@ -37,7 +37,7 @@ export async function ChangePassword(_: any, { email, currentPassword, confirmPa
   }
   if (!errors.length) {
     user = await User.findOne({
-      where: { _id: context.USER._id }
+      where: { _id: context.JWT._id }
     });
     if (!user) {
       errors.push({ 

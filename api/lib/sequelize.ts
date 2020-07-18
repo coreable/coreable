@@ -15,7 +15,15 @@
 import { Sequelize } from 'sequelize';
 import { config } from '../config/config';
 
+// Identity
 import * as User from '../identity/models/User';
+
+// University
+import * as UniveristyManager from '../enterprise/university/models/Manager';
+
+import * as UniversityOrganisation from '../enterprise/university/models/Organisation';
+import * as UniversityOrganisationAverage from '../enterprise/university/models/OrganisationAverage';
+
 import * as UniversityUser from '../enterprise/university/models/User';
 import * as UniversityUserAverage from '../enterprise/university/models/UserAverage';
 
@@ -32,33 +40,6 @@ import * as UniversitySubjectAverage from '../enterprise/university/models/Subje
 
 import * as UniversityIndustry from '../enterprise/university/models/Industry';
 import * as UniversityIndustryAverage from '../enterprise/university/models/IndustryAverage';
-
-
-// var fs = require('fs');
-// var path = require('path');
-
-// var walk = function (dir: string, done: Function) {
-//   let results: any[] = [];
-//   fs.readdir(dir, function (err: any, list: any) {
-//     if (err) return done(err);
-//     var pending = list.length;
-//     if (!pending) return done(null, results);
-//     list.forEach(function (file: any) {
-//       file = path.resolve(dir, file);
-//       fs.stat(file, function (err: any, stat: any) {
-//         if (stat && stat.isDirectory()) {
-//           walk(file, function (err: any, res: any) {
-//             results = results.concat(res);
-//             if (!--pending) done(null, results);
-//           });
-//         } else {
-//           results.push(file);
-//           if (!--pending) done(null, results);
-//         }
-//       });
-//     });
-//   });
-// };
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
@@ -80,7 +61,11 @@ const sequelize = new _sequelize({
 
 (async () => {
   await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
-  await sequelize.query(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
+  try {
+    await sequelize.query(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
+  } catch {
+
+  }
 })().then(() => true);
 
 _sequelize.sync = (async () => {
@@ -88,6 +73,11 @@ _sequelize.sync = (async () => {
   User.sync(sequelize);
 
   // University
+  UniveristyManager.sync(sequelize);
+
+  UniversityOrganisation.sync(sequelize);
+  UniversityOrganisationAverage.sync(sequelize);
+
   UniversityUser.sync(sequelize);
   UniversityUserAverage.sync(sequelize);
 
@@ -111,6 +101,11 @@ _sequelize.assosciate = (async () => {
   User.assosciate();
 
   // University
+  UniveristyManager.assosciate();
+
+  UniversityOrganisation.assosciate();
+  UniversityOrganisationAverage.assosciate();
+
   UniversityUser.assosciate();
   UniversityUserAverage.assosciate();
 

@@ -12,30 +12,34 @@
   ===========================================================================
 */
 
-import { CoreableError } from '../../../models/CoreableError';
-import { UniversityUser } from "../models/User";
+import { CoreableError } from "../../../models/CoreableError";
+import { UniversityManager } from "../models/Manager";
 
-export async function UniversityMe(root: any, args: any, { USER }: any) {
+export async function ManagerQuery(root: any, args: any, context: any) {
+  context.MANAGER = null;
   let errors: CoreableError[] = [];
-  let user;
-  if (!USER) {
-    errors.push({ code: 'ER_UNAUTH', path: 'JWT', message: 'User unauthenticated' });
+  if (!context.JWT) {
+    errors.push({ 
+      code: 'ER_UNAUTH',
+      path: 'JWT',
+      message: 'User unauthenticated'
+    });
   }
   if (!errors.length) {
-    user = await UniversityUser.findOne({
-      where: { user_id: USER._id }
+    context.MANAGER = await UniversityManager.findOne({
+      where: { _id: context.JWT._id }
     });
-    if (!user) {
+    if (!context.MANAGER) {
       errors.push({
-        code: 'ER_USER_UNKNOWN',
+        code: 'ER_MANAGER_UNKNOWN',
         path: `_id`,
-        message: `No user found with user_id ${USER._id}`
+        message: `No manager found with _id ${context.JWT._id}`
       });
     }
   }
   return {
     'data': !errors.length ? {
-      'user': user
+      'manager': context.MANAGER
     } : null,
     'errors': errors.length > 0 ? errors : null
   }

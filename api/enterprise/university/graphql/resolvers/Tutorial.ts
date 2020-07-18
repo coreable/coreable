@@ -21,6 +21,10 @@ import { GetTutorialAverages } from "../../logic/GetTutorialAverages";
 import { GetTutorialSubject } from "../../logic/GetTutorialSubject";
 import { UniversityTeamResolver } from "./Team";
 import { GetTutorialTeams } from "../../logic/GetTutorialTeams";
+import { UniversityOrganisationResolver } from "./Organisation";
+import { GetTutorialOrganisation } from "../../logic/GetTutorialOrganisation";
+import { UniversityUserResolver } from "./User";
+import { GetTutorialUsers } from "../../logic/GetTutorialUsers";
 
 export const UniversityTutorialResolver = new GraphQLObjectType({
   name: 'UniversityTutorialResolver',
@@ -54,6 +58,26 @@ export const UniversityTutorialResolver = new GraphQLObjectType({
         },
         async resolve(tutorial, args, context) {
           return await GetTutorialTeams(tutorial, args, context);
+        }
+      },
+      'organisation': {
+        type: UniversityOrganisationResolver,
+        async resolve(tutorial, args, context) {
+          return await GetTutorialOrganisation(tutorial, args, context);
+        }
+      },
+      'users': {
+        type: new GraphQLList(UniversityUserResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(tutorial, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await GetTutorialUsers(tutorial, args, context);
         }
       },
       'report': {

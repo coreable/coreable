@@ -20,7 +20,7 @@ import {
 import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
 import { UniversityTeamObjectMediator } from "../../mediators/object/Team";
 
-export const TeamObjectCommand: GraphQLObjectType = new GraphQLObjectType({
+export const UniversityTeamObjectCommand: GraphQLObjectType = new GraphQLObjectType({
   name: 'UniversityTeamObjectCommand',
   description: 'UniversityTeamObjectCommand',
   fields: () => {

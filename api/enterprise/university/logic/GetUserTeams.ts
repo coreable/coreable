@@ -20,7 +20,7 @@ import { UniversityTutorial } from "../models/Tutorial";
 export function GetUserTeams(user: any, args: any, { USER }: any) {
   return UniversityUser.findAll({
     where: { 
-      user_id: USER._id
+      _id: USER._id
     },
     raw: true,
     group: ['teams._id'],

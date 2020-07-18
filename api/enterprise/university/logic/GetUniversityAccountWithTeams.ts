@@ -15,10 +15,10 @@
 import { UniversityTeam } from "../models/Team";
 import { UniversityUser } from "../models/User";
 
-export async function GetUniversityAccountWithTeamsFromUser_id({ USER }: any) {
+export async function GetUniversityAccountWithTeamsFromUser_id({ JWT }: any) {
   return await UniversityUser.findOne({
     where: {
-      user_id: USER._id
+      user_id: JWT._id
     },
     include: [{
       model: UniversityTeam,

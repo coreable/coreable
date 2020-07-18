@@ -20,7 +20,7 @@ import {
 import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
 import { UniversitySubjectObjectMediator } from "../../mediators/object/Subject";
 
-export const SubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
+export const UniversitySubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
   name: 'UniversitySubjectObjectCommand',
   description: 'UniversitySubjectObjectCommand',
   fields: () => {

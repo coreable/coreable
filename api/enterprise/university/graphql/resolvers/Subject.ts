@@ -29,6 +29,10 @@ import { UniversitySubjectAverage } from '../../models/SubjectAverage';
 import { GetSubjectAverages } from '../../logic/GetSubjectAverages';
 import { GetSubjectTutorials } from '../../logic/GetSubjectTutorials';
 import { GetSubjectTeams } from '../../logic/GetSubjectTeams';
+import { UniversityOrganisationResolver } from './Organisation';
+import { GetSubjectOrganisation } from '../../logic/GetSubjectOrganisation';
+import { UniversityUserResolver } from './User';
+import { GetSubjectUsers } from '../../logic/GetSubjectUsers';
 
 export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
   name: 'UniversitySubjectResolver',
@@ -73,6 +77,26 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
         },
         async resolve(subject, args, context) {
           return await GetSubjectTeams(subject, args, context);
+        }
+      },
+      'organisation': {
+        type: UniversityOrganisationResolver,
+        async resolve(subject, args, context) {
+          return await GetSubjectOrganisation(subject, args, context);
+        }
+      },
+      'users': {
+        type: new GraphQLList(UniversityUserResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(subject, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await GetSubjectUsers(subject, args, context);
         }
       },
       'report': {

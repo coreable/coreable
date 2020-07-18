@@ -13,11 +13,11 @@
 */ 
 
 import { UniversityMeCommand } from "../command/Me";
-import { UniversityMe } from '../../logic/Me';
+import { MeQuery } from '../../logic/MeQuery';
 
 export default {
   type: UniversityMeCommand,
   async resolve(root: any, args: any, context: any) {
-    return await UniversityMe(root, args, context);
+    return await MeQuery(root, args, context);
   }
 }

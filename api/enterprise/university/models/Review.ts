@@ -21,6 +21,7 @@ import { UniversityUser } from './User';
 import { UniversitySubject } from './Subject';
 import { UniversityTeam } from './Team';
 import { UniversityTutorial } from './Tutorial';
+import { UniversityOrganisation } from './Organisation';
 
 class UniversityReview extends Model {
   // Primary Key
@@ -32,6 +33,7 @@ class UniversityReview extends Model {
   public subject_id!: string;
   public team_id!: string;
   public tutorial_id!: string;
+  public organisation_id!: string;
 
   // Relationships
   public receiver!: UniversityUser;
@@ -39,6 +41,7 @@ class UniversityReview extends Model {
   public subject!: UniversitySubject;
   public team!: UniversityTeam;
   public tutorial!: UniversityTutorial;
+  public organisation!: UniversityOrganisation;
 
   // Properties
   public calm!: number;
@@ -88,6 +91,10 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
     'tutorial_id': {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    'organisation_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -200,6 +207,11 @@ const assosciate = () => {
     foreignKey: 'tutorial_id',
     targetKey: '_id',
     as: 'tutorial'
+  });
+  UniversityReview.belongsTo(UniversityOrganisation, {
+    foreignKey: 'organisation_id',
+    targetKey: '_id',
+    as: 'organisation'
   });
   return UniversityReview;
 }

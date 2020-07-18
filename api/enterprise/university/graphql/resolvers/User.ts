@@ -37,6 +37,8 @@ import { GetUserAverages } from '../../logic/GetUserAverages';
 import { GetUserSubjects } from '../../logic/GetUserSubjects';
 import { GetUserTutorials } from '../../logic/GetUserTutorials';
 import { GetUserTeams } from '../../logic/GetUserTeams';
+import { UniversityOrganisationResolver } from './Organisation';
+import { GetUserOrganisations } from '../../logic/GetUserOrganisation';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -63,10 +65,9 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
-
           return await GetUserTeams(user, args, context);
         }
       },
@@ -78,7 +79,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
 
@@ -93,17 +94,32 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
 
           return await GetUserTutorials(user, args, context);
         }
       },
+      'organisation': {
+        type: new GraphQLList(UniversityOrganisationResolver),
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(user: any, args, context) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
+            return null;
+          }
+
+          return await GetUserOrganisations(user, args, context);
+        }
+      },
       'industry': {
         type: UniversityIndustryResolver,
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user._id && !context.MANAGER) {
             return null;
           }
           return await user.getIndustry();
@@ -117,13 +133,13 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
               'normal': {
                 type: new GraphQLList(UniversityReviewResolver),
                 async resolve(user, args, context) {
-                  if (context.USER._id !== user.user_id) {
+                  if (context.USER._id !== user._id && !context.MANAGER) {
                     return null;
                   }
 
                   return await UniversityReview.findAll({
                     attributes: {
-                      exclude: ['submitter_id', 'createdAt', 'updatedAt']
+                      exclude: ['createdAt', 'updatedAt']
                     },
                     where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } },
                   });
@@ -252,13 +268,13 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'submissions': {
         type: new GraphQLList(UniversityReviewResolver),
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user.user_id && !context.MANAGER) {
             return null;
           }
 
           return await UniversityReview.findAll({
             attributes: {
-              exclude: ['receiver_id', 'createdAt', 'updatedAt']
+              exclude: ['createdAt', 'updatedAt']
             },
             where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
           });
@@ -267,7 +283,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'pending': {
         type: new GraphQLList(UniversityTeamResolver),
         async resolve(user, args, context) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user.user_id && !context.MANAGER) {
             return null;
           }
 
@@ -277,7 +293,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'reflection': {
         type: UniversityReviewResolver,
         async resolve(user: any, args: any, context: any) {
-          if (context.USER._id !== user.user_id) {
+          if (context.USER._id !== user.user_id && !context.MANAGER) {
             return null;
           }
 

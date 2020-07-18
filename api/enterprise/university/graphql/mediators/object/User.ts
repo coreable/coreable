@@ -18,8 +18,8 @@ import {
 import { UniversityUserResolver } from "../../resolvers/User";
 
 export const UniversityUserObjectMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UserObjectMediator',
-  description: 'UserObjectMediator',
+  name: 'UniversityUserObjectMediator',
+  description: 'UniversityUserObjectMediator',
   fields: () => {
     return {
       'user': {

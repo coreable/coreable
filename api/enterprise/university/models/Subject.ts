@@ -21,18 +21,24 @@ import { UniversityTeam } from "./Team";
 import { UniversitySubjectAverage } from "./SubjectAverage";
 import { UniversityReview } from "./Review";
 import { UniversityTutorial } from "./Tutorial";
+import { UniversityOrganisation } from "./Organisation";
 
 class UniversitySubject extends Model {
   // Primary Key
   public _id!: string;
 
+  // Foreign Keys
+  public organisation_id!: string;
+
   // Relationships
   public teams!: [UniversityTeam];
   public reviews!: [UniversityReview];
+  public organisation!: UniversityOrganisation;
 
   // Properties
   public name!: string;
   public state!: number;
+  
   
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -57,6 +63,10 @@ const sync = (sequelize: Sequelize) => {
         'min': 1,
         'max': 3
       }
+    },
+    'organisation_id': {
+      'type': DataTypes.UUID,
+      'allowNull': false
     }
   }, {
     'tableName': 'UNIVERSITY_SUBJECT',
@@ -67,6 +77,11 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
+  UniversitySubject.belongsTo(UniversityOrganisation, {
+    foreignKey: 'organisation_id',
+    targetKey: '_id',
+    as: 'organisation'
+  });
   UniversitySubject.hasMany(UniversityTutorial, {
     sourceKey: '_id',
     foreignKey: 'subject_id',

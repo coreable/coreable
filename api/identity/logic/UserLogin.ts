@@ -16,11 +16,11 @@ import { CoreableError } from '../../models/CoreableError';
 import { User } from '../models/User';
 import { encodeJWT } from './JWT';
 
-export async function Login(root: any, args: any, context: any) {
+export async function UserLogin(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
   let token: string | undefined;
-  if (context.USER) {
+  if (context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
       path: 'JWT',
@@ -78,10 +78,14 @@ export async function Login(root: any, args: any, context: any) {
       token = await encodeJWT({
         _id: user._id,
         email: user.email,
-        enterprise: 'university'
+        enterprise: 'identity'
       });
     } catch (err) {
-      errors.push({ code: err.code, path: 'JWT', message: err.message });
+      errors.push({ 
+        code: err.code, 
+        path: 'JWT',
+        message: err.message
+      });
     }
   }
   return {

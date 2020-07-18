@@ -21,7 +21,7 @@ export default {
   type: UniversityIndustryListCommand, 
   async resolve(root: any, args: any, context: any) {
     let errors: CoreableError[] = [];
-    if (!context.USER) {
+    if (!context.JWT) {
       errors.push({ code: 'ER_UNAUTH', path: 'JWT' , message: 'User unauthenticated'});
     }
     return {

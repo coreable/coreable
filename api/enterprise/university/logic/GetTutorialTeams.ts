@@ -16,10 +16,10 @@ import { UniversityTutorial } from "../models/Tutorial";
 import { sequelize } from "../../../lib/sequelize";
 import { UniversityTeam } from "../models/Team";
 
-export async function GetTutorialTeams(team: any, args: any, context: any) {
+export async function GetTutorialTeams(tutorial: any, args: any, context: any) {
   return await UniversityTutorial.findAll({
     where: {
-      _id: team._id
+      _id: tutorial._id
     },
     raw: true,
     attributes: {

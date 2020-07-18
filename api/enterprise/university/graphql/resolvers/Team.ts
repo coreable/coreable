@@ -19,7 +19,7 @@ import {
   GraphQLFloat
 } from 'graphql';
 
-import { UniversityUserResolver } from './User';
+// import { UniversityUserResolver } from './User';
 import { UniversityReviewResolver } from './Review';
 import { UniversityTeamAverage } from '../../models/TeamAverage';
 import { UniversityTeam } from '../../models/Team';
@@ -30,6 +30,10 @@ import { UniversityTutorialResolver } from './Tutorial';
 import { GetTeamTutorial } from '../../logic/GetTeamTutorial';
 import { GetTeamSubject } from '../../logic/GetTeamSubject';
 import { UniversitySubjectResolver } from './Subject';
+import { UniversityOrganisationResolver } from './Organisation';
+import { GetTeamOrganisation } from '../../logic/GetTeamOrganisation';
+import { UniversityUserResolver } from './User';
+import { GetTeamUsers } from '../../logic/GetTeamUsers';
 
 export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new GraphQLObjectType({
   name: 'UniversityTeamResolver',
@@ -66,11 +70,24 @@ export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new Gra
           return await GetTeamSubject(team, args, context);
         }
       },
+      'organisation': {
+        type: UniversityOrganisationResolver,
+        async resolve(team: any, args, context) {
+          return await GetTeamOrganisation(team, args, context);
+        }
+      },
       'users': {
         type: new GraphQLList(UniversityUserResolver),
-        async resolve(team: any, args, context) {
-          return null;
-          return await team.getUsers();
+        args: {
+          _id: {
+            type: GraphQLString
+          }
+        },
+        async resolve(team, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await GetTeamUsers(team, args, context);
         }
       },
       'report': {

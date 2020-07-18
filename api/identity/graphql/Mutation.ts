@@ -19,6 +19,8 @@ import {
 
 import RegisterMutation from './mutations/Register';
 import LoginMutation from './mutations/Login';
+import ManagerLoginMutation from './mutations/ManagerLogin';
+import ChangePasswordMutation from './mutations/ChangePassword';
 
 export const IdentityMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'IdentityMutation',
@@ -26,7 +28,9 @@ export const IdentityMutation: GraphQLObjectType<QueryInterface> = new GraphQLOb
   fields: () => {
     return {
       'register': RegisterMutation,
-      'login': LoginMutation
+      'login': LoginMutation,
+      'changePasssword': ChangePasswordMutation,
+      'manager': ManagerLoginMutation
     }
   }
 });

@@ -29,9 +29,7 @@ import { UniversitySchema } from '../enterprise/university/graphql/Schema';
 
 import { config } from '../config/config';
 import { decodeJWT } from '../identity/logic/JWT';
-import { sequelize } from './sequelize';
 
-import { User } from '../identity/models/User';
 import { IdentitySchema } from '../identity/graphql/Schema';
 
 // A hack to add the JWT decoded token to the request object
@@ -39,9 +37,8 @@ declare global {
   namespace Express {
     interface Request {
       // Decoded JWT for server sided use
+      // Password for managers only (encrypted)
       JWT: { _id: string; email: string; enterprise: string; };
-      // User object from the database
-      USER: User;
       // User type for Graphql schema
       enterprise: string | undefined;
     }
@@ -72,17 +69,13 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
       req.enterprise = req.JWT.enterprise;
       // return (non-decoded) JWT token to client via HTTP
       res.setHeader('JWT', JWT_TOKEN);
-      req.USER = await sequelize.models.User.findOne(
-        {
-          where: { _id: req.JWT._id }
-        }
-      );
-      if (!req.USER) {
-        throw new Error("Database and client header discrepancy");
-      }
     } catch (err) {
       if (config.NODE_ENV === 'development') {
-        console.error({ code: err.name, message: err.message, path: 'api/lib/express.ts' });
+        console.error({ 
+          code: err.name,
+          message: err.message,
+          path: 'api/lib/express.ts'
+        });
       }
       // Remove server sided JWT
       delete req.JWT;

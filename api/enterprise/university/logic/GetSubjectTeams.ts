@@ -25,8 +25,8 @@ export async function GetSubjectTeams(subject: any, args: any, context: any) {
     raw: true,
     attributes: {
       include: [
-        [ sequelize.col('tutorials.teams._id'), '_id'],
-        [ sequelize.col('tutorials.teams.name'), 'name'],
+        [sequelize.col('tutorials.teams._id'), '_id'],
+        [sequelize.col('tutorials.teams.name'), 'name'],
       ]
     },
     include: [{

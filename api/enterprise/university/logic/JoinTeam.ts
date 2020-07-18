@@ -20,7 +20,7 @@ export async function JoinTeam(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let targetTeam: any;
   let UNIVERSITY_USER: any;
-  if (!context.USER) {
+  if (!context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
       path: 'JWT',
@@ -32,7 +32,7 @@ export async function JoinTeam(root: any, args: any, context: any) {
     if (!UNIVERSITY_USER) {
       errors.push({
         code: 'ER_ACCOUNT_UNKNOWN',
-        message: `University account with user_id ${context.USER._id} not found!`,
+        message: `University account with user_id ${context.JWT._id} not found!`,
         path: 'user'
       });
     }

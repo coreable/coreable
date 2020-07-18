@@ -22,6 +22,7 @@ import { UniversitySubject } from './Subject';
 import { UniversityTeamAverage } from './TeamAverage';
 import { UniversityReview } from './Review';
 import { UniversityTutorial } from './Tutorial';
+import { UniversityOrganisation } from './Organisation';
 
 class UniversityTeam extends Model {
   // Primary Key
@@ -31,6 +32,8 @@ class UniversityTeam extends Model {
   public subject!: UniversitySubject;
   public users!: [UniversityUser];
   public reviews!: [UniversityReview];
+  public organisation!: UniversityOrganisation;
+  public tutorial!: UniversityTutorial;
 
   // Properties
   public name!: string;

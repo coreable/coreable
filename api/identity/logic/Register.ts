@@ -20,7 +20,7 @@ export async function Register(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
   let token: string | undefined;
-  if (context.USER) {
+  if (context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
       path: 'JWT',
