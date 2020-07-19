@@ -26,6 +26,10 @@ import { UniversityOrganisationAverage } from "../../models/OrganisationAverage"
 import { Op } from "sequelize";
 import { GetOrganisationAverages } from "../../logic/GetOrganisationAverages";
 import { UniversityReviewResolver } from "./Review";
+import { UniversityCommunicationTraitsResolver } from "./CommunicationTraits";
+import { UniversityCommunicationFacetsResolver } from "./CommunicationFacets";
+import { UniversityCollaborationTraitsResolver } from "./CollaborationTraits";
+import { UniversityCollaborationFacetsResolver } from "./CollaborationFacets";
 
 export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganisation> = new GraphQLObjectType({
   name: 'UniversityOrganisationResolver',
@@ -112,6 +116,51 @@ export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganis
                       'default': {
                         type: new GraphQLList(UniversityReviewResolver),
                         resolve(averages, args, context) {
+                          return averages;
+                        }
+                      },
+                      'communication': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversityUserCommunication',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCommunicationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCommunicationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                      },
+                      'collaboration': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversityUserCollaboration',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCollaborationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCollaborationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                        async resolve(averages, args, context) {
                           return averages;
                         }
                       },

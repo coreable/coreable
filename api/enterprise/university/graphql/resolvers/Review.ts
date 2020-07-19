@@ -31,7 +31,7 @@ import { UniversityOrganisation } from '../../models/Organisation';
 
 export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
   name: 'UniversityReviewResolver',
-  description: 'The representation of a Review',
+  description: 'The representation of a UniversityReview',
   fields: () => {
     return {
       '_id': {
