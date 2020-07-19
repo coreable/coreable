@@ -121,7 +121,7 @@ export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganis
                       },
                       'communication': {
                         type: new GraphQLObjectType({
-                          name: 'UniversityUserCommunication',
+                          name: 'UniversityOrganisationCommunication',
                           fields: () => {
                             return {
                               'traits': {
@@ -142,7 +142,7 @@ export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganis
                       },
                       'collaboration': {
                         type: new GraphQLObjectType({
-                          name: 'UniversityUserCollaboration',
+                          name: 'UniversityOrganisationCollaboration',
                           fields: () => {
                             return {
                               'traits': {

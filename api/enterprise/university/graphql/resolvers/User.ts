@@ -39,7 +39,6 @@ import { GetUserTutorials } from '../../logic/GetUserTutorials';
 import { GetUserTeams } from '../../logic/GetUserTeams';
 import { UniversityOrganisationResolver } from './Organisation';
 import { GetUserOrganisations } from '../../logic/GetUserOrganisation';
-import { resolve } from 'bluebird';
 import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
 import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';

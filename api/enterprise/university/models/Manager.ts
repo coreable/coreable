@@ -18,7 +18,7 @@ import {
   Model
 } from 'sequelize';
 import { UniversityOrganisation } from './Organisation';
-import { generatePasswordHash } from '../../../identity/logic/Hash';
+import { generatePasswordHash, checkPassword } from '../../../identity/logic/Hash';
 
 class UniversityManager extends Model {
   // Primary Key
@@ -29,13 +29,22 @@ class UniversityManager extends Model {
 
   // Relationships
   public organisation!: UniversityOrganisation;
-
+  
   // Properties
+  public email!: string;
+  public firstName!: string;
+  public lastName!: string;
   public password!: string;
-  public name!: string;
+  public passwordResetToken!: string;
+  public passwordResetExpiry!: Date
+  public lockoutAttempts!: number;
+  public lockoutTimer!: Date;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+    // Mad different methods
+    public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
 const sync = (sequelize: Sequelize) => {
@@ -46,18 +55,47 @@ const sync = (sequelize: Sequelize) => {
       'defaultValue': DataTypes.UUIDV4,
       'allowNull': false
     },
+    'firstName': {
+      'type': DataTypes.STRING,
+      'allowNull': false
+    },
+    'lastName': {
+      'type': DataTypes.STRING,
+      'allowNull': false
+    },
+    'email': {
+      'type': DataTypes.STRING,
+      'allowNull': false,
+      'unique': true,
+      'validate': {
+        'isEmail': true
+      }
+    },
+    'organisation_id': {
+      'type': DataTypes.UUID,
+      'allowNull': false
+    },
     'password': {
       'type': DataTypes.STRING,
       'allowNull': false,
       'defaultValue': DataTypes.UUIDV4
     },
-    'name': {
+    'passwordResetToken': {
       'type': DataTypes.STRING,
-      'allowNull': false
+      'allowNull': true
     },
-    'organisation_id': {
-      'type': DataTypes.UUID,
-      'allowNull': false
+    'passwordResetExpiry': {
+      'type': DataTypes.DATE,
+      'allowNull': true
+    },
+    'lockoutAttempts': {
+      'type': DataTypes.INTEGER,
+      'allowNull': false,
+      'defaultValue': 0
+    },
+    'lockoutTimer': {
+      'type': DataTypes.DATE,
+      'allowNull': true
     }
   }, {
     'tableName': 'UNIVERSITY_MANAGER',
@@ -83,6 +121,10 @@ const sync = (sequelize: Sequelize) => {
       }
     }
   });
+
+  UniversityManager.prototype.login = async function (payload: string) {
+    return checkPassword(payload, this.password);
+  }
 
   return UniversityManager;
 }

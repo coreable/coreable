@@ -30,7 +30,6 @@ class User extends Model {
   public email!: string;
   public firstName!: string;
   public lastName!: string;
-  // public enterprise!: string;
   public password!: string;
   public passwordResetToken!: string;
   public passwordResetExpiry!: Date
@@ -115,6 +114,8 @@ const sync = (sequelize: Sequelize) => {
   User.prototype.login = async function (payload: string) {
     return checkPassword(payload, this.password);
   }
+
+  return User;
 };
 
 const assosciate = () => {
