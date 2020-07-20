@@ -33,6 +33,10 @@ import { UniversityOrganisationResolver } from './Organisation';
 import { GetSubjectOrganisation } from '../../logic/GetSubjectOrganisation';
 import { UniversityUserResolver } from './User';
 import { GetSubjectUsers } from '../../logic/GetSubjectUsers';
+import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
+import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
+import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
+import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
 
 export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
   name: 'UniversitySubjectResolver',
@@ -68,7 +72,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           return await GetSubjectTutorials(subject, args, context);
         }
       },
-      'teams': {
+      'team': {
         type: new GraphQLList(UniversityTeamResolver),
         args: {
           _id: {
@@ -85,7 +89,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           return await GetSubjectOrganisation(subject, args, context);
         }
       },
-      'users': {
+      'user': {
         type: new GraphQLList(UniversityUserResolver),
         args: {
           _id: {
@@ -120,6 +124,51 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                       'default': {
                         type: new GraphQLList(UniversityReviewResolver),
                         resolve(averages, args, context) {
+                          return averages;
+                        }
+                      },
+                      'communication': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversitySubjectCommunication',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCommunicationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCommunicationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                      },
+                      'collaboration': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversitySubjectCollaboration',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCollaborationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCollaborationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                        async resolve(averages, args, context) {
                           return averages;
                         }
                       },

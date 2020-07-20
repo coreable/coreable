@@ -46,13 +46,31 @@ export const UniversityManagerResolver: GraphQLObjectType<UniversityManager> = n
           return manager._id;
         }
       },
-      'name': {
+      'email': {
         type: UserResolver,
         resolve(manager, args, context) {
           if (!context.MANAGER) {
             return null;
           }
-          return manager.name;
+          return manager.email;
+        }
+      },
+      'firstName': {
+        type: UserResolver,
+        resolve(manager, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return manager.firstName;
+        }
+      },
+      'lastName': {
+        type: UserResolver,
+        resolve(manager, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return manager.lastName;
         }
       },
       'organisation': {

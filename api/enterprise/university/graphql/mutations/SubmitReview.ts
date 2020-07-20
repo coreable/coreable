@@ -40,6 +40,9 @@ export default {
       type: new GraphQLNonNull(GraphQLString),
       description: 'The subject the review belongs to'
     },
+    organisation_id: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
     // Reviews 
     calm: {
       type: new GraphQLNonNull(GraphQLInt),

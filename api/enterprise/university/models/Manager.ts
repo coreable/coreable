@@ -29,17 +29,22 @@ class UniversityManager extends Model {
 
   // Relationships
   public organisation!: UniversityOrganisation;
-
+  
   // Properties
-  // TODO: Generate this password, store it and send to client, hash it, check the hash when login
+  public email!: string;
+  public firstName!: string;
+  public lastName!: string;
   public password!: string;
-  public name!: string;
-
-  // Mad different methods
-  public login: ((payload: string) => Promise<boolean>) | undefined;
+  public passwordResetToken!: string;
+  public passwordResetExpiry!: Date
+  public lockoutAttempts!: number;
+  public lockoutTimer!: Date;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+    // Mad different methods
+    public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
 const sync = (sequelize: Sequelize) => {
@@ -50,18 +55,47 @@ const sync = (sequelize: Sequelize) => {
       'defaultValue': DataTypes.UUIDV4,
       'allowNull': false
     },
-    'password': {
-      'type': DataTypes.UUID,
-      'allowNull': false,
-      'defaultValue': DataTypes.UUIDV4
-    },
-    'name': {
+    'firstName': {
       'type': DataTypes.STRING,
       'allowNull': false
+    },
+    'lastName': {
+      'type': DataTypes.STRING,
+      'allowNull': false
+    },
+    'email': {
+      'type': DataTypes.STRING,
+      'allowNull': false,
+      'unique': true,
+      'validate': {
+        'isEmail': true
+      }
     },
     'organisation_id': {
       'type': DataTypes.UUID,
       'allowNull': false
+    },
+    'password': {
+      'type': DataTypes.STRING,
+      'allowNull': false,
+      'defaultValue': DataTypes.UUIDV4
+    },
+    'passwordResetToken': {
+      'type': DataTypes.STRING,
+      'allowNull': true
+    },
+    'passwordResetExpiry': {
+      'type': DataTypes.DATE,
+      'allowNull': true
+    },
+    'lockoutAttempts': {
+      'type': DataTypes.INTEGER,
+      'allowNull': false,
+      'defaultValue': 0
+    },
+    'lockoutTimer': {
+      'type': DataTypes.DATE,
+      'allowNull': true
     }
   }, {
     'tableName': 'UNIVERSITY_MANAGER',
@@ -89,7 +123,7 @@ const sync = (sequelize: Sequelize) => {
   });
 
   UniversityManager.prototype.login = async function (payload: string) {
-    return await checkPassword(payload, this.password);
+    return checkPassword(payload, this.password);
   }
 
   return UniversityManager;

@@ -28,9 +28,9 @@ export const IdentityMutation: GraphQLObjectType<QueryInterface> = new GraphQLOb
   fields: () => {
     return {
       'register': RegisterMutation,
-      'login': LoginMutation,
+      'userLogin': LoginMutation,
       'changePasssword': ChangePasswordMutation,
-      'manager': ManagerLoginMutation
+      'managerLogin': ManagerLoginMutation
     }
   }
 });

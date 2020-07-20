@@ -69,8 +69,8 @@ export async function UserLogin(root: any, args: any, context: any) {
         // now + 30 minutes
         newDateObj.setTime(oldDateObj.getTime() + (30 * 60 * 1000));
         user.lockoutTimer = newDateObj;
-        await user.save();
       }
+      await user.save();
     }
   }
   if (!errors.length) {

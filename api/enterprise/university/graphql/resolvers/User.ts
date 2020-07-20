@@ -39,6 +39,11 @@ import { GetUserTutorials } from '../../logic/GetUserTutorials';
 import { GetUserTeams } from '../../logic/GetUserTeams';
 import { UniversityOrganisationResolver } from './Organisation';
 import { GetUserOrganisations } from '../../logic/GetUserOrganisation';
+import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
+import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
+import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
+import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
+import { GetUserIdentityAccount } from '../../logic/GetUserIdentityAccount';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -51,10 +56,10 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           return user._id;
         }
       },
-      'user': {
+      'identity': {
         type: UserResolver,
         async resolve(user: any, args, context) {
-          return await user.getUser();
+          return await GetUserIdentityAccount(user, args, context);
         }
       },
       'team': {
@@ -145,6 +150,31 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   });
                 }
               },
+              'submissions': {
+                type: new GraphQLList(UniversityReviewResolver),
+                async resolve(user: any, args, context) {
+                  if (context.USER._id !== user.user_id && !context.MANAGER) {
+                    return null;
+                  }
+        
+                  return await UniversityReview.findAll({
+                    attributes: {
+                      exclude: ['createdAt', 'updatedAt']
+                    },
+                    where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
+                  });
+                }
+              },
+              'reflection': {
+                type: UniversityReviewResolver,
+                async resolve(user: any, args: any, context: any) {
+                  if (context.USER._id !== user.user_id && !context.MANAGER) {
+                    return null;
+                  }
+        
+                  return await GetReflectionAverages(user, args, context);
+                }
+              },
               'average': {
                 args: {
                   endDate: {
@@ -161,6 +191,60 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                       'default': {
                         type: new GraphQLList(UniversityReviewResolver),
                         resolve(averages, args, context) {
+                          return averages;
+                        }
+                      },
+                      'communication': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversityUserCommunication',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCommunicationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCommunicationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                        resolve(averages, args, context) {
+                          if (Array.isArray(averages)) {
+                            return averages[0];
+                          }
+                          return averages;
+                        }
+                      },
+                      'collaboration': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversityUserCollaboration',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCollaborationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCollaborationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                        resolve(averages, args, context) {
+                          if (Array.isArray(averages)) {
+                            return averages[0];
+                          }
                           return averages;
                         }
                       },
@@ -265,21 +349,6 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           return user;
         }
       },
-      'submissions': {
-        type: new GraphQLList(UniversityReviewResolver),
-        async resolve(user: any, args, context) {
-          if (context.USER._id !== user.user_id && !context.MANAGER) {
-            return null;
-          }
-
-          return await UniversityReview.findAll({
-            attributes: {
-              exclude: ['createdAt', 'updatedAt']
-            },
-            where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
-          });
-        }
-      },
       'pending': {
         type: new GraphQLList(UniversityTeamResolver),
         async resolve(user, args, context) {
@@ -288,16 +357,6 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
 
           return await GetPendingUsersNeedingReview(user, args, context);
-        }
-      },
-      'reflection': {
-        type: UniversityReviewResolver,
-        async resolve(user: any, args: any, context: any) {
-          if (context.USER._id !== user.user_id && !context.MANAGER) {
-            return null;
-          }
-
-          return await GetReflectionAverages(user, args, context);
         }
       }
     }

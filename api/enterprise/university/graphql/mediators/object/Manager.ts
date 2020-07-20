@@ -26,7 +26,7 @@ export const UniversityManagerObjectMediator: GraphQLObjectType = new GraphQLObj
       'manager': {
         type: UniversityManagerResolver,
         resolve(data) {
-          return data.user;
+          return data.manager;
         }
       }
     }
