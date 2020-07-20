@@ -40,7 +40,6 @@ export const UniversityManagerResolver: GraphQLObjectType<UniversityManager> = n
       '_id': {
         type: GraphQLString,
         resolve(manager, args, context) {
-          console.log(manager);
           if (!context.MANAGER) {
             return null;
           }
