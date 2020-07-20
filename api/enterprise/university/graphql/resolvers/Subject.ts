@@ -72,7 +72,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           return await GetSubjectTutorials(subject, args, context);
         }
       },
-      'teams': {
+      'team': {
         type: new GraphQLList(UniversityTeamResolver),
         args: {
           _id: {
@@ -89,7 +89,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
           return await GetSubjectOrganisation(subject, args, context);
         }
       },
-      'users': {
+      'user': {
         type: new GraphQLList(UniversityUserResolver),
         args: {
           _id: {

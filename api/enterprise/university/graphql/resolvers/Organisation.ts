@@ -81,7 +81,7 @@ export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganis
           return await GetOrganisationSubjects(organisation, args, context);
         }
       },
-      'users': {
+      'user': {
         type: new GraphQLList(UniversityUserResolver),
         args: {
           _id: {

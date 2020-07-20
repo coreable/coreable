@@ -48,7 +48,7 @@ export const UniversityIndustryResolver: GraphQLObjectType<UniversityIndustry> =
           return industry.name;
         }
       },
-      'users': {
+      'user': {
         type: new GraphQLList(UniversityUserResolver),
         async resolve(industry: any, args, context) {
           if (!context.MANAGER) {

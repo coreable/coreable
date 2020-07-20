@@ -23,31 +23,31 @@ export const UniversityCollaborationFacetsResolver: GraphQLObjectType<University
       'emotionalIntelligence': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return (review.empathy + review.managesOwn) / 2;
+          return ((review.empathy + review.managesOwn) / 2);
         }
       },
       'initiative': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return (review.proactive + review.influences) / 2;
+          return ((review.proactive + review.influences) / 2);
         }
       },
       'trust': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return (review.cooperatively + review.positiveBelief) / 2;
+          return ((review.cooperatively + review.positiveBelief) / 2);
         }
       },
       'flex': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return (review.newIdeas + review.workDemands) / 2;
+          return ((review.newIdeas + review.workDemands) / 2);
         }
       },
       'resilience': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return (review.resilienceFeedback + review.calm) / 2;
+          return ((review.resilienceFeedback + review.calm) / 2);
         }
       }
     }

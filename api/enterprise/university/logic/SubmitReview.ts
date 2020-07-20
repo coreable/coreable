@@ -107,6 +107,7 @@ export async function SubmitReview(root: any, args: any, context: any) {
         tutorial_id: args.tutorial_id,
         subject_id: subject._id,
         team_id: userCommonTeam._id,
+        organisation_id: args.organisation_id,
         state: subject.state,
         
         calm: args.calm,
@@ -144,6 +145,7 @@ export async function SubmitReview(root: any, args: any, context: any) {
           subject_id: subject._id,
           team_id: userCommonTeam._id,
           tutorial_id: args.tutorial_id,
+          organisation_id: args.organisation_id,
           state: subject.state
         },
         attributes: {

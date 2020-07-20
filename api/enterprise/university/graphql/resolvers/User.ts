@@ -43,6 +43,7 @@ import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
 import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
 import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
+import { GetUserIdentityAccount } from '../../logic/GetUserIdentityAccount';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -55,10 +56,10 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           return user._id;
         }
       },
-      'user': {
+      'identity': {
         type: UserResolver,
         async resolve(user: any, args, context) {
-          return await user.getUser();
+          return await GetUserIdentityAccount(user, args, context);
         }
       },
       'team': {
@@ -213,6 +214,12 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                             }
                           }
                         }),
+                        resolve(averages, args, context) {
+                          if (Array.isArray(averages)) {
+                            return averages[0];
+                          }
+                          return averages;
+                        }
                       },
                       'collaboration': {
                         type: new GraphQLObjectType({
@@ -234,7 +241,10 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                             }
                           }
                         }),
-                        async resolve(averages, args, context) {
+                        resolve(averages, args, context) {
+                          if (Array.isArray(averages)) {
+                            return averages[0];
+                          }
                           return averages;
                         }
                       },
