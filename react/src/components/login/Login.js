@@ -1,21 +1,21 @@
 /*
-===========================================================================
-Copyright (C) 2020 Coreable
-This file is part of Coreable's source code.
-Coreables source code is free software; you can redistribute it
-and/or modify it under the terms of the End-user license agreement.
-Coreable's source code is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
-Coreable source code.
-===========================================================================
+  ===========================================================================
+    Copyright (C) 2020 Coreable
+    This file is part of Coreable's source code.
+    Coreables source code is free software; you can redistribute it
+    and/or modify it under the terms of the End-user license agreement.
+    Coreable's source code is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    You should have received a copy of the license along with the 
+    Coreable source code.
+  ===========================================================================
 */
 
 import React, { Component } from "react";
 import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../constants";
+import { JWT, IDENTITY_URL } from "../../constants";
 
 import { TextField, FormControl } from "@material-ui/core";
 
@@ -84,7 +84,7 @@ class Login extends Component {
     const query = {
       query: `
         mutation {
-          login(email: "${this.state.email}", password: "${this.state.password}") {
+          userLogin(email: "${this.state.email}", password: "${this.state.password}") {
             data  {
               user {
                 _id
@@ -105,17 +105,15 @@ class Login extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.props.app.JWT,
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
 
-    const res = await fetch(API_URL, options).then((data) => data.json());
-    console.log(res);
-    const { data, errors } = res.data.login;
+    const res = await fetch(IDENTITY_URL, options).then((data) => data.json());
+    const { data, errors } = res.data.userLogin;
 
     if (errors) {
-      console.error(errors);
       alert(errors[0].message);
     }
 

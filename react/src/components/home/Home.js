@@ -37,18 +37,10 @@ class Home extends Component {
 
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/home");
-
     if (!this.props.app.data.user) {
       return false;
     }
-
-    let grouped = {};
     const { me } = this.state;
-
-    for (const team of me.pending) {
-      grouped[team._id] = team;
-    }
-
     const joinTeam = {
       _id: "joinTeam",
       name: "Join a Team",
@@ -56,20 +48,14 @@ class Home extends Component {
       subject: {
         name: "Join a Team",
         state: 0,
-      },
+      }
     };
-
-    if (!me.teams.length) {
-      me.teams.push(joinTeam);
+    if (!me.team.length || me.team[me.team.length - 1]._id !== "joinTeam") {
+      me.team.push(joinTeam);
     }
-    if (me.teams[me.teams.length - 1]._id !== "joinTeam") {
-      me.teams.push(joinTeam);
-    }
-
-    me.grouped = grouped;
 
     // Make sure the joinTeam is always the last card
-    me.teams.sort((a, b) => {
+    me.team.sort((a, b) => {
       if (a._id === "joinTeam") {
         return 1;
       }
@@ -85,13 +71,28 @@ class Home extends Component {
       return 0;
     });
 
+    for (const pending of me.pending) {
+      if (pending.user.length > 0) {
+        for (let i = 0; i < me.team.length; i++) {
+          if (me.team[i]._id === pending._id) {
+            me.team[i].pending = pending.user;
+          }
+        }
+      }
+    }
+
+    const teamMap = {};
+    for (const team of me.team) {
+      teamMap[team._id] = team;
+    }
+
+    me.teamMap = teamMap;
+
     this.setState({
       ...this.state,
       loading: false,
-      me,
+      me
     });
-
-    // console.log(this.state.me.teams);
   };
 
   drawerToggleClickHandler = () => {
@@ -125,7 +126,7 @@ class Home extends Component {
     return !this.isDisabled();
   };
 
-  handleBlur = (field) => {};
+  handleBlur = (field) => { };
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -137,7 +138,11 @@ class Home extends Component {
     if (this.state.loading) {
       return false;
     }
-    return this.state.me.grouped[team_id].users.length === 0;
+    try {
+      return this.state.me.teamMap[team_id].pending.length === 0;
+    } catch {
+      return true;
+    }
   };
 
   getReviewButtonTextColor = (team_id) => {
@@ -154,10 +159,10 @@ class Home extends Component {
   getPendingUser = (team_id) => {
     const isDisabled = this.getReviewButtonState(team_id);
     let data = {
-      _id: this.state.me.grouped[team_id]._id,
-      name: this.state.me.grouped[team_id].name,
-      subject: this.state.me.grouped[team_id].subject,
-      pending: !isDisabled ? this.state.me.grouped[team_id].users : null,
+      _id: this.state.me.teamMap[team_id]._id,
+      name: this.state.me.teamMap[team_id].name,
+      tutorial: this.state.me.teamMap[team_id].tutorial,
+      pending: !isDisabled ? this.state.me.teamMap[team_id].pending : null,
     };
     return data;
   };
@@ -190,7 +195,7 @@ class Home extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.props.app.JWT,
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -209,7 +214,7 @@ class Home extends Component {
   };
 
   ReviewCardHandler = (e) => {
-    function firstReview() {
+    // function firstReview() {
       if (!localStorage.getItem("hasCompletedTutorial")) {
         localStorage.setItem("hasCompletedTutorial", true);
         window.scrollTo({
@@ -222,7 +227,7 @@ class Home extends Component {
           behavior: "smooth",
         });
       }
-    }
+    // }
   };
 
   render() {
@@ -239,48 +244,46 @@ class Home extends Component {
     }
 
     return (
-      <div>
-        <div className="review-container">
-          <PageHeading />
-          <div className="main">
-            <div className="grid-home">
-              {this.state.me.teams.map((team, index) => {
-                if (team._id !== "joinTeam") {
-                  return (
-                    <ReviewCard
-                      team={team}
-                      key={index}
-                      onClick={this.ReviewCardHandler}
-                      capitalize={this.capitalize}
-                      disabled={this.getReviewButtonState(team._id)}
-                      teamSubjectState={
-                        this.state.me.teams[index].subject.state
-                      }
-                      reviewState={this.state.me.teams[index].subject.state}
-                      user_id={this.state.me["_id"]}
-                      pending={this.getPendingUser(team._id)}
-                    />
-                  );
-                }
+      <div className="review-container">
+        <PageHeading />
+        <div className="main">
+          <div className="grid-home">
+            {this.state.me.team.map((team, index) => {
+              if (team._id !== "joinTeam") {
                 return (
-                  <JoinCard
+                  <ReviewCard
+                    team={team}
                     key={index}
-                    value={this.state.inviteCode}
-                    onChange={this.handleChange}
-                    onBlur={this.handleBlur("inviteCode")}
-                    onKeyPress={async (e) => {
-                      if (e.key === "Enter") {
-                        await this.joinTeam();
-                      }
-                    }}
-                    disabled={this.isDisabled()}
-                    onClick={async () => {
-                      await this.joinTeam();
-                    }}
+                    onClick={this.ReviewCardHandler}
+                    capitalize={this.capitalize}
+                    disabled={this.getReviewButtonState(team._id)}
+                    teamSubjectState={
+                      this.state.me.teamMap[team._id].tutorial.subject.state
+                    }
+                    reviewState={this.state.me.teamMap[team._id].tutorial.subject.state}
+                    user_id={this.state.me["_id"]}
+                    pending={this.getPendingUser(team._id)}
                   />
                 );
-              })}
-            </div>
+              }
+              return (
+                <JoinCard
+                  key={index}
+                  value={this.state.inviteCode}
+                  onChange={this.handleChange}
+                  onBlur={this.handleBlur("inviteCode")}
+                  onKeyPress={async (e) => {
+                    if (e.key === "Enter") {
+                      await this.joinTeam();
+                    }
+                  }}
+                  disabled={this.isDisabled()}
+                  onClick={async () => {
+                    await this.joinTeam();
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
@@ -305,15 +308,12 @@ const ReviewCard = (props) => {
   return (
     <div className="grid-card-home">
       <div className="team-card">
-        <h1>{props.capitalize(team.subject.name)}</h1>
+        <h1>{props.capitalize(team.tutorial.subject.name)}</h1>
         <p>{props.capitalize(team.name)}</p>
-        <Stepper reviewState={team.subject.state} />
+        <Stepper reviewState={team.tutorial.subject.state} />
 
         <Link
           to={{
-            // pathname: localStorage.getItem("hasCompletedTutorial")
-            //   ? "/review"
-            //   : "/collaboration",
             pathname:
               props.teamSubjectState === 1 ? "/intro" : "/collaboration",
             state: {
@@ -372,74 +372,3 @@ const JoinCard = (props) => {
 };
 
 export default Home;
-
-/* <div className="grid-card-home" key={index}>
-                      <div className="team-card">
-                        <h1>{this.capitalize(team.subject.name)}</h1>
-                        <p>{this.capitalize(team.name)}</p>
-                        <Stepper reviewState={team.subject.state} />
-
-                        <Link
-                          to={{
-                            // pathname: localStorage.getItem("hasCompletedTutorial")
-                            //   ? "/review"
-                            //   : "/collaboration",
-                            pathname:
-                              this.state.me.teams[index].subject.state === 1
-                                ? "/intro"
-                                : "/collaboration",
-                            state: {
-                              reviewState: this.state.me.teams[index].subject
-                                .state,
-                              user_id: this.state.me["_id"],
-                              team_id: team._id,
-                              pending: this.getPendingUser(team._id),
-                            },
-                          }}
-                        >
-                          <button
-                            className="btn primarybtn"
-                            onClick={this.firstReview}
-                            disabled={this.getReviewButtonState(team._id)}
-                            disableElevation
-                          >
-                            Start Review
-                          </button>
-                        </Link>
-                      </div>
-                    </div> */
-
-/* <div className="grid-card-home" key={index}>
-                    <div className="team-card">
-                      <h1>Join team</h1>
-                      <p>Enter your team code below</p>
-                      <TextField
-                        label="Team Code"
-                        placeholder="eg: Team 1"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{ style: { fontSize: 12 } }}
-                        variant="outlined"
-                        name="inviteCode"
-                        value={this.state.inviteCode}
-                        type="text"
-                        onChange={this.handleChange}
-                        onBlur={this.handleBlur("inviteCode")}
-                        onKeyPress={async (e) => {
-                          if (e.key === "Enter") {
-                            await this.joinTeam();
-                          }
-                        }}
-                        style={{ background: "#F7F9FC" }}
-                      />
-                      <button
-                        className="btn primarybtn"
-                        disabled={this.isDisabled()}
-                        onClick={async () => {
-                          await this.joinTeam();
-                        }}
-                      >
-                        Join Team
-                      </button>
-                    </div>
-                  </div> */

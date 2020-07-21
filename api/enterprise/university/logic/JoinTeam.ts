@@ -20,6 +20,7 @@ export async function JoinTeam(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let targetTeam: any;
   let UNIVERSITY_USER: any;
+  args.inviteCode = args.inviteCode.toLowerCase();
   if (!context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',

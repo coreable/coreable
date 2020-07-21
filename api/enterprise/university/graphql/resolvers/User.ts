@@ -70,7 +70,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id && !context.MANAGER) {
+          if (context.USER?._id !== user._id && !context.MANAGER) {
             return null;
           }
           return await GetUserTeams(user, args, context);
@@ -84,7 +84,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id && !context.MANAGER) {
+          if (context.USER?._id !== user._id && !context.MANAGER) {
             return null;
           }
 
@@ -99,7 +99,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id && !context.MANAGER) {
+          if (context.USER?._id !== user._id && !context.MANAGER) {
             return null;
           }
 
@@ -114,7 +114,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
         },
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id && !context.MANAGER) {
+          if (context.USER?._id !== user._id && !context.MANAGER) {
             return null;
           }
 
@@ -124,7 +124,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       'industry': {
         type: UniversityIndustryResolver,
         async resolve(user: any, args, context) {
-          if (context.USER._id !== user._id && !context.MANAGER) {
+          if (context.USER?._id !== user._id && !context.MANAGER) {
             return null;
           }
           return await user.getIndustry();
@@ -138,7 +138,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
               'normal': {
                 type: new GraphQLList(UniversityReviewResolver),
                 async resolve(user, args, context) {
-                  if (context.USER._id !== user._id && !context.MANAGER) {
+                  if (context?.USER._id !== user._id && !context.MANAGER) {
                     return null;
                   }
 
@@ -153,10 +153,10 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
               'submissions': {
                 type: new GraphQLList(UniversityReviewResolver),
                 async resolve(user: any, args, context) {
-                  if (context.USER._id !== user.user_id && !context.MANAGER) {
+                  if (context.USER?._id !== user._id && !context.MANAGER) {
                     return null;
                   }
-        
+
                   return await UniversityReview.findAll({
                     attributes: {
                       exclude: ['createdAt', 'updatedAt']
@@ -166,37 +166,19 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                 }
               },
               'reflection': {
-                type: UniversityReviewResolver,
-                async resolve(user: any, args: any, context: any) {
-                  if (context.USER._id !== user.user_id && !context.MANAGER) {
-                    return null;
-                  }
-        
-                  return await GetReflectionAverages(user, args, context);
-                }
-              },
-              'average': {
-                args: {
-                  endDate: {
-                    type: GraphQLString,
-                  },
-                  startDate: {
-                    type: GraphQLString,
-                  }
-                },
                 type: new GraphQLObjectType({
-                  name: 'UniversityUserAverageSingle',
+                  name: 'UniversityUserReflection',
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
-                        resolve(averages, args, context) {
+                        type: UniversityReviewResolver,
+                        resolve(averages: any, args: any, context: any) {
                           return averages;
                         }
                       },
                       'communication': {
                         type: new GraphQLObjectType({
-                          name: 'UniversityUserCommunication',
+                          name: 'UniversityUserReflectionCommunication',
                           fields: () => {
                             return {
                               'traits': {
@@ -223,7 +205,125 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                       },
                       'collaboration': {
                         type: new GraphQLObjectType({
-                          name: 'UniversityUserCollaboration',
+                          name: 'UniversityUserReflectionCollaboration',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCollaborationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCollaborationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                        resolve(averages, args, context) {
+                          if (Array.isArray(averages)) {
+                            return averages[0];
+                          }
+                          return averages;
+                        }
+                      },
+                      'sorted': {
+                        type: new GraphQLList(new GraphQLObjectType({
+                          name: 'UniversityUserSortedReflectionArray',
+                          fields: () => {
+                            return {
+                              'field': {
+                                type: GraphQLString,
+                                resolve(sortable, args, context) {
+                                  return sortable[0];
+                                }
+                              },
+                              'value': {
+                                type: GraphQLFloat,
+                                resolve(sortable, args, context) {
+                                  return sortable[1];
+                                }
+                              }
+                            }
+                          }
+                        })),
+                        resolve(averages, args, context) {
+                          const sortable = [];
+                          for (const field in averages) {
+                            if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                              if (!field.includes('.')) {
+                                sortable.push([field, averages[field]]);
+                              }
+                            }
+                          }
+                          sortable.sort((a, b) => {
+                            return a[1] - b[1]
+                          });
+                          return sortable;
+                        }
+                      }
+                    }
+                  }
+                }),
+                async resolve(user, args, context) {
+                  if (context.USER?._id !== user._id && !context.MANAGER) {
+                    return null;
+                  }
+                  return await GetReflectionAverages(user, args, context);
+                }
+              },
+              'average': {
+                args: {
+                  endDate: {
+                    type: GraphQLString,
+                  },
+                  startDate: {
+                    type: GraphQLString,
+                  }
+                },
+                type: new GraphQLObjectType({
+                  name: 'UniversityUserAverageSingle',
+                  fields: () => {
+                    return {
+                      'default': {
+                        type: new GraphQLList(UniversityReviewResolver),
+                        resolve(averages, args, context) {
+                          return averages;
+                        }
+                      },
+                      'communication': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversityUserAverageCommunication',
+                          fields: () => {
+                            return {
+                              'traits': {
+                                type: UniversityCommunicationTraitsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              },
+                              'facets': {
+                                type: UniversityCommunicationFacetsResolver,
+                                resolve(averages, args, context) {
+                                  return averages;
+                                }
+                              }
+                            }
+                          }
+                        }),
+                        resolve(averages, args, context) {
+                          if (Array.isArray(averages)) {
+                            return averages[0];
+                          }
+                          return averages;
+                        }
+                      },
+                      'collaboration': {
+                        type: new GraphQLObjectType({
+                          name: 'UniversityUserAverageCollaboration',
                           fields: () => {
                             return {
                               'traits': {
@@ -270,10 +370,13 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                         })),
                         resolve(averages, args, context) {
                           if (averages.length === 1) {
+                            averages = averages[0];
                             const sortable = [];
                             for (const field in averages) {
                               if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
-                                sortable.push([field, averages[field]]);
+                                if (!field.includes('.')) {
+                                  sortable.push([field, averages[field]]);
+                                }
                               }
                             }
                             sortable.sort((a, b) => {
@@ -351,8 +454,8 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
       },
       'pending': {
         type: new GraphQLList(UniversityTeamResolver),
-        async resolve(user, args, context) {
-          if (context.USER._id !== user.user_id && !context.MANAGER) {
+        async resolve(user: any, args, context) {
+          if (context.USER?._id !== user._id && !context.MANAGER) {
             return null;
           }
 

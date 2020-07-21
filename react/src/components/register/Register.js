@@ -17,7 +17,7 @@ Coreable source code.
 import React, { Component } from "react";
 import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
-import { JWT, API_URL } from "../../constants";
+import { JWT, IDENTITY_URL } from "../../constants";
 
 import { TextField, FormControl } from "@material-ui/core";
 
@@ -130,17 +130,16 @@ class Register extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.props.app.JWT,
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
 
-    const res = await fetch(API_URL, options).then((data) => data.json());
+    const res = await fetch(IDENTITY_URL, options).then((data) => data.json());
 
     const { data, errors } = res.data.register;
 
     if (errors) {
-      console.error(errors);
       alert(errors[0].message);
     }
 

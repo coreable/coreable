@@ -15,14 +15,12 @@ Coreable source code.
 import React, { Component } from "react";
 
 import {
-  Redirect,
-  // Route
+  Redirect
 } from "react-router-dom";
 import { API_URL } from "../../constants";
 import Radar from "./Radar";
-import SkillBar from "./SkillBar/SkillBar";
+// import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
-// import { ListItemAvatar } from "@material-ui/core";
 
 let collabState = "collaboration";
 let traitState = "trait";
@@ -32,87 +30,150 @@ class Skills extends Component {
     super(props);
     this.state = {
       loading: true,
-      sorted: [],
-      averages: {},
-      averagesRaw: {},
-      reflection: {},
-      reflectionRaw: {},
-      strengths: [],
-      improve: [],
-      bright: [],
-      blind: [],
-      teams: [],
+      report: null
     };
   }
 
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/skills");
-
     const query = {
       query: `
-        query {
-          me {
-            errors {
-              code
-              path
-              message
-            }
-            data {
-              user {
-                teams {
-                  _id
-                  name
-                }
-                reviews {
-                  report {
-                    average {
-                      calm
+      query {
+        me {
+          data {
+            user {
+              report {
+                reflection {
+                  default {
+                    calm
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    empathy
+                    usesRegulators
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    workDemands
+                  }
+                  communication {
+                    traits {
                       clearInstructions
-                      cooperatively
+                      easilyExplainsComplexIdeas
+                      openToShare
                       crossTeam
                       distractions
-                      easilyExplainsComplexIdeas
-                      empathy
                       usesRegulators
+                      signifiesInterest
+                    }
+                    facets {
+                      clarity
+                      culture
+                      nonVerbal
+                      attentive
+                    }
+                  }
+                  collaboration {
+                    traits {
+                      calm
+                      cooperatively
+                      empathy
                       influences
                       managesOwn
                       newIdeas
-                      openToShare
                       positiveBelief
                       proactive
                       resilienceFeedback
-                      signifiesInterest
                       workDemands
                     }
-                    sorted {
-                      value
-                      field
+                    facets {
+                      emotionalIntelligence
+                      initiative
+                      trust
+                      flex
+                      resilience
                     }
                   }
+                  sorted {
+                    value
+                    field
+                  }
                 }
-                reflection {
-                  calm
-                  clearInstructions
-                  cooperatively
-                  crossTeam
-                  distractions
-                  easilyExplainsComplexIdeas
-                  empathy
-                  usesRegulators
-                  influences
-                  managesOwn
-                  newIdeas
-                  openToShare
-                  positiveBelief
-                  proactive
-                  resilienceFeedback
-                  signifiesInterest
-                  workDemands
+                average {
+                  communication {
+                    traits {
+                      clearInstructions
+                      easilyExplainsComplexIdeas
+                      openToShare
+                      crossTeam
+                      distractions
+                      usesRegulators
+                      signifiesInterest
+                    }
+                    facets {
+                      clarity
+                      culture
+                      nonVerbal
+                      attentive
+                    }
+                  }
+                  collaboration {
+                    traits {
+                      calm
+                      cooperatively
+                      empathy
+                      influences
+                      managesOwn
+                      newIdeas
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      workDemands
+                    }
+                    facets {
+                      emotionalIntelligence
+                      initiative
+                      trust
+                      flex
+                      resilience
+                    }
+                  }
+                  default {
+                    calm
+                    clearInstructions
+                    cooperatively
+                    crossTeam
+                    distractions
+                    easilyExplainsComplexIdeas
+                    empathy
+                    usesRegulators
+                    influences
+                    managesOwn
+                    newIdeas
+                    openToShare
+                    positiveBelief
+                    proactive
+                    resilienceFeedback
+                    signifiesInterest
+                    workDemands
+                  }
+                  sorted {
+                    value
+                    field
+                  }
                 }
               }
             }
           }
         }
+      }
       `,
     };
     const options = {
@@ -120,7 +181,7 @@ class Skills extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.props.app.JWT,
+        "JWT": this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -132,68 +193,13 @@ class Skills extends Component {
       console.error(errors);
       return false;
     }
-    // Chart Data
-    let sorted;
-    let averages;
-    let averagesRaw;
-    let reflection;
-    let reflectionRaw;
-    let strengths;
-    let improve;
-    let bright;
-    let blind;
-    let teams;
 
-    try {
-      sorted = data.user.reviews.report.sorted;
-      averages = this.calculateTeamAverage(data.user.reviews.report.average);
-      averagesRaw = data.user.reviews.report.average;
-      reflection = this.calculateSelfAverage(data.user.reflection);
-      reflectionRaw = data.user.reflection;
-      //top strengths
-      strengths = this.getStrengthAreas(
-        data.user.reviews.report.sorted,
-        data.user.reviews.report.average
-      );
-      strengths = this.filterByCommCollab(strengths, "collaboration");
-      //areas to improve
-      improve = this.getImproveAreas(
-        data.user.reviews.report.sorted,
-        data.user.reviews.report.average
-      );
-      improve = this.filterByCommCollab(improve, "collaboration");
-      //brightspots
-      bright = this.getBrightSpots(
-        data.user.reviews.report.sorted,
-        data.user.reflection
-      );
-      bright = this.filterByCommCollab(bright, "collaboration");
-      //blindspots
-      blind = this.getBlindSpots(
-        data.user.reviews.report.sorted,
-        data.user.reflection
-      );
-      blind = this.filterByCommCollab(blind, "collaboration");
-      teams = data.user.teams;
-      console.log(blind);
-    } catch (err) {
-      // Ignore
-    }
+    const report = data.user.report;
 
     this.setState({
       ...this.state,
       loading: false,
-      sorted,
-      averages,
-      averagesRaw,
-      reflection,
-      reflectionRaw,
-
-      strengths,
-      improve,
-      bright,
-      blind,
-      teams,
+      report
     });
   };
 
@@ -433,80 +439,6 @@ class Skills extends Component {
     );
   };
 
-  calculateSelfAverage = (reflection) => {
-    const clone = JSON.parse(JSON.stringify(reflection));
-    const result = {
-      emotionalIntelligence: 0,
-      initiative: 0,
-      trust: 0,
-      flex: 0,
-      clarity: 0,
-      culture: 0,
-      nonVerbal: 0,
-      attentive: 0,
-      resilience: 0,
-    };
-    try {
-      // Collaboration
-      result.emotionalIntelligence = (clone.empathy + clone.managesOwn) / 2;
-      result.initiative = (clone.proactive + clone.influences) / 2;
-      result.trust = (clone.cooperatively + clone.positiveBelief) / 2;
-      result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.resilience = (clone.resilienceFeedback + clone.calm) / 2;
-
-      // Communication
-      result.clarity =
-        (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
-      result.culture = (clone.openToShare + clone.crossTeam) / 2;
-      result.nonVerbal = (clone.distractions + clone.usesRegulators) / 2;
-      result.attentive = clone.signifiesInterest / 1;
-    } catch {
-      console.log({
-        code: "ERR",
-        message: "Self review results threw an error",
-        path: "ThankYou.js/calculateSelfAverage()",
-      });
-    }
-    return result;
-  };
-
-  calculateTeamAverage = (averages) => {
-    const clone = JSON.parse(JSON.stringify(averages));
-    const result = {
-      emotionalIntelligence: 0,
-      initiative: 0,
-      trust: 0,
-      flex: 0,
-      clarity: 0,
-      culture: 0,
-      nonVerbal: 0,
-      attentive: 0,
-      resilience: 0,
-    };
-    try {
-      // Collaboration
-      result.emotionalIntelligence = (clone.empathy + clone.managesOwn) / 2;
-      result.initiative = (clone.proactive + clone.influences) / 2;
-      result.trust = (clone.cooperatively + clone.positiveBelief) / 2;
-      result.flex = (clone.newIdeas + clone.workDemands) / 2;
-      result.resilience = (clone.resilienceFeedback + clone.calm) / 2;
-
-      // Communication
-      result.clarity =
-        (clone.clearInstructions + clone.easilyExplainsComplexIdeas) / 2;
-      result.culture = (clone.openToShare + clone.crossTeam) / 2;
-      result.nonVerbal = (clone.distractions + clone.usesRegulators) / 2;
-      result.attentive = clone.signifiesInterest / 1;
-    } catch {
-      console.log({
-        code: "ERR",
-        message: "Review results threw an error",
-        path: "ThankYou.js/calculateTeamAverage()",
-      });
-    }
-    return result;
-  };
-
   filterByCommCollab = (arr, commOrCollab) => {
     return arr.filter((item) => {
       return item.name[3] === commOrCollab;
@@ -713,27 +645,8 @@ class Skills extends Component {
     const btns = document.querySelectorAll(".facet-button");
     const tabs = document.querySelectorAll(".tab");
 
-    // window.onscroll = function() {
-    //   filterBar();
-    // };
-
-    // function filterBar() {
-    //   if (
-    //     document.body.scrollTop > 210 ||
-    //     document.documentElement.scrollTop > 210
-    //   ) {
-    //     document.querySelector(".main-skills-container").style.marginTop =
-    //       "85px";
-    //     document.querySelector(".skills-btns").className = "skills-btns fixed";
-    //   } else {
-    //     document.querySelector(".main-skills-container").style.marginTop =
-    //       "24px";
-    //     document.querySelector(".skills-btns").className = "skills-btns";
-    //   }
-    // }
-
     for (let i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function() {
+      btns[i].addEventListener("click", function () {
         this.classList.add("selected");
         if (i === 0) {
           btns[1].classList = "facet-button";
@@ -745,7 +658,7 @@ class Skills extends Component {
     }
 
     for (let i = 0; i < tabs.length; i++) {
-      tabs[i].addEventListener("click", function() {
+      tabs[i].addEventListener("click", function () {
         this.classList.add("active");
         if (i === 0) {
           tabs[1].classList = "tab";
@@ -762,7 +675,23 @@ class Skills extends Component {
 
     return (
       <div className="review-container">
-        <div className="top-background"></div>
+        <div className="top-background">
+          <div className="skills-main-grid">
+            <div className="skills-grid">
+              <h1 style={{ color: "white" }}>Your Skills</h1>
+              <p
+                style={{
+                  fontSize: "1.4rem",
+                  marginBottom: "35pt",
+                  color: "#d6d6d6",
+                }}
+              >
+                All marks are average of 5 assessments <br /> (Unless
+                  otherwise specified)
+                </p>
+            </div>
+          </div>
+        </div>
 
         <div className="skills-main">
           <div
@@ -772,254 +701,11 @@ class Skills extends Component {
               width: "100%",
             }}
           >
-            <div className="skills-main-grid">
-              <div className="skills-grid">
-                <h1 style={{ color: "white" }}>Your Skills</h1>
-                <p
-                  style={{
-                    fontSize: "1.4rem",
-                    marginBottom: "35pt",
-                    color: "#d6d6d6",
-                  }}
-                >
-                  All marks are average of 5 assessments <br /> (Unless
-                  otherwise specified)
-                </p>
-              </div>
-            </div>
-            {/* <div className="skills-btns">
-              <ul className="skills-grid">
-                <div
-                  style={{
-                    gridColumn: "3/5",
-                    textAlign: "left",
-                  }}
-                >
-                  <li>
-                    <button
-                      className="tab active"
-                      onClick={this.filterToggle}
-                      value="collaboration"
-                    >
-                      Collaboration
-                    </button>
-                  </li>
-                </div>
-                <div
-                  style={{
-                    gridColumn: "5/7",
-                    textAlign: "left",
-                  }}
-                >
-                  <li>
-                    <button
-                      className="tab"
-                      onClick={this.filterToggle}
-                      value="communication"
-                    >
-                      Communication
-                    </button>
-                  </li>
-                </div>
-              </ul>
-            </div> */}
-            {/* <div className="skills-btns-dropdown">
-              <button
-                className="btn primarybtn"
-                onClick={this.filterToggle}
-                value="collaboration"
-              >
-                Collaboration
-              </button>
-
-              <div className="skills-dropdown-content">
-                <button
-                  className="btn primarybtn"
-                  onClick={this.filterToggle}
-                  value="communication"
-                >
-                  Communication
-                </button>
-              </div>
-            </div> */}
           </div>
 
           <div className="radar-div">
             <Radar {...this.state} />
           </div>
-
-          {/* <div>
-            {(() => {
-              if (
-                this.state.strengths.length > 0 &&
-                this.state.improve.length > 0
-              ) {
-                return (
-                  <Typography
-                    variant="h3"
-                    style={{
-                      color: "black",
-                      fontWeight: "bold",
-                      marginTop: "40pt",
-                    }}
-                  >
-                    Your facets
-                  </Typography>
-                );
-              }
-            })()}
-          </div> */}
-
-          {/* <div className="main-skills-container">
-            <div className="filter">
-              <div
-                style={{
-                  display: "flex",
-                  borderRadius: "4px 4px 0 0",
-                  borderBottom: "0.5pt solid #d6d6d6",
-                  alignItems: "center",
-                  height: "30px",
-                  background: "white",
-                  padding: "24px",
-                }}
-              >
-                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                  Dashboard
-                </h1>
-              </div>
-              <div style={{ textAlign: "left", padding: "24px" }}>
-                <span style={{ color: "#4070e0" }}>Team review</span>
-                <span style={{ color: "#2dd775" }}>Self review</span>
-                <div style={{ margin: "16px 0" }}>
-                  <button
-                    className="facet-button "
-                    value="facets"
-                    onClick={this.filterToggle}
-                  >
-                    Facets
-                  </button>
-                  <button
-                    className="facet-button selected"
-                    value="traits"
-                    onClick={this.filterToggle}
-                  >
-                    Traits
-                  </button>
-                </div> */}
-          {/* TEAM FILTER */}
-          {/* <div>
-                  <label>Team</label>
-                  <br />
-                  <select
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                    }}
-                  >
-                    <option>All</option>
-                    {this.state.teams.map((team) => {
-                      return (
-                        <option value={team._id} key={team._id}>
-                          {team.name.charAt(0).toUpperCase() +
-                            team.name.slice(1)}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div> */}
-          {/* </div>
-            </div> */}
-
-          {/* {(() => {
-              if (this.state.strengths.length > 0) {
-                return (
-                  <div
-                    className="grid-areas"
-                    style={{ gridArea: "top-strength" }}
-                  >
-                    <div className="heading">
-                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Top Strengths
-                      </h1>
-                    </div>
-                    <div className="grid-area-inside">
-                      {this.state.strengths
-                        .sort((a, b) => b.value - a.value)
-                        .slice(0, 3)
-                        .map((strength, idx) => {
-                          return <SkillBar key={idx} values={strength} />;
-                        })}
-                    </div>
-                  </div>
-                );
-              }
-            })()}
-            {(() => {
-              if (this.state.improve.length > 0) {
-                return (
-                  <div
-                    className="grid-areas"
-                    style={{ gridArea: "areas-to-improve" }}
-                  >
-                    <div className="heading">
-                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Areas to Improve
-                      </h1>
-                    </div>
-                    <div className="grid-area-inside">
-                      {this.state.improve
-                        .slice(0, 3)
-                        .sort((a, b) => a.value - b.value)
-                        .map((improve, idx) => {
-                          return <SkillBar key={idx} values={improve} />;
-                        })}
-                    </div>
-                  </div>
-                );
-              }
-            })()} */}
-          {/* {(() => {
-              if (this.state.blind.length > 0) {
-                return (
-                  <div
-                    className="grid-areas"
-                    style={{ gridArea: "over-estimation" }}
-                  >
-                    <div className="heading">
-                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Overestimation
-                      </h1>
-                    </div>
-                    <div className="grid-area-inside">
-                      {this.state.blind.slice(0, 3).map((improve, idx) => {
-                        return <SkillBar key={idx} values={improve} />;
-                      })}
-                    </div>
-                  </div>
-                );
-              }
-            })()}
-            {(() => {
-              if (this.state.bright.length > 0) {
-                return (
-                  <div
-                    className="grid-areas"
-                    style={{ gridArea: "under-estimation" }}
-                  >
-                    <div className="heading">
-                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-                        Underestimation
-                      </h1>
-                    </div>
-                    <div className="grid-area-inside">
-                      {this.state.bright.slice(0, 3).map((improve, idx) => {
-                        return <SkillBar key={idx} values={improve} />;
-                      })}
-                    </div>
-                  </div>
-                );
-              }
-            })()}
-          </div> */}
         </div>
       </div>
     );

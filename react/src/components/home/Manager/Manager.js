@@ -23,6 +23,7 @@ import "./Manager.scss";
 class Manager extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   filter = {
@@ -296,12 +297,3 @@ const SelectBox = (props) => {
     </div>
   );
 };
-
-{
-  /* <div>
-          <label>Individuals</label>
-          <select>
-            <option value="">test</option>
-          </select>
-        </div> */
-}

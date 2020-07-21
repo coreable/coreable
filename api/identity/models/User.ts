@@ -95,6 +95,7 @@ const sync = (sequelize: Sequelize) => {
   // Hooks
   User.beforeCreate(async (user: User) => {
     try {
+      user.email = user.email.toLowerCase();
       user.password = await generatePasswordHash(user.password);
     } catch (err) {
       throw err;

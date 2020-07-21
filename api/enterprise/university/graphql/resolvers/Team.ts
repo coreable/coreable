@@ -80,7 +80,7 @@ export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new Gra
           return await GetTeamOrganisation(team, args, context);
         }
       },
-      'users': {
+      'user': {
         type: new GraphQLList(UniversityUserResolver),
         args: {
           _id: {
@@ -88,6 +88,9 @@ export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new Gra
           }
         },
         async resolve(team, args, context) {
+          if ((team as any).fromPending) {
+            return team.users;
+          }
           if (!context.MANAGER) {
             return null;
           }

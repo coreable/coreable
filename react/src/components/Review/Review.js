@@ -301,10 +301,14 @@ class Review extends Component {
 
   submit = async () => {
     const review = JSON.parse(localStorage.getItem("review"));
+    console.log(this.props.location);
+
     const promises = [];
     const AUTH_TOKEN = this.props.app.JWT;
     const team_id = this.props.location.state.pending._id;
-    const subject_id = this.props.location.state.pending.subject._id;
+    const tutorial_id = this.props.location.state.pending.tutorial._id;
+    const subject_id = this.props.location.state.pending.tutorial.subject._id;
+    const organisation_id = this.props.location.state.pending.tutorial.subject.organisation._id;
     const me_id = this.props.app.data.user._id;
 
     for (const user in review[me_id][team_id]) {
@@ -316,6 +320,9 @@ class Review extends Component {
                 receiver_id: "${user}", 
                 team_id: "${team_id}", 
                 subject_id: "${subject_id}",
+                tutorial_id: "${tutorial_id}",
+                organisation_id: "${organisation_id}",
+
                 calm: ${review[me_id][team_id][user]["calm"].val},
                 clearInstructions: ${review[me_id][team_id][user]["clearInstructions"].val},
                 cooperatively: ${review[me_id][team_id][user]["cooperatively"].val},
@@ -353,7 +360,7 @@ class Review extends Component {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            JWT: AUTH_TOKEN,
+            "JWT": AUTH_TOKEN,
           },
           body: JSON.stringify(query),
         };

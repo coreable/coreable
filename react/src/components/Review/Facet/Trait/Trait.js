@@ -18,7 +18,7 @@ import TeamRank from "./TeamRank/TeamRank";
 import SliderIndicator from "./SliderIndicator";
 import { Subject } from "rxjs";
 
-import { Typography, CardActions, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 class Trait extends Component {
   constructor(props) {
@@ -373,7 +373,7 @@ class Trait extends Component {
                       key={index}
                       onClick={() => this.handleSelectedUserChange(user)}
                     >
-                      {user.firstName + " " + user.lastName}
+                      {user.identity.firstName + " " + user.identity.lastName}
                     </Button>
                   );
                 })}

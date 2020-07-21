@@ -32,7 +32,7 @@ export default class Stepper extends Component {
 
     for (let i = 0; i < this.state.numOfNotCompleted; i++) {
       notCompleted.push(
-        <stepper-steps class="">
+        <stepper-steps class="" key={i}>
           {this.state.numOfNotCompleted > 1
             ? this.state.numOfNotCompleted + i
             : 3 + i}

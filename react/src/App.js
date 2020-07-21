@@ -107,49 +107,69 @@ class App extends Component {
   fetchMe = async () => {
     const query = {
       query: `
-        query {
-          me {
-            data {
-              user {
-                _id
+      query {
+        me {
+          data {
+            user {
+              _id
+              identity {
                 firstName
                 lastName
                 email
-                industry {
-                  _id
-                  name
-                }
-                teams {
+              }
+              industry {
+                _id
+                name
+              }
+              team {
+                _id
+                name
+                tutorial {
                   _id
                   name
                   subject {
                     _id
                     name
                     state
+                    organisation {
+                      _id
+                      name
+                    }
                   }
                 }
-                pending {
-                  _id
-                  name
+              }
+              pending {
+                _id
+                name
+                tutorial {
                   subject {
                     _id
+                    name
                     state
+                    organisation {
+                      _id
+                      name
+                    }
                   }
-                  users {
-                    _id
+                }
+                user {
+                  _id
+                  identity {
                     firstName
                     lastName
+                    email
                   }
                 }
               }
             }
-            errors {
-              code
-              path
-              message
-            }
+          }
+          errors {
+            code
+            path
+            message
           }
         }
+      }
       `,
     };
 
@@ -164,6 +184,7 @@ class App extends Component {
     };
 
     const res = await fetch(API_URL, options).then((res) => res.json());
+
     let { data, errors } = res.data.me;
 
     if (!data) {
