@@ -12,29 +12,63 @@
   ===========================================================================
 */
 
-import { sequelize } from "../../../lib/sequelize";
 import { UniversityTeam } from "../models/Team";
 import { UniversitySubject } from "../models/Subject";
+import { UniversityUser } from "../models/User";
+import { UniversityReview } from "../models/Review";
+import { UniversityTutorial } from "../models/Tutorial";
+import { Op } from "sequelize";
 
 export async function GetPendingUsersNeedingReview(user: any, args: any, { USER }: any) {
-  const teams = await (user as any).getTeams({
-    model: UniversityTeam,
-    include: [{ model: UniversitySubject, as: 'subject' }],
-    attributes: { exclude: ['inviteCode'] }
+  const userWithTeams: any = await UniversityUser.findOne({
+    where: {
+      _id: user._id
+    },
+    include: [{
+      model: UniversityTeam,
+      as: 'teams',
+      include: [{
+        model: UniversityTutorial,
+        as: 'tutorial',
+        include: [{
+          model: UniversitySubject,
+          as: 'subject',
+        }]
+      }, {
+        model: UniversityUser,
+        as: 'users'
+      }]
+    }]
   });
 
-  for (const team of teams) {
-    team.users = [];
-
-    const hasReviewed = await sequelize.models.Review.findAll({
-      where: { submitter_id: USER._id, subject_id: team.subject._id, state: team.subject.state }
+  for (const team of userWithTeams.teams) {
+    const submittedReviews = await UniversityReview.findAll({
+      where: {
+        submitter_id: user._id,
+        subject_id: team.tutorial.subject._id,
+        state: team.tutorial.subject.state
+      }
     });
-
-    if (!hasReviewed.length) {
-      team.users = await team.getUsers();
+    const usersReceivedReviews_ids: string[] = [];
+    for (const review of submittedReviews) {
+      usersReceivedReviews_ids.push(review.receiver_id);
     }
+    const usersPending = await team.getUsers({
+      where: {
+        _id: {
+          [Op.not]: usersReceivedReviews_ids
+        }
+      }
+    });
+    for (let i = 0; i < usersPending.length; i++) {
+      if (usersPending[i]._id === user._id && team.tutorial.subject.state > 1) {
+        delete usersPending[i];
+      }
+    }
+    team.users = usersPending;
+    team.fromPending = true;
   }
 
-  return teams;
+  return userWithTeams.teams;
 }
 

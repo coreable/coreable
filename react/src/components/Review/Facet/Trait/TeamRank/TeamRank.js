@@ -81,7 +81,7 @@ class TeamRank extends Component {
                   marginTop: "2px",
                 }}
               >
-                {this.capitalize(this.state.user.firstName)}
+                {this.capitalize(this.state.user.identity.firstName)}
               </Typography>
             </Grid>
           );

@@ -68,6 +68,15 @@ const sync = (sequelize: Sequelize) => {
     'sequelize': sequelize,
   });
 
+  // Hooks
+  UniversityTeam.beforeCreate(async (team: UniversityTeam) => {
+    try {
+      team.inviteCode = team.inviteCode.toLowerCase();
+    } catch (err) {
+      throw err;
+    }
+  });
+
   return UniversityTeam;
 }
 
