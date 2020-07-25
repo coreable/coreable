@@ -29,7 +29,6 @@ import { UserResolver } from '../../../../identity/graphql/resolvers/User';
 import { UniversityReview } from '../../models/Review';
 
 import { Op } from 'sequelize';
-import { GetReflectionAverages } from '../../logic/GetReflectionAverages';
 import { GetPendingUsersNeedingReview } from '../../logic/GetPendingUsersNeedingReview';
 import { UniversityTutorialResolver } from './Tutorial';
 import { UniversityUserAverage } from '../../models/UserAverage';
@@ -44,6 +43,12 @@ import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
 import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
 import { GetUserIdentityAccount } from '../../logic/GetUserIdentityAccount';
+import { CalculateCollaborationFacets } from '../../logic/CalculateCollaborationFacets';
+import { TrimReviewToCollaborationTraits } from '../../logic/TrimReviewToCollaborationTraits';
+import { CalculateCommunicationFacets } from '../../logic/CalculateCommunicationFacets';
+import { TrimReviewToCommunicationTraits } from '../../logic/TrimReviewToCommunicationTraits';
+import { GetUserReflectionAverages } from '../../logic/GetUserReflectionAverages';
+import { UniversityUserReflectionAverage } from '../../models/UserReflectionAverage';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',
@@ -142,11 +147,15 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                     return null;
                   }
 
+                  // Logic to hide submitter is in the review resolver
                   return await UniversityReview.findAll({
                     attributes: {
                       exclude: ['createdAt', 'updatedAt']
                     },
-                    where: { receiver_id: user._id, submitter_id: { [Op.not]: user._id } },
+                    where: {
+                      receiver_id: user._id,
+                      submitter_id: { [Op.not]: user._id }
+                    }
                   });
                 }
               },
@@ -157,21 +166,33 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                     return null;
                   }
 
+                  // Logic to hide receiver is in the review resolver
                   return await UniversityReview.findAll({
                     attributes: {
                       exclude: ['createdAt', 'updatedAt']
                     },
-                    where: { submitter_id: user._id, receiver_id: { [Op.not]: user._id } }
+                    where: {
+                      submitter_id: user._id,
+                      receiver_id: { [Op.not]: user._id }
+                    }
                   });
                 }
               },
               'reflection': {
+                args: {
+                  endDate: {
+                    type: GraphQLString,
+                  },
+                  startDate: {
+                    type: GraphQLString,
+                  }
+                },
                 type: new GraphQLObjectType({
                   name: 'UniversityUserReflection',
                   fields: () => {
                     return {
                       'default': {
-                        type: UniversityReviewResolver,
+                        type: new GraphQLList(UniversityReviewResolver),
                         resolve(averages: any, args: any, context: any) {
                           return averages;
                         }
@@ -182,15 +203,109 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                           fields: () => {
                             return {
                               'traits': {
-                                type: UniversityCommunicationTraitsResolver,
+                                type: new GraphQLObjectType({
+                                  name: 'UniversityUserReflectionCommunicationTraits',
+                                  fields: () => {
+                                    return {
+                                      'default': {
+                                        type: UniversityCommunicationTraitsResolver,
+                                        resolve(averages, args, context) {
+                                          return averages;
+                                        }
+                                      },
+                                      'sorted': {
+                                        type: new GraphQLList(new GraphQLObjectType({
+                                          name: 'UniversityUserSortedReflectionCommunicationTraitsArray',
+                                          fields: () => {
+                                            return {
+                                              'field': {
+                                                type: GraphQLString,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[0];
+                                                }
+                                              },
+                                              'value': {
+                                                type: GraphQLFloat,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[1];
+                                                }
+                                              }
+                                            }
+                                          }
+                                        })),
+                                        resolve(averages, args, context) {
+                                          const sortable = [];
+                                          for (const field in averages) {
+                                            if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                              if (!field.includes('.')) {
+                                                sortable.push([field, averages[field]]);
+                                              }
+                                            }
+                                          }
+                                          sortable.sort((a, b) => {
+                                            return a[1] - b[1]
+                                          });
+                                          return sortable;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }),
                                 resolve(averages, args, context) {
-                                  return averages;
+                                  return TrimReviewToCommunicationTraits(averages, args, context);
                                 }
                               },
                               'facets': {
-                                type: UniversityCommunicationFacetsResolver,
+                                type: new GraphQLObjectType({
+                                  name: 'UniversityUserReflectionCommunicationFacets',
+                                  fields: () => {
+                                    return {
+                                      'default': {
+                                        type: UniversityCommunicationFacetsResolver,
+                                        resolve(averages, args, context) {
+                                          return averages;
+                                        }
+                                      },
+                                      'sorted': {
+                                        type: new GraphQLList(new GraphQLObjectType({
+                                          name: 'UniversityUserSortedReflectionCommunicationFacetsArray',
+                                          fields: () => {
+                                            return {
+                                              'field': {
+                                                type: GraphQLString,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[0];
+                                                }
+                                              },
+                                              'value': {
+                                                type: GraphQLFloat,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[1];
+                                                }
+                                              }
+                                            }
+                                          }
+                                        })),
+                                        resolve(averages, args, context) {
+                                          const sortable = [];
+                                          for (const field in averages) {
+                                            if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                              if (!field.includes('.')) {
+                                                sortable.push([field, averages[field]]);
+                                              }
+                                            }
+                                          }
+                                          sortable.sort((a, b) => {
+                                            return a[1] - b[1]
+                                          });
+                                          return sortable;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }),
                                 resolve(averages, args, context) {
-                                  return averages;
+                                  return CalculateCommunicationFacets(averages, args, context);
                                 }
                               }
                             }
@@ -209,15 +324,109 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                           fields: () => {
                             return {
                               'traits': {
-                                type: UniversityCollaborationTraitsResolver,
+                                type: new GraphQLObjectType({
+                                  name: 'UniversityUserReflectionCollaborationTraits',
+                                  fields: () => {
+                                    return {
+                                      'default': {
+                                        type: UniversityCollaborationTraitsResolver,
+                                        resolve(averages, args, context) {
+                                          return averages;
+                                        }
+                                      },
+                                      'sorted': {
+                                        type: new GraphQLList(new GraphQLObjectType({
+                                          name: 'UniversityUserSortedReflectionCollaborationTraitsArray',
+                                          fields: () => {
+                                            return {
+                                              'field': {
+                                                type: GraphQLString,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[0];
+                                                }
+                                              },
+                                              'value': {
+                                                type: GraphQLFloat,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[1];
+                                                }
+                                              }
+                                            }
+                                          }
+                                        })),
+                                        resolve(averages, args, context) {
+                                          const sortable = [];
+                                          for (const field in averages) {
+                                            if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                              if (!field.includes('.')) {
+                                                sortable.push([field, averages[field]]);
+                                              }
+                                            }
+                                          }
+                                          sortable.sort((a, b) => {
+                                            return a[1] - b[1]
+                                          });
+                                          return sortable;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }),
                                 resolve(averages, args, context) {
-                                  return averages;
+                                  return TrimReviewToCollaborationTraits(averages, args, context);
                                 }
                               },
                               'facets': {
-                                type: UniversityCollaborationFacetsResolver,
+                                type: new GraphQLObjectType({
+                                  name: 'UniversityUserReflectionCollaborationFacets',
+                                  fields: () => {
+                                    return {
+                                      'default': {
+                                        type: UniversityCollaborationFacetsResolver,
+                                        resolve(averages, args, context) {
+                                          return averages;
+                                        }
+                                      },
+                                      'sorted': {
+                                        type: new GraphQLList(new GraphQLObjectType({
+                                          name: 'UniversityUserSortedReflectionCollaborationFacetsArray',
+                                          fields: () => {
+                                            return {
+                                              'field': {
+                                                type: GraphQLString,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[0];
+                                                }
+                                              },
+                                              'value': {
+                                                type: GraphQLFloat,
+                                                resolve(sortable, args, context) {
+                                                  return sortable[1];
+                                                }
+                                              }
+                                            }
+                                          }
+                                        })),
+                                        resolve(averages, args, context) {
+                                          const sortable = [];
+                                          for (const field in averages) {
+                                            if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                              if (!field.includes('.')) {
+                                                sortable.push([field, averages[field]]);
+                                              }
+                                            }
+                                          }
+                                          sortable.sort((a, b) => {
+                                            return a[1] - b[1]
+                                          });
+                                          return sortable;
+                                        }
+                                      }
+                                    }
+                                  }
+                                }),
                                 resolve(averages, args, context) {
-                                  return averages;
+                                  return CalculateCollaborationFacets(averages, args, context);
                                 }
                               }
                             }
@@ -251,18 +460,22 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                           }
                         })),
                         resolve(averages, args, context) {
-                          const sortable = [];
-                          for (const field in averages) {
-                            if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
-                              if (!field.includes('.')) {
-                                sortable.push([field, averages[field]]);
+                          if (averages.length === 1) {
+                            averages = averages[0];
+                            const sortable = [];
+                            for (const field in averages) {
+                              if (!isNaN(averages[field]) && Number.isFinite(averages[field])) {
+                                if (!field.includes('.')) {
+                                  sortable.push([field, averages[field]]);
+                                }
                               }
                             }
+                            sortable.sort((a, b) => {
+                              return a[1] - b[1]
+                            });
+                            return sortable;
                           }
-                          sortable.sort((a, b) => {
-                            return a[1] - b[1]
-                          });
-                          return sortable;
+                          return null;
                         }
                       }
                     }
@@ -272,7 +485,61 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   if (context.USER?._id !== user._id && !context.MANAGER) {
                     return null;
                   }
-                  return await GetReflectionAverages(user, args, context);
+                  
+                  // ALWAYS CALCULATE AND STORE THE NEWEST VALUE IF
+                  // THE TOP RECORD IN THE DATABASE IS OLDER THAN A WEEK OLD
+                  const latestAverage: any = await GetUserReflectionAverages(user, args, context);
+                  const topRecord: any = await UniversityUserReflectionAverage.findOne({
+                    where: { user_id: user._id },
+                    order: [['createdAt', 'DESC']]
+                  });
+
+                  const weekAgo = Date.now() - 604800000;
+                  const DATE_QUERY: any = {};
+
+                  if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
+                    if (latestAverage) {
+                      await UniversityUserReflectionAverage.create({
+                        ...latestAverage,
+                        user_id: user._id
+                      });
+                    }
+                  }
+
+                  if (args.startDate) {
+                    try {
+                      args.startDate = Date.parse(args.startDate);
+                      args.startDate = new Date(args.startDate);
+                      DATE_QUERY[Op.gte] = args.startDate;
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  if (args.endDate) {
+                    try {
+                      args.endDate = Date.parse(args.endDate);
+                      args.endDate = new Date(args.endDate);
+                      DATE_QUERY[Op.lte] = args.endDate;
+                    } catch (err) {
+                      return err;
+                    }
+                  }
+
+                  // if no start or end date is specified
+                  // return only the latest average
+                  if (!args.startDate && !args.endDate) {
+                    return [latestAverage];
+                  }
+
+                  const averages: any = await UniversityUserReflectionAverage.findAll({
+                    where: {
+                      user_id: user._id,
+                      createdAt: DATE_QUERY
+                    }
+                  });
+
+                  return averages;
                 }
               },
               'average': {
@@ -391,6 +658,10 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   }
                 }),
                 async resolve(user, args, context) {
+                  if (context.USER?._id !== user._id && !context.MANAGER) {
+                    return null;
+                  }
+
                   // ALWAYS CALCULATE AND STORE THE NEWEST VALUE IF
                   // THE TOP RECORD IN THE DATABASE IS OLDER THAN A WEEK OLD
                   const latestAverage: any = await GetUserAverages(user, args, context);
@@ -403,10 +674,12 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   const DATE_QUERY: any = {};
 
                   if (!topRecord || (Date.parse(topRecord.createdAt) < weekAgo)) {
-                    await UniversityUserAverage.create({
-                      ...latestAverage,
-                      user_id: user._id
-                    });
+                    if (latestAverage) {
+                      await UniversityUserAverage.create({
+                        ...latestAverage,
+                        user_id: user._id
+                      });
+                    }
                   }
 
                   if (args.startDate) {

@@ -26,6 +26,7 @@ import * as UniversityOrganisationAverage from '../enterprise/university/models/
 
 import * as UniversityUser from '../enterprise/university/models/User';
 import * as UniversityUserAverage from '../enterprise/university/models/UserAverage';
+import * as UniversityUserReflectionAverage from '../enterprise/university/models/UserReflectionAverage';
 
 import * as UniversityReview from '../enterprise/university/models/Review';
 
@@ -80,6 +81,7 @@ _sequelize.sync = (async () => {
 
   UniversityUser.sync(sequelize);
   UniversityUserAverage.sync(sequelize);
+  UniversityUserReflectionAverage.sync(sequelize);
 
   UniversityTeam.sync(sequelize);
   UniversityTeamAverage.sync(sequelize);
@@ -108,6 +110,7 @@ _sequelize.assosciate = (async () => {
 
   UniversityUser.assosciate();
   UniversityUserAverage.assosciate();
+  UniversityUserReflectionAverage.assosciate();
 
   UniversityTeam.assosciate();
   UniversityTeamAverage.assosciate();

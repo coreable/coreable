@@ -22,6 +22,8 @@ import { UniversityReview } from './Review';
 import { UniversityIndustry } from './Industry';
 import { User } from '../../../identity/models/User';
 import { UniversityOrganisation } from './Organisation';
+import { UniversityUserAverage } from './UserAverage';
+import { UniversityUserReflectionAverage } from './UserReflectionAverage';
 
 class UniversityUser extends Model {
   // Primary Key
@@ -84,6 +86,16 @@ const assosciate = () => {
     sourceKey: '_id',
     foreignKey: 'submitter_id',
     as: 'submissions'
+  });
+  UniversityUser.hasMany(UniversityUserAverage, {
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'averages'
+  });
+  UniversityUser.hasMany(UniversityUserReflectionAverage, {
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'reflectionAverages'
   });
   UniversityUser.belongsTo(UniversityIndustry, {
     foreignKey: 'industry_id',

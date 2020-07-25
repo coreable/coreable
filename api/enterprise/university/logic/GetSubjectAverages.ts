@@ -42,82 +42,82 @@ export async function GetSubjectAverages(subject: any, args: any, context: any) 
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.clearInstructions')),
           'clearInstructions'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.cooperatively')),
           'cooperatively'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.crossTeam')),
           'crossTeam'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.distractions')),
           'distractions'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.easilyExplainsComplexIdeas')),
           'easilyExplainsComplexIdeas'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.empathy')),
           'empathy'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.usesRegulators')),
           'usesRegulators'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.influences')),
           'influences'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.managesOwn')),
           'managesOwn'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.newIdeas')),
           'newIdeas'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.openToShare')),
           'openToShare'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.positiveBelief')),
           'positiveBelief'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.proactive')),
           'proactive'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.resilienceFeedback')),
           'resilienceFeedback'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.signifiesInterest')),
           'signifiesInterest'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('tutorials.teams.users.reviews.calm')),
+            sequelize.col('tutorials.teams.users.reviews.workDemands')),
           'workDemands'
         ]
       ]

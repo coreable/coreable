@@ -178,7 +178,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.state.JWT,
+        "JWT": this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -197,20 +197,18 @@ class App extends Component {
       errors = [];
     }
 
-    return this.setState(
-      {
-        ...this.state,
-        data,
-        errors,
-        fetching: false,
-      },
+    return this.setState({
+      ...this.state,
+      data,
+      errors,
+      fetching: false,
+    },
       () => {
         return {
           data,
           errors,
         };
-      }
-    );
+      });
   };
 
   componentDidMount = () => {

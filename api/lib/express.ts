@@ -21,7 +21,7 @@ import express, {
   json,
   static as expressStatic
 } from 'express';
-import * as graphqlHTTP from 'express-graphql';
+import { graphqlHTTP } from 'express-graphql';
 import { join } from 'path';
 import cors from 'cors';
 
@@ -87,13 +87,13 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // GraphQL
-app.use('/graphql', graphqlHTTP.graphqlHTTP({
+app.use('/graphql', graphqlHTTP({
   schema: UniversitySchema,
   pretty: config.NODE_ENV === 'development',
   graphiql: config.NODE_ENV === 'development'
 }));
 
-app.use('/identity', graphqlHTTP.graphqlHTTP({
+app.use('/identity', graphqlHTTP({
   schema: IdentitySchema,
   pretty: config.NODE_ENV === 'development',
   graphiql: config.NODE_ENV === 'development'
