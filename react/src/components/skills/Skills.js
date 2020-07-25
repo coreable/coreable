@@ -65,40 +65,48 @@ class Skills extends Component {
                   }
                   communication {
                     traits {
-                      clearInstructions
-                      easilyExplainsComplexIdeas
-                      openToShare
-                      crossTeam
-                      distractions
-                      usesRegulators
-                      signifiesInterest
+                      default {
+                        clearInstructions
+                        easilyExplainsComplexIdeas
+                        openToShare
+                        crossTeam
+                        distractions
+                        usesRegulators
+                        signifiesInterest
+                      }
                     }
                     facets {
-                      clarity
-                      culture
-                      nonVerbal
-                      attentive
+                      default {
+                        clarity
+                        culture
+                        nonVerbal
+                        attentive
+                      }
                     }
                   }
                   collaboration {
                     traits {
-                      calm
-                      cooperatively
-                      empathy
-                      influences
-                      managesOwn
-                      newIdeas
-                      positiveBelief
-                      proactive
-                      resilienceFeedback
-                      workDemands
+                      default {
+                        calm
+                        cooperatively
+                        empathy
+                        influences
+                        managesOwn
+                        newIdeas
+                        positiveBelief
+                        proactive
+                        resilienceFeedback
+                        workDemands
+                      }
                     }
                     facets {
-                      emotionalIntelligence
-                      initiative
-                      trust
-                      flex
-                      resilience
+                      default {
+                        emotionalIntelligence
+                        initiative
+                        trust
+                        flex
+                        resilience
+                      }
                     }
                   }
                   sorted {
@@ -109,40 +117,48 @@ class Skills extends Component {
                 average {
                   communication {
                     traits {
-                      clearInstructions
-                      easilyExplainsComplexIdeas
-                      openToShare
-                      crossTeam
-                      distractions
-                      usesRegulators
-                      signifiesInterest
+                      default {
+                        clearInstructions
+                        easilyExplainsComplexIdeas
+                        openToShare
+                        crossTeam
+                        distractions
+                        usesRegulators
+                        signifiesInterest
+                      }
                     }
                     facets {
-                      clarity
-                      culture
-                      nonVerbal
-                      attentive
+                      default {
+                        clarity
+                        culture
+                        nonVerbal
+                        attentive
+                      }
                     }
                   }
                   collaboration {
                     traits {
-                      calm
-                      cooperatively
-                      empathy
-                      influences
-                      managesOwn
-                      newIdeas
-                      positiveBelief
-                      proactive
-                      resilienceFeedback
-                      workDemands
+                      default {
+                        calm
+                        cooperatively
+                        empathy
+                        influences
+                        managesOwn
+                        newIdeas
+                        positiveBelief
+                        proactive
+                        resilienceFeedback
+                        workDemands
+                      }
                     }
                     facets {
-                      emotionalIntelligence
-                      initiative
-                      trust
-                      flex
-                      resilience
+                      default {
+                        emotionalIntelligence
+                        initiative
+                        trust
+                        flex
+                        resilience
+                      }
                     }
                   }
                   default {
