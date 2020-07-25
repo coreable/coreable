@@ -23,8 +23,22 @@ import "./Manager.scss";
 class Manager extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      report: null,
+    };
   }
+
+  componentDidMount = () => {
+    this.fetchData();
+  };
+
+  fetchData = async () => {
+    console.log("fetching data...");
+    this.setState({
+      ...this.state,
+      report: "im the report",
+    });
+  };
 
   filter = {
     default: [
@@ -87,7 +101,7 @@ class Manager extends Component {
               width: "100%",
             }}
           >
-            <CommunicationCollaborationTab />
+            <CommunicationCollaborationTab toggle={this.view.toggleTab} />
           </div>
           <div className="main-skills-container">
             <DashboardFilter />
@@ -118,7 +132,7 @@ const Heading = () => {
               color: "#d6d6d6",
             }}
           >
-            All marks are average of 5 assessments <br /> (Unless otherwise
+            All marks are an average of 5 assessments <br /> (Unless otherwise
             specified)
           </p>
         </div>
@@ -139,7 +153,7 @@ const DashboardFilter = () => {
   };
 
   return (
-    <div className="filter">
+    <div className="filter" style={{ zIndex: "3" }}>
       <div
         style={{
           display: "flex",
@@ -152,23 +166,29 @@ const DashboardFilter = () => {
         }}
       >
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Managers dashboard
+          Manager's dashboard
         </h1>
       </div>
       <div
         className="dashboard-menu"
-        style={{ textAlign: "left", padding: "24px" }}
+        style={{
+          textAlign: "left",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          // alignItems: "center",
+        }}
       >
-        <SelectBox />
-        <SelectBox />
-        <SelectBox />
-        <SelectBox />
+        <SelectBox title="Subject" />
+        <SelectBox title="Tutorials" />
+        <SelectBox title="Team" />
+        <SelectBox title="Individual" />
       </div>
     </div>
   );
 };
 
-const CommunicationCollaborationTab = () => {
+const CommunicationCollaborationTab = (props) => {
   return (
     <div className="skills-btns">
       <ul className="skills-grid">
@@ -182,7 +202,7 @@ const CommunicationCollaborationTab = () => {
             <button
               id="tab"
               className="tab active"
-              onClick={this.filter.getFilteredResults}
+              onClick={props.toggle}
               value="collaboration"
             >
               Collaboration
@@ -199,7 +219,7 @@ const CommunicationCollaborationTab = () => {
             <button
               id="tab"
               className="tab"
-              onClick={this.filter.getFilteredResults}
+              onClick={props.toggle}
               value="communication"
             >
               Communication
@@ -281,18 +301,76 @@ const Underestimation = () => {
 };
 
 const SelectBox = (props) => {
+  let selectBoxes = document.querySelectorAll(".select-box");
+
+  selectBoxes.forEach((selectBox) => {
+    let selected = selectBox.querySelector(".selected");
+    let optionContainer = selectBox.querySelector(".options-container");
+    selected.addEventListener("click", function() {
+      optionContainer.classList.add("active");
+
+      let options = selectBox.querySelectorAll(".option");
+      options.forEach((option) => {
+        option.addEventListener("click", function() {
+          selected.textContent = option.querySelector("label").textContent;
+          optionContainer.classList.remove("active");
+        });
+      });
+    });
+  });
+
   return (
     <div className="select-box">
-      <div className="selected">Select {props.title}...</div>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      ></link>
+      <p>{props.title}</p>
+      <div className="selected">All</div>
+      <i style={{ fontSize: "20px" }} className="fa">
+        &#xf107;
+      </i>
       <div className="options-container">
-        {props.options.map((option) => {
+        {/* {props.options.map((option) => {
           return (
             <div className="option">
               <input type="checkbox" name="" id="" />
               <label htmlFor=""></label>
             </div>
           );
-        })}
+        })} */}
+        <div className="option">
+          <input type="checkbox" name="all" id="all" />
+          <label htmlFor="all">All</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
+        <div className="option">
+          <input type="checkbox" name="testing" id="testing" />
+          <label htmlFor="testing">Testing</label>
+        </div>
       </div>
     </div>
   );
