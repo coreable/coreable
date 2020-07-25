@@ -53,5 +53,5 @@ export async function GetManagerUsers(manager: any, args: any, context: any) {
         }]
       }]
     }]
-  })
+  });
 }
