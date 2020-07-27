@@ -14,6 +14,7 @@ Coreable source code.
 
 import React, { Component, useEffect } from "react";
 // import SkillBar from "../../skills/SkillBar/SkillBar";
+import { API_URL } from "../../../constants";
 import {
   Redirect,
   // Route
@@ -24,7 +25,10 @@ class Manager extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      report: null,
+      topStrengths: null,
+      areasToImprove: null,
+      overEstimation: null,
+      underEstimation: null,
     };
   }
 
@@ -33,11 +37,616 @@ class Manager extends Component {
   };
 
   fetchData = async () => {
-    console.log("fetching data...");
-    this.setState({
-      ...this.state,
-      report: "im the report",
-    });
+    const query = {
+      query: `
+      query {
+        manager {
+          errors {
+            code
+            path
+            message
+          }
+          data {
+             manager {
+              _id
+              firstName
+              lastName
+              email
+
+              # ORGANISATION
+              organisation {
+                _id
+                name
+                report {
+                  average {
+                    default {
+                      calm
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      empathy
+                      usesRegulators
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      workDemands
+                    }
+                    sorted {
+                      field
+                      value
+                    }
+                    communication {
+                      traits {
+                        default {
+                          clearInstructions
+                          easilyExplainsComplexIdeas
+                          openToShare
+                          crossTeam
+                          distractions
+                          usesRegulators
+                          signifiesInterest
+                        }
+                        sorted {
+                          field
+                          value
+                        }
+                      }
+                      facets {
+                        default {
+                          clarity
+                          culture
+                          nonVerbal
+                          attentive
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                    collaboration {
+                      traits {
+                        default {
+                          calm
+                          cooperatively
+                          empathy
+                          influences
+                          managesOwn
+                          newIdeas
+                          positiveBelief
+                          proactive
+                          resilienceFeedback
+                          workDemands
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                      facets {
+                        default {
+                          emotionalIntelligence
+                          initiative
+                          trust
+                          flex
+                          resilience
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              # SUBJECT
+              subject {
+                _id
+                name
+                report {
+                  average {
+                    default {
+                      calm
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      empathy
+                      usesRegulators
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      workDemands
+                    }
+                    sorted {
+                      field
+                      value
+                    }
+                    communication {
+                      traits {
+                        default {
+                          clearInstructions
+                          easilyExplainsComplexIdeas
+                          openToShare
+                          crossTeam
+                          distractions
+                          usesRegulators
+                          signifiesInterest
+                        }
+                        sorted {
+                          field
+                          value
+                        }
+                      }
+                      facets {
+                        default {
+                          clarity
+                          culture
+                          nonVerbal
+                          attentive
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                    collaboration {
+                      traits {
+                        default {
+                          calm
+                          cooperatively
+                          empathy
+                          influences
+                          managesOwn
+                          newIdeas
+                          positiveBelief
+                          proactive
+                          resilienceFeedback
+                          workDemands
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                      facets {
+                        default {
+                          emotionalIntelligence
+                          initiative
+                          trust
+                          flex
+                          resilience
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              # TUTORIAL
+              tutorial {
+                _id
+                name
+                report {
+                  average {
+                    default {
+                      calm
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      empathy
+                      usesRegulators
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      workDemands
+                    }
+                    sorted {
+                      field
+                      value
+                    }
+                    communication {
+                      traits {
+                        default {
+                          clearInstructions
+                          easilyExplainsComplexIdeas
+                          openToShare
+                          crossTeam
+                          distractions
+                          usesRegulators
+                          signifiesInterest
+                        }
+                        sorted {
+                          field
+                          value
+                        }
+                      }
+                      facets {
+                        default {
+                          clarity
+                          culture
+                          nonVerbal
+                          attentive
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                    collaboration {
+                      traits {
+                        default {
+                          calm
+                          cooperatively
+                          empathy
+                          influences
+                          managesOwn
+                          newIdeas
+                          positiveBelief
+                          proactive
+                          resilienceFeedback
+                          workDemands
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                      facets {
+                        default {
+                          emotionalIntelligence
+                          initiative
+                          trust
+                          flex
+                          resilience
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              # TEAM
+              team {
+                _id
+                name
+                report {
+                  average {
+                    default {
+                      calm
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      empathy
+                      usesRegulators
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      workDemands
+                    }
+                    sorted {
+                      field
+                      value
+                    }
+                    communication {
+                      traits {
+                        default {
+                          clearInstructions
+                          easilyExplainsComplexIdeas
+                          openToShare
+                          crossTeam
+                          distractions
+                          usesRegulators
+                          signifiesInterest
+                        }
+                        sorted {
+                          field
+                          value
+                        }
+                      }
+                      facets {
+                        default {
+                          clarity
+                          culture
+                          nonVerbal
+                          attentive
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                    collaboration {
+                      traits {
+                        default {
+                          calm
+                          cooperatively
+                          empathy
+                          influences
+                          managesOwn
+                          newIdeas
+                          positiveBelief
+                          proactive
+                          resilienceFeedback
+                          workDemands
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                      facets {
+                        default {
+                          emotionalIntelligence
+                          initiative
+                          trust
+                          flex
+                          resilience
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              # USER
+              user {
+                _id
+                identity {
+                  firstName
+                  lastName
+                  email
+                }
+                report {
+                  average {
+                    default {
+                      calm
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      empathy
+                      usesRegulators
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      workDemands
+                    }
+                    sorted {
+                      field
+                      value
+                    }
+                    communication {
+                      traits {
+                        default {
+                          clearInstructions
+                          easilyExplainsComplexIdeas
+                          openToShare
+                          crossTeam
+                          distractions
+                          usesRegulators
+                          signifiesInterest
+                        }
+                        sorted {
+                          field
+                          value
+                        }
+                      }
+                      facets {
+                        default {
+                          clarity
+                          culture
+                          nonVerbal
+                          attentive
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                    collaboration {
+                      traits {
+                        default {
+                          calm
+                          cooperatively
+                          empathy
+                          influences
+                          managesOwn
+                          newIdeas
+                          positiveBelief
+                          proactive
+                          resilienceFeedback
+                          workDemands
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                      facets {
+                        default {
+                          emotionalIntelligence
+                          initiative
+                          trust
+                          flex
+                          resilience
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                  }
+                  reflection {
+                    default {
+                      calm
+                      clearInstructions
+                      cooperatively
+                      crossTeam
+                      distractions
+                      easilyExplainsComplexIdeas
+                      empathy
+                      usesRegulators
+                      influences
+                      managesOwn
+                      newIdeas
+                      openToShare
+                      positiveBelief
+                      proactive
+                      resilienceFeedback
+                      signifiesInterest
+                      workDemands
+                    }
+                    sorted {
+                      field
+                      value
+                    }
+                    communication {
+                      traits {
+                        default {
+                          clearInstructions
+                          easilyExplainsComplexIdeas
+                          openToShare
+                          crossTeam
+                          distractions
+                          usesRegulators
+                          signifiesInterest
+                        }
+                        sorted {
+                          field
+                          value
+                        }
+                      }
+                      facets {
+                        default {
+                          clarity
+                          culture
+                          nonVerbal
+                          attentive
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                    collaboration {
+                      traits {
+                        default {
+                          calm
+                          cooperatively
+                          empathy
+                          influences
+                          managesOwn
+                          newIdeas
+                          positiveBelief
+                          proactive
+                          resilienceFeedback
+                          workDemands
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                      facets {
+                        default {
+                          emotionalIntelligence
+                          initiative
+                          trust
+                          flex
+                          resilience
+                        }
+                        sorted {
+                          value
+                          field
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              # END
+            }
+          }
+        }
+      }`,
+    };
+
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: this.props.app.JWT,
+      },
+      body: JSON.stringify(query),
+    };
+
+    const response = await fetch(API_URL, options).then((data) => data.json());
+    const { data, errors } = response.data.manager;
+
+    if (errors) {
+      console.error(errors[0]["message"]);
+      return false;
+    }
+    // this.setState({
+    //   ...this.state,
+    //   report: "im the report",
+    // });
   };
 
   filter = {
@@ -149,7 +758,9 @@ const DashboardFilter = () => {
     // };
   });
   const handlers = {
-    selectBox: function() {},
+    selectBox: function() {
+      console.log("hello");
+    },
   };
 
   return (
@@ -301,23 +912,29 @@ const Underestimation = () => {
 };
 
 const SelectBox = (props) => {
-  let selectBoxes = document.querySelectorAll(".select-box");
+  useEffect(() => {
+    addEventListeners();
+  });
 
-  selectBoxes.forEach((selectBox) => {
-    let selected = selectBox.querySelector(".selected");
-    let optionContainer = selectBox.querySelector(".options-container");
-    selected.addEventListener("click", function() {
-      optionContainer.classList.add("active");
+  const addEventListeners = () => {
+    let selectBoxes = document.querySelectorAll(".select-box");
 
-      let options = selectBox.querySelectorAll(".option");
-      options.forEach((option) => {
-        option.addEventListener("click", function() {
-          selected.textContent = option.querySelector("label").textContent;
-          optionContainer.classList.remove("active");
+    selectBoxes.forEach((selectBox) => {
+      let selected = selectBox.querySelector(".selected");
+      let optionContainer = selectBox.querySelector(".options-container");
+      selected.addEventListener("click", function() {
+        optionContainer.classList.add("active");
+        console.log("hello");
+        let options = selectBox.querySelectorAll(".option");
+        options.forEach((option) => {
+          option.addEventListener("click", function() {
+            selected.textContent = option.querySelector("label").textContent;
+            optionContainer.classList.remove("active");
+          });
         });
       });
     });
-  });
+  };
 
   return (
     <div className="select-box">

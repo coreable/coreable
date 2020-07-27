@@ -14,9 +14,7 @@ Coreable source code.
 
 import React, { Component } from "react";
 
-import {
-  Redirect
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constants";
 import Radar from "./Radar";
 // import SkillBar from "./SkillBar/SkillBar";
@@ -30,7 +28,7 @@ class Skills extends Component {
     super(props);
     this.state = {
       loading: true,
-      report: null
+      report: null,
     };
   }
 
@@ -181,7 +179,7 @@ class Skills extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -195,11 +193,12 @@ class Skills extends Component {
     }
 
     const report = data.user.report;
+    console.log(report);
 
     this.setState({
       ...this.state,
       loading: false,
-      report
+      report,
     });
   };
 
@@ -646,7 +645,7 @@ class Skills extends Component {
     const tabs = document.querySelectorAll(".tab");
 
     for (let i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function () {
+      btns[i].addEventListener("click", function() {
         this.classList.add("selected");
         if (i === 0) {
           btns[1].classList = "facet-button";
@@ -658,7 +657,7 @@ class Skills extends Component {
     }
 
     for (let i = 0; i < tabs.length; i++) {
-      tabs[i].addEventListener("click", function () {
+      tabs[i].addEventListener("click", function() {
         this.classList.add("active");
         if (i === 0) {
           tabs[1].classList = "tab";
@@ -686,9 +685,9 @@ class Skills extends Component {
                   color: "#d6d6d6",
                 }}
               >
-                All marks are average of 5 assessments <br /> (Unless
-                  otherwise specified)
-                </p>
+                All marks are average of 5 assessments <br /> (Unless otherwise
+                specified)
+              </p>
             </div>
           </div>
         </div>
@@ -700,8 +699,7 @@ class Skills extends Component {
               paddingRight: "0",
               width: "100%",
             }}
-          >
-          </div>
+          ></div>
 
           <div className="radar-div">
             <Radar {...this.state} />
