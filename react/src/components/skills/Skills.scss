@@ -47,6 +47,7 @@ ul {
 
     .skills-main-grid {
       @include grid-12;
+      grid-template-columns: repeat(1, 1fr);
 
       .skills-grid {
         grid-column: 3/7;

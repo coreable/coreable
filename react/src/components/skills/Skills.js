@@ -16,6 +16,7 @@ import React, { Component } from "react";
 
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constants";
+import { SKILLS_API } from "../../queries";
 import Radar from "./Radar";
 // import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
@@ -29,167 +30,20 @@ class Skills extends Component {
     this.state = {
       loading: true,
       report: null,
+      strengths: null, //top scores, DONE
+      areasToImprove: null, //lowest scores, DONE
+      overEstimation: null, //reflect > average
+      underEstimation: null, //reflect < average
+      default: {
+        isCollab: true,
+        isFacet: true,
+      },
     };
   }
 
   componentDidMount = async () => {
     this.props.ReactGA.pageview("/skills");
-    const query = {
-      query: `
-      query {
-        me {
-          data {
-            user {
-              report {
-                reflection {
-                  default {
-                    calm
-                    clearInstructions
-                    cooperatively
-                    crossTeam
-                    distractions
-                    easilyExplainsComplexIdeas
-                    empathy
-                    usesRegulators
-                    influences
-                    managesOwn
-                    newIdeas
-                    openToShare
-                    positiveBelief
-                    proactive
-                    resilienceFeedback
-                    signifiesInterest
-                    workDemands
-                  }
-                  communication {
-                    traits {
-                      default {
-                        clearInstructions
-                        easilyExplainsComplexIdeas
-                        openToShare
-                        crossTeam
-                        distractions
-                        usesRegulators
-                        signifiesInterest
-                      }
-                    }
-                    facets {
-                      default {
-                        clarity
-                        culture
-                        nonVerbal
-                        attentive
-                      }
-                    }
-                  }
-                  collaboration {
-                    traits {
-                      default {
-                        calm
-                        cooperatively
-                        empathy
-                        influences
-                        managesOwn
-                        newIdeas
-                        positiveBelief
-                        proactive
-                        resilienceFeedback
-                        workDemands
-                      }
-                    }
-                    facets {
-                      default {
-                        emotionalIntelligence
-                        initiative
-                        trust
-                        flex
-                        resilience
-                      }
-                    }
-                  }
-                  sorted {
-                    value
-                    field
-                  }
-                }
-                average {
-                  communication {
-                    traits {
-                      default {
-                        clearInstructions
-                        easilyExplainsComplexIdeas
-                        openToShare
-                        crossTeam
-                        distractions
-                        usesRegulators
-                        signifiesInterest
-                      }
-                    }
-                    facets {
-                      default {
-                        clarity
-                        culture
-                        nonVerbal
-                        attentive
-                      }
-                    }
-                  }
-                  collaboration {
-                    traits {
-                      default {
-                        calm
-                        cooperatively
-                        empathy
-                        influences
-                        managesOwn
-                        newIdeas
-                        positiveBelief
-                        proactive
-                        resilienceFeedback
-                        workDemands
-                      }
-                    }
-                    facets {
-                      default {
-                        emotionalIntelligence
-                        initiative
-                        trust
-                        flex
-                        resilience
-                      }
-                    }
-                  }
-                  default {
-                    calm
-                    clearInstructions
-                    cooperatively
-                    crossTeam
-                    distractions
-                    easilyExplainsComplexIdeas
-                    empathy
-                    usesRegulators
-                    influences
-                    managesOwn
-                    newIdeas
-                    openToShare
-                    positiveBelief
-                    proactive
-                    resilienceFeedback
-                    signifiesInterest
-                    workDemands
-                  }
-                  sorted {
-                    value
-                    field
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      `,
-    };
+    const query = SKILLS_API;
     const options = {
       method: "POST",
       mode: "cors",
@@ -209,13 +63,151 @@ class Skills extends Component {
     }
 
     const report = data.user.report;
-    console.log(report);
+
+    //
+    const strengths = report.average.collaboration.facets.default;
+    const areasToImprove = report.average.collaboration.facets.default;
+
+    // const strengths = this.ranking.getStrengths(report,"collab")
+    // const areasToImprove = this.ranking.areasToImprove(report, "collab")
+    const overEstimationResult = this.ranking.getOverEstimation(
+      report,
+      "collab",
+      "facet"
+    );
+    const underEstimationResult = this.ranking.getUnderEstimation(
+      report,
+      "collab",
+      "facet"
+    );
+
+    const strengthsArray = this.utils.sortBy(
+      this.utils.convertToArray(strengths),
+      "down"
+    );
+    const areasToImproveArray = this.utils.sortBy(
+      this.utils.convertToArray(areasToImprove),
+      "up"
+    );
+    // let overEstimationArray = [];
+    // let underEstimationArray = [];
 
     this.setState({
       ...this.state,
       loading: false,
       report,
+      strengths: strengthsArray,
+      areasToImprove: areasToImproveArray,
+      overEstimation: overEstimationResult,
+      underEstimation: underEstimationResult,
     });
+  };
+
+  utils = {
+    convertToArray: (object) => {
+      let result = [];
+      for (var facet in object) {
+        result.push({ facet: object[facet] });
+      }
+      return result;
+    },
+    sortBy: (array, increOrDecre) => {
+      if (increOrDecre === "down") {
+        return array.sort((a, b) => b["facet"] - a["facet"]);
+      }
+      if (increOrDecre === "up") {
+        return array.sort((a, b) => a["facet"] - b["facet"]);
+      }
+    },
+    combineData: (data) => {
+      let finalResult = [];
+      let average = data.average;
+      let reflection = data.reflection;
+      for (var key in average) {
+        if (average.hasOwnProperty(key)) {
+          // console.log(key + " -> " + result[key]);
+          finalResult.push([
+            {
+              name: key,
+              averageScore: average[key],
+              reflectionScore: reflection[key],
+              difference: reflection[key] - average[key],
+            },
+          ]);
+        }
+      }
+      return finalResult;
+    },
+  };
+
+  filter = {
+    byCollaboration: (data) => {
+      const averageScore = data.average.collaboration;
+      const reflectionScore = data.reflection.collaboration;
+      return {
+        average: averageScore,
+        reflection: reflectionScore,
+      };
+    },
+    byCommunication: (data) => {},
+    byTrait: (data) => {},
+    byFacet: (data) => {
+      const averageScore = data.average.facets.default;
+      const reflectionScore = data.reflection.facets.default;
+      return { average: averageScore, reflection: reflectionScore };
+    },
+    byOverEstimation: (data) => {
+      return data.filter((item) => {
+        return item[0].difference > 0;
+      });
+    },
+    byUnderEstimation: (data) => {
+      return data.filter((item) => {
+        return item[0].difference < 0;
+      });
+    },
+  };
+
+  ranking = {
+    getOverEstimation: (data, collabOrComm, facetOrTrait) => {
+      let result;
+      if (collabOrComm === "collab") {
+        result = this.filter.byCollaboration(data);
+      }
+      if (collabOrComm === "comm") {
+        result = this.filter.byCommunication(result);
+      }
+      if (facetOrTrait === "facet") {
+        result = this.filter.byFacet(result);
+      }
+      if (facetOrTrait === "trait") {
+        result = this.filter.byTrait(result);
+      }
+      result = this.utils.combineData(result);
+      result = this.filter.byOverEstimation(result);
+      return result;
+    },
+    getUnderEstimation: (data, collabOrComm, facetOrTrait) => {
+      let result;
+      if (collabOrComm === "collab") {
+        result = this.filter.byCollaboration(data);
+      }
+      if (collabOrComm === "comm") {
+        result = this.filter.byCommunication(result);
+      }
+      if (facetOrTrait === "facet") {
+        result = this.filter.byFacet(result);
+      }
+      if (facetOrTrait === "trait") {
+        result = this.filter.byTrait(result);
+      }
+      result = this.utils.combineData(result);
+      result = this.filter.byUnderEstimation(result);
+      console.log(result);
+      return result;
+    },
+    getStrengths: () => {},
+    getAreasToImprove: () => {},
   };
 
   getCorrectVariableName = (skill) => {
@@ -334,124 +326,6 @@ class Skills extends Component {
         "collaboration",
       ];
     return "";
-  };
-
-  getBrightSpots = (sorted, reflection) => {
-    let clone = JSON.parse(JSON.stringify(sorted));
-    try {
-      clone = clone.map((obj) => {
-        return {
-          field: obj["field"],
-          name: this.getCorrectVariableName(obj["field"]),
-          self: reflection[obj["field"]],
-          team: obj["value"],
-          dist: reflection[obj["field"]] - obj["value"],
-        };
-      });
-
-      clone = clone.sort((a, b) => {
-        return a["dist"] - b["dist"];
-      });
-    } catch (err) {
-      console.error(err);
-    }
-    return clone;
-  };
-
-  getBlindSpots = (sorted, reflection) => {
-    let clone = JSON.parse(JSON.stringify(sorted));
-    try {
-      clone = clone.map((obj) => {
-        return {
-          field: obj["field"],
-          name: this.getCorrectVariableName(obj["field"]),
-          self: reflection[obj["field"]],
-          team: obj["value"],
-          dist: reflection[obj["field"]] - obj["value"],
-        };
-      });
-
-      clone = clone.sort((a, b) => {
-        return b["dist"] - a["dist"];
-      });
-    } catch (err) {
-      console.error(err);
-    }
-    return clone;
-  };
-
-  getStrengthAreas = (sorted, reflection) => {
-    const result = [];
-    try {
-      let clone = JSON.parse(JSON.stringify(sorted));
-      clone = clone.reverse();
-      // clone = clone.slice(0, 3);
-      for (let i = 0; i < clone.length; i++) {
-        const selfScore = reflection[clone[i]["field"]];
-        if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
-          clone[i]["value"] += selfScore;
-          clone[i]["value"] /= 2;
-        }
-        if (
-          !Number.isNaN(clone[i]["value"]) &&
-          Number.isFinite(clone[i]["value"])
-        ) {
-          result.push({
-            ...clone[i],
-            name: this.getCorrectVariableName(clone[i]["field"]),
-          });
-        }
-      }
-      result.sort((a, b) => a.value - b.value).reverse();
-    } catch (err) {
-      console.error(err);
-    }
-    return result;
-  };
-
-  getImproveAreas = (sorted, reflection) => {
-    const result = [];
-    try {
-      let clone = JSON.parse(JSON.stringify(sorted));
-      // clone = clone.slice(0, 3);
-      // console.log(clone);
-      for (let i = 0; i < clone.length; i++) {
-        const selfScore = reflection[clone[i]["field"]];
-        if (!Number.isNaN(selfScore) && Number.isFinite(selfScore)) {
-          clone[i]["value"] += selfScore;
-          clone[i]["value"] /= 2;
-        }
-        if (
-          !Number.isNaN(clone[i]["value"]) &&
-          Number.isFinite(clone[i]["value"])
-        ) {
-          result.push({
-            ...clone[i],
-            name: this.getCorrectVariableName(clone[i]["field"]),
-          });
-        }
-      }
-      result.sort((a, b) => a.value - b.value);
-    } catch (err) {
-      console.error(err);
-    }
-    return result;
-  };
-
-  calculateFacetAverage = (array, facet) => {
-    return (
-      array
-        .filter((item) => {
-          return item.name[2] === facet;
-        })
-        .map((item) => {
-          return item.value;
-        })
-        .reduce((a, b) => a + b, 0) /
-      array.filter((item) => {
-        return item.name[2] === facet;
-      }).length
-    );
   };
 
   filterByCommCollab = (arr, commOrCollab) => {

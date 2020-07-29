@@ -22,7 +22,7 @@ const RadarChart = (props) => {
   if (!props.report) {
     return null;
   }
-  console.log(props.report);
+  // console.log(props.report);
   return (
     <Container className="radar-container">
       <Radar
@@ -68,7 +68,8 @@ const RadarChart = (props) => {
               borderColor: "rgba(0,179,229,0.8)",
               pointRadius: 0,
               data: [
-                props.report.reflection.collaboration.facets.default.emotionalIntelligence,
+                props.report.reflection.collaboration.facets.default
+                  .emotionalIntelligence,
                 props.report.reflection.collaboration.facets.default.initiative,
                 props.report.reflection.collaboration.facets.default.trust,
                 props.report.reflection.collaboration.facets.default.flex,
@@ -85,7 +86,8 @@ const RadarChart = (props) => {
               borderColor: "rgba(102, 204, 158,0.8)",
               pointRadius: 0,
               data: [
-                props.report.average.collaboration.facets.default.emotionalIntelligence,
+                props.report.average.collaboration.facets.default
+                  .emotionalIntelligence,
                 props.report.average.collaboration.facets.default.initiative,
                 props.report.average.collaboration.facets.default.trust,
                 props.report.average.collaboration.facets.default.flex,
