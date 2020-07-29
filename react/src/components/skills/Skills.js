@@ -18,7 +18,7 @@ import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constants";
 import { SKILLS_API } from "../../queries";
 import Radar from "./Radar";
-// import SkillBar from "./SkillBar/SkillBar";
+import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
 
 let collabState = "collaboration";
@@ -30,14 +30,12 @@ class Skills extends Component {
     this.state = {
       loading: true,
       report: null,
-      strengths: null, //top scores, DONE
-      areasToImprove: null, //lowest scores, DONE
-      overEstimation: null, //reflect > average
-      underEstimation: null, //reflect < average
-      default: {
-        isCollab: true,
-        isFacet: true,
-      },
+      strengths: null,
+      areasToImprove: null,
+      overEstimation: null,
+      underEstimation: null,
+      commOrCollab: "collab",
+      traitOrFacet: "facet",
     };
   }
 
@@ -386,23 +384,41 @@ class Skills extends Component {
     return "";
   };
 
+  filterHandler = (report, commOrCollab, traitOrFacet) => {
+    return {
+      strength: 0,
+      areasToImprove: 0,
+      underEstimation: 0,
+      overEstimation: 0,
+    };
+  };
+
   filterToggle = (e) => {
+    let report = this.state.report;
+    let results;
     if (e.target.value === "communication") {
-      collabState = "communication";
-      this.filterResults(e.target.value, traitState);
+      this.filterHandler(report, "comm", this.state.traitOrFacet);
+      this.setState({ ...this.state, collabOrComm: "comm" });
     }
     if (e.target.value === "collaboration") {
-      collabState = "collaboration";
-      this.filterResults(e.target.value, traitState);
+      this.filterHandler(report, "collab", this.state.traitOrFacet);
+      this.setState({ ...this.state, collabOrComm: "collab" });
     }
     if (e.target.value === "traits") {
-      traitState = "traits";
-      this.filterResults(collabState, e.target.value);
+      this.filterHandler(report, this.state.commOrCollab, "traits");
+      this.setState({ ...this.state, traitOrFacets: "traits" });
     }
     if (e.target.value === "facets") {
-      traitState = "facets";
-      this.filterResults(collabState, e.target.value);
+      this.filterHandler(report, this.state.commOrCollab, "facets");
+      this.setState({ ...this.state, traitOrFacets: "facets" });
     }
+    this.setState({
+      ...this.state,
+      strengths: results["strength"],
+      areasToImprove: results["areasToImprove"],
+      overEstimation: results["overEstimation"],
+      underEstimation: results["underEstimation"],
+    });
   };
 
   render() {
