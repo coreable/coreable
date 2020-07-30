@@ -11,18 +11,13 @@ You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
-
 import React, { Component } from "react";
-
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constants";
 import { SKILLS_API } from "../../queries";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
-
-let collabState = "collaboration";
-let traitState = "trait";
 
 class Skills extends Component {
   constructor(props) {
