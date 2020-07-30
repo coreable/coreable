@@ -61,6 +61,7 @@ class Skills extends Component {
     }
 
     const report = data.user.report;
+
     const strengthsResult = this.ranking.getStrengths(
       report,
       "collab",
@@ -82,10 +83,12 @@ class Skills extends Component {
       "facet"
     );
 
+    console.log(report);
+
     this.setState({
       ...this.state,
       loading: false,
-      report,
+      report: report,
       strengths: strengthsResult,
       areasToImprove: areasToImproveResult,
       overEstimation: overEstimationResult,
@@ -128,6 +131,134 @@ class Skills extends Component {
       }
       return finalResult;
     },
+    getCorrectFacetName: (facet) => {
+      if (facet === "emotionalIntelligence") return "Emotional Intelligence";
+      if (facet === "flex") return "Flex";
+      if (facet === "initiative") return "Initiative";
+      if (facet === "resilience") return "Resilience";
+      if (facet === "trust") return "Trust";
+      if (facet === "attentive") return "Attentive";
+      if (facet === "clarity") return "Clarity";
+      if (facet === "culture") return "Culture";
+      if (facet === "nonVerbal") return "Non Verbal";
+    },
+    getCorrectTraitName: (trait) => {
+      if (trait === "calm")
+        return [
+          "Remains calm under pressure",
+          "Calm",
+          "Resilience",
+          "collaboration",
+        ];
+      if (trait === "clearInstructions")
+        return [
+          "Gives clear instructions",
+          "Clear instructions",
+          "Clarity",
+          "communication",
+        ];
+      if (trait === "cooperatively")
+        return [
+          "Is able to work cooperatively",
+          "Cooperatively",
+          "Trust",
+          "collaboration",
+        ];
+      if (trait === "crossTeam")
+        return [
+          "Has a positive belief about the dependability of others",
+          "Cross team",
+          "Trust",
+          "collaboration",
+        ];
+      if (trait === "distractions")
+        return [
+          "Avoids distractions if at all possible",
+          "Distractions",
+          "Non-verbal",
+          "communication",
+        ];
+      if (trait === "easilyExplainsComplexIdeas")
+        return [
+          "Easily Explains Complex Ideas",
+          "Explains ideas",
+          "Clarity",
+          "communication",
+        ];
+      if (trait === "empathy")
+        return [
+          "Demonstrates empathy",
+          "Empathy",
+          "Emotional intelligence",
+          "collaboration",
+        ];
+      if (trait === "usesRegulators")
+        return ["Uses regulators", "Regulators", "Non-verbal", "communication"];
+      if (trait === "influences")
+        return [
+          "Actively influences events",
+          "Influences",
+          "Initiative",
+          "collaboration",
+        ];
+      if (trait === "managesOwn")
+        return [
+          "Manages own emotions",
+          "Manages own",
+          "Emotional intelligence",
+          "collaboration",
+        ];
+      if (trait === "newIdeas")
+        return [
+          "Adaptable and receptive to new ideas",
+          "New ideas",
+          "Flexibility",
+          "collaboration",
+        ];
+      if (trait === "openToShare")
+        return [
+          "Creates an environment where individuals are safe to report errors",
+          "Open to share",
+          "Culture",
+          "communication",
+        ];
+      if (trait === "positiveBelief")
+        return [
+          "Has a positive belief about the dependability of others",
+          "Positive belief",
+          "Trust",
+          "collaboration",
+        ];
+      if (trait === "proactive")
+        return [
+          "Proactive and self-starting",
+          "Proactive",
+          "Initiative",
+          "collaboration",
+        ];
+      if (trait === "resilienceFeedback")
+        return [
+          "Accepts all forms of constructive feedback",
+          "Resilience feedback",
+          "Resilience",
+          "collaboration",
+        ];
+      if (trait === "signifiesInterest")
+        return [
+          "Signifies interest in what other people have to say",
+          "Signifies interest",
+          "Verbal attentiveness",
+          "communication",
+        ];
+      if (trait === "workDemands")
+        return [
+          "Adjusts easily to changing work demands",
+          "Work demands",
+          "Flexibility",
+          "collaboration",
+        ];
+      return "";
+    },
   };
 
   filter = {
@@ -140,8 +271,8 @@ class Skills extends Component {
       };
     },
     byCommunication: (data) => {
-      const averageScore = data.average.communication;
-      const reflectionScore = data.reflection.communication;
+      let averageScore = data.average.communication;
+      let reflectionScore = data.reflection.communication;
       return {
         average: averageScore,
         reflection: reflectionScore,
@@ -176,7 +307,7 @@ class Skills extends Component {
         result = this.filter.byCollaboration(data);
       }
       if (collabOrComm === "comm") {
-        result = this.filter.byCommunication(result);
+        result = this.filter.byCommunication(data);
       }
       if (facetOrTrait === "facet") {
         result = this.filter.byFacet(result);
@@ -194,7 +325,7 @@ class Skills extends Component {
         result = this.filter.byCollaboration(data);
       }
       if (collabOrComm === "comm") {
-        result = this.filter.byCommunication(result);
+        result = this.filter.byCommunication(data);
       }
       if (facetOrTrait === "facet") {
         result = this.filter.byFacet(result);
@@ -212,7 +343,7 @@ class Skills extends Component {
         result = this.filter.byCollaboration(data);
       }
       if (collabOrComm === "comm") {
-        result = this.filter.byCommunication(result);
+        result = this.filter.byCommunication(data);
       }
       if (facetOrTrait === "facet") {
         result = this.filter.byFacet(result);
@@ -241,7 +372,7 @@ class Skills extends Component {
         result = this.filter.byCollaboration(data);
       }
       if (collabOrComm === "comm") {
-        result = this.filter.byCommunication(result);
+        result = this.filter.byCommunication(data);
       }
       if (facetOrTrait === "facet") {
         result = this.filter.byFacet(result);
@@ -266,159 +397,71 @@ class Skills extends Component {
     },
   };
 
-  getCorrectVariableName = (skill) => {
-    if (skill === "calm")
-      return [
-        "Remains calm under pressure",
-        "Calm",
-        "Resilience",
-        "collaboration",
-      ];
-    if (skill === "clearInstructions")
-      return [
-        "Gives clear instructions",
-        "Clear instructions",
-        "Clarity",
-        "communication",
-      ];
-    if (skill === "cooperatively")
-      return [
-        "Is able to work cooperatively",
-        "Cooperatively",
-        "Trust",
-        "collaboration",
-      ];
-    if (skill === "crossTeam")
-      return [
-        "Has a positive belief about the dependability of others",
-        "Cross team",
-        "Trust",
-        "collaboration",
-      ];
-    if (skill === "distractions")
-      return [
-        "Avoids distractions if at all possible",
-        "Distractions",
-        "Non-verbal",
-        "communication",
-      ];
-    if (skill === "easilyExplainsComplexIdeas")
-      return [
-        "Easily Explains Complex Ideas",
-        "Explains ideas",
-        "Clarity",
-        "communication",
-      ];
-    if (skill === "empathy")
-      return [
-        "Demonstrates empathy",
-        "Empathy",
-        "Emotional intelligence",
-        "collaboration",
-      ];
-    if (skill === "usesRegulators")
-      return ["Uses regulators", "Regulators", "Non-verbal", "communication"];
-    if (skill === "influences")
-      return [
-        "Actively influences events",
-        "Influences",
-        "Initiative",
-        "collaboration",
-      ];
-    if (skill === "managesOwn")
-      return [
-        "Manages own emotions",
-        "Manages own",
-        "Emotional intelligence",
-        "collaboration",
-      ];
-    if (skill === "newIdeas")
-      return [
-        "Adaptable and receptive to new ideas",
-        "New ideas",
-        "Flexibility",
-        "collaboration",
-      ];
-    if (skill === "openToShare")
-      return [
-        "Creates an environment where individuals are safe to report errors",
-        "Open to share",
-        "Culture",
-        "communication",
-      ];
-    if (skill === "positiveBelief")
-      return [
-        "Has a positive belief about the dependability of others",
-        "Positive belief",
-        "Trust",
-        "collaboration",
-      ];
-    if (skill === "proactive")
-      return [
-        "Proactive and self-starting",
-        "Proactive",
-        "Initiative",
-        "collaboration",
-      ];
-    if (skill === "resilienceFeedback")
-      return [
-        "Accepts all forms of constructive feedback",
-        "Resilience feedback",
-        "Resilience",
-        "collaboration",
-      ];
-    if (skill === "signifiesInterest")
-      return [
-        "Signifies interest in what other people have to say",
-        "Signifies interest",
-        "Verbal attentiveness",
-        "communication",
-      ];
-    if (skill === "workDemands")
-      return [
-        "Adjusts easily to changing work demands",
-        "Work demands",
-        "Flexibility",
-        "collaboration",
-      ];
-    return "";
-  };
+  handler = {
+    filter: (report, commOrCollab, traitOrFacet) => {
+      const strength = this.ranking.getStrengths(
+        report,
+        commOrCollab,
+        traitOrFacet
+      );
+      const areasToImprove = this.ranking.getAreasToImprove(
+        report,
+        commOrCollab,
+        traitOrFacet
+      );
+      const overEstimation = this.ranking.getOverEstimation(
+        report,
+        commOrCollab,
+        traitOrFacet
+      );
+      const underEstimation = this.ranking.getUnderEstimation(
+        report,
+        commOrCollab,
+        traitOrFacet
+      );
 
-  filterHandler = (report, commOrCollab, traitOrFacet) => {
-    return {
-      strength: 0,
-      areasToImprove: 0,
-      underEstimation: 0,
-      overEstimation: 0,
-    };
-  };
+      return {
+        strength: strength,
+        areasToImprove: areasToImprove,
+        underEstimation: underEstimation,
+        overEstimation: overEstimation,
+      };
+    },
+    filterToggle: (e) => {
+      let report = this.state.report;
+      let results;
+      let test = "communication";
+      // if (e.target.value === "communication") {
+      if (test === "communication") {
+        results = this.handler.filter(report, "comm", this.state.traitOrFacet);
+        this.setState({ ...this.state, collabOrComm: "comm" });
+      }
+      if (e.target.value === "collaboration") {
+        results = this.handler.filter(
+          report,
+          "collab",
+          this.state.traitOrFacet
+        );
+        this.setState({ ...this.state, collabOrComm: "collab" });
+      }
+      if (e.target.value === "traits") {
+        results = this.handler.filter(report, this.state.commOrCollab, "trait");
+        this.setState({ ...this.state, traitOrFacets: "trait" });
+      }
+      if (e.target.value === "facets") {
+        results = this.handler.filter(report, this.state.commOrCollab, "facet");
+        this.setState({ ...this.state, traitOrFacets: "facet" });
+      }
+      this.setState({
+        ...this.state,
+        strengths: results["strength"],
+        areasToImprove: results["areasToImprove"],
+        overEstimation: results["overEstimation"],
+        underEstimation: results["underEstimation"],
+      });
 
-  filterToggle = (e) => {
-    let report = this.state.report;
-    let results;
-    if (e.target.value === "communication") {
-      this.filterHandler(report, "comm", this.state.traitOrFacet);
-      this.setState({ ...this.state, collabOrComm: "comm" });
-    }
-    if (e.target.value === "collaboration") {
-      this.filterHandler(report, "collab", this.state.traitOrFacet);
-      this.setState({ ...this.state, collabOrComm: "collab" });
-    }
-    if (e.target.value === "traits") {
-      this.filterHandler(report, this.state.commOrCollab, "traits");
-      this.setState({ ...this.state, traitOrFacets: "traits" });
-    }
-    if (e.target.value === "facets") {
-      this.filterHandler(report, this.state.commOrCollab, "facets");
-      this.setState({ ...this.state, traitOrFacets: "facets" });
-    }
-    this.setState({
-      ...this.state,
-      strengths: results["strength"],
-      areasToImprove: results["areasToImprove"],
-      overEstimation: results["overEstimation"],
-      underEstimation: results["underEstimation"],
-    });
+      console.log(results);
+    },
   };
 
   render() {
@@ -482,7 +525,7 @@ class Skills extends Component {
             }}
           ></div>
 
-          <div className="radar-div">
+          <div className="radar-div" onClick={this.handler.filterToggle}>
             <Radar {...this.state} />
           </div>
         </div>
