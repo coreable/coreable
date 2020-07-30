@@ -83,8 +83,6 @@ class Skills extends Component {
       "facet"
     );
 
-    console.log(report);
-
     this.setState({
       ...this.state,
       loading: false,
@@ -112,7 +110,7 @@ class Skills extends Component {
         return array.sort((a, b) => a["facet"] - b["facet"]);
       }
     },
-    combineData: (data) => {
+    combineData: (data, facetOrTrait) => {
       let finalResult = [];
       let average = data.average;
       let reflection = data.reflection;
@@ -121,7 +119,10 @@ class Skills extends Component {
           // console.log(key + " -> " + result[key]);
           finalResult.push([
             {
-              name: key,
+              name:
+                facetOrTrait === "facet"
+                  ? this.utils.getCorrectFacetName(key)
+                  : this.utils.getCorrectTraitName(key),
               averageScore: average[key],
               reflectionScore: reflection[key],
               difference: reflection[key] - average[key],
@@ -315,7 +316,7 @@ class Skills extends Component {
       if (facetOrTrait === "trait") {
         result = this.filter.byTrait(result);
       }
-      result = this.utils.combineData(result);
+      result = this.utils.combineData(result, facetOrTrait);
       result = this.filter.byOverEstimation(result);
       return result;
     },
@@ -333,7 +334,7 @@ class Skills extends Component {
       if (facetOrTrait === "trait") {
         result = this.filter.byTrait(result);
       }
-      result = this.utils.combineData(result);
+      result = this.utils.combineData(result, facetOrTrait);
       result = this.filter.byUnderEstimation(result);
       return result;
     },
@@ -356,7 +357,10 @@ class Skills extends Component {
       for (var key in result) {
         if (result.hasOwnProperty(key)) {
           resultSorted.push({
-            name: key,
+            name:
+              facetOrTrait === "facet"
+                ? this.utils.getCorrectFacetName(key)
+                : this.utils.getCorrectTraitName(key),
             averageScore: result[key],
           });
         }
@@ -385,7 +389,10 @@ class Skills extends Component {
       for (var key in result) {
         if (result.hasOwnProperty(key)) {
           resultSorted.push({
-            name: key,
+            name:
+              facetOrTrait === "facet"
+                ? this.utils.getCorrectFacetName(key)
+                : this.utils.getCorrectTraitName(key),
             averageScore: result[key],
           });
         }
@@ -430,9 +437,8 @@ class Skills extends Component {
     filterToggle: (e) => {
       let report = this.state.report;
       let results;
-      let test = "communication";
       // if (e.target.value === "communication") {
-      if (test === "communication") {
+      if (e.target.value === "communication") {
         results = this.handler.filter(report, "comm", this.state.traitOrFacet);
         this.setState({ ...this.state, collabOrComm: "comm" });
       }
@@ -459,8 +465,6 @@ class Skills extends Component {
         overEstimation: results["overEstimation"],
         underEstimation: results["underEstimation"],
       });
-
-      console.log(results);
     },
   };
 
