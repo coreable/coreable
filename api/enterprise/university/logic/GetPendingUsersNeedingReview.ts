@@ -65,11 +65,11 @@ export async function GetPendingUsersNeedingReview(user: any, args: any, { USER 
 
     for (let i = 0; i < usersPending.length; i++) {
       if (usersPending[i]._id === user._id && team.tutorial.subject.state > 1) {
-        delete usersPending[i];
+        usersPending.splice(i, 1);
       }
     }
-    
-    team.users = usersPending.filter((user: any) => !!user);
+
+    team.users = usersPending;
     team.fromPending = true;
   }
 
