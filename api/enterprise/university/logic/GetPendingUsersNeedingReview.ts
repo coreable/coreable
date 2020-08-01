@@ -49,10 +49,12 @@ export async function GetPendingUsersNeedingReview(user: any, args: any, { USER 
         state: team.tutorial.subject.state
       }
     });
+
     const usersReceivedReviews_ids: string[] = [];
     for (const review of submittedReviews) {
       usersReceivedReviews_ids.push(review.receiver_id);
     }
+
     const usersPending = await team.getUsers({
       where: {
         _id: {
@@ -60,12 +62,14 @@ export async function GetPendingUsersNeedingReview(user: any, args: any, { USER 
         }
       }
     });
+
     for (let i = 0; i < usersPending.length; i++) {
       if (usersPending[i]._id === user._id && team.tutorial.subject.state > 1) {
         delete usersPending[i];
       }
     }
-    team.users = usersPending;
+    
+    team.users = usersPending.filter((user: any) => !!user);
     team.fromPending = true;
   }
 
