@@ -15,18 +15,19 @@
 import { CoreableError } from "../../models/CoreableError";
 import { User } from "../models/User";
 import { encodeJWT } from "./JWT";
+import { UniversityUser } from "../../enterprise/university/models/User";
 
 export async function Register(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
   let token: string | undefined;
-  if (context.JWT) {
-    errors.push({
-      code: 'ER_AUTH_FAILURE',
-      path: 'JWT',
-      message: 'User is already logged in'
-    });
-  }
+  // if (context.JWT) {
+  //   errors.push({
+  //     code: 'ER_AUTH_FAILURE',
+  //     path: 'JWT',
+  //     message: 'User is already logged in'
+  //   });
+  // }
   if (!errors.length) {
     if (args.password.length < 6) {
       errors.push({
@@ -57,7 +58,11 @@ export async function Register(root: any, args: any, context: any) {
         password: args.password
       });
     } catch (err) {
-      errors.push({ code: err.original.code, message: err.original.sqlMessage, path: 'SQL' });
+      errors.push({ 
+        code: err.original.code,
+        message: err.original.sqlMessage,
+        path: 'SQL'
+      });
     }
   }
   if (!errors.length) {
@@ -65,6 +70,19 @@ export async function Register(root: any, args: any, context: any) {
       _id: user._id,
       email: user.email
     });
+  }
+  if (!errors.length) {
+    try {
+      await UniversityUser.create({
+        user_id: user._id
+      });
+    } catch (err) {
+      errors.push({ 
+        code: err.original.code,
+        message: err.original.sqlMessage,
+        path: 'SQL'
+      });
+    }
   }
   return {
     'data': !errors.length ? {

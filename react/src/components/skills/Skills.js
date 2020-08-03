@@ -16,7 +16,7 @@ import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constants";
 import { SKILLS_API } from "../../queries";
 import Radar from "./Radar";
-import SkillBar from "./SkillBar/SkillBar";
+// import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
 
 class Skills extends Component {
@@ -259,29 +259,29 @@ class Skills extends Component {
 
   filter = {
     byCollaboration: (data) => {
-      const averageScore = data.average.collaboration;
-      const reflectionScore = data.reflection.collaboration;
+      const averageScore = data.average?.collaboration;
+      const reflectionScore = data.reflection?.collaboration;
       return {
         average: averageScore,
         reflection: reflectionScore,
       };
     },
     byCommunication: (data) => {
-      let averageScore = data.average.communication;
-      let reflectionScore = data.reflection.communication;
+      let averageScore = data.average?.communication;
+      let reflectionScore = data.reflection?.communication;
       return {
         average: averageScore,
         reflection: reflectionScore,
       };
     },
     byTrait: (data) => {
-      const averageScore = data.average.traits.default;
-      const reflectionScore = data.reflection.traits.default;
+      const averageScore = data.average?.traits?.default;
+      const reflectionScore = data.reflection?.traits?.default;
       return { average: averageScore, reflection: reflectionScore };
     },
     byFacet: (data) => {
-      const averageScore = data.average.facets.default;
-      const reflectionScore = data.reflection.facets.default;
+      const averageScore = data.average?.facets?.default;
+      const reflectionScore = data.reflection?.facets?.default;
       return { average: averageScore, reflection: reflectionScore };
     },
     byOverEstimation: (data) => {

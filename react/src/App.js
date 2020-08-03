@@ -186,7 +186,7 @@ class App extends Component {
     const res = await fetch(API_URL, options).then((res) => res.json());
 
     let { data, errors } = res.data.me;
-
+    
     if (!data) {
       data = {
         user: null,

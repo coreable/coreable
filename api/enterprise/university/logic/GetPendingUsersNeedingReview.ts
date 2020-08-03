@@ -55,7 +55,11 @@ export async function GetPendingUsersNeedingReview(user: any, args: any, { USER 
       usersReceivedReviews_ids.push(review.receiver_id);
     }
 
-    const usersPending = await team.getUsers({
+    if (team.tutorial.subject.state !== 1) {
+      usersReceivedReviews_ids.push(user._id);
+    }
+
+    team.users = await team.getUsers({
       where: {
         _id: {
           [Op.not]: usersReceivedReviews_ids
@@ -63,13 +67,18 @@ export async function GetPendingUsersNeedingReview(user: any, args: any, { USER 
       }
     });
 
-    for (let i = 0; i < usersPending.length; i++) {
-      if (usersPending[i]._id === user._id && team.tutorial.subject.state > 1) {
-        usersPending.splice(i, 1);
+    team.users = team.users.filter((pending: any) => {
+      switch (team.tutorial.subject.state) {
+        case 1:
+          return pending._id === user._id;
+        case 2:
+        case 3:
+          return pending._id !== user._id;
+        default:
+          return false;
       }
-    }
+    });
 
-    team.users = usersPending;
     team.fromPending = true;
   }
 
