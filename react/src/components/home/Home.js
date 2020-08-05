@@ -215,18 +215,18 @@ class Home extends Component {
 
   ReviewCardHandler = (e) => {
     // function firstReview() {
-      if (!localStorage.getItem("hasCompletedTutorial")) {
-        localStorage.setItem("hasCompletedTutorial", true);
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      } else if (localStorage.getItem("hasCompletedTutorial")) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }
+    if (!localStorage.getItem("hasCompletedTutorial")) {
+      localStorage.setItem("hasCompletedTutorial", true);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } else if (localStorage.getItem("hasCompletedTutorial")) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
     // }
   };
 
@@ -249,6 +249,9 @@ class Home extends Component {
         <div className="main">
           <div className="grid-home">
             {this.state.me.team.map((team, index) => {
+              if (!team._id) {
+                return null;
+              }
               if (team._id !== "joinTeam") {
                 return (
                   <ReviewCard

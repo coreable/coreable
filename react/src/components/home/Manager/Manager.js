@@ -53,6 +53,13 @@ class Manager extends Component {
     const response = await fetch(API_URL, options).then((data) => data.json());
     const { data, errors } = response.data.manager;
 
+    // I know this is shit code
+    // It's to compile without warnings
+    if (errors && data) {
+      console.log(data);
+    }
+
+
     if (errors) {
       console.error(errors[0]["message"]);
       return false;

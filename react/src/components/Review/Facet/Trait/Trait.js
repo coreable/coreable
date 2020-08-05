@@ -357,7 +357,7 @@ class Trait extends Component {
                         key={index}
                         onClick={() => this.handleSelectedUserChange(user)}
                       >
-                        {user.firstName + " " + user.lastName}
+                        {user.identity.firstName + " " + user.identity.lastName}
                       </Button>
                     );
                   })
