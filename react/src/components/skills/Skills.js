@@ -15,6 +15,13 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { API_URL } from "../../constants";
 import { SKILLS_API } from "../../queries";
+// import {
+//   filter,
+//   handler,
+//   ranking,
+//   utils,
+//   view,
+// } from "./functions/helperFunctions";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
@@ -432,7 +439,6 @@ class Skills extends Component {
     filterToggle: (e) => {
       let report = this.state.report;
       let results;
-      // if (e.target.value === "communication") {
       if (e.target.value === "communication") {
         results = this.handler.filter(report, "comm", this.state.traitOrFacet);
         this.setState({ ...this.state, collabOrComm: "comm" });
@@ -463,33 +469,40 @@ class Skills extends Component {
     },
   };
 
+  view = {
+    filterTab: (e) => {
+      this.handler.filterToggle(e);
+      return e;
+    },
+  };
+
   render() {
-    const btns = document.querySelectorAll(".facet-button");
-    const tabs = document.querySelectorAll(".tab");
+    // const btns = document.querySelectorAll(".facet-button");
+    // const tabs = document.querySelectorAll(".tab");
 
-    for (let i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function() {
-        this.classList.add("selected");
-        if (i === 0) {
-          btns[1].classList = "facet-button";
-        } else {
-          btns[0].classList = "facet-button";
-        }
-        btns[i].blur();
-      });
-    }
+    // for (let i = 0; i < btns.length; i++) {
+    //   btns[i].addEventListener("click", function() {
+    //     this.classList.add("selected");
+    //     if (i === 0) {
+    //       btns[1].classList = "facet-button";
+    //     } else {
+    //       btns[0].classList = "facet-button";
+    //     }
+    //     btns[i].blur();
+    //   });
+    // }
 
-    for (let i = 0; i < tabs.length; i++) {
-      tabs[i].addEventListener("click", function() {
-        this.classList.add("active");
-        if (i === 0) {
-          tabs[1].classList = "tab";
-        }
-        if (i === 1) {
-          tabs[0].classList = "tab";
-        }
-      });
-    }
+    // for (let i = 0; i < tabs.length; i++) {
+    //   tabs[i].addEventListener("click", function() {
+    //     this.classList.add("active");
+    //     if (i === 0) {
+    //       tabs[1].classList = "tab";
+    //     }
+    //     if (i === 1) {
+    //       tabs[0].classList = "tab";
+    //     }
+    //   });
+    // }
 
     if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
@@ -524,7 +537,7 @@ class Skills extends Component {
             }}
           ></div>
 
-          <div className="radar-div" onClick={this.handler.filterToggle}>
+          <div className="radar-div" onClick={this.view.filterTab}>
             <Radar {...this.state} />
           </div>
         </div>
