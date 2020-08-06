@@ -23,7 +23,7 @@ import { SKILLS_API } from "../../queries";
 //   view,
 // } from "./functions/helperFunctions";
 import Radar from "./Radar";
-// import SkillBar from "./SkillBar/SkillBar";
+import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
 
 class Skills extends Component {
@@ -64,35 +64,30 @@ class Skills extends Component {
 
     const report = data.user.report;
 
-    const strengthsResult = this.ranking.getStrengths(
-      report,
-      "collab",
-      "facet"
-    );
-    const areasToImproveResult = this.ranking.getAreasToImprove(
-      report,
-      "collab",
-      "facet"
-    );
-    const overEstimationResult = this.ranking.getOverEstimation(
-      report,
-      "collab",
-      "facet"
-    );
-    const underEstimationResult = this.ranking.getUnderEstimation(
+    let strengths;
+    let areasToImprove;
+    let overEstimation;
+    let underEstimation;
+
+    strengths = this.ranking.getStrengths(report, "collab", "facet");
+    areasToImprove = this.ranking.getAreasToImprove(report, "collab", "facet");
+    overEstimation = this.ranking.getOverEstimation(report, "collab", "facet");
+    underEstimation = this.ranking.getUnderEstimation(
       report,
       "collab",
       "facet"
     );
 
+    console.log(strengths.length);
+
     this.setState({
       ...this.state,
       loading: false,
-      report: report,
-      strengths: strengthsResult,
-      areasToImprove: areasToImproveResult,
-      overEstimation: overEstimationResult,
-      underEstimation: underEstimationResult,
+      report,
+      strengths,
+      areasToImprove,
+      overEstimation,
+      underEstimation,
     });
   };
 
@@ -118,7 +113,6 @@ class Skills extends Component {
       let reflection = data.reflection;
       for (var key in average) {
         if (average.hasOwnProperty(key)) {
-          // console.log(key + " -> " + result[key]);
           finalResult.push([
             {
               name:
@@ -439,6 +433,7 @@ class Skills extends Component {
     filterToggle: (e) => {
       let report = this.state.report;
       let results;
+      console.log(e.target.value);
       if (e.target.value === "communication") {
         results = this.handler.filter(report, "comm", this.state.traitOrFacet);
         this.setState({ ...this.state, collabOrComm: "comm" });
@@ -477,32 +472,32 @@ class Skills extends Component {
   };
 
   render() {
-    // const btns = document.querySelectorAll(".facet-button");
-    // const tabs = document.querySelectorAll(".tab");
+    const btns = document.querySelectorAll(".facet-button");
+    const tabs = document.querySelectorAll(".tab");
 
-    // for (let i = 0; i < btns.length; i++) {
-    //   btns[i].addEventListener("click", function() {
-    //     this.classList.add("selected");
-    //     if (i === 0) {
-    //       btns[1].classList = "facet-button";
-    //     } else {
-    //       btns[0].classList = "facet-button";
-    //     }
-    //     btns[i].blur();
-    //   });
-    // }
+    for (let i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+        this.classList.add("selected");
+        if (i === 0) {
+          btns[1].classList = "facet-button";
+        } else {
+          btns[0].classList = "facet-button";
+        }
+        btns[i].blur();
+      });
+    }
 
-    // for (let i = 0; i < tabs.length; i++) {
-    //   tabs[i].addEventListener("click", function() {
-    //     this.classList.add("active");
-    //     if (i === 0) {
-    //       tabs[1].classList = "tab";
-    //     }
-    //     if (i === 1) {
-    //       tabs[0].classList = "tab";
-    //     }
-    //   });
-    // }
+    for (let i = 0; i < tabs.length; i++) {
+      tabs[i].addEventListener("click", function() {
+        this.classList.add("active");
+        if (i === 0) {
+          tabs[1].classList = "tab";
+        }
+        if (i === 1) {
+          tabs[0].classList = "tab";
+        }
+      });
+    }
 
     if (!this.props.app.data.user) {
       return <Redirect to="/"></Redirect>;
@@ -535,10 +530,196 @@ class Skills extends Component {
               paddingRight: "0",
               width: "100%",
             }}
-          ></div>
+          >
+            <div className="skills-btns">
+              <ul className="skills-grid">
+                <div
+                  style={{
+                    gridColumn: "3/5",
+                    textAlign: "left",
+                  }}
+                >
+                  <li>
+                    <button
+                      className="tab active"
+                      onClick={this.handler.filterToggle}
+                      value="collaboration"
+                    >
+                      Collaboration
+                    </button>
+                  </li>
+                </div>
+                <div
+                  style={{
+                    gridColumn: "5/7",
+                    textAlign: "left",
+                  }}
+                >
+                  <li>
+                    <button
+                      className="tab"
+                      onClick={this.handler.filterToggle}
+                      value="communication"
+                    >
+                      Communication
+                    </button>
+                  </li>
+                </div>
+              </ul>
+            </div>
+            {/* <div className="skills-btns-dropdown">
+              <button
+                className="btn primarybtn"
+                onClick={this.filterToggle}
+                value="collaboration"
+              >
+                Collaboration
+              </button>
+              <div className="skills-dropdown-content">
+                <button
+                  className="btn primarybtn"
+                  onClick={this.filterToggle}
+                  value="communication"
+                >
+                  Communication
+                </button>
+              </div>
+            </div> */}
+          </div>
 
-          <div className="radar-div" onClick={this.view.filterTab}>
+          {/* <div className="radar-div" onClick={this.view.filterTab}>
             <Radar {...this.state} />
+          </div> */}
+
+          <div className="main-skills-container">
+            <div className="filter">
+              <div
+                style={{
+                  display: "flex",
+                  borderRadius: "4px 4px 0 0",
+                  borderBottom: "0.5pt solid #d6d6d6",
+                  alignItems: "center",
+                  height: "30px",
+                  background: "white",
+                  padding: "24px",
+                }}
+              >
+                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                  Dashboard
+                </h1>
+              </div>
+              <div style={{ textAlign: "left", padding: "24px" }}>
+                <span style={{ color: "#4070e0" }}>Team review</span>
+                <span style={{ color: "#2dd775" }}>Self review</span>
+                <div style={{ margin: "16px 0" }}>
+                  <button
+                    className="facet-button selected"
+                    value="facets"
+                    onClick={this.handler.filterToggle}
+                  >
+                    Facets
+                  </button>
+                  <button
+                    className="facet-button "
+                    value="traits"
+                    onClick={this.handler.filterToggle}
+                  >
+                    Traits
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* {(() => {
+              if (this.state.strengths.length > 0) {
+                return (
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "top-strength" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Top Strengths
+                      </h1>
+                    </div>
+                    <div className="grid-area-inside">
+                      {this.state.strengths
+                        .sort((a, b) => b.value - a.value)
+                        .slice(0, 3)
+                        .map((strength, idx) => {
+                          return <SkillBar key={idx} values={strength} />;
+                        })}
+                    </div>
+                  </div>
+                );
+              }
+            })()} */}
+            {/* {(() => {
+              if (this.state.improve.length > 0) {
+                return (
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "areas-to-improve" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Areas to Improve
+                      </h1>
+                    </div>
+                    <div className="grid-area-inside">
+                      {this.state.improve
+                        .slice(0, 3)
+                        .sort((a, b) => a.value - b.value)
+                        .map((improve, idx) => {
+                          return <SkillBar key={idx} values={improve} />;
+                        })}
+                    </div>
+                  </div>
+                );
+              }
+            })()} */}
+            {/* {(() => {
+              if (this.state.blind.length > 0) {
+                return (
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "over-estimation" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Overestimation
+                      </h1>
+                    </div>
+                    <div className="grid-area-inside">
+                      {this.state.blind.slice(0, 3).map((improve, idx) => {
+                        return <SkillBar key={idx} values={improve} />;
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+            })()} */}
+            {/* {(() => {
+              if (this.state.bright.length > 0) {
+                return (
+                  <div
+                    className="grid-areas"
+                    style={{ gridArea: "under-estimation" }}
+                  >
+                    <div className="heading">
+                      <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                        Underestimation
+                      </h1>
+                    </div>
+                    <div className="grid-area-inside">
+                      {this.state.bright.slice(0, 3).map((improve, idx) => {
+                        return <SkillBar key={idx} values={improve} />;
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+            })()} */}
           </div>
         </div>
       </div>
