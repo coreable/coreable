@@ -1,6 +1,6 @@
 {
   "name": "coreable",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Coreable",
   "private": false,
   "main": "server.js",
