@@ -41,7 +41,63 @@ class Skills extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount() {
+    this.getData();
+    // this.props.ReactGA.pageview("/skills");
+    // const query = SKILLS_API;
+    // const options = {
+    //   method: "POST",
+    //   mode: "cors",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     JWT: this.props.app.JWT,
+    //   },
+    //   body: JSON.stringify(query),
+    // };
+    // const res = await fetch(API_URL, options).then((data) => data.json());
+    // const { data, errors } = res.data.me;
+    // if (errors) {
+    //   console.error(errors);
+    //   return false;
+    // }
+    // const report = data.user.report;
+    // let strengths;
+    // let areasToImprove;
+    // let overEstimation;
+    // let underEstimation;
+    // try {
+    //   strengths = this.ranking.getStrengths(report, "collab", "facet");
+    //   areasToImprove = this.ranking.getAreasToImprove(
+    //     report,
+    //     "collab",
+    //     "facet"
+    //   );
+    //   overEstimation = this.ranking.getOverEstimation(
+    //     report,
+    //     "collab",
+    //     "facet"
+    //   );
+    //   underEstimation = this.ranking.getUnderEstimation(
+    //     report,
+    //     "collab",
+    //     "facet"
+    //   );
+    // } catch (errors) {
+    //   //Ignore
+    // }
+    // console.log(strengths.length);
+    // this.setState({
+    //   ...this.state,
+    //   loading: false,
+    //   report,
+    //   strengths,
+    //   areasToImprove,
+    //   overEstimation,
+    //   underEstimation,
+    // });
+  }
+
+  async getData() {
     this.props.ReactGA.pageview("/skills");
     const query = SKILLS_API;
     const options = {
@@ -69,14 +125,26 @@ class Skills extends Component {
     let overEstimation;
     let underEstimation;
 
-    strengths = this.ranking.getStrengths(report, "collab", "facet");
-    areasToImprove = this.ranking.getAreasToImprove(report, "collab", "facet");
-    overEstimation = this.ranking.getOverEstimation(report, "collab", "facet");
-    underEstimation = this.ranking.getUnderEstimation(
-      report,
-      "collab",
-      "facet"
-    );
+    try {
+      strengths = this.ranking.getStrengths(report, "collab", "facet");
+      areasToImprove = this.ranking.getAreasToImprove(
+        report,
+        "collab",
+        "facet"
+      );
+      overEstimation = this.ranking.getOverEstimation(
+        report,
+        "collab",
+        "facet"
+      );
+      underEstimation = this.ranking.getUnderEstimation(
+        report,
+        "collab",
+        "facet"
+      );
+    } catch (errors) {
+      //Ignore
+    }
 
     console.log(strengths.length);
 
@@ -89,7 +157,7 @@ class Skills extends Component {
       overEstimation,
       underEstimation,
     });
-  };
+  }
 
   utils = {
     convertToArray: (object) => {
@@ -434,6 +502,7 @@ class Skills extends Component {
       let report = this.state.report;
       let results;
       console.log(e.target.value);
+      console.log(this.state.strengths);
       if (e.target.value === "communication") {
         results = this.handler.filter(report, "comm", this.state.traitOrFacet);
         this.setState({ ...this.state, collabOrComm: "comm" });
