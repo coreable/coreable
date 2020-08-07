@@ -25,6 +25,10 @@ import { SKILLS_API } from "../../queries";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
+import { overArgs } from "lodash";
+
+let commOrCollab = "collab";
+let traitOrFacet = "facet";
 
 class Skills extends Component {
   constructor(props) {
@@ -36,65 +40,11 @@ class Skills extends Component {
       areasToImprove: null,
       overEstimation: null,
       underEstimation: null,
-      commOrCollab: "collab",
-      traitOrFacet: "facet",
     };
   }
 
   componentDidMount() {
     this.getData();
-    // this.props.ReactGA.pageview("/skills");
-    // const query = SKILLS_API;
-    // const options = {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     JWT: this.props.app.JWT,
-    //   },
-    //   body: JSON.stringify(query),
-    // };
-    // const res = await fetch(API_URL, options).then((data) => data.json());
-    // const { data, errors } = res.data.me;
-    // if (errors) {
-    //   console.error(errors);
-    //   return false;
-    // }
-    // const report = data.user.report;
-    // let strengths;
-    // let areasToImprove;
-    // let overEstimation;
-    // let underEstimation;
-    // try {
-    //   strengths = this.ranking.getStrengths(report, "collab", "facet");
-    //   areasToImprove = this.ranking.getAreasToImprove(
-    //     report,
-    //     "collab",
-    //     "facet"
-    //   );
-    //   overEstimation = this.ranking.getOverEstimation(
-    //     report,
-    //     "collab",
-    //     "facet"
-    //   );
-    //   underEstimation = this.ranking.getUnderEstimation(
-    //     report,
-    //     "collab",
-    //     "facet"
-    //   );
-    // } catch (errors) {
-    //   //Ignore
-    // }
-    // console.log(strengths.length);
-    // this.setState({
-    //   ...this.state,
-    //   loading: false,
-    //   report,
-    //   strengths,
-    //   areasToImprove,
-    //   overEstimation,
-    //   underEstimation,
-    // });
   }
 
   async getData() {
@@ -146,8 +96,6 @@ class Skills extends Component {
       //Ignore
     }
 
-    console.log(strengths.length);
-
     this.setState({
       ...this.state,
       loading: false,
@@ -181,17 +129,15 @@ class Skills extends Component {
       let reflection = data.reflection;
       for (var key in average) {
         if (average.hasOwnProperty(key)) {
-          finalResult.push([
-            {
-              name:
-                facetOrTrait === "facet"
-                  ? this.utils.getCorrectFacetName(key)
-                  : this.utils.getCorrectTraitName(key),
-              averageScore: average[key],
-              reflectionScore: reflection[key],
-              difference: reflection[key] - average[key],
-            },
-          ]);
+          finalResult.push({
+            name:
+              facetOrTrait === "facet"
+                ? this.utils.getCorrectFacetName(key)
+                : this.utils.getCorrectTraitName(key),
+            averageScore: average[key],
+            reflectionScore: reflection[key],
+            difference: reflection[key] - average[key],
+          });
         }
       }
       return finalResult;
@@ -367,6 +313,7 @@ class Skills extends Component {
 
   ranking = {
     getOverEstimation: (data, collabOrComm, facetOrTrait) => {
+      console.log("overEstimation", data);
       let result;
       if (collabOrComm === "collab") {
         result = this.filter.byCollaboration(data);
@@ -381,7 +328,6 @@ class Skills extends Component {
         result = this.filter.byTrait(result);
       }
       result = this.utils.combineData(result, facetOrTrait);
-      result = this.filter.byOverEstimation(result);
       return result;
     },
     getUnderEstimation: (data, collabOrComm, facetOrTrait) => {
@@ -399,7 +345,6 @@ class Skills extends Component {
         result = this.filter.byTrait(result);
       }
       result = this.utils.combineData(result, facetOrTrait);
-      result = this.filter.byUnderEstimation(result);
       return result;
     },
     getStrengths: (data, collabOrComm, facetOrTrait) => {
@@ -501,27 +446,24 @@ class Skills extends Component {
     filterToggle: (e) => {
       let report = this.state.report;
       let results;
-      console.log(e.target.value);
-      console.log(this.state.strengths);
+
+      console.log(this.state.overEstimation);
+
       if (e.target.value === "communication") {
-        results = this.handler.filter(report, "comm", this.state.traitOrFacet);
-        this.setState({ ...this.state, collabOrComm: "comm" });
+        results = this.handler.filter(report, "comm", traitOrFacet);
+        commOrCollab = "comm";
       }
       if (e.target.value === "collaboration") {
-        results = this.handler.filter(
-          report,
-          "collab",
-          this.state.traitOrFacet
-        );
-        this.setState({ ...this.state, collabOrComm: "collab" });
+        results = this.handler.filter(report, "collab", traitOrFacet);
+        commOrCollab = "collab";
       }
       if (e.target.value === "traits") {
-        results = this.handler.filter(report, this.state.commOrCollab, "trait");
-        this.setState({ ...this.state, traitOrFacets: "trait" });
+        results = this.handler.filter(report, commOrCollab, "trait");
+        traitOrFacet = "trait";
       }
       if (e.target.value === "facets") {
-        results = this.handler.filter(report, this.state.commOrCollab, "facet");
-        this.setState({ ...this.state, traitOrFacets: "facet" });
+        results = this.handler.filter(report, commOrCollab, "facet");
+        traitOrFacet = "facet";
       }
       this.setState({
         ...this.state,
@@ -699,8 +641,8 @@ class Skills extends Component {
               </div>
             </div>
 
-            {/* {(() => {
-              if (this.state.strengths.length > 0) {
+            {(() => {
+              if (this.state.strengths?.length > 0) {
                 return (
                   <div
                     className="grid-areas"
@@ -712,19 +654,24 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.strengths
-                        .sort((a, b) => b.value - a.value)
-                        .slice(0, 3)
-                        .map((strength, idx) => {
-                          return <SkillBar key={idx} values={strength} />;
-                        })}
+                      {this.state.strengths.slice(0, 3).map((strength, idx) => {
+                        return (
+                          <SkillBar
+                            key={idx}
+                            values={strength}
+                            type="strengths"
+                            isFacet={traitOrFacet}
+                            isComm={commOrCollab}
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 );
               }
-            })()} */}
-            {/* {(() => {
-              if (this.state.improve.length > 0) {
+            })()}
+            {(() => {
+              if (this.state.areasToImprove?.length > 0) {
                 return (
                   <div
                     className="grid-areas"
@@ -736,19 +683,26 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.improve
+                      {this.state.areasToImprove
                         .slice(0, 3)
-                        .sort((a, b) => a.value - b.value)
                         .map((improve, idx) => {
-                          return <SkillBar key={idx} values={improve} />;
+                          return (
+                            <SkillBar
+                              key={idx}
+                              values={improve}
+                              type="areasToImprove"
+                              isFacet={traitOrFacet}
+                              isComm={commOrCollab}
+                            />
+                          );
                         })}
                     </div>
                   </div>
                 );
               }
-            })()} */}
-            {/* {(() => {
-              if (this.state.blind.length > 0) {
+            })()}
+            {(() => {
+              if (this.state.overEstimation?.length > 0) {
                 return (
                   <div
                     className="grid-areas"
@@ -760,16 +714,26 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.blind.slice(0, 3).map((improve, idx) => {
-                        return <SkillBar key={idx} values={improve} />;
-                      })}
+                      {this.state.overEstimation
+                        ?.slice(0, 3)
+                        .map((over, idx) => {
+                          return (
+                            <SkillBar
+                              key={idx}
+                              values={over}
+                              type="overEstimation"
+                              isFacet={traitOrFacet}
+                              isComm={commOrCollab}
+                            />
+                          );
+                        })}
                     </div>
                   </div>
                 );
               }
-            })()} */}
-            {/* {(() => {
-              if (this.state.bright.length > 0) {
+            })()}
+            {(() => {
+              if (this.state.underEstimation?.length > 0) {
                 return (
                   <div
                     className="grid-areas"
@@ -781,14 +745,24 @@ class Skills extends Component {
                       </h1>
                     </div>
                     <div className="grid-area-inside">
-                      {this.state.bright.slice(0, 3).map((improve, idx) => {
-                        return <SkillBar key={idx} values={improve} />;
-                      })}
+                      {this.state.underEstimation
+                        ?.slice(0, 3)
+                        .map((under, idx) => {
+                          return (
+                            <SkillBar
+                              key={idx}
+                              values={under}
+                              type="underEstimation"
+                              isFacet={traitOrFacet}
+                              isComm={commOrCollab}
+                            />
+                          );
+                        })}
                     </div>
                   </div>
                 );
               }
-            })()} */}
+            })()}
           </div>
         </div>
       </div>

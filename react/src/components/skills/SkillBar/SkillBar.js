@@ -3,22 +3,23 @@ import React from "react";
 import "./SkillBar.scss";
 
 export default function SkillBar(props) {
-  const { value, name, self, team } = props.values;
+  const { type, isFacet, isComm } = props;
+  const { name, averageScore, reflection, difference } = props.values;
 
-  function convertToText(num) {
-    if (num < 20) {
+  function convertToText(averageScore) {
+    if (averageScore < 20) {
       return "Fails to attempt";
     }
-    if (num < 40) {
+    if (averageScore < 40) {
       return "Under promoting";
     }
-    if (num < 60) {
+    if (averageScore < 60) {
       return "Habitually";
     }
-    if (num < 80) {
+    if (averageScore < 80) {
       return "Encourages";
     }
-    if (num <= 100) {
+    if (averageScore <= 100) {
       return "Teaches";
     }
   }
@@ -45,7 +46,7 @@ export default function SkillBar(props) {
     }
   }
 
-  if (team === undefined || self === undefined) {
+  if (type === "strengths" || type === "areasToImprove") {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
@@ -62,7 +63,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name[0]}
+              {isFacet === "facet" ? name : name[0]}
             </p>
             <span
               className="result-text"
@@ -79,14 +80,14 @@ export default function SkillBar(props) {
               //       : "#2dd775",
               // }}
             >
-              {convertToText(value)}
+              {convertToText(averageScore)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
               className="skillbar-container blue"
-              style={{ width: `${value}%`, zIndex: "200" }}
+              style={{ width: `${averageScore}%`, zIndex: "200" }}
             />
             <div className="interval-container">
               <span />
@@ -100,7 +101,7 @@ export default function SkillBar(props) {
     );
   }
 
-  if (self > team) {
+  if (type === "overEstimation") {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
@@ -117,22 +118,24 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name[0]}
+              {isFacet === "facet" ? name : name[0]}
             </p>
-            <span className="result-text">{overEstimation(self, team)}</span>
+            <span className="result-text">
+              {overEstimation(reflection, averageScore)}
+            </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
               className="skillbar-container green"
               style={{
-                width: `${self}%`,
+                width: `${reflection}%`,
               }}
             />
             <div
               className="skillbar-container blue"
               style={{
-                width: `${team}%`,
+                width: `${averageScore}%`,
                 zIndex: "300",
                 position: "absolute",
                 top: "0",
@@ -150,7 +153,7 @@ export default function SkillBar(props) {
     );
   }
 
-  if (team > self) {
+  if (type === "underEstimation") {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
@@ -167,22 +170,24 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name[0]}
+              {isFacet === "facet" ? name : name[0]}
             </p>
-            <span className="result-text">{underEstimation(self, team)}</span>
+            <span className="result-text">
+              {underEstimation(reflection, averageScore)}
+            </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
               className="skillbar-container blue"
               style={{
-                width: `${team}%`,
+                width: `${averageScore}%`,
               }}
             />
             <div
               className="skillbar-container green"
               style={{
-                width: `${self}%`,
+                width: `${reflection}%`,
                 zIndex: "100",
                 position: "absolute",
                 top: "0",
