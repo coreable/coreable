@@ -578,29 +578,7 @@ class Skills extends Component {
                 </div>
               </ul>
             </div>
-            {/* <div className="skills-btns-dropdown">
-              <button
-                className="btn primarybtn"
-                onClick={this.filterToggle}
-                value="collaboration"
-              >
-                Collaboration
-              </button>
-              <div className="skills-dropdown-content">
-                <button
-                  className="btn primarybtn"
-                  onClick={this.filterToggle}
-                  value="communication"
-                >
-                  Communication
-                </button>
-              </div>
-            </div> */}
           </div>
-
-          {/* <div className="radar-div" onClick={this.view.filterTab}>
-            <Radar {...this.state} />
-          </div> */}
 
           <div className="main-skills-container">
             <div className="filter">
