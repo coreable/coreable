@@ -641,6 +641,12 @@ class Skills extends Component {
               </div>
             </div>
 
+            <div className="radar">
+              <div className="radar-div" onClick={this.view.filterTab}>
+                <Radar {...this.state} />
+              </div>
+            </div>
+
             {(() => {
               if (this.state.strengths?.length > 0) {
                 return (

@@ -188,21 +188,6 @@ ul {
       }
     }
 
-    .radar-div {
-      width: 486pt;
-      border: 1px solid lightgrey;
-      margin: 0;
-      margin-top: 15px;
-      margin-bottom: 50px;
-      background: white;
-      border-radius: 0.33rem;
-    }
-    @media (max-width: $max-width) {
-      .radar-div {
-        width: 100%;
-      }
-    }
-
     .inside-main {
       min-height: 257pt;
       width: 370pt;
@@ -245,15 +230,15 @@ ul {
       grid-template-columns: repeat(3, 1fr);
       grid-template-areas:
         "filter top-strength areas-to-improve"
-        "filter over-estimation under-estimation";
+        "radar over-estimation under-estimation";
 
       .filter {
         grid-area: filter;
         min-width: 316px;
-        // min-height: 200pt;
+        max-height: 200pt;
         border-radius: 4pt;
         background: $dataBlue;
-        position: fixed;
+        // position: fixed;
         box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
         border: 1pt solid #d6d6d6;
 
@@ -296,9 +281,37 @@ ul {
         }
       }
 
+      .radar {
+        grid-area: radar;
+        max-width: 316px;
+        min-height: 400px;
+        border-radius: 4pt;
+        background: $dataBlue;
+        position: relative;
+        top: -45px;
+        // position: fixed;
+        box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
+        border: 1pt solid #d6d6d6;
+
+        .radar-div {
+          max-width: 316px;
+          border: 1px solid lightgrey;
+          margin: 0;
+          margin-top: 15px;
+          margin-bottom: 50px;
+          background: white;
+          border-radius: 0.33rem;
+        }
+        @media (max-width: $max-width) {
+          .radar-div {
+            width: 100%;
+          }
+        }
+      }
+
       .grid-areas {
         min-width: 316px;
-        min-height: 200pt;
+        max-height: 235pt;
         border-radius: 4pt;
         box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.15);
         border: 1pt solid #d6d6d6;
