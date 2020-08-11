@@ -642,6 +642,11 @@ class Skills extends Component {
             </div>
 
             <div className="radar">
+              <div className="heading">
+                <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
+                  Collaboration Index
+                </h1>
+              </div>
               <div className="radar-div" onClick={this.view.filterTab}>
                 <Radar {...this.state} />
               </div>
