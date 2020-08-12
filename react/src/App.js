@@ -257,7 +257,6 @@ class App extends Component {
 
     const res = await fetch(API_URL, options).then((res) => res.json());
 
-    console.log(res);
     let { data, errors } = res.data.manager;
 
     if (!data) {

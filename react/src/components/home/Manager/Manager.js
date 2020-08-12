@@ -39,8 +39,8 @@ class Manager extends Component {
   };
 
   fetchData = async () => {
-    const query = MANAGER_API;
-
+    const query = MANAGER_API.query;
+    console.log("in fetch data");
     const options = {
       method: "POST",
       mode: "cors",
@@ -53,6 +53,8 @@ class Manager extends Component {
 
     const response = await fetch(API_URL, options).then((data) => data.json());
     const { data, errors } = response.data.manager;
+
+    console.log("this is data", data);
 
     // I know this is shit code
     // It's to compile without warnings
@@ -116,7 +118,7 @@ class Manager extends Component {
       }
     }
 
-    if (!this.props.app.data.manager) {
+    if (!this.props.app.data) {
       return <Redirect to="/manager-login"></Redirect>;
     }
 
