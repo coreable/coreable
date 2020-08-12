@@ -34,6 +34,7 @@ class Manager extends Component {
   }
 
   componentDidMount = () => {
+    console.log(this.props);
     this.fetchData();
   };
 
@@ -58,7 +59,6 @@ class Manager extends Component {
     if (errors && data) {
       console.log(data);
     }
-
 
     if (errors) {
       console.error(errors[0]["message"]);
@@ -116,8 +116,8 @@ class Manager extends Component {
       }
     }
 
-    if (!this.props.app.data.user) {
-      return <Redirect to="/"></Redirect>;
+    if (!this.props.app.data.manager) {
+      return <Redirect to="/manager-login"></Redirect>;
     }
 
     return (
