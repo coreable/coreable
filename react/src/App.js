@@ -18,6 +18,7 @@ import { LinearProgress } from "@material-ui/core";
 import ReactGA from "react-ga";
 
 import { JWT, API_URL } from "./constants";
+import { MANAGER_API } from "./queries";
 
 import "./App.scss";
 
@@ -108,6 +109,28 @@ class App extends Component {
     });
   };
 
+  refreshMeManager = async (removeJWT = false) => {
+    // removeJWT Used for Login/Register
+    if (removeJWT === true) {
+      await this.removeJWT();
+    }
+    if (!this.state.JWT) {
+      await this.updateJWT();
+    }
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          fetching: true,
+        },
+        async () => {
+          const state = await this.fetchMeManager();
+          return r(state);
+        }
+      );
+    });
+  };
+
   fetchMe = async () => {
     const query = {
       query: `
@@ -190,6 +213,52 @@ class App extends Component {
     const res = await fetch(API_URL, options).then((res) => res.json());
 
     let { data, errors } = res.data.me;
+
+    if (!data) {
+      data = {
+        user: null,
+      };
+    }
+
+    if (!errors) {
+      errors = [];
+    }
+
+    return this.setState(
+      {
+        ...this.state,
+        data,
+        errors,
+        fetching: false,
+      },
+      () => {
+        return {
+          data,
+          errors,
+        };
+      }
+    );
+  };
+
+  fetchMeManager = async () => {
+    const query = {
+      query: MANAGER_API.query,
+    };
+
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: this.state.JWT,
+      },
+      body: JSON.stringify(query),
+    };
+
+    const res = await fetch(API_URL, options).then((res) => res.json());
+
+    console.log(res);
+    let { data, errors } = res.data.manager;
 
     if (!data) {
       data = {
@@ -365,7 +434,7 @@ class App extends Component {
                 <ManagerLogin
                   {...props}
                   app={this.state}
-                  refreshMe={this.refreshMe}
+                  refreshMe={this.refreshMeManager}
                   ReactGA={ReactGA}
                 />
               )}
@@ -377,7 +446,7 @@ class App extends Component {
                 <Manager
                   {...props}
                   app={this.state}
-                  refreshMe={this.refreshMe}
+                  refreshMe={this.refreshMeManager}
                   ReactGA={ReactGA}
                 />
               )}
