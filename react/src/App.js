@@ -23,6 +23,7 @@ import "./App.scss";
 
 import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
+import { isImportTypeNode } from "typescript";
 const Login = lazy(() => import("./components/login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/register/Register"));
@@ -38,6 +39,9 @@ const Communication = lazy(() =>
   import("./components/Onboarding/Communication/Communication")
 );
 const Manager = lazy(() => import("./components/home/Manager/Manager"));
+const ManagerLogin = lazy(() =>
+  import("./components/home/Manager/Login/Login")
+);
 
 class App extends Component {
   constructor(props) {
@@ -178,7 +182,7 @@ class App extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.state.JWT,
+        JWT: this.state.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -186,7 +190,7 @@ class App extends Component {
     const res = await fetch(API_URL, options).then((res) => res.json());
 
     let { data, errors } = res.data.me;
-    
+
     if (!data) {
       data = {
         user: null,
@@ -197,18 +201,20 @@ class App extends Component {
       errors = [];
     }
 
-    return this.setState({
-      ...this.state,
-      data,
-      errors,
-      fetching: false,
-    },
+    return this.setState(
+      {
+        ...this.state,
+        data,
+        errors,
+        fetching: false,
+      },
       () => {
         return {
           data,
           errors,
         };
-      });
+      }
+    );
   };
 
   componentDidMount = () => {
@@ -345,6 +351,18 @@ class App extends Component {
               path="/communication"
               component={(props) => (
                 <Communication
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/manager-login"
+              component={(props) => (
+                <ManagerLogin
                   {...props}
                   app={this.state}
                   refreshMe={this.refreshMe}
