@@ -286,7 +286,10 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    this.refreshMe();
+    localStorage.getItem("userType") === "manager"
+      ? this.refreshMeManager()
+      : this.refreshMe();
+
     ReactGA.pageview("/");
   };
 

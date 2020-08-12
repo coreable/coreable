@@ -120,6 +120,7 @@ class Login extends Component {
     if (data) {
       (async () => {
         await Promise.resolve();
+        localStorage.setItem("userType", "manager");
         return localStorage.setItem(JWT, data.token);
       })().then(async () => {
         await this.props.refreshMe(true);
@@ -131,7 +132,7 @@ class Login extends Component {
   };
 
   render() {
-    if (this.props.app.data.user) {
+    if (this.props.app.data.manager) {
       return <Redirect to="/manager"></Redirect>;
     }
 
