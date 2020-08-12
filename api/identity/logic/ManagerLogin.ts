@@ -20,13 +20,6 @@ export async function ManagerLogin(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let manager: any;
   let token: string | undefined;
-  if (context.JWT) {
-    errors.push({
-      code: 'ER_AUTH_FAILURE',
-      path: 'JWT',
-      message: 'User already authenticated'
-    });
-  }
   if (!errors.length) {
     manager = await UniversityManager.findOne({
       where: { email: args.email.toLowerCase() }
@@ -69,6 +62,11 @@ export async function ManagerLogin(root: any, args: any, context: any) {
         // now + 30 minutes
         newDateObj.setTime(oldDateObj.getTime() + (30 * 60 * 1000));
         manager.lockoutTimer = newDateObj;
+        errors.push({
+          code: 'ER_ACC_LOCKED',
+          path: 'account',
+          message: 'Account temporarily locked'
+        });
       }
       await manager.save();
     }
