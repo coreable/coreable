@@ -238,6 +238,8 @@ class Trait extends Component {
   };
 
   render() {
+    let buttons = [];
+
     return (
       <div
         style={{
@@ -346,20 +348,21 @@ class Trait extends Component {
                     return user._id === this.state.user_id;
                   })
                   .map((user, index) => {
-                    return (
-                      <Button
-                        className="select-user-button"
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                        style={this.getButtonStyles(user)}
-                        disableElevation
-                        key={index}
-                        onClick={() => this.handleSelectedUserChange(user)}
-                      >
-                        {user.identity.firstName + " " + user.identity.lastName}
-                      </Button>
-                    );
+                    let button = (<Button
+                      className="select-user-button"
+                      size="small"
+                      variant="contained"
+                      color="primary"
+                      style={this.getButtonStyles(user)}
+                      disableElevation
+                      key={index}
+                      id={user._id+'_'+index}
+                      onClick={() => this.handleSelectedUserChange(user)}
+                    >
+                      {user.identity.firstName + " " + user.identity.lastName}
+                    </Button>);
+                    buttons.push(button);
+                    return button;
                   })
               : this.props.pending.pending.map((user, index) => {
                   return (
