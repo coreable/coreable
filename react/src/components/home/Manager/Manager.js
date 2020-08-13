@@ -26,6 +26,12 @@ class Manager extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      report: null,
+      organisations: null,
+      subjects: null,
+      teams: null,
+      users: null,
+
       topStrengths: null,
       areasToImprove: null,
       overEstimation: null,
@@ -34,13 +40,12 @@ class Manager extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.props);
+    // console.log(this.props);
     this.fetchData();
   };
 
   fetchData = async () => {
-    const query = MANAGER_API.query;
-    console.log("in fetch data");
+    const query = MANAGER_API;
     const options = {
       method: "POST",
       mode: "cors",
@@ -54,7 +59,8 @@ class Manager extends Component {
     const response = await fetch(API_URL, options).then((data) => data.json());
     const { data, errors } = response.data.manager;
 
-    console.log("this is data", data);
+    console.log("data", data.manager);
+    // console.log(this.props.app.data);
 
     // I know this is shit code
     // It's to compile without warnings
@@ -66,10 +72,17 @@ class Manager extends Component {
       console.error(errors[0]["message"]);
       return false;
     }
-    // this.setState({
-    //   ...this.state,
-    //   report: "im the report",
-    // });
+
+    let report = data.manager;
+    let organisations;
+    let subjects;
+    let teams;
+    let users;
+
+    this.setState({
+      ...this.state,
+      report,
+    });
   };
 
   filter = {
@@ -181,9 +194,7 @@ const DashboardFilter = () => {
     // };
   });
   const handlers = {
-    selectBox: function() {
-      console.log("hello");
-    },
+    selectBox: function() {},
   };
 
   return (

@@ -416,6 +416,18 @@ const MANAGER_API = {
               lastName
               email
             }
+            team {
+              _id
+              name
+            }
+            tutorial {
+              _id
+              name
+            }
+            organisation {
+              _id
+              name
+            }
             report {
               average {
                 default {
