@@ -61,11 +61,10 @@ const sequelize = new _sequelize({
 });
 
 (async () => {
-  await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
   try {
     await sequelize.query(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
-  } catch {
-
+  } catch (err) {
+    await sequelize.query(`SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
   }
 })().then(() => true);
 
