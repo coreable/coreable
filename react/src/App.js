@@ -24,7 +24,7 @@ import "./App.scss";
 
 import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
-import { isImportTypeNode } from "typescript";
+// import { isImportTypeNode } from "typescript";
 const Login = lazy(() => import("./components/login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/register/Register"));

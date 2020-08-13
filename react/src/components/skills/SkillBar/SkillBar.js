@@ -4,7 +4,9 @@ import "./SkillBar.scss";
 
 export default function SkillBar(props) {
   const { type, isFacet, isComm } = props;
+  console.log(isComm);
   const { name, averageScore, reflection, difference } = props.values;
+  console.log(difference);
 
   function convertToText(averageScore) {
     if (averageScore < 20) {

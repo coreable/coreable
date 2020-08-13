@@ -24,7 +24,7 @@ export function GetUserSubjects(user: any, args: any, { USER }: any) {
       _id: user._id
     },
     raw: true,
-    group: ['teams.tutorial.subject_id'],
+    group: ['teams.tutorial.subject._id'],
     attributes: {
       exclude: [
         '_id',
