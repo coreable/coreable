@@ -31,6 +31,7 @@ class Manager extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       report: null,
       organisations: null,
       tutorials: null,
@@ -80,22 +81,30 @@ class Manager extends Component {
     }
 
     let report = data.manager;
-    let topStrengths;
-    let areasToImprove;
-    let overEstimation;
-    let underEstimation;
+
+    const organisations = this.utils.dataToState(report, "organisations");
+    const tutorials = this.utils.dataToState(report, "tutorials");
+    const subjects = this.utils.dataToState(report, "subjects");
+    const teams = this.utils.dataToState(report, "teams");
+    const users = this.utils.dataToState(report, "users");
 
     //NOTE: if("all") -> then average all scores
-    let organisations = this.utils.dataToState(report, "organisations");
-    let tutorials = this.utils.dataToState(report, "tutorials");
-    let subjects = this.utils.dataToState(report, "subjects");
-    let teams = this.utils.dataToState(report, "teams");
-    let users = this.utils.dataToState(report, "users");
-
     //set topStrengths, areasToImprove etc. by averaging all scores
+
+    const topStrengths = this.ranking.getStrengths(
+      report,
+      "all",
+      "all",
+      "all",
+      "all"
+    );
+    // const areasToImprove;
+    // const overEstimation;
+    // const underEstimation;
 
     this.setState({
       ...this.state,
+      loading: false,
       report,
       organisations,
       tutorials,
@@ -137,7 +146,25 @@ class Manager extends Component {
     },
     averageScores: (data, type) => {
       let result = [];
+
       return result;
+    },
+  };
+
+  ranking = {
+    getStrengths: (report, tutorials, subjects, teams, users) => {
+      let result = [];
+      console.log("tutoriaks", tutorials);
+      // if (filterType[0] === "all") {
+      //   console.log("all");
+      // } else {
+      //   console.log("not all");
+      //   //filter by user
+      //   //filter by tutorial
+      //   //filter by subject
+      //   //filter by team
+      //   //filter by collabOrComm
+      // }
     },
   };
 
@@ -151,6 +178,9 @@ class Manager extends Component {
     ],
     getFilteredResults: (e) => {
       this.view.toggleTab(e);
+    },
+    dashboard: (value) => {
+      console.log(value);
     },
   };
 
@@ -168,6 +198,8 @@ class Manager extends Component {
   };
 
   render() {
+    const { tutorials, subjects, teams, users } = this.state;
+
     window.onscroll = function() {
       filterBar();
     };
@@ -205,7 +237,10 @@ class Manager extends Component {
             <CommunicationCollaborationTab toggle={this.view.toggleTab} />
           </div>
           <div className="main-skills-container">
-            <DashboardFilter />
+            <DashboardFilter
+              filters={{ tutorials, subjects, teams, users }}
+              filterHandler={this.filter.dashboard}
+            />
             <CollaborationIndex />
             <TopStrengths />
             <AreasToImprove />
@@ -242,7 +277,9 @@ const Heading = () => {
   );
 };
 
-const DashboardFilter = () => {
+const DashboardFilter = (props) => {
+  const { subjects, teams, tutorials, users } = props.filters;
+
   useEffect(() => {
     handlers.selectBox();
     // return () => {
@@ -280,10 +317,30 @@ const DashboardFilter = () => {
           // alignItems: "center",
         }}
       >
-        <SelectBox title="Subject" />
-        <SelectBox title="Tutorials" />
-        <SelectBox title="Team" />
-        <SelectBox title="Individual" />
+        <SelectBox
+          title="Subject"
+          list={subjects}
+          isUser={false}
+          filterHandler={props.filterHandler}
+        />
+        <SelectBox
+          title="Tutorials"
+          list={tutorials}
+          isUser={false}
+          filterHandler={props.filterHandler}
+        />
+        <SelectBox
+          title="Team"
+          list={teams}
+          isUser={false}
+          filterHandler={props.filterHandler}
+        />
+        <SelectBox
+          title="Individual"
+          list={users}
+          isUser={true}
+          filterHandler={props.filterHandler}
+        />
       </div>
     </div>
   );
@@ -402,9 +459,20 @@ const Underestimation = () => {
 };
 
 const SelectBox = (props) => {
+  let list = props.list;
+  let isUser = props.isUser;
+
   useEffect(() => {
     addEventListeners();
   });
+
+  const filterHandler = (value) => {
+    props.filterHandler(value);
+  };
+
+  const upperCase = (word) => {
+    return word.slice(0, 1).toUpperCase() + word.slice(1);
+  };
 
   const addEventListeners = () => {
     let selectBoxes = document.querySelectorAll(".select-box");
@@ -414,10 +482,10 @@ const SelectBox = (props) => {
       let optionContainer = selectBox.querySelector(".options-container");
       selected.addEventListener("click", function() {
         optionContainer.classList.add("active");
-        console.log("hello");
         let options = selectBox.querySelectorAll(".option");
         options.forEach((option) => {
-          option.addEventListener("click", function() {
+          option.addEventListener("click", function(e) {
+            filterHandler(option.innerText);
             selected.textContent = option.querySelector("label").textContent;
             optionContainer.classList.remove("active");
           });
@@ -450,34 +518,16 @@ const SelectBox = (props) => {
           <input type="checkbox" name="all" id="all" />
           <label htmlFor="all">All</label>
         </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
-        <div className="option">
-          <input type="checkbox" name="testing" id="testing" />
-          <label htmlFor="testing">Testing</label>
-        </div>
+        {list?.map((item, index) => {
+          return (
+            <div className="option" key={index}>
+              <input type="checkbox" name="testing" id="testing" />
+              <label htmlFor="testing">
+                {isUser ? upperCase(item.firstName) : upperCase(item.name)}
+              </label>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
