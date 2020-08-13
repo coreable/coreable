@@ -317,6 +317,9 @@ const MANAGER_API = {
           team {
             _id
             name
+            user {
+              _id
+            }
             report {
               average {
                 default {
