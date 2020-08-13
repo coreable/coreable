@@ -22,12 +22,18 @@ import {
 } from "react-router-dom";
 import "./Manager.scss";
 
+let selectedTutorial = "all";
+let selectedSubject = "all";
+let selectedTeam = "all";
+let selectedUser = "all";
+
 class Manager extends Component {
   constructor(props) {
     super(props);
     this.state = {
       report: null,
       organisations: null,
+      tutorials: null,
       subjects: null,
       teams: null,
       users: null,
@@ -74,15 +80,65 @@ class Manager extends Component {
     }
 
     let report = data.manager;
-    let organisations;
-    let subjects;
-    let teams;
-    let users;
+    let topStrengths;
+    let areasToImprove;
+    let overEstimation;
+    let underEstimation;
+
+    //NOTE: if("all") -> then average all scores
+    let organisations = this.utils.dataToState(report, "organisations");
+    let tutorials = this.utils.dataToState(report, "tutorials");
+    let subjects = this.utils.dataToState(report, "subjects");
+    let teams = this.utils.dataToState(report, "teams");
+    let users = this.utils.dataToState(report, "users");
+
+    //set topStrengths, areasToImprove etc. by averaging all scores
 
     this.setState({
       ...this.state,
       report,
+      organisations,
+      tutorials,
+      subjects,
+      teams,
+      users,
     });
+  };
+
+  utils = {
+    dataToState: (data, type) => {
+      let result = [];
+      if (type === "tutorials") {
+        data.tutorial.map((tutorial) =>
+          result.push({ id: tutorial._id, name: tutorial.name })
+        );
+        return result;
+      }
+      if (type === "subjects") {
+        data.subject.map((subject) =>
+          result.push({ id: subject._id, name: subject.name })
+        );
+        return result;
+      }
+      if (type === "teams") {
+        data.team.map((team) => result.push({ id: team._id, name: team.name }));
+        return result;
+      }
+      if (type === "users") {
+        data.user.map((user) =>
+          result.push({
+            id: user._id,
+            firstName: user.identity.firstName,
+            lastName: user.identity.lastName,
+          })
+        );
+        return result;
+      }
+    },
+    averageScores: (data, type) => {
+      let result = [];
+      return result;
+    },
   };
 
   filter = {
