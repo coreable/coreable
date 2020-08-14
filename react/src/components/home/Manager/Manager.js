@@ -22,10 +22,10 @@ import {
 } from "react-router-dom";
 import "./Manager.scss";
 
-let selectedTutorial = "all";
-let selectedSubject = "all";
-let selectedTeam = "all";
-let selectedUser = "all";
+let selectedTutorial = "All";
+let selectedSubject = "All";
+let selectedTeam = "All";
+let selectedUser = "All";
 
 class Manager extends Component {
   constructor(props) {
@@ -93,10 +93,10 @@ class Manager extends Component {
 
     const topStrengths = this.ranking.getStrengths(
       report,
-      "all",
-      "all",
-      "all",
-      "all"
+      "All", //subject
+      "All", //tutorials
+      "All", //team
+      "All" //user
     );
     // const areasToImprove;
     // const overEstimation;
@@ -152,35 +152,76 @@ class Manager extends Component {
   };
 
   ranking = {
-    getStrengths: (report, tutorials, subjects, teams, users) => {
-      let result = [];
-      console.log("tutoriaks", tutorials);
-      // if (filterType[0] === "all") {
-      //   console.log("all");
-      // } else {
-      //   console.log("not all");
-      //   //filter by user
-      //   //filter by tutorial
-      //   //filter by subject
-      //   //filter by team
-      //   //filter by collabOrComm
-      // }
+    getStrengths: (report, tutorial, subject, team, user) => {
+      let result;
+      result = this.filter.byTutorial(report["user"], tutorial);
+      // result = this.filter.bySubject(result, subject);
+      // result = this.filter.byTeam(result, team);
+      // result = this.filter.byUser(result, user);
+      console.log("result", result);
+      return result;
     },
   };
 
   filter = {
-    default: [
-      { subject: "" },
-      { tutorials: "" },
-      { team: "" },
-      { individuals: "" },
-      { commOrCollab: "collaboration" },
-    ],
+    byTutorial: (report, tutorial) => {
+      let result = [];
+      if (tutorial === "All") {
+        return report;
+      }
+      result = report.filter((user) => {
+        console.log("user tutorial", user.tutorial);
+        return user["tutorial"]["name"] === tutorial.toLowerCase();
+      });
+      console.log("byTutorial", result);
+      return result;
+    },
+    bySubject: (report, subject) => {},
+    byTeam: (report, team) => {},
+    byUser: (report, user) => {},
     getFilteredResults: (e) => {
       this.view.toggleTab(e);
     },
-    dashboard: (value) => {
-      console.log(value);
+    // central: (report, value) => {
+    //   let result;
+    //   result = this.filter.byTutorial(report, selectedTutorial);
+    //   result = this.filter.bySubject(result, selectedSubject)
+    //   result = this.filter.byTeam(result, selectedTeam)
+    //   result = this.filter.byUser(result, selectedUser)
+    //   return result;
+    // },
+    dashboard: (value, type) => {
+      const report = this.state.report["user"];
+      let result;
+      if (type === "Subject") {
+        result = this.filter.byTutorial(report, selectedTutorial);
+        result = this.filter.bySubject(result, value);
+        result = this.filter.byTeam(result, selectedTeam);
+        result = this.filter.byUser(result, selectedUser);
+        selectedSubject = value;
+      }
+      if (type === "Tutorials") {
+        result = this.filter.byTutorial(report, value);
+        console.log("dashboard filter", result);
+        result = this.filter.bySubject(result, value);
+        result = this.filter.byTeam(result, selectedTeam);
+        result = this.filter.byUser(result, selectedUser);
+        selectedTutorial = value;
+      }
+      if (type === "Team") {
+        result = this.filter.byTutorial(report, selectedTutorial);
+        result = this.filter.bySubject(result, value);
+        result = this.filter.byTeam(result, value);
+        result = this.filter.byUser(result, selectedUser);
+        selectedTeam = value;
+      }
+      if (type === "Individual") {
+        result = this.filter.byTutorial(report, selectedTutorial);
+        result = this.filter.bySubject(result, value);
+        result = this.filter.byTeam(result, selectedTeam);
+        result = this.filter.byUser(result, value);
+        selectedUser = value;
+      }
     },
   };
 
@@ -466,8 +507,8 @@ const SelectBox = (props) => {
     addEventListeners();
   });
 
-  const filterHandler = (value) => {
-    props.filterHandler(value);
+  const filterHandler = (value, title) => {
+    props.filterHandler(value, title);
   };
 
   const upperCase = (word) => {
@@ -485,7 +526,6 @@ const SelectBox = (props) => {
         let options = selectBox.querySelectorAll(".option");
         options.forEach((option) => {
           option.addEventListener("click", function(e) {
-            filterHandler(option.innerText);
             selected.textContent = option.querySelector("label").textContent;
             optionContainer.classList.remove("active");
           });
@@ -505,24 +545,33 @@ const SelectBox = (props) => {
       <i style={{ fontSize: "20px" }} className="fa">
         &#xf107;
       </i>
-      <div className="options-container">
-        {/* {props.options.map((option) => {
-          return (
-            <div className="option">
-              <input type="checkbox" name="" id="" />
-              <label htmlFor=""></label>
-            </div>
-          );
-        })} */}
+      <div className="options-container" data-name={props.title}>
         <div className="option">
           <input type="checkbox" name="all" id="all" />
           <label htmlFor="all">All</label>
         </div>
         {list?.map((item, index) => {
           return (
-            <div className="option" key={index}>
+            <div
+              className="option"
+              key={index}
+              onClick={(e) => {
+                filterHandler(
+                  isUser ? upperCase(item.firstName) : upperCase(item.name),
+                  e.target.parentNode.dataset.name
+                );
+              }}
+            >
               <input type="checkbox" name="testing" id="testing" />
-              <label htmlFor="testing">
+              <label
+                htmlFor="testing"
+                onClick={(e) => {
+                  filterHandler(
+                    isUser ? upperCase(item.firstName) : upperCase(item.name),
+                    e.target.parentNode.parentNode.dataset.name
+                  );
+                }}
+              >
                 {isUser ? upperCase(item.firstName) : upperCase(item.name)}
               </label>
             </div>
