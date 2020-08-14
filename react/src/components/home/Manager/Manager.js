@@ -26,6 +26,7 @@ let selectedTutorial = "All";
 let selectedSubject = "All";
 let selectedTeam = "All";
 let selectedUser = "All";
+let collabOrComm = "collaboration";
 
 class Manager extends Component {
   constructor(props) {
@@ -81,6 +82,10 @@ class Manager extends Component {
     }
 
     let report = data.manager;
+    let usersInfo =
+      data.manager["organisation"][0]["subject"][0]["tutorial"][0]["team"][0][
+        "user"
+      ];
 
     const organisations = this.utils.dataToState(report, "organisations");
     const tutorials = this.utils.dataToState(report, "tutorials");
@@ -91,16 +96,18 @@ class Manager extends Component {
     //NOTE: if("all") -> then average all scores
     //set topStrengths, areasToImprove etc. by averaging all scores
 
-    const topStrengths = this.ranking.getStrengths(
-      report,
-      "All", //subject
-      "All", //tutorials
-      "All", //team
-      "All" //user
+    const topStrengths = this.ranking.getStrengths(usersInfo, collabOrComm);
+    const areasToImprove = this.ranking.getAreasToImprove(
+      usersInfo,
+      collabOrComm
     );
-    // const areasToImprove;
-    // const overEstimation;
-    // const underEstimation;
+    // const overEstimation = this.ranking.getOverEstimation(usersInfo, collabOrComm);
+    // const underEstimation = this.ranking.getUnderEstimation(
+    //   usersInfo,
+    //   collabOrComm
+    // );
+    console.log("top strengths", topStrengths);
+    console.log("areas to improve", areasToImprove);
 
     this.setState({
       ...this.state,
@@ -117,30 +124,54 @@ class Manager extends Component {
   utils = {
     dataToState: (data, type) => {
       let result = [];
-      if (type === "tutorials") {
-        data.tutorial.map((tutorial) =>
-          result.push({ id: tutorial._id, name: tutorial.name })
-        );
+
+      if (type === "subjects") {
+        data["organisation"].map((item) => {
+          return item.subject.map((subject) => {
+            result.push({ id: subject._id, name: subject.name });
+          });
+        });
         return result;
       }
-      if (type === "subjects") {
-        data.subject.map((subject) =>
-          result.push({ id: subject._id, name: subject.name })
-        );
+      if (type === "tutorials") {
+        data["organisation"].map((item) => {
+          return item.subject.map((item) => {
+            return item.tutorial.map((tutorial) => {
+              result.push({ id: tutorial._id, name: tutorial.name });
+            });
+          });
+        });
         return result;
       }
       if (type === "teams") {
-        data.team.map((team) => result.push({ id: team._id, name: team.name }));
+        data["organisation"].map((item) => {
+          return item.subject.map((item) => {
+            return item.tutorial.map((tutorial) => {
+              return tutorial.team.map((team) => {
+                result.push({ id: team._id, name: team.name });
+              });
+            });
+          });
+        });
         return result;
       }
       if (type === "users") {
-        data.user.map((user) =>
-          result.push({
-            id: user._id,
-            firstName: user.identity.firstName,
-            lastName: user.identity.lastName,
-          })
-        );
+        data["organisation"].map((item) => {
+          return item.subject.map((item) => {
+            return item.tutorial.map((tutorial) => {
+              return tutorial.team.map((team) => {
+                return team.user.map((user) => {
+                  result.push({
+                    id: user._id,
+                    firstName: user.identity.firstName,
+                    lastName: user.identity.lastName,
+                  });
+                });
+              });
+            });
+          });
+        });
+
         return result;
       }
     },
@@ -149,79 +180,236 @@ class Manager extends Component {
 
       return result;
     },
+    switchCollaboration: (array, resultArray) => {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+          switch (array[i][j].field) {
+            case "emotionalIntelligence":
+              resultArray[0].value += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[0].value = resultArray[0].value / array.length;
+              }
+              break;
+            case "initiative":
+              resultArray[1].value += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[1].value = resultArray[1].value / array.length;
+              }
+              break;
+            case "trust":
+              resultArray[2].value += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[2].value = resultArray[2].value / array.length;
+              }
+              break;
+            case "flex":
+              resultArray[3].value += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[3].value = resultArray[3].value / array.length;
+              }
+              break;
+            case "resilience":
+              resultArray[4].value += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[4].value = resultArray[4].value / array.length;
+              }
+              break;
+            default:
+              break;
+          }
+        }
+      }
+      return resultArray;
+    },
   };
 
   ranking = {
-    getStrengths: (report, tutorial, subject, team, user) => {
+    finalResult: [
+      { field: "emotionalIntelligence", value: 0 },
+      { field: "initiative", value: 0 },
+      { field: "trust", value: 0 },
+      { field: "flex", value: 0 },
+      { field: "resilience", value: 0 },
+    ],
+    getStrengths: (report, collabOrComm) => {
       let result;
-      result = this.filter.byTutorial(report["user"], tutorial);
-      // result = this.filter.bySubject(result, subject);
-      // result = this.filter.byTeam(result, team);
-      // result = this.filter.byUser(result, user);
-      console.log("result", result);
-      return result;
+      let finalResult = JSON.parse(JSON.stringify(this.ranking.finalResult));
+
+      if (collabOrComm === "communication") {
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        result = this.filter.byCollaboration(report);
+      }
+
+      console.log("results", result);
+
+      let averageResults = result
+        .filter((user) => {
+          return user.average;
+        })
+        .map((user) => {
+          return user.average;
+        });
+
+      finalResult = this.utils
+        .switchCollaboration(averageResults, finalResult)
+        .sort((a, b) => b.value - a.value);
+
+      return finalResult;
+    },
+    //Fine lowest average scores combined.
+    getAreasToImprove: (report, collabOrComm) => {
+      let result;
+      let finalResult = JSON.parse(JSON.stringify(this.ranking.finalResult));
+      if (collabOrComm === "communication") {
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        result = this.filter.byCollaboration(report);
+      }
+      let averageResults = result
+        .filter((user) => {
+          return user.average;
+        })
+        .map((user) => {
+          return user.average;
+        });
+      finalResult = this.utils
+        .switchCollaboration(averageResults, finalResult)
+        .sort((a, b) => a.value - b.value);
+      return finalResult;
+    },
+    //reflection > average
+    getOverEstimation: (report, collabOrComm) => {
+      let result;
+      return;
+    },
+    //reflection < average
+    getUnderEstimation: (report, type) => {
+      let result;
+      return;
     },
   };
 
   filter = {
-    byTutorial: (report, tutorial) => {
-      let result = [];
-      if (tutorial === "All") {
+    bySubject: (report, subjectID) => {
+      if (subjectID === "All") {
         return report;
       }
-      result = report.filter((user) => {
-        console.log("user tutorial", user.tutorial);
-        return user["tutorial"]["name"] === tutorial.toLowerCase();
+
+      return report.filter((user) => {
+        return user.subject.filter((subject) => {
+          return subject._id === subjectID;
+        });
       });
-      console.log("byTutorial", result);
-      return result;
     },
-    bySubject: (report, subject) => {},
-    byTeam: (report, team) => {},
-    byUser: (report, user) => {},
+    byTutorial: (report, tutorialID) => {
+      if (tutorialID === "All") {
+        return report;
+      }
+
+      return report.filter((user) => {
+        return user.tutorial.filter((tutorial) => {
+          return tutorial._id === tutorialID;
+        });
+      });
+    },
+    byTeam: (report, teamID) => {
+      if (teamID === "All") {
+        return report;
+      }
+
+      return report.filter((user) => {
+        return user.team.filter((team) => {
+          return team._id === teamID;
+        });
+      });
+    },
+    byUser: (report, userID) => {
+      if (userID === "All") {
+        return report;
+      }
+
+      return report.filter((user) => {
+        return user._id === userID;
+      });
+    },
+    byCollaboration: (users) => {
+      return users?.map((user) => {
+        return {
+          id: user._id,
+          firstName: user.identity.firstName,
+          lastName: user.identity.lastName,
+          average: user.report.average.collaboration?.facets.sorted,
+          reflection: user.report.reflection.collaboration?.facets.sorted,
+        };
+      });
+    },
+    byCommunication: (report) => {},
     getFilteredResults: (e) => {
       this.view.toggleTab(e);
     },
-    // central: (report, value) => {
-    //   let result;
-    //   result = this.filter.byTutorial(report, selectedTutorial);
-    //   result = this.filter.bySubject(result, selectedSubject)
-    //   result = this.filter.byTeam(result, selectedTeam)
-    //   result = this.filter.byUser(result, selectedUser)
-    //   return result;
-    // },
     dashboard: (value, type) => {
-      const report = this.state.report["user"];
+      const report = this.state.report["organisation"][0]["subject"][0][
+        "tutorial"
+      ][0]["team"][0]["user"];
       let result;
       if (type === "Subject") {
-        result = this.filter.byTutorial(report, selectedTutorial);
-        result = this.filter.bySubject(result, value);
+        result = this.filter.bySubject(report, value);
+        result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, selectedUser);
         selectedSubject = value;
       }
       if (type === "Tutorials") {
-        result = this.filter.byTutorial(report, value);
-        console.log("dashboard filter", result);
-        result = this.filter.bySubject(result, value);
+        result = this.filter.bySubject(report, selectedSubject);
+        result = this.filter.byTutorial(result, value);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, selectedUser);
         selectedTutorial = value;
       }
       if (type === "Team") {
-        result = this.filter.byTutorial(report, selectedTutorial);
-        result = this.filter.bySubject(result, value);
+        result = this.filter.bySubject(report, selectedSubject);
+        result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, value);
         result = this.filter.byUser(result, selectedUser);
         selectedTeam = value;
       }
       if (type === "Individual") {
-        result = this.filter.byTutorial(report, selectedTutorial);
-        result = this.filter.bySubject(result, value);
+        result = this.filter.bySubject(report, selectedSubject);
+        result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, value);
         selectedUser = value;
       }
+
+      // console.log("result", result);
+
+      if (type === "communication") {
+        collabOrComm = "communication";
+      }
+      if (type === "collaboration") {
+        collabOrComm = "collaboration";
+      }
+
+      //result is user(s)
+      const finalResult = {
+        strengths: this.ranking.getStrengths(result, collabOrComm),
+        areasToImprove: this.ranking.getAreasToImprove(result, collabOrComm),
+        overEstimation: this.ranking.getOverEstimation(result, collabOrComm),
+        underEstimation: this.ranking.getUnderEstimation(result, collabOrComm),
+      };
+
+      console.log("strengths", finalResult["strengths"]);
+
+      this.setState({
+        ...this.state,
+        topStrengths: finalResult["strengths"],
+        // areasToImprove: finalResult["areasToImprove"],
+        // overEstimation: finalResult["overEstimation"],
+        // underEstimation: finalResult["underEstimation"],
+      });
     },
   };
 
@@ -546,20 +734,31 @@ const SelectBox = (props) => {
         &#xf107;
       </i>
       <div className="options-container" data-name={props.title}>
-        <div className="option">
+        <div
+          className="option"
+          data-name={props.title}
+          onClick={(e) => {
+            filterHandler("All", e.target.parentNode.dataset.name);
+          }}
+        >
           <input type="checkbox" name="all" id="all" />
-          <label htmlFor="all">All</label>
+          <label
+            htmlFor="all"
+            onClick={(e) => {
+              filterHandler("All", e.target.parentNode.dataset.name);
+            }}
+          >
+            All
+          </label>
         </div>
         {list?.map((item, index) => {
           return (
             <div
               className="option"
               key={index}
+              data-name={props.title}
               onClick={(e) => {
-                filterHandler(
-                  isUser ? upperCase(item.firstName) : upperCase(item.name),
-                  e.target.parentNode.dataset.name
-                );
+                filterHandler(item.id, e.target.parentNode.dataset.name);
               }}
             >
               <input type="checkbox" name="testing" id="testing" />
@@ -567,12 +766,15 @@ const SelectBox = (props) => {
                 htmlFor="testing"
                 onClick={(e) => {
                   filterHandler(
-                    isUser ? upperCase(item.firstName) : upperCase(item.name),
-                    e.target.parentNode.parentNode.dataset.name
+                    // isUser ? upperCase(item.firstName) : upperCase(item.name),
+                    item.id,
+                    e.target.parentNode.dataset.name
                   );
                 }}
               >
-                {isUser ? upperCase(item.firstName) : upperCase(item.name)}
+                {isUser
+                  ? `${upperCase(item.firstName)} ${upperCase(item.lastName)}`
+                  : upperCase(item.name)}
               </label>
             </div>
           );
