@@ -24,14 +24,14 @@ export async function GetOrganisationSubjects(organisation: any, args: any, cont
     raw: true,
     attributes: {
       include: [
-        [sequelize.col('subjects.tutorials._id'), '_id'],
-        [sequelize.col('subjects.tutorials.name'), 'name'],
-        [sequelize.col('subjects.tutorials.state'), 'state'],
+        [sequelize.col('subjects._id'), '_id'],
+        [sequelize.col('subjects.name'), 'name'],
+        [sequelize.col('subjects.state'), 'state'],
       ]
     },
     include: [{
       model: UniversitySubject,
       as: 'subjects',
     }]
-  })
+  });
 }

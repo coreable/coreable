@@ -25,7 +25,7 @@ import { SKILLS_API } from "../../queries";
 import Radar from "./Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import "./Skills.scss";
-import { overArgs } from "lodash";
+// import { overArgs } from "lodash";
 
 let commOrCollab = "collab";
 let traitOrFacet = "facet";

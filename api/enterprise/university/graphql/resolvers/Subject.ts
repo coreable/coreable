@@ -41,6 +41,7 @@ import { CalculateCommunicationFacets } from '../../logic/CalculateCommunication
 import { TrimReviewToCommunicationTraits } from '../../logic/TrimReviewToCommunicationTraits';
 import { CalculateCollaborationFacets } from '../../logic/CalculateCollaborationFacets';
 import { TrimReviewToCollaborationTraits } from '../../logic/TrimReviewToCollaborationTraits';
+import { UniversityTutorialResolver } from './Tutorial';
 
 export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
   name: 'UniversitySubjectResolver',
@@ -66,7 +67,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
         }
       },
       'tutorial': {
-        type: new GraphQLList(UniversityTeamResolver),
+        type: new GraphQLList(UniversityTutorialResolver),
         args: {
           _id: {
             type: GraphQLString
