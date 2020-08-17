@@ -26,11 +26,8 @@ let selectedTutorial = "All";
 let selectedSubject = "All";
 let selectedTeam = "All";
 let selectedUser = "All";
-<<<<<<< HEAD
 let collabOrComm = "collaboration";
-=======
 console.log(selectedSubject);
->>>>>>> not sure of unstaged changes
 
 class Manager extends Component {
   constructor(props) {
@@ -105,7 +102,6 @@ class Manager extends Component {
       usersInfo,
       collabOrComm
     );
-<<<<<<< HEAD
     // const overEstimation = this.ranking.getOverEstimation(usersInfo, collabOrComm);
     // const underEstimation = this.ranking.getUnderEstimation(
     //   usersInfo,
@@ -113,12 +109,9 @@ class Manager extends Component {
     // );
     console.log("top strengths", topStrengths);
     console.log("areas to improve", areasToImprove);
-=======
-    console.log(topStrengths);
     // const areasToImprove;
     // const overEstimation;
     // const underEstimation;
->>>>>>> not sure of unstaged changes
 
     this.setState({
       ...this.state,
