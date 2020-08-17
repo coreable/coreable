@@ -651,7 +651,6 @@ const SKILLS_API = {
   `,
 };
 
-export { MANAGER_API, SKILLS_API };
 
 const MANAGER_API_COPY = {
   query: `
@@ -1256,3 +1255,6 @@ const MANAGER_API_COPY = {
     }
   }`,
 };
+
+
+export { MANAGER_API, SKILLS_API, MANAGER_API_COPY };
