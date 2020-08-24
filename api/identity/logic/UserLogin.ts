@@ -20,13 +20,13 @@ export async function UserLogin(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
   let token: string | undefined;
-  if (context.JWT) {
-    errors.push({
-      code: 'ER_AUTH_FAILURE',
-      path: 'JWT',
-      message: 'User already authenticated'
-    });
-  }
+  // if (context.JWT) {
+  //   errors.push({
+  //     code: 'ER_AUTH_FAILURE',
+  //     path: 'JWT',
+  //     message: 'User already authenticated'
+  //   });
+  // }
   if (!errors.length) {
     user = await User.findOne({
       where: { email: args.email.toLowerCase() }

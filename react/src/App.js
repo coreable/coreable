@@ -18,11 +18,13 @@ import { LinearProgress } from "@material-ui/core";
 import ReactGA from "react-ga";
 
 import { JWT, API_URL } from "./constants";
+import { MANAGER_API } from "./queries";
 
 import "./App.scss";
 
 import Loader from "./components/Loading/Loading";
 import Navbar from "./components/Navbar/Navbar";
+// import { isImportTypeNode } from "typescript";
 const Login = lazy(() => import("./components/login/Login"));
 const LandingPage = lazy(() => import("./components/LandingPage/LandingPage"));
 const Register = lazy(() => import("./components/register/Register"));
@@ -38,6 +40,9 @@ const Communication = lazy(() =>
   import("./components/Onboarding/Communication/Communication")
 );
 const Manager = lazy(() => import("./components/home/Manager/Manager"));
+const ManagerLogin = lazy(() =>
+  import("./components/home/Manager/Login/Login")
+);
 
 class App extends Component {
   constructor(props) {
@@ -98,6 +103,28 @@ class App extends Component {
         },
         async () => {
           const state = await this.fetchMe();
+          return r(state);
+        }
+      );
+    });
+  };
+
+  refreshMeManager = async (removeJWT = false) => {
+    // removeJWT Used for Login/Register
+    if (removeJWT === true) {
+      await this.removeJWT();
+    }
+    if (!this.state.JWT) {
+      await this.updateJWT();
+    }
+    return new Promise((r, f) => {
+      this.setState(
+        {
+          ...this.state,
+          fetching: true,
+        },
+        async () => {
+          const state = await this.fetchMeManager();
           return r(state);
         }
       );
@@ -213,8 +240,56 @@ class App extends Component {
     );
   };
 
+  fetchMeManager = async () => {
+    const query = {
+      query: MANAGER_API.query,
+    };
+
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: this.state.JWT,
+      },
+      body: JSON.stringify(query),
+    };
+
+    const res = await fetch(API_URL, options).then((res) => res.json());
+
+    let { data, errors } = res.data.manager;
+
+    if (!data) {
+      data = {
+        user: null,
+      };
+    }
+
+    if (!errors) {
+      errors = [];
+    }
+
+    return this.setState(
+      {
+        ...this.state,
+        data,
+        errors,
+        fetching: false,
+      },
+      () => {
+        return {
+          data,
+          errors,
+        };
+      }
+    );
+  };
+
   componentDidMount = () => {
-    this.refreshMe();
+    localStorage.getItem("userType") === "manager"
+      ? this.refreshMeManager()
+      : this.refreshMe();
+
     ReactGA.pageview("/");
   };
 
@@ -356,12 +431,24 @@ class App extends Component {
             />
             <Route
               exact
+              path="/manager-login"
+              component={(props) => (
+                <ManagerLogin
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMeManager}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
               path="/manager"
               component={(props) => (
                 <Manager
                   {...props}
                   app={this.state}
-                  refreshMe={this.refreshMe}
+                  refreshMe={this.refreshMeManager}
                   ReactGA={ReactGA}
                 />
               )}

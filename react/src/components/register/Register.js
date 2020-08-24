@@ -106,6 +106,8 @@ class Register extends Component {
     Object.keys(this.handlers.errors()).some((x) => this.handlers.errors()[x]);
 
   registerUser = async () => {
+    // TODO: check for errors before submitting
+
     const query = {
       query: `
         mutation {

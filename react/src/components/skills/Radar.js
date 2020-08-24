@@ -22,7 +22,7 @@ const RadarChart = (props) => {
   if (!props.report) {
     return null;
   }
-  console.log(props.report);
+  // console.log(props.report);
   return (
     <Container className="radar-container">
       <Radar
@@ -64,36 +64,54 @@ const RadarChart = (props) => {
           datasets: [
             {
               label: "Self-review",
-              backgroundColor: "rgba(0,179,229,0.3)",
-              borderColor: "rgba(0,179,229,0.8)",
-              pointRadius: 0,
-              data: [
-                props.report.reflection.collaboration.facets.emotionalIntelligence,
-                props.report.reflection.collaboration.facets.initiative,
-                props.report.reflection.collaboration.facets.trust,
-                props.report.reflection.collaboration.facets.flex,
-                props.report.reflection.collaboration.facets.resilience,
-                props.report.reflection.communication.facets.clarity,
-                props.report.reflection.communication.facets.culture,
-                props.report.reflection.communication.facets.nonVerbal,
-                props.report.reflection.communication.facets.attentive,
-              ],
-            },
-            {
-              label: "Team-review",
               backgroundColor: "rgba(102, 204, 158,0.3)",
               borderColor: "rgba(102, 204, 158,0.8)",
               pointRadius: 0,
               data: [
-                props.report.average.collaboration.facets.emotionalIntelligence,
-                props.report.average.collaboration.facets.initiative,
-                props.report.average.collaboration.facets.trust,
-                props.report.average.collaboration.facets.flex,
-                props.report.average.collaboration.facets.resilience,
-                props.report.average.communication.facets.clarity,
-                props.report.average.communication.facets.culture,
-                props.report.average.communication.facets.nonVerbal,
-                props.report.average.communication.facets.attentive,
+                props.report?.reflection?.collaboration?.facets?.default
+                  ?.emotionalIntelligence || 0,
+                props.report?.reflection?.collaboration?.facets?.default
+                  ?.initiative || 0,
+                props.report?.reflection?.collaboration?.facets?.default
+                  ?.trust || 0,
+                props.report?.reflection?.collaboration?.facets?.default
+                  ?.flex || 0,
+                props.report?.reflection?.collaboration?.facets?.default
+                  ?.resilience || 0,
+                props.report?.reflection?.communication?.facets?.default
+                  ?.clarity || 0,
+                props.report?.reflection?.communication?.facets?.default
+                  ?.culture || 0,
+                props.report?.reflection?.communication?.facets?.default
+                  ?.nonVerbal || 0,
+                props.report?.reflection?.communication?.facets?.default
+                  ?.attentive || 0,
+              ],
+            },
+            {
+              label: "Team-review",
+              backgroundColor: "rgba(0,179,229,0.3)",
+              borderColor: "rgba(0,179,229,0.8)",
+              pointRadius: 0,
+              data: [
+                props.report?.average?.collaboration?.facets?.default
+                  ?.emotionalIntelligence || 0,
+                props.report?.average?.collaboration?.facets?.default
+                  ?.initiative || 0,
+                props.report?.average?.collaboration?.facets?.default?.trust ||
+                  0,
+                props.report?.average?.collaboration?.facets?.default?.flex ||
+                  0,
+                props.report?.average?.collaboration?.facets?.default
+                  ?.resilience || 0,
+                props.report?.average?.communication?.facets?.default
+                  ?.clarity || 0,
+                props.report?.average?.communication?.facets?.default
+                  ?.culture || 0,
+                props.report?.average?.communication?.facets?.default
+                  ?.nonVerbal || 0,
+                props.report?.average?.communication?.facets?.default
+                  ?.attentive || 0,
               ],
             },
           ],

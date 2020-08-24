@@ -1,3 +1,5 @@
+import { UniversityReview } from "../models/Review";
+import { CommunicationTraits } from "../models/CommunicationTraits";
 /*
   ===========================================================================
     Copyright (C) 2020 Coreable
@@ -12,26 +14,14 @@
   ===========================================================================
 */
 
-import { UniversityOrganisation } from "../models/Organisation";
-import { UniversitySubject } from "../models/Subject";
-import { sequelize } from "../../../lib/sequelize";
-
-export async function GetOrganisationSubjects(organisation: any, args: any, context: any) {
-  return await UniversityOrganisation.findAll({
-    where: {
-      _id: organisation._id
-    },
-    raw: true,
-    attributes: {
-      include: [
-        [sequelize.col('subjects._id'), '_id'],
-        [sequelize.col('subjects.name'), 'name'],
-        [sequelize.col('subjects.state'), 'state'],
-      ]
-    },
-    include: [{
-      model: UniversitySubject,
-      as: 'subjects',
-    }]
-  });
+export function TrimReviewToCommunicationTraits(review: UniversityReview, args: any, context: any): CommunicationTraits {
+  return {
+    'clearInstructions': review.clearInstructions,
+    'easilyExplainsComplexIdeas': review.easilyExplainsComplexIdeas,
+    'openToShare': review.openToShare,
+    'crossTeam': review.crossTeam,
+    'distractions': review.distractions,
+    'usesRegulators': review.usesRegulators,
+    'signifiesInterest': review.signifiesInterest
+  };
 }

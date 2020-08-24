@@ -12,26 +12,16 @@
   ===========================================================================
 */
 
-import { UniversityOrganisation } from "../models/Organisation";
-import { UniversitySubject } from "../models/Subject";
-import { sequelize } from "../../../lib/sequelize";
-
-export async function GetOrganisationSubjects(organisation: any, args: any, context: any) {
-  return await UniversityOrganisation.findAll({
-    where: {
-      _id: organisation._id
-    },
-    raw: true,
-    attributes: {
-      include: [
-        [sequelize.col('subjects._id'), '_id'],
-        [sequelize.col('subjects.name'), 'name'],
-        [sequelize.col('subjects.state'), 'state'],
-      ]
-    },
-    include: [{
-      model: UniversitySubject,
-      as: 'subjects',
-    }]
-  });
+class CommunicationTraits {
+  public clearInstructions!: number;
+  public easilyExplainsComplexIdeas!: number;
+  public openToShare!: number;
+  public crossTeam!: number;
+  public distractions!: number;
+  public usesRegulators!: number;
+  public signifiesInterest!: number;
 }
+
+export {
+  CommunicationTraits
+};

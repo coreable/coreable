@@ -22,7 +22,7 @@ import { UniversityOrganisation } from "../models/Organisation";
 export function GetUserOrganisations(user: any, args: any, { USER }: any) {
   return UniversityUser.findAll({
     where: { 
-      _id: USER._id
+      _id: user._id
     },
     raw: true,
     group: ['teams.tutorial.subject_id'],
