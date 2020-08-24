@@ -48,7 +48,7 @@ class Home extends Component {
       subject: {
         name: "Join a Team",
         state: 0,
-      }
+      },
     };
     if (!me.team.length || me.team[me.team.length - 1]._id !== "joinTeam") {
       me.team.push(joinTeam);
@@ -91,7 +91,7 @@ class Home extends Component {
     this.setState({
       ...this.state,
       loading: false,
-      me
+      me,
     });
   };
 
@@ -126,7 +126,7 @@ class Home extends Component {
     return !this.isDisabled();
   };
 
-  handleBlur = (field) => { };
+  handleBlur = (field) => {};
 
   errors = () => {
     return this.getIsValidInviteCode(this.state.inviteCode);
@@ -195,7 +195,7 @@ class Home extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -215,18 +215,18 @@ class Home extends Component {
 
   ReviewCardHandler = (e) => {
     // function firstReview() {
-      if (!localStorage.getItem("hasCompletedTutorial")) {
-        localStorage.setItem("hasCompletedTutorial", true);
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      } else if (localStorage.getItem("hasCompletedTutorial")) {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }
+    if (!localStorage.getItem("hasCompletedTutorial")) {
+      localStorage.setItem("hasCompletedTutorial", true);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } else if (localStorage.getItem("hasCompletedTutorial")) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
     // }
   };
 
@@ -249,6 +249,9 @@ class Home extends Component {
         <div className="main">
           <div className="grid-home">
             {this.state.me.team.map((team, index) => {
+              if (!team._id) {
+                return null;
+              }
               if (team._id !== "joinTeam") {
                 return (
                   <ReviewCard
@@ -260,7 +263,9 @@ class Home extends Component {
                     teamSubjectState={
                       this.state.me.teamMap[team._id].tutorial.subject.state
                     }
-                    reviewState={this.state.me.teamMap[team._id].tutorial.subject.state}
+                    reviewState={
+                      this.state.me.teamMap[team._id].tutorial.subject.state
+                    }
                     user_id={this.state.me["_id"]}
                     pending={this.getPendingUser(team._id)}
                   />
@@ -304,11 +309,21 @@ const PageHeading = () => {
 
 const ReviewCard = (props) => {
   const team = props.team;
+  const nameLength = team.tutorial.subject.name.length;
+  const fontSize = (nameLength) => {
+    if (nameLength > 15) {
+      return { fontSize: "2.0rem" };
+    } else {
+      return { fontSize: "3.2rem" };
+    }
+  };
 
   return (
     <div className="grid-card-home">
       <div className="team-card">
-        <h1>{props.capitalize(team.tutorial.subject.name)}</h1>
+        <h1 style={fontSize(nameLength)}>
+          {props.capitalize(team.tutorial.subject.name)}
+        </h1>
         <p>{props.capitalize(team.name)}</p>
         <Stepper reviewState={team.tutorial.subject.state} />
 

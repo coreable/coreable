@@ -13,41 +13,41 @@
 */
 
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
-import { UniversityReview } from "../../models/Review"
+import { CollaborationFacets } from "../../models/CollaborationFacet";
 
-export const UniversityCollaborationFacetsResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
+export const UniversityCollaborationFacetsResolver: GraphQLObjectType<CollaborationFacets> = new GraphQLObjectType({
   name: 'UniversityCollaborationFacetsResolver',
   description: 'The representation of Collaboration Facets',
   fields: () => {
     return {
       'emotionalIntelligence': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return ((review.empathy + review.managesOwn) / 2);
+        resolve(collaborationFacets, args, context) {
+          return collaborationFacets.emotionalIntelligence;
         }
       },
       'initiative': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return ((review.proactive + review.influences) / 2);
+        resolve(collaborationFacets, args, context) {
+          return collaborationFacets.initiative;
         }
       },
       'trust': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return ((review.cooperatively + review.positiveBelief) / 2);
+        resolve(collaborationFacets, args, context) {
+          return collaborationFacets.trust;
         }
       },
       'flex': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return ((review.newIdeas + review.workDemands) / 2);
+        resolve(collaborationFacets, args, context) {
+          return collaborationFacets.flex;
         }
       },
       'resilience': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return ((review.resilienceFeedback + review.calm) / 2);
+        resolve(collaborationFacets, args, context) {
+          return collaborationFacets.resilience;
         }
       }
     }

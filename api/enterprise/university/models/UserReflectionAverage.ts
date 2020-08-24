@@ -17,19 +17,19 @@ import {
   Sequelize,
   DataTypes
 } from "sequelize";
+import { UniversityUser } from "./User";
 
-import { UniversityOrganisation } from "./Organisation";
-
-class UniversityOrganisationAverage extends Model {
+class UniversityUserReflectionAverage extends Model {
   // Primary Key
   public _id!: string;
 
   // Foreign Keys
-  public organisation_id!: string;
+  public user_id!: string;
 
   // Relationships
-  public organisation!: UniversityOrganisation;
+  public user!: UniversityUser;
 
+  // Properties
   public calm!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
@@ -53,13 +53,13 @@ class UniversityOrganisationAverage extends Model {
 }
 
 const sync = (sequelize: Sequelize) => {
-  UniversityOrganisationAverage.init({
+  UniversityUserReflectionAverage.init({
     '_id': {
-      'type': DataTypes.UUID,
-      'defaultValue': DataTypes.UUIDV4,
-      'primaryKey': true
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
     },
-    'organisation_id': {
+    'user_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -132,24 +132,24 @@ const sync = (sequelize: Sequelize) => {
       allowNull: false
     },
   }, {
-    'tableName': 'UNIVERSITY_ORGANISATION_AVERAGE',
+    'tableName': 'UNIVERSITY_USER_REFLECTION_AVERAGE',
     'sequelize': sequelize
   });
 
-  return UniversityOrganisationAverage;
+  return UniversityUserReflectionAverage;
 }
 
 const assosciate = () => {
-  UniversityOrganisationAverage.belongsTo(UniversityOrganisation, {
-    foreignKey: 'organisation_id',
+  UniversityUserReflectionAverage.belongsTo(UniversityUser, {
+    foreignKey: 'user_id',
     targetKey: '_id',
-    as: 'organisation'
+    as: 'user'
   });
-  return UniversityOrganisationAverage;
+  return UniversityUserReflectionAverage;
 }
 
 export {
-  UniversityOrganisationAverage,
+  UniversityUserReflectionAverage,
   sync,
   assosciate
 };

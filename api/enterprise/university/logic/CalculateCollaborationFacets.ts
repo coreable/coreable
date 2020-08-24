@@ -12,26 +12,15 @@
   ===========================================================================
 */
 
-import { UniversityOrganisation } from "../models/Organisation";
-import { UniversitySubject } from "../models/Subject";
-import { sequelize } from "../../../lib/sequelize";
+import { UniversityReview } from "../models/Review";
+import { CollaborationFacets } from "../models/CollaborationFacet";
 
-export async function GetOrganisationSubjects(organisation: any, args: any, context: any) {
-  return await UniversityOrganisation.findAll({
-    where: {
-      _id: organisation._id
-    },
-    raw: true,
-    attributes: {
-      include: [
-        [sequelize.col('subjects._id'), '_id'],
-        [sequelize.col('subjects.name'), 'name'],
-        [sequelize.col('subjects.state'), 'state'],
-      ]
-    },
-    include: [{
-      model: UniversitySubject,
-      as: 'subjects',
-    }]
-  });
-}
+export function CalculateCollaborationFacets(review: UniversityReview, args: any, context: any): CollaborationFacets {
+  return {
+    'emotionalIntelligence': ((review.empathy + review.managesOwn) / 2),
+    'initiative': ((review.proactive + review.influences) / 2),
+    'trust': ((review.cooperatively + review.positiveBelief) / 2),
+    'flex': ((review.newIdeas + review.workDemands) / 2),
+    'resilience': ((review.resilienceFeedback + review.calm) / 2)
+  };
+} 

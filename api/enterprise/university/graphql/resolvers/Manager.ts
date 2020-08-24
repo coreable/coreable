@@ -20,7 +20,6 @@ import {
 
 import { UniversityTeamResolver } from './Team';
 import { UniversitySubjectResolver } from './Subject';
-import { UserResolver } from '../../../../identity/graphql/resolvers/User';
 
 import { UniversityTutorialResolver } from './Tutorial';
 import { UniversityManager } from '../../models/Manager';
@@ -47,7 +46,7 @@ export const UniversityManagerResolver: GraphQLObjectType<UniversityManager> = n
         }
       },
       'email': {
-        type: UserResolver,
+        type: GraphQLString,
         resolve(manager, args, context) {
           if (!context.MANAGER) {
             return null;
@@ -56,7 +55,7 @@ export const UniversityManagerResolver: GraphQLObjectType<UniversityManager> = n
         }
       },
       'firstName': {
-        type: UserResolver,
+        type: GraphQLString,
         resolve(manager, args, context) {
           if (!context.MANAGER) {
             return null;
@@ -65,7 +64,7 @@ export const UniversityManagerResolver: GraphQLObjectType<UniversityManager> = n
         }
       },
       'lastName': {
-        type: UserResolver,
+        type: GraphQLString,
         resolve(manager, args, context) {
           if (!context.MANAGER) {
             return null;

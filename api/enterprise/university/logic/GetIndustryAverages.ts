@@ -22,6 +22,7 @@ export async function GetIndustryAverages(industry: any, args: any, context: any
     where: {
       _id: industry._id
     },
+    group: ['users.reviews._id'],
     raw: true,
     attributes: {
       include: [

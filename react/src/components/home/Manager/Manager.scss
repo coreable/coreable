@@ -283,9 +283,67 @@ ul {
           border-radius: 4px;
         }
 
+        .select-box {
+          position: relative;
+
+          i {
+            position: absolute;
+            top: 60px;
+            right: 5px;
+          }
+        }
+
+        .select-box p {
+          font-size: 1.6rem;
+        }
+
         .selected {
-          background: $primaryBlue;
-          color: white;
+          height: 30px;
+          width: 192px !important;
+          background: white;
+          color: black;
+          font-size: 1.6rem;
+          // display: flex;
+          // align-items: center;
+          // justify-content: flex-start;
+          border-radius: 4px;
+          padding-left: 10px;
+          position: relative;
+          cursor: pointer;
+        }
+
+        .options-container {
+          background-color: white;
+          width: 202px !important;
+          border-radius: 4px;
+          transform: translateY(10px);
+          max-height: 0px;
+          opacity: 0;
+          transition: all 0.4s;
+          overflow: hidden;
+
+          input {
+            display: none;
+          }
+
+          .option {
+            box-sizing: border-box;
+            padding-left: 4px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            width: 100%;
+          }
+
+          .option:hover {
+            background-color: $primaryBlue;
+            color: white;
+          }
+        }
+
+        .options-container.active {
+          opacity: 1;
+          max-height: 200px;
+          overflow-y: scroll;
         }
 
         select {
@@ -304,8 +362,8 @@ ul {
         .dashboard-menu {
           display: flex;
           flex-direction: row;
-          justify-content: left;
-          align-items: center;
+          // justify-content: left;
+          // align-items: center;
 
           div {
             width: 20%;

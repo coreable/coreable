@@ -13,37 +13,37 @@
 */
 
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
-import { UniversityReview } from "../../models/Review"
+import { CommunicationFacet } from "../../models/CommunicationFacet";
 
-export const UniversityCommunicationFacetsResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
+export const UniversityCommunicationFacetsResolver: GraphQLObjectType<CommunicationFacet> = new GraphQLObjectType({
   name: 'UniversityCommunicationFacetsResolver',
   description: 'The representation of Communication Facets',
   fields: () => {
     return {
       'clarity': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return (review.clearInstructions + review.easilyExplainsComplexIdeas) / 2;
+        resolve(communicationFacet, args, context) {
+          return communicationFacet.clarity;
         }
       },
       'culture': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return (review.openToShare + review.crossTeam) / 2;
+        resolve(communicationFacet, args, context) {
+          return communicationFacet.culture;
         }
       },
       'nonVerbal': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return (review.distractions + review.usesRegulators) / 2;
+        resolve(communicationFacet, args, context) {
+          return communicationFacet.nonVerbal;
         }
       },
       'attentive': {
         type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.signifiesInterest / 1;
+        resolve(communicationFacet, args, context) {
+          return communicationFacet.attentive;
         }
-      },
+      }
     }
   }
 });

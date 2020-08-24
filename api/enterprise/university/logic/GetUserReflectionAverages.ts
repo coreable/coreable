@@ -12,13 +12,13 @@
   ===========================================================================
 */
 
-import { sequelize } from "../../../lib/sequelize";
 import { UniversityUser } from "../models/User";
 import { UniversityReview } from "../models/Review";
+import { sequelize } from "../../../lib/sequelize";
 
-export async function GetReflectionAverages(user: any, args: any, { USER }: any) {
+export async function GetUserReflectionAverages(user: any, args: any, context: any) {
   return await UniversityUser.findOne({
-    where: { 
+    where: {
       _id: user._id
     },
     raw: true,
@@ -122,17 +122,16 @@ export async function GetReflectionAverages(user: any, args: any, { USER }: any)
     include: [{
       model: UniversityReview,
       as: 'reviews',
-      where: { 
-        submitter_id: user._id,
-        receiver_id: user._id
+      where: {
+        receiver_id: user._id, 
+        submitter_id: user._id
       },
       attributes: {
         exclude: [
-          'createdAt',
-          'updatedAt'
+          'updatedAt',
+          'createdAt'
         ]
       }
     }]
   });
 }
-

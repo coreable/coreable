@@ -12,26 +12,14 @@
   ===========================================================================
 */
 
-import { UniversityOrganisation } from "../models/Organisation";
-import { UniversitySubject } from "../models/Subject";
-import { sequelize } from "../../../lib/sequelize";
+import { UniversityReview } from "../models/Review";
+import { CommunicationFacet } from "../models/CommunicationFacet";
 
-export async function GetOrganisationSubjects(organisation: any, args: any, context: any) {
-  return await UniversityOrganisation.findAll({
-    where: {
-      _id: organisation._id
-    },
-    raw: true,
-    attributes: {
-      include: [
-        [sequelize.col('subjects._id'), '_id'],
-        [sequelize.col('subjects.name'), 'name'],
-        [sequelize.col('subjects.state'), 'state'],
-      ]
-    },
-    include: [{
-      model: UniversitySubject,
-      as: 'subjects',
-    }]
-  });
-}
+export function CalculateCommunicationFacets(review: UniversityReview, args: any, context: any): CommunicationFacet {
+  return {
+    'clarity': ((review.clearInstructions + review.easilyExplainsComplexIdeas) / 2),
+    'culture': ((review.openToShare + review.crossTeam) / 2),
+    'nonVerbal': ((review.distractions + review.usesRegulators) / 2),
+    'attentive': (review.signifiesInterest / 1)
+  };
+} 

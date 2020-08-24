@@ -26,9 +26,6 @@ export async function GetTutorialAverages(tutorial: any, args: any, context: any
     raw: true,
     group: ['teams.users.reviews._id'],
     attributes: {
-      exclude: [
-
-      ],
       include: [
         [
           sequelize.fn('avg',
@@ -37,82 +34,82 @@ export async function GetTutorialAverages(tutorial: any, args: any, context: any
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.clearInstructions')),
           'clearInstructions'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.cooperatively')),
           'cooperatively'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.crossTeam')),
           'crossTeam'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.distractions')),
           'distractions'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.easilyExplainsComplexIdeas')),
           'easilyExplainsComplexIdeas'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.empathy')),
           'empathy'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.usesRegulators')),
           'usesRegulators'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.influences')),
           'influences'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.managesOwn')),
           'managesOwn'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.newIdeas')),
           'newIdeas'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.openToShare')),
           'openToShare'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.positiveBelief')),
           'positiveBelief'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.proactive')),
           'proactive'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.resilienceFeedback')),
           'resilienceFeedback'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.signifiesInterest')),
           'signifiesInterest'
         ],
         [
           sequelize.fn('avg',
-            sequelize.col('teams.users.reviews.calm')),
+            sequelize.col('teams.users.reviews.workDemands')),
           'workDemands'
         ]
       ]
@@ -153,6 +150,5 @@ export async function GetTutorialAverages(tutorial: any, args: any, context: any
         }]
       }]
     }]
-  })
-  return {}
+  });
 }
