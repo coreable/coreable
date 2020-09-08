@@ -13,7 +13,7 @@ Coreable source code.
 */
 
 import React, { Component, useEffect } from "react";
-import Radar from "../../skills/Radar";
+import Radar from "./RadarManager/Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import { API_URL } from "../../../constants";
 import { MANAGER_API } from "../../../queries";
@@ -176,11 +176,6 @@ class Manager extends Component {
 
         return result;
       }
-    },
-    averageScores: (data, type) => {
-      let result = [];
-
-      return result;
     },
     switchCollaboration: (array, resultArray) => {
       for (let i = 0; i < array.length; i++) {
@@ -424,7 +419,6 @@ class Manager extends Component {
 
       return finalResult;
     },
-    //Fine lowest average scores combined.
     getAreasToImprove: (report, collabOrComm) => {
       let result;
       let finalResult;
@@ -486,7 +480,6 @@ class Manager extends Component {
 
       return finalResult;
     },
-    //reflection < average
     getUnderEstimation: (report, collabOrComm) => {
       let result;
       let finalResult;
@@ -878,7 +871,9 @@ const CollaborationIndex = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        <div className="radar-div">{/* <Radar {...props.state} /> */}</div>
+        <div className="radar-div">
+          <Radar {...props.state} />
+        </div>
       </div>
     </div>
   );
