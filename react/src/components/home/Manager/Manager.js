@@ -69,9 +69,6 @@ class Manager extends Component {
     const response = await fetch(API_URL, options).then((data) => data.json());
     const { data, errors } = response.data.manager;
 
-    // console.log("data", data.manager);
-    // console.log(this.props.app.data);
-
     // I know this is shit code
     // It's to compile without warnings
     if (errors && data) {
@@ -270,12 +267,38 @@ class Manager extends Component {
       }
       return resultArray;
     },
+    combineData: (array, resultArray) => {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+          for (let k = 0; k < array[i][j].length; k++) {
+            resultArray.forEach((facet) => {
+              if (facet.code === array[i][j][k].name) {
+                facet.averageScore += array[i][j][k].averageScore;
+                facet.reflectionScore += array[i][j][k].reflectionScore;
+
+                if (i === array.length - 1) {
+                  facet.averageScore = facet.averageScore / array.length;
+                  facet.reflectionScore = facet.reflectionScore / array.length;
+                  facet.difference = facet.reflectionScore - facet.averageScore;
+                }
+              }
+            });
+          }
+        }
+      }
+      return resultArray;
+    },
     getDifference: (userReport) => {
       let result = [];
+
       userReport.average.forEach((facet) => {
         result.push({
           name: facet.field,
-          value:
+          averageScore: facet.value,
+          reflectionScore: userReport.reflection.find(
+            (o) => o.field === facet.field
+          ).value,
+          difference:
             userReport.reflection.find((o) => o.field === facet.field).value -
             facet.value,
         });
@@ -297,6 +320,73 @@ class Manager extends Component {
       { name: "Clarity", averageScore: 0 },
       { name: "Culture", averageScore: 0 },
       { name: "Non Verbal", averageScore: 0 },
+    ],
+    collabDetailed: [
+      {
+        name: "Emotional Intelligence",
+        code: "emotionalIntelligence",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Initiative",
+        code: "initiative",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Trust",
+        code: "trust",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Flex",
+        code: "flex",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Resilience",
+        code: "resilience",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+    ],
+    commsDetailed: [
+      {
+        name: "Attentive",
+        code: "attentive",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Clarity",
+        code: "clarity",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Culture",
+        code: "culture",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Non Verbal",
+        code: "nonVerbal",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
     ],
     getStrengths: (report, collabOrComm) => {
       let result;
@@ -372,10 +462,14 @@ class Manager extends Component {
     },
     getOverEstimation: (report, collabOrComm) => {
       let result;
+      let finalResult;
+
       if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsDetailed));
         result = this.filter.byCommunication(report);
       }
       if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabDetailed));
         result = this.filter.byCollaboration(report);
       }
 
@@ -383,28 +477,26 @@ class Manager extends Component {
       let returnData = [];
 
       result.forEach((user) => {
-        returnData.push({
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          averageScore: user.average,
-          reflectionScore: user.reflection,
-          difference: this.utils.getDifference(user),
-        });
+        returnData.push([this.utils.getDifference(user)]);
       });
-      return returnData;
+
+      finalResult = this.utils
+        .combineData(returnData, finalResult)
+        .sort((a, b) => b.difference - a.difference);
+
+      return finalResult;
     },
     //reflection < average
     getUnderEstimation: (report, collabOrComm) => {
       let result;
-      // let finalResult;
+      let finalResult;
 
       if (collabOrComm === "communication") {
-        // finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsDetailed));
         result = this.filter.byCommunication(report);
       }
       if (collabOrComm === "collaboration") {
-        // finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabDetailed));
         result = this.filter.byCollaboration(report);
       }
 
@@ -412,16 +504,14 @@ class Manager extends Component {
       let returnData = [];
 
       result.forEach((user) => {
-        returnData.push({
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          averageScore: user.average,
-          reflectionScore: user.reflection,
-          difference: this.utils.getDifference(user),
-        });
+        returnData.push([this.utils.getDifference(user)]);
       });
-      return returnData;
+
+      finalResult = this.utils
+        .combineData(returnData, finalResult)
+        .sort((a, b) => a.difference - b.difference);
+
+      return finalResult;
     },
   };
 
@@ -842,7 +932,7 @@ const AreasToImprove = (props) => {
   );
 };
 
-const Overestimation = () => {
+const Overestimation = (props) => {
   return (
     <div className="grid-areas" style={{ gridArea: "over-estimation" }}>
       <div className="heading">
@@ -850,12 +940,23 @@ const Overestimation = () => {
           Overestimation
         </h1>
       </div>
-      <div className="grid-area-inside"></div>
+      <div className="grid-area-inside">
+        {props.state.overEstimation?.slice(0, 3).map((over, idx) => {
+          return (
+            <SkillBar
+              key={idx}
+              values={over}
+              type="overEstimation"
+              isComm={collabOrComm}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-const Underestimation = () => {
+const Underestimation = (props) => {
   return (
     <div className="grid-areas" style={{ gridArea: "under-estimation" }}>
       <div className="heading">
@@ -863,7 +964,18 @@ const Underestimation = () => {
           Underestimation
         </h1>
       </div>
-      <div className="grid-area-inside"></div>
+      <div className="grid-area-inside">
+        {props.state.underEstimation?.slice(0, 3).map((under, idx) => {
+          return (
+            <SkillBar
+              key={idx}
+              values={under}
+              type="underEstimation"
+              isComm={collabOrComm}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

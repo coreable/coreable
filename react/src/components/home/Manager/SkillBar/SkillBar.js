@@ -4,7 +4,8 @@ import "./SkillBar.scss";
 
 export default function SkillBar(props) {
   const { type, isComm } = props;
-  const { name, averageScore, reflection, difference } = props.values;
+  const { name, averageScore, reflectionScore, difference } = props.values;
+
   function convertToText(averageScore) {
     if (averageScore < 20) {
       return "Fails to attempt";
@@ -120,7 +121,7 @@ export default function SkillBar(props) {
               {name}
             </p>
             <span className="result-text">
-              {overEstimation(reflection, averageScore)}
+              {overEstimation(reflectionScore, averageScore)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -128,7 +129,7 @@ export default function SkillBar(props) {
             <div
               className="skillbar-container green"
               style={{
-                width: `${reflection}%`,
+                width: `${reflectionScore}%`,
               }}
             />
             <div
@@ -172,7 +173,7 @@ export default function SkillBar(props) {
               {name}
             </p>
             <span className="result-text">
-              {underEstimation(reflection, averageScore)}
+              {underEstimation(reflectionScore, averageScore)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -186,7 +187,7 @@ export default function SkillBar(props) {
             <div
               className="skillbar-container green"
               style={{
-                width: `${reflection}%`,
+                width: `${reflectionScore}%`,
                 zIndex: "100",
                 position: "absolute",
                 top: "0",
