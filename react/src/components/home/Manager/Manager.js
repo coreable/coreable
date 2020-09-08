@@ -13,7 +13,7 @@ Coreable source code.
 */
 
 import React, { Component, useEffect } from "react";
-// import SkillBar from "../../skills/SkillBar/SkillBar";
+import SkillBar from "./SkillBar/SkillBar";
 import { API_URL } from "../../../constants";
 import { MANAGER_API } from "../../../queries";
 import {
@@ -21,6 +21,7 @@ import {
   // Route
 } from "react-router-dom";
 import "./Manager.scss";
+import { result } from "lodash";
 
 let selectedTutorial = "All";
 let selectedSubject = "All";
@@ -67,7 +68,7 @@ class Manager extends Component {
     const response = await fetch(API_URL, options).then((data) => data.json());
     const { data, errors } = response.data.manager;
 
-    console.log("data", data.manager);
+    // console.log("data", data.manager);
     // console.log(this.props.app.data);
 
     // I know this is shit code
@@ -93,21 +94,23 @@ class Manager extends Component {
     const teams = this.utils.dataToState(report, "teams");
     const users = this.utils.dataToState(report, "users");
 
-    //NOTE: if("all") -> then average all scores
-    //set topStrengths, areasToImprove etc. by averaging all scores
-
     const topStrengths = this.ranking.getStrengths(usersInfo, collabOrComm);
     const areasToImprove = this.ranking.getAreasToImprove(
       usersInfo,
       collabOrComm
     );
-    // const overEstimation = this.ranking.getOverEstimation(usersInfo, collabOrComm);
-    // const underEstimation = this.ranking.getUnderEstimation(
-    //   usersInfo,
-    //   collabOrComm
-    // );
+    const overEstimation = this.ranking.getOverEstimation(
+      usersInfo,
+      collabOrComm
+    );
+    const underEstimation = this.ranking.getUnderEstimation(
+      usersInfo,
+      collabOrComm
+    );
     console.log("top strengths", topStrengths);
     console.log("areas to improve", areasToImprove);
+    console.log("over estimation", overEstimation);
+    console.log("under estimation", underEstimation);
 
     this.setState({
       ...this.state,
@@ -118,6 +121,11 @@ class Manager extends Component {
       subjects,
       teams,
       users,
+
+      topStrengths,
+      areasToImprove,
+      overEstimation,
+      underEstimation,
     });
   };
 
@@ -185,33 +193,38 @@ class Manager extends Component {
         for (let j = 0; j < array[i].length; j++) {
           switch (array[i][j].field) {
             case "emotionalIntelligence":
-              resultArray[0].value += array[i][j].value;
+              resultArray[0].averageScore += array[i][j].value;
               if (i === array.length - 1) {
-                resultArray[0].value = resultArray[0].value / array.length;
+                resultArray[0].averageScore =
+                  resultArray[0].averageScore / array.length;
               }
               break;
             case "initiative":
-              resultArray[1].value += array[i][j].value;
+              resultArray[1].averageScore += array[i][j].value;
               if (i === array.length - 1) {
-                resultArray[1].value = resultArray[1].value / array.length;
+                resultArray[1].averageScore =
+                  resultArray[1].averageScore / array.length;
               }
               break;
             case "trust":
-              resultArray[2].value += array[i][j].value;
+              resultArray[2].averageScore += array[i][j].value;
               if (i === array.length - 1) {
-                resultArray[2].value = resultArray[2].value / array.length;
+                resultArray[2].averageScore =
+                  resultArray[2].averageScore / array.length;
               }
               break;
             case "flex":
-              resultArray[3].value += array[i][j].value;
+              resultArray[3].averageScore += array[i][j].value;
               if (i === array.length - 1) {
-                resultArray[3].value = resultArray[3].value / array.length;
+                resultArray[3].averageScore =
+                  resultArray[3].averageScore / array.length;
               }
               break;
             case "resilience":
-              resultArray[4].value += array[i][j].value;
+              resultArray[4].averageScore += array[i][j].value;
               if (i === array.length - 1) {
-                resultArray[4].value = resultArray[4].value / array.length;
+                resultArray[4].averageScore =
+                  resultArray[4].averageScore / array.length;
               }
               break;
             default:
@@ -221,28 +234,85 @@ class Manager extends Component {
       }
       return resultArray;
     },
+    switchCommunication: (array, resultArray) => {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+          switch (array[i][j].field) {
+            case "attentive":
+              resultArray[0].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[0].averageScore =
+                  resultArray[0].value / array.length;
+              }
+              break;
+            case "clarity":
+              resultArray[1].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[1].averageScore =
+                  resultArray[1].value / array.length;
+              }
+              break;
+            case "culture":
+              resultArray[2].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[2].averageScore =
+                  resultArray[2].value / array.length;
+              }
+              break;
+            case "nonVerbal":
+              resultArray[3].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[3].averageScore =
+                  resultArray[3].value / array.length;
+              }
+              break;
+            default:
+              break;
+          }
+        }
+      }
+      return resultArray;
+    },
+    getDifference: (userReport) => {
+      let result = [];
+      userReport.average.forEach((facet) => {
+        result.push({
+          name: facet.field,
+          value:
+            userReport.reflection.find((o) => o.field === facet.field).value -
+            facet.value,
+        });
+      });
+      return result;
+    },
   };
 
   ranking = {
-    finalResult: [
-      { field: "emotionalIntelligence", value: 0 },
-      { field: "initiative", value: 0 },
-      { field: "trust", value: 0 },
-      { field: "flex", value: 0 },
-      { field: "resilience", value: 0 },
+    collabTemplate: [
+      { name: "Emotional Intelligence", averageScore: 0 },
+      { name: "Initiative", averageScore: 0 },
+      { name: "Trust", averageScore: 0 },
+      { name: "Flex", averageScore: 0 },
+      { name: "Resilience", averageScore: 0 },
+    ],
+    commsTemplate: [
+      { name: "Attentive", averageScore: 0 },
+      { name: "Clarity", averageScore: 0 },
+      { name: "Culture", averageScore: 0 },
+      { name: "Non Verbal", averageScore: 0 },
     ],
     getStrengths: (report, collabOrComm) => {
       let result;
-      let finalResult = JSON.parse(JSON.stringify(this.ranking.finalResult));
+      let finalResult;
 
       if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
         result = this.filter.byCommunication(report);
       }
       if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
         result = this.filter.byCollaboration(report);
       }
-
-      console.log("results", result);
 
       let averageResults = result
         .filter((user) => {
@@ -252,22 +322,37 @@ class Manager extends Component {
           return user.average;
         });
 
-      finalResult = this.utils
-        .switchCollaboration(averageResults, finalResult)
-        .sort((a, b) => b.value - a.value);
+      console.log("averageResult", averageResults);
 
+      if (collabOrComm === "collaboration") {
+        finalResult = this.utils
+          .switchCollaboration(averageResults, finalResult)
+          .sort((a, b) => b.averageScore - a.averageScore);
+      }
+
+      if (collabOrComm === "communication") {
+        finalResult = this.utils
+          .switchCommunication(averageResults, finalResult)
+          .sort((a, b) => b.averageScore - a.averageScore);
+      }
+
+      console.log("strength", finalResult);
       return finalResult;
     },
     //Fine lowest average scores combined.
     getAreasToImprove: (report, collabOrComm) => {
       let result;
-      let finalResult = JSON.parse(JSON.stringify(this.ranking.finalResult));
+      let finalResult;
+
       if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
         result = this.filter.byCommunication(report);
       }
       if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
         result = this.filter.byCollaboration(report);
       }
+
       let averageResults = result
         .filter((user) => {
           return user.average;
@@ -275,24 +360,82 @@ class Manager extends Component {
         .map((user) => {
           return user.average;
         });
-      finalResult = this.utils
-        .switchCollaboration(averageResults, finalResult)
-        .sort((a, b) => a.value - b.value);
+
+      if (collabOrComm === "collaboration") {
+        finalResult = this.utils
+          .switchCollaboration(averageResults, finalResult)
+          .sort((a, b) => a.averageScore - b.averageScore);
+      }
+
+      if (collabOrComm === "communication") {
+        finalResult = this.utils
+          .switchCommunication(averageResults, finalResult)
+          .sort((a, b) => a.averageScore - b.averageScore);
+      }
+
       return finalResult;
     },
-    //reflection > average
     getOverEstimation: (report, collabOrComm) => {
       let result;
-      return;
+      if (collabOrComm === "communication") {
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        result = this.filter.byCollaboration(report);
+      }
+
+      result = this.filter.byDidReflection(result);
+      let returnData = [];
+
+      result.forEach((user) => {
+        returnData.push({
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          averageScore: user.average,
+          reflectionScore: user.reflection,
+          difference: this.utils.getDifference(user),
+        });
+      });
+      return returnData;
     },
     //reflection < average
-    getUnderEstimation: (report, type) => {
+    getUnderEstimation: (report, collabOrComm) => {
       let result;
-      return;
+      // let finalResult;
+
+      if (collabOrComm === "communication") {
+        // finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        // finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
+        result = this.filter.byCollaboration(report);
+      }
+
+      result = this.filter.byDidReflection(result);
+      let returnData = [];
+
+      result.forEach((user) => {
+        returnData.push({
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          averageScore: user.average,
+          reflectionScore: user.reflection,
+          difference: this.utils.getDifference(user),
+        });
+      });
+      return returnData;
     },
   };
 
   filter = {
+    byDidReflection: (report) => {
+      return report.filter((user) => {
+        return user.reflection;
+      });
+    },
     bySubject: (report, subjectID) => {
       if (subjectID === "All") {
         return report;
@@ -346,7 +489,17 @@ class Manager extends Component {
         };
       });
     },
-    byCommunication: (report) => {},
+    byCommunication: (users) => {
+      return users?.map((user) => {
+        return {
+          id: user._id,
+          firstName: user.identity.firstName,
+          lastName: user.identity.lastName,
+          average: user.report.average.communication?.facets.sorted,
+          reflection: user.report.reflection.communication?.facets.sorted,
+        };
+      });
+    },
     getFilteredResults: (e) => {
       this.view.toggleTab(e);
     },
@@ -401,12 +554,12 @@ class Manager extends Component {
         underEstimation: this.ranking.getUnderEstimation(result, collabOrComm),
       };
 
-      console.log("strengths", finalResult["strengths"]);
+      // console.log("strengths", finalResult["strengths"]);
 
       this.setState({
         ...this.state,
         topStrengths: finalResult["strengths"],
-        // areasToImprove: finalResult["areasToImprove"],
+        areasToImprove: finalResult["areasToImprove"],
         // overEstimation: finalResult["overEstimation"],
         // underEstimation: finalResult["underEstimation"],
       });
@@ -471,8 +624,8 @@ class Manager extends Component {
               filterHandler={this.filter.dashboard}
             />
             <CollaborationIndex />
-            <TopStrengths />
-            <AreasToImprove />
+            <TopStrengths state={this.state} />
+            <AreasToImprove state={this.state} />
             <Overestimation />
             <Underestimation />
           </div>
@@ -635,7 +788,8 @@ const CollaborationIndex = () => {
   );
 };
 
-const TopStrengths = () => {
+const TopStrengths = (props) => {
+  console.log(props.state.topStrengths);
   return (
     <div className="grid-areas" style={{ gridArea: "top-strength" }}>
       <div className="heading">
@@ -643,12 +797,23 @@ const TopStrengths = () => {
           Top Strengths
         </h1>
       </div>
-      <div className="grid-area-inside"></div>
+      <div className="grid-area-inside">
+        {props.state.topStrengths?.slice(0, 3).map((strength, idx) => {
+          return (
+            <SkillBar
+              key={idx}
+              values={strength}
+              type="strengths"
+              isComm={collabOrComm}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-const AreasToImprove = () => {
+const AreasToImprove = (props) => {
   return (
     <div className="grid-areas" style={{ gridArea: "areas-to-improve" }}>
       <div className="heading">
@@ -656,7 +821,18 @@ const AreasToImprove = () => {
           Areas to Improve
         </h1>
       </div>
-      <div className="grid-area-inside"></div>
+      <div className="grid-area-inside">
+        {props.state.areasToImprove?.slice(0, 3).map((improve, idx) => {
+          return (
+            <SkillBar
+              key={idx}
+              values={improve}
+              type="areasToImprove"
+              isComm={collabOrComm}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
