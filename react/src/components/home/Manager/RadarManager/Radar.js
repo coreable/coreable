@@ -22,7 +22,76 @@ const RadarChart = (props) => {
   if (!props.report) {
     return null;
   }
-  console.log(props.report);
+
+  let averageFacetsCollab = {
+    emotionalIntelligence: 0,
+    initiative: 0,
+    trust: 0,
+    flex: 0,
+    resilience: 0,
+  };
+
+  let averageFacetsComm = {
+    clarity: 0,
+    culture: 0,
+    nonVerbal: 0,
+    attentive: 0,
+  };
+
+  let reflectionFacetsCollab = {
+    emotionalIntelligence: 0,
+    initiative: 0,
+    trust: 0,
+    flex: 0,
+    resilience: 0,
+  };
+
+  let reflectionFacetsComm = {
+    clarity: 0,
+    culture: 0,
+    nonVerbal: 0,
+    attentive: 0,
+  };
+
+  let users =
+    props.report["organisation"][0]["subject"][0]["tutorial"][0]["team"][0][
+      "user"
+    ];
+
+  const addValues = (users, object, averageOrReflection, commOrCollab) => {
+    users.forEach((user) => {
+      for (const facet in object) {
+        if (object.hasOwnProperty(facet)) {
+          object[facet] += user.report?.[averageOrReflection]?.[commOrCollab]
+            ?.facets?.default?.[facet]
+            ? user.report?.[averageOrReflection]?.[commOrCollab]?.facets
+                ?.default?.[facet]
+            : 0;
+        }
+      }
+    });
+  };
+
+  const getAverage = (users, object) => {
+    const totalUsers = users.length;
+
+    for (const facet in object) {
+      if (object.hasOwnProperty(facet)) {
+        object[facet] = object[facet] / totalUsers;
+      }
+    }
+  };
+
+  addValues(users, averageFacetsCollab, "average", "collaboration");
+  addValues(users, averageFacetsComm, "average", "communication");
+  addValues(users, reflectionFacetsCollab, "reflection", "collaboration");
+  addValues(users, reflectionFacetsComm, "reflection", "communication");
+
+  getAverage(users, averageFacetsCollab);
+  getAverage(users, averageFacetsComm);
+  getAverage(users, reflectionFacetsCollab);
+  getAverage(users, reflectionFacetsComm);
+
   return (
     <Container className="radar-container">
       <Radar
@@ -68,24 +137,15 @@ const RadarChart = (props) => {
               borderColor: "rgba(102, 204, 158,0.8)",
               pointRadius: 0,
               data: [
-                props.report?.reflection?.collaboration?.facets?.default
-                  ?.emotionalIntelligence || 0,
-                props.report?.reflection?.collaboration?.facets?.default
-                  ?.initiative || 0,
-                props.report?.reflection?.collaboration?.facets?.default
-                  ?.trust || 0,
-                props.report?.reflection?.collaboration?.facets?.default
-                  ?.flex || 0,
-                props.report?.reflection?.collaboration?.facets?.default
-                  ?.resilience || 0,
-                props.report?.reflection?.communication?.facets?.default
-                  ?.clarity || 0,
-                props.report?.reflection?.communication?.facets?.default
-                  ?.culture || 0,
-                props.report?.reflection?.communication?.facets?.default
-                  ?.nonVerbal || 0,
-                props.report?.reflection?.communication?.facets?.default
-                  ?.attentive || 0,
+                reflectionFacetsCollab.emotionalIntelligence || 0,
+                reflectionFacetsCollab.initiative || 0,
+                reflectionFacetsCollab.trust || 0,
+                reflectionFacetsCollab.flex || 0,
+                reflectionFacetsCollab.resilience || 0,
+                reflectionFacetsComm.clarity || 0,
+                reflectionFacetsComm.culture || 0,
+                reflectionFacetsComm.nonVerbal || 0,
+                reflectionFacetsComm.attentive || 0,
               ],
             },
             {
@@ -94,24 +154,15 @@ const RadarChart = (props) => {
               borderColor: "rgba(0,179,229,0.8)",
               pointRadius: 0,
               data: [
-                props.report?.average?.collaboration?.facets?.default
-                  ?.emotionalIntelligence || 0,
-                props.report?.average?.collaboration?.facets?.default
-                  ?.initiative || 0,
-                props.report?.average?.collaboration?.facets?.default?.trust ||
-                  0,
-                props.report?.average?.collaboration?.facets?.default?.flex ||
-                  0,
-                props.report?.average?.collaboration?.facets?.default
-                  ?.resilience || 0,
-                props.report?.average?.communication?.facets?.default
-                  ?.clarity || 0,
-                props.report?.average?.communication?.facets?.default
-                  ?.culture || 0,
-                props.report?.average?.communication?.facets?.default
-                  ?.nonVerbal || 0,
-                props.report?.average?.communication?.facets?.default
-                  ?.attentive || 0,
+                averageFacetsCollab.emotionalIntelligence || 0,
+                averageFacetsCollab.initiative || 0,
+                averageFacetsCollab.trust || 0,
+                averageFacetsCollab.flex || 0,
+                averageFacetsCollab.resilience || 0,
+                averageFacetsComm.clarity || 0,
+                averageFacetsComm.culture || 0,
+                averageFacetsComm.nonVerbal || 0,
+                averageFacetsComm.attentive || 0,
               ],
             },
           ],

@@ -476,6 +476,9 @@ class Manager extends Component {
 
       finalResult = this.utils
         .combineData(returnData, finalResult)
+        .filter((facet) => {
+          return facet.difference > 0;
+        })
         .sort((a, b) => b.difference - a.difference);
 
       return finalResult;
@@ -502,6 +505,9 @@ class Manager extends Component {
 
       finalResult = this.utils
         .combineData(returnData, finalResult)
+        .filter((facet) => {
+          return facet.difference < 0;
+        })
         .sort((a, b) => a.difference - b.difference);
 
       return finalResult;
