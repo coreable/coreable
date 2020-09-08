@@ -5,7 +5,6 @@ import "./SkillBar.scss";
 export default function SkillBar(props) {
   const { type, isComm } = props;
   const { name, averageScore, reflection, difference } = props.values;
-  console.log(props.values);
   function convertToText(averageScore) {
     if (averageScore < 20) {
       return "Fails to attempt";

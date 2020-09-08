@@ -13,6 +13,7 @@ Coreable source code.
 */
 
 import React, { Component, useEffect } from "react";
+import Radar from "../../skills/Radar";
 import SkillBar from "./SkillBar/SkillBar";
 import { API_URL } from "../../../constants";
 import { MANAGER_API } from "../../../queries";
@@ -28,7 +29,6 @@ let selectedSubject = "All";
 let selectedTeam = "All";
 let selectedUser = "All";
 let collabOrComm = "collaboration";
-console.log(selectedSubject);
 
 class Manager extends Component {
   constructor(props) {
@@ -108,10 +108,6 @@ class Manager extends Component {
       usersInfo,
       collabOrComm
     );
-    console.log("top strengths", topStrengths);
-    console.log("areas to improve", areasToImprove);
-    console.log("over estimation", overEstimation);
-    console.log("under estimation", underEstimation);
 
     this.setState({
       ...this.state,
@@ -243,28 +239,28 @@ class Manager extends Component {
               resultArray[0].averageScore += array[i][j].value;
               if (i === array.length - 1) {
                 resultArray[0].averageScore =
-                  resultArray[0].value / array.length;
+                  resultArray[0].averageScore / array.length;
               }
               break;
             case "clarity":
               resultArray[1].averageScore += array[i][j].value;
               if (i === array.length - 1) {
                 resultArray[1].averageScore =
-                  resultArray[1].value / array.length;
+                  resultArray[1].averageScore / array.length;
               }
               break;
             case "culture":
               resultArray[2].averageScore += array[i][j].value;
               if (i === array.length - 1) {
                 resultArray[2].averageScore =
-                  resultArray[2].value / array.length;
+                  resultArray[2].averageScore / array.length;
               }
               break;
             case "nonVerbal":
               resultArray[3].averageScore += array[i][j].value;
               if (i === array.length - 1) {
                 resultArray[3].averageScore =
-                  resultArray[3].value / array.length;
+                  resultArray[3].averageScore / array.length;
               }
               break;
             default:
@@ -310,6 +306,7 @@ class Manager extends Component {
         finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
         result = this.filter.byCommunication(report);
       }
+
       if (collabOrComm === "collaboration") {
         finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
         result = this.filter.byCollaboration(report);
@@ -323,8 +320,6 @@ class Manager extends Component {
           return user.average;
         });
 
-      console.log("averageResult", averageResults);
-
       if (collabOrComm === "collaboration") {
         finalResult = this.utils
           .switchCollaboration(averageResults, finalResult)
@@ -337,7 +332,6 @@ class Manager extends Component {
           .sort((a, b) => b.averageScore - a.averageScore);
       }
 
-      console.log("strength", finalResult);
       return finalResult;
     },
     //Fine lowest average scores combined.
@@ -542,9 +536,17 @@ class Manager extends Component {
 
       if (type === "communication") {
         collabOrComm = "communication";
+        result = this.filter.bySubject(report, selectedSubject);
+        result = this.filter.byTutorial(result, selectedTutorial);
+        result = this.filter.byTeam(result, selectedTeam);
+        result = this.filter.byUser(result, selectedUser);
       }
       if (type === "collaboration") {
         collabOrComm = "collaboration";
+        result = this.filter.bySubject(report, selectedSubject);
+        result = this.filter.byTutorial(result, selectedTutorial);
+        result = this.filter.byTeam(result, selectedTeam);
+        result = this.filter.byUser(result, selectedUser);
       }
 
       //result is user(s)
@@ -555,14 +557,12 @@ class Manager extends Component {
         underEstimation: this.ranking.getUnderEstimation(result, collabOrComm),
       };
 
-      // console.log("strengths", finalResult["strengths"]);
-
       this.setState({
         ...this.state,
         topStrengths: finalResult["strengths"],
         areasToImprove: finalResult["areasToImprove"],
-        // overEstimation: finalResult["overEstimation"],
-        // underEstimation: finalResult["underEstimation"],
+        overEstimation: finalResult["overEstimation"],
+        underEstimation: finalResult["underEstimation"],
       });
     },
   };
@@ -617,18 +617,21 @@ class Manager extends Component {
               width: "100%",
             }}
           >
-            <CommunicationCollaborationTab toggle={this.view.toggleTab} />
+            <CommunicationCollaborationTab
+              toggle={this.view.toggleTab}
+              filterHandler={this.filter.dashboard}
+            />
           </div>
           <div className="main-skills-container">
             <DashboardFilter
               filters={{ tutorials, subjects, teams, users }}
               filterHandler={this.filter.dashboard}
             />
-            <CollaborationIndex />
+            <CollaborationIndex state={this.state} />
             <TopStrengths state={this.state} />
             <AreasToImprove state={this.state} />
-            <Overestimation />
-            <Underestimation />
+            <Overestimation state={this.state} />
+            <Underestimation state={this.state} />
           </div>
         </div>
       </div>
@@ -730,6 +733,10 @@ const DashboardFilter = (props) => {
 };
 
 const CommunicationCollaborationTab = (props) => {
+  const clickHandler = (e) => {
+    props.toggle(e);
+    props.filterHandler(0, e.target.value);
+  };
   return (
     <div className="skills-btns">
       <ul className="skills-grid">
@@ -743,7 +750,7 @@ const CommunicationCollaborationTab = (props) => {
             <button
               id="tab"
               className="tab active"
-              onClick={props.toggle}
+              onClick={clickHandler}
               value="collaboration"
             >
               Collaboration
@@ -760,7 +767,7 @@ const CommunicationCollaborationTab = (props) => {
             <button
               id="tab"
               className="tab"
-              onClick={props.toggle}
+              onClick={clickHandler}
               value="communication"
             >
               Communication
@@ -772,7 +779,7 @@ const CommunicationCollaborationTab = (props) => {
   );
 };
 
-const CollaborationIndex = () => {
+const CollaborationIndex = (props) => {
   return (
     <div className="grid-areas" style={{ gridArea: "index", height: "439px" }}>
       <div className="heading">
@@ -781,16 +788,13 @@ const CollaborationIndex = () => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {/* <div className="radar-div">
-  <Radar {...this.state} />
-</div> */}
+        <div className="radar-div">{/* <Radar {...props.state} /> */}</div>
       </div>
     </div>
   );
 };
 
 const TopStrengths = (props) => {
-  console.log(props.state.topStrengths);
   return (
     <div className="grid-areas" style={{ gridArea: "top-strength" }}>
       <div className="heading">
