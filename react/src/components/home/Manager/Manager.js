@@ -28,6 +28,7 @@ let selectedSubject = "All";
 let selectedTeam = "All";
 let selectedUser = "All";
 let collabOrComm = "collaboration";
+console.log(selectedSubject);
 
 class Manager extends Component {
   constructor(props) {
