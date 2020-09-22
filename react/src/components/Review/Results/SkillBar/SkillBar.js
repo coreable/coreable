@@ -26,7 +26,13 @@ export default function SkillBar(props) {
   return (
     <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
       <div style={{ margin: "0 16px" }}>
-        <div style={{ position: "relative", display: "flex" }}>
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <p
             style={{
               margin: "0",
@@ -35,11 +41,25 @@ export default function SkillBar(props) {
               textAlign: "left",
               color: "black",
               paddingTop: "10px",
+              paddingBottom: "0",
+              width: "80%",
+            }}
+          >
+            {trait.trait}
+          </p>
+          <p
+            style={{
+              margin: "0",
+              padding: "0",
+              fontSize: "1.4rem",
+              textAlign: "left",
+              color: "grey",
+              paddingTop: "6px",
               paddingBottom: "8pt",
               width: "70%",
             }}
           >
-            {trait}
+            {trait.facet}
           </p>
           <span
             className="result-text"

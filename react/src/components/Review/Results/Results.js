@@ -15,6 +15,7 @@ export default class Results extends Component {
       JWT: localStorage.getItem("JWT"), //this.props.app.JWT
       collaborationData: null,
       communicationData: null,
+      report: null,
     };
   }
 
@@ -46,6 +47,11 @@ export default class Results extends Component {
 
     const result = data.user.report;
 
+    this.setState({
+      ...this.state,
+      report: result,
+    });
+
     let collaborationData = this.filterBy.collaboration(result);
     let communicationData = this.filterBy.communication(result);
 
@@ -62,7 +68,10 @@ export default class Results extends Component {
       for (const key in object) {
         if (object.hasOwnProperty(key)) {
           result.push({
-            trait: key,
+            trait: {
+              facet: this.util.getFacetName(key),
+              trait: this.util.getCorrectTraitDetails(key),
+            },
             value: object[key],
           });
         }
@@ -76,6 +85,78 @@ export default class Results extends Component {
         collaborationData: collaborationData,
         communicationData: communicationData,
       });
+    },
+    getFacetName: (trait) => {
+      switch (trait) {
+        case "calm":
+          return "Calm";
+        case "empathy":
+          return "Empathy";
+        case "cooperatively":
+          return "Cooperatively";
+        case "influences":
+          return "Influences";
+        case "managesOwn":
+          return "Manages own";
+        case "newIdeas":
+          return "New ideas";
+        case "positiveBelief":
+          return "Positive belief";
+        case "proactive":
+          return "Proactive";
+        case "resilienceFeedback":
+          return "Resilience feedback";
+        case "clearInstructions":
+          return "Clear instructions";
+        case "crossTeam":
+          return "Cross team";
+        case "distractions":
+          return "Distractions";
+        case "easilyExplainsComplexIdeas":
+          return "Easily explains complex ideas";
+        case "openToShare":
+          return "Open to share";
+        case "signifiesInterest":
+          return "Signifies interest";
+        default:
+          return "Uses regulators";
+      }
+    },
+    getCorrectTraitDetails: (trait) => {
+      switch (trait) {
+        case "calm":
+          return "Remains calm under pressure";
+        case "empathy":
+          return "Demonstrates empathy";
+        case "cooperatively":
+          return "Ability to work cooperatively";
+        case "influences":
+          return "Actively influences events";
+        case "managesOwn":
+          return "Manages own emotions";
+        case "newIdeas":
+          return "Adaptable and receptive to new ideas";
+        case "positiveBelief":
+          return "Has a positive belief about the dependability of others";
+        case "proactive":
+          return "Proactive and self-starting";
+        case "resilienceFeedback":
+          return "Accepts constructive feedback";
+        case "clearInstructions":
+          return "Gives clear instructions";
+        case "crossTeam":
+          return "Creates an environment where individuals feel safe to report errors";
+        case "distractions":
+          return "Avoids distractions if at all possible";
+        case "easilyExplainsComplexIdeas":
+          return "Easily explains complex ideas";
+        case "openToShare":
+          return "Builds a strong sense of openness, trust and community";
+        case "signifiesInterest":
+          return "Signifies interest in what other people have to say";
+        default:
+          return "Demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments during interactions";
+      }
     },
   };
 
@@ -94,16 +175,13 @@ export default class Results extends Component {
         <Heading />
         <div className="skills-main">
           <div className="main-skills-container">
-            <div className="collab-results-left">
-              <CollabIndex />
-              <CollabTopStrengths data={this.state.collaborationData} />
-              <CollabAreasToImprove data={this.state.collaborationData} />
-            </div>
-            <div className="comms-results-right">
-              <CommsIndex />
-              <CommsTopStrengths data={this.state.communicationData} />
-              <CommsAreasToImprove data={this.state.communicationData} />
-            </div>
+            <CollabIndex state={this.state.report} />
+            <CollabTopStrengths data={this.state.collaborationData} />
+            <CollabAreasToImprove data={this.state.collaborationData} />
+
+            <CommsIndex state={this.state.report} />
+            <CommsTopStrengths data={this.state.communicationData} />
+            <CommsAreasToImprove data={this.state.communicationData} />
           </div>
         </div>
       </div>
@@ -133,7 +211,7 @@ const Heading = () => {
   );
 };
 
-const CollabIndex = () => {
+const CollabIndex = (props) => {
   return (
     <div className="grid-areas" style={{ gridArea: "collab-index" }}>
       <div className="heading">
@@ -142,7 +220,9 @@ const CollabIndex = () => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        <div className="radar-div">{/* <Radar /> */}</div>
+        <div className="radar-div">
+          <Radar {...props.state} collabOrComms="collaboration" />
+        </div>
       </div>
     </div>
   );
@@ -152,10 +232,7 @@ const CollabTopStrengths = (props) => {
   const topStrengths = props.data?.sort((a, b) => b.value - a.value);
 
   return (
-    <div
-      className="grid-areas"
-      style={{ gridArea: "top-strength", height: "445px" }}
-    >
+    <div className="grid-areas" style={{ gridArea: "collab-top-strength" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Top Strengths
@@ -173,10 +250,7 @@ const CollabTopStrengths = (props) => {
 const CollabAreasToImprove = (props) => {
   const areasToImprove = props.data?.sort((a, b) => a.value - b.value);
   return (
-    <div
-      className="grid-areas"
-      style={{ gridArea: "areas-to-improve", height: "445px" }}
-    >
+    <div className="grid-areas" style={{ gridArea: "collab-areas-to-improve" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Areas to Improve
@@ -193,14 +267,16 @@ const CollabAreasToImprove = (props) => {
 
 const CommsIndex = (props) => {
   return (
-    <div className="grid-areas" style={{ gridArea: "collab-index" }}>
+    <div className="grid-areas" style={{ gridArea: "comms-index" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Communication index
         </h1>
       </div>
       <div className="grid-area-inside">
-        <div className="radar-div">{/* <Radar /> */}</div>
+        <div className="radar-div">
+          <Radar {...props.state} collabOrComms="communication" />
+        </div>
       </div>
     </div>
   );
@@ -210,10 +286,7 @@ const CommsTopStrengths = (props) => {
   const topStrengths = props.data?.sort((a, b) => b.value - a.value);
 
   return (
-    <div
-      className="grid-areas"
-      style={{ gridArea: "top-strength", height: "445px" }}
-    >
+    <div className="grid-areas" style={{ gridArea: "comms-top-strength" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Top Strengths
@@ -231,10 +304,7 @@ const CommsTopStrengths = (props) => {
 const CommsAreasToImprove = (props) => {
   const areasToImprove = props.data?.sort((a, b) => a.value - b.value);
   return (
-    <div
-      className="grid-areas"
-      style={{ gridArea: "areas-to-improve", height: "445px" }}
-    >
+    <div className="grid-areas" style={{ gridArea: "comms-areas-to-improve" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Areas to Improve
