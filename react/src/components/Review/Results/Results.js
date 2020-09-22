@@ -12,7 +12,7 @@ export default class Results extends Component {
     super();
 
     this.state = {
-      JWT: null, //this.props.app.JWT
+      JWT: localStorage.getItem("JWT"), //this.props.app.JWT
       collaborationData: null,
       communicationData: null,
     };
@@ -21,7 +21,7 @@ export default class Results extends Component {
   componentDidMount = () => {
     let collaborationData;
     let communicationData;
-    let data = this.getData;
+    let data = this.getData();
 
     collaborationData = this.filterBy.collaboration(data);
     communicationData = this.filterBy.communication(data);
@@ -42,7 +42,7 @@ export default class Results extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.state.JWT,
+        JWT: localStorage.getItem("JWT"),
       },
       body: JSON.stringify(query),
     };
