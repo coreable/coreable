@@ -3,8 +3,8 @@ import React from "react";
 import "./SkillBar.scss";
 
 export default function SkillBar(props) {
-  const { type, isComm } = props;
-  const { name, averageScore, reflectionScore, difference } = props.values;
+  const { type } = props;
+  const { name, averageScore, reflectionScore } = props.values;
 
   function convertToText(averageScore) {
     if (averageScore < 20) {

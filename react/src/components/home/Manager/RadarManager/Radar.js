@@ -23,6 +23,8 @@ const RadarChart = (props) => {
     return null;
   }
 
+  const collabOrComms = props.collabOrComms;
+
   let averageFacetsCollab = {
     emotionalIntelligence: 0,
     initiative: 0,
@@ -94,81 +96,127 @@ const RadarChart = (props) => {
 
   return (
     <Container className="radar-container">
-      <Radar
-        options={{
-          maintainAspectRatio: false,
-          layout: {
-            padding: {
-              left: 0,
-              right: 0,
-              top: 10,
-              bottom: 0,
+      {collabOrComms == "collaboration" ? (
+        <Radar
+          options={{
+            maintainAspectRatio: false,
+            layout: {
+              padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+              },
             },
-          },
-          scale: {
-            ticks: {
-              max: 100,
-              min: 0,
-              stepSize: 20,
+            scale: {
+              ticks: {
+                max: 100,
+                min: 0,
+                stepSize: 20,
+              },
             },
-          },
-          legend: {
-            position: "bottom",
-            align: "centre",
-            padding: 50,
-          },
-        }}
-        data={{
-          labels: [
-            "Emotional Intelligence",
-            "Initiative",
-            "Trust",
-            "Flexibility",
-            "Clarity",
-            "Culture",
-            "Non-Verbal",
-            "Verbal Attentiveness",
-            "Resilience",
-          ],
-          datasets: [
-            {
-              label: "Self-review",
-              backgroundColor: "rgba(102, 204, 158,0.3)",
-              borderColor: "rgba(102, 204, 158,0.8)",
-              pointRadius: 0,
-              data: [
-                reflectionFacetsCollab.emotionalIntelligence || 0,
-                reflectionFacetsCollab.initiative || 0,
-                reflectionFacetsCollab.trust || 0,
-                reflectionFacetsCollab.flex || 0,
-                reflectionFacetsCollab.resilience || 0,
-                reflectionFacetsComm.clarity || 0,
-                reflectionFacetsComm.culture || 0,
-                reflectionFacetsComm.nonVerbal || 0,
-                reflectionFacetsComm.attentive || 0,
-              ],
+            legend: {
+              position: "bottom",
+              align: "centre",
+              padding: 10,
             },
-            {
-              label: "Team-review",
-              backgroundColor: "rgba(0,179,229,0.3)",
-              borderColor: "rgba(0,179,229,0.8)",
-              pointRadius: 0,
-              data: [
-                averageFacetsCollab.emotionalIntelligence || 0,
-                averageFacetsCollab.initiative || 0,
-                averageFacetsCollab.trust || 0,
-                averageFacetsCollab.flex || 0,
-                averageFacetsCollab.resilience || 0,
-                averageFacetsComm.clarity || 0,
-                averageFacetsComm.culture || 0,
-                averageFacetsComm.nonVerbal || 0,
-                averageFacetsComm.attentive || 0,
-              ],
+          }}
+          data={{
+            labels: [
+              "Emotional Intelligence",
+              "Initiative",
+              "Trust",
+              "Flexibility",
+              "Resilience",
+            ],
+            datasets: [
+              {
+                label: "Self-review",
+                backgroundColor: "rgba(102, 204, 158,0.3)",
+                borderColor: "rgba(102, 204, 158,0.8)",
+                pointRadius: 0,
+                data: [
+                  reflectionFacetsCollab.emotionalIntelligence || 0,
+                  reflectionFacetsCollab.initiative || 0,
+                  reflectionFacetsCollab.trust || 0,
+                  reflectionFacetsCollab.flex || 0,
+                  reflectionFacetsCollab.resilience || 0,
+                ],
+              },
+              {
+                label: "Team-review",
+                backgroundColor: "rgba(0,179,229,0.3)",
+                borderColor: "rgba(0,179,229,0.8)",
+                pointRadius: 0,
+                data: [
+                  averageFacetsCollab.emotionalIntelligence || 0,
+                  averageFacetsCollab.initiative || 0,
+                  averageFacetsCollab.trust || 0,
+                  averageFacetsCollab.flex || 0,
+                  averageFacetsCollab.resilience || 0,
+                ],
+              },
+            ],
+            backgroundColor: "#00c8b3",
+          }}
+        ></Radar>
+      ) : (
+        <Radar
+          options={{
+            maintainAspectRatio: false,
+            layout: {
+              padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+              },
             },
-          ],
-          backgroundColor: "#00c8b3",
-        }}
-      ></Radar>
+            scale: {
+              ticks: {
+                max: 100,
+                min: 0,
+                stepSize: 20,
+              },
+            },
+            legend: {
+              position: "bottom",
+              align: "centre",
+              padding: 10,
+            },
+          }}
+          data={{
+            labels: ["Clarity", "Culture", "Non-Verbal", "Resilience"],
+            datasets: [
+              {
+                label: "Self-review",
+                backgroundColor: "rgba(102, 204, 158,0.3)",
+                borderColor: "rgba(102, 204, 158,0.8)",
+                pointRadius: 0,
+                data: [
+                  reflectionFacetsComm.clarity || 0,
+                  reflectionFacetsComm.culture || 0,
+                  reflectionFacetsComm.nonVerbal || 0,
+                  reflectionFacetsComm.attentive || 0,
+                ],
+              },
+              {
+                label: "Team-review",
+                backgroundColor: "rgba(0,179,229,0.3)",
+                borderColor: "rgba(0,179,229,0.8)",
+                pointRadius: 0,
+                data: [
+                  averageFacetsComm.clarity || 0,
+                  averageFacetsComm.culture || 0,
+                  averageFacetsComm.nonVerbal || 0,
+                  averageFacetsComm.attentive || 0,
+                ],
+              },
+            ],
+            backgroundColor: "#00c8b3",
+          }}
+        ></Radar>
+      )}
     </Container>
   );
 };

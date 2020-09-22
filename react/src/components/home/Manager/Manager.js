@@ -22,7 +22,6 @@ import {
   // Route
 } from "react-router-dom";
 import "./Manager.scss";
-import { result } from "lodash";
 
 let selectedTutorial = "All";
 let selectedSubject = "All";
@@ -716,7 +715,7 @@ class Manager extends Component {
               filters={{ tutorials, subjects, teams, users }}
               filterHandler={this.filter.dashboard}
             />
-            <CollaborationIndex state={this.state} />
+            <Index state={this.state} />
             <TopStrengths state={this.state} />
             <AreasToImprove state={this.state} />
             <Overestimation state={this.state} />
@@ -868,17 +867,18 @@ const CommunicationCollaborationTab = (props) => {
   );
 };
 
-const CollaborationIndex = (props) => {
+const Index = (props) => {
   return (
-    <div className="grid-areas" style={{ gridArea: "index", height: "439px" }}>
+    <div className="grid-areas" style={{ gridArea: "index", height: "445px" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Collaboration Index
+          {collabOrComm == "collaboration" ? "Collaboration" : "Communication"}{" "}
+          Index
         </h1>
       </div>
       <div className="grid-area-inside">
         <div className="radar-div">
-          <Radar {...props.state} />
+          <Radar {...props.state} collabOrComms={collabOrComm} />
         </div>
       </div>
     </div>
