@@ -43,6 +43,7 @@ const Manager = lazy(() => import("./components/home/Manager/Manager"));
 const ManagerLogin = lazy(() =>
   import("./components/home/Manager/Login/Login")
 );
+const Results = lazy(() => import("./components/Review/Results/Results"));
 
 class App extends Component {
   constructor(props) {
@@ -422,6 +423,18 @@ class App extends Component {
               path="/communication"
               component={(props) => (
                 <Communication
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/results"
+              component={(props) => (
+                <Results
                   {...props}
                   app={this.state}
                   refreshMe={this.refreshMe}
