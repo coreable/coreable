@@ -19,20 +19,9 @@ export default class Results extends Component {
   }
 
   componentDidMount = () => {
-    let collaborationData;
-    let communicationData;
-    let data = this.getData();
-
-    collaborationData = this.filterBy.collaboration(data);
-    communicationData = this.filterBy.communication(data);
-
-    collaborationData = this.util.getTopStrengths(collaborationData);
-    communicationData = this.util.getTopStrengths(communicationData);
-
-    collaborationData = this.util.getAreasToImprove(collaborationData);
-    communicationData = this.util.getAreasToImprove(communicationData);
-
-    this.util.setStateValues(collaborationData, communicationData);
+    let collaborationData = null;
+    let communicationData = null;
+    this.getData();
   };
 
   async getData() {
@@ -55,24 +44,48 @@ export default class Results extends Component {
       return false;
     }
 
-    return data.user.report;
+    const result = data.user.report;
+
+    let collaborationData = this.filterBy.collaboration(result);
+    let communicationData = this.filterBy.communication(result);
+
+    collaborationData = this.util.convertToArray(collaborationData);
+    communicationData = this.util.convertToArray(communicationData);
+
+    this.util.setStateValues(collaborationData, communicationData);
   }
 
   util = {
-    getTopStrengths: (data) => {},
-    getAreasToImprove: (data) => {},
+    convertToArray: (object) => {
+      let result = [];
+
+      for (const key in object) {
+        if (object.hasOwnProperty(key)) {
+          result.push({
+            trait: key,
+            value: object[key],
+          });
+        }
+      }
+
+      return result.sort((a, b) => a.value - b.value);
+    },
     setStateValues: (collaborationData, communicationData) => {
       this.setState({
         ...this.state,
-        collaborationData,
-        communicationData,
+        collaborationData: collaborationData,
+        communicationData: communicationData,
       });
     },
   };
 
   filterBy = {
-    communication: (data) => {},
-    collaboration: (data) => {},
+    communication: (data) => {
+      return data.reflection?.communication?.traits?.default;
+    },
+    collaboration: (data) => {
+      return data.reflection?.collaboration?.traits?.default;
+    },
   };
 
   render() {
@@ -83,13 +96,13 @@ export default class Results extends Component {
           <div className="main-skills-container">
             <div className="collab-results-left">
               <CollabIndex />
-              <CollabTopStrengths />
-              <CollabAreasToImprove />
+              <CollabTopStrengths data={this.state.collaborationData} />
+              <CollabAreasToImprove data={this.state.collaborationData} />
             </div>
             <div className="comms-results-right">
               <CommsIndex />
-              <CommsTopStrengths />
-              <CommsAreasToImprove />
+              <CommsTopStrengths data={this.state.communicationData} />
+              <CommsAreasToImprove data={this.state.communicationData} />
             </div>
           </div>
         </div>
@@ -136,6 +149,8 @@ const CollabIndex = () => {
 };
 
 const CollabTopStrengths = (props) => {
+  const topStrengths = props.data?.sort((a, b) => b.value - a.value);
+
   return (
     <div
       className="grid-areas"
@@ -147,22 +162,16 @@ const CollabTopStrengths = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {/* {props.state.topStrengths?.slice(0, 3).map((strength, idx) => {
-          return (
-            <SkillBar
-              key={idx}
-              values={strength}
-              type="strengths"
-              isComm={collabOrComm}
-            />
-          );
-        })} */}
+        {topStrengths?.slice(0, 3).map((strength, idx) => {
+          return <SkillBar key={idx} values={strength} />;
+        })}
       </div>
     </div>
   );
 };
 
 const CollabAreasToImprove = (props) => {
+  const areasToImprove = props.data?.sort((a, b) => a.value - b.value);
   return (
     <div
       className="grid-areas"
@@ -174,16 +183,9 @@ const CollabAreasToImprove = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {/* {props.state.areasToImprove?.slice(0, 3).map((improve, idx) => {
-          return (
-            <SkillBar
-              key={idx}
-              values={improve}
-              type="areasToImprove"
-              isComm={collabOrComm}
-            />
-          );
-        })} */}
+        {areasToImprove?.slice(0, 3).map((improve, idx) => {
+          return <SkillBar key={idx} values={improve} />;
+        })}
       </div>
     </div>
   );
@@ -205,6 +207,8 @@ const CommsIndex = (props) => {
 };
 
 const CommsTopStrengths = (props) => {
+  const topStrengths = props.data?.sort((a, b) => b.value - a.value);
+
   return (
     <div
       className="grid-areas"
@@ -216,22 +220,16 @@ const CommsTopStrengths = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {/* {props.state.topStrengths?.slice(0, 3).map((strength, idx) => {
-          return (
-            <SkillBar
-              key={idx}
-              values={strength}
-              type="strengths"
-              isComm={collabOrComm}
-            />
-          );
-        })} */}
+        {topStrengths?.slice(0, 3).map((strength, idx) => {
+          return <SkillBar key={idx} values={strength} />;
+        })}
       </div>
     </div>
   );
 };
 
 const CommsAreasToImprove = (props) => {
+  const areasToImprove = props.data?.sort((a, b) => a.value - b.value);
   return (
     <div
       className="grid-areas"
@@ -243,16 +241,9 @@ const CommsAreasToImprove = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {/* {props.state.areasToImprove?.slice(0, 3).map((improve, idx) => {
-          return (
-            <SkillBar
-              key={idx}
-              values={improve}
-              type="areasToImprove"
-              isComm={collabOrComm}
-            />
-          );
-        })} */}
+        {areasToImprove?.slice(0, 3).map((improve, idx) => {
+          return <SkillBar key={idx} values={improve} />;
+        })}
       </div>
     </div>
   );
