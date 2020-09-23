@@ -308,7 +308,8 @@ class Review extends Component {
     const team_id = this.props.location.state.pending._id;
     const tutorial_id = this.props.location.state.pending.tutorial._id;
     const subject_id = this.props.location.state.pending.tutorial.subject._id;
-    const organisation_id = this.props.location.state.pending.tutorial.subject.organisation._id;
+    const organisation_id = this.props.location.state.pending.tutorial.subject
+      .organisation._id;
     const me_id = this.props.app.data.user._id;
 
     for (const user in review[me_id][team_id]) {
@@ -360,7 +361,7 @@ class Review extends Component {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
-            "JWT": AUTH_TOKEN,
+            JWT: AUTH_TOKEN,
           },
           body: JSON.stringify(query),
         };
@@ -416,8 +417,14 @@ class Review extends Component {
     /**
      * Review was submitted successfully
      */
+    //OPTION 1:
+    // if (reviewDone && !this.state.submitting) {
+    //   return <Redirect to="/skills"></Redirect>;
+    // }
+
+    //OPTION 2:
     if (reviewDone && !this.state.submitting) {
-      return <Redirect to="/skills"></Redirect>;
+      return <Redirect to="/results"></Redirect>;
     }
 
     /**
