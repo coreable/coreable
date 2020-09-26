@@ -128,9 +128,8 @@ class Onboarding extends Component {
   render() {
     return (
       <div className="team-container">
-        <div className="top"></div>
+        <div className="top"> {this.onboardingTitle()}</div>
         <div className="main">
-          {this.onboardingTitle()}
           <div className="grid">
             <div className="grid-card">
               <div className="step-progress-bar">

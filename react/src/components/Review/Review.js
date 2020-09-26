@@ -392,9 +392,15 @@ class Review extends Component {
           ...this.state,
           submitting: false,
         });
-        this.props.history.push({
-          pathname: "/skills",
-        });
+        if (this.state.reviewState === 1) {
+          this.props.history.push({
+            pathname: "/results",
+          });
+        } else {
+          this.props.history.push({
+            pathname: "/skills",
+          });
+        }
       })
       .catch((err) => console.error(err));
 

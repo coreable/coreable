@@ -19,6 +19,7 @@ import SliderIndicator from "./SliderIndicator";
 import { Subject } from "rxjs";
 
 import { Button } from "@material-ui/core";
+import { conforms } from "lodash";
 
 class Trait extends Component {
   constructor(props) {
@@ -38,6 +39,14 @@ class Trait extends Component {
       reviewState: props.reviewState,
     };
     this.reviewSubject = new Subject();
+
+    if (this.state.reviewState === 1) {
+      const user = this.props.pending.pending.filter((user) => {
+        return user._id === this.state.user_id;
+      });
+
+      this.handleSelectedUserChange(user);
+    }
   }
 
   componentDidUpdate() {
@@ -60,11 +69,19 @@ class Trait extends Component {
 
   getReview = () => {
     const review = JSON.parse(localStorage.getItem("review"));
-
     const team_id = this.state.team._id;
-    const user_id = this.state.user._id;
     const me_id = this.props.me._id;
     const trait = this.state.var;
+    let user_id;
+
+    if (this.state.reviewState === 1) {
+      const returnedUser = this.props.pending.pending.filter((user) => {
+        return user._id === this.state.user_id;
+      });
+      user_id = returnedUser[0]._id;
+    } else {
+      user_id = this.state.user._id;
+    }
 
     if (!review[me_id]) {
       review[me_id] = {};
@@ -129,8 +146,15 @@ class Trait extends Component {
   };
 
   updateUserTouchedProperty = (user, review) => {
+    let user_id;
+
+    if (this.state.reviewState === 1) {
+      user_id = user[0]._id;
+    } else {
+      user_id = user._id;
+    }
+
     const team_id = this.state.team._id;
-    const user_id = user._id;
     const me_id = this.props.me._id;
     const trait = this.state.var;
     review[me_id][team_id][user_id][trait].touched = true;
@@ -138,15 +162,23 @@ class Trait extends Component {
   };
 
   handleSelectedUserChange = (user) => {
+    let user_id;
+
     this.setState(
       {
         ...this.state,
-        user,
+        user: user,
       },
       () => {
         const review = this.updateUserTouchedProperty(user, this.getReview());
         const team_id = this.state.team._id;
-        const user_id = this.state.user._id;
+
+        if (this.state.reviewState === 1) {
+          user_id = user[0]._id;
+        } else {
+          user_id = this.state.user._id;
+        }
+
         const me_id = this.props.me._id;
         const trait = this.state.var;
 
@@ -165,9 +197,19 @@ class Trait extends Component {
 
   handleSliderChange = (e) => {
     const team_id = this.state.team._id;
-    const user_id = this.state.user._id;
     const me_id = this.props.me._id;
     const trait = this.state.var;
+    let returnedUser;
+    let user_id;
+
+    if (this.state.reviewState === 1) {
+      returnedUser = this.props.pending.pending.filter((user) => {
+        return user._id === this.state.user_id;
+      });
+      user_id = returnedUser[0]._id;
+    } else {
+      user_id = this.state.user._id;
+    }
 
     try {
       const val = e.target.value;
@@ -183,17 +225,36 @@ class Trait extends Component {
           this.props.sliderUpdatedHandler();
         }
       );
+      if (this.state.reviewState === 1) {
+        this.handleSelectedUserChange(returnedUser);
+      }
     } catch (err) {
       // ignore
     }
   };
 
   getSliderBackground = () => {
-    const user_id = this.state.user._id;
+    let user_id;
+    if (this.state.reviewState === 1) {
+      let returnedUser = this.props.pending.pending.filter((user) => {
+        return user._id === this.state.user_id;
+      });
+      user_id = returnedUser[0]._id;
+    } else {
+      user_id = this.state.user._id;
+    }
+
     if (!user_id || this.state.val < 0) {
       return `linear-gradient(90deg, rgb(66, 113, 249) 0%, rgb(214, 214, 214) 0%)`;
     } else {
-      return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
+      if (this.state.reviewState === 1) {
+        const review = this.getReview();
+        const value =
+          review[user_id][this.state.team._id][user_id][this.state.var].val;
+        return `linear-gradient(90deg, rgb(66, 113, 249) ${value}%, rgb(214, 214, 214) ${value}%)`;
+      } else {
+        return `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`;
+      }
     }
   };
 
@@ -236,6 +297,22 @@ class Trait extends Component {
       });
     }
   };
+
+  oneUser = () => {
+    if (this.state.reviewState === 1) {
+      const user = this.props.pending.pending.filter((user) => {
+        return user._id === this.state.user_id;
+      });
+      this.setState({
+        ...this.state,
+        user: user,
+      });
+    }
+  };
+
+  // oneUserOnChange = () => {
+  //   this.handleSliderChange;
+  // };
 
   render() {
     let buttons = [];
@@ -298,28 +375,53 @@ class Trait extends Component {
           <Ranking {...this.state} />
 
           <div className="slider-bar-container">
-            <input
-              type="range"
-              min={0}
-              max={100}
-              step={5}
-              key={this.state.var}
-              id={this.state.var}
-              name={this.state.var}
-              value={!!this.state.val ? this.state.val : 0}
-              disabled={!this.state.user._id}
-              className="rating"
-              onChange={this.handleSliderChange}
-              style={{
-                backgroundImage: this.getSliderBackground(),
-                marginTop: "30pt",
-                marginBottom: "4pt",
-                transition: "none",
-                borderRadius: "0.33rem",
-                height: "30px",
-                // zIndex: "2",
-              }}
-            />
+            {this.state.reviewState === 1 ? (
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                key={this.state.var}
+                id={this.state.var}
+                name={this.state.var}
+                value={this.state.val}
+                // disabled={this.state.user._id}
+                className="rating"
+                onChange={this.handleSliderChange}
+                style={{
+                  backgroundImage: this.getSliderBackground(),
+                  marginTop: "30pt",
+                  marginBottom: "4pt",
+                  transition: "none",
+                  borderRadius: "0.33rem",
+                  height: "30px",
+                  // zIndex: "2",
+                }}
+              />
+            ) : (
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                key={this.state.var}
+                id={this.state.var}
+                name={this.state.var}
+                value={!!this.state.val ? this.state.val : 0}
+                disabled={!this.state.user._id}
+                className="rating"
+                onChange={this.handleSliderChange}
+                style={{
+                  backgroundImage: this.getSliderBackground(),
+                  marginTop: "30pt",
+                  marginBottom: "4pt",
+                  transition: "none",
+                  borderRadius: "0.33rem",
+                  height: "30px",
+                  // zIndex: "2",
+                }}
+              />
+            )}
 
             <div>
               <span></span>
@@ -348,19 +450,23 @@ class Trait extends Component {
                     return user._id === this.state.user_id;
                   })
                   .map((user, index) => {
-                    let button = (<Button
-                      className="select-user-button"
-                      size="small"
-                      variant="contained"
-                      color="primary"
-                      style={this.getButtonStyles(user)}
-                      disableElevation
-                      key={index}
-                      id={user._id+'_'+index}
-                      onClick={() => this.handleSelectedUserChange(user)}
-                    >
-                      {user.identity.firstName + " " + user.identity.lastName}
-                    </Button>);
+                    let button = (
+                      <Button
+                        className="select-user-button"
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        style={{
+                          backgroundImage: `linear-gradient(90deg, rgb(66, 113, 249) ${this.state.val}%, rgb(214, 214, 214) ${this.state.val}%)`,
+                        }}
+                        disableElevation
+                        key={index}
+                        id={user._id + "_" + index}
+                        // onClick={() => this.handleSelectedUserChange(user)}
+                      >
+                        {user.identity.firstName + " " + user.identity.lastName}
+                      </Button>
+                    );
                     buttons.push(button);
                     return button;
                   })
