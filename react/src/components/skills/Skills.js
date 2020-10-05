@@ -258,8 +258,8 @@ export default class Results extends Component {
     return (
       <div className="review-container">
         <Heading />
-        <div className="skills-main">
-          <div style={{ margin: "16px 0" }}>
+        <div className="skills-main" style={{ display: "block" }}>
+          <div style={{ marginTop: "20px" }}>
             <button
               className="facet-button selected"
               value="facet"
