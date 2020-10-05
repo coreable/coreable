@@ -19,7 +19,6 @@ import SliderIndicator from "./SliderIndicator";
 import { Subject } from "rxjs";
 
 import { Button } from "@material-ui/core";
-import { conforms } from "lodash";
 
 class Trait extends Component {
   constructor(props) {

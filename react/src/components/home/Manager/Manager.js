@@ -159,6 +159,7 @@ class Manager extends Component {
         data["organisation"].map((item) => {
           return item.subject.map((subject) => {
             result.push({ id: subject._id, name: subject.name });
+            return subject;
           });
         });
         return result;
@@ -168,6 +169,7 @@ class Manager extends Component {
           return item.subject.map((item) => {
             return item.tutorial.map((tutorial) => {
               result.push({ id: tutorial._id, name: tutorial.name });
+              return tutorial;
             });
           });
         });
@@ -179,6 +181,7 @@ class Manager extends Component {
             return item.tutorial.map((tutorial) => {
               return tutorial.team.map((team) => {
                 result.push({ id: team._id, name: team.name });
+                return team;
               });
             });
           });
@@ -253,6 +256,7 @@ class Manager extends Component {
                     firstName: user.identity.firstName,
                     lastName: user.identity.lastName,
                   });
+                  return user;
                 });
               });
             });
@@ -840,7 +844,7 @@ const Index = (props) => {
     <div className="grid-areas" style={{ gridArea: "index", height: "445px" }}>
       <div className="heading">
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          {collabOrComm == "collaboration" ? "Collaboration" : "Communication"}{" "}
+          {collabOrComm === "collaboration" ? "Collaboration" : "Communication"}{" "}
           Index
         </h1>
       </div>

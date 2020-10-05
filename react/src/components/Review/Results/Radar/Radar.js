@@ -23,7 +23,7 @@ const RadarChart = (props) => {
     return null;
   }
 
-  if (props.collabOrComms == "collaboration") {
+  if (props.collabOrComms === "collaboration") {
     return (
       <Container className="radar-container">
         <Radar

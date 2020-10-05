@@ -21,7 +21,9 @@ export default class Results extends Component {
 
   componentDidMount = () => {
     let collaborationData = null;
+    console.log(collaborationData);
     let communicationData = null;
+    console.log(communicationData);
     this.getData();
   };
 

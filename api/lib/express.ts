@@ -38,7 +38,7 @@ declare global {
     interface Request {
       // Decoded JWT for server sided use
       // Password for managers only (encrypted)
-      JWT: { _id: string; email: string; enterprise: string; };
+      JWT?: { _id: string; email: string; enterprise: string; };
       // User type for Graphql schema
       enterprise: string | undefined;
     }
@@ -66,7 +66,7 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
       // Decode for server sided use only
       req.JWT = await decodeJWT(JWT_TOKEN);
-      req.enterprise = req.JWT.enterprise;
+      req.enterprise = req.JWT?.enterprise;
       // return (non-decoded) JWT token to client via HTTP
       res.setHeader('JWT', JWT_TOKEN);
     } catch (err) {

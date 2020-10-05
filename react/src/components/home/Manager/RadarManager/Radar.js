@@ -96,7 +96,7 @@ const RadarChart = (props) => {
 
   return (
     <Container className="radar-container">
-      {collabOrComms == "collaboration" ? (
+      {collabOrComms === "collaboration" ? (
         <Radar
           options={{
             maintainAspectRatio: false,
