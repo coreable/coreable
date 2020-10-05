@@ -25,7 +25,7 @@ export default class Results extends Component {
     this.util.checkState(props);
   }
 
-  componentDidMount = (props) => {
+  componentDidMount = () => {
     this.getData();
   };
 
@@ -56,14 +56,32 @@ export default class Results extends Component {
       report: result,
     });
 
-    let commData = this.filterBy.communicationData(result);
-    let collabData = this.filterBy.collaborationData(result);
+    let isAverageNull = this.util.checkIfNull(result);
 
-    let commFacets = this.util.setFacetsOrTraits(commData, "facets");
-    let collabFacets = this.util.setFacetsOrTraits(collabData, "facets");
+    let commData = this.filterBy.communicationData(result, isAverageNull);
+    let collabData = this.filterBy.collaborationData(result, isAverageNull);
 
-    let commTraits = this.util.setFacetsOrTraits(commData, "traits");
-    let collabTraits = this.util.setFacetsOrTraits(collabData, "traits");
+    let commFacets = this.util.setFacetsOrTraits(
+      commData,
+      "facets",
+      isAverageNull
+    );
+    let collabFacets = this.util.setFacetsOrTraits(
+      collabData,
+      "facets",
+      isAverageNull
+    );
+
+    let commTraits = this.util.setFacetsOrTraits(
+      commData,
+      "traits",
+      isAverageNull
+    );
+    let collabTraits = this.util.setFacetsOrTraits(
+      collabData,
+      "traits",
+      isAverageNull
+    );
 
     let comm = this.util.setCommOrCollabData(commFacets, commTraits);
     let collab = this.util.setCommOrCollabData(collabFacets, collabTraits);
@@ -72,6 +90,13 @@ export default class Results extends Component {
   }
 
   util = {
+    checkIfNull: (report) => {
+      if (report["average"]["collaboration"] === null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     checkState: (props) => {
       let count = 0;
       const arrayToLoop = props["app"]["data"]["user"]["pending"];
@@ -92,31 +117,55 @@ export default class Results extends Component {
         traits: traits,
       };
     },
-    setFacetsOrTraits: (report, facetOrTrait) => {
-      let result = [];
-      let averageObject = report["average"][facetOrTrait]["default"];
-      let reflectionObject = report["reflection"][facetOrTrait]["default"];
+    setFacetsOrTraits: (report, facetOrTrait, isAverageNull) => {
+      if (isAverageNull) {
+        let result = [];
+        let reflectionObject = report["reflection"][facetOrTrait]["default"];
 
-      for (const key in averageObject) {
-        if (averageObject.hasOwnProperty(key)) {
-          result.push({
-            name:
-              facetOrTrait === "facets"
-                ? {
-                    facet: this.util.getCorrectSpelling(key),
-                  }
-                : {
-                    facet: this.util.getFacetName(key),
-                    trait: this.util.getCorrectTraitDetails(key),
-                  },
-            average: averageObject[key],
-            reflection: reflectionObject[key],
-            difference: reflectionObject[key] - averageObject[key],
-          });
+        for (const key in reflectionObject) {
+          if (reflectionObject.hasOwnProperty(key)) {
+            result.push({
+              name:
+                facetOrTrait === "facets"
+                  ? {
+                      facet: this.util.getCorrectSpelling(key),
+                    }
+                  : {
+                      facet: this.util.getFacetName(key),
+                      trait: this.util.getCorrectTraitDetails(key),
+                    },
+              reflection: reflectionObject[key],
+            });
+          }
         }
-      }
 
-      return result.sort((a, b) => a.average - b.average);
+        return result.sort((a, b) => a.reflection - b.reflection);
+      } else {
+        let result = [];
+        let averageObject = report["average"][facetOrTrait]["default"];
+        let reflectionObject = report["reflection"][facetOrTrait]["default"];
+
+        for (const key in averageObject) {
+          if (averageObject.hasOwnProperty(key)) {
+            result.push({
+              name:
+                facetOrTrait === "facets"
+                  ? {
+                      facet: this.util.getCorrectSpelling(key),
+                    }
+                  : {
+                      facet: this.util.getFacetName(key),
+                      trait: this.util.getCorrectTraitDetails(key),
+                    },
+              average: averageObject[key],
+              reflection: reflectionObject[key],
+              difference: reflectionObject[key] - averageObject[key],
+            });
+          }
+        }
+
+        return result.sort((a, b) => a.average - b.average);
+      }
     },
     setStateValues: (collaborationData, communicationData) => {
       this.setState({
@@ -224,19 +273,35 @@ export default class Results extends Component {
   };
 
   filterBy = {
-    communicationData: (report) => {
-      let result = {
-        average: report["average"]["communication"],
-        reflection: report["reflection"]["communication"],
-      };
+    communicationData: (report, isAverageNull) => {
+      let result;
+
+      if (isAverageNull) {
+        result = {
+          reflection: report["reflection"]["communication"],
+        };
+      } else {
+        result = {
+          average: report["average"]["communication"],
+          reflection: report["reflection"]["communication"],
+        };
+      }
 
       return result;
     },
-    collaborationData: (report) => {
-      let result = {
-        average: report["average"]["collaboration"],
-        reflection: report["reflection"]["collaboration"],
-      };
+    collaborationData: (report, isAverageNull) => {
+      let result;
+
+      if (isAverageNull) {
+        result = {
+          reflection: report["reflection"]["collaboration"],
+        };
+      } else {
+        result = {
+          average: report["average"]["collaboration"],
+          reflection: report["reflection"]["collaboration"],
+        };
+      }
 
       return result;
     },
@@ -355,7 +420,7 @@ const CollabTopStrengths = (props) => {
       </div>
       <div className="grid-area-inside">
         {topStrengths
-          ?.sort((a, b) => b.average - a.average)
+          ?.sort((a, b) => b.reflection - a.reflection)
           .slice(0, 3)
           .map((strength, idx) => {
             return (
@@ -386,7 +451,7 @@ const CollabAreasToImprove = (props) => {
       </div>
       <div className="grid-area-inside">
         {areasToImprove
-          ?.sort((a, b) => a.average - b.average)
+          ?.sort((a, b) => a.reflection - b.reflection)
           .slice(0, 3)
           .map((improve, idx) => {
             return (
@@ -498,7 +563,7 @@ const CommsTopStrengths = (props) => {
       </div>
       <div className="grid-area-inside">
         {topStrengths
-          ?.sort((a, b) => b.average - a.average)
+          ?.sort((a, b) => b.reflection - a.reflection)
           .slice(0, 3)
           .map((strength, idx) => {
             return (
@@ -529,7 +594,7 @@ const CommsAreasToImprove = (props) => {
       </div>
       <div className="grid-area-inside">
         {areasToImprove
-          ?.sort((a, b) => a.average - b.average)
+          ?.sort((a, b) => a.reflection - b.reflection)
           .slice(0, 3)
           .map((improve, idx) => {
             return (

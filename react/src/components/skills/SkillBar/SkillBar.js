@@ -92,14 +92,14 @@ export default function SkillBar(props) {
               //       : "#2dd775",
               // }}
             >
-              {convertToText(average)}
+              {convertToText(reflection)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
               className="skillbar-container blue"
-              style={{ width: `${average}%`, zIndex: "200" }}
+              style={{ width: `${reflection}%`, zIndex: "200" }}
             />
             <div className="interval-container">
               <span />
