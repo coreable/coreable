@@ -56,7 +56,9 @@ export default class Results extends Component {
       report: result,
     });
 
-    let isAverageNull = this.util.checkIfNull(result);
+    let isAverageNull = this.util.checkIfNull(
+      result["average"]["collaboration"]
+    );
 
     let commData = this.filterBy.communicationData(result, isAverageNull);
     let collabData = this.filterBy.collaborationData(result, isAverageNull);
@@ -91,7 +93,7 @@ export default class Results extends Component {
 
   util = {
     checkIfNull: (report) => {
-      if (report["average"]["collaboration"] === null) {
+      if (report === null) {
         return true;
       } else {
         return false;
@@ -339,25 +341,34 @@ export default class Results extends Component {
             </button>
           </div>
           <div className="main-skills-container">
-            <CollabIndex state={this.state.report} />
-            <CollabTopStrengths data={this.state.collaborationData} />
-            <CollabAreasToImprove data={this.state.collaborationData} />
-
-            {stage === 2 && (
+            {!this.util.checkIfNull(this.state.report?.average?.collaboration) &
+              !this.util.checkIfNull(
+                this.state.report?.reflection?.collaboration
+              ) && (
               <React.Fragment>
-                <CollabOverEstimation data={this.state.collaborationData} />
-                <CollabUnderEstimation data={this.state.collaborationData} />
-              </React.Fragment>
-            )}
+                <CollabIndex state={this.state.report} />
+                <CollabTopStrengths data={this.state.collaborationData} />
+                <CollabAreasToImprove data={this.state.collaborationData} />
 
-            <CommsIndex state={this.state.report} />
-            <CommsTopStrengths data={this.state.communicationData} />
-            <CommsAreasToImprove data={this.state.communicationData} />
+                {stage === 2 && (
+                  <React.Fragment>
+                    <CollabOverEstimation data={this.state.collaborationData} />
+                    <CollabUnderEstimation
+                      data={this.state.collaborationData}
+                    />
+                  </React.Fragment>
+                )}
 
-            {stage === 2 && (
-              <React.Fragment>
-                <CommsOverEstimation data={this.state.communicationData} />
-                <CommsUnderEstimation data={this.state.communicationData} />
+                <CommsIndex state={this.state.report} />
+                <CommsTopStrengths data={this.state.communicationData} />
+                <CommsAreasToImprove data={this.state.communicationData} />
+
+                {stage === 2 && (
+                  <React.Fragment>
+                    <CommsOverEstimation data={this.state.communicationData} />
+                    <CommsUnderEstimation data={this.state.communicationData} />
+                  </React.Fragment>
+                )}
               </React.Fragment>
             )}
           </div>
