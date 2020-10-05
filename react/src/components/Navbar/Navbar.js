@@ -111,6 +111,9 @@ class Navbar extends Component {
           if (this.state.me) {
             return (
               <div className="dropdown">
+                <Link to="" onClick={() => this.removeJWT()}>
+                  Logout
+                </Link>
                 <span className="dropbtn">{this.state.me.firstName}</span>
                 <div className="dropdown-content">
                   <Link to="/review">Account</Link>

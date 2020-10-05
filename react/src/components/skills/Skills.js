@@ -8,12 +8,11 @@ import SkillBar from "./SkillBar/SkillBar";
 import Radar from "./Radar";
 
 let facetOrTrait = "facet";
+let stage = 1;
 
 export default class Results extends Component {
   constructor(props) {
     super();
-
-    // console.log(props);
 
     this.state = {
       JWT: localStorage.getItem("JWT"), //this.props.app.JWT
@@ -22,9 +21,11 @@ export default class Results extends Component {
       report: null,
       facetOrTrait: "facet",
     };
+
+    this.util.checkState(props);
   }
 
-  componentDidMount = () => {
+  componentDidMount = (props) => {
     this.getData();
   };
 
@@ -71,6 +72,20 @@ export default class Results extends Component {
   }
 
   util = {
+    checkState: (props) => {
+      let count = 0;
+      const arrayToLoop = props["app"]["data"]["user"]["pending"];
+
+      for (let i = 0; i < arrayToLoop.length; i++) {
+        if (arrayToLoop[i]["tutorial"]["subject"]["state"] == 2) {
+          count++;
+        }
+      }
+
+      if (count == arrayToLoop.length) {
+        stage = 2;
+      }
+    },
     setCommOrCollabData: (facets, traits) => {
       return {
         facets: facets,
@@ -265,10 +280,10 @@ export default class Results extends Component {
             <CollabTopStrengths data={this.state.collaborationData} />
             <CollabAreasToImprove data={this.state.collaborationData} />
 
-            {isStageTwo && (
+            {stage === 2 && (
               <CollabOverEstimation data={this.state.collaborationData} />
             )}
-            {isStageTwo && (
+            {stage === 2 && (
               <CollabUnderEstimation data={this.state.collaborationData} />
             )}
 
@@ -276,10 +291,10 @@ export default class Results extends Component {
             <CommsTopStrengths data={this.state.communicationData} />
             <CommsAreasToImprove data={this.state.communicationData} />
 
-            {isStageTwo && (
+            {stage === 2 && (
               <CommsOverEstimation data={this.state.communicationData} />
             )}
-            {isStageTwo && (
+            {stage === 2 && (
               <CommsUnderEstimation data={this.state.communicationData} />
             )}
           </div>
