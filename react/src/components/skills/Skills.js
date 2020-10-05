@@ -82,7 +82,7 @@ export default class Results extends Component {
         }
       }
 
-      if (count == arrayToLoop.length) {
+      if (count === arrayToLoop.length) {
         stage = 2;
       }
     },
