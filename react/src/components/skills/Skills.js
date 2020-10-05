@@ -253,8 +253,6 @@ export default class Results extends Component {
   };
 
   render() {
-    let isStageTwo = true;
-
     return (
       <div className="review-container">
         <Heading />
@@ -281,10 +279,10 @@ export default class Results extends Component {
             <CollabAreasToImprove data={this.state.collaborationData} />
 
             {stage === 2 && (
-              <CollabOverEstimation data={this.state.collaborationData} />
-            )}
-            {stage === 2 && (
-              <CollabUnderEstimation data={this.state.collaborationData} />
+              <React.Fragment>
+                <CollabOverEstimation data={this.state.collaborationData} />
+                <CollabUnderEstimation data={this.state.collaborationData} />
+              </React.Fragment>
             )}
 
             <CommsIndex state={this.state.report} />
@@ -292,10 +290,10 @@ export default class Results extends Component {
             <CommsAreasToImprove data={this.state.communicationData} />
 
             {stage === 2 && (
-              <CommsOverEstimation data={this.state.communicationData} />
-            )}
-            {stage === 2 && (
-              <CommsUnderEstimation data={this.state.communicationData} />
+              <React.Fragment>
+                <CommsOverEstimation data={this.state.communicationData} />
+                <CommsUnderEstimation data={this.state.communicationData} />
+              </React.Fragment>
             )}
           </div>
         </div>
