@@ -3,10 +3,8 @@ import React from "react";
 import "./SkillBar.scss";
 
 export default function SkillBar(props) {
-  const { type, isFacet, isComm } = props;
-  console.log(isComm);
-  const { name, averageScore, reflection, difference } = props.values;
-  console.log(difference);
+  const { type, isFacet } = props;
+  const { name, average, reflection, difference } = props.values;
 
   function convertToText(averageScore) {
     if (averageScore < 20) {
@@ -52,7 +50,7 @@ export default function SkillBar(props) {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
-          <div style={{ position: "relative", display: "flex" }}>
+          <div style={{ position: "relative" }}>
             <p
               style={{
                 margin: "0",
@@ -61,11 +59,23 @@ export default function SkillBar(props) {
                 textAlign: "left",
                 color: "black",
                 paddingTop: "10px",
-                paddingBottom: "8pt",
+                paddingBottom: "6pt",
                 width: "70%",
               }}
             >
-              {isFacet === "facet" ? name : name[0]}
+              {isFacet === "facet" ? name["facet"] : name["trait"]}
+            </p>
+            <p
+              style={{
+                margin: "0",
+                padding: "0",
+                fontSize: "1.2rem",
+                textAlign: "left",
+                color: "grey",
+                paddingBottom: "8pt",
+              }}
+            >
+              {isFacet == "trait" && name["facet"]}
             </p>
             <span
               className="result-text"
@@ -82,14 +92,14 @@ export default function SkillBar(props) {
               //       : "#2dd775",
               // }}
             >
-              {convertToText(averageScore)}
+              {convertToText(average)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
               className="skillbar-container blue"
-              style={{ width: `${averageScore}%`, zIndex: "200" }}
+              style={{ width: `${average}%`, zIndex: "200" }}
             />
             <div className="interval-container">
               <span />
@@ -107,7 +117,7 @@ export default function SkillBar(props) {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
-          <div style={{ position: "relative", display: "flex" }}>
+          <div style={{ position: "relative" }}>
             <p
               style={{
                 margin: "0",
@@ -116,14 +126,26 @@ export default function SkillBar(props) {
                 textAlign: "left",
                 color: "black",
                 paddingTop: "10px",
-                paddingBottom: "8pt",
+                paddingBottom: "6pt",
                 width: "70%",
               }}
             >
-              {isFacet === "facet" ? name : name[0]}
+              {isFacet === "facet" ? name["facet"] : name["trait"]}
+            </p>
+            <p
+              style={{
+                margin: "0",
+                padding: "0",
+                fontSize: "1.2rem",
+                textAlign: "left",
+                color: "grey",
+                paddingBottom: "8pt",
+              }}
+            >
+              {isFacet == "trait" && name["facet"]}
             </p>
             <span className="result-text">
-              {overEstimation(reflection, averageScore)}
+              {overEstimation(reflection, average)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -137,7 +159,7 @@ export default function SkillBar(props) {
             <div
               className="skillbar-container blue"
               style={{
-                width: `${averageScore}%`,
+                width: `${average}%`,
                 zIndex: "300",
                 position: "absolute",
                 top: "0",
@@ -159,7 +181,7 @@ export default function SkillBar(props) {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
         <div style={{ margin: "0 16px" }}>
-          <div style={{ position: "relative", display: "flex" }}>
+          <div style={{ position: "relative" }}>
             <p
               style={{
                 margin: "0",
@@ -168,14 +190,26 @@ export default function SkillBar(props) {
                 textAlign: "left",
                 color: "black",
                 paddingTop: "10px",
-                paddingBottom: "8pt",
+                paddingBottom: "6pt",
                 width: "70%",
               }}
             >
-              {isFacet === "facet" ? name : name[0]}
+              {isFacet === "facet" ? name["facet"] : name["trait"]}
+            </p>
+            <p
+              style={{
+                margin: "0",
+                padding: "0",
+                fontSize: "1.2rem",
+                textAlign: "left",
+                color: "grey",
+                paddingBottom: "8pt",
+              }}
+            >
+              {isFacet == "trait" && name["facet"]}
             </p>
             <span className="result-text">
-              {underEstimation(reflection, averageScore)}
+              {underEstimation(reflection, average)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -183,7 +217,7 @@ export default function SkillBar(props) {
             <div
               className="skillbar-container blue"
               style={{
-                width: `${averageScore}%`,
+                width: `${average}%`,
               }}
             />
             <div

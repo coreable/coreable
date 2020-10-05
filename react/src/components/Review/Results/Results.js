@@ -88,38 +88,38 @@ export default class Results extends Component {
     },
     getFacetName: (trait) => {
       switch (trait) {
-        case "calm":
-          return "Calm";
+        case ("calm", "resilienceFeedback"):
+          return "Resilience";
         case "empathy":
-          return "Empathy";
+          return "Emotional Intelligence";
         case "cooperatively":
-          return "Cooperatively";
+          return "Trust";
         case "influences":
-          return "Influences";
+          return "Initiative";
         case "managesOwn":
-          return "Manages own";
+          return "Emotional Intelligence";
         case "newIdeas":
-          return "New ideas";
+          return "Flexibility";
         case "positiveBelief":
-          return "Positive belief";
+          return "Trust";
         case "proactive":
-          return "Proactive";
+          return "Initiative";
         case "resilienceFeedback":
-          return "Resilience feedback";
+          return "Resilience";
         case "clearInstructions":
-          return "Clear instructions";
+          return "Clarity";
         case "crossTeam":
-          return "Cross team";
+          return "Culture";
         case "distractions":
-          return "Distractions";
+          return "Non-verbal";
         case "easilyExplainsComplexIdeas":
-          return "Easily explains complex ideas";
+          return "Clarity";
         case "openToShare":
-          return "Open to share";
+          return "Verbal Attentiveness";
         case "signifiesInterest":
-          return "Signifies interest";
+          return "Non-verbal";
         default:
-          return "Uses regulators";
+          return "Culture";
       }
     },
     getCorrectTraitDetails: (trait) => {
@@ -237,6 +237,7 @@ const CollabTopStrengths = (props) => {
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Top Strengths
         </h1>
+        <p>Collaboration</p>
       </div>
       <div className="grid-area-inside">
         {topStrengths?.slice(0, 3).map((strength, idx) => {
@@ -255,6 +256,7 @@ const CollabAreasToImprove = (props) => {
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Areas to Improve
         </h1>
+        <p>Collaboration</p>
       </div>
       <div className="grid-area-inside">
         {areasToImprove?.slice(0, 3).map((improve, idx) => {
@@ -291,6 +293,7 @@ const CommsTopStrengths = (props) => {
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Top Strengths
         </h1>
+        <p>Communication</p>
       </div>
       <div className="grid-area-inside">
         {topStrengths?.slice(0, 3).map((strength, idx) => {
@@ -309,6 +312,7 @@ const CommsAreasToImprove = (props) => {
         <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
           Areas to Improve
         </h1>
+        <p>Communication</p>
       </div>
       <div className="grid-area-inside">
         {areasToImprove?.slice(0, 3).map((improve, idx) => {
