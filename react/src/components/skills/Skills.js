@@ -341,10 +341,9 @@ export default class Results extends Component {
             </button>
           </div>
           <div className="main-skills-container">
-            {!this.util.checkIfNull(this.state.report?.average?.collaboration) &
-              !this.util.checkIfNull(
-                this.state.report?.reflection?.collaboration
-              ) && (
+            {this.util.checkIfNull(
+              this.state.report?.reflection?.collaboration
+            ) === false && (
               <React.Fragment>
                 <CollabIndex state={this.state.report} />
                 <CollabTopStrengths data={this.state.collaborationData} />

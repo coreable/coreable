@@ -85,6 +85,8 @@ class Manager extends Component {
         "user"
       ];
 
+    console.log(data.manager);
+
     const organisations = this.utils.dataToState(report, "organisations");
     const tutorials = this.utils.dataToState(report, "tutorials");
     const subjects = this.utils.dataToState(report, "subjects");
@@ -269,7 +271,6 @@ class Manager extends Component {
               if (facet.code === array[i][j][k].name) {
                 facet.averageScore += array[i][j][k].averageScore;
                 facet.reflectionScore += array[i][j][k].reflectionScore;
-
                 if (i === array.length - 1) {
                   facet.averageScore = facet.averageScore / array.length;
                   facet.reflectionScore = facet.reflectionScore / array.length;
@@ -284,20 +285,27 @@ class Manager extends Component {
     },
     getDifference: (userReport) => {
       let result = [];
-
-      userReport.average.forEach((facet) => {
+      userReport.reflection.forEach((facet) => {
         result.push({
           name: facet.field,
-          averageScore: facet.value,
-          reflectionScore: userReport.reflection.find(
-            (o) => o.field === facet.field
-          ).value,
+          reflectionScore: facet.value,
+          averageScore:
+            userReport.average?.find((o) => o.field === facet.field)?.value !==
+            undefined
+              ? userReport.average.find((o) => o.field === facet.field).value
+              : null,
           difference:
-            userReport.reflection.find((o) => o.field === facet.field).value -
-            facet.value,
+            userReport.average?.find((o) => o.field === facet.field)?.value !==
+            undefined
+              ? facet.value -
+                userReport.average?.find((o) => o.field === facet.field)?.value
+              : null,
         });
       });
       return result;
+    },
+    dataReset: (template) => {
+      return template;
     },
   };
 
@@ -396,26 +404,25 @@ class Manager extends Component {
         result = this.filter.byCollaboration(report);
       }
 
-      let averageResults = result
+      let reflectionResults = result
         .filter((user) => {
-          return user.average;
+          return user.reflection;
         })
         .map((user) => {
-          return user.average;
+          return user.reflection;
         });
 
       if (collabOrComm === "collaboration") {
         finalResult = this.utils
-          .switchCollaboration(averageResults, finalResult)
+          .switchCollaboration(reflectionResults, finalResult)
           .sort((a, b) => b.averageScore - a.averageScore);
       }
 
       if (collabOrComm === "communication") {
         finalResult = this.utils
-          .switchCommunication(averageResults, finalResult)
+          .switchCommunication(reflectionResults, finalResult)
           .sort((a, b) => b.averageScore - a.averageScore);
       }
-
       return finalResult;
     },
     getAreasToImprove: (report, collabOrComm) => {
@@ -433,10 +440,10 @@ class Manager extends Component {
 
       let averageResults = result
         .filter((user) => {
-          return user.average;
+          return user.reflection;
         })
         .map((user) => {
-          return user.average;
+          return user.reflection;
         });
 
       if (collabOrComm === "collaboration") {
@@ -469,12 +476,22 @@ class Manager extends Component {
       result = this.filter.byDidReflection(result);
       let returnData = [];
 
-      result.forEach((user) => {
+      result.map((user) => {
         returnData.push([this.utils.getDifference(user)]);
       });
 
+      if (
+        returnData[0][0][0]["averageScore"] === null ||
+        returnData[0][0][0]["averageScore"] === undefined
+      ) {
+        return null;
+      }
+
       finalResult = this.utils
         .combineData(returnData, finalResult)
+        .filter((facet) => {
+          return facet.averageScore !== null;
+        })
         .filter((facet) => {
           return facet.difference > 0;
         })
@@ -556,7 +573,7 @@ class Manager extends Component {
       if (userID === "All") {
         return report;
       }
-
+      console.log(report);
       return report.filter((user) => {
         return user._id === userID;
       });
@@ -616,6 +633,7 @@ class Manager extends Component {
         result = this.filter.bySubject(report, selectedSubject);
         result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
+        console.log(value);
         result = this.filter.byUser(result, value);
         selectedUser = value;
       }
