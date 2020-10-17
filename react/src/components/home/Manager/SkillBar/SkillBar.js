@@ -4,7 +4,7 @@ import "./SkillBar.scss";
 
 export default function SkillBar(props) {
   const { type } = props;
-  const { name, averageScore, reflectionScore } = props.values;
+  const { name, value, average, reflection } = props.values;
 
   function convertToText(averageScore) {
     if (averageScore < 20) {
@@ -80,14 +80,14 @@ export default function SkillBar(props) {
               //       : "#2dd775",
               // }}
             >
-              {convertToText(averageScore)}
+              {convertToText(value)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
             <div className="skillbar-container grey" />
             <div
               className="skillbar-container blue"
-              style={{ width: `${averageScore}%`, zIndex: "200" }}
+              style={{ width: `${value}%`, zIndex: "200" }}
             />
             <div className="interval-container">
               <span />
@@ -121,7 +121,7 @@ export default function SkillBar(props) {
               {name}
             </p>
             <span className="result-text">
-              {overEstimation(reflectionScore, averageScore)}
+              {overEstimation(reflection, average)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -129,13 +129,13 @@ export default function SkillBar(props) {
             <div
               className="skillbar-container green"
               style={{
-                width: `${reflectionScore}%`,
+                width: `${reflection}%`,
               }}
             />
             <div
               className="skillbar-container blue"
               style={{
-                width: `${averageScore}%`,
+                width: `${average}%`,
                 zIndex: "300",
                 position: "absolute",
                 top: "0",
@@ -173,7 +173,7 @@ export default function SkillBar(props) {
               {name}
             </p>
             <span className="result-text">
-              {underEstimation(reflectionScore, averageScore)}
+              {underEstimation(reflection, average)}
             </span>
           </div>
           <div style={{ position: "relative", paddingBottom: "8pt" }}>
@@ -181,13 +181,13 @@ export default function SkillBar(props) {
             <div
               className="skillbar-container blue"
               style={{
-                width: `${averageScore}%`,
+                width: `${average}%`,
               }}
             />
             <div
               className="skillbar-container green"
               style={{
-                width: `${reflectionScore}%`,
+                width: `${reflection}%`,
                 zIndex: "100",
                 position: "absolute",
                 top: "0",

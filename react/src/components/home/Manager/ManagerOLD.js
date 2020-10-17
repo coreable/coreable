@@ -34,26 +34,12 @@ class Manager extends Component {
     super(props);
     this.state = {
       loading: true,
-
       report: null,
       organisations: null,
       tutorials: null,
       subjects: null,
       teams: null,
       users: null,
-
-      //New
-      rawOrganisation: null,
-      rawTutorials: null,
-      rawSubjects: null,
-      rawTeams: null,
-      rawUsers: null,
-
-      newTopStrengths: null,
-      newAreasToImprove: null,
-      newOverEstimation: null,
-      newUnderEstimation: null,
-      //
 
       topStrengths: null,
       areasToImprove: null,
@@ -63,6 +49,7 @@ class Manager extends Component {
   }
 
   componentDidMount = () => {
+    // console.log(this.props);
     this.fetchData();
   };
 
@@ -93,39 +80,32 @@ class Manager extends Component {
     }
 
     let report = data.manager;
+    let usersInfo =
+      data.manager["organisation"][0]["subject"][0]["tutorial"][0]["team"][0][
+        "user"
+      ];
 
-    //New
-    const rawOrganisation = this.utils.saveRawData(report, "organisation");
-    const rawSubjects = this.utils.saveRawData(report, "subjects");
-    const rawTutorials = this.utils.saveRawData(report, "tutorials");
-    const rawTeams = this.utils.saveRawData(report, "teams");
-    const rawUsers = this.utils.saveRawData(report, "users");
+    console.log(data.manager);
 
-    const newTopStrengths = this.reviewRanking.getTopStrengths(
-      rawUsers,
-      collabOrComm
-    );
-    const newAreasToImprove = this.reviewRanking.getAreasToImprove(
-      rawUsers,
-      collabOrComm
-    );
-    const newOverEstimation = this.reviewRanking.getEstimationBy(
-      rawUsers,
-      collabOrComm,
-      "over"
-    );
-    const newUnderEstimation = this.reviewRanking.getEstimationBy(
-      rawUsers,
-      collabOrComm,
-      "under"
-    );
-
-    //
     const organisations = this.utils.dataToState(report, "organisations");
-    const subjects = this.utils.dataToState(report, "subjects");
     const tutorials = this.utils.dataToState(report, "tutorials");
+    const subjects = this.utils.dataToState(report, "subjects");
     const teams = this.utils.dataToState(report, "teams");
     const users = this.utils.dataToState(report, "users");
+
+    const topStrengths = this.ranking.getStrengths(usersInfo, collabOrComm);
+    const areasToImprove = this.ranking.getAreasToImprove(
+      usersInfo,
+      collabOrComm
+    );
+    const overEstimation = this.ranking.getOverEstimation(
+      usersInfo,
+      collabOrComm
+    );
+    const underEstimation = this.ranking.getUnderEstimation(
+      usersInfo,
+      collabOrComm
+    );
 
     this.setState({
       ...this.state,
@@ -137,78 +117,14 @@ class Manager extends Component {
       teams,
       users,
 
-      //new
-      rawOrganisation,
-      rawTutorials,
-      rawSubjects,
-      rawTeams,
-      rawUsers,
-
-      newTopStrengths,
-      newAreasToImprove,
-      newOverEstimation,
-      newUnderEstimation,
+      topStrengths,
+      areasToImprove,
+      overEstimation,
+      underEstimation,
     });
   };
 
   utils = {
-    saveRawData: (data, type) => {
-      let result = [];
-
-      if (type === "subjects") {
-        data["organisation"].map((item) => {
-          return item.subject.map((subject) => {
-            result.push({ id: subject._id, name: subject.name });
-          });
-        });
-        return result;
-      }
-      if (type === "tutorials") {
-        data["organisation"].map((item) => {
-          return item.subject.map((item) => {
-            return item.tutorial.map((tutorial) => {
-              result.push({ id: tutorial._id, name: tutorial.name });
-            });
-          });
-        });
-        return result;
-      }
-      if (type === "teams") {
-        data["organisation"].map((item) => {
-          return item.subject.map((item) => {
-            return item.tutorial.map((tutorial) => {
-              return tutorial.team.map((team) => {
-                result.push({ id: team._id, name: team.name });
-              });
-            });
-          });
-        });
-        return result;
-      }
-      if (type === "users") {
-        data["organisation"].map((item) => {
-          return item.subject.map((item) => {
-            return item.tutorial.map((tutorial) => {
-              return tutorial.team.map((team) => {
-                return team.user.map((user) => {
-                  result.push({
-                    id: user._id,
-                    firstName: user.identity.firstName,
-                    lastName: user.identity.lastName,
-                    organisation: user.organisation,
-                    report: user.report,
-                    subject: user.subject,
-                    team: user.team,
-                    tutorial: user.tutorial,
-                  });
-                });
-              });
-            });
-          });
-        });
-        return result;
-      }
-    },
     dataToState: (data, type) => {
       let result = [];
 
@@ -262,320 +178,478 @@ class Manager extends Component {
         return result;
       }
     },
-  };
-
-  //New
-  reviewRanking = {
-    getTopStrengths: (users, collabOrComm) => {
-      let result;
-      result = this.filterBy.collabOrComm(users, collabOrComm);
-      result = this.filterBy.reflection(result);
-      result = this.math.getAverageScore(result);
-      result = this.myUtil.sortDesc(result);
-      return result;
-    },
-    getAreasToImprove: (users, collabOrComm) => {
-      let result;
-      result = this.filterBy.collabOrComm(users, collabOrComm);
-      result = this.filterBy.reflection(result);
-      result = this.math.getAverageScore(result);
-      result = this.myUtil.sortAsc(result);
-      return result;
-    },
-    getEstimationBy: (users, collabOrComm, overOrUnder) => {
-      let result;
-      result = this.filterBy.collabOrComm(users, collabOrComm);
-      result = this.filterBy.hasReflectionAndAverage(result);
-      let averageReflection = this.math.getAverageScoreBoth(
-        result,
-        "reflection"
-      );
-      let averageAverage = this.math.getAverageScoreBoth(result, "average");
-      result = this.math.getDifference(averageReflection, averageAverage);
-      if (overOrUnder === "over") {
-        result = this.myUtil.sortByDifference(result, true);
-      } else if (overOrUnder === "under") {
-        result = this.myUtil.sortByDifference(result, false);
+    switchCollaboration: (array, resultArray) => {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+          switch (array[i][j].field) {
+            case "emotionalIntelligence":
+              resultArray[0].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[0].averageScore =
+                  resultArray[0].averageScore / array.length;
+              }
+              break;
+            case "initiative":
+              resultArray[1].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[1].averageScore =
+                  resultArray[1].averageScore / array.length;
+              }
+              break;
+            case "trust":
+              resultArray[2].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[2].averageScore =
+                  resultArray[2].averageScore / array.length;
+              }
+              break;
+            case "flex":
+              resultArray[3].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[3].averageScore =
+                  resultArray[3].averageScore / array.length;
+              }
+              break;
+            case "resilience":
+              resultArray[4].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[4].averageScore =
+                  resultArray[4].averageScore / array.length;
+              }
+              break;
+            default:
+              break;
+          }
+        }
       }
+      return resultArray;
+    },
+    switchCommunication: (array, resultArray) => {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+          switch (array[i][j].field) {
+            case "attentive":
+              resultArray[0].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[0].averageScore =
+                  resultArray[0].averageScore / array.length;
+              }
+              break;
+            case "clarity":
+              resultArray[1].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[1].averageScore =
+                  resultArray[1].averageScore / array.length;
+              }
+              break;
+            case "culture":
+              resultArray[2].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[2].averageScore =
+                  resultArray[2].averageScore / array.length;
+              }
+              break;
+            case "nonVerbal":
+              resultArray[3].averageScore += array[i][j].value;
+              if (i === array.length - 1) {
+                resultArray[3].averageScore =
+                  resultArray[3].averageScore / array.length;
+              }
+              break;
+            default:
+              break;
+          }
+        }
+      }
+      return resultArray;
+    },
+    combineData: (array, resultArray) => {
+      for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array[i].length; j++) {
+          for (let k = 0; k < array[i][j].length; k++) {
+            resultArray.forEach((facet) => {
+              if (facet.code === array[i][j][k].name) {
+                facet.averageScore += array[i][j][k].averageScore;
+                facet.reflectionScore += array[i][j][k].reflectionScore;
+                if (i === array.length - 1) {
+                  facet.averageScore = facet.averageScore / array.length;
+                  facet.reflectionScore = facet.reflectionScore / array.length;
+                  facet.difference = facet.reflectionScore - facet.averageScore;
+                }
+              }
+            });
+          }
+        }
+      }
+      return resultArray;
+    },
+    getDifference: (userReport) => {
+      let result = [];
+      userReport.reflection.forEach((facet) => {
+        result.push({
+          name: facet.field,
+          reflectionScore: facet.value,
+          averageScore:
+            userReport.average?.find((o) => o.field === facet.field)?.value !==
+            undefined
+              ? userReport.average.find((o) => o.field === facet.field).value
+              : null,
+          difference:
+            userReport.average?.find((o) => o.field === facet.field)?.value !==
+            undefined
+              ? facet.value -
+                userReport.average?.find((o) => o.field === facet.field)?.value
+              : null,
+        });
+      });
       return result;
+    },
+    dataReset: (template) => {
+      return template;
     },
   };
 
-  filterBy = {
-    collabOrComm: (users, type) => {
-      return users?.map((user) => {
-        return {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          average: user.report.average[type]?.facets.sorted,
-          reflection: user.report.reflection[type]?.facets.sorted,
-        };
-      });
-    },
-    reflection: (users) => {
-      return users
-        ?.filter((user) => {
+  ranking = {
+    collabTemplate: [
+      { name: "Emotional Intelligence", averageScore: 0 },
+      { name: "Initiative", averageScore: 0 },
+      { name: "Trust", averageScore: 0 },
+      { name: "Flex", averageScore: 0 },
+      { name: "Resilience", averageScore: 0 },
+    ],
+    commsTemplate: [
+      { name: "Attentive", averageScore: 0 },
+      { name: "Clarity", averageScore: 0 },
+      { name: "Culture", averageScore: 0 },
+      { name: "Non Verbal", averageScore: 0 },
+    ],
+    collabDetailed: [
+      {
+        name: "Emotional Intelligence",
+        code: "emotionalIntelligence",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Initiative",
+        code: "initiative",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Trust",
+        code: "trust",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Flex",
+        code: "flex",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Resilience",
+        code: "resilience",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+    ],
+    commsDetailed: [
+      {
+        name: "Attentive",
+        code: "attentive",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Clarity",
+        code: "clarity",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Culture",
+        code: "culture",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+      {
+        name: "Non Verbal",
+        code: "nonVerbal",
+        averageScore: 0,
+        reflectionScore: 0,
+        difference: 0,
+      },
+    ],
+    getStrengths: (report, collabOrComm) => {
+      let result;
+      let finalResult;
+
+      if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
+        result = this.filter.byCommunication(report);
+      }
+
+      if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
+        result = this.filter.byCollaboration(report);
+      }
+
+      let reflectionResults = result
+        .filter((user) => {
           return user.reflection;
         })
         .map((user) => {
           return user.reflection;
         });
-    },
-    hasReflectionAndAverage: (users) => {
-      return users.filter((user) => {
-        return user.average !== undefined && user.reflection !== undefined;
-      });
-    },
-  };
 
-  math = {
-    getAverageScore: (users) => {
-      let result = {};
-      users.map((user) => {
-        user.map((facet) => {
-          if (result[facet.field]) {
-            result[facet.field] += facet.value;
-          } else {
-            result[facet.field] = facet.value;
-          }
-        });
-      });
-      Object.keys(result).map(function(key, index) {
-        result[key] /= users.length;
-      });
-      return result;
-    },
-    getAverageScoreBoth: (users, reflectOrAvg) => {
-      let result = {};
-      users.map((user) => {
-        Object.keys(user).map(function(key, index) {
-          if (key === reflectOrAvg) {
-            user[key].map((facet) => {
-              if (result[facet.field]) {
-                result[facet.field] += facet.value;
-              } else {
-                result[facet.field] = facet.value;
-              }
-            });
-          }
-        });
-      });
-      Object.keys(result).map(function(key, index) {
-        result[key] /= users.length;
-      });
-      return result;
-    },
-    getDifference: (reflection, average) => {
-      let result = [];
-      Object.keys(reflection).map(function(key, index) {
-        result.push({
-          name: key,
-          average: average[key],
-          reflection: reflection[key],
-          difference: reflection[key] - average[key],
-        });
-      });
-      return result;
-    },
-    getDifferenceByFacet: (users) => {
-      let result = [];
-
-      users.map((user) => {
-        result.push({
-          firstname: user.firstName,
-          lastname: user.lastName,
-          id: user.id,
-          reflection: user.reflection,
-          average: user.average,
-          difference: [
-            {
-              name: "emotionalIntelligence",
-              value:
-                this.myUtil.findFieldScoreByFacet(
-                  user.reflection,
-                  "emotionalIntelligence"
-                ) -
-                this.myUtil.findFieldScoreByFacet(
-                  user.average,
-                  "emotionalIntelligence"
-                ),
-            },
-            {
-              name: "initiative",
-              value:
-                this.myUtil.findFieldScoreByFacet(
-                  user.reflection,
-                  "initiative"
-                ) -
-                this.myUtil.findFieldScoreByFacet(user.average, "initiative"),
-            },
-            {
-              name: "trust",
-              value:
-                this.myUtil.findFieldScoreByFacet(user.reflection, "trust") -
-                this.myUtil.findFieldScoreByFacet(user.average, "trust"),
-            },
-            {
-              name: "flex",
-              value:
-                this.myUtil.findFieldScoreByFacet(user.reflection, "flex") -
-                this.myUtil.findFieldScoreByFacet(user.average, "flex"),
-            },
-            {
-              name: "resilience",
-              value:
-                this.myUtil.findFieldScoreByFacet(
-                  user.reflection,
-                  "resilience"
-                ) -
-                this.myUtil.findFieldScoreByFacet(user.average, "resilience"),
-            },
-          ],
-        });
-      });
-
-      return result;
-    },
-  };
-
-  myUtil = {
-    sortAsc: (object) => {
-      let result = [];
-      Object.keys(object).map(function(key, index) {
-        result.push({ name: key, value: object[key] });
-      });
-      return result.sort((a, b) => a.value - b.value);
-    },
-    sortDesc: (object) => {
-      let result = [];
-      Object.keys(object).map(function(key, index) {
-        result.push({ name: key, value: object[key] });
-      });
-      return result.sort((a, b) => b.value - a.value);
-    },
-    findFieldScoreByFacet: (facets, facetName) => {
-      let result = facets.filter((facet) => {
-        if (facet.field === facetName) {
-          return facet.value;
-        }
-      });
-      return result[0].value;
-    },
-    sortByDifference: (facets, positive) => {
-      if (positive) {
-        return facets.filter((facet) => {
-          return facet.difference > 0;
-        });
-      } else {
-        return facets.filter((facet) => {
-          return facet.difference < 0;
-        });
+      if (collabOrComm === "collaboration") {
+        finalResult = this.utils
+          .switchCollaboration(reflectionResults, finalResult)
+          .sort((a, b) => b.averageScore - a.averageScore);
       }
+
+      if (collabOrComm === "communication") {
+        finalResult = this.utils
+          .switchCommunication(reflectionResults, finalResult)
+          .sort((a, b) => b.averageScore - a.averageScore);
+      }
+      return finalResult;
+    },
+    getAreasToImprove: (report, collabOrComm) => {
+      let result;
+      let finalResult;
+
+      if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsTemplate));
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabTemplate));
+        result = this.filter.byCollaboration(report);
+      }
+
+      let averageResults = result
+        .filter((user) => {
+          return user.reflection;
+        })
+        .map((user) => {
+          return user.reflection;
+        });
+
+      if (collabOrComm === "collaboration") {
+        finalResult = this.utils
+          .switchCollaboration(averageResults, finalResult)
+          .sort((a, b) => a.averageScore - b.averageScore);
+      }
+
+      if (collabOrComm === "communication") {
+        finalResult = this.utils
+          .switchCommunication(averageResults, finalResult)
+          .sort((a, b) => a.averageScore - b.averageScore);
+      }
+
+      return finalResult;
+    },
+    getOverEstimation: (report, collabOrComm) => {
+      let result;
+      let finalResult;
+
+      if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsDetailed));
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabDetailed));
+        result = this.filter.byCollaboration(report);
+      }
+
+      result = this.filter.byDidReflection(result);
+      let returnData = [];
+
+      result.map((user) => {
+        returnData.push([this.utils.getDifference(user)]);
+      });
+
+      if (
+        returnData[0][0][0]["averageScore"] === null ||
+        returnData[0][0][0]["averageScore"] === undefined
+      ) {
+        return null;
+      }
+
+      finalResult = this.utils
+        .combineData(returnData, finalResult)
+        .filter((facet) => {
+          return facet.averageScore !== null;
+        })
+        .filter((facet) => {
+          return facet.difference > 0;
+        })
+        .sort((a, b) => b.difference - a.difference);
+
+      return finalResult;
+    },
+    getUnderEstimation: (report, collabOrComm) => {
+      let result;
+      let finalResult;
+
+      if (collabOrComm === "communication") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.commsDetailed));
+        result = this.filter.byCommunication(report);
+      }
+      if (collabOrComm === "collaboration") {
+        finalResult = JSON.parse(JSON.stringify(this.ranking.collabDetailed));
+        result = this.filter.byCollaboration(report);
+      }
+
+      result = this.filter.byDidReflection(result);
+      let returnData = [];
+
+      result.forEach((user) => {
+        returnData.push([this.utils.getDifference(user)]);
+      });
+
+      finalResult = this.utils
+        .combineData(returnData, finalResult)
+        .filter((facet) => {
+          return facet.difference < 0;
+        })
+        .sort((a, b) => a.difference - b.difference);
+
+      return finalResult;
     },
   };
-
-  //
 
   filter = {
-    bySubject: (users, subjectID) => {
+    byDidReflection: (report) => {
+      return report.filter((user) => {
+        return user.reflection;
+      });
+    },
+    bySubject: (report, subjectID) => {
       if (subjectID === "All") {
-        return users;
+        return report;
       }
 
-      return users.filter((user) => {
+      return report.filter((user) => {
         return user.subject.filter((subject) => {
           return subject._id === subjectID;
         });
       });
     },
-    byTutorial: (users, tutorialID) => {
-      let result = [];
+    byTutorial: (report, tutorialID) => {
       if (tutorialID === "All") {
-        return users;
+        return report;
       }
 
-      users.map((user) => {
-        user.tutorial.map((tutorial) => {
-          if (tutorial._id === tutorialID) {
-            result.push(user);
-          }
+      return report.filter((user) => {
+        return user.tutorial.filter((tutorial) => {
+          return tutorial._id === tutorialID;
         });
       });
-      return result;
     },
-    byTeam: (users, teamID) => {
-      let result = [];
+    byTeam: (report, teamID) => {
       if (teamID === "All") {
-        return users;
+        return report;
       }
-      users.map((user) => {
-        user.team.map((team) => {
-          if (team._id === teamID) {
-            result.push(user);
-          }
+
+      return report.filter((user) => {
+        return user.team.filter((team) => {
+          return team._id === teamID;
         });
       });
-      return result;
     },
-    byUser: (users, userID) => {
-      let result = [];
+    byUser: (report, userID) => {
       if (userID === "All") {
-        return users;
+        return report;
       }
-      users.map((user) => {
-        if (user.id === userID) {
-          result.push(user);
-        }
+      console.log(report);
+      return report.filter((user) => {
+        return user._id === userID;
       });
-      return result;
+    },
+    byCollaboration: (users) => {
+      return users?.map((user) => {
+        return {
+          id: user._id,
+          firstName: user.identity.firstName,
+          lastName: user.identity.lastName,
+          average: user.report.average.collaboration?.facets.sorted,
+          reflection: user.report.reflection.collaboration?.facets.sorted,
+        };
+      });
+    },
+    byCommunication: (users) => {
+      return users?.map((user) => {
+        return {
+          id: user._id,
+          firstName: user.identity.firstName,
+          lastName: user.identity.lastName,
+          average: user.report.average.communication?.facets.sorted,
+          reflection: user.report.reflection.communication?.facets.sorted,
+        };
+      });
+    },
+    getFilteredResults: (e) => {
+      this.view.toggleTab(e);
     },
     dashboard: (value, type) => {
       const report = this.state.report["organisation"][0]["subject"][0][
         "tutorial"
       ][0]["team"][0]["user"];
-      const users = this.state.rawUsers;
-
       let result;
       if (type === "Subject") {
-        result = this.filter.bySubject(users, value);
+        result = this.filter.bySubject(report, value);
         result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, selectedUser);
         selectedSubject = value;
       }
       if (type === "Tutorials") {
-        result = this.filter.bySubject(users, selectedSubject);
+        result = this.filter.bySubject(report, selectedSubject);
         result = this.filter.byTutorial(result, value);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, selectedUser);
         selectedTutorial = value;
       }
       if (type === "Team") {
-        result = this.filter.bySubject(users, selectedSubject);
+        result = this.filter.bySubject(report, selectedSubject);
         result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, value);
         result = this.filter.byUser(result, selectedUser);
         selectedTeam = value;
       }
       if (type === "Individual") {
-        result = this.filter.bySubject(users, selectedSubject);
+        result = this.filter.bySubject(report, selectedSubject);
         result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
+        console.log(value);
         result = this.filter.byUser(result, value);
         selectedUser = value;
       }
 
+      // console.log("result", result);
+
       if (type === "communication") {
         collabOrComm = "communication";
-        result = this.filter.bySubject(users, selectedSubject);
+        result = this.filter.bySubject(report, selectedSubject);
         result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, selectedUser);
       }
       if (type === "collaboration") {
         collabOrComm = "collaboration";
-        result = this.filter.bySubject(users, selectedSubject);
+        result = this.filter.bySubject(report, selectedSubject);
         result = this.filter.byTutorial(result, selectedTutorial);
         result = this.filter.byTeam(result, selectedTeam);
         result = this.filter.byUser(result, selectedUser);
@@ -583,38 +657,18 @@ class Manager extends Component {
 
       //result is user(s)
       const finalResult = {
-        strengths: this.reviewRanking.getTopStrengths(result, collabOrComm),
-        areasToImprove: this.reviewRanking.getAreasToImprove(
-          result,
-          collabOrComm
-        ),
-        overEstimation: this.reviewRanking.getEstimationBy(
-          result,
-          collabOrComm,
-          "over"
-        ),
-        underEstimation: this.reviewRanking.getEstimationBy(
-          result,
-          collabOrComm,
-          "under"
-        ),
+        strengths: this.ranking.getStrengths(result, collabOrComm),
+        areasToImprove: this.ranking.getAreasToImprove(result, collabOrComm),
+        overEstimation: this.ranking.getOverEstimation(result, collabOrComm),
+        underEstimation: this.ranking.getUnderEstimation(result, collabOrComm),
       };
-
-      let listOfUsers;
-
-      if (type === "Individual") {
-        listOfUsers = this.state.users;
-      } else {
-        listOfUsers = result;
-      }
 
       this.setState({
         ...this.state,
-        users: listOfUsers,
-        newTopStrengths: finalResult["strengths"],
-        newAreasToImprove: finalResult["areasToImprove"],
-        newOverEstimation: finalResult["overEstimation"],
-        newUnderEstimation: finalResult["underEstimation"],
+        topStrengths: finalResult["strengths"],
+        areasToImprove: finalResult["areasToImprove"],
+        overEstimation: finalResult["overEstimation"],
+        underEstimation: finalResult["underEstimation"],
       });
     },
   };
@@ -858,7 +912,7 @@ const TopStrengths = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {props.state.newTopStrengths?.slice(0, 3).map((strength, idx) => {
+        {props.state.topStrengths?.slice(0, 3).map((strength, idx) => {
           return (
             <SkillBar
               key={idx}
@@ -882,7 +936,7 @@ const AreasToImprove = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {props.state.newAreasToImprove?.slice(0, 3).map((improve, idx) => {
+        {props.state.areasToImprove?.slice(0, 3).map((improve, idx) => {
           return (
             <SkillBar
               key={idx}
@@ -906,7 +960,7 @@ const Overestimation = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {props.state.newOverEstimation?.slice(0, 3).map((over, idx) => {
+        {props.state.overEstimation?.slice(0, 3).map((over, idx) => {
           return (
             <SkillBar
               key={idx}
@@ -930,7 +984,7 @@ const Underestimation = (props) => {
         </h1>
       </div>
       <div className="grid-area-inside">
-        {props.state.newUnderEstimation?.slice(0, 3).map((under, idx) => {
+        {props.state.underEstimation?.slice(0, 3).map((under, idx) => {
           return (
             <SkillBar
               key={idx}
