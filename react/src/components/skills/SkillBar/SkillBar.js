@@ -7,6 +7,7 @@ export default function SkillBar(props) {
   const { name, average, reflection, difference } = props.values;
 
   function convertToText(averageScore) {
+    console.log(difference); // delete me
     if (averageScore < 20) {
       return "Fails to attempt";
     }
@@ -75,7 +76,7 @@ export default function SkillBar(props) {
                 paddingBottom: "8pt",
               }}
             >
-              {isFacet == "trait" && name["facet"]}
+              {isFacet === "trait" && name["facet"]}
             </p>
             <span
               className="result-text"
@@ -142,7 +143,7 @@ export default function SkillBar(props) {
                 paddingBottom: "8pt",
               }}
             >
-              {isFacet == "trait" && name["facet"]}
+              {isFacet === "trait" && name["facet"]}
             </p>
             <span className="result-text">
               {overEstimation(reflection, average)}
@@ -206,7 +207,7 @@ export default function SkillBar(props) {
                 paddingBottom: "8pt",
               }}
             >
-              {isFacet == "trait" && name["facet"]}
+              {isFacet === "trait" && name["facet"]}
             </p>
             <span className="result-text">
               {underEstimation(reflection, average)}

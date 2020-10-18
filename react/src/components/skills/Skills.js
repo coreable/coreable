@@ -104,7 +104,7 @@ export default class Results extends Component {
       const arrayToLoop = props["app"]["data"]["user"]["pending"];
 
       for (let i = 0; i < arrayToLoop.length; i++) {
-        if (arrayToLoop[i]["tutorial"]["subject"]["state"] == 2) {
+        if (arrayToLoop[i]["tutorial"]["subject"]["state"] === 2) {
           count++;
         }
       }
@@ -320,6 +320,12 @@ export default class Results extends Component {
   };
 
   render() {
+<<<<<<< HEAD
+=======
+    let isStageTwo = true;
+    console.log(isStageTwo);
+
+>>>>>>> pull
     return (
       <div className="review-container">
         <Heading />
