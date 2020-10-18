@@ -46,6 +46,41 @@ export default function SkillBar(props) {
     }
   }
 
+  function getFullName(name) {
+    switch (name) {
+      case "emotionalIntelligence":
+        return "Emotional Intelligence";
+        break;
+      case "resilience":
+        return "Resilience";
+        break;
+      case "trust":
+        return "Trust";
+        break;
+      case "flex":
+        return "Flexibility";
+        break;
+      case "initiative":
+        return "Initiative";
+        break;
+      case "culture":
+        return "Culture";
+        break;
+      case "clarity":
+        return "Clarity";
+        break;
+      case "nonVerbal":
+        return "Non-verbal";
+        break;
+      case "attentive":
+        return "Verbal Attentiveness";
+        break;
+      default:
+        return name;
+        break;
+    }
+  }
+
   if (type === "strengths" || type === "areasToImprove") {
     return (
       <div style={{ borderBottom: "0.5pt solid #d6d6d6" }}>
@@ -63,7 +98,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name}
+              {getFullName(name)}
             </p>
             <span
               className="result-text"
@@ -118,7 +153,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name}
+              {getFullName(name)}
             </p>
             <span className="result-text">
               {overEstimation(reflection, average)}
@@ -170,7 +205,7 @@ export default function SkillBar(props) {
                 width: "70%",
               }}
             >
-              {name}
+              {getFullName(name)}
             </p>
             <span className="result-text">
               {underEstimation(reflection, average)}

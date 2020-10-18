@@ -479,15 +479,19 @@ class Manager extends Component {
 
   filter = {
     bySubject: (users, subjectID) => {
+      let result = [];
       if (subjectID === "All") {
         return users;
       }
 
-      return users.filter((user) => {
-        return user.subject.filter((subject) => {
-          return subject._id === subjectID;
+      users.map((user) => {
+        user.subject.map((subject) => {
+          if (subject._id === subjectID) {
+            result.push(user);
+          }
         });
       });
+      return result;
     },
     byTutorial: (users, tutorialID) => {
       let result = [];
