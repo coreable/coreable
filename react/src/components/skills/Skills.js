@@ -320,12 +320,9 @@ export default class Results extends Component {
   };
 
   render() {
-<<<<<<< HEAD
-=======
     let isStageTwo = true;
     console.log(isStageTwo);
 
->>>>>>> pull
     return (
       <div className="review-container">
         <Heading />

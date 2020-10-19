@@ -189,10 +189,15 @@ class Manager extends Component {
         return result;
       }
       if (type === "users") {
+        /*eslint array-callback-return: ["off", { allowImplicit: true }]*/
         data["organisation"].map((item) => {
+          /*eslint array-callback-return: ["off", { allowImplicit: true }]*/
           return item.subject.map((item) => {
+            /*eslint array-callback-return: ["off", { allowImplicit: true }]*/
             return item.tutorial.map((tutorial) => {
+              /*eslint array-callback-return: ["off", { allowImplicit: true }]*/
               return tutorial.team.map((team) => {
+                /*eslint array-callback-return: ["off", { allowImplicit: true }]*/
                 return team.user.map((user) => {
                   result.push({
                     id: user._id,
@@ -542,6 +547,7 @@ class Manager extends Component {
       const report = this.state.report["organisation"][0]["subject"][0][
         "tutorial"
       ][0]["team"][0]["user"];
+      console.log(report);
       const users = this.state.rawUsers;
 
       let result;

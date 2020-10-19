@@ -50,34 +50,24 @@ export default function SkillBar(props) {
     switch (name) {
       case "emotionalIntelligence":
         return "Emotional Intelligence";
-        break;
       case "resilience":
         return "Resilience";
-        break;
       case "trust":
         return "Trust";
-        break;
       case "flex":
         return "Flexibility";
-        break;
       case "initiative":
         return "Initiative";
-        break;
       case "culture":
         return "Culture";
-        break;
       case "clarity":
         return "Clarity";
-        break;
       case "nonVerbal":
         return "Non-verbal";
-        break;
       case "attentive":
         return "Verbal Attentiveness";
-        break;
       default:
         return name;
-        break;
     }
   }
 
