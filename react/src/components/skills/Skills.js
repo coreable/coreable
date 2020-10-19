@@ -245,7 +245,7 @@ export default class Results extends Component {
         case "signifiesInterest":
           return "Signifies interest in what other people have to say";
         default:
-          return "Demonstrates active listening by appearing relaxed, friendly facial expressions, open posture, eye contact, full attention and non-verbal acknowledgments during interactions";
+          return "Uses regulators";
       }
     },
     getCorrectSpelling: (trait) => {
