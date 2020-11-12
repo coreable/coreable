@@ -39,7 +39,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.5.0",
-    "@testing-library/react": "^10.0.2",
+    "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.0.11",
     "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.30",
