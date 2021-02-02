@@ -61,6 +61,14 @@ export async function generator() {
       return organisations.push(organisation);
     });
   });
+
+  promises.push(async function () {
+    const organisation = await UniversityOrganisation.create({
+      name: 'hans'
+    });
+    return organisations.push(organisation);
+  });
+
   await inSequence(promises).then(() => {
     promises = [];
   });
@@ -78,6 +86,18 @@ export async function generator() {
       return managers.push(manager);
     });
   });
+
+  promises.push(async function () {
+    const manager = await UniversityManager.create({
+      firstName: `hans`,
+      lastName: `hans`,
+      email: `hans@hans.com`,
+      password: 'unittest',
+      organisation_id: organisations[organisations.length-1]._id
+    });
+    return managers.push(manager);
+  });
+
   await inSequence(promises).then(() => {
     promises = [];
   });
@@ -123,6 +143,16 @@ export async function generator() {
       return subjects.push(subject);
     });
   });
+
+  promises.push(async function () {
+    const subject = await UniversitySubject.create({
+      name: `subject HANS`,
+      state: 2,
+      organisation_id: organisations[organisations.length-1]._id
+    });
+    return subjects.push(subject);
+  });
+
   await inSequence(promises).then(() => {
     promises = [];
   });
@@ -135,8 +165,16 @@ export async function generator() {
         subject_id: subjects[i]._id
       });
       return tutorials.push(tutorial)
-    })
+    });
   });
+
+  promises.push(async function () {
+    const tutorial = await UniversityTutorial.create({
+      name: `tutorial hans`,
+      subject_id: subjects[subjects.length-1]._id
+    });
+    return tutorials.push(tutorial)
+  })
   await inSequence(promises).then(() => {
     promises = [];
   });
@@ -150,7 +188,16 @@ export async function generator() {
         tutorial_id: `${tutorials[i]._id}`
       });
       return teams.push(team);
-    })
+    });
+  });
+
+  promises.push(async function () {
+    const team = await UniversityTeam.create({
+      name: `team hans`,
+      inviteCode: `teamHans`,
+      tutorial_id: `${tutorials[tutorials.length-1]._id}`
+    });
+    return teams.push(team);
   });
   await inSequence(promises).then(() => {
     promises = [];
