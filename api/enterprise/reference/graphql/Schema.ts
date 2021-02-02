@@ -10,25 +10,15 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/
+*/ 
 
-import { QueryInterface } from "sequelize/types";
-import {
-  GraphQLObjectType,
-} from "graphql";
+import { GraphQLSchema } from "graphql";
+import { ReferenceQuery } from "./Query";
+import { ReferenceMutation } from './Mutation';
 
-import JoinTeamMutation from './mutations/JoinTeam';
-import LeaveTeamMutation from './mutations/LeaveTeam';
-import SubmitReviewMutation from './mutations/SubmitReview';
-
-export const UniversityMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'UniversityMutation',
-  description: 'This is the root university mutation',
-  fields: () => {
-    return {
-      'joinTeam': JoinTeamMutation,
-      'leaveTeam': LeaveTeamMutation,
-      'submitReview': SubmitReviewMutation
-    }
-  }
+// Here we import the Query and Mutation schemas and combine them to use
+// in the /api/lib/express.ts file with the graphql-express package.
+export const ReferenceSchema: GraphQLSchema = new GraphQLSchema({
+  query: ReferenceQuery,
+  mutation: ReferenceMutation
 });

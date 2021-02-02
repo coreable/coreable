@@ -17,18 +17,18 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-import JoinTeamMutation from './mutations/JoinTeam';
-import LeaveTeamMutation from './mutations/LeaveTeam';
-import SubmitReviewMutation from './mutations/SubmitReview';
+// import JoinTeamMutation from './mutations/JoinTeam';
+// import LeaveTeamMutation from './mutations/LeaveTeam';
+// import SubmitReviewMutation from './mutations/SubmitReview';
 
-export const UniversityMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'UniversityMutation',
-  description: 'This is the root university mutation',
+export const ReferenceMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'ReferenceMutation',
+  description: 'This is the root reference mutation',
   fields: () => {
     return {
-      'joinTeam': JoinTeamMutation,
-      'leaveTeam': LeaveTeamMutation,
-      'submitReview': SubmitReviewMutation
+    //   'joinTeam': JoinTeamMutation,
+    //   'leaveTeam': LeaveTeamMutation,
+    //   'submitReview': SubmitReviewMutation
     }
   }
 });
