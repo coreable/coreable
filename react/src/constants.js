@@ -7,7 +7,7 @@
     Coreable's source code is distributed in the hope that it will be
     useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    You should have received a copy of the license along with the 
+    You should have received a copy of the license along with the
     Coreable source code.
   ===========================================================================
 */
@@ -17,10 +17,10 @@ const USER_NAME = "firstName";
 const LAST_NAME = "lastName";
 const USERID = "user_id";
 const TEAMID = "team_id";
-const API_URL = "https://coreable.app/graphql";
-// const API_URL = "http://localhost:8080/graphql";
-const IDENTITY_URL = "https://coreable.app/identity";
-// const IDENTITY_URL = "http://localhost:8080/identity";
+// const API_URL = "https://coreable.app/graphql";
+const API_URL = "http://localhost:8080/graphql";
+// const IDENTITY_URL = "https://coreable.app/identity";
+const IDENTITY_URL = "http://localhost:8080/identity";
 const hasCompletedTutorial = false;
 
 export {

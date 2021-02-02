@@ -7,7 +7,7 @@
     Coreable's source code is distributed in the hope that it will be
     useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    You should have received a copy of the license along with the 
+    You should have received a copy of the license along with the
     Coreable source code.
   ===========================================================================
 */
@@ -651,7 +651,6 @@ const SKILLS_API = {
   `,
 };
 
-
 const MANAGER_API_COPY = {
   query: `
   query {
@@ -1256,4 +1255,72 @@ const MANAGER_API_COPY = {
   }`,
 };
 
-export { MANAGER_API, SKILLS_API, MANAGER_API_COPY, MANAGER_API2 };
+const FETCH_USER = {
+  query: `
+      query {
+        me {
+          data {
+            user {
+              _id
+              identity {
+                firstName
+                lastName
+                email
+              }
+              industry {
+                _id
+                name
+              }
+              team {
+                _id
+                name
+                tutorial {
+                  _id
+                  name
+                  subject {
+                    _id
+                    name
+                    state
+                    organisation {
+                      _id
+                      name
+                    }
+                  }
+                }
+              }
+              pending {
+                _id
+                name
+                tutorial {
+                  subject {
+                    _id
+                    name
+                    state
+                    organisation {
+                      _id
+                      name
+                    }
+                  }
+                }
+                user {
+                  _id
+                  identity {
+                    firstName
+                    lastName
+                    email
+                  }
+                }
+              }
+            }
+          }
+          errors {
+            code
+            path
+            message
+          }
+        }
+      }
+      `,
+};
+
+export { MANAGER_API, SKILLS_API, MANAGER_API_COPY, MANAGER_API2, FETCH_USER };

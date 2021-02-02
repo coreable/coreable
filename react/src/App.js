@@ -7,7 +7,7 @@ and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
+You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
@@ -18,7 +18,7 @@ import { LinearProgress } from "@material-ui/core";
 import ReactGA from "react-ga";
 
 import { JWT, API_URL } from "./constants";
-import { MANAGER_API } from "./queries";
+import { MANAGER_API, FETCH_USER } from "./queries";
 
 import "./App.scss";
 
@@ -90,12 +90,9 @@ class App extends Component {
 
   refreshMe = async (removeJWT = false) => {
     // removeJWT Used for Login/Register
-    if (removeJWT === true) {
-      await this.removeJWT();
-    }
-    if (!this.state.JWT) {
-      await this.updateJWT();
-    }
+    if (removeJWT === true) await this.removeJWT();
+    if (!this.state.JWT) await this.updateJWT();
+
     return new Promise((r, f) => {
       this.setState(
         {
@@ -111,13 +108,9 @@ class App extends Component {
   };
 
   refreshMeManager = async (removeJWT = false) => {
-    // removeJWT Used for Login/Register
-    if (removeJWT === true) {
-      await this.removeJWT();
-    }
-    if (!this.state.JWT) {
-      await this.updateJWT();
-    }
+    if (removeJWT === true) await this.removeJWT();
+    if (!this.state.JWT) await this.updateJWT();
+
     return new Promise((r, f) => {
       this.setState(
         {
@@ -133,74 +126,6 @@ class App extends Component {
   };
 
   fetchMe = async () => {
-    const query = {
-      query: `
-      query {
-        me {
-          data {
-            user {
-              _id
-              identity {
-                firstName
-                lastName
-                email
-              }
-              industry {
-                _id
-                name
-              }
-              team {
-                _id
-                name
-                tutorial {
-                  _id
-                  name
-                  subject {
-                    _id
-                    name
-                    state
-                    organisation {
-                      _id
-                      name
-                    }
-                  }
-                }
-              }
-              pending {
-                _id
-                name
-                tutorial {
-                  subject {
-                    _id
-                    name
-                    state
-                    organisation {
-                      _id
-                      name
-                    }
-                  }
-                }
-                user {
-                  _id
-                  identity {
-                    firstName
-                    lastName
-                    email
-                  }
-                }
-              }
-            }
-          }
-          errors {
-            code
-            path
-            message
-          }
-        }
-      }
-      `,
-    };
-
     const options = {
       method: "POST",
       mode: "cors",
@@ -208,7 +133,7 @@ class App extends Component {
         "Content-Type": "application/json",
         JWT: this.state.JWT,
       },
-      body: JSON.stringify(query),
+      body: JSON.stringify(FETCH_USER),
     };
 
     const res = await fetch(API_URL, options).then((res) => res.json());
@@ -221,9 +146,7 @@ class App extends Component {
       };
     }
 
-    if (!errors) {
-      errors = [];
-    }
+    if (!errors) errors = [];
 
     return this.setState(
       {
@@ -253,7 +176,7 @@ class App extends Component {
         "Content-Type": "application/json",
         JWT: this.state.JWT,
       },
-      body: JSON.stringify(query),
+      body: JSON.stringify(MANAGER_API.query),
     };
 
     const res = await fetch(API_URL, options).then((res) => res.json());
@@ -266,9 +189,7 @@ class App extends Component {
       };
     }
 
-    if (!errors) {
-      errors = [];
-    }
+    if (!errors) errors = [];
 
     return this.setState(
       {
