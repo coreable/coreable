@@ -56,11 +56,6 @@ class Onboarding extends Component {
         },
       });
     }
-
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth",
-    // });
   };
 
   back = () => {
@@ -128,7 +123,6 @@ class Onboarding extends Component {
   render() {
     return (
       <div className="team-container">
-        <div className="top"> {this.onboardingTitle()}</div>
         <div className="main">
           <div className="grid">
             <div className="grid-card">

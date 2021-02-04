@@ -7,8 +7,6 @@
   align-items: center;
   width: 100%;
   background: whitesmoke;
-  //overflow:auto doesnt allow it to scroll up.
-  // overflow: auto;
   min-height: 100vh;
 
   .top {
@@ -22,12 +20,10 @@
   }
 
   .main {
-    // z-index: 3;
     background: transparent;
     border: none;
     position: absolute;
-    top: 25%;
-    position: absolute;
+    top: 20px;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 20px;
@@ -43,11 +39,12 @@
       .grid-card {
         grid-column: 4/10;
         text-align: center;
-        min-height: 200px;
+        height: 500px;
         background: white;
         border-radius: 0.33rem;
         margin-top: 40pt;
         padding: 20px;
+        overflow-y: scroll;
 
         .step-progress-bar {
           height: 20px;
