@@ -7,18 +7,24 @@ and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
+You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
 
 import React, { Component } from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import "./Home.scss";
-
-import Stepper from "./Stepper";
-
-import { TextField } from "@material-ui/core";
+import ReviewCard from "./ReviewCard";
+import JoinCard from "./JoinCard";
+import {
+  Container,
+  HeaderContainer,
+  BoxContainer,
+  Main,
+  SubTitle,
+  Title,
+} from "./home-style";
 
 import { API_URL } from "../../constants";
 
@@ -100,10 +106,6 @@ class Home extends Component {
       return { sideDrawerOpen: !prevState.sideDrawerOpen };
     });
   };
-
-  // backdropClickHandler = () => {
-  //   this.setState({ sideDrawerOpen: false });
-  // };
 
   getIsValidInviteCode = (inviteCode) => {
     return {
@@ -244,10 +246,27 @@ class Home extends Component {
     }
 
     return (
-      <div className="review-container">
-        <PageHeading />
-        <div className="main">
-          <div className="grid-home">
+      <Container>
+        <HeaderContainer>
+          <Title>Your teams</Title>
+          <SubTitle fontSize={"1.4"}>View, review and join teams.</SubTitle>
+        </HeaderContainer>
+        <Main>
+          <BoxContainer>
+            <JoinCard
+              value={this.state.inviteCode}
+              onChange={this.handleChange}
+              onBlur={this.handleBlur("inviteCode")}
+              onKeyPress={async (e) => {
+                if (e.key === "Enter") {
+                  await this.joinTeam();
+                }
+              }}
+              disabled={this.isDisabled()}
+              onClick={async () => {
+                await this.joinTeam();
+              }}
+            />
             {this.state.me.team.map((team, index) => {
               if (!team._id) {
                 return null;
@@ -271,7 +290,8 @@ class Home extends Component {
                   />
                 );
               }
-              return (
+              {
+                /* return (
                 <JoinCard
                   key={index}
                   value={this.state.inviteCode}
@@ -287,103 +307,14 @@ class Home extends Component {
                     await this.joinTeam();
                   }}
                 />
-              );
+              ); */
+              }
             })}
-          </div>
-        </div>
-      </div>
+          </BoxContainer>
+        </Main>
+      </Container>
     );
   }
 }
-
-const PageHeading = () => {
-  return (
-    <div className="top-background">
-      <h1>Your teams</h1>
-      <p style={{ fontSize: "1.4rem", color: "white" }}>
-        View, review and join teams.
-      </p>
-    </div>
-  );
-};
-
-const ReviewCard = (props) => {
-  const team = props.team;
-  const nameLength = team.tutorial.subject.name.length;
-  const fontSize = (nameLength) => {
-    if (nameLength > 15) {
-      return { fontSize: "2.0rem" };
-    } else {
-      return { fontSize: "3.2rem" };
-    }
-  };
-
-  return (
-    <div className="grid-card-home">
-      <div className="team-card">
-        <h1 style={fontSize(nameLength)}>
-          {props.capitalize(team.tutorial.subject.name)}
-        </h1>
-        <p>{props.capitalize(team.name)}</p>
-        <Stepper reviewState={team.tutorial.subject.state} />
-
-        <Link
-          to={{
-            pathname:
-              props.teamSubjectState === 1 ? "/intro" : "/collaboration",
-            state: {
-              reviewState: props.reviewState,
-              user_id: props.user_id,
-              team_id: team._id,
-              pending: props.pending,
-            },
-          }}
-        >
-          <button
-            className="btn primarybtn"
-            onClick={props.onClick}
-            disabled={props.disabled}
-            disableElevation
-          >
-            Start Review
-          </button>
-        </Link>
-      </div>
-    </div>
-  );
-};
-
-const JoinCard = (props) => {
-  return (
-    <div className="grid-card-home">
-      <div className="team-card">
-        <h1>Join team</h1>
-        <p>Enter your team code below</p>
-        <TextField
-          label="Team Code"
-          placeholder="eg: Team 1"
-          fullWidth
-          margin="normal"
-          InputLabelProps={{ style: { fontSize: 12 } }}
-          variant="outlined"
-          name="inviteCode"
-          value={props.value}
-          type="text"
-          onChange={props.onChange}
-          onBlur={props.onBlur}
-          onKeyPress={props.onKeyPress}
-          style={{ background: "#F7F9FC" }}
-        />
-        <button
-          className="btn primarybtn"
-          disabled={props.disabled}
-          onClick={props.onClick}
-        >
-          Join Team
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export default Home;

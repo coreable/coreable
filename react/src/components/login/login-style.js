@@ -21,7 +21,7 @@ export const Container = styled.div`
 
 export const FormContainer = styled.div`
   box-sizing: border-box;
-  padding: 30px;
+  padding: 20px;
   width: 100%;
   min-height: 50%;
 
