@@ -12,80 +12,43 @@
   ===========================================================================
 */
 
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
 import { JWT, IDENTITY_URL } from "../../constants";
-import { Container } from "./login-style";
+import {
+  Container,
+  FormContainer,
+  Header,
+  Form,
+  InputContainer,
+  Input,
+  ButtonContainer,
+  Button,
+  ErrorMessage,
+} from "./login-style";
 
-import { TextField, FormControl } from "@material-ui/core";
+export const Login = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState({
+    error: false,
+    message: "",
+  });
+  const [passwordError, setPasswordError] = useState({
+    error: false,
+    message: "",
+  });
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
+  useEffect(() => {
+    props.ReactGA.pageview("/login");
+  }, []);
 
-    this.state = {
-      email: "",
-      password: "",
-      touched: {
-        email: false,
-        password: false,
-      },
-    };
-  }
-
-  componentDidMount = () => {
-    this.props.ReactGA.pageview("/login");
-  };
-
-  handlers = {
-    errors: () => {
-      return this.handlers.validate(this.state.email, this.state.password);
-    },
-    validate: (email, password) => {
-      return {
-        email: email.length === 0 || !email.includes("@"),
-        password: password.length <= 4,
-      };
-    },
-    change: (e) => {
-      this.setState({
-        [e.target.name]: e.target.value,
-      });
-    },
-    blur: (field) => (e) => {
-      this.setState({
-        touched: { ...this.state.touched, [field]: true },
-      });
-    },
-    getColor: (field) => {
-      if (this.state.touched[field] && !this.errors()[field]) {
-        return "#f7f9fc";
-      } else {
-        return "#f7f9fc";
-      }
-    },
-    submit: (e) => {
-      if (!this.isDisabled) {
-        e.preventDefault();
-        return false;
-      }
-    },
-    shouldMarkError: (field) => {
-      // const hasError = this.errors()[field];
-      const hasError = this.handlers.errors()[field];
-      const shouldShow = this.state.touched[field];
-      return hasError ? shouldShow : false;
-    },
-  };
-
-  isDisabled = () => Object.keys(this.errors()).some((x) => this.errors()[x]);
-
-  loginUser = async () => {
+  const loginUser = async () => {
     const query = {
       query: `
         mutation {
-          userLogin(email: "${this.state.email}", password: "${this.state.password}") {
+          userLogin(email: "${email}", password: "${password}") {
             data  {
               user {
                 _id
@@ -106,7 +69,7 @@ class Login extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        JWT: this.props.app.JWT,
+        JWT: props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -121,110 +84,119 @@ class Login extends Component {
         await Promise.resolve();
         return localStorage.setItem(JWT, data.token);
       })().then(async () => {
-        await this.props.refreshMe(true);
+        await props.refreshMe(true);
       });
     }
   };
 
-  render() {
-    if (this.props.app.data.user) {
-      return <Redirect to="/home"></Redirect>;
-    }
+  const handlers = {
+    change: (e) => {
+      e.target.name === "email" && setEmail(e.target.value);
+      e.target.name === "password" && setPassword(e.target.value);
+    },
+    blur: (e) => {
+      if (!e.target.value) {
+        if (e.target.name === "email") {
+          setEmailError({
+            error: true,
+            message: "Invalid email",
+          });
+        } else {
+          setPasswordError({
+            error: true,
+            message: "Invalid password",
+          });
+        }
+      } else {
+        if (e.target.name === "email") {
+          setEmailError({
+            error: false,
+            message: "",
+          });
+        } else {
+          setPasswordError({
+            error: false,
+            message: "",
+          });
+        }
+      }
+    },
+    submit: () => {
+      if (!email || !password) {
+        setEmailError({
+          error: true,
+          message: "Invalid email",
+        });
+        setPasswordError({
+          error: true,
+          message: "Invalid password",
+        });
+        return;
+      }
+      loginUser();
+    },
+  };
 
-    return (
-      <div className="container">
-        <div className="grid">
-          <div className="grid-card">
-            <h1 style={{ textAlign: "left", color: "#000", margin: "0" }}>
-              Welcome,
-            </h1>
-            <h2 style={{ textAlign: "left", color: "#707070", margin: "0" }}>
-              login to start
-            </h2>
-            <FormControl style={{ marginTop: "16pt", autocomplete: "off" }}>
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Email"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="email"
-                error={this.handlers.shouldMarkError("email")}
-                value={this.state.email}
-                type="email"
-                onChange={this.handlers.change}
-                onBlur={this.handlers.blur("email")}
-                style={{
-                  marginTop: "20pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Password"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="password"
-                error={this.handlers.shouldMarkError("password")}
-                value={this.state.password}
-                type="password"
-                onChange={this.handlers.change}
-                onBlur={this.handlers.blur("password")}
-                onKeyPress={async (e) => {
-                  if (e.key === "Enter") {
-                    await this.loginUser();
-                  }
-                }}
-                style={{
-                  marginTop: "8pt",
-                  marginBottom: "8pt",
-                }}
-              />
-
-              <button
-                className="btn primarybtn"
-                onClick={async () => {
-                  await this.loginUser();
-                }}
-                style={{ marginTop: "10px" }}
-              >
-                Login
-              </button>
-
-              <Link
-                to="/signup"
-                style={{
-                  marginTop: "8pt",
-                  textDecoration: "none",
-                  color: "lightgrey",
-                }}
-              >
-                <button
-                  className="btn blueTextButton"
-                  style={{ marginTop: "10px" }}
-                >
-                  Sign up
-                </button>
-              </Link>
-
-              <div style={{ marginTop: "15px" }}>
-                <Link
-                  to="/forgot"
-                  style={{
-                    marginTop: "8pt",
-                    textDecoration: "none",
-                    color: "lightgrey",
-                  }}
-                >
-                  Forgot password
-                </Link>
-              </div>
-            </FormControl>
-          </div>
-        </div>
-      </div>
-    );
+  if (props.app.data.user) {
+    return <Redirect to="/home" />;
   }
-}
+
+  return (
+    <Container>
+      <FormContainer>
+        <Header fontSize={"2.4"} fontWeight={600}>
+          Welcome,
+        </Header>
+        <Header fontSize={"1.6"} fontWeight={500}>
+          Login to start
+        </Header>
+        <Form>
+          <InputContainer>
+            <Header fontSize={"1.6"} fontWeight={400}>
+              Email
+            </Header>
+            <Input
+              placeholder="Enter your email"
+              name="email"
+              type="text"
+              onChange={handlers.change}
+              onBlur={handlers.blur}
+              error={emailError.error}
+            />
+            <ErrorMessage>
+              {emailError.error && emailError.message}
+            </ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Header fontSize={"1.6"} fontWeight={400}>
+              Password
+            </Header>
+            <Input
+              placeholder="Enter your password"
+              name="password"
+              type="password"
+              onChange={handlers.change}
+              onBlur={handlers.blur}
+              error={passwordError.error}
+            />
+            <ErrorMessage>
+              {passwordError.error && passwordError.message}
+            </ErrorMessage>
+          </InputContainer>
+          <ButtonContainer>
+            <Button
+              backgroundColor={"primary"}
+              onClick={handlers.submit}
+              type="button"
+            >
+              Login
+            </Button>
+            <Button backgroundColor={"secondary"}>Sign up</Button>
+          </ButtonContainer>
+        </Form>
+      </FormContainer>
+    </Container>
+  );
+};
 
 export default Login;

@@ -223,24 +223,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App" style={{ height: "100%" }}>
-          <Navbar
-            app={this.state}
-            refreshMe={this.refreshMe}
-            ReactGA={ReactGA}
-          />
           <Suspense fallback={<LinearProgress style={{ top: "16px" }} />}>
-            <Route
-              exact
-              path="/"
-              component={(props) => (
-                <LandingPage
-                  {...props}
-                  app={this.state}
-                  refreshMe={this.refreshMe}
-                  ReactGA={ReactGA}
-                />
-              )}
-            />
             {/* Public routes (only unauthenticated users) */}
             <Route
               exact
@@ -254,6 +237,7 @@ class App extends Component {
                 />
               )}
             />
+
             <Route
               exact
               path="/signup"
@@ -266,6 +250,25 @@ class App extends Component {
                 />
               )}
             />
+
+            <Navbar
+              app={this.state}
+              refreshMe={this.refreshMe}
+              ReactGA={ReactGA}
+            />
+            <Route
+              exact
+              path="/"
+              component={(props) => (
+                <LandingPage
+                  {...props}
+                  app={this.state}
+                  refreshMe={this.refreshMe}
+                  ReactGA={ReactGA}
+                />
+              )}
+            />
+
             {/* Private routes (only authenticated users) */}
             <Route
               exact
