@@ -23,7 +23,7 @@ export const FormContainer = styled.div`
   box-sizing: border-box;
   padding: 30px;
   width: 100%;
-  height: 50%;
+  min-height: 50%;
 
   @media (min-width: 768px) {
     width: 400px;

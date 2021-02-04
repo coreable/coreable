@@ -31,14 +31,8 @@ import {
 export const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState({
-    error: false,
-    message: "",
-  });
-  const [passwordError, setPasswordError] = useState({
-    error: false,
-    message: "",
-  });
+  const [emailError, setEmailError] = useState({});
+  const [passwordError, setPasswordError] = useState({});
 
   useEffect(() => {
     props.ReactGA.pageview("/login");
@@ -108,17 +102,8 @@ export const Login = (props) => {
           });
         }
       } else {
-        if (e.target.name === "email") {
-          setEmailError({
-            error: false,
-            message: "",
-          });
-        } else {
-          setPasswordError({
-            error: false,
-            message: "",
-          });
-        }
+        if (e.target.name === "email") setEmailError({});
+        if (e.target.name === "password") setPasswordError({});
       }
     },
     submit: () => {
@@ -184,6 +169,11 @@ export const Login = (props) => {
             </ErrorMessage>
           </InputContainer>
           <ButtonContainer>
+            <Button backgroundColor={"secondary"} type="button">
+              <Link to="/signup" style={{ color: "white" }}>
+                Sign up
+              </Link>
+            </Button>
             <Button
               backgroundColor={"primary"}
               onClick={handlers.submit}
@@ -191,7 +181,6 @@ export const Login = (props) => {
             >
               Login
             </Button>
-            <Button backgroundColor={"secondary"}>Sign up</Button>
           </ButtonContainer>
         </Form>
       </FormContainer>

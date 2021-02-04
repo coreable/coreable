@@ -7,111 +7,47 @@ and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
+You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
 
-// TODO: Disable register button while waiting for submit
-
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
+import {
+  Container,
+  FormContainer,
+  Header,
+  Form,
+  InputContainer,
+  Input,
+  ErrorMessage,
+  ButtonContainer,
+  Button,
+} from "../login/login-style";
 import { JWT, IDENTITY_URL } from "../../constants";
 
-import { TextField, FormControl } from "@material-ui/core";
+const Register = (props) => {
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
+  const [firstnameError, setFirstnameError] = useState({});
+  const [lastnameError, setLastnameError] = useState({});
+  const [emailError, setEmailError] = useState({});
+  const [passwordError, setPasswordError] = useState({});
 
-    this.state = {
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
+  useEffect(() => {
+    props.ReactGA.pageview("/signup");
+  }, []);
 
-      touched: {
-        email: false,
-        password: false,
-        firstName: false,
-        lastName: false,
-      },
-    };
-  }
-
-  componentDidMount = () => {
-    this.props.ReactGA.pageview("/signup");
-  };
-
-  handlers = {
-    errors: () => {
-      return this.handlers.validate(
-        this.state.email,
-        this.state.password,
-        this.state.firstName,
-        this.state.lastName
-      );
-    },
-    validate: (email, password, firstName, lastName) => {
-      return {
-        email: email.length === 0 || !email.includes("@"),
-        password: password.length <= 4,
-        firstName: firstName.length <= 1 || !isNaN(firstName),
-        lastName: lastName.length <= 1 || !isNaN(lastName),
-      };
-    },
-    change: (e) => {
-      this.setState({ [e.target.name]: e.target.value });
-    },
-    blur: (field) => (e) => {
-      this.setState({
-        touched: { ...this.state.touched, [field]: true },
-      });
-    },
-    getColour: (field) => {
-      if (this.state.touched[field] && !this.handlers.errors()[field]) {
-        return "#e8f0fe";
-      }
-      return "#f7f9fc";
-    },
-    handleSubmit: (e) => {
-      if (!this.isDisabled) {
-        e.preventDefault();
-        return false;
-      }
-    },
-    shouldMarkError: (field) => {
-      const hasError = this.handlers.errors()[field];
-      const shouldShow = this.state.touched[field];
-      return hasError ? shouldShow : false;
-    },
-    helperText: (field) => {
-      const hasError = this.handlers.errors()[field];
-      const shouldShow = this.state.touched[field];
-      if (hasError && shouldShow) {
-        if (field === "password" && this.state.password.length === 0) {
-          return "Invalid password";
-        }
-        if (field === "password") {
-          return `Password must be longer than 5 characters`;
-        } else {
-          return "Invalid email";
-        }
-      }
-    },
-  };
-
-  isDisabled = () =>
-    Object.keys(this.handlers.errors()).some((x) => this.handlers.errors()[x]);
-
-  registerUser = async () => {
-    // TODO: check for errors before submitting
-
+  const registerUser = async () => {
     const query = {
       query: `
         mutation {
-          register(email: "${this.state.email}", firstName: "${this.state.firstName}", lastName: "${this.state.lastName}", password: "${this.state.password}") {
+          register(email: "${email}", firstName: "${firstname}", lastName: "${lastname}", password: "${password}") {
             data  {
               user {
                 _id
@@ -132,7 +68,7 @@ class Register extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -150,131 +86,191 @@ class Register extends Component {
         await Promise.resolve();
         return localStorage.setItem(JWT, data.token);
       })().then(async () => {
-        await this.props.refreshMe(true);
-        this.props.history.push("/home");
+        await props.refreshMe(true);
+        props.history.push("/home");
       });
     }
   };
 
-  render() {
-    if (this.props.app.data.user) {
-      return <Redirect to="/home"></Redirect>;
-    }
+  const handlers = {
+    errors: () => {
+      return handlers.validate(email, password, firstname, lastname);
+    },
+    validate: (email, password, firstName, lastName) => {
+      return {
+        email: email.length >= 5 || email.includes("@"),
+        password: password.length >= 4,
+        firstName: firstName.length >= 1 || isNaN(firstName),
+        lastName: lastName.length >= 1 || isNaN(lastName),
+      };
+    },
+    change: (e) => {
+      e.target.name === "firstname" && setFirstname(e.target.value);
+      e.target.name === "lastname" && setLastname(e.target.value);
+      e.target.name === "email" && setEmail(e.target.value);
+      e.target.name === "password" && setPassword(e.target.value);
+    },
+    blur: (e) => {
+      if (!e.target.value) {
+        if (e.target.name === "firstname") {
+          setFirstnameError({
+            error: true,
+            message: "Invalid firstname",
+          });
+        }
+        if (e.target.name === "lastname") {
+          setLastnameError({
+            error: true,
+            message: "Invalid lastname",
+          });
+        }
+        if (e.target.name === "email") {
+          setEmailError({
+            error: true,
+            message: "Invalid email",
+          });
+        }
+        if (e.target.name === "password") {
+          setPasswordError({
+            error: true,
+            message: "Invalid password",
+          });
+        }
+      } else {
+        if (e.target.name === "firstname") setFirstnameError({});
+        if (e.target.name === "lastname") setLastnameError({});
+        if (e.target.name === "email") setEmailError({});
+        if (e.target.name === "password") setPasswordError({});
+      }
+    },
+    handleSubmit: (e) => {
+      const result = handlers.errors();
+      for (let key in handlers.errors()) {
+        if (!result[key]) {
+          setFirstnameError({
+            error: true,
+            message: "Invalid firstname",
+          });
+          setLastnameError({
+            error: true,
+            message: "Invalid lastname",
+          });
+          setEmailError({
+            error: true,
+            message: "Invalid email",
+          });
+          setPasswordError({
+            error: true,
+            message: "Invalid password",
+          });
+          return;
+        }
+      }
+      registerUser();
+    },
+  };
 
-    return (
-      <div className="container">
-        <div className="grid">
-          <div className="grid-card">
-            <h1 style={{ textAlign: "left", color: "#000", margin: "0" }}>
-              Start your journey,
-            </h1>
-            <h2 style={{ textAlign: "left", color: "#707070", margin: "0" }}>
-              the future of work is here
-            </h2>
-            <FormControl style={{ marginTop: "16pt", width: "100%" }}>
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="First Name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="firstName"
-                error={this.handlers.shouldMarkError("firstName")}
-                value={this.state.firstName}
-                type="text"
-                onChange={this.handlers.change}
-                onBlur={this.handlers.blur("firstName")}
-                style={{
-                  marginTop: "16pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Last Name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="lastName"
-                error={this.handlers.shouldMarkError("lastName")}
-                value={this.state.lastName}
-                type="text"
-                onChange={this.handlers.change}
-                onBlur={this.handlers.blur("lastName")}
-                style={{
-                  marginTop: "8pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Email"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="email"
-                error={this.handlers.shouldMarkError("email")}
-                helperText={this.handlers.helperText("email")}
-                value={this.state.email}
-                type="email"
-                onChange={this.handlers.change}
-                onBlur={this.handlers.blur("email")}
-                style={{
-                  marginTop: "8pt",
-                }}
-              />
-              <TextField
-                InputLabelProps={{ style: { fontSize: 12 } }}
-                label="Password"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="password"
-                error={this.handlers.shouldMarkError("password")}
-                helperText={this.handlers.helperText("password")}
-                value={this.state.password}
-                type="password"
-                onChange={this.handlers.change}
-                onBlur={this.handlers.blur("password")}
-                onKeyPress={async (e) => {
-                  if (e.key === "Enter") {
-                    await this.registerUser();
-                  }
-                }}
-                style={{
-                  marginTop: "8pt",
-                  marginBottom: "8pt",
-                }}
-              />
-              <button
-                className="btn primarybtn"
-                disabled={this.isDisabled() && !this.state.loading}
-                onClick={async () => {
-                  await this.registerUser();
-                }}
-                style={{
-                  marginTop: "10px",
-                  border: "none",
-                }}
-              >
-                Sign up
-              </button>
-              <div style={{ marginTop: "15px" }}>
-                <Link
-                  to="/forgot"
-                  style={{
-                    marginTop: "8pt",
-                    textDecoration: "none",
-                    color: "lightgrey",
-                  }}
-                >
-                  Forgot password
-                </Link>
-              </div>
-            </FormControl>
-          </div>
-        </div>
-      </div>
-    );
+  if (props.app.data.user) {
+    return <Redirect to="/home"></Redirect>;
   }
-}
+
+  return (
+    <Container>
+      <FormContainer>
+        <Header fontSize={"2.4"} fontWeight={600}>
+          Start your journey,
+        </Header>
+        <Header fontSize={"1.6"} fontWeight={500}>
+          Future of work is here
+        </Header>
+        <Form>
+          <InputContainer>
+            <Header fontSize={"1.6"} fontWeight={400}>
+              Firstname
+            </Header>
+            <Input
+              placeholder="Enter your firstname"
+              name="firstname"
+              type="text"
+              onChange={handlers.change}
+              onBlur={handlers.blur}
+              error={firstnameError.error}
+            />
+            <ErrorMessage>
+              {firstnameError.error && firstnameError.message}
+            </ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Header fontSize={"1.6"} fontWeight={400}>
+              Lastname
+            </Header>
+            <Input
+              placeholder="Enter your lastname"
+              name="lastname"
+              type="text"
+              onChange={handlers.change}
+              onBlur={handlers.blur}
+              error={lastnameError.error}
+            />
+            <ErrorMessage>
+              {lastnameError.error && lastnameError.message}
+            </ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Header fontSize={"1.6"} fontWeight={400}>
+              Email
+            </Header>
+            <Input
+              placeholder="Enter your email"
+              name="email"
+              type="text"
+              onChange={handlers.change}
+              onBlur={handlers.blur}
+              error={emailError.error}
+            />
+            <ErrorMessage>
+              {emailError.error && emailError.message}
+            </ErrorMessage>
+          </InputContainer>
+          <InputContainer>
+            <Header fontSize={"1.6"} fontWeight={400}>
+              Password
+            </Header>
+            <Input
+              placeholder="Enter your password"
+              name="password"
+              type="password"
+              onChange={handlers.change}
+              onBlur={handlers.blur}
+              error={passwordError.error}
+              onKeyPress={async (e) => {
+                if (e.key === "Enter") {
+                  await registerUser();
+                }
+              }}
+            />
+            <ErrorMessage>
+              {passwordError.error && passwordError.message}
+            </ErrorMessage>
+          </InputContainer>
+          <ButtonContainer>
+            <Button backgroundColor={"secondary"} type="button">
+              <Link to="/login" style={{ color: "white" }}>
+                Login
+              </Link>
+            </Button>
+            <Button
+              backgroundColor={"primary"}
+              onClick={handlers.handleSubmit}
+              type="button"
+            >
+              Sign up
+            </Button>
+          </ButtonContainer>
+        </Form>
+      </FormContainer>
+    </Container>
+  );
+};
 
 export default Register;
