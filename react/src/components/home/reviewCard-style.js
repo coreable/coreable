@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ReviewCardContainer = styled.div`
   text-align: left;
   width: 100%;
-  height: 220px;
+  height: ${(props) => (props.height ? `${props.height}px` : "220px")};
   background: white;
   padding: 20px;
   margin-bottom: 10px;
@@ -23,7 +23,7 @@ export const ReviewCardContainer = styled.div`
 export const Button = styled.button`
   width: 100%;
   height: 40px;
-  border-radius: 0.33rem;
+  border-radius: 4px;
   font-size: 1.6rem;
   font-weight: bold;
   justify-content: center;
@@ -31,7 +31,6 @@ export const Button = styled.button`
   margin: 0 auto;
   margin-top: 10px;
   text-transform: none;
-  border-radius: 8pt;
 
   background-color: #4070e0;
   color: white;

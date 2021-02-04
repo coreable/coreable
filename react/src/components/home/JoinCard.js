@@ -3,13 +3,13 @@ import Stepper from "./Stepper";
 import { Link } from "react-router-dom";
 import { TextField } from "@material-ui/core";
 import { Button, ReviewCardContainer } from "./reviewCard-style";
-import { SubTitle } from "./home-style";
+import { SubTitle, Title } from "./home-style";
 
 const JoinCard = (props) => {
   return (
-    <ReviewCardContainer>
-      <h1>Join team</h1>
-      <SubTitle fontSize={"1.4"}>Enter your team code below</SubTitle>
+    <ReviewCardContainer height={190}>
+      <Title fontSize={"2"}>Join a team</Title>
+      <SubTitle fontSize={"1.2"}>Use your team code below</SubTitle>
       <TextField
         label="Team Code"
         placeholder="eg: Team 1"

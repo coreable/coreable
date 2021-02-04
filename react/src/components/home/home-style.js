@@ -25,12 +25,26 @@ export const HeaderContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
+
+  @media (min-width: 768px) {
+    align-items: center;
+  }
 `;
 
-export const Title = styled.h1``;
+export const Title = styled.h1`
+  font-size: ${(props) => `${props.fontSize}rem`};
+
+  @media (min-width: 768px) {
+    font-size: 3rem !important;
+  }
+`;
 
 export const SubTitle = styled.p`
   font-size: ${(props) => `${props.fontSize}rem`};
+
+  @media (min-width: 768px) {
+    font-size: 1.6rem !important;
+  }
 `;
 
 export const Main = styled.div`
