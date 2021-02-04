@@ -52,6 +52,7 @@
     "@types/md5": "^2.1.33",
     "@types/mocha": "^8.0.0",
     "@types/node": "^14.14.22",
+    "@types/styled-components": "^5.1.7",
     "@types/validator": "^13.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",

@@ -7,7 +7,7 @@
     Coreable's source code is distributed in the hope that it will be
     useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-    You should have received a copy of the license along with the 
+    You should have received a copy of the license along with the
     Coreable source code.
   ===========================================================================
 */
@@ -16,6 +16,7 @@ import React, { Component } from "react";
 import "../LandingPage/LandingPage.scss";
 import { Link, Redirect } from "react-router-dom";
 import { JWT, IDENTITY_URL } from "../../constants";
+import { Container } from "./login-style";
 
 import { TextField, FormControl } from "@material-ui/core";
 
@@ -105,7 +106,7 @@ class Login extends Component {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "JWT": this.props.app.JWT,
+        JWT: this.props.app.JWT,
       },
       body: JSON.stringify(query),
     };
@@ -113,9 +114,7 @@ class Login extends Component {
     const res = await fetch(IDENTITY_URL, options).then((data) => data.json());
     const { data, errors } = res.data.userLogin;
 
-    if (errors) {
-      alert(errors[0].message);
-    }
+    if (errors) alert(errors[0].message);
 
     if (data) {
       (async () => {
@@ -184,7 +183,6 @@ class Login extends Component {
 
               <button
                 className="btn primarybtn"
-                // disabled={this.isDisabled()}
                 onClick={async () => {
                   await this.loginUser();
                 }}
