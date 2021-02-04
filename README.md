@@ -1,6 +1,6 @@
 # COREABLE
 
-[![buddy pipeline](https://app.buddy.works/coreable/coreable/pipelines/pipeline/249362/badge.svg?token=252cdbde644b14054bdafb973256abc7284acd646c277e9f4ac8a5367f196bfb "buddy pipeline")](https://app.buddy.works/coreable/coreable/pipelines/pipeline/249362)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/51e019495c794d79b8e23afb7c899967)](https://www.codacy.com/gh/coreable/coreable/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=coreable/coreable&amp;utm_campaign=Badge_Grade)
 
 ## Getting Started
 

@@ -147,7 +147,7 @@ export async function generator() {
   promises.push(async function () {
     const subject = await UniversitySubject.create({
       name: `subject HANS`,
-      state: 2,
+      state: 1,
       organisation_id: organisations[organisations.length-1]._id
     });
     return subjects.push(subject);
