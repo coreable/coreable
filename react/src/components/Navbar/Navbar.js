@@ -7,7 +7,7 @@ and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
+You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
@@ -28,9 +28,7 @@ class Navbar extends Component {
       me: props.app.data.user,
       menuItems: [
         { name: "Home", link: "home" },
-        { name: "Reviews", link: "comingsoon" },
         { name: "Skills", link: "skills" },
-        { name: "Goals", link: "comingsoon" },
         { name: "Account", link: "comingsoon" },
         { name: "Logout", link: "" },
       ],
@@ -73,58 +71,51 @@ class Navbar extends Component {
           Coreable
         </NavLink>
 
-        {(() => {
-          if (this.state.me) {
-            return (
-              <React.Fragment>
-                <input
-                  onClick={this.menuOpenHandler}
-                  className="menu-btn"
-                  type="checkbox"
-                  id="menu-btn"
-                  checked={menuOpen}
-                />
-                <label className="menu-icon" htmlFor="menu-btn">
-                  <span className="nav-icon"></span>
-                  <span className="spacer" />
-                </label>
-                <ul className="menu" id="menu">
-                  {menuItems.map((menuItem, idx) => {
-                    return (
-                      <NavbarItem
-                        key={idx}
-                        dest={menuItem.link}
-                        menuOpenHandler={this.menuOpenHandler}
-                      >
-                        {menuItem.name}
-                      </NavbarItem>
-                    );
-                  })}
-                </ul>
-              </React.Fragment>
-            );
-          }
-        })()}
+        {this.state.me && (
+          <>
+            <input
+              onClick={this.menuOpenHandler}
+              className="menu-btn"
+              type="checkbox"
+              id="menu-btn"
+              checked={menuOpen}
+            />
+            <label className="menu-icon" htmlFor="menu-btn">
+              <span className="nav-icon"></span>
+              <span className="spacer" />
+            </label>
+            <ul className="menu" id="menu">
+              {menuItems.map((menuItem, idx) => {
+                return (
+                  <NavbarItem
+                    key={idx}
+                    dest={menuItem.link}
+                    menuOpenHandler={this.menuOpenHandler}
+                  >
+                    {menuItem.name}
+                  </NavbarItem>
+                );
+              })}
+            </ul>
+          </>
+        )}
+
         <span className="spacer" />
 
-        {(() => {
-          if (this.state.me) {
-            return (
-              <div className="dropdown">
-                <Link to="" onClick={() => this.removeJWT()}>
-                  Logout
-                </Link>
-                <span className="dropbtn">{this.state.me.firstName}</span>
-                <div className="dropdown-content">
-                  <Link to="/review">Account</Link>
-                  <Link to="" onClick={() => this.removeJWT()}>
-                    Logout
-                  </Link>
-                </div>
-              </div>
-            );
-          }
-        })()}
+        {this.state.me && (
+          <div className="dropdown">
+            <Link to="" onClick={() => this.removeJWT()}>
+              Logout
+            </Link>
+            <span className="dropbtn">{this.state.me.firstName}</span>
+            <div className="dropdown-content">
+              <Link to="/review">Account</Link>
+              <Link to="" onClick={() => this.removeJWT()}>
+                Logout
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
     );
   }

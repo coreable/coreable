@@ -13,19 +13,19 @@ export const OnboardingContainer = styled.div`
 export const Content = styled.div`
   position: relative;
   margin-top: 100px;
-  height: calc(100% - 50px);
+  height: calc(100vh - 50px);
   width: 100%;
   box-sizing: border-box;
   border: none;
 
   @media (min-width: 768px) {
+    margin-top: 250px;
     width: 500px;
   }
 `;
 
 export const Card = styled.div`
-  min-height: 400px;
-  max-height: 600px;
+  height: 600px;
   overflow-y: scroll;
   width: 100%;
   padding: 20px;
@@ -59,7 +59,7 @@ export const ButtonContainer = styled.div`
   bottom: 30px;
 
   @media (min-width: 768px) {
-    bottom: 60px;
+    bottom: 130px;
   }
 `;
 

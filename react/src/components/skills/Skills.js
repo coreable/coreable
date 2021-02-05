@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { API_URL } from "../../constants";
 import { SKILLS_API } from "../../queries";
 
@@ -122,7 +121,12 @@ export default class Results extends Component {
     setFacetsOrTraits: (report, facetOrTrait, isAverageNull) => {
       if (isAverageNull) {
         let result = [];
-        let reflectionObject = report["reflection"][facetOrTrait]["default"];
+
+        let reflectionObject;
+
+        try {
+          reflectionObject = report["reflection"][facetOrTrait]["default"];
+        } catch (error) {}
 
         for (const key in reflectionObject) {
           if (reflectionObject.hasOwnProperty(key)) {
