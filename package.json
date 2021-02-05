@@ -88,6 +88,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
     "react-ga": "^3.0.0",
+    "react-icons": "^4.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "rxjs": "^6.5.5",
