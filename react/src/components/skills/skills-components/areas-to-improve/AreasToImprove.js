@@ -1,16 +1,25 @@
-export default CollabAreasToImprove = (props) => {
-  let areasToImprove =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
+import React from "react";
+import { SubTitle, Title } from "../../../home/home-style";
+import SkillBar from "../../SkillBar/SkillBar";
+import { HeadingContainer, IndexContainer } from "../index/index-styles";
+import { capitalize } from "./../../../../Utils/capitalize";
+import { SkillBarContainer } from "./../top-strengths/topStrengths-style";
+
+const AreasToImprove = (props) => {
+  const { facetOrTrait, isCollab } = props;
+  const type = isCollab ? "collaboration" : "communcation";
+
+  let areasToImprove = facetOrTrait ? props.data?.facets : props.data?.traits;
 
   return (
-    <div className="grid-areas" style={{ gridArea: "collab-areas-to-improve" }}>
-      <div className="heading">
-        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Areas to Improve
-        </h1>
-        <p>Collaboration</p>
-      </div>
-      <div className="grid-area-inside">
+    <IndexContainer height={"300"}>
+      <HeadingContainer>
+        <Title fontSize={"1.6"}>Areas to improve</Title>
+        <SubTitle fontSize={"1.2"} fontWeight={"500"} color={"grey"}>
+          {capitalize(type)}
+        </SubTitle>
+      </HeadingContainer>
+      <SkillBarContainer>
         {areasToImprove
           ?.sort((a, b) => a.reflection - b.reflection)
           .slice(0, 3)
@@ -20,42 +29,13 @@ export default CollabAreasToImprove = (props) => {
                 key={idx}
                 values={improve}
                 type="areasToImprove"
-                isFacet={facetOrTrait}
+                isFacet={facetOrTrait ? "facet" : "trait"}
               />
             );
           })}
-      </div>
-    </div>
+      </SkillBarContainer>
+    </IndexContainer>
   );
 };
 
-const CommsAreasToImprove = (props) => {
-  let areasToImprove =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
-
-  return (
-    <div className="grid-areas" style={{ gridArea: "comms-areas-to-improve" }}>
-      <div className="heading">
-        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Areas to Improve
-        </h1>
-        <p>Communication</p>
-      </div>
-      <div className="grid-area-inside">
-        {areasToImprove
-          ?.sort((a, b) => a.reflection - b.reflection)
-          .slice(0, 3)
-          .map((improve, idx) => {
-            return (
-              <SkillBar
-                key={idx}
-                values={improve}
-                type="areasToImprove"
-                isFacet={facetOrTrait}
-              />
-            );
-          })}
-      </div>
-    </div>
-  );
-};
+export default AreasToImprove;

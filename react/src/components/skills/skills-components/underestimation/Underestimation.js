@@ -1,16 +1,26 @@
-const CommsUnderEstimation = (props) => {
+import React from "react";
+import { SubTitle, Title } from "../../../home/home-style";
+import SkillBar from "../../SkillBar/SkillBar";
+import { HeadingContainer, IndexContainer } from "../index/index-styles";
+import { capitalize } from "./../../../../Utils/capitalize";
+import { SkillBarContainer } from "./../top-strengths/topStrengths-style";
+
+const UnderEstimation = (props) => {
+  const { facetOrTrait, isCollab } = props;
+  const type = isCollab ? "collaboration" : "communcation";
+
   let underEstimation =
     facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
 
   return (
-    <div className="grid-areas" style={{ gridArea: "comms-underestimation" }}>
-      <div className="heading">
-        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Underestimation
-        </h1>
-        <p>Communication</p>
-      </div>
-      <div className="grid-area-inside">
+    <IndexContainer height={"300"}>
+      <HeadingContainer>
+        <Title fontSize={"1.6"}>Underestimation</Title>
+        <SubTitle fontSize={"1.2"} fontWeight={"500"} color={"grey"}>
+          {capitalize(type)}
+        </SubTitle>
+      </HeadingContainer>
+      <SkillBarContainer>
         {underEstimation
           ?.filter((item) => item.difference < 0)
           .sort((a, b) => b.difference - a.difference)
@@ -25,39 +35,9 @@ const CommsUnderEstimation = (props) => {
               />
             );
           })}
-      </div>
-    </div>
+      </SkillBarContainer>
+    </IndexContainer>
   );
 };
 
-const CollabUnderEstimation = (props) => {
-  let underEstimation =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
-
-  return (
-    <div className="grid-areas" style={{ gridArea: "collab-underestimation" }}>
-      <div className="heading">
-        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Underestimation
-        </h1>
-        <p>Communication</p>
-      </div>
-      <div className="grid-area-inside">
-        {underEstimation
-          ?.filter((item) => item.difference < 0)
-          .sort((a, b) => b.difference - a.difference)
-          .slice(0, 3)
-          .map((underEstimation, idx) => {
-            return (
-              <SkillBar
-                key={idx}
-                values={underEstimation}
-                type="underEstimation"
-                isFacet={facetOrTrait}
-              />
-            );
-          })}
-      </div>
-    </div>
-  );
-};
+export default UnderEstimation;

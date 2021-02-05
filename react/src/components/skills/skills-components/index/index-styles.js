@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const IndexContainer = styled.div`
-  min-height: 100px;
+  min-height: ${(props) => `${props.height}px`};
   background-color: white;
   width: 100%;
   margin-bottom: 10px;

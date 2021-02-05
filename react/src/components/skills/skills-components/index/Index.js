@@ -2,19 +2,14 @@ import React from "react";
 import { Title } from "../../../home/home-style";
 import Radar from "./../../Radar";
 import { HeadingContainer, IndexContainer } from "./index-styles";
+import { capitalize } from "./../../../../Utils/capitalize";
 
 const Index = (props) => {
   const { state, isCollab } = props;
   const type = isCollab ? "collaboration" : "communcation";
 
-  const capitalize = (str) => {
-    if (str.length) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-  };
-
   return (
-    <IndexContainer>
+    <IndexContainer height={"200"}>
       <HeadingContainer>
         <Title fontSize={"1.6"}>{capitalize(type)} index</Title>
       </HeadingContainer>

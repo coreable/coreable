@@ -1,16 +1,25 @@
-const CollabTopStrengths = (props) => {
-  let topStrengths =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
+import React from "react";
+import { SubTitle, Title } from "../../../home/home-style";
+import SkillBar from "../../SkillBar/SkillBar";
+import { HeadingContainer, IndexContainer } from "../index/index-styles";
+import { capitalize } from "./../../../../Utils/capitalize";
+import { SkillBarContainer } from "./topStrengths-style";
+
+const TopStrengths = (props) => {
+  const { facetOrTrait, isCollab } = props;
+  const type = isCollab ? "collaboration" : "communcation";
+
+  let topStrengths = facetOrTrait ? props.data?.facets : props.data?.traits;
 
   return (
-    <div className="grid-areas" style={{ gridArea: "collab-top-strength" }}>
-      <div className="heading">
-        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Top Strengths
-        </h1>
-        <p>Collaboration</p>
-      </div>
-      <div className="grid-area-inside">
+    <IndexContainer height={"300"}>
+      <HeadingContainer>
+        <Title fontSize={"1.6"}>Top Strengths</Title>
+        <SubTitle fontSize={"1.2"} fontWeight={"500"} color={"grey"}>
+          {capitalize(type)}
+        </SubTitle>
+      </HeadingContainer>
+      <SkillBarContainer>
         {topStrengths
           ?.sort((a, b) => b.reflection - a.reflection)
           .slice(0, 3)
@@ -20,42 +29,13 @@ const CollabTopStrengths = (props) => {
                 key={idx}
                 values={strength}
                 type="strengths"
-                isFacet={facetOrTrait}
+                isFacet={facetOrTrait ? "facet" : "trait"}
               />
             );
           })}
-      </div>
-    </div>
+      </SkillBarContainer>
+    </IndexContainer>
   );
 };
 
-const CommsTopStrengths = (props) => {
-  let topStrengths =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
-
-  return (
-    <div className="grid-areas" style={{ gridArea: "comms-top-strength" }}>
-      <div className="heading">
-        <h1 style={{ fontSize: "24px", fontWeight: "normal" }}>
-          Top Strengths
-        </h1>
-        <p>Communication</p>
-      </div>
-      <div className="grid-area-inside">
-        {topStrengths
-          ?.sort((a, b) => b.reflection - a.reflection)
-          .slice(0, 3)
-          .map((strength, idx) => {
-            return (
-              <SkillBar
-                key={idx}
-                values={strength}
-                type="strengths"
-                isFacet={facetOrTrait}
-              />
-            );
-          })}
-      </div>
-    </div>
-  );
-};
+export default TopStrengths;

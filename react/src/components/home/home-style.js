@@ -45,9 +45,10 @@ export const Title = styled.h1`
 `;
 
 export const SubTitle = styled.p`
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 5px;
   padding: 0;
+  color: ${(props) => `${props.color}`};
   font-size: ${(props) => `${props.fontSize}rem`};
   font-weight: ${(props) => `${props.fontWeight}`};
 
