@@ -248,7 +248,9 @@ class Home extends Component {
     return (
       <Container>
         <HeaderContainer>
-          <Title>Your teams</Title>
+          <Title fontSize={"4"} fontType={"Heading"}>
+            Your teams
+          </Title>
           <SubTitle fontSize={"1.4"}>View, review and join teams.</SubTitle>
         </HeaderContainer>
         <Main>

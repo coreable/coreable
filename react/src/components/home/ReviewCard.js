@@ -2,24 +2,24 @@ import React from "react";
 import Stepper from "./Stepper";
 import { Link } from "react-router-dom";
 import { Button, ReviewCardContainer } from "./reviewCard-style";
-import { SubTitle } from "./home-style";
+import { SubTitle, Title } from "./home-style";
 
 const ReviewCard = (props) => {
   const team = props.team;
   const nameLength = team.tutorial.subject.name.length;
   const fontSize = (nameLength) => {
     if (nameLength > 15) {
-      return { fontSize: "2.0rem" };
+      return "2.0";
     } else {
-      return { fontSize: "3.2rem" };
+      return "3.2rem";
     }
   };
 
   return (
     <ReviewCardContainer>
-      <h1 style={fontSize(nameLength)}>
+      <Title fontSize={fontSize(nameLength)}>
         {props.capitalize(team.tutorial.subject.name)}
-      </h1>
+      </Title>
       <SubTitle fontSize={"1.4"}>{props.capitalize(team.name)}</SubTitle>
       <Stepper reviewState={team.tutorial.subject.state} />
 

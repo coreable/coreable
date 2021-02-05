@@ -7,8 +7,8 @@ import { SubTitle, Title } from "./home-style";
 
 const JoinCard = (props) => {
   return (
-    <ReviewCardContainer height={190}>
-      <Title fontSize={"2"}>Join a team</Title>
+    <ReviewCardContainer height={200}>
+      <Title fontSize={"3.2"}>Join a team</Title>
       <SubTitle fontSize={"1.2"}>Use your team code below</SubTitle>
       <TextField
         label="Team Code"

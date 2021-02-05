@@ -33,9 +33,10 @@ export const HeaderContainer = styled.div`
 
 export const Title = styled.h1`
   font-size: ${(props) => `${props.fontSize}rem`};
-
+  font-family: ${(props) =>
+    props.fontType && "'Times New Roman', Times, serif"};
   @media (min-width: 768px) {
-    font-size: 3rem !important;
+    /* font-size: 3rem !important; */
   }
 `;
 
