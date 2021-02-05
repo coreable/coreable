@@ -22,7 +22,7 @@ export const NavBarContents = styled.div`
   align-items: center;
   display: flex;
   @media (min-width: 768px) {
-    width: 70%;
+    width: 80%;
     justify-content: flex-start;
   }
 `;

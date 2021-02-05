@@ -13,7 +13,7 @@ export const MainGrid = styled.div`
   width: 100%;
   min-height: 50vh;
 
-  @media (min-width: 760px) {
+  @media (min-width: 768px) {
     width: 80%;
     display: grid;
     justify-content: center;
