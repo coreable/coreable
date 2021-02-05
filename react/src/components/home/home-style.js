@@ -32,6 +32,8 @@ export const HeaderContainer = styled.div`
 `;
 
 export const Title = styled.h1`
+  margin: 0;
+  padding: 0;
   font-size: ${(props) => `${props.fontSize}rem`};
   font-family: ${(props) =>
     props.fontType && "'Times New Roman', Times, serif"};
@@ -41,6 +43,8 @@ export const Title = styled.h1`
 `;
 
 export const SubTitle = styled.p`
+  margin-top: 10px;
+  padding: 0;
   font-size: ${(props) => `${props.fontSize}rem`};
 
   @media (min-width: 768px) {
@@ -51,7 +55,6 @@ export const SubTitle = styled.p`
 export const Main = styled.div`
   background: transparent;
   border: none;
-  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 20px;
