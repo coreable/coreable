@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const NavBarContainer = styled.div`
+  position: fixed;
+  z-index: 998;
   height: 50px;
   width: 100%;
   background: #0653cd;
@@ -11,7 +13,10 @@ export const NavBarContainer = styled.div`
 
 export const NavBarContents = styled.div`
   height: 100%;
-  width: 90%;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
   background: #0653cd;
   justify-content: space-between;
   align-items: center;
@@ -34,4 +39,36 @@ export const HamburgerMenu = styled.div`
   justify-content: flex-end;
   align-items: center;
   display: flex;
+`;
+
+export const NavbarMenu = styled.div`
+  position: absolute;
+  left: 0;
+  top: 50px;
+  z-index: 999;
+  height: calc(100vh - 50px);
+  width: 100%;
+  background-color: white;
+  transition: all 0.2s ease-in-out;
+  transform: ${(props) =>
+    props.isOpen ? "translateX(0%)" : "translateX(100%)"};
+`;
+
+export const UnorderedList = styled.ul`
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow: hidden;
+`;
+
+export const ListItems = styled.li`
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+  height: 70px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 20px;
 `;

@@ -163,6 +163,11 @@ export const Login = (props) => {
               onChange={handlers.change}
               onBlur={handlers.blur}
               error={passwordError.error}
+              onKeyPress={async (e) => {
+                if (e.key === "Enter") {
+                  handlers.submit();
+                }
+              }}
             />
             <ErrorMessage>
               {passwordError.error && passwordError.message}

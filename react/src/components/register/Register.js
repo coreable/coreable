@@ -255,7 +255,7 @@ const Register = (props) => {
           </InputContainer>
           <ButtonContainer>
             <Button backgroundColor={"secondary"} type="button">
-              <Link to="/login" style={{ color: "white" }}>
+              <Link to="/" style={{ color: "white" }}>
                 Login
               </Link>
             </Button>

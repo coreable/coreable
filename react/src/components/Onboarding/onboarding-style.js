@@ -12,6 +12,7 @@ export const OnboardingContainer = styled.div`
 
 export const Content = styled.div`
   position: relative;
+  margin-top: 80px;
   height: calc(100vh - 50px);
   width: 100%;
   box-sizing: border-box;

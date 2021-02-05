@@ -12,129 +12,85 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { JWT } from "../../constants";
-import Backdrop from "../Backdrop/Backdrop";
-import NavbarItem from "./NarbarItem";
 import "./Navbar.scss";
 import logo from "./../../images/CoreableLogo.png";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { RiCloseLine } from "react-icons/ri";
 import {
   HamburgerMenu,
+  ListItems,
   Logo,
   NavBarContainer,
   NavBarContents,
+  NavbarMenu,
+  UnorderedList,
 } from "./navbar-style";
 
-class Navbar extends Component {
-  constructor(props) {
-    super(props);
+const navbarItems = [
+  { name: "Home", link: "home" },
+  { name: "Skills", link: "skills" },
+];
 
-    this.state = {
-      menuOpen: false,
-      me: props.app.data.user,
-      menuItems: [
-        { name: "Home", link: "home" },
-        { name: "Skills", link: "skills" },
-        { name: "Account", link: "comingsoon" },
-        { name: "Logout", link: "" },
-      ],
-    };
-  }
+const Navbar = (props) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const me = useState(props.app.data.user);
 
-  backdropClickHandler = () => {
-    this.setState({ menuOpen: false });
-  };
-
-  menuOpenHandler = () => {
-    this.setState({ menuOpen: !this.state.menuOpen });
-  };
-
-  backdropHandler = () => {
-    if (this.state.menuOpen) {
-      return <Backdrop click={this.backdropClickHandler} />;
-    }
-  };
-
-  capitalize = (str) => {
+  const capitalize = (str) => {
     if (str.length) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
     return "";
   };
 
-  removeJWT = () => {
+  const removeJWT = () => {
     localStorage.removeItem(JWT);
     window.location.reload(true);
   };
 
-  render() {
-    const { menuItems, menuOpen } = this.state;
-
-    return (
-      <NavBarContainer>
-        <NavBarContents>
+  return (
+    <NavBarContainer>
+      <NavBarContents>
+        <NavLink className="logo" to="/home">
           <Logo src={logo} alt="logo" />
-          <HamburgerMenu>
-            <HiOutlineMenuAlt3 style={{ height: "70%", width: "70%" }} />
+        </NavLink>
+        {me[0] && (
+          <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? (
+              <RiCloseLine style={{ height: "70%", width: "70%" }} />
+            ) : (
+              <HiOutlineMenuAlt3 style={{ height: "70%", width: "70%" }} />
+            )}
           </HamburgerMenu>
-        </NavBarContents>
-      </NavBarContainer>
-      // <nav className="navBar">
-      //   {this.backdropHandler()}
-      //   <NavLink className="logo" to="/home">
-      //     <img src={logo} />
-      //   </NavLink>
+        )}
+      </NavBarContents>
+      <NavbarMenu isOpen={menuOpen}>
+        <UnorderedList>
+          {navbarItems.map((menuItem, idx) => {
+            return (
+              <ListItems key={idx}>
+                <NavLink
+                  style={{ color: "#0653cd" }}
+                  exact
+                  to={`/${menuItem.link}`}
+                >
+                  {menuItem.name}
+                </NavLink>
+              </ListItems>
+            );
+          })}
 
-      //   {this.state.me && (
-      //     <>
-      //       <input
-      //         onClick={this.menuOpenHandler}
-      //         className="menu-btn"
-      //         type="checkbox"
-      //         id="menu-btn"
-      //         checked={menuOpen}
-      //       />
-      //       <label className="menu-icon" htmlFor="menu-btn">
-      //         <span className="nav-icon"></span>
-      //         <span className="spacer" />
-      //       </label>
-      //       <ul className="menu" id="menu">
-      //         {menuItems.map((menuItem, idx) => {
-      //           return (
-      //             <NavbarItem
-      //               key={idx}
-      //               dest={menuItem.link}
-      //               menuOpenHandler={this.menuOpenHandler}
-      //             >
-      //               {menuItem.name}
-      //             </NavbarItem>
-      //           );
-      //         })}
-      //       </ul>
-      //     </>
-      //   )}
-
-      //   <span className="spacer" />
-
-      //   {this.state.me && (
-      //     <div className="dropdown">
-      //       <Link to="" onClick={() => this.removeJWT()}>
-      //         Logout
-      //       </Link>
-      //       <span className="dropbtn">{this.state.me.firstName}</span>
-      //       <div className="dropdown-content">
-      //         <Link to="/review">Account</Link>
-      //         <Link to="" onClick={() => this.removeJWT()}>
-      //           Logout
-      //         </Link>
-      //       </div>
-      //     </div>
-      //   )}
-      // </nav>
-    );
-  }
-}
+          <ListItems onClick={removeJWT}>
+            <NavLink style={{ color: "#0653cd" }} exact to="">
+              Logout
+            </NavLink>
+          </ListItems>
+        </UnorderedList>
+      </NavbarMenu>
+    </NavBarContainer>
+  );
+};
 
 export default Navbar;
