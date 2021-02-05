@@ -5,7 +5,10 @@ export const NavBarContainer = styled.div`
   z-index: 998;
   height: 50px;
   width: 100%;
-  background: #0653cd;
+  background-color: ${(props) => (props.scroll > 50 ? "white" : "#0653cd")};
+  box-shadow: ${(props) =>
+    props.scroll > 50 && "0px 1px 9px -1px rgba(0, 56, 140, 1)"};
+  opacity: ${(props) => (props.scroll > 50 ? "0.85" : "1")};
   justify-content: center;
   align-items: center;
   display: flex;
@@ -17,7 +20,7 @@ export const NavBarContents = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
-  background: #0653cd;
+  background-color: ${(props) => (props.scroll > 50 ? "white" : "#0653cd")};
   justify-content: space-between;
   align-items: center;
   display: flex;
@@ -60,6 +63,7 @@ export const NavbarMenu = styled.div`
   height: calc(100vh - 50px);
   width: 100%;
   background-color: white;
+  opacity: 0.85;
   transition: all 0.2s ease-in-out;
   transform: ${(props) =>
     props.isOpen ? "translateX(0%)" : "translateX(100%)"};
