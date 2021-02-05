@@ -7,7 +7,7 @@ and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
+You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
@@ -321,8 +321,8 @@ class Review extends Component {
           query: `
             mutation {
               submitReview(
-                receiver_id: "${user}", 
-                team_id: "${team_id}", 
+                receiver_id: "${user}",
+                team_id: "${team_id}",
                 subject_id: "${subject_id}",
                 tutorial_id: "${tutorial_id}",
                 organisation_id: "${organisation_id}",
@@ -397,7 +397,7 @@ class Review extends Component {
         });
         if (this.state.reviewState === 1) {
           this.props.history.push({
-            pathname: "/results",
+            pathname: "/skills",
           });
         } else {
           this.props.history.push({

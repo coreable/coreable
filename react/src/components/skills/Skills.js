@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { API_URL } from "../../constants";
-import { SKILLS_API } from "../../queries";
 import Heading from "./skills-components/heading/Heading";
 import Index from "./skills-components/index/Index";
-import { Container, MainGrid } from "./skills-style";
+import { Container } from "./skills-style";
+import {
+  MainGridContainer,
+  MainGrid,
+  AsideLeft,
+  AsideRight,
+} from "./grid-style";
 import Dashboard from "./skills-components/dashboard/Dashboard";
 import TopStrengths from "./skills-components/top-strengths/TopStrengths";
 import AreasToImprove from "./skills-components/areas-to-improve/AreasToImprove";
@@ -19,8 +23,8 @@ import {
 
 let facetOrTrait = "facet";
 
-const Results = (props) => {
-  const [jwt, setJwt] = useState(localStorage.getItem("JWT"));
+const Results = () => {
+  const jwt = localStorage.getItem("JWT");
   const [collaborationData, setCollaborationData] = useState(null);
   const [communicationData, setCommunicationData] = useState(null);
   const [report, setReport] = useState(null);
@@ -60,26 +64,36 @@ const Results = (props) => {
   return (
     <Container>
       <Heading />
-      <MainGrid>
-        <Dashboard setIsCollab={setIsCollab} setIsFacet={setIsFacet} />
-        <Index state={state} isCollab={isCollab} />
-        <TopStrengths isCollab={isCollab} isFacet={isFacet} data={state} />
-        <AreasToImprove isCollab={isCollab} isFacet={isFacet} data={state} />
-        {stage === 2 && (
-          <>
-            <UnderEstimation
+      <MainGridContainer>
+        <MainGrid>
+          <AsideLeft>
+            <Dashboard setIsCollab={setIsCollab} setIsFacet={setIsFacet} />
+            <Index state={state} isCollab={isCollab} />
+          </AsideLeft>
+          <AsideRight>
+            <TopStrengths isCollab={isCollab} isFacet={isFacet} data={state} />
+            <AreasToImprove
               isCollab={isCollab}
               isFacet={isFacet}
               data={state}
             />
-            <OverEstimation
-              isCollab={isCollab}
-              isFacet={isFacet}
-              data={state}
-            />
-          </>
-        )}
-      </MainGrid>
+            {stage === 2 && (
+              <>
+                <UnderEstimation
+                  isCollab={isCollab}
+                  isFacet={isFacet}
+                  data={state}
+                />
+                <OverEstimation
+                  isCollab={isCollab}
+                  isFacet={isFacet}
+                  data={state}
+                />
+              </>
+            )}
+          </AsideRight>
+        </MainGrid>
+      </MainGridContainer>
     </Container>
   );
 };
