@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import {
+  OnboardingContainer,
+  Content,
+  Card,
+  ButtonContainer,
+  Button,
+} from "./onboarding-style";
 
-import "./Onboarding.scss";
 import Why from "./Why/Why";
 import What from "./What/What";
 import How from "./How/How";
@@ -22,15 +28,7 @@ class Onboarding extends Component {
   }
 
   next = () => {
-    //stepper
-    const bullets = [...document.querySelectorAll(".bullet")];
-
-    if (this.state.onboardingNum === 1) {
-      bullets[1].classList.add("teel");
-    }
-
     if (this.state.onboardingNum === 2) {
-      bullets[2].classList.add("green");
       this.setState({
         startButton: "Start",
       });
@@ -59,18 +57,10 @@ class Onboarding extends Component {
   };
 
   back = () => {
-    //stepper
-    const bullets = [...document.querySelectorAll(".bullet")];
-
     if (this.state.onboardingNum === 3) {
-      bullets[2].classList = "bullet";
       this.setState({
         startButton: "Next",
       });
-    }
-
-    if (this.state.onboardingNum === 2) {
-      bullets[1].classList = "bullet";
     }
 
     if (this.state.onboardingNum > 1) {
@@ -85,10 +75,6 @@ class Onboarding extends Component {
     } else {
       return;
     }
-    // window.scrollTo({
-    //   top: 0,
-    //   behavior: "smooth",
-    // });
   };
 
   onboardingTitle = () => {
@@ -122,36 +108,23 @@ class Onboarding extends Component {
 
   render() {
     return (
-      <div className="team-container">
-        <div className="main">
-          <div className="grid">
-            <div className="grid-card">
-              <div className="step-progress-bar">
-                <div className="steps">
-                  <div className="bullet done"></div>
-                  <div className="bullet"></div>
-                  <div className="bullet"></div>
-                </div>
-              </div>
-              {this.onboardingSlide(this.state.onboardingNum)}
-            </div>
-          </div>
-          <div className="btn-grid">
-            <div className="btn-grid-card">
-              <Button className="btn primarybtn" onClick={this.next}>
-                {this.state.startButton}
-              </Button>
-              <Button
-                className="btn transparentbtn"
-                onClick={this.back}
-                disabled={this.state.isDisabled ? "disabled" : null}
-              >
-                Back
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <OnboardingContainer>
+        <Content>
+          <Card>{this.onboardingSlide(this.state.onboardingNum)}</Card>
+          <ButtonContainer>
+            <Button backgroundColor={"primary"} onClick={this.next}>
+              {this.state.startButton}
+            </Button>
+            <Button
+              backgroundColor={"secondary"}
+              onClick={this.back}
+              disabled={this.state.isDisabled ? "disabled" : null}
+            >
+              Back
+            </Button>
+          </ButtonContainer>
+        </Content>
+      </OnboardingContainer>
     );
   }
 }

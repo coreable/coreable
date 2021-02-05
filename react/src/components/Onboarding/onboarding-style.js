@@ -1,0 +1,76 @@
+import styled from "styled-components";
+
+export const OnboardingContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: whitesmoke;
+  height: calc(100vh - 50px);
+`;
+
+export const Content = styled.div`
+  position: relative;
+  margin-top: 100px;
+  height: calc(100% - 50px);
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+
+  @media (min-width: 768px) {
+    width: 500px;
+  }
+`;
+
+export const Card = styled.div`
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: scroll;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: white;
+
+  @media (min-width: 768px) {
+    max-height: 500px;
+    border-radius: 4px;
+    overflow-y: scroll;
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+    ::-webkit-scrollbar {
+      width: 0px; /* Remove scrollbar space */
+      background: transparent; /* Optional: just make scrollbar invisible */
+    }
+  }
+`;
+
+export const ButtonContainer = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 10px;
+
+  @media (min-width: 768px) {
+    bottom: 60px;
+  }
+`;
+
+export const Button = styled.button`
+  height: 40px;
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: ${(props) =>
+    props.backgroundColor === "primary" ? "#4070e0" : "#d6d6d6"};
+  color: white;
+  font-weight: 700;
+  border-radius: 4px;
+  border: none;
+`;
