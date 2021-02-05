@@ -56,7 +56,7 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 10px;
+  bottom: 30px;
 
   @media (min-width: 768px) {
     bottom: 60px;
