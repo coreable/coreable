@@ -27,7 +27,7 @@ const Dashboard = (props) => {
   return (
     <Container>
       <Title fontSize={"1.7"}>Your dashboard</Title>
-      <SubTitle fontSize={"1.2"} fontWeight={"500"}>
+      <SubTitle fontSize={"1.2"} fontWeight={"500"} color={"grey"}>
         Skills
       </SubTitle>
       <Select

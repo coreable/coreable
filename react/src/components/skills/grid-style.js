@@ -30,8 +30,10 @@ export const AsideLeft = styled.aside`
   grid-area: asideLeft;
 `;
 export const AsideRight = styled.aside`
-  grid-area: asideRight;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  @media (min-width: 768px) {
+    grid-area: asideRight;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
 `;

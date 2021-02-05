@@ -12,7 +12,7 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { JWT } from "../../constants";
 import "./Navbar.scss";
@@ -37,7 +37,20 @@ const navbarItems = [
 
 const Navbar = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const me = useState(props.app.data.user);
+
+  const handleScroll = () => {
+    setScrollPosition(window.pageYOffset);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const capitalize = (str) => {
     if (str.length) {
@@ -53,7 +66,7 @@ const Navbar = (props) => {
   };
 
   return (
-    <NavBarContainer>
+    <NavBarContainer scroll={scrollPosition}>
       <NavBarContents>
         <NavLink className="logo" to="/home">
           <Logo src={logo} alt="logo" />
