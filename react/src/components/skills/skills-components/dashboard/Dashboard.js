@@ -3,7 +3,7 @@ import { SubTitle, Title } from "../../../home/home-style";
 import { Button, ButtonContainer, Container, Select } from "./dashboard-style";
 
 const Dashboard = (props) => {
-  const { setIsCollab } = props;
+  const { setIsCollab, setIsFacet } = props;
   const [isFacetActive, setIsFacetActive] = useState(true);
   const [isTraitActive, setIsTraitActive] = useState(false);
 
@@ -11,9 +11,11 @@ const Dashboard = (props) => {
     if (facetOrTrait === "facets") {
       setIsFacetActive(true);
       setIsTraitActive(false);
+      setIsFacet(true);
     } else {
       setIsFacetActive(false);
       setIsTraitActive(true);
+      setIsFacet(false);
     }
   };
 
