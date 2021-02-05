@@ -34,7 +34,7 @@ const Results = (props) => {
     <Container>
       <Heading />
       <MainGrid>
-        <Dashboard setIsCollab={setIsCollab} />
+        <Dashboard setIsCollab={setIsCollab} setIsFacet={setIsFacet} />
         <Index state={state} isCollab={isCollab} />
         <TopStrengths isCollab={isCollab} facetOrTrait={isFacet} />
         <AreasToImprove isCollab={isCollab} facetOrTrait={isFacet} />

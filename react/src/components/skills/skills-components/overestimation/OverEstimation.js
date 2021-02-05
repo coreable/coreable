@@ -15,7 +15,7 @@ const OverEstimation = (props) => {
   return (
     <IndexContainer height={"300"}>
       <HeadingContainer>
-        <Title fontSize={"1.6"}>Underestimation</Title>
+        <Title fontSize={"1.6"}>OverEstimation</Title>
         <SubTitle fontSize={"1.2"} fontWeight={"500"} color={"grey"}>
           {capitalize(type)}
         </SubTitle>
