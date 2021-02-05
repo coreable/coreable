@@ -28,11 +28,13 @@ const Dashboard = (props) => {
       <SubTitle fontSize={"1.2"} fontWeight={"500"}>
         Skills
       </SubTitle>
-      <Select id="type" onChange={collabCommHandler}>
+      <Select
+        id="type"
+        onChange={collabCommHandler}
+        defaultValue={"collaboration"}
+      >
         <option value="communication">Communcation</option>
-        <option value="collaboration" selected>
-          Collaboration
-        </option>
+        <option value="collaboration">Collaboration</option>
       </Select>
       <ButtonContainer>
         <Button active={isFacetActive} onClick={() => clickHandler("facets")}>

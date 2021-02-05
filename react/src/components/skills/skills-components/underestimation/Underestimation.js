@@ -6,11 +6,24 @@ import { capitalize } from "./../../../../Utils/capitalize";
 import { SkillBarContainer } from "./../top-strengths/topStrengths-style";
 
 const UnderEstimation = (props) => {
-  const { facetOrTrait, isCollab } = props;
+  const { isFacet, isCollab, data } = props;
   const type = isCollab ? "collaboration" : "communcation";
 
-  let underEstimation =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
+  let underEstimation;
+
+  if (isCollab) {
+    if (isFacet) {
+      underEstimation = data?.collaborationData?.facets;
+    } else {
+      underEstimation = data?.collaborationData?.traits;
+    }
+  } else {
+    if (isFacet) {
+      underEstimation = data?.communicationData?.facets;
+    } else {
+      underEstimation = data?.communicationData?.traits;
+    }
+  }
 
   return (
     <IndexContainer height={"300"}>
@@ -31,7 +44,7 @@ const UnderEstimation = (props) => {
                 key={idx}
                 values={underEstimation}
                 type="underEstimation"
-                isFacet={facetOrTrait}
+                isFacet={isFacet}
               />
             );
           })}

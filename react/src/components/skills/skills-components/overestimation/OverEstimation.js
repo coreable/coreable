@@ -6,11 +6,24 @@ import { capitalize } from "./../../../../Utils/capitalize";
 import { SkillBarContainer } from "./../top-strengths/topStrengths-style";
 
 const OverEstimation = (props) => {
-  const { facetOrTrait, isCollab } = props;
+  const { isFacet, isCollab, data } = props;
   const type = isCollab ? "collaboration" : "communcation";
 
-  let overEstimation =
-    facetOrTrait === "facet" ? props.data?.facets : props.data?.traits;
+  let overEstimation;
+
+  if (isCollab) {
+    if (isFacet) {
+      overEstimation = data?.collaborationData?.facets;
+    } else {
+      overEstimation = data?.collaborationData?.traits;
+    }
+  } else {
+    if (isFacet) {
+      overEstimation = data?.communicationData?.facets;
+    } else {
+      overEstimation = data?.communicationData?.traits;
+    }
+  }
 
   return (
     <IndexContainer height={"300"}>
@@ -31,7 +44,7 @@ const OverEstimation = (props) => {
                 key={idx}
                 values={overEstimation}
                 type="overEstimation"
-                isFacet={facetOrTrait}
+                isFacet={isFacet}
               />
             );
           })}

@@ -6,10 +6,24 @@ import { capitalize } from "./../../../../Utils/capitalize";
 import { SkillBarContainer } from "./topStrengths-style";
 
 const TopStrengths = (props) => {
-  const { facetOrTrait, isCollab } = props;
+  const { isFacet, isCollab, data } = props;
   const type = isCollab ? "collaboration" : "communcation";
 
-  let topStrengths = facetOrTrait ? props.data?.facets : props.data?.traits;
+  let topStrengths;
+
+  if (isCollab) {
+    if (isFacet) {
+      topStrengths = data?.collaborationData?.facets;
+    } else {
+      topStrengths = data?.collaborationData?.traits;
+    }
+  } else {
+    if (isFacet) {
+      topStrengths = data?.communicationData?.facets;
+    } else {
+      topStrengths = data?.communicationData?.traits;
+    }
+  }
 
   return (
     <IndexContainer height={"300"}>
@@ -29,7 +43,7 @@ const TopStrengths = (props) => {
                 key={idx}
                 values={strength}
                 type="strengths"
-                isFacet={facetOrTrait ? "facet" : "trait"}
+                isFacet={isFacet ? "facet" : "trait"}
               />
             );
           })}

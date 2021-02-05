@@ -49,6 +49,7 @@ const Navbar = (props) => {
   const removeJWT = () => {
     localStorage.removeItem(JWT);
     window.location.reload(true);
+    setMenuOpen(false);
   };
 
   return (

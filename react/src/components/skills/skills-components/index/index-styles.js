@@ -11,4 +11,5 @@ export const HeadingContainer = styled.div`
   text-align: left;
   box-sizing: border-box;
   padding: 20px;
+  padding-bottom: 20px;
 `;

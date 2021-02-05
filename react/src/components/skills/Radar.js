@@ -7,7 +7,7 @@ and/or modify it under the terms of the End-user license agreement.
 Coreable's source code is distributed in the hope that it will be
 useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-You should have received a copy of the license along with the 
+You should have received a copy of the license along with the
 Coreable source code.
 ===========================================================================
 */
@@ -65,16 +65,16 @@ const RadarChart = (props) => {
                 borderColor: "rgba(102, 204, 158,0.8)",
                 pointRadius: 0,
                 data: [
-                  props.report?.reflection?.collaboration?.facets?.default
-                    ?.emotionalIntelligence || 0,
-                  props.report?.reflection?.collaboration?.facets?.default
-                    ?.initiative || 0,
-                  props.report?.reflection?.collaboration?.facets?.default
-                    ?.trust || 0,
-                  props.report?.reflection?.collaboration?.facets?.default
-                    ?.flex || 0,
-                  props.report?.reflection?.collaboration?.facets?.default
-                    ?.resilience || 0,
+                  props.report?.report?.reflection?.collaboration?.facets
+                    ?.default?.emotionalIntelligence || 0,
+                  props.report?.report?.reflection?.collaboration?.facets
+                    ?.default?.initiative || 0,
+                  props.report?.report?.reflection?.collaboration?.facets
+                    ?.default?.trust || 0,
+                  props.report?.report?.reflection?.collaboration?.facets
+                    ?.default?.flex || 0,
+                  props.report?.report?.reflection?.collaboration?.facets
+                    ?.default?.resilience || 0,
                 ],
               },
               {
@@ -83,15 +83,15 @@ const RadarChart = (props) => {
                 borderColor: "rgba(0,179,229,0.8)",
                 pointRadius: 0,
                 data: [
-                  props.report?.average?.collaboration?.facets?.default
+                  props.report?.report?.average?.collaboration?.facets?.default
                     ?.emotionalIntelligence || 0,
-                  props.report?.average?.collaboration?.facets?.default
+                  props.report?.report?.average?.collaboration?.facets?.default
                     ?.initiative || 0,
-                  props.report?.average?.collaboration?.facets?.default
+                  props.report?.report?.average?.collaboration?.facets?.default
                     ?.trust || 0,
-                  props.report?.average?.collaboration?.facets?.default?.flex ||
-                    0,
-                  props.report?.average?.collaboration?.facets?.default
+                  props.report?.report?.average?.collaboration?.facets?.default
+                    ?.flex || 0,
+                  props.report?.report?.average?.collaboration?.facets?.default
                     ?.resilience || 0,
                 ],
               },
@@ -142,14 +142,14 @@ const RadarChart = (props) => {
                 borderColor: "rgba(102, 204, 158,0.8)",
                 pointRadius: 0,
                 data: [
-                  props.report?.reflection?.communication?.facets?.default
-                    ?.clarity || 0,
-                  props.report?.reflection?.communication?.facets?.default
-                    ?.culture || 0,
-                  props.report?.reflection?.communication?.facets?.default
-                    ?.nonVerbal || 0,
-                  props.report?.reflection?.communication?.facets?.default
-                    ?.attentive || 0,
+                  props.report?.report?.reflection?.communication?.facets
+                    ?.default?.clarity || 0,
+                  props.report?.report?.reflection?.communication?.facets
+                    ?.default?.culture || 0,
+                  props.report?.report?.reflection?.communication?.facets
+                    ?.default?.nonVerbal || 0,
+                  props.report?.report?.reflection?.communication?.facets
+                    ?.default?.attentive || 0,
                 ],
               },
               {
@@ -158,13 +158,13 @@ const RadarChart = (props) => {
                 borderColor: "rgba(0,179,229,0.8)",
                 pointRadius: 0,
                 data: [
-                  props.report?.average?.communication?.facets?.default
+                  props.report?.report?.average?.communication?.facets?.default
                     ?.clarity || 0,
-                  props.report?.average?.communication?.facets?.default
+                  props.report?.report?.average?.communication?.facets?.default
                     ?.culture || 0,
-                  props.report?.average?.communication?.facets?.default
+                  props.report?.report?.average?.communication?.facets?.default
                     ?.nonVerbal || 0,
-                  props.report?.average?.communication?.facets?.default
+                  props.report?.report?.average?.communication?.facets?.default
                     ?.attentive || 0,
                 ],
               },
