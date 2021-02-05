@@ -249,7 +249,7 @@ class Home extends Component {
       <Container>
         <HeaderContainer>
           <Title fontSize={"4"} fontType={"Heading"}>
-            Your teams
+            Map your core skills
           </Title>
           <SubTitle fontSize={"1.4"}>View, review and join teams.</SubTitle>
         </HeaderContainer>

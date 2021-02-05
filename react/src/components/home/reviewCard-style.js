@@ -6,7 +6,7 @@ export const ReviewCardContainer = styled.div`
   height: ${(props) => (props.height ? `${props.height}px` : "220px")};
   background: white;
   padding: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 2px;
 
   @media (min-width: 768px) {
     box-sizing: border-box;

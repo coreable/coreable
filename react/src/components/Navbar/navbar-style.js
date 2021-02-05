@@ -23,6 +23,7 @@ export const NavBarContents = styled.div`
   display: flex;
   @media (min-width: 768px) {
     width: 70%;
+    justify-content: flex-start;
   }
 `;
 
@@ -32,6 +33,12 @@ export const Logo = styled.img`
   border-radius: 4px;
 `;
 
+export const NavbarItems = styled.div`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 export const HamburgerMenu = styled.div`
   width: 40px;
   height: 40px;
@@ -39,6 +46,10 @@ export const HamburgerMenu = styled.div`
   justify-content: flex-end;
   align-items: center;
   display: flex;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 export const NavbarMenu = styled.div`
@@ -59,12 +70,15 @@ export const UnorderedList = styled.ul`
   margin: 0;
   list-style: none;
   overflow: hidden;
+  display: flex;
+  color: ${(props) => props.color === "white" && "white"};
+  font-size: ${(props) => `${props.fontSize}rem`};
+  flex-direction: ${(props) => `${props.direction}`};
 `;
 
 export const ListItems = styled.li`
   display: flex;
   flex-direction: column;
-  font-size: 2rem;
   height: 70px;
   width: 100%;
   justify-content: center;

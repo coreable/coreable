@@ -25,6 +25,7 @@ import {
   Logo,
   NavBarContainer,
   NavBarContents,
+  NavbarItems,
   NavbarMenu,
   UnorderedList,
 } from "./navbar-style";
@@ -57,17 +58,42 @@ const Navbar = (props) => {
           <Logo src={logo} alt="logo" />
         </NavLink>
         {me[0] && (
-          <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? (
-              <RiCloseLine style={{ height: "70%", width: "70%" }} />
-            ) : (
-              <HiOutlineMenuAlt3 style={{ height: "70%", width: "70%" }} />
-            )}
-          </HamburgerMenu>
+          <>
+            <NavbarItems>
+              <UnorderedList direction={"row"} fontSize={"1.5"} color={"white"}>
+                {navbarItems.map((menuItem, idx) => {
+                  return (
+                    <ListItems key={idx}>
+                      <NavLink
+                        style={{ color: "white" }}
+                        exact
+                        to={`/${menuItem.link}`}
+                      >
+                        {menuItem.name}
+                      </NavLink>
+                    </ListItems>
+                  );
+                })}
+
+                <ListItems onClick={removeJWT}>
+                  <NavLink style={{ color: "white" }} exact to="">
+                    Logout
+                  </NavLink>
+                </ListItems>
+              </UnorderedList>
+            </NavbarItems>
+            <HamburgerMenu onClick={() => setMenuOpen(!menuOpen)}>
+              {menuOpen ? (
+                <RiCloseLine style={{ height: "70%", width: "70%" }} />
+              ) : (
+                <HiOutlineMenuAlt3 style={{ height: "70%", width: "70%" }} />
+              )}
+            </HamburgerMenu>
+          </>
         )}
       </NavBarContents>
       <NavbarMenu isOpen={menuOpen}>
-        <UnorderedList>
+        <UnorderedList direction={"column"} fontSize={"2"}>
           {navbarItems.map((menuItem, idx) => {
             return (
               <ListItems key={idx}>
