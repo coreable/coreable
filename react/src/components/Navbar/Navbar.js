@@ -96,7 +96,7 @@ const Navbar = (props) => {
         <UnorderedList direction={"column"} fontSize={"2"}>
           {navbarItems.map((menuItem, idx) => {
             return (
-              <ListItems key={idx}>
+              <ListItems key={idx} onClick={() => setMenuOpen(false)}>
                 <NavLink
                   style={{ color: "#0653cd" }}
                   exact
