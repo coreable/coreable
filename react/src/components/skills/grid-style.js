@@ -13,7 +13,7 @@ export const MainGrid = styled.div`
   width: 100%;
   min-height: 50vh;
 
-  @media (min-width: 768px) {
+  @media (min-width: 760px) {
     width: 80%;
     display: grid;
     justify-content: center;
@@ -21,7 +21,7 @@ export const MainGrid = styled.div`
       "asideLeft  asideRight"
       "asideLeft  asideRight";
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 4fr;
     grid-gap: 0.33rem;
   }
 `;
