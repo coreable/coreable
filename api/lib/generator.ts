@@ -199,6 +199,14 @@ export async function generator() {
     });
     return teams.push(team);
   });
+  promises.push(async function () {
+    const team = await UniversityTeam.create({
+      name: `team hans`,
+      inviteCode: `teamHans2`,
+      tutorial_id: `${tutorials[tutorials.length-1]._id}`
+    });
+    return teams.push(team);
+  });
   await inSequence(promises).then(() => {
     promises = [];
   });
