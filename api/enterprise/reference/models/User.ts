@@ -13,81 +13,68 @@
 */
 
 import {
-  Model,
+  DataTypes,
   Sequelize,
-  DataTypes
-} from "sequelize";
-import { User } from "../../../identity/models/User";
-import { ReferenceInvite } from "./Invite";
+  Model
+} from 'sequelize';
 
-class ReferenceList extends Model {
+import { User } from '../../../identity/models/User';
+import { ReferenceInvite } from './Invite';
+import { ReferenceReview } from './Review';
+
+class ReferenceUser extends Model {
   // Primary Key
   public _id!: string;
 
-  // Foreing Keys
-  public requester_id!: string;
-  public reviewer_id!: string;
-  public invite_id!: string;
+  // Foreign Keys
+  public user_id!: string;
+  public industry_id!: string;
 
   // Relationships
-  public requester!: User;
-  public reviewer!: User;
-  public invite!: ReferenceInvite;
-
-  // Properties
-  public status!: number;
+  public user!: User;
+  public results!: [ReferenceReview];
+  public invites!: [ReferenceInvite];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
 const sync = (sequelize: Sequelize) => {
-  ReferenceList.init({
+  ReferenceUser.init({
     '_id': {
+      'primaryKey': true,
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
-      'primaryKey': true
+      'allowNull': false
     },
-    'requester_id': {
+    'user_id': {
       'type': DataTypes.UUID,
       'allowNull': false
-    },
-    'reviewer_id': {
-      'type': DataTypes.UUID,
-      'allowNull': false
-    },
-    'invite_id': {
-      'type': DataTypes.UUID,
-      'allowNull': false
-    },
-    'status': {
-      'type': DataTypes.INTEGER,
-      'allowNull': false
-    },
+    }
   }, {
-    'tableName': 'REFERENCE_LIST',
-    'sequelize': sequelize,
+    'tableName': 'REFERENCE_USER',
+    'sequelize': sequelize
   });
 
-  return ReferenceList;
+  return ReferenceUser;
 }
 
 const assosciate = () => {
-  ReferenceList.belongsTo(User, {
-    targetKey: 'requester_id',
-    foreignKey: '_id',
-    as: 'requester'
+  ReferenceUser.hasMany(ReferenceReview, {
+    sourceKey: '_id',
+    foreignKey: 'receiver_id',
+    as: 'results'
   });
-  ReferenceList.belongsTo(User, {
-    targetKey: 'reviewer_id',
-    foreignKey: '_id',
-    as: 'reviewer'
+  ReferenceUser.hasMany(ReferenceInvite, {
+    sourceKey: '_id',
+    foreignKey: 'requester_id',
+    as: 'requests'
   });
-  return ReferenceList;
+  return ReferenceUser;
 }
 
 export {
-  ReferenceList,
-  assosciate,
-  sync
-};
+  ReferenceUser,
+  sync,
+  assosciate
+}

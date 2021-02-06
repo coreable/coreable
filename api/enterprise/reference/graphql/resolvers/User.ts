@@ -10,34 +10,22 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
-
+*/
 
 import {
-  GraphQLObjectType, 
-  GraphQLList
-} from "graphql";
- 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CoreableError";
-import { UniversityReviewListMediator } from "../../mediators/list/Review";
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLFloat
+} from 'graphql';
 
-export const UniversityReviewListCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversityReviewListCommand',
-  description: 'UniversityReviewListCommand',
+import { ReferenceUser } from '../../models/User';
+
+export const ReferenceUserResolver: GraphQLObjectType<ReferenceUser> = new GraphQLObjectType({
+  name: 'ReferenceUserResolver',
+  description: 'This represents a ReferenceUser',
   fields: () => {
     return {
-      'data': {
-        type: UniversityReviewListMediator,
-        resolve(value) {
-          return value.data;
-        }
-      },
-      'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
-        resolve(value) {
-          return value.errors;
-        }
-      }
     }
   }
 });

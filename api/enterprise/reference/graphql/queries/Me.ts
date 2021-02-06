@@ -12,31 +12,12 @@
   ===========================================================================
 */ 
 
-import { 
-  GraphQLObjectType,
-  GraphQLList
-} from "graphql";
+import { ReferenceMeCommand } from "../command/Me";
+import { MeQuery } from '../../logic/MeQuery';
 
-import { UniversityCoreableErrorResolver } from "../resolvers/CoreableError";
-import { UniversityMeMediator } from "../mediators/Me";
-
-export const UniversityMeCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversityMeCommand',
-  description: 'UniversityMeCommand',
-  fields: () => {
-    return {
-      'data': {
-        type: UniversityMeMediator,
-        resolve(value) {
-          return value.data;
-        }
-      },
-      'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
-        resolve(value) {
-          return value.errors;
-        }
-      }
-    }
+export default {
+  'type': ReferenceMeCommand,
+  async resolve(root: any, args: any, context: any) {
+    return await MeQuery(root, args, context);
   }
-});
+}

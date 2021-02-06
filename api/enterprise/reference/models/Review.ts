@@ -17,8 +17,9 @@ import {
   DataTypes,
   Sequelize
 } from 'sequelize';
-import { User } from '../../../identity/models/User';
-import { ReferenceList } from './List';
+
+import { ReferenceInvite } from './Invite';
+import { ReferenceUser } from './User';
 
 class ReferenceReview extends Model {
   // Primary Key
@@ -26,13 +27,11 @@ class ReferenceReview extends Model {
 
   // Foreign Keys
   public receiver_id!: string;
-  public submitter_id!: string;
-  public list_id!: string;
+  public invite_id!: string;
 
   // Relationships
-  public receiver!: User;
-  public submitter!: User;
-  public list!: ReferenceList;
+  public receiver!: ReferenceUser;
+  public invite!: ReferenceInvite;
 
   // Properties
   public calm!: number;
@@ -68,7 +67,7 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.UUID,
       allowNull: false
     },
-    'submitter_id': {
+    'invite_id': {
       type: DataTypes.UUID,
       allowNull: false
     },
@@ -153,20 +152,15 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  ReferenceReview.belongsTo(User, {
-    foreignKey: 'receiver_id',
+  ReferenceReview.belongsTo(ReferenceUser, {
     targetKey: '_id',
+    foreignKey: 'receiver_id',
     as: 'receiver'
   });
-  ReferenceReview.belongsTo(User, {
-    foreignKey: 'submitter_id',
+  ReferenceReview.belongsTo(ReferenceInvite, {
     targetKey: '_id',
-    as: 'submitter'
-  });
-  ReferenceReview.belongsTo(ReferenceList, {
-    foreignKey: 'list_id',
-    targetKey: '_id',
-    as: 'list'
+    foreignKey: 'invite_id',
+    as: 'invite'
   });
   return ReferenceReview;
 }

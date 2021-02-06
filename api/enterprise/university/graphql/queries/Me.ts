@@ -16,7 +16,7 @@ import { UniversityMeCommand } from "../command/Me";
 import { MeQuery } from '../../logic/MeQuery';
 
 export default {
-  type: UniversityMeCommand,
+  'type': UniversityMeCommand,
   async resolve(root: any, args: any, context: any) {
     return await MeQuery(root, args, context);
   }

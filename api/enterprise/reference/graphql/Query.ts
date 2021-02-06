@@ -17,18 +17,14 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-// import UniversityMeQuery from './queries/Me';
-// import UniversityIndustryListQuery from './queries/list/Industry';
-// import UniversityManagerQuery from './queries/Manager';
+import ReferenceMeQuery from './queries/Me';
 
 export const ReferenceQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'ReferenceQuery',
   description: 'This is the root reference query',
   fields: () => {
     return {
-    //   'me': UniversityMeQuery,
-    //   'industry': UniversityIndustryListQuery,
-    //   'manager': UniversityManagerQuery
+      'me': ReferenceMeQuery
     }
   }
 });

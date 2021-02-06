@@ -12,28 +12,27 @@
   ===========================================================================
 */ 
 
-
-import {
-  GraphQLObjectType, 
+import { 
+  GraphQLObjectType,
   GraphQLList
 } from "graphql";
- 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CoreableError";
-import { UniversityReviewListMediator } from "../../mediators/list/Review";
 
-export const UniversityReviewListCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversityReviewListCommand',
-  description: 'UniversityReviewListCommand',
+import { ReferenceCoreableErrorResolver } from "../resolvers/CoreableError";
+import { ReferenceMeMediator } from "../mediators/Me";
+
+export const ReferenceMeCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'ReferenceMeCommand',
+  description: 'ReferenceMeCommand',
   fields: () => {
     return {
       'data': {
-        type: UniversityReviewListMediator,
+        type: ReferenceMeMediator,
         resolve(value) {
           return value.data;
         }
       },
       'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
+        type: new GraphQLList(ReferenceCoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

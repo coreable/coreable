@@ -17,7 +17,8 @@ import {
   Sequelize,
   DataTypes
 } from "sequelize";
-import { User } from "../../../identity/models/User";
+
+import { ReferenceUser } from "./User";
 
 class ReferenceInvite extends Model {
   // Primary Key
@@ -27,7 +28,8 @@ class ReferenceInvite extends Model {
   public requester_id!: string;
 
   // Relationships
-  public requester!: User;
+  public requester!: ReferenceUser;
+  public invitee!: ReferenceUser;
 
   // Properties
   public name!: string;
@@ -46,7 +48,7 @@ const sync = (sequelize: Sequelize) => {
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
-    'requester_id': {
+    'list_id': {
       'type': DataTypes.UUID,
       'allowNull': false
     },
@@ -79,8 +81,8 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  ReferenceInvite.belongsTo(User, {
-    targetKey: 'user_id',
+  ReferenceInvite.belongsTo(ReferenceUser, {
+    targetKey: 'requester_id',
     foreignKey: '_id',
     as: 'requester'
   });
