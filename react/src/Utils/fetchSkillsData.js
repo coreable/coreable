@@ -16,10 +16,9 @@ export const fetchData = async () => {
   const res = await fetch(API_URL, options).then((data) => data.json());
   const { data, errors } = res.data.me;
 
-  if (errors) {
-    console.error(errors);
-    return false;
-  }
+  if (data === null) return false;
+
+  if (errors) return false;
 
   return data.user.report;
 };

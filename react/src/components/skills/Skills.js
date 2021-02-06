@@ -20,6 +20,7 @@ import {
   setFacetsOrTraits,
   setCommOrCollabData,
 } from "./../../Utils/filterBy";
+import { Redirect } from "react-router-dom";
 
 let facetOrTrait = "facet";
 
@@ -31,6 +32,7 @@ const Results = () => {
   const [isFacet, setIsFacet] = useState(true);
   const [isCollab, setIsCollab] = useState(true);
   const [stage, setStage] = useState(1);
+  const [ifError, setIfError] = useState(false);
   const state = {
     jwt,
     collaborationData,
@@ -41,6 +43,10 @@ const Results = () => {
 
   useEffect(() => {
     fetchData().then((data) => {
+      if (!data) {
+        setIfError(true);
+        return;
+      }
       let reviewStage = 1;
       setReport(data);
 
@@ -60,6 +66,10 @@ const Results = () => {
       setCollaborationData(setCommOrCollabData(collabFacets, collabTraits));
     });
   }, []);
+
+  if (ifError) {
+    return <Redirect to="/"></Redirect>;
+  }
 
   return (
     <Container>
