@@ -5,4 +5,5 @@ export const SkillBarContainer = styled.div`
   box-sizing: border-box;
   padding: 10px;
   padding-top: 0;
+  min-height: 250px;
 `;

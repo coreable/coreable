@@ -5,7 +5,7 @@ import { HeadingContainer, IndexContainer } from "./index-styles";
 import { capitalize } from "./../../../../Utils/capitalize";
 
 const Index = (props) => {
-  const { state, isCollab } = props;
+  const { state, isCollab, stage } = props;
   const type = isCollab ? "collaboration" : "communcation";
 
   return (
@@ -13,7 +13,7 @@ const Index = (props) => {
       <HeadingContainer>
         <Title fontSize={"1.6"}>{capitalize(type)} index</Title>
       </HeadingContainer>
-      <Radar report={state} collabOrComms={type} />
+      <Radar report={state} collabOrComms={type} stage={stage}/>
     </IndexContainer>
   );
 };

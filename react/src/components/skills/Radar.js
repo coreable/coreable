@@ -15,15 +15,58 @@ Coreable source code.
 import React from "react";
 import { Radar } from "react-chartjs-2";
 import { Container } from "@material-ui/core";
+import {
+  selfCollaborationData,
+  teamCollaborationData,
+  selfCommunicationData,
+  teamCommunicationData,
+} from "./radarData";
 
 import "./Radar.scss";
 
 const RadarChart = (props) => {
+  const { collabOrComms, stage } = props;
+
+  const dataset = {
+    collaboration: {
+      self: {
+        label: "Self-review",
+        backgroundColor: "rgba(102, 204, 158,0.3)",
+        borderColor: "rgba(102, 204, 158,0.8)",
+        pointRadius: 0,
+        data: selfCollaborationData(props),
+      },
+      team: {
+        label: "Team-review",
+        backgroundColor: "rgba(0,179,229,0.3)",
+        borderColor: "rgba(0,179,229,0.8)",
+        pointRadius: 0,
+        data: teamCollaborationData(props),
+      },
+    },
+    communication: {
+      self: {
+        label: "Self-review",
+        backgroundColor: "rgba(102, 204, 158,0.3)",
+        borderColor: "rgba(102, 204, 158,0.8)",
+        pointRadius: 0,
+        data: selfCommunicationData(props),
+      },
+      team: {
+        label: "Team-review",
+        backgroundColor: "rgba(0,179,229,0.3)",
+        borderColor: "rgba(0,179,229,0.8)",
+        pointRadius: 0,
+        data: teamCommunicationData(props),
+      },
+    },
+  };
+
   if (!props.report) {
     return null;
   }
 
-  if (props.collabOrComms === "collaboration") {
+  if (collabOrComms === "collaboration") {
     return (
       <Container className="radar-container">
         <Radar
@@ -59,42 +102,8 @@ const RadarChart = (props) => {
               "Resilience",
             ],
             datasets: [
-              {
-                label: "Self-review",
-                backgroundColor: "rgba(102, 204, 158,0.3)",
-                borderColor: "rgba(102, 204, 158,0.8)",
-                pointRadius: 0,
-                data: [
-                  props.report?.report?.reflection?.collaboration?.facets
-                    ?.default?.emotionalIntelligence || 0,
-                  props.report?.report?.reflection?.collaboration?.facets
-                    ?.default?.initiative || 0,
-                  props.report?.report?.reflection?.collaboration?.facets
-                    ?.default?.trust || 0,
-                  props.report?.report?.reflection?.collaboration?.facets
-                    ?.default?.flex || 0,
-                  props.report?.report?.reflection?.collaboration?.facets
-                    ?.default?.resilience || 0,
-                ],
-              },
-              {
-                label: "Team-review",
-                backgroundColor: "rgba(0,179,229,0.3)",
-                borderColor: "rgba(0,179,229,0.8)",
-                pointRadius: 0,
-                data: [
-                  props.report?.report?.average?.collaboration?.facets?.default
-                    ?.emotionalIntelligence || 0,
-                  props.report?.report?.average?.collaboration?.facets?.default
-                    ?.initiative || 0,
-                  props.report?.report?.average?.collaboration?.facets?.default
-                    ?.trust || 0,
-                  props.report?.report?.average?.collaboration?.facets?.default
-                    ?.flex || 0,
-                  props.report?.report?.average?.collaboration?.facets?.default
-                    ?.resilience || 0,
-                ],
-              },
+              ...[dataset.collaboration.self],
+              ...(stage !== 1 ? [dataset.collaboration.team] : []),
             ],
             backgroundColor: "#00c8b3",
           }}
@@ -130,44 +139,14 @@ const RadarChart = (props) => {
           }}
           data={{
             labels: [
+              "Verbal Attentiveness",
               "Clarity",
               "Culture",
               "Non-Verbal",
-              "Verbal Attentiveness",
             ],
             datasets: [
-              {
-                label: "Self-review",
-                backgroundColor: "rgba(102, 204, 158,0.3)",
-                borderColor: "rgba(102, 204, 158,0.8)",
-                pointRadius: 0,
-                data: [
-                  props.report?.report?.reflection?.communication?.facets
-                    ?.default?.clarity || 0,
-                  props.report?.report?.reflection?.communication?.facets
-                    ?.default?.culture || 0,
-                  props.report?.report?.reflection?.communication?.facets
-                    ?.default?.nonVerbal || 0,
-                  props.report?.report?.reflection?.communication?.facets
-                    ?.default?.attentive || 0,
-                ],
-              },
-              {
-                label: "Team-review",
-                backgroundColor: "rgba(0,179,229,0.3)",
-                borderColor: "rgba(0,179,229,0.8)",
-                pointRadius: 0,
-                data: [
-                  props.report?.report?.average?.communication?.facets?.default
-                    ?.clarity || 0,
-                  props.report?.report?.average?.communication?.facets?.default
-                    ?.culture || 0,
-                  props.report?.report?.average?.communication?.facets?.default
-                    ?.nonVerbal || 0,
-                  props.report?.report?.average?.communication?.facets?.default
-                    ?.attentive || 0,
-                ],
-              },
+              ...[dataset.communication.self],
+              ...(stage !== 1 ? [dataset.communication.team] : []),
             ],
             backgroundColor: "#00c8b3",
           }}

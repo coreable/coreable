@@ -78,7 +78,7 @@ const Results = () => {
         <MainGrid>
           <AsideLeft>
             <Dashboard setIsCollab={setIsCollab} setIsFacet={setIsFacet} />
-            <Index state={state} isCollab={isCollab} />
+            <Index state={state} isCollab={isCollab} stage={stage} />
           </AsideLeft>
           <AsideRight>
             <TopStrengths isCollab={isCollab} isFacet={isFacet} data={state} />

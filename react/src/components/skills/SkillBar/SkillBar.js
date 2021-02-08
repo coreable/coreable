@@ -7,7 +7,6 @@ export default function SkillBar(props) {
   const { name, average, reflection, difference } = props.values;
 
   function convertToText(averageScore) {
-    console.log(difference); // delete me
     if (averageScore < 20) {
       return "Fails to attempt";
     }
