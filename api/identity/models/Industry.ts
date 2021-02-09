@@ -19,7 +19,7 @@ import {
 } from "sequelize";
 
 import { User } from "./User";
-import { IndustryAverage } from "./IndustryAverage";
+// import { IndustryAverage } from "./IndustryAverage";
 
 class Industry extends Model {
   // Primary Key
@@ -60,11 +60,11 @@ const assosciate = () => {
     foreignKey: 'industry_id',
     as: 'users'
   });
-  Industry.hasMany(IndustryAverage, {
-    sourceKey: '_id',
-    foreignKey: 'industry_id',
-    as: 'averages'
-  });
+  // Industry.hasMany(IndustryAverage, {
+  //   sourceKey: '_id',
+  //   foreignKey: 'industry_id',
+  //   as: 'averages'
+  // });
   
   return Industry;
 }
