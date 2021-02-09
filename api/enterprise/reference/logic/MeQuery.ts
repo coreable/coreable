@@ -16,7 +16,7 @@ import { CoreableError } from '../../../models/CoreableError';
 import { ReferenceUser } from "../models/User";
 
 export async function MeQuery(root: any, args: any, context: any) {
-  context.USER = null;
+  context.REFERENCE = null;
   let errors: CoreableError[] = [];
   if (!context.JWT) {
     errors.push({ 
@@ -26,10 +26,10 @@ export async function MeQuery(root: any, args: any, context: any) {
     });
   }
   if (!errors.length) {
-    context.USER = await ReferenceUser.findOne({
+    context.REFERENCE = await ReferenceUser.findOne({
       where: { user_id: context.JWT._id }
     });
-    if (!context.USER) {
+    if (!context.REFERENCE) {
       errors.push({
         code: 'ER_USER_UNKNOWN',
         path: `_id`,
@@ -39,7 +39,7 @@ export async function MeQuery(root: any, args: any, context: any) {
   }
   return {
     'data': !errors.length ? {
-      'user': context.USER
+      'user': context.REFERENCE
     } : null,
     'errors': errors.length > 0 ? errors : null
   }

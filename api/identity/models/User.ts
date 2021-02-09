@@ -17,6 +17,7 @@ import {
   Sequelize,
   DataTypes
 } from 'sequelize';
+
 import { generatePasswordHash, checkPassword } from '../logic/Hash';
 import { UniversityUser } from '../../enterprise/university/models/User';
 
@@ -87,7 +88,11 @@ const sync = (sequelize: Sequelize) => {
     'lockoutTimer': {
       'type': DataTypes.DATE,
       'allowNull': true
-    }
+    },
+    'industry_id': {
+      'type': DataTypes.UUID,
+      'allowNull': true
+    },
   }, {
     'tableName': 'USER',
     'sequelize': sequelize
