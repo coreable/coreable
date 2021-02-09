@@ -15,21 +15,21 @@
 import { User } from "../models/User";
 import { CoreableError } from "../../models/CoreableError";
 
-export async function IdentityMe(root: any, args: any, { USER }: any) {
+export async function IdentityMe(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
-  if (!USER) {
+  if (!context.USER) {
     errors.push({ code: 'ER_UNAUTH', path: 'JWT', message: 'User unauthenticated' });
   }
   if (!errors.length) {
     user = await User.findOne({
-      where: { _id: USER._id }
+      where: { _id: context.USER._id }
     });
     if (!user) {
       errors.push({
         code: 'ER_USER_UNKNOWN',
         path: `_id`,
-        message: `No user found with _id ${USER._id}`
+        message: `No user found with _id ${context.USER._id}`
       });
     }
   }
