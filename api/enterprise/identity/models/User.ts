@@ -13,24 +13,28 @@
 */
 
 import {
-  DataTypes,
+  Model,
   Sequelize,
-  Model
+  DataTypes
 } from 'sequelize';
-import { UniversityOrganisation } from './Organisation';
-import { generatePasswordHash, checkPassword } from '../../../identity/logic/Hash';
 
-class UniversityManager extends Model {
+import { generatePasswordHash, checkPassword } from '../logic/Hash';
+import { UniversityUser } from '../../university/models/User';
+import { ReferenceUser } from '../../reference/models/User';
+import { Industry } from './Industry';
+
+class User extends Model {
   // Primary Key
   public _id!: string;
 
   // Foreign Keys
-  public organisation_id!: string;
+  public industry_id!: string;
 
   // Relationships
-  public organisation!: UniversityOrganisation;
-  
-  // Properties
+  public university!: UniversityUser;
+  public reference!: ReferenceUser;
+  public industry!: Industry;
+
   public email!: string;
   public firstName!: string;
   public lastName!: string;
@@ -43,17 +47,16 @@ class UniversityManager extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-    // Mad different methods
-    public login: ((payload: string) => Promise<boolean>) | undefined;
+  // Mad different methods
+  public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
 const sync = (sequelize: Sequelize) => {
-  UniversityManager.init({
+  User.init({
     '_id': {
-      'primaryKey': true,
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
-      'allowNull': false
+      'primaryKey': true
     },
     'firstName': {
       'type': DataTypes.STRING,
@@ -71,14 +74,9 @@ const sync = (sequelize: Sequelize) => {
         'isEmail': true
       }
     },
-    'organisation_id': {
-      'type': DataTypes.UUID,
-      'allowNull': false
-    },
     'password': {
       'type': DataTypes.STRING,
-      'allowNull': false,
-      'defaultValue': DataTypes.UUIDV4
+      'allowNull': true,
     },
     'passwordResetToken': {
       'type': DataTypes.STRING,
@@ -96,50 +94,64 @@ const sync = (sequelize: Sequelize) => {
     'lockoutTimer': {
       'type': DataTypes.DATE,
       'allowNull': true
-    }
+    },
+    'industry_id': {
+      'type': DataTypes.UUID,
+      'allowNull': true
+    },
   }, {
-    'tableName': 'UNIVERSITY_MANAGER',
+    'tableName': 'USER',
     'sequelize': sequelize
   });
 
-
   // Hooks
-  UniversityManager.beforeCreate(async (manager: UniversityManager) => {
+  User.beforeCreate(async (user: User) => {
     try {
-      manager.password = await generatePasswordHash(manager.password);
+      user.email = user.email.toLowerCase();
+      user.password = await generatePasswordHash(user.password);
     } catch (err) {
       throw err;
     }
   });
 
-  UniversityManager.beforeUpdate(async (manager: any) => {
-    if (manager._previousDataValues.password !== manager.dataValues.password) {
+  User.beforeUpdate(async (user: any) => {
+    if (user._previousDataValues.password !== user.dataValues.password) {
       try {
-        manager.password = await generatePasswordHash(manager.dataValues.password);
+        user.password = await generatePasswordHash(user.dataValues.password);
       } catch (err) {
         throw err;
       }
     }
   });
 
-  UniversityManager.prototype.login = async function (payload: string) {
+  User.prototype.login = async function (payload: string) {
     return checkPassword(payload, this.password);
   }
 
-  return UniversityManager;
-}
+  return User;
+};
 
 const assosciate = () => {
-  UniversityManager.belongsTo(UniversityOrganisation, {
-    foreignKey: 'organisation_id',
-    targetKey: '_id',
-    as: 'organisation'
+  User.hasMany(UniversityUser, { 
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'university' 
   });
-  return UniversityManager;
+  User.hasMany(ReferenceUser, { 
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'reference' 
+  });
+  User.belongsTo(Industry, {
+    foreignKey: 'industry_id',
+    targetKey: '_id',
+    as: 'industry'
+  });
+  return User;
 }
 
 export {
-  UniversityManager,
+  User,
   sync,
   assosciate
 }

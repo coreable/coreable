@@ -17,8 +17,9 @@ import {
   Sequelize,
   DataTypes
 } from "sequelize";
+
 import { UniversitySubject } from "./Subject";
-import { UniversityManager } from "./Manager";
+import { Manager } from "../../identity/models/Manager";
 
 class UniversityOrganisation extends Model {
   // Primary Key
@@ -26,7 +27,7 @@ class UniversityOrganisation extends Model {
 
   // Relationships
   public subjects!: [UniversitySubject];
-  public managers!: [UniversityManager];
+  public managers!: [Manager];
 
   // Properties
   public name!: string;
@@ -55,11 +56,13 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  UniversityOrganisation.hasMany(UniversityManager, {
+  UniversityOrganisation.belongsToMany(Manager, {
+    through: 'UNIVERSITY_MANAGER_ORGANISATION',
     sourceKey: '_id',
     foreignKey: 'organisation_id',
     as: 'managers'
   });
+
   UniversityOrganisation.hasMany(UniversitySubject, {
     sourceKey: '_id',
     foreignKey: 'organisation_id',

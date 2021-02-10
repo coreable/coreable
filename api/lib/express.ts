@@ -28,9 +28,9 @@ import cors from 'cors';
 import { UniversitySchema } from '../enterprise/university/graphql/Schema';
 
 import { config } from '../config/config';
-import { decodeJWT } from '../identity/logic/JWT';
+import { decodeJWT } from '../enterprise/identity/logic/JWT';
 
-import { IdentitySchema } from '../identity/graphql/Schema';
+import { IdentitySchema } from '../enterprise/identity/graphql/Schema';
 
 // A hack to add the JWT decoded token to the request object
 declare global {

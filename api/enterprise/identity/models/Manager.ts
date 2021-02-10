@@ -13,21 +13,21 @@
 */
 
 import {
-  Model,
+  DataTypes,
   Sequelize,
-  DataTypes
+  Model
 } from 'sequelize';
-
+import { UniversityOrganisation } from '../../university/models/Organisation';
 import { generatePasswordHash, checkPassword } from '../logic/Hash';
-import { UniversityUser } from '../../enterprise/university/models/User';
 
-class User extends Model {
+class Manager extends Model {
   // Primary Key
   public _id!: string;
 
   // Relationships
-  public universityAccount!: UniversityUser;
-
+  public organisations!: [UniversityOrganisation];
+  
+  // Properties
   public email!: string;
   public firstName!: string;
   public lastName!: string;
@@ -36,21 +36,21 @@ class User extends Model {
   public passwordResetExpiry!: Date
   public lockoutAttempts!: number;
   public lockoutTimer!: Date;
-  // INDUSTRY TODO:
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // Mad different methods
+  // It's like mad different methods to the way I do my shit
   public login: ((payload: string) => Promise<boolean>) | undefined;
 }
 
 const sync = (sequelize: Sequelize) => {
-  User.init({
+  Manager.init({
     '_id': {
+      'primaryKey': true,
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
-      'primaryKey': true
+      'allowNull': false
     },
     'firstName': {
       'type': DataTypes.STRING,
@@ -70,7 +70,8 @@ const sync = (sequelize: Sequelize) => {
     },
     'password': {
       'type': DataTypes.STRING,
-      'allowNull': true,
+      'allowNull': false,
+      'defaultValue': DataTypes.UUIDV4
     },
     'passwordResetToken': {
       'type': DataTypes.STRING,
@@ -88,54 +89,50 @@ const sync = (sequelize: Sequelize) => {
     'lockoutTimer': {
       'type': DataTypes.DATE,
       'allowNull': true
-    },
-    'industry_id': {
-      'type': DataTypes.UUID,
-      'allowNull': true
-    },
+    }
   }, {
-    'tableName': 'USER',
+    'tableName': 'MANAGER',
     'sequelize': sequelize
   });
 
   // Hooks
-  User.beforeCreate(async (user: User) => {
+  Manager.beforeCreate(async (manager: Manager) => {
     try {
-      user.email = user.email.toLowerCase();
-      user.password = await generatePasswordHash(user.password);
+      manager.password = await generatePasswordHash(manager.password);
     } catch (err) {
       throw err;
     }
   });
 
-  User.beforeUpdate(async (user: any) => {
-    if (user._previousDataValues.password !== user.dataValues.password) {
+  Manager.beforeUpdate(async (manager: any) => {
+    if (manager._previousDataValues.password !== manager.dataValues.password) {
       try {
-        user.password = await generatePasswordHash(user.dataValues.password);
+        manager.password = await generatePasswordHash(manager.dataValues.password);
       } catch (err) {
         throw err;
       }
     }
   });
 
-  User.prototype.login = async function (payload: string) {
+  Manager.prototype.login = async function (payload: string) {
     return checkPassword(payload, this.password);
   }
 
-  return User;
-};
+  return Manager;
+}
 
 const assosciate = () => {
-  User.hasMany(UniversityUser, { 
+  Manager.belongsToMany(UniversityOrganisation, {
+    through: 'UNIVERSITY_MANAGER_ORGANISATION',
     sourceKey: '_id',
-    foreignKey: 'user_id',
-    as: 'universityAccount' 
+    foreignKey: 'manager_id',
+    as: 'organisations'
   });
-  return User;
+  return Manager;
 }
 
 export {
-  User,
+  Manager,
   sync,
   assosciate
 }

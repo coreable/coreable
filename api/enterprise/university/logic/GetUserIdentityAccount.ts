@@ -13,7 +13,7 @@
 */
 
 import { UniversityUser } from "../models/User";
-import { User } from "../../../identity/models/User";
+import { User } from "../../identity/models/User";
 import { sequelize } from "../../../lib/sequelize";
 
 export async function GetUserIdentityAccount(user: any, args: any, context: any) {
@@ -27,6 +27,7 @@ export async function GetUserIdentityAccount(user: any, args: any, context: any)
         [ sequelize.col('user.email'), 'email' ],
         [ sequelize.col('user.firstName'), 'firstName' ],
         [ sequelize.col('user.lastName'), 'lastName' ],
+        [ sequelize.col('user.industry_id'), 'industry_id' ],
         [ sequelize.col('user.updatedAt'), 'updatedAt' ],
         [ sequelize.col('user.createdAt'), 'createdAt' ]
       ]

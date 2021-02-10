@@ -15,11 +15,11 @@
 import { times } from 'lodash';
 import Faker from 'faker';
 
-import { User } from '../identity/models/User';
+import { User } from '../enterprise/identity/models/User';
 import { UniversityTeam } from '../enterprise/university/models/Team';
 import { UniversitySubject } from '../enterprise/university/models/Subject';
 import { UniversityReview } from '../enterprise/university/models/Review';
-import { UniversityIndustry } from '../enterprise/university/models/Industry';
+// import { UniversityIndustry } from '../enterprise/university/models/Industry';
 import { UniversityUser } from '../enterprise/university/models/User';
 import { UniversityTutorial } from '../enterprise/university/models/Tutorial';
 import { UniversityOrganisation } from '../enterprise/university/models/Organisation';
@@ -27,7 +27,7 @@ import { UniversityManager } from '../enterprise/university/models/Manager';
 
 const users: User[] = [];
 const uniusers: UniversityUser[] = [];
-const industrys: UniversityIndustry[] = [];
+// const industrys: UniversityIndustry[] = [];
 const teams: UniversityTeam[] = [];
 const reviews: UniversityReview[] = [];
 const subjects: UniversitySubject[] = [];
@@ -40,17 +40,17 @@ export async function generator() {
   let promises: any = [];
 
   // Create Industry
-  times(2, (i) => {
-    promises.push(async function () {
-      const industry = await UniversityIndustry.create({
-        name: Faker.address.city()
-      });
-      return industrys.push(industry);
-    });
-  });
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
+  // times(2, (i) => {
+  //   promises.push(async function () {
+  //     const industry = await UniversityIndustry.create({
+  //       name: Faker.address.city()
+  //     });
+  //     return industrys.push(industry);
+  //   });
+  // });
+  // await inSequence(promises).then(() => {
+  //   promises = [];
+  // });
 
   // Create Organisation
   times(2, (i) => {
@@ -123,7 +123,7 @@ export async function generator() {
     promises.push(async function () {
       const uniuser = await UniversityUser.create({
         user_id: users[i]._id,
-        industry_id: industrys[i % 2]._id
+        // industry_id: industrys[i % 2]._id
       });
       return uniusers.push(uniuser);
     });

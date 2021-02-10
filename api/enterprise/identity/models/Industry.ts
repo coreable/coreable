@@ -17,15 +17,16 @@ import {
   Sequelize,
   DataTypes
 } from "sequelize";
-import { UniversityUser } from "./User";
-import { UniversityIndustryAverage } from "./IndustryAverage";
 
-class UniversityIndustry extends Model {
+import { User } from "./User";
+import { IndustryAverage } from "./IndustryAverage";
+
+class Industry extends Model {
   // Primary Key
   public _id!: string;
 
   // Relationships
-  public users!: [UniversityUser];
+  public users!: [User];
 
   // Properties
   public name!: string;
@@ -35,7 +36,7 @@ class UniversityIndustry extends Model {
 }
 
 const sync = (sequelize: Sequelize) => {
-  UniversityIndustry.init({
+  Industry.init({
     '_id': {
       'type': DataTypes.UUID,
       'defaultValue': DataTypes.UUIDV4,
@@ -46,30 +47,29 @@ const sync = (sequelize: Sequelize) => {
       'allowNull': false
     },
   }, {
-    'tableName': 'UNIVERSITY_INDUSTRY',
+    'tableName': 'INDUSTRY',
     'sequelize': sequelize,
   });
 
-  return UniversityIndustry;
+  return Industry;
 }
 
 const assosciate = () => {
-  UniversityIndustry.hasMany(UniversityUser, {
+  Industry.hasMany(User, {
     sourceKey: '_id',
     foreignKey: 'industry_id',
     as: 'users'
   });
-  UniversityIndustry.hasMany(UniversityIndustryAverage, {
+  Industry.hasMany(IndustryAverage, {
     sourceKey: '_id',
     foreignKey: 'industry_id',
     as: 'averages'
   });
-  
-  return UniversityIndustry;
+  return Industry;
 }
 
 export {
-  UniversityIndustry,
+  Industry,
   assosciate,
   sync
 };

@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../models/CoreableError";
+import { CoreableError } from "../../../models/CoreableError";
 import { User } from "../models/User";
 
 export async function ChangePassword(_: any, { email, currentPassword, confirmPassword, newPassword }: any, context: any) {

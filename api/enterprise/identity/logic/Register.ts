@@ -12,10 +12,10 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../models/CoreableError";
+import { CoreableError } from "../../../models/CoreableError";
 import { User } from "../models/User";
 import { encodeJWT } from "./JWT";
-import { UniversityUser } from "../../enterprise/university/models/User";
+import { UniversityUser } from "../../university/models/User";
 
 export async function Register(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];

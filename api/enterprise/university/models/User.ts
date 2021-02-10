@@ -17,10 +17,10 @@ import {
   Sequelize,
   Model
 } from 'sequelize';
+
 import { UniversityTeam } from './Team';
 import { UniversityReview } from './Review';
-import { UniversityIndustry } from './Industry';
-import { User } from '../../../identity/models/User';
+import { User } from '../../identity/models/User';
 import { UniversityOrganisation } from './Organisation';
 import { UniversityUserAverage } from './UserAverage';
 import { UniversityUserReflectionAverage } from './UserReflectionAverage';
@@ -35,7 +35,6 @@ class UniversityUser extends Model {
 
   // Relationships
   public user!: User;
-  public industry!: UniversityIndustry;
   public reflection!: UniversityReview;
   public teams!: [UniversityTeam];
   public submissions!: [UniversityReview];
@@ -57,11 +56,7 @@ const sync = (sequelize: Sequelize) => {
     'user_id': {
       'type': DataTypes.UUID,
       'allowNull': false
-    },
-    'industry_id': {
-      'type': DataTypes.UUID,
-      'allowNull': true
-    },
+    }
   }, {
     'tableName': 'UNIVERSITY_USER',
     'sequelize': sequelize
@@ -96,11 +91,6 @@ const assosciate = () => {
     sourceKey: '_id',
     foreignKey: 'user_id',
     as: 'reflectionAverages'
-  });
-  UniversityUser.belongsTo(UniversityIndustry, {
-    foreignKey: 'industry_id',
-    targetKey: '_id',
-    as: 'industry'
   });
   UniversityUser.belongsTo(User, {
     foreignKey: 'user_id',

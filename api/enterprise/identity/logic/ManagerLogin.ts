@@ -12,16 +12,16 @@
   ===========================================================================
 */
 
-import { CoreableError } from '../../models/CoreableError';
+import { CoreableError } from '../../../models/CoreableError';
 import { encodeJWT } from './JWT';
-import { UniversityManager } from '../../enterprise/university/models/Manager';
+import { Manager } from '../models/Manager';
 
 export async function ManagerLogin(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let manager: any;
   let token: string | undefined;
   if (!errors.length) {
-    manager = await UniversityManager.findOne({
+    manager = await Manager.findOne({
       where: { email: args.email.toLowerCase() }
     });
     if (!manager) {

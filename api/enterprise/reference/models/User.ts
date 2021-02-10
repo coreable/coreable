@@ -18,7 +18,7 @@ import {
   Model
 } from 'sequelize';
 
-import { User } from '../../../identity/models/User';
+import { User } from '../../identity/models/User';
 import { ReferenceInvite } from './Invite';
 import { ReferenceReview } from './Review';
 
@@ -69,6 +69,11 @@ const assosciate = () => {
     sourceKey: '_id',
     foreignKey: 'requester_id',
     as: 'requests'
+  });
+  ReferenceUser.belongsTo(User, {
+    foreignKey: 'user_id',
+    targetKey: '_id',
+    as: 'user'
   });
   return ReferenceUser;
 }

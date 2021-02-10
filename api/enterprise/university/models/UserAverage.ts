@@ -17,6 +17,7 @@ import {
   Sequelize,
   DataTypes
 } from "sequelize";
+
 import { UniversityUser } from "./User";
 
 class UniversityUserAverage extends Model {

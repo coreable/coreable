@@ -23,8 +23,7 @@ import { UniversityUser } from '../../models/User';
 import { UniversityTeamResolver } from './Team';
 import { UniversityReviewResolver } from './Review';
 import { UniversitySubjectResolver } from './Subject';
-import { UniversityIndustryResolver } from './Industry';
-import { UserResolver } from '../../../../identity/graphql/resolvers/User';
+import { UserResolver } from '../../../identity/graphql/resolvers/User';
 
 import { UniversityReview } from '../../models/Review';
 
@@ -124,15 +123,6 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           }
 
           return await GetUserOrganisations(user, args, context);
-        }
-      },
-      'industry': {
-        type: UniversityIndustryResolver,
-        async resolve(user: any, args, context) {
-          if (context.USER?._id !== user._id && !context.MANAGER) {
-            return null;
-          }
-          return await user.getIndustry();
         }
       },
       'report': {

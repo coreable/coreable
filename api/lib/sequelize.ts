@@ -16,7 +16,7 @@ import { Sequelize } from 'sequelize';
 import { config } from '../config/config';
 
 // Identity
-import * as User from '../identity/models/User';
+import * as User from '../enterprise/identity/models/User';
 
 // University
 import * as UniveristyManager from '../enterprise/university/models/Manager';
@@ -39,8 +39,8 @@ import * as UniversityTutorialAverage from '../enterprise/university/models/Tuto
 import * as UniversitySubject from '../enterprise/university/models/Subject';
 import * as UniversitySubjectAverage from '../enterprise/university/models/SubjectAverage';
 
-import * as UniversityIndustry from '../enterprise/university/models/Industry';
-import * as UniversityIndustryAverage from '../enterprise/university/models/IndustryAverage';
+// import * as UniversityIndustry from '../enterprise/university/models/Industry';
+// import * as UniversityIndustryAverage from '../enterprise/university/models/IndustryAverage';
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
@@ -90,8 +90,8 @@ _sequelize.sync = (async () => {
   UniversitySubject.sync(sequelize);
   UniversitySubjectAverage.sync(sequelize);
 
-  UniversityIndustry.sync(sequelize);
-  UniversityIndustryAverage.sync(sequelize);
+  // UniversityIndustry.sync(sequelize);
+  // UniversityIndustryAverage.sync(sequelize);
 
   UniveristyTutorial.sync(sequelize);
   UniversityTutorialAverage.sync(sequelize);
@@ -119,8 +119,8 @@ _sequelize.assosciate = (async () => {
   UniversitySubject.assosciate();
   UniversitySubjectAverage.assosciate();
 
-  UniversityIndustry.assosciate();
-  UniversityIndustryAverage.assosciate();
+  // UniversityIndustry.assosciate();
+  // UniversityIndustryAverage.assosciate();
 
   UniveristyTutorial.assosciate();
   UniversityTutorialAverage.assosciate();

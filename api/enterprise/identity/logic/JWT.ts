@@ -13,7 +13,7 @@
 */
 
 import { Secret, verify, sign } from "jsonwebtoken";
-import { config } from "../../config/config";
+import { config } from "../../../config/config";
 
 export const JWT_SECRET: Secret = config.JWT_SECRET as string;
 

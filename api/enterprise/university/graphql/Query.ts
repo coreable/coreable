@@ -18,7 +18,6 @@ import {
 } from "graphql";
 
 import UniversityMeQuery from './queries/Me';
-import UniversityIndustryListQuery from './queries/list/Industry';
 import UniversityManagerQuery from './queries/Manager';
 
 export const UniversityQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
@@ -27,7 +26,6 @@ export const UniversityQuery: GraphQLObjectType<QueryInterface> = new GraphQLObj
   fields: () => {
     return {
       'me': UniversityMeQuery,
-      'industry': UniversityIndustryListQuery,
       'manager': UniversityManagerQuery
     }
   }
