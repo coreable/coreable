@@ -17,10 +17,18 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-import JoinTeamMutation from './university/graphql/mutations/JoinTeam';
-import LeaveTeamMutation from './university/graphql/mutations/LeaveTeam';
-import SubmitReviewMutation from './university/graphql/mutations/SubmitReview';
-  
+// University
+import JoinTeamMutation from './university/mutations/JoinTeam';
+import LeaveTeamMutation from './university/mutations/LeaveTeam';
+import SubmitReviewMutation from './university/mutations/SubmitReview';
+
+// Identity
+import UserLoginMutation from './identity/mutations/UserLogin';
+import ManagerLoginMutation from './identity/mutations/ManagerLogin';
+import ForgotPasswordMutation from './identity/mutations/ForgotPassword';
+import RegisterMutation from './identity/mutations/Register';
+import ChangePasswordMutation from './identity/mutations/ChangePassword';
+
 export const RootMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'RootMutation',
   description: 'This is the root university mutation',
@@ -28,12 +36,36 @@ export const RootMutation: GraphQLObjectType<QueryInterface> = new GraphQLObject
     return {
       'university': {
         'type': new GraphQLObjectType({
-          'name': 'university',
+          'name': 'UniversityMutation',
           fields: () => {
             return {
               'joinTeam': JoinTeamMutation,
               'leaveTeam': LeaveTeamMutation,
               'submitReview': SubmitReviewMutation
+            }
+          }
+        })
+      },
+      'reference': {
+        'type': new GraphQLObjectType({
+          'name': 'ReferenceMutation',
+          fields: () => {
+            return {
+
+            }
+          }
+        })
+      },
+      'identity': {
+        'type': new GraphQLObjectType({
+          'name': 'IdentityMutation',
+          fields: () => {
+            return {
+              'userLogin': UserLoginMutation,
+              'managerLogin': ManagerLoginMutation,
+              'forgotPassword': ForgotPasswordMutation,
+              'register': RegisterMutation,
+              'changedPassword': ChangePasswordMutation
             }
           }
         })

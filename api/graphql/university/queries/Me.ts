@@ -10,25 +10,14 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/
+*/ 
 
-import { QueryInterface } from "sequelize/types";
-import {
-  GraphQLObjectType,
-} from "graphql";
+import { UniversityMeCommand } from "../command/Me";
+import { MeQuery } from '../logic/MeQuery';
 
-// import JoinTeamMutation from './mutations/JoinTeam';
-// import LeaveTeamMutation from './mutations/LeaveTeam';
-// import SubmitReviewMutation from './mutations/SubmitReview';
-
-export const ReferenceMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'ReferenceMutation',
-  description: 'This is the root reference mutation',
-  fields: () => {
-    return {
-    //   'joinTeam': JoinTeamMutation,
-    //   'leaveTeam': LeaveTeamMutation,
-    //   'submitReview': SubmitReviewMutation
-    }
+export default {
+  'type': UniversityMeCommand,
+  async resolve(root: any, args: any, context: any) {
+    return await MeQuery(root, args, context);
   }
-});
+}

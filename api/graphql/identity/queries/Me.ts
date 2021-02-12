@@ -12,12 +12,12 @@
   ===========================================================================
 */ 
 
-import { ReferenceMeCommand } from "../command/Me";
-import { MeQuery } from '../../logic/MeQuery';
+import { IdentityMeCommand } from "../command/Me";
+import { IdentityMe } from "../logic/Me";
 
 export default {
-  'type': ReferenceMeCommand,
+  type: IdentityMeCommand,
   async resolve(root: any, args: any, context: any) {
-    return await MeQuery(root, args, context);
+    return await IdentityMe(root, args, context);
   }
 }
