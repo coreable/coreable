@@ -17,14 +17,28 @@ import {
   GraphQLObjectType,
 } from "graphql";
 
-import UniversityMeQuery from './queries/Me';
- 
-export const UniversityQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
-  name: 'UniversityQuery',
-  description: 'This is the root university query',
+import UniversityMeQuery from './university/graphql/queries/Me';
+import IdentityMeQuery from './identity/graphql/queries/Me';
+import ReferenceMeQuery from './reference/graphql/queries/Me';
+
+export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
+  name: 'RootQuery',
+  description: 'This is the root query',
   fields: () => {
     return {
-      'me': UniversityMeQuery,
+      'me': {
+        'type': new GraphQLObjectType({
+          'name': 'me',
+          fields: () => {
+            return {
+              'university': UniversityMeQuery,
+              'reference': ReferenceMeQuery,
+              'identity': IdentityMeQuery,
+              // 'results': null
+            }
+          }
+        })
+      }
     }
   }
 });

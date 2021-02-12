@@ -14,9 +14,9 @@
 
 import {
   GraphQLObjectType,
-  GraphQLString,
-  GraphQLList,
-  GraphQLFloat
+  // GraphQLString,
+  // GraphQLList,
+  // GraphQLFloat
 } from 'graphql';
 
 import { ReferenceUser } from '../../models/User';

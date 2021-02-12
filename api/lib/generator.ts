@@ -23,7 +23,7 @@ import { UniversityReview } from '../enterprise/university/models/Review';
 import { UniversityUser } from '../enterprise/university/models/User';
 import { UniversityTutorial } from '../enterprise/university/models/Tutorial';
 import { UniversityOrganisation } from '../enterprise/university/models/Organisation';
-import { UniversityManager } from '../enterprise/university/models/Manager';
+// import { UniversityManager } from '../enterprise/university/models/Manager';
 
 const users: User[] = [];
 const uniusers: UniversityUser[] = [];
@@ -33,7 +33,7 @@ const reviews: UniversityReview[] = [];
 const subjects: UniversitySubject[] = [];
 const tutorials: UniversityTutorial[] = [];
 const organisations: UniversityOrganisation[] = [];
-const managers: UniversityManager[] = [];
+// const managers: UniversityManager[] = [];
 
 // Generates fake data for the database
 export async function generator() {
@@ -74,33 +74,33 @@ export async function generator() {
   });
 
   // Create Managers
-  times(2, (i) => {
-    promises.push(async function () {
-      const manager = await UniversityManager.create({
-        firstName: `manager ${i}`,
-        lastName: `manager ${i}`,
-        email: `m${i}@${i}.com`,
-        password: 'unittest',
-        organisation_id: organisations[i]._id
-      });
-      return managers.push(manager);
-    });
-  });
+  // times(2, (i) => {
+  //   promises.push(async function () {
+  //     const manager = await UniversityManager.create({
+  //       firstName: `manager ${i}`,
+  //       lastName: `manager ${i}`,
+  //       email: `m${i}@${i}.com`,
+  //       password: 'unittest',
+  //       organisation_id: organisations[i]._id
+  //     });
+  //     return managers.push(manager);
+  //   });
+  // });
 
-  promises.push(async function () {
-    const manager = await UniversityManager.create({
-      firstName: `hans`,
-      lastName: `hans`,
-      email: `hans@hans.com`,
-      password: 'unittest',
-      organisation_id: organisations[organisations.length-1]._id
-    });
-    return managers.push(manager);
-  });
+  // promises.push(async function () {
+  //   const manager = await UniversityManager.create({
+  //     firstName: `hans`,
+  //     lastName: `hans`,
+  //     email: `hans@hans.com`,
+  //     password: 'unittest',
+  //     organisation_id: organisations[organisations.length-1]._id
+  //   });
+  //   return managers.push(manager);
+  // });
 
-  await inSequence(promises).then(() => {
-    promises = [];
-  });
+  // await inSequence(promises).then(() => {
+  //   promises = [];
+  // });
 
   // Create User
   times(5, (i) => {

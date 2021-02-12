@@ -19,8 +19,8 @@ import { config } from '../config/config';
 import * as User from '../enterprise/identity/models/User';
 
 // University
-import * as UniveristyManager from '../enterprise/university/models/Manager';
-
+// import * as UniveristyManager from '../enterprise/university/models/Manager';
+  
 import * as UniversityOrganisation from '../enterprise/university/models/Organisation';
 import * as UniversityOrganisationAverage from '../enterprise/university/models/OrganisationAverage';
 
@@ -73,7 +73,7 @@ _sequelize.sync = (async () => {
   User.sync(sequelize);
 
   // University
-  UniveristyManager.sync(sequelize);
+  // UniveristyManager.sync(sequelize);
 
   UniversityOrganisation.sync(sequelize);
   UniversityOrganisationAverage.sync(sequelize);
@@ -102,7 +102,7 @@ _sequelize.assosciate = (async () => {
   User.assosciate();
 
   // University
-  UniveristyManager.assosciate();
+  // UniveristyManager.assosciate();
 
   UniversityOrganisation.assosciate();
   UniversityOrganisationAverage.assosciate();

@@ -25,12 +25,9 @@ import { graphqlHTTP } from 'express-graphql';
 import { join } from 'path';
 import cors from 'cors';
 
-import { UniversitySchema } from '../enterprise/university/graphql/Schema';
-
 import { config } from '../config/config';
 import { decodeJWT } from '../enterprise/identity/logic/JWT';
-
-import { IdentitySchema } from '../enterprise/identity/graphql/Schema';
+import { RootSchema } from '../enterprise/Schema';
 
 // A hack to add the JWT decoded token to the request object
 declare global {
@@ -88,13 +85,7 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
 
 // GraphQL
 app.use('/graphql', graphqlHTTP({
-  schema: UniversitySchema,
-  pretty: config.NODE_ENV === 'development',
-  graphiql: config.NODE_ENV === 'development'
-}));
-
-app.use('/identity', graphqlHTTP({
-  schema: IdentitySchema,
+  schema: RootSchema,
   pretty: config.NODE_ENV === 'development',
   graphiql: config.NODE_ENV === 'development'
 }));
