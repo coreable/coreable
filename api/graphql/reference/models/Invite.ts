@@ -17,6 +17,7 @@ import {
   Sequelize,
   DataTypes
 } from "sequelize";
+import { User } from "../../identity/models/User";
 
 import { ReferenceUser } from "./User";
 
@@ -85,6 +86,11 @@ const assosciate = () => {
     targetKey: 'requester_id',
     foreignKey: '_id',
     as: 'requester'
+  });
+  ReferenceInvite.belongsTo(User, {
+    targetKey: 'email',
+    foreignKey: 'email',
+    as: 'invitee'
   });
   return ReferenceInvite;
 }

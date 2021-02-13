@@ -23,6 +23,7 @@ import { UniversityUser } from '../../university/models/User';
 import { ReferenceUser } from '../../reference/models/User';
 import { Industry } from './Industry';
 import { Manager } from './Manager';
+import { ReferenceInvite } from '../../reference/models/Invite';
 
 class User extends Model {
   // Primary Key
@@ -36,6 +37,7 @@ class User extends Model {
   public reference!: ReferenceUser;
   public industry!: Industry;
   public manager!: Manager;
+  public invites!: [ReferenceInvite];
 
   // Fields
   public email!: string;
@@ -135,10 +137,10 @@ const sync = (sequelize: Sequelize) => {
 };
 
 const assosciate = () => {
-  User.hasMany(Manager, { 
+  User.hasOne(Manager, {
     sourceKey: '_id',
     foreignKey: 'user_id',
-    as: 'university' 
+    as: 'manager' 
   });
   User.hasMany(UniversityUser, { 
     sourceKey: '_id',
@@ -155,6 +157,12 @@ const assosciate = () => {
     targetKey: '_id',
     as: 'industry'
   });
+  User.hasMany(ReferenceInvite, {
+    sourceKey: 'email',
+    foreignKey: 'email',
+    as: 'invites'
+  });
+
   return User;
 }
 
