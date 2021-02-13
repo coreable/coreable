@@ -13,7 +13,7 @@
 */
 
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
-import { UniversityReview } from "../../models/Review"
+import { UniversityReview } from "../models/Review"
 
 //clone.clearInstructions + clone.easilyExplainsComplexIdeas
 

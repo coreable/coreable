@@ -19,7 +19,7 @@ import {
 } from "graphql";
 
 import { UniversityReviewObjectCommand } from "../command/object/Review";
-import { SubmitReview } from "../../logic/SubmitReview";
+import { SubmitReview } from "../logic/SubmitReview";
 
 export default {
   type: UniversityReviewObjectCommand,

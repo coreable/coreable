@@ -18,16 +18,16 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { UniversityReview } from '../../models/Review';
+import { UniversityReview } from '../models/Review';
 import { UniversityUserResolver } from './User';
 import { UniversityTeamResolver } from './Team';
 import { UniversityTutorialResolver } from './Tutorial';
 import { UniversitySubjectResolver } from './Subject';
-import { UniversityUser } from '../../models/User';
-import { UniversityTutorial } from '../../models/Tutorial';
-import { UniversityTeam } from '../../models/Team';
+import { UniversityUser } from '../models/User';
+import { UniversityTutorial } from '../models/Tutorial';
+import { UniversityTeam } from '../models/Team';
 import { UniversityOrganisationResolver } from './Organisation';
-import { UniversityOrganisation } from '../../models/Organisation';
+import { UniversityOrganisation } from '../models/Organisation';
 
 export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
   name: 'UniversityReviewResolver',

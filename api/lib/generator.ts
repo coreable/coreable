@@ -15,14 +15,14 @@
 import { times } from 'lodash';
 import Faker from 'faker';
 
-import { User } from '../enterprise/identity/models/User';
-import { UniversityTeam } from '../enterprise/university/models/Team';
-import { UniversitySubject } from '../enterprise/university/models/Subject';
-import { UniversityReview } from '../enterprise/university/models/Review';
+import { User } from '../graphql/identity/models/User';
+import { UniversityTeam } from '../graphql/university/models/Team';
+import { UniversitySubject } from '../graphql/university/models/Subject';
+import { UniversityReview } from '../graphql/university/models/Review';
 // import { UniversityIndustry } from '../enterprise/university/models/Industry';
-import { UniversityUser } from '../enterprise/university/models/User';
-import { UniversityTutorial } from '../enterprise/university/models/Tutorial';
-import { UniversityOrganisation } from '../enterprise/university/models/Organisation';
+import { UniversityUser } from '../graphql/university/models/User';
+import { UniversityTutorial } from '../graphql/university/models/Tutorial';
+import { UniversityOrganisation } from '../graphql/university/models/Organisation';
 // import { UniversityManager } from '../enterprise/university/models/Manager';
 
 const users: User[] = [];

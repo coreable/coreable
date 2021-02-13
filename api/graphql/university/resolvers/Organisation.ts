@@ -13,27 +13,27 @@
 */
 
 import { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLFloat } from "graphql";
-import { UniversityOrganisation } from "../../models/Organisation";
+import { UniversityOrganisation } from "../models/Organisation";
 import { UniversityTutorialResolver } from "./Tutorial";
 import { UniversityTeamResolver } from "./Team";
 import { UniversitySubjectResolver } from "./Subject";
 import { UniversityUserResolver } from "./User";
-import { GetOrganisationUsers } from "../../logic/GetOrganisationUsers";
-import { GetOrganisationSubjects } from "../../logic/GetOrganisationSubjects";
-import { GetOrganisationTeams } from "../../logic/GetOrganisationTeams";
-import { GetOrganisationTutorials } from "../../logic/GetOrganisationTutorials";
-import { UniversityOrganisationAverage } from "../../models/OrganisationAverage";
+import { GetOrganisationUsers } from "../logic/GetOrganisationUsers";
+import { GetOrganisationSubjects } from "../logic/GetOrganisationSubjects";
+import { GetOrganisationTeams } from "../logic/GetOrganisationTeams";
+import { GetOrganisationTutorials } from "../logic/GetOrganisationTutorials";
+import { UniversityOrganisationAverage } from "../models/OrganisationAverage";
 import { Op } from "sequelize";
-import { GetOrganisationAverages } from "../../logic/GetOrganisationAverages";
+import { GetOrganisationAverages } from "../logic/GetOrganisationAverages";
 import { UniversityReviewResolver } from "./Review";
 import { UniversityCommunicationTraitsResolver } from "./CommunicationTraits";
 import { UniversityCommunicationFacetsResolver } from "./CommunicationFacets";
 import { UniversityCollaborationTraitsResolver } from "./CollaborationTraits";
 import { UniversityCollaborationFacetsResolver } from "./CollaborationFacets";
-import { TrimReviewToCommunicationTraits } from "../../logic/TrimReviewToCommunicationTraits";
-import { CalculateCommunicationFacets } from "../../logic/CalculateCommunicationFacets";
-import { TrimReviewToCollaborationTraits } from "../../logic/TrimReviewToCollaborationTraits";
-import { CalculateCollaborationFacets } from "../../logic/CalculateCollaborationFacets";
+import { TrimReviewToCommunicationTraits } from "../logic/TrimReviewToCommunicationTraits";
+import { CalculateCommunicationFacets } from "../logic/CalculateCommunicationFacets";
+import { TrimReviewToCollaborationTraits } from "../logic/TrimReviewToCollaborationTraits";
+import { CalculateCollaborationFacets } from "../logic/CalculateCollaborationFacets";
 
 export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganisation> = new GraphQLObjectType({
   name: 'UniversityOrganisationResolver',

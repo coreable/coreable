@@ -17,7 +17,7 @@ import {
   GraphQLString
 } from "graphql";
 
-import { CoreableError } from "../../../../models/CoreableError";
+import { CoreableError } from "../../../models/CoreableError";
 
 export const IdentityCoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
   name: 'IdentityCoreableErrorResolver',

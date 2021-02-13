@@ -16,31 +16,29 @@ import { Sequelize } from 'sequelize';
 import { config } from '../config/config';
 
 // Identity
-import * as User from '../enterprise/identity/models/User';
+import * as User from '../graphql/identity/models/User';
+import * as Manager from '../graphql/identity/models/Manager';
+import * as Industry from '../graphql/identity/models/Industry';
+import * as IndustryAverage from '../graphql/identity/models/IndustryAverage';
 
 // University
-// import * as UniveristyManager from '../enterprise/university/models/Manager';
-  
-import * as UniversityOrganisation from '../enterprise/university/models/Organisation';
-import * as UniversityOrganisationAverage from '../enterprise/university/models/OrganisationAverage';
+import * as UniversityOrganisation from '../graphql/university/models/Organisation';
+import * as UniversityOrganisationAverage from '../graphql/university/models/OrganisationAverage';
 
-import * as UniversityUser from '../enterprise/university/models/User';
-import * as UniversityUserAverage from '../enterprise/university/models/UserAverage';
-import * as UniversityUserReflectionAverage from '../enterprise/university/models/UserReflectionAverage';
+import * as UniversityUser from '../graphql/university/models/User';
+import * as UniversityUserAverage from '../graphql/university/models/UserAverage';
+import * as UniversityUserReflectionAverage from '../graphql/university/models/UserReflectionAverage';
 
-import * as UniversityReview from '../enterprise/university/models/Review';
+import * as UniversityReview from '../graphql/university/models/Review';
 
-import * as UniversityTeam from '../enterprise/university/models/Team';
-import * as UniversityTeamAverage from '../enterprise/university/models/TeamAverage';
+import * as UniversityTeam from '../graphql/university/models/Team';
+import * as UniversityTeamAverage from '../graphql/university/models/TeamAverage';
 
-import * as UniveristyTutorial from '../enterprise/university/models/Tutorial';
-import * as UniversityTutorialAverage from '../enterprise/university/models/TutorialAverage';
+import * as UniveristyTutorial from '../graphql/university/models/Tutorial';
+import * as UniversityTutorialAverage from '../graphql/university/models/TutorialAverage';
 
-import * as UniversitySubject from '../enterprise/university/models/Subject';
-import * as UniversitySubjectAverage from '../enterprise/university/models/SubjectAverage';
-
-// import * as UniversityIndustry from '../enterprise/university/models/Industry';
-// import * as UniversityIndustryAverage from '../enterprise/university/models/IndustryAverage';
+import * as UniversitySubject from '../graphql/university/models/Subject';
+import * as UniversitySubjectAverage from '../graphql/university/models/SubjectAverage';
 
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;

@@ -26,8 +26,8 @@ import { join } from 'path';
 import cors from 'cors';
 
 import { config } from '../config/config';
-import { decodeJWT } from '../enterprise/identity/logic/JWT';
-import { RootSchema } from '../enterprise/Schema';
+import { decodeJWT } from '../graphql/identity/logic/JWT';
+import { RootSchema } from '../graphql/Schema';
 
 // A hack to add the JWT decoded token to the request object
 declare global {

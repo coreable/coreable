@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { UniversityManager } from "../models/Manager";
+import { Manager } from "../../identity/models/Manager";
 import { UniversityOrganisation } from "../models/Organisation";
 import { UniversitySubject } from "../models/Subject";
 import { UniversityTutorial } from "../models/Tutorial";
@@ -21,7 +21,7 @@ import { UniversityTeam } from "../models/Team";
 import { sequelize } from "../../../lib/sequelize";
 
 export async function GetManagerUsers(manager: any, args: any, context: any) {
-  return await UniversityManager.findAll({
+  return await Manager.findAll({
     where: {
       _id: manager._id
     },

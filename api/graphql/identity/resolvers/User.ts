@@ -13,7 +13,7 @@
 */
 
 import { GraphQLObjectType, GraphQLString } from "graphql";
-import { User } from "../../models/User";
+import { User } from "../models/User";
 // import { UniversityUserResolver } from "../../../enterprise/university/graphql/resolvers/User";
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({

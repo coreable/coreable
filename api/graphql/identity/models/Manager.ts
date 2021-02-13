@@ -18,15 +18,19 @@ import {
   Model
 } from 'sequelize';
 import { UniversityOrganisation } from '../../university/models/Organisation';
-import { generatePasswordHash, checkPassword } from '../logic/Hash';
+import { User } from './User';
 
 class Manager extends Model {
-  // Primary Key
+  // Primary Keys
   public _id!: string;
+
+  // Foreign Keys
+  public user_id!: string;
 
   // Relationships
   public organisations!: [UniversityOrganisation];
-  
+  public user!: User;
+
   // Properties
   public email!: string;
   public firstName!: string;
@@ -52,71 +56,14 @@ const sync = (sequelize: Sequelize) => {
       'defaultValue': DataTypes.UUIDV4,
       'allowNull': false
     },
-    'firstName': {
-      'type': DataTypes.STRING,
+    'user_id': {
+      'type': DataTypes.UUID,
       'allowNull': false
-    },
-    'lastName': {
-      'type': DataTypes.STRING,
-      'allowNull': false
-    },
-    'email': {
-      'type': DataTypes.STRING,
-      'allowNull': false,
-      'unique': true,
-      'validate': {
-        'isEmail': true
-      }
-    },
-    'password': {
-      'type': DataTypes.STRING,
-      'allowNull': false,
-      'defaultValue': DataTypes.UUIDV4
-    },
-    'passwordResetToken': {
-      'type': DataTypes.STRING,
-      'allowNull': true
-    },
-    'passwordResetExpiry': {
-      'type': DataTypes.DATE,
-      'allowNull': true
-    },
-    'lockoutAttempts': {
-      'type': DataTypes.INTEGER,
-      'allowNull': false,
-      'defaultValue': 0
-    },
-    'lockoutTimer': {
-      'type': DataTypes.DATE,
-      'allowNull': true
     }
   }, {
     'tableName': 'MANAGER',
     'sequelize': sequelize
   });
-
-  // Hooks
-  Manager.beforeCreate(async (manager: Manager) => {
-    try {
-      manager.password = await generatePasswordHash(manager.password);
-    } catch (err) {
-      throw err;
-    }
-  });
-
-  Manager.beforeUpdate(async (manager: any) => {
-    if (manager._previousDataValues.password !== manager.dataValues.password) {
-      try {
-        manager.password = await generatePasswordHash(manager.dataValues.password);
-      } catch (err) {
-        throw err;
-      }
-    }
-  });
-
-  Manager.prototype.login = async function (payload: string) {
-    return checkPassword(payload, this.password);
-  }
 
   return Manager;
 }
@@ -127,6 +74,11 @@ const assosciate = () => {
     sourceKey: '_id',
     foreignKey: 'manager_id',
     as: 'organisations'
+  });
+  Manager.belongsTo(User, {
+    foreignKey: 'user_id',
+    targetKey: '_id',
+    as: 'user'
   });
   return Manager;
 }

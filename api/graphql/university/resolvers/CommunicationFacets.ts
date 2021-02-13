@@ -13,7 +13,7 @@
 */
 
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
-import { CommunicationFacet } from "../../models/CommunicationFacet";
+import { CommunicationFacet } from "../models/CommunicationFacet";
 
 export const UniversityCommunicationFacetsResolver: GraphQLObjectType<CommunicationFacet> = new GraphQLObjectType({
   name: 'UniversityCommunicationFacetsResolver',

@@ -14,7 +14,7 @@
 
 import { GraphQLString, GraphQLNonNull } from "graphql";
 import { SessionObjectCommand } from "../command/object/Session";
-import { ChangePassword } from '../../logic/ChangePassword';
+import { ChangePassword } from '../logic/ChangePassword';
 
 export default {
   type: SessionObjectCommand,

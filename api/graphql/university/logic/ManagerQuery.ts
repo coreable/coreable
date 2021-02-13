@@ -13,7 +13,7 @@
 */
 
 import { CoreableError } from "../../../models/CoreableError";
-import { UniversityManager } from "../models/Manager";
+import { Manager } from '../../identity/models/Manager';
 
 export async function ManagerQuery(root: any, args: any, context: any) {
   context.MANAGER = null;
@@ -26,8 +26,8 @@ export async function ManagerQuery(root: any, args: any, context: any) {
     });
   }
   if (!errors.length) {
-    context.MANAGER = await UniversityManager.findOne({
-      where: { _id: context.JWT._id }
+    context.MANAGER = await Manager.findOne({
+      where: { user_id: context.JWT._id }
     });
     if (!context.MANAGER) {
       errors.push({

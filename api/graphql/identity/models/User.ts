@@ -22,6 +22,7 @@ import { generatePasswordHash, checkPassword } from '../logic/Hash';
 import { UniversityUser } from '../../university/models/User';
 import { ReferenceUser } from '../../reference/models/User';
 import { Industry } from './Industry';
+import { Manager } from './Manager';
 
 class User extends Model {
   // Primary Key
@@ -34,7 +35,9 @@ class User extends Model {
   public university!: UniversityUser;
   public reference!: ReferenceUser;
   public industry!: Industry;
+  public manager!: Manager;
 
+  // Fields
   public email!: string;
   public firstName!: string;
   public lastName!: string;
@@ -132,6 +135,11 @@ const sync = (sequelize: Sequelize) => {
 };
 
 const assosciate = () => {
+  User.hasMany(Manager, { 
+    sourceKey: '_id',
+    foreignKey: 'user_id',
+    as: 'university' 
+  });
   User.hasMany(UniversityUser, { 
     sourceKey: '_id',
     foreignKey: 'user_id',

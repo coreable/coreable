@@ -17,7 +17,7 @@ import {
   GraphQLString
 } from "graphql";
 
-import { UserLogin } from "../../logic/UserLogin";
+import { UserLogin } from "../logic/UserLogin";
 import { SessionObjectCommand } from "../command/object/Session";
 
 export default {

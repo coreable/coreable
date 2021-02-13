@@ -18,7 +18,7 @@ import {
 } from "graphql";
 
 import { UniversityUserObjectCommand } from "../command/object/User";
-import { LeaveTeam } from "../../logic/LeaveTeam";
+import { LeaveTeam } from "../logic/LeaveTeam";
 
 export default {
   type: UniversityUserObjectCommand,

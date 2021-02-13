@@ -13,7 +13,7 @@
 */
 
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
-import { CollaborationFacets } from "../../models/CollaborationFacet";
+import { CollaborationFacets } from "../models/CollaborationFacet";
 
 export const UniversityCollaborationFacetsResolver: GraphQLObjectType<CollaborationFacets> = new GraphQLObjectType({
   name: 'UniversityCollaborationFacetsResolver',

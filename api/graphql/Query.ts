@@ -20,13 +20,14 @@ import {
 import UniversityMeQuery from './university/queries/Me';
 import IdentityMeQuery from './identity/queries/Me';
 import ReferenceMeQuery from './reference/queries/Me';
-
+import UniversityManagerQuery from './university/queries/Manager';
+ 
 export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'RootQuery',
   description: 'This is the root query',
   fields: () => {
     return {
-      'me': {
+      'user': {
         'type': new GraphQLObjectType({
           'name': 'me',
           fields: () => {
@@ -38,6 +39,19 @@ export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectTyp
             }
           }
         })
+      },
+      'manager': {
+        'type': new GraphQLObjectType({
+          'name': 'manager',
+          fields: () => {
+            return {
+              'university': UniversityManagerQuery
+            }
+          }
+        }),
+        resolve: (value) => {
+          
+        }
       }
     }
   }

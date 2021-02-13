@@ -19,35 +19,33 @@ import {
   GraphQLFloat
 } from 'graphql';
 
-import { UniversityUser } from '../../models/User';
+import { UniversityUser } from '../models/User';
 import { UniversityTeamResolver } from './Team';
 import { UniversityReviewResolver } from './Review';
 import { UniversitySubjectResolver } from './Subject';
-import { UserResolver } from '../../../identity/graphql/resolvers/User';
-
-import { UniversityReview } from '../../models/Review';
-
+import { UserResolver } from '../../identity/resolvers/User';
+import { UniversityReview } from '../models/Review';
 import { Op } from 'sequelize';
-import { GetPendingUsersNeedingReview } from '../../logic/GetPendingUsersNeedingReview';
+import { GetPendingUsersNeedingReview } from '../logic/GetPendingUsersNeedingReview';
 import { UniversityTutorialResolver } from './Tutorial';
-import { UniversityUserAverage } from '../../models/UserAverage';
-import { GetUserAverages } from '../../logic/GetUserAverages';
-import { GetUserSubjects } from '../../logic/GetUserSubjects';
-import { GetUserTutorials } from '../../logic/GetUserTutorials';
-import { GetUserTeams } from '../../logic/GetUserTeams';
+import { UniversityUserAverage } from '../models/UserAverage';
+import { GetUserAverages } from '../logic/GetUserAverages';
+import { GetUserSubjects } from '../logic/GetUserSubjects';
+import { GetUserTutorials } from '../logic/GetUserTutorials';
+import { GetUserTeams } from '../logic/GetUserTeams';
 import { UniversityOrganisationResolver } from './Organisation';
-import { GetUserOrganisations } from '../../logic/GetUserOrganisation';
+import { GetUserOrganisations } from '../logic/GetUserOrganisation';
 import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
 import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
 import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
-import { GetUserIdentityAccount } from '../../logic/GetUserIdentityAccount';
-import { CalculateCollaborationFacets } from '../../logic/CalculateCollaborationFacets';
-import { TrimReviewToCollaborationTraits } from '../../logic/TrimReviewToCollaborationTraits';
-import { CalculateCommunicationFacets } from '../../logic/CalculateCommunicationFacets';
-import { TrimReviewToCommunicationTraits } from '../../logic/TrimReviewToCommunicationTraits';
-import { GetUserReflectionAverages } from '../../logic/GetUserReflectionAverages';
-import { UniversityUserReflectionAverage } from '../../models/UserReflectionAverage';
+import { GetUserIdentityAccount } from '../logic/GetUserIdentityAccount';
+import { CalculateCollaborationFacets } from '../logic/CalculateCollaborationFacets';
+import { TrimReviewToCollaborationTraits } from '../logic/TrimReviewToCollaborationTraits';
+import { CalculateCommunicationFacets } from '../logic/CalculateCommunicationFacets';
+import { TrimReviewToCommunicationTraits } from '../logic/TrimReviewToCommunicationTraits';
+import { GetUserReflectionAverages } from '../logic/GetUserReflectionAverages';
+import { UniversityUserReflectionAverage } from '../models/UserReflectionAverage';
 
 export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new GraphQLObjectType({
   name: 'UniversityUserResolver',

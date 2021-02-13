@@ -19,7 +19,7 @@ import {
   // GraphQLFloat
 } from 'graphql';
 
-import { ReferenceUser } from '../../models/User';
+import { ReferenceUser } from '../models/User';
 
 export const ReferenceUserResolver: GraphQLObjectType<ReferenceUser> = new GraphQLObjectType({
   name: 'ReferenceUserResolver',
