@@ -19,7 +19,7 @@ import {
 } from 'sequelize';
 
 import { UniversityTeam } from './Team';
-import { UniversityReview } from './Review';
+import { Review } from '../../results/models/Review';
 import { User } from '../../identity/models/User';
 import { UniversityOrganisation } from './Organisation';
 import { UniversityUserAverage } from './UserAverage';
@@ -31,15 +31,16 @@ class UniversityUser extends Model {
 
   // Foreign Keys
   public user_id!: string;
-  public industry_id!: string;
 
   // Relationships
   public user!: User;
-  public reflection!: UniversityReview;
   public teams!: [UniversityTeam];
-  public submissions!: [UniversityReview];
-  public reviews!: [UniversityReview];
   public organisations!: [UniversityOrganisation];
+  public reflection!: [Review];
+  public submissions!: [Review];
+  public reviews!: [Review];
+  public reflectionAverages!: [UniversityUserReflectionAverage];
+  public averages!: [UniversityUserAverage];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -72,12 +73,12 @@ const assosciate = () => {
     foreignKey: 'user_id',
     as: 'teams'
   });
-  UniversityUser.hasMany(UniversityReview, {
+  UniversityUser.hasMany(Review, {
     sourceKey: '_id',
     foreignKey: 'receiver_id',
     as: 'reviews'
   });
-  UniversityUser.hasMany(UniversityReview, {
+  UniversityUser.hasMany(Review, {
     sourceKey: '_id',
     foreignKey: 'submitter_id',
     as: 'submissions'

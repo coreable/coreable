@@ -13,7 +13,7 @@
 */
 
 import { UniversityUser } from "../models/User";
-import { UniversityReview } from "../models/Review";
+import { Review } from "../../results/models/Review";
 import { sequelize } from "../../../lib/sequelize";
 import { Op } from "sequelize";
 
@@ -121,7 +121,7 @@ export async function GetUserAverages(user: any, args: any, context: any) {
       ]
     },
     include: [{
-      model: UniversityReview,
+      model: Review,
       as: 'reviews',
       where: {
         receiver_id: user._id, 

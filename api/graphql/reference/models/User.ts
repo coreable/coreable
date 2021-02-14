@@ -28,7 +28,6 @@ class ReferenceUser extends Model {
 
   // Foreign Keys
   public user_id!: string;
-  public industry_id!: string;
 
   // Relationships
   public user!: User;

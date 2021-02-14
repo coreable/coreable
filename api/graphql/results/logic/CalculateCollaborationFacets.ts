@@ -10,25 +10,17 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
-import { 
-  GraphQLObjectType,
-} from "graphql";
+import { Review } from "../models/Review";
+import { CollaborationFacets } from "../models/CollaborationFacet";
 
-import { UniversityManagerResolver } from '../../resolvers/Manager';
-
-export const UniversityManagerObjectMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UserManagerMediator',
-  description: 'UserManagerMediator',
-  fields: () => {
-    return {
-      'manager': {
-        type: UniversityManagerResolver,
-        resolve(data) {
-          return data.manager;
-        }
-      }
-    }
-  }
-});
+export function CalculateCollaborationFacets(review: Review, args: any, context: any): CollaborationFacets {
+  return {
+    'emotionalIntelligence': ((review.empathy + review.managesOwn) / 2),
+    'initiative': ((review.proactive + review.influences) / 2),
+    'trust': ((review.cooperatively + review.positiveBelief) / 2),
+    'flex': ((review.newIdeas + review.workDemands) / 2),
+    'resilience': ((review.resilienceFeedback + review.calm) / 2)
+  };
+} 

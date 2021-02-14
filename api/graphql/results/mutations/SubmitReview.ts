@@ -18,32 +18,36 @@ import {
   GraphQLInt
 } from "graphql";
 
-import { UniversityReviewObjectCommand } from "../command/object/Review";
-import { SubmitReview } from "../logic/SubmitReview";
+import { ReviewObjectCommand } from "../command/object/Review";
+import { SubmitReview } from '../logic/SubmitReview';
 
 export default {
-  type: UniversityReviewObjectCommand,
+  type: ReviewObjectCommand,
   args: {
-    receiver_id: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The user being reviewed'
+    // University
+    uni_receiver_id: {
+      type: GraphQLString,
     },
-    team_id: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The team they have in common'
+    uni_team_id: {
+      type: GraphQLString,
     },
-    tutorial_id: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The tutorial they have in common'
+    uni_tutorial_id: {
+      type: GraphQLString,
     },
-    subject_id: {
-      type: new GraphQLNonNull(GraphQLString),
-      description: 'The subject the review belongs to'
+    uni_subject_id: {
+      type: GraphQLString,
     },
-    organisation_id: {
-      type: new GraphQLNonNull(GraphQLString)
+    uni_organisation_id: {
+      type: GraphQLString
     },
-    // Reviews 
+    // Reference
+    ref_receiver_id: {
+      type: GraphQLString
+    },
+    ref_invite_id: {
+      type: GraphQLString
+    },
+    // Properties
     calm: {
       type: new GraphQLNonNull(GraphQLInt),
     },

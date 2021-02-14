@@ -16,7 +16,7 @@ import { GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLList } from "gra
 import { UniversitySubjectResolver } from "./Subject";
 import { UniversityTutorialAverage } from "../models/TutorialAverage";
 import { Op } from "sequelize";
-import { UniversityReviewResolver } from "./Review";
+import { ReviewResolver } from "../../results/resolvers/Review";
 import { GetTutorialAverages } from "../logic/GetTutorialAverages";
 import { GetTutorialSubject } from "../logic/GetTutorialSubject";
 import { UniversityTeamResolver } from "./Team";
@@ -29,10 +29,10 @@ import { UniversityCommunicationTraitsResolver } from "./CommunicationTraits";
 import { UniversityCommunicationFacetsResolver } from "./CommunicationFacets";
 import { UniversityCollaborationTraitsResolver } from "./CollaborationTraits";
 import { UniversityCollaborationFacetsResolver } from "./CollaborationFacets";
-import { CalculateCommunicationFacets } from "../logic/CalculateCommunicationFacets";
-import { TrimReviewToCommunicationTraits } from "../logic/TrimReviewToCommunicationTraits";
-import { CalculateCollaborationFacets } from "../logic/CalculateCollaborationFacets";
-import { TrimReviewToCollaborationTraits } from "../logic/TrimReviewToCollaborationTraits";
+import { CalculateCommunicationFacets } from "../../results/logic/CalculateCommunicationFacets";
+import { TrimReviewToCommunicationTraits } from "../../results/logic/TrimReviewToCommunicationTraits";
+import { CalculateCollaborationFacets } from "../../results/logic/CalculateCollaborationFacets";
+import { TrimReviewToCollaborationTraits } from "../../results/logic/TrimReviewToCollaborationTraits";
 
 export const UniversityTutorialResolver = new GraphQLObjectType({
   name: 'UniversityTutorialResolver',
@@ -107,7 +107,7 @@ export const UniversityTutorialResolver = new GraphQLObjectType({
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
+                        type: new GraphQLList(ReviewResolver),
                         resolve(averages, args, context) {
                           return averages;
                         }

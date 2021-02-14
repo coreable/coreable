@@ -22,7 +22,7 @@ import {
 
 import { UniversitySubject } from '../models/Subject';
 import { UniversityTeamResolver } from './Team';
-import { UniversityReviewResolver } from './Review';
+import { ReviewResolver } from '../../results/resolvers/Review';
 import { Op } from 'sequelize';
 import { UniversitySubjectAverage } from '../models/SubjectAverage';
 import { GetSubjectAverages } from '../logic/GetSubjectAverages';
@@ -36,10 +36,10 @@ import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
 import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
 import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
-import { CalculateCommunicationFacets } from '../logic/CalculateCommunicationFacets';
-import { TrimReviewToCommunicationTraits } from '../logic/TrimReviewToCommunicationTraits';
-import { CalculateCollaborationFacets } from '../logic/CalculateCollaborationFacets';
-import { TrimReviewToCollaborationTraits } from '../logic/TrimReviewToCollaborationTraits';
+import { CalculateCommunicationFacets } from '../../results/logic/CalculateCommunicationFacets';
+import { TrimReviewToCommunicationTraits } from '../../results/logic/TrimReviewToCommunicationTraits';
+import { CalculateCollaborationFacets } from '../../results/logic/CalculateCollaborationFacets';
+import { TrimReviewToCollaborationTraits } from '../../results/logic/TrimReviewToCollaborationTraits';
 import { UniversityTutorialResolver } from './Tutorial';
 
 export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = new GraphQLObjectType({
@@ -126,7 +126,7 @@ export const UniversitySubjectResolver: GraphQLObjectType<UniversitySubject> = n
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
+                        type: new GraphQLList(ReviewResolver),
                         resolve(averages, args, context) {
                           return averages;
                         }

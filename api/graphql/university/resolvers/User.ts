@@ -21,10 +21,10 @@ import {
 
 import { UniversityUser } from '../models/User';
 import { UniversityTeamResolver } from './Team';
-import { UniversityReviewResolver } from './Review';
+import { ReviewResolver } from '../../results/resolvers/Review';
 import { UniversitySubjectResolver } from './Subject';
 import { UserResolver } from '../../identity/resolvers/User';
-import { UniversityReview } from '../models/Review';
+import { Review } from '../../results/models/Review';
 import { Op } from 'sequelize';
 import { GetPendingUsersNeedingReview } from '../logic/GetPendingUsersNeedingReview';
 import { UniversityTutorialResolver } from './Tutorial';
@@ -40,10 +40,10 @@ import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
 import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
 import { GetUserIdentityAccount } from '../logic/GetUserIdentityAccount';
-import { CalculateCollaborationFacets } from '../logic/CalculateCollaborationFacets';
-import { TrimReviewToCollaborationTraits } from '../logic/TrimReviewToCollaborationTraits';
-import { CalculateCommunicationFacets } from '../logic/CalculateCommunicationFacets';
-import { TrimReviewToCommunicationTraits } from '../logic/TrimReviewToCommunicationTraits';
+import { CalculateCollaborationFacets } from '../../results/logic/CalculateCollaborationFacets';
+import { TrimReviewToCollaborationTraits } from '../../results/logic/TrimReviewToCollaborationTraits';
+import { CalculateCommunicationFacets } from '../../results/logic/CalculateCommunicationFacets';
+import { TrimReviewToCommunicationTraits } from '../../results/logic/TrimReviewToCommunicationTraits';
 import { GetUserReflectionAverages } from '../logic/GetUserReflectionAverages';
 import { UniversityUserReflectionAverage } from '../models/UserReflectionAverage';
 
@@ -129,14 +129,14 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
           fields: () => {
             return {
               'normal': {
-                type: new GraphQLList(UniversityReviewResolver),
+                type: new GraphQLList(ReviewResolver),
                 async resolve(user, args, context) {
                   if (context?.USER._id !== user._id && !context.MANAGER) {
                     return null;
                   }
 
                   // Logic to hide submitter is in the review resolver
-                  return await UniversityReview.findAll({
+                  return await Review.findAll({
                     attributes: {
                       exclude: ['createdAt', 'updatedAt']
                     },
@@ -148,14 +148,14 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                 }
               },
               'submissions': {
-                type: new GraphQLList(UniversityReviewResolver),
+                type: new GraphQLList(ReviewResolver),
                 async resolve(user: any, args, context) {
                   if (context.USER?._id !== user._id && !context.MANAGER) {
                     return null;
                   }
 
                   // Logic to hide receiver is in the review resolver
-                  return await UniversityReview.findAll({
+                  return await Review.findAll({
                     attributes: {
                       exclude: ['createdAt', 'updatedAt']
                     },
@@ -180,7 +180,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
+                        type: new GraphQLList(ReviewResolver),
                         resolve(averages: any, args: any, context: any) {
                           return averages;
                         }
@@ -544,7 +544,7 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
+                        type: new GraphQLList(ReviewResolver),
                         resolve(averages, args, context) {
                           return averages;
                         }

@@ -18,7 +18,7 @@ import { UniversitySubject } from "../models/Subject";
 import { UniversityUser } from "../models/User";
 import { UniversityTutorial } from "../models/Tutorial";
 import { UniversityTeam } from "../models/Team";
-import { UniversityReview } from "../models/Review";
+import { Review } from "../../results/models/Review";
 
 export async function GetOrganisationAverages(organisation: any, args: any, context: any) {
   return await UniversityOrganisation.findOne({
@@ -129,7 +129,7 @@ export async function GetOrganisationAverages(organisation: any, args: any, cont
             model: UniversityUser,
             as: 'users',
             include: [{
-              model: UniversityReview,
+              model: Review,
               as: 'reviews'
             }]
           }]

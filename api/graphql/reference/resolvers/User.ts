@@ -10,14 +10,16 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
 import {
   GraphQLObjectType,
-  // GraphQLString,
+  GraphQLString,
   // GraphQLList,
   // GraphQLFloat
 } from 'graphql';
+import { GetReferenceUser } from '../../identity/logic/GetReferenceUser';
+import { UserResolver } from '../../identity/resolvers/User';
 
 import { ReferenceUser } from '../models/User';
 
@@ -26,6 +28,24 @@ export const ReferenceUserResolver: GraphQLObjectType<ReferenceUser> = new Graph
   description: 'This represents a ReferenceUser',
   fields: () => {
     return {
+      '_id': {
+        type: GraphQLString,
+        resolve(reference_user, args, context) {
+          return reference_user._id;
+        },
+      },
+      'user_id': {
+        type: GraphQLString,
+        resolve(reference_user, args, context) {
+          return reference_user.user_id;
+        }
+      },
+      'user': {
+        type: UserResolver,
+        async resolve(reference_user, args, context) {
+          return await GetReferenceUser(reference_user, args, context);
+        }
+      }
     }
   }
 });

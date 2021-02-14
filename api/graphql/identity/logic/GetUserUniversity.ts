@@ -1,6 +1,6 @@
 /*
   ===========================================================================
-    Copyright (C) 2020 Coreable
+    Copyright (C) 2021 Coreable
     This file is part of Coreable's source code.
     Coreables source code is free software; you can redistribute it
     and/or modify it under the terms of the End-user license agreement.
@@ -12,12 +12,25 @@
   ===========================================================================
 */
 
-import { UniversityManagerObjectCommand } from "../command/object/Manager";
-import { ManagerQuery } from "../logic/ManagerQuery";
+import { sequelize } from "../../../lib/sequelize";
+import { User } from "../models/User";
+import { UniversityUser } from "../../university/models/User";
 
-export default {
-  'type': UniversityManagerObjectCommand,
-  async resolve(root: any, args: any, context: any) {
-    return await ManagerQuery(root, args, context);
-  }
+export async function GetUserUniversity(user: any, args: any, context: any) {
+  return await User.findOne({
+    where: {
+      _id: user._id
+    },
+    raw: true,
+    attributes: {
+      include: [
+        [sequelize.col('university.user_id'), 'user_id'],
+        [sequelize.col('university._id'), '_id']
+      ]
+    },
+    include: [{
+      model: UniversityUser,
+      as: 'university'
+    }]
+  });
 }

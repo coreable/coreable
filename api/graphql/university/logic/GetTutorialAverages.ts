@@ -15,7 +15,7 @@
 import { UniversityTutorial } from "../models/Tutorial"
 import { UniversityTeam } from "../models/Team"
 import { UniversityUser } from "../models/User"
-import { UniversityReview } from "../models/Review"
+import { Review } from "../../results/models/Review";
 import { sequelize } from "../../../lib/sequelize"
 
 export async function GetTutorialAverages(tutorial: any, args: any, context: any) {
@@ -139,7 +139,7 @@ export async function GetTutorialAverages(tutorial: any, args: any, context: any
           ]
         },
         include: [{
-          model: UniversityReview,
+          model: Review,
           as: 'reviews',
           attributes: {
             exclude: [

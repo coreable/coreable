@@ -10,27 +10,38 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/
+*/ 
 
-import { 
-  GraphQLNonNull,
+import {
+  GraphQLObjectType,
   GraphQLString
 } from "graphql";
 
-import { ManagerLogin } from "../logic/ManagerLogin";
-import { SessionObjectCommand } from "../command/object/Session";
+import { CoreableError } from "../models/CoreableError";
 
-export default {
-  type: SessionObjectCommand,
-  args: {
-    email: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    password: {
-      type: new GraphQLNonNull(GraphQLString)
+export const CoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
+  name: 'CoreableErrorResolver',
+  description: 'CoreableErrorResolver',
+  fields: () => {
+    return {
+      'message': {
+        type: GraphQLString,
+        resolve(error) {
+          return error.message;
+        }
+      },
+      'path': {
+        type: GraphQLString,
+        resolve(error) {
+          return error.path
+        }
+      },
+      'code': {
+        type: GraphQLString,
+        resolve(error) {
+          return error.code;
+        }
+      }
     }
-  },
-  async resolve(root: any, args: any, context: any) {
-    return await ManagerLogin(root, args, context);
   }
-}
+});

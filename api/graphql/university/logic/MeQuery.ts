@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { CoreableError } from '../../../models/CoreableError';
+import { CoreableError } from '../../global/models/CoreableError';
 import { UniversityUser } from "../models/User";
 
 export async function MeQuery(root: any, args: any, context: any) {

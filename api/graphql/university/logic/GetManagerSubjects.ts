@@ -38,5 +38,5 @@ export async function GetManagerSubjects(manager: any, args: any, context: any) 
         as: 'subjects'
       }]
     }]
-  })
+  });
 }

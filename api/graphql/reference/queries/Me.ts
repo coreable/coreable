@@ -13,11 +13,11 @@
 */ 
 
 import { ReferenceMeCommand } from "../command/Me";
-import { MeQuery } from '../logic/MeQuery';
+import { ReferenceMe } from '../logic/MeQuery';
 
 export default {
   'type': ReferenceMeCommand,
   async resolve(root: any, args: any, context: any) {
-    return await MeQuery(root, args, context);
+    return await ReferenceMe(root, args, context);
   }
 }

@@ -13,8 +13,15 @@
 */
 
 import { GraphQLObjectType, GraphQLString } from "graphql";
+import { ReferenceMe } from "../../reference/logic/MeQuery";
+import { ReferenceUserResolver } from "../../reference/resolvers/User";
+import { UniversityUserResolver } from "../../university/resolvers/User";
+import { GetUserIndustry } from "../logic/GetUserIndustry";
+import { GetUserManager } from "../logic/GetUserManager";
+import { GetUserUniversity } from "../logic/GetUserUniversity";
 import { User } from "../models/User";
-// import { UniversityUserResolver } from "../../../enterprise/university/graphql/resolvers/User";
+import { IndustryResolver } from "./Industry";
+import { ManagerResolver } from "./Manager";
 
 export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
   name: 'UserResolver',
@@ -45,12 +52,39 @@ export const UserResolver: GraphQLObjectType<User> = new GraphQLObjectType({
           return user.lastName;
         } 
       },
-      // 'universityAccount': {
-      //   type: UniversityUserResolver,
-      //   async resolve(user: any, args: any, context: any) {
-      //     return await user.getUniversityAccount();
-      //   }
-      // },
+      'industry': {
+        type: IndustryResolver,
+        async resolve(user, args, context) {
+          return await GetUserIndustry(user, args, context);
+        }
+      },
+      'manager': {
+        type: ManagerResolver,
+        async resolve(user, args, context) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
+          return await GetUserManager(user, args, context);
+        }
+      },
+      'university': {
+        type: UniversityUserResolver,
+        async resolve(user, args, context) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
+          return await GetUserUniversity(user, args, context);
+        }
+      },
+      'reference': {
+        type: ReferenceUserResolver,
+        async resolve(user, args, context) {
+          if (context.USER._id !== user._id) {
+            return null;
+          }
+          return await ReferenceMe(user, args, context)
+        }
+      },
       'createdAt': {
         type: GraphQLString,
         resolve(user: any, args: any, context: any) {

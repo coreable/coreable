@@ -1,6 +1,6 @@
 /*
   ===========================================================================
-    Copyright (C) 2020 Coreable
+    Copyright (C) 2021 Coreable
     This file is part of Coreable's source code.
     Coreables source code is free software; you can redistribute it
     and/or modify it under the terms of the End-user license agreement.
@@ -10,36 +10,39 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
 import {
+  GraphQLList,
   GraphQLObjectType,
   GraphQLString
-} from "graphql";
+} from 'graphql';
 
-import { CoreableError } from "../../../models/CoreableError";
+import { ReviewResolver } from '../../results/resolvers/Review';
+import { Industry } from "../models/Industry";
+import { GetIndustryAverages } from '../logic/GetIndustryAverages';
 
-export const UniversityCoreableErrorResolver: GraphQLObjectType<CoreableError> = new GraphQLObjectType({
-  name: 'UniversityCoreableErrorResolver',
-  description: 'UniversityCoreableErrorResolver',
+export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectType({
+  name: 'IndutryResolver',
   fields: () => {
     return {
-      'message': {
+      '_id': {
         type: GraphQLString,
-        resolve(error) {
-          return error.message;
+        resolve(industry, args, context) {
+          return industry._id;
         }
       },
-      'path': {
+      'name': {
         type: GraphQLString,
-        resolve(error) {
-          return error.path
+        resolve(industry, args, context) {
+          return industry.name;
         }
       },
-      'code': {
-        type: GraphQLString,
-        resolve(error) {
-          return error.code;
+      'averages': {
+        type: ReviewResolver,
+        async resolve(industry, args, context) {
+          // TODO:
+          return await GetIndustryAverages(industry, args, context);
         }
       }
     }

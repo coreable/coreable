@@ -10,7 +10,7 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
 import {
   Model,
@@ -37,6 +37,7 @@ class ReferenceInvite extends Model {
   public relation!: string;
   public email!: string;
   public message!: string;
+  public complete!: number; // 0 = FALSE; 1 = TRUE
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -72,6 +73,11 @@ const sync = (sequelize: Sequelize) => {
     'message': {
       'type': DataTypes.STRING,
       'allowNull': false
+    },
+    'complete': {
+      'type': DataTypes.INTEGER,
+      'allowNull': false,
+      'defaultValue': 0
     }
   }, {
     'tableName': 'REFERENCE_INVITE',

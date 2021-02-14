@@ -29,8 +29,7 @@ export async function GetManagerUsers(manager: any, args: any, context: any) {
     attributes: {
       include: [
         [sequelize.col('organisation.subjects.tutorials.teams.users._id'), '_id'],
-        [sequelize.col('organisation.subjects.tutorials.teams.users.user_id'), 'user_id'],
-        [sequelize.col('organisation.subjects.tutorials.teams.users.industry_id'), 'industry_id'],
+        [sequelize.col('organisation.subjects.tutorials.teams.users.user_id'), 'user_id']
       ]
     },
     include: [{

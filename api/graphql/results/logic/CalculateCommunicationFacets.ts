@@ -10,33 +10,16 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
+*/
 
-import { 
-  GraphQLObjectType,
-  GraphQLList
-} from "graphql";
+import { Review } from "../models/Review";
+import { CommunicationFacet } from "../models/CommunicationFacet";
 
-import { IdentityMeMediator } from "../mediators/Me";
-import { CoreableErrorResolver } from "../../global/resolvers/Error";
-
-export const IdentityMeCommand: GraphQLObjectType = new GraphQLObjectType({
-  name: 'IdentityMeCommand',
-  description: 'IdentityMeCommand',
-  fields: () => {
-    return {
-      'data': {
-        type: IdentityMeMediator,
-        resolve(value) {
-          return value.data;
-        }
-      },
-      'errors': {
-        type: new GraphQLList(CoreableErrorResolver),
-        resolve(value) {
-          return value.errors;
-        }
-      }
-    }
-  }
-});
+export function CalculateCommunicationFacets(review: Review, args: any, context: any): CommunicationFacet {
+  return {
+    'clarity': ((review.clearInstructions + review.easilyExplainsComplexIdeas) / 2),
+    'culture': ((review.openToShare + review.crossTeam) / 2),
+    'nonVerbal': ((review.distractions + review.usesRegulators) / 2),
+    'attentive': (review.signifiesInterest / 1)
+  };
+} 

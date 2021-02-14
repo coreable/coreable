@@ -1,6 +1,6 @@
 /*
   ===========================================================================
-    Copyright (C) 2020 Coreable
+    Copyright (C) 2021 Coreable
     This file is part of Coreable's source code.
     Coreables source code is free software; you can redistribute it
     and/or modify it under the terms of the End-user license agreement.
@@ -12,15 +12,25 @@
   ===========================================================================
 */
 
-import { UniversityReview } from "../models/Review";
-import { CollaborationFacets } from "../models/CollaborationFacet";
+import { sequelize } from "../../../lib/sequelize";
+import { User } from "../models/User";
+import { Manager } from "../models/Manager";
 
-export function CalculateCollaborationFacets(review: UniversityReview, args: any, context: any): CollaborationFacets {
-  return {
-    'emotionalIntelligence': ((review.empathy + review.managesOwn) / 2),
-    'initiative': ((review.proactive + review.influences) / 2),
-    'trust': ((review.cooperatively + review.positiveBelief) / 2),
-    'flex': ((review.newIdeas + review.workDemands) / 2),
-    'resilience': ((review.resilienceFeedback + review.calm) / 2)
-  };
-} 
+export async function GetUserManager(user: any, args: any, context: any) {
+  return await User.findOne({
+    where: {
+      _id: user._id
+    },
+    raw: true,
+    attributes: {
+      include: [
+        [sequelize.col('manager._id'), '_id'],
+        [sequelize.col('manager.user_id'), 'user_id']
+      ]
+    },
+    include: [{
+      model: Manager,
+      as: 'manager'
+    }]
+  });
+}

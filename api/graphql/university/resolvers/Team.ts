@@ -19,8 +19,7 @@ import {
   GraphQLFloat
 } from 'graphql';
 
-// import { UniversityUserResolver } from './User';
-import { UniversityReviewResolver } from './Review';
+import { ReviewResolver } from '../../results/resolvers/Review';
 import { UniversityTeamAverage } from '../models/TeamAverage';
 import { UniversityTeam } from '../models/Team';
 import { Op } from 'sequelize';
@@ -37,10 +36,10 @@ import { UniversityCollaborationTraitsResolver } from './CollaborationTraits';
 import { UniversityCommunicationTraitsResolver } from './CommunicationTraits';
 import { UniversityCommunicationFacetsResolver } from './CommunicationFacets';
 import { UniversityCollaborationFacetsResolver } from './CollaborationFacets';
-import { CalculateCommunicationFacets } from '../logic/CalculateCommunicationFacets';
-import { TrimReviewToCommunicationTraits } from '../logic/TrimReviewToCommunicationTraits';
-import { CalculateCollaborationFacets } from '../logic/CalculateCollaborationFacets';
-import { TrimReviewToCollaborationTraits } from '../logic/TrimReviewToCollaborationTraits';
+import { CalculateCommunicationFacets } from '../../results/logic/CalculateCommunicationFacets';
+import { TrimReviewToCommunicationTraits } from '../../results/logic/TrimReviewToCommunicationTraits';
+import { CalculateCollaborationFacets } from '../../results/logic/CalculateCollaborationFacets';
+import { TrimReviewToCollaborationTraits } from '../../results/logic/TrimReviewToCollaborationTraits';
 
 export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new GraphQLObjectType({
   name: 'UniversityTeamResolver',
@@ -119,7 +118,7 @@ export const UniversityTeamResolver: GraphQLObjectType<UniversityTeam> = new Gra
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
+                        type: new GraphQLList(ReviewResolver),
                         resolve(averages, args, context) {
                           return averages;
                         }

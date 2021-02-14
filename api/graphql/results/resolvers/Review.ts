@@ -18,20 +18,22 @@ import {
   GraphQLString,
 } from 'graphql';
 
-import { UniversityReview } from '../models/Review';
-import { UniversityUserResolver } from './User';
-import { UniversityTeamResolver } from './Team';
-import { UniversityTutorialResolver } from './Tutorial';
-import { UniversitySubjectResolver } from './Subject';
-import { UniversityUser } from '../models/User';
-import { UniversityTutorial } from '../models/Tutorial';
-import { UniversityTeam } from '../models/Team';
-import { UniversityOrganisationResolver } from './Organisation';
-import { UniversityOrganisation } from '../models/Organisation';
+import { UniversityUserResolver } from '../../university/resolvers/User';
+import { UniversityTeamResolver } from '../../university/resolvers/Team';
+import { UniversityTutorialResolver } from '../../university/resolvers/Tutorial';
+import { UniversityOrganisationResolver } from '../../university/resolvers/Organisation'; 
+import { UniversitySubjectResolver } from '../../university/resolvers/Subject';
 
-export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
-  name: 'UniversityReviewResolver',
-  description: 'The representation of a UniversityReview',
+import { Review } from '../models/Review';
+import { UniversityUser } from '../../university/models/User';
+import { UniversityTutorial } from '../../university/models/Tutorial';
+import { UniversityTeam } from '../../university/models/Team';
+import { UniversityOrganisation } from '../../university/models/Organisation';
+import { UniversitySubject } from '../../university/models/Subject';
+
+export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
+  name: 'ReviewResolver',
+  description: 'The representation of a Review',
   fields: () => {
     return {
       '_id': {
@@ -40,16 +42,17 @@ export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new
           return review._id;
         }
       },
-      'receiver_id': {
+      /** -------------------- UNIVERSITY -------------------- */
+      'uni_receiver_id': {
         type: GraphQLString,
         resolve(review, args, context) {
           if (!context.MANAGER) {
             return null;
           }
-          return review.receiver_id;
+          return review.uni_receiver_id;
         }
       },
-      'receiver': {
+      'uni_receiver': {
         type: UniversityUserResolver,
         async resolve(review: any, args, context) {
           if (!context.MANAGER) {
@@ -57,21 +60,21 @@ export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new
           }
           return await UniversityUser.findOne({
             where: {
-              _id: review.receiver_id
+              _id: review.uni_receiver_id
             }
           });
         }
       },
-      'submitter_id': {
+      'uni_submitter_id': {
         type: GraphQLString,
         resolve(review, args, context) {
           if (!context.MANAGER) {
             return null;
           }
-          return review.submitter_id;
+          return review.uni_submitter_id;
         }
       },
-      'submitter': {
+      'uni_submitter': {
         type: UniversityUserResolver,
         async resolve(review: any, args, context) {
           if (!context.MANAGER) {
@@ -79,75 +82,78 @@ export const UniversityReviewResolver: GraphQLObjectType<UniversityReview> = new
           }
           return await UniversityUser.findOne({
             where: {
-              _id: review.submitter_id
+              _id: review.uni_submitter_id
             }
           });
         }
       },
-      'subject': {
+      'uni_subject': {
         type: UniversitySubjectResolver,
         async resolve(review: any, args, context) {
-          return await UniversityReview.findOne({
+          return await UniversitySubject.findOne({
             where: {
-              _id: review.subject_id
+              _id: review.uni_subject_id
             }
           });
         }
       },
-      'subject_id': {
+      'uni_subject_id': {
         type: GraphQLString,
         resolve(review: any, args, context) {
-          return review.subject_id;
+          return review.uni_subject_id;
         }
       },
-      'tutorial': {
+      'uni_tutorial': {
         type: UniversityTutorialResolver,
         async resolve(review: any, args, context) {
           return await UniversityTutorial.findOne({
             where: {
-              _id: review.tutorial_id
+              _id: review.uni_tutorial_id
             }
           });
         }
       },
-      'tutorial_id': {
+      'uni_tutorial_id': {
         type: GraphQLString,
         resolve(review: any, args, context) {
-          return review.tutorial_id;
+          return review.uni_tutorial_id;
         }
       },
-      'team': {
+      'uni_team': {
         type: UniversityTeamResolver,
         async resolve(review: any, args, context) {
           return await UniversityTeam.findOne({
             where: {
-              _id: review.team_id
+              _id: review.uni_team_id
             }
           });
         }
       },
-      'team_id': {
+      'uni_team_id': {
         type: GraphQLString,
         resolve(review, args, context) {
-          return review.team_id;
+          return review.uni_team_id;
         }
       },
-      'organisation': {
+      'uni_organisation': {
         type: UniversityOrganisationResolver,
         async resolve(review: any, args, context) {
           return await UniversityOrganisation.findOne({
             where: {
-              _id: review.organisation_id
+              _id: review.uni_organisation_id
             }
           });
         }
       },
-      'organisation_id': {
+      'uni_organisation_id': {
         type: GraphQLString,
         resolve(review, args, context) {
-          return review.organisation_id;
+          return review.uni_organisation_id;
         }
       },
+      /** -------------------- REFERENCE -------------------- */
+      
+      /** -------------------- PROPERTIES -------------------- */
       'calm': {
         type: GraphQLFloat,
         resolve(review, args, context) {

@@ -12,71 +12,65 @@
   ===========================================================================
 */
 
-import { CoreableError } from '../../../models/CoreableError';
+import { CoreableError } from '../../global/models/CoreableError';
+import { User } from '../models/User';
 import { encodeJWT } from './JWT';
-import { Manager } from '../models/Manager';
 
-export async function ManagerLogin(root: any, args: any, context: any) {
+export async function Login(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
-  let manager: any;
   let token: string | undefined;
+  context.USER = null;
   if (!errors.length) {
-    manager = await Manager.findOne({
+    context.USER = await User.findOne({
       where: { email: args.email.toLowerCase() }
     });
-    if (!manager) {
+    if (!context.USER) {
       errors.push({
-        code: 'ER_MANAGER_UNKNOWN',
+        code: 'ER_USER_UNKNOWN',
         path: 'email',
-        message: `No manager found with email ${args.email}`
+        message: `No user found with email ${args.email}`
       });
     }
   }
   if (!errors.length) {
     const now = Date.now();
-    if (manager.lockoutTimer > now) {
+    if (context.USER.lockoutTimer > now) {
       errors.push({
         code: 'ER_ACC_LOCKED',
         path: 'account',
         message: 'Account temporarily locked'
       });
     }
-    if (manager.lockoutTimer < now) {
-      manager.lockoutTimer = null;
-      manager.lockoutAttempts = 0;
-      await manager.save();
+    if (context.USER.lockoutTimer < now) {
+      context.USER.lockoutTimer = null;
+      context.USER.lockoutAttempts = 0;
+      await context.USER.save();
     }
   }
   if (!errors.length) {
-    const isCorrectPassword = await manager.login(args.password);
+    const isCorrectPassword = await context.USER.login(args.password);
     if (!isCorrectPassword) {
       errors.push({
         code: 'ER_AUTH_FAILURE',
         path: 'password',
         message: 'Password invalid'
       });
-      manager.lockoutAttempts = manager.lockoutAttempts + 1;
-      if (manager.lockoutAttempts > 5) {
+      context.USER.lockoutAttempts = context.USER.lockoutAttempts + 1;
+      if (context.USER.lockoutAttempts > 5) {
         const oldDateObj = new Date();
         const newDateObj = new Date();
         // now + 30 minutes
         newDateObj.setTime(oldDateObj.getTime() + (30 * 60 * 1000));
-        manager.lockoutTimer = newDateObj;
-        errors.push({
-          code: 'ER_ACC_LOCKED',
-          path: 'account',
-          message: 'Account temporarily locked'
-        });
+        context.USER.lockoutTimer = newDateObj;
       }
-      await manager.save();
+      await context.USER.save();
     }
   }
   if (!errors.length) {
     try {
       token = await encodeJWT({
-        _id: manager._id,
-        email: manager.email,
-        enterprise: 'university'
+        _id: context.USER._id,
+        email: context.USER.email
       });
     } catch (err) {
       errors.push({ 
@@ -88,7 +82,7 @@ export async function ManagerLogin(root: any, args: any, context: any) {
   }
   return {
     'data': !errors.length ? {
-      'manager': manager,
+      'user': context.USER,
       'token': token
     } : null,
     'errors': errors.length > 0 ? errors : null

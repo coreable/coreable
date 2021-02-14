@@ -20,6 +20,7 @@ import {
 
 import { UniversitySubject } from "./Subject";
 import { Manager } from "../../identity/models/Manager";
+import { UniversityOrganisationAverage } from "./OrganisationAverage";
 
 class UniversityOrganisation extends Model {
   // Primary Key
@@ -27,6 +28,7 @@ class UniversityOrganisation extends Model {
 
   // Relationships
   public subjects!: [UniversitySubject];
+  public averages!: [UniversityOrganisationAverage];
   public managers!: [Manager];
 
   // Properties

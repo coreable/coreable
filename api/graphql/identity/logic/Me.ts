@@ -13,12 +13,12 @@
 */
 
 import { User } from "../models/User";
-import { CoreableError } from "../../../models/CoreableError";
+import { CoreableError } from "../../global/models/CoreableError";
 
 export async function IdentityMe(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
   let user: any;
-  context.IDENTITY = null;
+  context.USER = null;
   if (!context.USER) {
     errors.push({ code: 'ER_UNAUTH', path: 'JWT', message: 'User unauthenticated' });
   }
@@ -36,7 +36,7 @@ export async function IdentityMe(root: any, args: any, context: any) {
   }
   return {
     'data': !errors.length ? {
-      'user': user
+      'user': context.USER
     } : null,
     'errors': errors.length > 0 ? errors : null
   }

@@ -1,6 +1,6 @@
 /*
   ===========================================================================
-    Copyright (C) 2020 Coreable
+    Copyright (C) 2021 Coreable
     This file is part of Coreable's source code.
     Coreables source code is free software; you can redistribute it
     and/or modify it under the terms of the End-user license agreement.
@@ -17,33 +17,47 @@ import {
   DataTypes,
   Sequelize
 } from 'sequelize';
-import { UniversityUser } from './User';
-import { UniversitySubject } from './Subject';
-import { UniversityTeam } from './Team';
-import { UniversityTutorial } from './Tutorial';
-import { UniversityOrganisation } from './Organisation';
 
-class UniversityReview extends Model {
-  // Primary Key
+// References
+import { User } from '../../identity/models/User';
+import { ReferenceInvite } from '../../reference/models/Invite';
+
+// Universities
+import { UniversityUser } from '../../university/models/User';
+import { UniversitySubject } from '../../university/models/Subject';
+import { UniversityTeam } from '../../university/models/Team';
+import { UniversityTutorial } from '../../university/models/Tutorial';
+import { UniversityOrganisation } from '../../university/models/Organisation';
+
+class Review extends Model {
+  /** PRIMARY KEYS   */
   public _id!: string;
 
-  // Foreign Keys
-  public receiver_id!: string;
-  public submitter_id!: string;
-  public subject_id!: string;
-  public team_id!: string;
-  public tutorial_id!: string;
-  public organisation_id!: string;
+  /** FOREIGN KEYS */
+  // Univerisity
+  public uni_receiver_id!: string;
+  public uni_submitter_id!: string;
+  public uni_subject_id!: string;
+  public uni_team_id!: string;
+  public uni_tutorial_id!: string;
+  public uni_organisation_id!: string;
+  // Reference
+  public ref_receiver_id!: string;
+  public ref_submitter_id!: string;
+  public ref_invite_id!: string;
 
-  // Relationships
-  public receiver!: UniversityUser;
-  public submitter!: UniversityUser;
-  public subject!: UniversitySubject;
-  public team!: UniversityTeam;
-  public tutorial!: UniversityTutorial;
-  public organisation!: UniversityOrganisation;
+  /** RELATIONSHIPS */
+  // University
+  public uni_receiver!: UniversityUser;
+  public uni_submitter!: UniversityUser;
+  public uni_subject!: UniversitySubject;
+  public uni_team!: UniversityTeam;
+  public uni_tutorial!: UniversityTutorial;
+  public uni_organisation!: UniversityOrganisation;
+  // Reference
+  public ref_invite!: ReferenceInvite;
 
-  // Properties
+  /** PROPERTIES */
   public calm!: number;
   public clearInstructions!: number;
   public cooperatively!: number;
@@ -61,43 +75,67 @@ class UniversityReview extends Model {
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
   public workDemands!: number;
-  public state!: number;
-  
+  // University
+  public uni_state!: number;
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
 const sync = (sequelize: Sequelize) => {
-  UniversityReview.init({
+  Review.init({
     '_id': {
       type: DataTypes.UUID,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4
     },
-    'receiver_id': {
+    // UNIVERSITIES
+    'uni_receiver_id': {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: true
     },
-    'submitter_id': {
+    'uni_submitter_id': {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: true
     },
-    'subject_id': {
+    'uni_subject_id': {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: true
     },
-    'team_id': {
+    'uni_team_id': {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: true
     },
-    'tutorial_id': {
+    'uni_tutorial_id': {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: true
     },
-    'organisation_id': {
+    'uni_organisation_id': {
       type: DataTypes.UUID,
-      allowNull: false
+      allowNull: true
     },
+    'uni_state': {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      validate: {
+        min: 1,
+        max: 3
+      }
+    },
+    // REFERENCE
+    'ref_receiver_id': {
+      type: DataTypes.UUID,
+      allowNull: true
+    },
+    'ref_submitter_id': {
+      type: DataTypes.UUID,
+      allowNull: true
+    },
+    'ref_invite_id': {
+      type: DataTypes.UUID,
+      allowNull: true
+    },
+    // PROPERTIES
     'empathy': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
@@ -165,59 +203,67 @@ const sync = (sequelize: Sequelize) => {
     'signifiesInterest': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
-    },
-    'state': {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        min: 1,
-        max: 3
-      }
     }
   }, {
-    'tableName': 'UNIVERSITY_REVIEW',
+    'tableName': 'REVIEW',
     'sequelize': sequelize,
   });
-
-  return UniversityReview;
+  return Review;
 }
 
 const assosciate = () => {
-  UniversityReview.belongsTo(UniversityUser, {
-    foreignKey: 'receiver_id',
+  // University
+  Review.belongsTo(UniversityUser, {
+    foreignKey: 'uni_receiver_id',
+    targetKey: '_id',
+    as: 'uni_receiver'
+  });
+  Review.belongsTo(UniversityUser, {
+    foreignKey: 'uni_submitter_id',
+    targetKey: '_id',
+    as: 'uni_submitter'
+  });
+  Review.belongsTo(UniversitySubject, {
+    foreignKey: 'uni_subject_id',
+    targetKey: '_id',
+    as: 'uni_subject'
+  });
+  Review.belongsTo(UniversityTeam, {
+    foreignKey: 'uni_team_id',
+    targetKey: '_id',
+    as: 'uni_team'
+  });
+  Review.belongsTo(UniversityTutorial, {
+    foreignKey: 'uni_tutorial_id',
+    targetKey: '_id',
+    as: 'uni_tutorial'
+  });
+  Review.belongsTo(UniversityOrganisation, {
+    foreignKey: 'uni_organisation_id',
+    targetKey: '_id',
+    as: 'uni_organisation'
+  });
+  // Reference
+  Review.belongsTo(ReferenceInvite, {
+    foreignKey: 'ref_invite_id',
+    targetKey: '_id',
+    as: 'invite'
+  });
+  Review.belongsTo(User, {
+    foreignKey: 'ref_receiver_id',
     targetKey: '_id',
     as: 'receiver'
   });
-  UniversityReview.belongsTo(UniversityUser, {
-    foreignKey: 'submitter_id',
+  Review.belongsTo(User, {
+    foreignKey: 'ref_submitter_id',
     targetKey: '_id',
-    as: 'submitter'
+    as: 'receiver'
   });
-  UniversityReview.belongsTo(UniversitySubject, {
-    foreignKey: 'subject_id',
-    targetKey: '_id',
-    as: 'subject'
-  });
-  UniversityReview.belongsTo(UniversityTeam, {
-    foreignKey: 'team_id',
-    targetKey: '_id',
-    as: 'team'
-  });
-  UniversityReview.belongsTo(UniversityTutorial, {
-    foreignKey: 'tutorial_id',
-    targetKey: '_id',
-    as: 'tutorial'
-  });
-  UniversityReview.belongsTo(UniversityOrganisation, {
-    foreignKey: 'organisation_id',
-    targetKey: '_id',
-    as: 'organisation'
-  });
-  return UniversityReview;
+  return Review;
 }
 
 export {
-  UniversityReview,
+  Review,
   sync,
   assosciate
 };

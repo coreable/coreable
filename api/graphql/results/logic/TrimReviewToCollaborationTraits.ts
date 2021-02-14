@@ -12,14 +12,20 @@
   ===========================================================================
 */
 
-import { UniversityReview } from "../models/Review";
-import { CommunicationFacet } from "../models/CommunicationFacet";
+import { Review } from '../../results/models/Review';
+import { CollaborationTraits } from "../models/CollaborationTraits";
 
-export function CalculateCommunicationFacets(review: UniversityReview, args: any, context: any): CommunicationFacet {
+export function TrimReviewToCollaborationTraits(review: Review, args: any, context: any): CollaborationTraits {
   return {
-    'clarity': ((review.clearInstructions + review.easilyExplainsComplexIdeas) / 2),
-    'culture': ((review.openToShare + review.crossTeam) / 2),
-    'nonVerbal': ((review.distractions + review.usesRegulators) / 2),
-    'attentive': (review.signifiesInterest / 1)
+    'calm': review.calm,
+    'cooperatively': review.cooperatively,
+    'empathy': review.empathy,
+    'influences': review.influences,
+    'managesOwn': review.managesOwn,
+    'newIdeas': review.newIdeas,
+    'positiveBelief': review.positiveBelief,
+    'proactive': review.proactive,
+    'resilienceFeedback': review.resilienceFeedback,
+    'workDemands': review.workDemands
   };
-} 
+}

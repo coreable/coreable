@@ -18,8 +18,8 @@ import {
 } from "graphql";
 
 import { SessionObjectMediator } from "../../mediators/object/Session";
-import { IdentityCoreableErrorResolver } from "../../resolvers/CoreableError";
- 
+import { CoreableErrorResolver } from '../../../global/resolvers/Error';
+
 export const SessionObjectCommand: GraphQLObjectType = new GraphQLObjectType({
   name: 'SessionObjectCommand',
   description: 'SessionObjectCommand',
@@ -32,7 +32,7 @@ export const SessionObjectCommand: GraphQLObjectType = new GraphQLObjectType({
         }
       },
       'errors': {
-        type: new GraphQLList(IdentityCoreableErrorResolver),
+        type: new GraphQLList(CoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

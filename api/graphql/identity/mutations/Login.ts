@@ -10,27 +10,27 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
-
+*/
 
 import { 
-  GraphQLObjectType, 
-  GraphQLList
+  GraphQLNonNull,
+  GraphQLString
 } from "graphql";
 
-import { UniversityReviewResolver } from "../../resolvers/Review";
+import { Login } from "../logic/Login";
+import { SessionObjectCommand } from "../command/object/Session";
 
-export const UniversityReviewListMediator: GraphQLObjectType = new GraphQLObjectType({
-  name: 'UniversityReviewListMediator',
-  description: 'UniversityReviewListMediator',
-  fields: () => {
-    return {
-      'review': {
-        type: new GraphQLList(UniversityReviewResolver),
-        resolve(data) {
-          return data.review;
-        }
-      }
+export default {
+  type: SessionObjectCommand,
+  args: {
+    email: {
+      type: new GraphQLNonNull(GraphQLString)
+    },
+    password: {
+      type: new GraphQLNonNull(GraphQLString)
     }
+  },
+  async resolve(root: any, args: any, context: any) {
+    return await Login(root, args, context);
   }
-});
+}

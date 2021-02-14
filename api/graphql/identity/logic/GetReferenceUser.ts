@@ -1,6 +1,6 @@
 /*
   ===========================================================================
-    Copyright (C) 2020 Coreable
+    Copyright (C) 2021 Coreable
     This file is part of Coreable's source code.
     Coreables source code is free software; you can redistribute it
     and/or modify it under the terms of the End-user license agreement.
@@ -12,25 +12,39 @@
   ===========================================================================
 */
 
-import { Manager } from "../../identity/models/Manager";
-import { UniversityOrganisation } from "../models/Organisation";
 import { sequelize } from "../../../lib/sequelize";
+import { User } from "../models/User";
 
-export async function GetManagerOrganisation(manager: any, args: any, context: any) {
-  return await Manager.findAll({
+export async function GetReferenceUser(reference_user: any, args: any, context: any) {
+  return await User.findOne({
     where: {
-      _id: manager._id
+      _id: reference_user.user_id
     },
     raw: true,
     attributes: {
       include: [
-        [sequelize.col('organisation._id'), '_id'],
-        [sequelize.col('organisation.name'), 'name']
+        [
+          sequelize.col('_id'), '_id'
+        ],
+        [
+          sequelize.col('email'), 'email'
+        ],
+        [
+          sequelize.col('firstName'), 'firstName'
+        ],
+        [
+          sequelize.col('lastName'), 'lastName'
+        ],
+        [
+          sequelize.col('industry_id'), 'industry_id'
+        ],
+        [
+          sequelize.col('createdAt'), 'createdAt'
+        ],
+        [
+          sequelize.col('updatedAt'), 'updatedAt'
+        ]
       ]
     },
-    include: [{
-      model: UniversityOrganisation,
-      as: 'organisation'
-    }]
   });
 }

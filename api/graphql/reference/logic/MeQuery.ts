@@ -12,10 +12,10 @@
   ===========================================================================
 */ 
 
-import { CoreableError } from '../../../models/CoreableError';
+import { CoreableError } from '../../global/models/CoreableError';
 import { ReferenceUser } from "../models/User";
 
-export async function MeQuery(root: any, args: any, context: any) {
+export async function ReferenceMe(root: any, args: any, context: any) {
   context.REFERENCE = null;
   let errors: CoreableError[] = [];
   if (!context.JWT) {

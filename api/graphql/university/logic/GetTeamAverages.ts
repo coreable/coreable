@@ -15,7 +15,7 @@
 import { UniversityTeam } from "../models/Team";
 import { sequelize } from "../../../lib/sequelize";
 import { UniversityUser } from "../models/User";
-import { UniversityReview } from "../models/Review";
+import { Review } from "../../results/models/Review";
 
 export async function GetTeamAverages(team: any, args: any, context: any) {
   return await UniversityTeam.findOne({
@@ -131,14 +131,8 @@ export async function GetTeamAverages(team: any, args: any, context: any) {
         ]
       },
       include: [{
-        model: UniversityReview,
-        as: 'reviews',
-        attributes: {
-          exclude: [
-            'updatedAt',
-            'createdAt'
-          ]
-        }
+        model: Review,
+        as: 'reviews'
       }]
     }]
   });

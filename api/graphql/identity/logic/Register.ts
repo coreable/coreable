@@ -12,22 +12,15 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../models/CoreableError";
+import { CoreableError } from "../../global/models/CoreableError";
 import { User } from "../models/User";
 import { encodeJWT } from "./JWT";
 import { UniversityUser } from "../../university/models/User";
 
 export async function Register(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
-  let user: any;
   let token: string | undefined;
-  // if (context.JWT) {
-  //   errors.push({
-  //     code: 'ER_AUTH_FAILURE',
-  //     path: 'JWT',
-  //     message: 'User is already logged in'
-  //   });
-  // }
+  context.USER = null;
   if (!errors.length) {
     if (args.password.length < 6) {
       errors.push({
@@ -51,7 +44,7 @@ export async function Register(root: any, args: any, context: any) {
   }
   if (!errors.length) {
     try {
-      user = await User.create({
+      context.USER = await User.create({
         firstName: args.firstName,
         lastName: args.lastName,
         email: args.email.toLowerCase(),
@@ -67,14 +60,14 @@ export async function Register(root: any, args: any, context: any) {
   }
   if (!errors.length) {
     token = await encodeJWT({
-      _id: user._id,
-      email: user.email
+      _id: context.USER._id,
+      email: context.USER.email
     });
   }
   if (!errors.length) {
     try {
       await UniversityUser.create({
-        user_id: user._id
+        user_id: context.USER._id
       });
     } catch (err) {
       errors.push({ 
@@ -86,7 +79,7 @@ export async function Register(root: any, args: any, context: any) {
   }
   return {
     'data': !errors.length ? {
-      'user': user, 
+      'user': context.USER, 
       'token': token
     } : null,
     'errors': errors.length > 0 ? errors : null

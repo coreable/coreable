@@ -20,7 +20,7 @@ import {
 import { UniversityCoreableErrorResolver } from "../../resolvers/CoreableError";
 import { UniversityUserListMediator } from "../../mediators/list/User";
 
-export const UserListCommand: GraphQLObjectType = new GraphQLObjectType({
+export const UniversityUserListCommand: GraphQLObjectType = new GraphQLObjectType({
   name: 'UniversityUserListCommand',
   description: 'UniversityUserListCommand',
   fields: () => {

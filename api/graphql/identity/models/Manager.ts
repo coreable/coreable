@@ -28,18 +28,8 @@ class Manager extends Model {
   public user_id!: string;
 
   // Relationships
-  public organisations!: [UniversityOrganisation];
+  public universities!: [UniversityOrganisation];
   public user!: User;
-
-  // Properties
-  public email!: string;
-  public firstName!: string;
-  public lastName!: string;
-  public password!: string;
-  public passwordResetToken!: string;
-  public passwordResetExpiry!: Date
-  public lockoutAttempts!: number;
-  public lockoutTimer!: Date;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -73,7 +63,7 @@ const assosciate = () => {
     through: 'UNIVERSITY_MANAGER_ORGANISATION',
     sourceKey: '_id',
     foreignKey: 'manager_id',
-    as: 'organisations'
+    as: 'universities'
   });
   Manager.belongsTo(User, {
     foreignKey: 'user_id',

@@ -1,4 +1,3 @@
-import { UniversityReview } from "../models/Review";
 /*
   ===========================================================================
     Copyright (C) 2020 Coreable
@@ -13,19 +12,26 @@ import { UniversityReview } from "../models/Review";
   ===========================================================================
 */
 
-import { CollaborationTraits } from "../models/CollaborationTraits";
+import { UniversityTutorial } from "../models/Tutorial";
+import { sequelize } from "../../../lib/sequelize";
+import { UniversityUser } from "../models/User";
 
-export function TrimReviewToCollaborationTraits(review: UniversityReview, args: any, context: any): CollaborationTraits {
-  return {
-    'calm': review.calm,
-    'cooperatively': review.cooperatively,
-    'empathy': review.empathy,
-    'influences': review.influences,
-    'managesOwn': review.managesOwn,
-    'newIdeas': review.newIdeas,
-    'positiveBelief': review.positiveBelief,
-    'proactive': review.proactive,
-    'resilienceFeedback': review.resilienceFeedback,
-    'workDemands': review.workDemands
-  };
+export async function GetTutorialUsers(tutorial: any, args: any, context: any) {
+  return await UniversityTutorial.findAll({
+    where: {
+      _id: tutorial._id
+    },
+    raw: true,
+    attributes: {
+      include: [
+        [sequelize.col('users._id'), '_id'],
+        [sequelize.col('users.user_id'), 'user_id'],
+        [sequelize.col('users.industry_id'), 'industry_id'],
+      ]
+    },
+    include: [{
+      model: UniversityUser,
+      as: 'users'
+    }]
+  });
 }

@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../models/CoreableError";
+import { CoreableError } from "../../global/models/CoreableError";
 import { Manager } from '../../identity/models/Manager';
 
 export async function ManagerQuery(root: any, args: any, context: any) {

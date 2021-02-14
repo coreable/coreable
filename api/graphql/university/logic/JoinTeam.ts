@@ -12,7 +12,7 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../models/CoreableError";
+import { CoreableError } from "../../global/models/CoreableError";
 import { GetUniversityAccountWithTeamsFromUser_id } from './GetUniversityAccountWithTeams';
 import { UniversityTeam } from "../models/Team";
 

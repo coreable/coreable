@@ -20,14 +20,15 @@ import {
 // University
 import JoinTeamMutation from './university/mutations/JoinTeam';
 import LeaveTeamMutation from './university/mutations/LeaveTeam';
-import SubmitReviewMutation from './university/mutations/SubmitReview';
 
 // Identity
-import UserLoginMutation from './identity/mutations/UserLogin';
-import ManagerLoginMutation from './identity/mutations/ManagerLogin';
+import UserLoginMutation from './identity/mutations/Login';
 import ForgotPasswordMutation from './identity/mutations/ForgotPassword';
 import RegisterMutation from './identity/mutations/Register';
 import ChangePasswordMutation from './identity/mutations/ChangePassword';
+
+// Reviews / Results
+import SubmitReviewMutation from './results/mutations/SubmitReview';
 
 export const RootMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'RootMutation',
@@ -62,7 +63,6 @@ export const RootMutation: GraphQLObjectType<QueryInterface> = new GraphQLObject
           fields: () => {
             return {
               'userLogin': UserLoginMutation,
-              'managerLogin': ManagerLoginMutation,
               'forgotPassword': ForgotPasswordMutation,
               'register': RegisterMutation,
               'changedPassword': ChangePasswordMutation

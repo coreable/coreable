@@ -30,6 +30,7 @@ class UniversityOrganisationAverage extends Model {
   // Relationships
   public organisation!: UniversityOrganisation;
 
+  // Properties
   public calm!: number;
   public clearInstructions!: number;
   public cooperatively!: number;

@@ -20,8 +20,11 @@ import {
 import UniversityMeQuery from './university/queries/Me';
 import IdentityMeQuery from './identity/queries/Me';
 import ReferenceMeQuery from './reference/queries/Me';
-import UniversityManagerQuery from './university/queries/Manager';
- 
+
+import { UniversityOrganisationResolver } from './university/resolvers/Organisation';
+import { ManagerQuery } from './identity/logic/ManagerQuery';
+import { GetManagerOrganisation } from './university/logic/GetManagerOrganisation';
+
 export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'RootQuery',
   description: 'This is the root query',
@@ -42,15 +45,20 @@ export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectTyp
       },
       'manager': {
         'type': new GraphQLObjectType({
-          'name': 'manager',
+          'name': 'managerQuery',
           fields: () => {
             return {
-              'university': UniversityManagerQuery
+              'university': {
+                'type': UniversityOrganisationResolver,
+                async resolve(manager, args, context) {
+                  return await GetManagerOrganisation(manager, args, context);
+                }
+              }
             }
           }
         }),
-        resolve: (value) => {
-          
+        async resolve(root, args, context) {
+          return await ManagerQuery(root, args, context);
         }
       }
     }

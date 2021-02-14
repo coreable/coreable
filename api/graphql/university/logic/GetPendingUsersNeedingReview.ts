@@ -15,7 +15,7 @@
 import { UniversityTeam } from "../models/Team";
 import { UniversitySubject } from "../models/Subject";
 import { UniversityUser } from "../models/User";
-import { UniversityReview } from "../models/Review";
+import { Review } from "../../results/models/Review";
 import { UniversityTutorial } from "../models/Tutorial";
 import { Op } from "sequelize";
 
@@ -42,17 +42,17 @@ export async function GetPendingUsersNeedingReview(user: any, args: any, { USER 
   });
 
   for (const team of userWithTeams.teams) {
-    const submittedReviews = await UniversityReview.findAll({
+    const submittedReviews = await Review.findAll({
       where: {
-        submitter_id: user._id,
-        subject_id: team.tutorial.subject._id,
-        state: team.tutorial.subject.state
+        uni_submitter_id: user._id,
+        uni_subject_id: team.tutorial.subject._id,
+        uni_state: team.tutorial.subject.state
       }
     });
 
     const usersReceivedReviews_ids: string[] = [];
     for (const review of submittedReviews) {
-      usersReceivedReviews_ids.push(review.receiver_id);
+      usersReceivedReviews_ids.push(review.uni_receiver_id);
     }
 
     if (team.tutorial.subject.state !== 1) {

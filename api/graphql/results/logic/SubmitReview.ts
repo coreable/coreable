@@ -12,10 +12,10 @@
   ===========================================================================
 */
 
-import { CoreableError } from "../../../models/CoreableError";
+import { CoreableError } from "../../global/models/CoreableError";
 import { GetUniversityAccountWithTeamsFromUser_id, GetUniversityAccountWithTeamsFromPrimaryKey } from "./GetUniversityAccountWithTeams";
 import { GetTeamSubject } from "./GetTeamSubject";
-import { UniversityReview } from "../models/Review";
+import { Review } from "../models/Review";
 
 export async function SubmitReview(root: any, args: any, context: any) {
   let errors: CoreableError[] = [];
@@ -83,7 +83,7 @@ export async function SubmitReview(root: any, args: any, context: any) {
     }
   }
   if (!errors.length) {
-    const hasCompleted = await UniversityReview.findOne({
+    const hasCompleted = await Review.findOne({
       where: {
         receiver_id: userBeingReviewed._id,
         submitter_id: userSubmittingReview._id,
@@ -101,7 +101,7 @@ export async function SubmitReview(root: any, args: any, context: any) {
   }
   if (!errors.length) {
     try {
-      await UniversityReview.create({
+      await Review.create({
         receiver_id: userBeingReviewed._id,
         submitter_id: userSubmittingReview._id,
         tutorial_id: args.tutorial_id,
@@ -138,7 +138,7 @@ export async function SubmitReview(root: any, args: any, context: any) {
   }
   return {
     'data': !errors.length ? {
-      'review': await UniversityReview.findOne({
+      'review': await Review.findOne({
         where: {
           receiver_id: userBeingReviewed._id,
           submitter_id: userSubmittingReview._id,

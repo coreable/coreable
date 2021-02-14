@@ -1,5 +1,3 @@
-import { UniversityReview } from "../models/Review";
-import { CommunicationTraits } from "../models/CommunicationTraits";
 /*
   ===========================================================================
     Copyright (C) 2020 Coreable
@@ -12,16 +10,10 @@ import { CommunicationTraits } from "../models/CommunicationTraits";
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/
+*/ 
 
-export function TrimReviewToCommunicationTraits(review: UniversityReview, args: any, context: any): CommunicationTraits {
-  return {
-    'clearInstructions': review.clearInstructions,
-    'easilyExplainsComplexIdeas': review.easilyExplainsComplexIdeas,
-    'openToShare': review.openToShare,
-    'crossTeam': review.crossTeam,
-    'distractions': review.distractions,
-    'usesRegulators': review.usesRegulators,
-    'signifiesInterest': review.signifiesInterest
-  };
+export class CoreableError {
+  public code!: string;
+  public message!: string;
+  public path!: string;
 }

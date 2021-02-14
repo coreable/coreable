@@ -12,25 +12,31 @@
   ===========================================================================
 */
 
-import { 
-  GraphQLNonNull,
-  GraphQLString
+import {
+  GraphQLObjectType,
+  GraphQLList
 } from "graphql";
 
-import { UserLogin } from "../logic/UserLogin";
-import { SessionObjectCommand } from "../command/object/Session";
+import { CoreableErrorResolver } from '../../../global/resolvers/Error';
+import { ManagerObjectMediator } from '../../mediators/object/Manager';
 
-export default {
-  type: SessionObjectCommand,
-  args: {
-    email: {
-      type: new GraphQLNonNull(GraphQLString)
-    },
-    password: {
-      type: new GraphQLNonNull(GraphQLString)
+export const UniversityManagerObjectCommand: GraphQLObjectType = new GraphQLObjectType({
+  name: 'UniversityManagerObjectCommand',
+  description: 'UniversityManagerObjectCommand',
+  fields: () => {
+    return {
+      'data': {
+        type: ManagerObjectMediator,
+        resolve(value) {
+          return value.data;
+        }
+      },
+      'errors': {
+        type: new GraphQLList(CoreableErrorResolver),
+        resolve(value) {
+          return value.errors;
+        }
+      }
     }
-  },
-  async resolve(root: any, args: any, context: any) {
-    return await UserLogin(root, args, context);
   }
-}
+});

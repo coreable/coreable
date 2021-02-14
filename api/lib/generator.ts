@@ -15,99 +15,71 @@
 import { times } from 'lodash';
 import Faker from 'faker';
 
+// Identity
 import { User } from '../graphql/identity/models/User';
+import { Industry } from '../graphql/identity/models/Industry';
+import { Manager } from '../graphql/identity/models/Manager';
+
+// University
 import { UniversityTeam } from '../graphql/university/models/Team';
 import { UniversitySubject } from '../graphql/university/models/Subject';
-import { UniversityReview } from '../graphql/university/models/Review';
 import { UniversityUser } from '../graphql/university/models/User';
 import { UniversityTutorial } from '../graphql/university/models/Tutorial';
 import { UniversityOrganisation } from '../graphql/university/models/Organisation';
 
+// Reference
+import { ReferenceUser } from '../graphql/reference/models/User';
+import { ReferenceInvite } from '../graphql/reference/models/Invite';
+import { Review } from '../graphql/results/models/Review';
+// import { ReferenceReview } from '../graphql/reference/models/Review';
+
+// Identity
 const users: User[] = [];
+const industries: Industry[] = [];
+const managers: Manager[] = [];
+
+// University
 const uniusers: UniversityUser[] = [];
-// const industrys: UniversityIndustry[] = [];
-const teams: UniversityTeam[] = [];
-const reviews: UniversityReview[] = [];
-const subjects: UniversitySubject[] = [];
-const tutorials: UniversityTutorial[] = [];
-const organisations: UniversityOrganisation[] = [];
-// const managers: UniversityManager[] = [];
+const uniteams: UniversityTeam[] = [];
+const unisubjects: UniversitySubject[] = [];
+const unitutorials: UniversityTutorial[] = [];
+const uniorganisations: UniversityOrganisation[] = [];
+
+// Reference
+const refusers: ReferenceUser[] = [];
+const refinvites: ReferenceInvite[] = [];
+// const refreviews: ReferenceReview[] = [];
+
+// Reviews
+const unireviews: Review[] = [];
 
 // Generates fake data for the database
 export async function generator() {
   let promises: any = [];
 
+  /** ------------------------ IDENTITY ------------------------  */
   // Create Industry
-  // times(2, (i) => {
-  //   promises.push(async function () {
-  //     const industry = await UniversityIndustry.create({
-  //       name: Faker.address.city()
-  //     });
-  //     return industrys.push(industry);
-  //   });
-  // });
-  // await inSequence(promises).then(() => {
-  //   promises = [];
-  // });
-
-  // Create Organisation
   times(2, (i) => {
     promises.push(async function () {
-      const organisation = await UniversityOrganisation.create({
-        name: Faker.company.bsNoun()
+      const industry = await Industry.create({
+        name: Faker.address.city()
       });
-      return organisations.push(organisation);
+      return industries.push(industry);
     });
   });
-
-  promises.push(async function () {
-    const organisation = await UniversityOrganisation.create({
-      name: 'hans'
-    });
-    return organisations.push(organisation);
-  });
-
   await inSequence(promises).then(() => {
     promises = [];
   });
 
-  // Create Managers
-  // times(2, (i) => {
-  //   promises.push(async function () {
-  //     const manager = await UniversityManager.create({
-  //       firstName: `manager ${i}`,
-  //       lastName: `manager ${i}`,
-  //       email: `m${i}@${i}.com`,
-  //       password: 'unittest',
-  //       organisation_id: organisations[i]._id
-  //     });
-  //     return managers.push(manager);
-  //   });
-  // });
-
-  // promises.push(async function () {
-  //   const manager = await UniversityManager.create({
-  //     firstName: `hans`,
-  //     lastName: `hans`,
-  //     email: `hans@hans.com`,
-  //     password: 'unittest',
-  //     organisation_id: organisations[organisations.length-1]._id
-  //   });
-  //   return managers.push(manager);
-  // });
-
-  // await inSequence(promises).then(() => {
-  //   promises = [];
-  // });
-
-  // Create User
+  // Create Users
   times(5, (i) => {
     promises.push(async function () {
       const user = await User.create({
         firstName: `user ${i}`,
         lastName: `user ${i}`,
         email: `u${i}@${i}.com`,
-        password: 'unittest'
+        password: 'unittest',
+        industry_id: industries[i]._id
       });
       return users.push(user);
     });
@@ -116,12 +88,49 @@ export async function generator() {
     promises = [];
   });
 
-  // Create Uni users
+  // Create Managers
+  times(2, (i) => {
+    promises.push(async function () {
+      const manager = await Manager.create({
+        user_id: users[i]._id,
+      });
+      return managers.push(manager);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  /** ------------------------ UNIVERSITY ------------------------  */
+  // Create Organisation
+  times(2, (i) => {
+    promises.push(async function () {
+      const organisation = await UniversityOrganisation.create({
+        name: Faker.company.bsNoun()
+      });
+      return uniorganisations.push(organisation);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Add managers to university organisations
+  promises.push(async function () {
+    const manager1: any = await Manager.findOne({ where: { user_id: users[0]._id } });
+    await manager1.addOrganisation(uniorganisations[0]);
+    const manager2: any = await Manager.findOne({ where: { user_id: users[1]._id } });
+    manager2.addOrganisation(uniorganisations[1]);
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Create University Users
   times(5, (i) => {
     promises.push(async function () {
       const uniuser = await UniversityUser.create({
         user_id: users[i]._id,
-        // industry_id: industrys[i % 2]._id
       });
       return uniusers.push(uniuser);
     });
@@ -136,21 +145,11 @@ export async function generator() {
       const subject = await UniversitySubject.create({
         name: `subject ${i}`,
         state: 2,
-        organisation_id: organisations[i]._id
+        organisation_id: uniorganisations[i]._id
       });
-      return subjects.push(subject);
+      return unisubjects.push(subject);
     });
   });
-
-  promises.push(async function () {
-    const subject = await UniversitySubject.create({
-      name: `subject HANS`,
-      state: 1,
-      organisation_id: organisations[organisations.length-1]._id
-    });
-    return subjects.push(subject);
-  });
-
   await inSequence(promises).then(() => {
     promises = [];
   });
@@ -160,19 +159,11 @@ export async function generator() {
     promises.push(async function () {
       const tutorial = await UniversityTutorial.create({
         name: `tutorial ${i}`,
-        subject_id: subjects[i]._id
+        subject_id: unisubjects[i]._id
       });
-      return tutorials.push(tutorial)
+      return unitutorials.push(tutorial)
     });
   });
-
-  promises.push(async function () {
-    const tutorial = await UniversityTutorial.create({
-      name: `tutorial hans`,
-      subject_id: subjects[subjects.length-1]._id
-    });
-    return tutorials.push(tutorial)
-  })
   await inSequence(promises).then(() => {
     promises = [];
   });
@@ -183,27 +174,10 @@ export async function generator() {
       const team = await UniversityTeam.create({
         name: `team ${i}`,
         inviteCode: `team${i}`,
-        tutorial_id: `${tutorials[i]._id}`
+        tutorial_id: `${unitutorials[i]._id}`
       });
-      return teams.push(team);
+      return uniteams.push(team);
     });
-  });
-
-  promises.push(async function () {
-    const team = await UniversityTeam.create({
-      name: `team hans`,
-      inviteCode: `teamHans`,
-      tutorial_id: `${tutorials[tutorials.length-1]._id}`
-    });
-    return teams.push(team);
-  });
-  promises.push(async function () {
-    const team = await UniversityTeam.create({
-      name: `team hans`,
-      inviteCode: `teamHans2`,
-      tutorial_id: `${tutorials[tutorials.length-1]._id}`
-    });
-    return teams.push(team);
   });
   await inSequence(promises).then(() => {
     promises = [];
@@ -214,7 +188,7 @@ export async function generator() {
   times(3, (i) => {
     promises.push(async function () {
       const user: any = await UniversityUser.findOne({ where: { _id: uniusers[i]._id } });
-      const team: any = await UniversityTeam.findOne({ where: { _id: teams[0]._id } });
+      const team: any = await UniversityTeam.findOne({ where: { _id: uniteams[0]._id } });
       return await user.addTeam(team);
     });
   });
@@ -225,97 +199,127 @@ export async function generator() {
   // User 0 reviews themself
   promises.push(async function () {
     const stats = generateReview();
-    const review = await UniversityReview.create({
-      receiver_id: uniusers[0]._id,
-      submitter_id: uniusers[0]._id,
-      subject_id: subjects[0]._id,
-      team_id: teams[0]._id,
-      tutorial_id: tutorials[0]._id,
-      organisation_id: organisations[0]._id,
-      state: 1,
+    const review = await Review.create({
+      uni_receiver_id: uniusers[0]._id,
+      uni_submitter_id: uniusers[0]._id,
+      uni_subject_id: unisubjects[0]._id,
+      uni_team_id: uniteams[0]._id,
+      uni_tutorial_id: unitutorials[0]._id,
+      uni_organisation_id: uniorganisations[0]._id,
+      uni_state: 1,
       ...stats
     });
-    return reviews.push(review);
+    return unireviews.push(review);
   });
 
   // User 0 reviews User 1
   promises.push(async function () {
     const stats = generateReview();
-    const review = await UniversityReview.create({
-      receiver_id: uniusers[1]._id,
-      submitter_id: uniusers[0]._id,
-      subject_id: subjects[0]._id,
-      tutorial_id: tutorials[0]._id,
-      team_id: teams[0]._id,
-      organisation_id: organisations[0]._id,
-      state: 2,
+    const review = await Review.create({
+      uni_receiver_id: uniusers[1]._id,
+      uni_submitter_id: uniusers[0]._id,
+      uni_subject_id: unisubjects[0]._id,
+      uni_tutorial_id: unitutorials[0]._id,
+      uni_team_id: uniteams[0]._id,
+      uni_organisation_id: uniorganisations[0]._id,
+      uni_state: 2,
       ...stats
     });
-    return reviews.push(review);
+    return unireviews.push(review);
   });
 
   // User 1 reviews User 0
   promises.push(async function () {
     const stats = generateReview();
-    const review = await UniversityReview.create({
-      receiver_id: uniusers[0]._id,
-      submitter_id: uniusers[1]._id,
-      subject_id: subjects[0]._id,
-      tutorial_id: tutorials[0]._id,
-      team_id: teams[0]._id,
-      organisation_id: organisations[0]._id,
+    const review = await Review.create({
+      uni_receiver_id: uniusers[0]._id,
+      uni_submitter_id: uniusers[1]._id,
+      uni_subject_id: unisubjects[0]._id,
+      uni_tutorial_id: unitutorials[0]._id,
+      team_id: uniteams[0]._id,
+      organisation_id: uniorganisations[0]._id,
       state: 2,
       ...stats
     });
-    return reviews.push(review);
+    return unireviews.push(review);
   });
 
   // User 1 reviews User 2
   promises.push(async function () {
     const stats = generateReview();
-    const review = await UniversityReview.create({
-      receiver_id: uniusers[2]._id,
-      submitter_id: uniusers[1]._id,
-      subject_id: subjects[0]._id,
-      tutorial_id: tutorials[0]._id,
-      team_id: teams[0]._id,
-      organisation_id: organisations[0]._id,
-      state: 2,
+    const review = await Review.create({
+      uni_receiver_id: uniusers[2]._id,
+      uni_submitter_id: uniusers[1]._id,
+      uni_subject_id: unisubjects[0]._id,
+      uni_tutorial_id: unitutorials[0]._id,
+      uni_team_id: uniteams[0]._id,
+      uni_organisation_id: uniorganisations[0]._id,
+      uni_state: 2,
       ...stats
     });
-    return reviews.push(review);
+    return unireviews.push(review);
   });
 
   // User 2 reviews User 1
   promises.push(async function () {
     const stats = generateReview();
-    const review = await UniversityReview.create({
-      receiver_id: uniusers[1]._id,
-      submitter_id: uniusers[2]._id,
-      subject_id: subjects[0]._id,
-      tutorial_id: tutorials[0]._id,
-      team_id: teams[0]._id,
-      organisation_id: organisations[0]._id,
+    const review = await Review.create({
+      uni_receiver_id: uniusers[1]._id,
+      uni_submitter_id: uniusers[2]._id,
+      uni_subject_id: unisubjects[0]._id,
+      uni_tutorial_id: unitutorials[0]._id,
+      uni_team_id: uniteams[0]._id,
+      uni_organisation_id: uniorganisations[0]._id,
       state: 2,
       ...stats
     });
-    return reviews.push(review);
+    return unireviews.push(review);
   });
 
   // User 2 reviews User 2
   promises.push(async function () {
     const stats = generateReview();
-    const review = await UniversityReview.create({
+    const review = await Review.create({
       receiver_id: uniusers[2]._id,
       submitter_id: uniusers[2]._id,
-      subject_id: subjects[0]._id,
-      tutorial_id: tutorials[0]._id,
-      team_id: teams[0]._id,
-      organisation_id: organisations[0]._id,
+      subject_id: unisubjects[0]._id,
+      tutorial_id: unitutorials[0]._id,
+      team_id: uniteams[0]._id,
+      organisation_id: uniorganisations[0]._id,
       state: 1,
       ...stats
     });
-    return reviews.push(review);
+    return unireviews.push(review);
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  /** ------------------------ REFERENCE ------------------------  */
+  // Create Reference Users
+  times(5, (i) => {
+    promises.push(async function () {
+      const refuser = await ReferenceUser.create({
+        user_id: users[i]._id,
+      });
+      return refusers.push(refuser);
+    });
+  });
+  await inSequence(promises).then(() => {
+    promises = [];
+  });
+
+  // Create Reference Invite
+  times(5, (i) => {
+    promises.push(async function () {
+      const refinvite = await ReferenceInvite.create({
+        requester_id: refusers[i]._id,
+        name: Faker.name.firstName(),
+        relation: Faker.commerce.department(),
+        email: `u${(i+2)}@${(i+2)}.com`,
+      });
+      return refinvites.push(refinvite);
+    });
   });
   await inSequence(promises).then(() => {
     promises = [];

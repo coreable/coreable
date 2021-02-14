@@ -25,15 +25,15 @@ import { GetOrganisationTutorials } from "../logic/GetOrganisationTutorials";
 import { UniversityOrganisationAverage } from "../models/OrganisationAverage";
 import { Op } from "sequelize";
 import { GetOrganisationAverages } from "../logic/GetOrganisationAverages";
-import { UniversityReviewResolver } from "./Review";
+import { ReviewResolver } from '../../results/resolvers/Review';
 import { UniversityCommunicationTraitsResolver } from "./CommunicationTraits";
 import { UniversityCommunicationFacetsResolver } from "./CommunicationFacets";
 import { UniversityCollaborationTraitsResolver } from "./CollaborationTraits";
 import { UniversityCollaborationFacetsResolver } from "./CollaborationFacets";
-import { TrimReviewToCommunicationTraits } from "../logic/TrimReviewToCommunicationTraits";
-import { CalculateCommunicationFacets } from "../logic/CalculateCommunicationFacets";
-import { TrimReviewToCollaborationTraits } from "../logic/TrimReviewToCollaborationTraits";
-import { CalculateCollaborationFacets } from "../logic/CalculateCollaborationFacets";
+import { TrimReviewToCommunicationTraits } from "../../results/logic/TrimReviewToCommunicationTraits";
+import { CalculateCommunicationFacets } from "../../results/logic/CalculateCommunicationFacets";
+import { TrimReviewToCollaborationTraits } from "../../results/logic/TrimReviewToCollaborationTraits";
+import { CalculateCollaborationFacets } from "../../results/logic/CalculateCollaborationFacets";
 
 export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganisation> = new GraphQLObjectType({
   name: 'UniversityOrganisationResolver',
@@ -118,7 +118,7 @@ export const UniversityOrganisationResolver: GraphQLObjectType<UniversityOrganis
                   fields: () => {
                     return {
                       'default': {
-                        type: new GraphQLList(UniversityReviewResolver),
+                        type: new GraphQLList(ReviewResolver),
                         resolve(averages, args, context) {
                           return averages;
                         }
