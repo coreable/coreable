@@ -19,15 +19,15 @@ import {
 } from 'sequelize';
 
 // References
-import { User } from '../../identity/models/User';
 import { ReferenceInvite } from '../../reference/models/Invite';
+import { ReferenceUser } from '../../reference/models/User';
 
 // Universities
 import { UniversityUser } from '../../university/models/User';
 import { UniversitySubject } from '../../university/models/Subject';
 import { UniversityTeam } from '../../university/models/Team';
 import { UniversityTutorial } from '../../university/models/Tutorial';
-import { UniversityOrganisation } from '../../university/models/Organisation';
+import { UniversityOrganisation } from '../../university/models/Organisation'
 
 class Review extends Model {
   /** PRIMARY KEYS   */
@@ -55,6 +55,8 @@ class Review extends Model {
   public uni_tutorial!: UniversityTutorial;
   public uni_organisation!: UniversityOrganisation;
   // Reference
+  public ref_receiver!: ReferenceUser;
+  public ref_submitter!: ReferenceUser;
   public ref_invite!: ReferenceInvite;
 
   /** PROPERTIES */
@@ -249,15 +251,15 @@ const assosciate = () => {
     targetKey: '_id',
     as: 'invite'
   });
-  Review.belongsTo(User, {
+  Review.belongsTo(ReferenceUser, {
     foreignKey: 'ref_receiver_id',
     targetKey: '_id',
     as: 'receiver'
   });
-  Review.belongsTo(User, {
+  Review.belongsTo(ReferenceUser, {
     foreignKey: 'ref_submitter_id',
     targetKey: '_id',
-    as: 'receiver'
+    as: 'submitter'
   });
   return Review;
 }

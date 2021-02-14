@@ -12,7 +12,6 @@
   ===========================================================================
 */ 
 
-import { QueryInterface } from "sequelize/types";
 import {
   GraphQLObjectType,
 } from "graphql";

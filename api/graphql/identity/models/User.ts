@@ -24,6 +24,7 @@ import { ReferenceUser } from '../../reference/models/User';
 import { Industry } from './Industry';
 import { Manager } from './Manager';
 import { ReferenceInvite } from '../../reference/models/Invite';
+import { Review } from '../../results/models/Review';
 
 class User extends Model {
   // Primary Key
@@ -162,7 +163,6 @@ const assosciate = () => {
     foreignKey: 'email',
     as: 'invites'
   });
-
   return User;
 }
 

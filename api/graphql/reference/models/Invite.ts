@@ -88,11 +88,13 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
+  // receiver
   ReferenceInvite.belongsTo(ReferenceUser, {
     targetKey: 'requester_id',
     foreignKey: '_id',
     as: 'requester'
   });
+  // submitter
   ReferenceInvite.belongsTo(User, {
     targetKey: 'email',
     foreignKey: 'email',

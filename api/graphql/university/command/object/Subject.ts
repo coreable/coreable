@@ -17,7 +17,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CoreableError";
+import { CoreableErrorResolver } from '../../../global/resolvers/Error';
 import { UniversitySubjectObjectMediator } from "../../mediators/object/Subject";
 
 export const UniversitySubjectObjectCommand: GraphQLObjectType = new GraphQLObjectType({
@@ -32,7 +32,7 @@ export const UniversitySubjectObjectCommand: GraphQLObjectType = new GraphQLObje
         }
       },
       'errors': {
-        type: new GraphQLList(UniversityCoreableErrorResolver),
+        type: new GraphQLList(CoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }
