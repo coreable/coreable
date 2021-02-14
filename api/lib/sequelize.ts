@@ -24,25 +24,27 @@ import * as IndustryAverage from '../graphql/identity/models/IndustryAverage';
 // University
 import * as UniversityOrganisation from '../graphql/university/models/Organisation';
 import * as UniversityOrganisationAverage from '../graphql/university/models/OrganisationAverage';
-
 import * as UniversityUser from '../graphql/university/models/User';
 import * as UniversityUserAverage from '../graphql/university/models/UserAverage';
 import * as UniversityUserReflectionAverage from '../graphql/university/models/UserReflectionAverage';
-
 import * as UniversityReview from '../graphql/university/models/Review';
-
 import * as UniversityTeam from '../graphql/university/models/Team';
 import * as UniversityTeamAverage from '../graphql/university/models/TeamAverage';
-
 import * as UniveristyTutorial from '../graphql/university/models/Tutorial';
 import * as UniversityTutorialAverage from '../graphql/university/models/TutorialAverage';
-
 import * as UniversitySubject from '../graphql/university/models/Subject';
 import * as UniversitySubjectAverage from '../graphql/university/models/SubjectAverage';
 
+// Reference
+import * as ReferenceUser from '../graphql/reference/models/User';
+import * as ReferenceInvite from '../graphql/reference/models/Invite';
+import * as ReferenceReview from '../graphql/reference/models/Review';
+
+// Replace the sequelize object to add custom methods
 const _sequelize = Object.assign(Sequelize);
 _sequelize.prototype.constructor = Sequelize;
 
+// Create connection
 const sequelize = new _sequelize({
   username: config.MYSQL_USERNAME,
   password: config.MYSQL_PASSWORD,
@@ -58,6 +60,7 @@ const sequelize = new _sequelize({
   }
 });
 
+// Update the cloud to fix my shitty SQL queries
 (async () => {
   try {
     await sequelize.query(`SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`);
@@ -66,62 +69,60 @@ const sequelize = new _sequelize({
   }
 })().then(() => true);
 
+// Create all the tabels without associations
 _sequelize.sync = (async () => {
   // Identity
   User.sync(sequelize);
+  Manager.sync(sequelize);
+  Industry.sync(sequelize);
+  IndustryAverage.sync(sequelize);
 
   // University
-  // UniveristyManager.sync(sequelize);
-
   UniversityOrganisation.sync(sequelize);
   UniversityOrganisationAverage.sync(sequelize);
-
   UniversityUser.sync(sequelize);
   UniversityUserAverage.sync(sequelize);
   UniversityUserReflectionAverage.sync(sequelize);
-
   UniversityTeam.sync(sequelize);
   UniversityTeamAverage.sync(sequelize);
-
   UniversityReview.sync(sequelize);
-
   UniversitySubject.sync(sequelize);
   UniversitySubjectAverage.sync(sequelize);
-
-  // UniversityIndustry.sync(sequelize);
-  // UniversityIndustryAverage.sync(sequelize);
-
   UniveristyTutorial.sync(sequelize);
   UniversityTutorialAverage.sync(sequelize);
+
+  // Reference
+  ReferenceUser.sync(sequelize);
+  ReferenceInvite.sync(sequelize);
+  ReferenceReview.sync(sequelize);
 })();
 
+// Create table associations
 _sequelize.assosciate = (async () => {
   // Identity
   User.assosciate();
+  Manager.assosciate();
+  Industry.assosciate();
+  IndustryAverage.assosciate();
 
   // University
-  // UniveristyManager.assosciate();
-
   UniversityOrganisation.assosciate();
   UniversityOrganisationAverage.assosciate();
-
   UniversityUser.assosciate();
   UniversityUserAverage.assosciate();
   UniversityUserReflectionAverage.assosciate();
-
   UniversityTeam.assosciate();
   UniversityTeamAverage.assosciate();
-
   UniversityReview.assosciate();
-
   UniversitySubject.assosciate();
   UniversitySubjectAverage.assosciate();
-
-  // UniversityIndustry.assosciate();
-  // UniversityIndustryAverage.assosciate();
-
   UniveristyTutorial.assosciate();
   UniversityTutorialAverage.assosciate();
+
+  // Reference
+  ReferenceUser.assosciate();
+  ReferenceInvite.assosciate();
+  ReferenceReview.assosciate();
 })();
 
 export { sequelize };
