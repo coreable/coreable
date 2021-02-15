@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import {
   OnboardingContainer,
   Content,
@@ -8,125 +8,43 @@ import {
   Button,
 } from "./onboarding-style";
 
-import Why from "./Why/Why";
-import What from "./What/What";
-import How from "./How/How";
+const Onboarding = (props) => {
+  let history = useHistory();
 
-class Onboarding extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      onboardingNum: 1,
-      isDisabled: true,
-      onboardingTitle: ["Why Coreable?", "What are Facets and Traits?"],
-      startButton: "Next",
-      reviewState: this.props.location.state.reviewState,
-      user_id: this.props.location.state.user_id,
-      team_id: this.props.location.state.team_id,
-      pending: this.props.location.state.pending,
-    };
-  }
+  const [slideCounter, setSlideCounter] = useState(0);
+  const [reviewState, setReviewState] = useState(
+    props.location.state.reviewState
+  );
+  const [user_id, setUser_id] = useState(props.location.state.user_id);
+  const [team_id, setTeam_id] = useState(props.location.state.team_id);
+  const [pending, setPending] = useState(props.location.state.pending);
+  const onboardingTitle = ["Why use Coreable?", "What are Facets and Traits?"];
 
-  next = () => {
-    if (this.state.onboardingNum === 2) {
-      this.setState({
-        startButton: "Start",
-      });
-    }
-
-    if (this.state.onboardingNum < 3) {
-      this.setState({
-        onboardingNum: this.state.onboardingNum + 1,
-      });
-      if (this.state.onboardingNum >= 1) {
-        this.setState({
-          isDisabled: false,
-        });
-      }
-    } else {
-      this.props.history.push({
+  const next = () => {
+    if (slideCounter === 2) {
+      return history.push({
         pathname: "/review",
         state: {
-          reviewState: this.state.reviewState,
-          user_id: this.state.user_id,
-          team_id: this.state.team_id,
-          pending: this.state.pending,
+          reviewState: reviewState,
+          user_id: user_id,
+          team_id: team_id,
+          pending: pending,
         },
       });
     }
+    setSlideCounter(slideCounter++);
   };
 
-  back = () => {
-    if (this.state.onboardingNum === 3) {
-      this.setState({
-        startButton: "Next",
-      });
-    }
-
-    if (this.state.onboardingNum > 1) {
-      this.setState({
-        onboardingNum: this.state.onboardingNum - 1,
-      });
-      if (this.state.onboardingNum <= 2) {
-        this.setState({
-          isDisabled: true,
-        });
-      }
-    } else {
-      return;
-    }
-  };
-
-  onboardingTitle = () => {
-    if (this.state.onboardingNum === 1) {
-      return (
-        <Typography variant="h3" style={{ fontWeight: "bold", color: "white" }}>
-          {this.state.onboardingTitle[0]}
-        </Typography>
-      );
-    } else if (this.state.onboardingNum >= 2) {
-      return (
-        <Typography variant="h3" style={{ fontWeight: "bold", color: "white" }}>
-          {this.state.onboardingTitle[1]}
-        </Typography>
-      );
-    }
-  };
-
-  onboardingSlide = (slideNum) => {
-    switch (slideNum) {
-      case 1:
-        return <Why />;
-      case 2:
-        return <What />;
-      case 3:
-        return <How />;
-      default:
-        return null;
-    }
-  };
-
-  render() {
-    return (
-      <OnboardingContainer>
-        <Content>
-          <Card>{this.onboardingSlide(this.state.onboardingNum)}</Card>
-          <ButtonContainer>
-            <Button backgroundColor={"primary"} onClick={this.next}>
-              {this.state.startButton}
-            </Button>
-            <Button
-              backgroundColor={"secondary"}
-              onClick={this.back}
-              disabled={this.state.isDisabled ? "disabled" : null}
-            >
-              Back
-            </Button>
-          </ButtonContainer>
-        </Content>
-      </OnboardingContainer>
-    );
-  }
-}
+  return (
+    <OnboardingContainer>
+      <Content>
+        <Card></Card>
+        <ButtonContainer>
+          <Button backgroundColor={"primary"} onClick={next}></Button>
+        </ButtonContainer>
+      </Content>
+    </OnboardingContainer>
+  );
+};
 
 export default Onboarding;
