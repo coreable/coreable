@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import {
   OnboardingContainer,
   Content,
-  Card,
   ButtonContainer,
   Button,
 } from "./onboarding-style";
@@ -18,7 +17,6 @@ const Onboarding = (props) => {
   const user_id = props.location.state.user_id;
   const team_id = props.location.state.team_id;
   const pending = props.location.state.pending;
-  const onboardingTitle = ["Why use Coreable?", "What are Facets and Traits?"];
 
   const next = () => {
     if (slideCounter === 2) {
@@ -35,12 +33,19 @@ const Onboarding = (props) => {
     setSlideCounter(slideCounter + 1);
   };
 
+  const buttonText = () => {
+    if (slideCounter < 2) return "Next";
+    return "Start";
+  };
+
   return (
     <OnboardingContainer>
       <Content>
         <OnboardingSlides slideCounter={slideCounter} />
         <ButtonContainer>
-          <Button backgroundColor={"primary"} onClick={next}></Button>
+          <Button backgroundColor={"primary"} onClick={next}>
+            {buttonText()}
+          </Button>
         </ButtonContainer>
       </Content>
     </OnboardingContainer>

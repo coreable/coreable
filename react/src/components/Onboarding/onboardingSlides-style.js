@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const SlidesContainer = styled.div`
   width: 100%;
-  height: 500px;
+  height: 600px;
   color: black;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -18,13 +18,14 @@ export const Title = styled.div`
   align-items: center;
   font-size: 1.8rem;
   font-weight: 500;
+  margin-bottom: 20px;
 `;
 
 export const Card = styled.div`
-  height: 430px;
-  overflow-y: scroll;
+  min-height: 450px;
   width: 100%;
   padding: 20px;
+  padding-top: 10px;
   box-sizing: border-box;
   background-color: white;
   display: flex;
@@ -54,11 +55,12 @@ export const StepperContainer = styled.div`
   align-items: center;
   width: 60px;
   height: 40px;
+  margin-bottom: 10px;
 `;
 
 export const Stepper = styled.span`
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background-color: ${(props) =>
     props.slideCounter >= 1 ? "navy" : "lightgrey"};
@@ -67,8 +69,8 @@ export const Stepper = styled.span`
     position: absolute;
     content: "";
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: ${(props) =>
       props.slideCounter >= 0 ? "navy" : "lightgrey"};
@@ -79,8 +81,8 @@ export const Stepper = styled.span`
     position: absolute;
     content: "";
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background-color: ${(props) =>
       props.slideCounter >= 2 ? "navy" : "lightgrey"};

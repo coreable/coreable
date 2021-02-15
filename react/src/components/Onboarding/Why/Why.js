@@ -1,26 +1,17 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Card, Para, Title } from "../card-style";
 import svg from "./Group424.svg";
 
 export default function Why() {
   return (
-    <React.Fragment>
-      <Typography
-        variant="h4"
-        style={{ fontWeight: "bold", textAlign: "left" }}
-      >
-        Measure, reflect, develop
-      </Typography>
-      <Typography
-        style={{ fontSize: "1.6rem", textAlign: "left", padding: "16pt 0" }}
-      >
-        Coreable enables you to measure, reflect and develop your core skills.{" "}
+    <Card>
+      <Title>Measure, reflect, develop</Title>
+      <Para>
+        Coreable provides you the ability to measure, reflect and develop your core skills through a growth mindset.
         <br />
         <br />
-        By collating peers feedback we will identify your strengths, areas of
-        improvement, brightspots and blindspots.
-      </Typography>
-
+        Gaining team wide feedback to identify your strengths, areas to improve, brightspot and blindspots for continuous growth.
+      </Para>
       <img
         src={svg}
         style={{
@@ -30,6 +21,6 @@ export default function Why() {
         }}
         alt="Why chose coreable"
       />
-    </React.Fragment>
+    </Card>
   );
 }
