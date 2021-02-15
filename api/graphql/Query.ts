@@ -24,6 +24,7 @@ import ReferenceMeQuery from './reference/queries/Me';
 import { UniversityOrganisationResolver } from './university/resolvers/Organisation';
 import { ManagerQuery } from './identity/logic/ManagerQuery';
 import { GetManagerOrganisation } from './university/logic/GetManagerOrganisation';
+import { CoreableErrorResolver } from './global/resolvers/Error';
 
 export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'RootQuery',
@@ -50,9 +51,13 @@ export const RootQuery: GraphQLObjectType<QueryInterface> = new GraphQLObjectTyp
             return {
               'university': {
                 'type': UniversityOrganisationResolver,
+                // TODO: Check manager is a manager and not { manager, errors }
                 async resolve(manager, args, context) {
                   return await GetManagerOrganisation(manager, args, context);
                 }
+              },
+              'errors': {
+                'type': CoreableErrorResolver,
               }
             }
           }

@@ -20,7 +20,7 @@ import {
 
 import { User } from '../../identity/models/User';
 import { ReferenceInvite } from './Invite';
-import { ReferenceReview } from './Review';
+import { Review } from '../../results/models/Review';
 
 class ReferenceUser extends Model {
   // Primary Key
@@ -31,7 +31,7 @@ class ReferenceUser extends Model {
 
   // Relationships
   public user!: User;
-  public results!: [ReferenceReview];
+  public results!: [Review];
   public invites!: [ReferenceInvite];
 
   public readonly createdAt!: Date;
@@ -59,7 +59,7 @@ const sync = (sequelize: Sequelize) => {
 }
 
 const assosciate = () => {
-  ReferenceUser.hasMany(ReferenceReview, {
+  ReferenceUser.hasMany(Review, {
     sourceKey: '_id',
     foreignKey: 'receiver_id',
     as: 'results'

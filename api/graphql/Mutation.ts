@@ -12,6 +12,7 @@
   ===========================================================================
 */ 
 
+import { QueryInterface } from "sequelize/types";
 import {
   GraphQLObjectType,
 } from "graphql";
@@ -25,6 +26,9 @@ import UserLoginMutation from './identity/mutations/Login';
 import ForgotPasswordMutation from './identity/mutations/ForgotPassword';
 import RegisterMutation from './identity/mutations/Register';
 import ChangePasswordMutation from './identity/mutations/ChangePassword';
+
+// Reference
+
 
 // Reviews / Results
 import SubmitReviewMutation from './results/mutations/SubmitReview';

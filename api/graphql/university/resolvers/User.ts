@@ -141,8 +141,8 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                       exclude: ['createdAt', 'updatedAt']
                     },
                     where: {
-                      receiver_id: user._id,
-                      submitter_id: { [Op.not]: user._id }
+                      uni_receiver_id: user._id,
+                      uni_submitter_id: { [Op.not]: user._id }
                     }
                   });
                 }
@@ -160,8 +160,8 @@ export const UniversityUserResolver: GraphQLObjectType<UniversityUser> = new Gra
                       exclude: ['createdAt', 'updatedAt']
                     },
                     where: {
-                      submitter_id: user._id,
-                      receiver_id: { [Op.not]: user._id }
+                      uni_submitter_id: user._id,
+                      uni_receiver_id: { [Op.not]: user._id }
                     }
                   });
                 }

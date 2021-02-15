@@ -40,11 +40,20 @@ export const ReferenceUserResolver: GraphQLObjectType<ReferenceUser> = new Graph
           return reference_user.user_id;
         }
       },
-      'user': {
+      'identity': {
         type: UserResolver,
         async resolve(reference_user, args, context) {
           return await GetReferenceUser(reference_user, args, context);
         }
+      },
+      'report': {
+
+      },
+      'invites': {
+
+      },
+      'submissions': {
+
       }
     }
   }

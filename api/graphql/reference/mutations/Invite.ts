@@ -10,14 +10,8 @@
     You should have received a copy of the license along with the 
     Coreable source code.
   ===========================================================================
-*/ 
-
-import { ReferenceMeCommand } from "../command/Me";
-import { MeQuery } from '../logic/MeQuery';
+*/
 
 export default {
-  'type': ReferenceMeCommand,
-  async resolve(root: any, args: any, context: any) {
-    return await MeQuery(root, args, context);
-  }
+  'type': null
 }

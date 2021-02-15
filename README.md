@@ -1,7 +1,5 @@
 # COREABLE
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/51e019495c794d79b8e23afb7c899967)](https://www.codacy.com/gh/coreable/coreable/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=coreable/coreable&amp;utm_campaign=Badge_Grade)
-
 ## Getting Started
 
 1. Clone the project
