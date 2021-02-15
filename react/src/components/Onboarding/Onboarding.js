@@ -7,17 +7,17 @@ import {
   ButtonContainer,
   Button,
 } from "./onboarding-style";
+import OnboardingSlides from "./OnboardingSlides";
 
 const Onboarding = (props) => {
   let history = useHistory();
 
   const [slideCounter, setSlideCounter] = useState(0);
-  const [reviewState, setReviewState] = useState(
-    props.location.state.reviewState
-  );
-  const [user_id, setUser_id] = useState(props.location.state.user_id);
-  const [team_id, setTeam_id] = useState(props.location.state.team_id);
-  const [pending, setPending] = useState(props.location.state.pending);
+  const reviewState = props.location.state.reviewState;
+
+  const user_id = props.location.state.user_id;
+  const team_id = props.location.state.team_id;
+  const pending = props.location.state.pending;
   const onboardingTitle = ["Why use Coreable?", "What are Facets and Traits?"];
 
   const next = () => {
@@ -32,13 +32,13 @@ const Onboarding = (props) => {
         },
       });
     }
-    setSlideCounter(slideCounter++);
+    setSlideCounter(slideCounter + 1);
   };
 
   return (
     <OnboardingContainer>
       <Content>
-        <Card></Card>
+        <OnboardingSlides slideCounter={slideCounter} />
         <ButtonContainer>
           <Button backgroundColor={"primary"} onClick={next}></Button>
         </ButtonContainer>

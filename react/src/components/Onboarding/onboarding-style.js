@@ -12,11 +12,13 @@ export const OnboardingContainer = styled.div`
 
 export const Content = styled.div`
   position: relative;
-  margin-top: 80px;
   height: calc(100vh - 50px);
   width: 100%;
   box-sizing: border-box;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (min-width: 768px) {
     margin-top: 250px;
