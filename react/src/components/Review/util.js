@@ -9,6 +9,150 @@ import nonVerbal from "../../images/NonVerbal.svg";
 import verbalAttent from "../../images/VerbalAttent.svg";
 import culture from "../../images/Culture.svg";
 
+export const submitReview2 = async ({
+  AUTH_TOKEN,
+  team_id,
+  tutorial_id,
+  subject_id,
+  organisation_id,
+  me_id,
+}) => {
+  const review = JSON.parse(localStorage.getItem("review"));
+
+  let calm,
+    clearInstructions,
+    cooperatively,
+    crossTeam,
+    distractions,
+    easilyExplainsComplexIdeas,
+    empathy,
+    usesRegulators,
+    influences,
+    managesOwn,
+    newIdeas,
+    openToShare,
+    positiveBelief,
+    proactive,
+    resilienceFeedback,
+    signifiesInterest,
+    workDemands;
+
+  review.map((trait) => {
+    switch (trait.trait) {
+      case "calm":
+        calm = trait.value;
+        break;
+      case "clearInstructions":
+        clearInstructions = trait.value;
+        break;
+      case "cooperatively":
+        cooperatively = trait.value;
+        break;
+      case "crossTeam":
+        crossTeam = trait.value;
+        break;
+      case "distractions":
+        distractions = trait.value;
+        break;
+      case "easilyExplainsComplexIdeas":
+        easilyExplainsComplexIdeas = trait.value;
+        break;
+      case "empathy":
+        empathy = trait.value;
+        break;
+      case "usesRegulators":
+        usesRegulators = trait.value;
+        break;
+      case "influences":
+        influences = trait.value;
+        break;
+      case "managesOwn":
+        managesOwn = trait.value;
+        break;
+      case "newIdeas":
+        newIdeas = trait.value;
+        break;
+      case "openToShare":
+        openToShare = trait.value;
+        break;
+      case "positiveBelief":
+        positiveBelief = trait.value;
+        break;
+      case "proactive":
+        proactive = trait.value;
+        break;
+      case "resilienceFeedback":
+        resilienceFeedback = trait.value;
+        break;
+      case "signifiesInterest":
+        signifiesInterest = trait.value;
+        break;
+      case "workDemands":
+        workDemands = trait.value;
+        break;
+      default:
+        break;
+    }
+  });
+
+  try {
+    const query = {
+      query: `
+            mutation {
+              submitReview(
+                receiver_id: "${me_id}",
+                team_id: "${team_id}",
+                subject_id: "${subject_id}",
+                tutorial_id: "${tutorial_id}",
+                organisation_id: "${organisation_id}",
+
+                calm: ${calm},
+                clearInstructions: ${clearInstructions},
+                cooperatively: ${cooperatively},
+                crossTeam: ${crossTeam},
+                distractions: ${distractions},
+                easilyExplainsComplexIdeas: ${easilyExplainsComplexIdeas},
+                empathy: ${empathy},
+                usesRegulators: ${usesRegulators},
+                influences: ${influences},
+                managesOwn: ${managesOwn},
+                newIdeas: ${newIdeas},
+                openToShare: ${openToShare},
+                positiveBelief: ${positiveBelief},,
+                proactive: ${proactive},
+                resilienceFeedback: ${resilienceFeedback},
+                signifiesInterest: ${signifiesInterest},
+                workDemands: ${workDemands},
+              ) {
+                errors {
+                  path
+                  code
+                  message
+                }
+                data {
+                  review {
+                    _id
+                  }
+                }
+              }
+            }
+          `,
+    };
+    const options = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        JWT: AUTH_TOKEN,
+      },
+      body: JSON.stringify(query),
+    };
+    await fetch(API_URL, options);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export const submitReview = async (props) => {
   const review = JSON.parse(localStorage.getItem("review"));
 
@@ -380,7 +524,6 @@ const traits = [
     value: 0,
   },
 ];
-
 
 export const createTeamObject = (teamMembers) => {
   let teamObject = [];

@@ -17,7 +17,7 @@ import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { API_URL } from "../../constants";
 import { useHistory } from "react-router-dom";
-import { createTeamObject, facets, submitReview } from "./util";
+import { createTeamObject, facets, submitReview, submitReview2 } from "./util";
 import { ReviewContainer } from "./review-style";
 import { set } from "react-ga";
 
@@ -34,22 +34,43 @@ const Review = (props) => {
   const reviewState = props.location.state.reviewState;
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [buttonText, setButtonText] = useState("Next")
+  const [buttonText, setButtonText] = useState("Next");
+  const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [disableSubmitButton, setDisableSubmitButton] = useState(false);
   const teamMembers = props.app.data.user.pending;
 
-  const next = () => {
-    if(currentIndex === facets.length - 2) {
-      setButtonText("Submit") 
+  const next = (questionsAnswered) => {
+    if (currentIndex === facets.length - 2) {
+      setButtonText("Submit");
     }
-    if(currentIndex === facets.length - 1) {
-      // submitReview()
+
+    if (currentIndex === facets.length - 1) {
+      const review = JSON.parse(localStorage.getItem("review"));
+
+      if(questionsAnswered >= 16 || review.length >= 16) {
+        submitReview2(
+          AUTH_TOKEN,
+          team_id,
+          tutorial_id,
+          subject_id,
+          organisation_id,
+          me_id
+        )
+          .then(() => history.push("/skills"))
+          .catch((err) => console.log(err));
+      } else {
+        setDisableSubmitButton(true)
+      }
+      return;
     }
+
     setCurrentIndex(currentIndex + 1);
   };
 
   const back = () => {
-    if(currentIndex <= facets.length - 1) {
-      setButtonText("Next")
+    if (currentIndex <= facets.length - 1) {
+      setButtonText("Next");
+      setDisableSubmitButton(false)
     }
     if (currentIndex === 0) return history.push("/");
     setCurrentIndex(currentIndex - 1);
@@ -73,6 +94,9 @@ const Review = (props) => {
         ReactGA={props.ReactGA}
         facets={facets}
         buttonText={buttonText}
+        disableSubmitButton={disableSubmitButton}
+        setQuestionsAnswered={setQuestionsAnswered}
+        questionsAnswered={questionsAnswered}
       />
     </ReviewContainer>
   );

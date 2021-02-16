@@ -29,10 +29,6 @@ import {
 import { SubTitle, Title } from "../../home/home-style";
 
 const Facet = (props) => {
-  const [surveyOpen, setSurveyOpen] = useState(false);
-  const [surveyResults, setSurveyResults] = useState([]);
-  const [refresh, setRefresh] = useState(false);
-
   const facets = props.facets;
   const traits = props.traits;
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(
@@ -44,6 +40,12 @@ const Facet = (props) => {
   const user_id = props.user_id;
   const facet = props.facet;
   const buttonText = props.buttonText;
+
+  const [surveyOpen, setSurveyOpen] = useState(false);
+  const [surveyResults, setSurveyResults] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const [questionsAnswered, setQuestionsAnswered] = useState(0)
 
   useEffect(() => {
     if (localStorage.getItem("review")) {
@@ -59,22 +61,32 @@ const Facet = (props) => {
         exists = true;
       }
     });
-    if (!exists) surveyResults.push(data);
+    if (!exists) {
+      surveyResults.push(data);
+      setQuestionsAnswered(questionsAnswered + 1)
+    }
   };
 
   const nextHandler = () => {
+    const object = document.getElementById("traitContainer");
+    object.scrollTop = 0;
+
     setSurveyOpen(false);
     localStorage.setItem("review", JSON.stringify(surveyResults));
     setRefresh(true);
-    props.next();
+    props.next(questionsAnswered);
   };
 
   const backHandler = () => {
+    const object = document.getElementById("traitContainer");
+    object.scrollTop = 0;
+
     setSurveyOpen(false);
     localStorage.setItem("review", JSON.stringify(surveyResults));
     setRefresh(true);
     props.back();
   };
+
 
   return (
     <>
@@ -92,7 +104,7 @@ const Facet = (props) => {
             {surveyOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
           </Icon>
 
-          <Traits>
+          <Traits id="traitContainer">
             {facet.traits.map((trait, index) => {
               let score;
               surveyResults.map((trait2) => {
@@ -122,7 +134,7 @@ const Facet = (props) => {
       </FacetContainer>
       <ButtonContainer>
         <Button onClick={backHandler}>Back</Button>
-        <Button backgroundColor={"primary"} onClick={nextHandler}>
+        <Button backgroundColor={"primary"} onClick={nextHandler} disabled={props.disableSubmitButton} style={{backgroundColor: props.disableSubmitButton && "grey"}}>
           {buttonText}
         </Button>
       </ButtonContainer>
