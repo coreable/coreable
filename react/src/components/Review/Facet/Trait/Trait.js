@@ -29,7 +29,7 @@ export default function Trait(props) {
   const [selectedPerson, setSelectedPerson] = useState(props.userId);
   const user_id = props.user_id;
   const name = props.name;
-  const [val, setVal] = useState(props.val ? props.val : 0);
+  const [val, setVal] = useState(props.score ? props.score : 0);
   const variable = props.trait.var;
   const [user, setUser] = useState({});
   const team = props.pending;
@@ -39,11 +39,21 @@ export default function Trait(props) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  useEffect(() => {
+    setVal(props.score);
+  }, [props]);
+
+
   return (
     <TraitContainer>
       <Title fontSize={"1.6"}>{trait.desc}</Title>
       <SubTitle>{trait.para}</SubTitle>
-      <SliderInput selectedPerson={selectedPerson} trait={trait} score={val} />
+      <SliderInput
+        selectedPerson={selectedPerson}
+        trait={trait}
+        score={val}
+        saveData={props.saveData}
+      />
       <ButtonContainer>
         {team.pending?.map((person, idx) => {
           return (

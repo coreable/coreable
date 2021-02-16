@@ -16,9 +16,12 @@ import {
 } from "./sliderInput-style";
 import "./sliderInput.scss";
 
-
 export default function SliderInput(props) {
   const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    setScore(props.score);
+  }, [props]);
 
   const getTitle = () => {
     if (score <= 20) return "Fails to";
@@ -38,6 +41,10 @@ export default function SliderInput(props) {
 
   const sliderHandler = (e) => {
     setScore(parseFloat(e.target.value));
+    props.saveData({
+      trait: e.target.name,
+      value: e.target.value,
+    });
   };
 
   return (
@@ -68,7 +75,7 @@ export default function SliderInput(props) {
           step={5}
           // key={this.state.var}
           // id={this.state.var}
-          // name={trait.var}
+          name={props.trait.var}
           onChange={sliderHandler}
           value={score}
           style={{

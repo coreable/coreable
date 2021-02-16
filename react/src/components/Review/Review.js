@@ -35,8 +35,6 @@ const Review = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const teamMembers = props.app.data.user.pending;
 
-  // const teamObject = createTeamObject(teamMembers);
-
   const next = () => {
     setCurrentIndex(currentIndex + 1);
   };

@@ -30,6 +30,8 @@ import { SubTitle, Title } from "../../home/home-style";
 
 const Facet = (props) => {
   const [surveyOpen, setSurveyOpen] = useState(false);
+  const [surveyResults, setSurveyResults] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const facets = props.facets;
   const traits = props.traits;
@@ -41,6 +43,31 @@ const Facet = (props) => {
   const reviewState = props.reviewState;
   const user_id = props.user_id;
   const facet = props.facet;
+
+  useEffect(() => {
+    if (localStorage.getItem("review")) {
+      setSurveyResults(JSON.parse(localStorage.getItem("review")));
+    }
+  }, [refresh]);
+
+  const saveData = (data) => {
+    //have to see if there is already a trait in surveyResults
+    let exists = false
+    surveyResults.map((trait) => {
+      if (trait.trait === data.trait) {
+        console.log("already exists")
+        trait.value = data.value;
+        exists = true;
+      }
+    });
+    if(!exists) surveyResults.push(data);
+  };
+
+  const nextHandler = () => {
+    localStorage.setItem("review", JSON.stringify(surveyResults));
+    setRefresh(true);
+    props.next();
+  };
 
   return (
     <>
@@ -60,6 +87,12 @@ const Facet = (props) => {
 
           <Traits>
             {facet.traits.map((trait, index) => {
+              let score;
+              surveyResults.map((trait2) => {
+                if(trait.var === trait2.trait) {
+                  score = trait2.value
+                }
+              })
               return (
                 <div className="inside-main-review" key={index}>
                   <Trait
@@ -71,6 +104,8 @@ const Facet = (props) => {
                     pending={props.pending}
                     reviewState={reviewState}
                     user_id={user_id}
+                    saveData={saveData}
+                    score={score}
                   />
                 </div>
               );
@@ -80,7 +115,7 @@ const Facet = (props) => {
       </FacetContainer>
       <ButtonContainer>
         <Button onClick={props.back}>Back</Button>
-        <Button backgroundColor={"primary"} onClick={props.next}>
+        <Button backgroundColor={"primary"} onClick={nextHandler}>
           Next
         </Button>
       </ButtonContainer>
