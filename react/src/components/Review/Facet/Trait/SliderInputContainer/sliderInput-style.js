@@ -71,7 +71,7 @@ export const Dot1= styled.span`
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: ${(props) => props.score >= 0 ? "#4070e0" : "lightgrey"};
+  background-color: ${(props) => props.score > 0 ? "#4070e0" : "lightgrey"};
 `;
 
 export const Dot2 = styled.span`

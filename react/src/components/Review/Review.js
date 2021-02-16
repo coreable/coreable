@@ -56,7 +56,9 @@ const Review = (props) => {
           organisation_id,
           me_id
         )
-          .then(() => history.push("/skills"))
+          .then(() => {
+            localStorage.removeItem("review")
+            history.push("/skills")})
           .catch((err) => console.log(err));
       } else {
         setDisableSubmitButton(true)
