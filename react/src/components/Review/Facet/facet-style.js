@@ -19,8 +19,8 @@ export const Header = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 230px;
-  height: auto;
+  width: auto;
+  height: 180px;
   margin-bottom: 20px;
 `;
 
