@@ -22,23 +22,27 @@ import { ReviewContainer } from "./review-style";
 
 const Review = (props) => {
   const history = useHistory();
-  // const teamId = props.location.state.pending._id;
-  // const tutorialId = props.location.state.pending.tutorial._id;
-  // const subjectId = props.location.state.pending.tutorial.subject._id;
-  // const organisation_id =
-  //   props.location.state.pending.tutorial.subject.organisation._id;
-  // const me_id = props.app.data.user._id;
+
+  const AUTH_TOKEN = props.app.JWT;
+  const team_id = props.location.state.pending._id;
+  const tutorial_id = props.location.state.pending.tutorial._id;
+  const subject_id = props.location.state.pending.tutorial.subject._id;
+  const organisation_id =
+    props.location.state.pending.tutorial.subject.organisation._id;
+  const me_id = props.app.data.user._id;
+  const reviewState = props.location.state.reviewState;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const teamMembers = props.app.data.user.pending;
 
-  const teamObject = createTeamObject(teamMembers);
+  // const teamObject = createTeamObject(teamMembers);
 
   const next = () => {
     setCurrentIndex(currentIndex + 1);
   };
 
   const back = () => {
+    if (currentIndex === 0) return history.push("/");
     setCurrentIndex(currentIndex - 1);
   };
 
@@ -46,7 +50,20 @@ const Review = (props) => {
 
   return (
     <ReviewContainer>
-      <Facet facet={facets[currentIndex]} next={next} back={back} />
+      <Facet
+        next={next}
+        back={back}
+        user_id={me_id}
+        reviewState={reviewState}
+        pending={props.location.state.pending}
+        currentIndex={currentIndex}
+        facetLength={facets.length}
+        facet={facets[currentIndex]}
+        {...facets[currentIndex]}
+        me={props.app.data.user}
+        ReactGA={props.ReactGA}
+        facets={facets}
+      />
     </ReviewContainer>
   );
 };

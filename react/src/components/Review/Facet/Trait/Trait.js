@@ -18,27 +18,45 @@ import TeamRank from "./TeamRank/TeamRank";
 import SliderIndicator from "./SliderIndicator";
 import { Subject } from "rxjs";
 
-import { Button } from "@material-ui/core";
-
-//When the user arrives on this page,
-//write code that creates an object which has the team members details and score variable.
-//Store it to localStorage, but make sure that it gets the localStorage object when the next button is clicked.
+import { ButtonContainer, MemberButton, TraitContainer } from "./trait-style";
+import { SubTitle, Title } from "../../../home/home-style";
+import SliderInput from "./SliderInputContainer/SliderInput";
+import { Button } from "../facet-style";
 
 export default function Trait(props) {
-  const trait = props;
-  const [teamMembersScore, setTeamMembersScore] = useState(
-    JSON.parse(localStorage.getItem("review"))
-  );
+  const trait = props.trait;
+  const [teamMembersScore, setTeamMembersScore] = useState();
+  const [selectedPerson, setSelectedPerson] = useState(props.userId);
+  const user_id = props.user_id;
+  const name = props.name;
+  const [val, setVal] = useState(props.val ? props.val : 0);
+  const variable = props.trait.var;
+  const [user, setUser] = useState({});
+  const team = props.pending;
+  const reviewState = props.reviewState;
 
-  console.log(teamMembersScore);
+  const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
-    <div>
-      {trait.desc}
-      <p>{trait.para}</p>
-      {teamMembersScore.map((person, idx) => {
-        return <div key={idx}>{person.user[0].identity.firstName}</div>;
-      })}
-    </div>
+    <TraitContainer>
+      <Title fontSize={"1.6"}>{trait.desc}</Title>
+      <SubTitle>{trait.para}</SubTitle>
+      <SliderInput selectedPerson={selectedPerson} trait={trait} score={val} />
+      <ButtonContainer>
+        {team.pending?.map((person, idx) => {
+          return (
+            <MemberButton
+              key={idx}
+              selected={team.pending.length === 1 ? true : false}
+              onClick={() => console.log("hello")}
+            >
+              {capitalize(person.identity.firstName)}
+            </MemberButton>
+          );
+        })}
+      </ButtonContainer>
+    </TraitContainer>
   );
 }

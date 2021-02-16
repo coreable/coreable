@@ -44,8 +44,11 @@ export const TraitContainer = styled.div`
     props.surveyOpen ? "translateY(0)" : "translateY(70%)"};
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.25);
-  overflow-y: scroll;
 `;
+
+export const Traits = styled.div`
+  overflow-y: scroll;
+`
 
 export const Icon = styled.div`
   font-size: 2rem;

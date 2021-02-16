@@ -12,10 +12,9 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import Trait from "./Trait/Trait";
-import Stepper from "../../Stepper/Stepper";
 import "../Review.scss";
 import {
   FacetContainer,
@@ -25,20 +24,23 @@ import {
   Button,
   TraitContainer,
   Icon,
+  Traits,
 } from "./facet-style";
 import { SubTitle, Title } from "../../home/home-style";
 
 const Facet = (props) => {
   const [surveyOpen, setSurveyOpen] = useState(false);
-  
-  const facetName = props.name;
-  const description = props.desc;
+
+  const facets = props.facets;
   const traits = props.traits;
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(
+    props.currentIndex === props.facetLength - 1
+  );
+  const stepsArray = props.facets;
+  const currentIndex = props.currentIndex;
+  const reviewState = props.reviewState;
   const user_id = props.user_id;
-
-
   const facet = props.facet;
-
 
   return (
     <>
@@ -56,13 +58,24 @@ const Facet = (props) => {
             {surveyOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
           </Icon>
 
-          {facet.traits.map((trait, index) => {
-            return (
-              <div className="inside-main-review" key={index}>
-                <Trait {...trait} me={props.me}/>
-              </div>
-            );
-          })}
+          <Traits>
+            {facet.traits.map((trait, index) => {
+              return (
+                <div className="inside-main-review" key={index}>
+                  <Trait
+                    trait={trait}
+                    name={trait.name}
+                    key={trait.name}
+                    me={props.me}
+                    traitName={trait.name}
+                    pending={props.pending}
+                    reviewState={reviewState}
+                    user_id={user_id}
+                  />
+                </div>
+              );
+            })}
+          </Traits>
         </TraitContainer>
       </FacetContainer>
       <ButtonContainer>

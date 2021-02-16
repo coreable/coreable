@@ -1,3 +1,4 @@
+
 /*
 ===========================================================================
 Copyright (C) 2020 Coreable
@@ -12,46 +13,39 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import Trait from "./Trait/Trait";
 import Stepper from "../../Stepper/Stepper";
 import "../Review.scss";
+import {
+  FacetContainer,
+  Image,
+  Header,
+  ButtonContainer,
+  Button,
+  TraitContainer,
+  Icon,
+  Traits,
+} from "./facet-style";
+import { SubTitle, Title } from "../../home/home-style";
 
-class Facet extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: props.name,
-      desc: props.desc,
-      traits: props.traits,
-      isSubmitDisabled: props.currentIndex === props.facetLength - 1,
-      stepsArray: props.facets,
-      currentIndex: props.currentIndex,
-      reviewState: props.reviewState,
-      user_id: props.user_id,
-      showPara: false,
-      flip: "",
-    };
-  }
+const Facet = (props) => {
+  const [surveyOpen, setSurveyOpen] = useState(false);
 
-  componentDidUpdate() {
-    if (this.state.name !== this.props.name) {
-      const props = this.props;
-      this.setState({
-        ...this.state,
-        name: props.name,
-        desc: props.desc,
-        traits: props.traits,
-        isSubmitDisabled: this.getIsSubmitButtonDisabled(),
-      });
-    }
-  }
+  const facet = props.facets;
+  const traits = props.traits;
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(props.currentIndex === props.facetLength - 1)
+  const stepsArray = props.facets;
+  const currentIndex = props.currentIndex;
+  const reviewState = props.reviewState;
+  const user_id = props.user_id
 
-  getReviews = () => {
+  const getReviews = () => {
     return JSON.parse(localStorage.getItem("review"));
   };
 
-  validateReview = (review) => {
+  const validateReview = (review) => {
     if (!review["calm"]) return false;
     if (!review["clearInstructions"]) return false;
     if (!review["cooperatively"]) return false;
@@ -72,15 +66,15 @@ class Facet extends Component {
     return true;
   };
 
-  getIsSubmitButtonDisabled = () => {
-    const currentIndex = this.props.currentIndex;
-    const facetLength = this.props.facetLength;
+  const getIsSubmitButtonDisabled = () => {
+    const currentIndex = props.currentIndex;
+    const facetLength = props.facetLength;
     if (currentIndex !== facetLength - 1) {
       return false;
     }
-    const me_id = this.props.me._id;
-    const team_id = this.props.pending._id;
-    const reviews = this.getReviews();
+    const me_id = props.me._id;
+    const team_id = props.pending._id;
+    const reviews = getReviews();
     if (!reviews[me_id]) {
       return true;
     }
@@ -88,7 +82,7 @@ class Facet extends Component {
       return true;
     }
     for (const user in reviews[me_id][team_id]) {
-      const isValid = this.validateReview(reviews[me_id][team_id][user]);
+      const isValid = validateReview(reviews[me_id][team_id][user]);
       if (!isValid) {
         return true;
       }
@@ -96,138 +90,61 @@ class Facet extends Component {
     return false;
   };
 
-  sliderUpdatedHandler = () => {
-    const currentIndex = this.props.currentIndex;
-    const facetLength = this.props.facetLength;
+  const sliderUpdatedHandler = () => {
+    const currentIndex = props.currentIndex;
+    const facetLength = props.facetLength;
     if (currentIndex !== facetLength - 1) {
       return false;
     } else {
-      this.setState({
-        ...this.state,
-        isSubmitDisabled: this.getIsSubmitButtonDisabled(),
-      });
+      setIsSubmitDisabled(getIsSubmitButtonDisabled())
     }
   };
 
-  continue = (e) => {
-    if (e.cancelable) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    this.props.nextStep();
-    let currentIndex = this.state.currentIndex;
-    currentIndex++;
-    this.setState({ currentIndex: currentIndex });
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  return (
+    <>
+      <FacetContainer>
+        <Header>
+          <Image src={facet.image}></Image>
+          <Title fontType={true} fontSize={"2.4"} color={"primary"}>
+            {facet.name}
+          </Title>
+          <SubTitle fontSize={"1.2"}>{facet.desc}</SubTitle>
+        </Header>
 
-  back = (e) => {
-    if (e.cancelable) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    this.props.prevStep();
-    let currentIndex = this.state.currentIndex;
-    currentIndex--;
-    this.setState({ currentIndex: currentIndex });
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+        <TraitContainer surveyOpen={surveyOpen}>
+          <Icon onClick={() => setSurveyOpen(!surveyOpen)}>
+            {surveyOpen ? <IoIosArrowDown /> : <IoIosArrowUp />}
+          </Icon>
 
-  showPara = () => {
-    if (!this.state.showPara) {
-      this.setState({
-        showPara: !this.state.showPara,
-        flip: "scaleY(-1) scaleX(-1)",
-      });
-    } else {
-      this.setState({
-        showPara: !this.state.showPara,
-        flip: "",
-      });
-    }
-  };
-
-  render() {
-    const { currentIndex, stepsArray } = this.state;
-
-    return (
-      <div className="review-container">
-        <div className="top">
-          <div className="facet-heading-desc">
-            <div style={{ width: "100%" }}>
-              <Stepper
-                currentStepNumber={currentIndex}
-                steps={stepsArray}
-                stepColor="#4070e0"
-              />
-            </div>
-            <div className="text-div">
-              <h1 style={{ width: "100%" }}>{this.state.name}</h1>
-              <span
-                onClick={this.showPara}
-                style={{
-                  transform: `rotate(45deg) ${this.state.flip}`,
-                }}
-              ></span>
-              <div>
-                {this.state.showPara && (
-                  <p
-                    style={{
-                      margin: "0",
-                      padding: "0",
-                      fontSize: "1.1rem",
-                      width: "90%",
-                    }}
-                  >
-                    {this.props.desc}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="main-review">
-          <div className="grid-review">
-            {this.state.traits.map((trait, index) => {
+          <Traits>
+            {facet.map((trait, index) => {
               return (
                 <div className="inside-main-review" key={index}>
                   <Trait
-                    {...trait}
-                    name={this.state.name}
+                    trait={trait}
+                    name={trait.name}
                     key={trait.name}
-                    me={this.props.me}
-                    traitName={this.state.traits.name}
-                    pending={this.props.pending}
-                    sliderUpdatedHandler={this.sliderUpdatedHandler}
-                    reviewState={this.state.reviewState}
-                    user_id={this.state.user_id}
-                  ></Trait>
+                    me={props.me}
+                    traitName={trait.name}
+                    pending={props.pending}
+                    sliderUpdatedHandler={sliderUpdatedHandler}
+                    reviewState={reviewState}
+                    user_id={user_id}
+                  />
                 </div>
               );
             })}
-          </div>
-          <div className="btn-container">
-            <button
-              className="btn primarybtn"
-              onClick={this.continue}
-              disabled={this.state.isSubmitDisabled}
-            >
-              {this.props.buttonLabel}
-            </button>
-            <button className="btn transparentbtn" onClick={this.back}>
-              Back
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+          </Traits>
+        </TraitContainer>
+      </FacetContainer>
+      <ButtonContainer>
+        <Button onClick={props.back}>Back</Button>
+        <Button backgroundColor={"primary"} onClick={props.next}>
+          Next
+        </Button>
+      </ButtonContainer>
+    </>
+  );
+};
 
 export default Facet;

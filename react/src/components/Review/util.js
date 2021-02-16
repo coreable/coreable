@@ -381,6 +381,7 @@ const traits = [
   },
 ];
 
+
 export const createTeamObject = (teamMembers) => {
   let teamObject = [];
 
