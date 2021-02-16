@@ -24,7 +24,6 @@ export default function SliderInput(props) {
   }, [props]);
 
   const getTitle = () => {
-    console.log(score)
     if (score <= 20) return "Fails to";
     if (score <= 40) return "Under prompting";
     if (score <= 60) return "Habitually";

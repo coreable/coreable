@@ -52,22 +52,28 @@ const Facet = (props) => {
   }, [refresh]);
 
   const saveData = (data) => {
-    //have to see if there is already a trait in surveyResults
-    let exists = false
+    let exists = false;
     surveyResults.map((trait) => {
       if (trait.trait === data.trait) {
-        console.log("already exists")
         trait.value = data.value;
         exists = true;
       }
     });
-    if(!exists) surveyResults.push(data);
+    if (!exists) surveyResults.push(data);
   };
 
   const nextHandler = () => {
+    setSurveyOpen(false);
     localStorage.setItem("review", JSON.stringify(surveyResults));
     setRefresh(true);
     props.next();
+  };
+
+  const backHandler = () => {
+    setSurveyOpen(false);
+    localStorage.setItem("review", JSON.stringify(surveyResults));
+    setRefresh(true);
+    props.back();
   };
 
   return (
@@ -90,10 +96,10 @@ const Facet = (props) => {
             {facet.traits.map((trait, index) => {
               let score;
               surveyResults.map((trait2) => {
-                if(trait.var === trait2.trait) {
-                  score = trait2.value
+                if (trait.var === trait2.trait) {
+                  score = trait2.value;
                 }
-              })
+              });
               return (
                 <div className="inside-main-review" key={index}>
                   <Trait
@@ -115,7 +121,7 @@ const Facet = (props) => {
         </TraitContainer>
       </FacetContainer>
       <ButtonContainer>
-        <Button onClick={props.back}>Back</Button>
+        <Button onClick={backHandler}>Back</Button>
         <Button backgroundColor={"primary"} onClick={nextHandler}>
           {buttonText}
         </Button>
