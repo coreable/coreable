@@ -11,7 +11,8 @@ export const TraitContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 15px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
+  border-bottom: 1px solid lightgrey;
 `;
 
 export const ButtonContainer = styled.div`

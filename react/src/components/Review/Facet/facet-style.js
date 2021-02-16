@@ -35,6 +35,7 @@ export const TraitContainer = styled.div`
   border-top-right-radius: 4px;
   padding: 20px;
   padding-top: 10px;
+  padding-bottom: 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
