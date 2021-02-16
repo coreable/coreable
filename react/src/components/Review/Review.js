@@ -17,8 +17,9 @@ import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { API_URL } from "../../constants";
 import { useHistory } from "react-router-dom";
-import { createTeamObject, facets } from "./util";
+import { createTeamObject, facets, submitReview } from "./util";
 import { ReviewContainer } from "./review-style";
+import { set } from "react-ga";
 
 const Review = (props) => {
   const history = useHistory();
@@ -33,13 +34,23 @@ const Review = (props) => {
   const reviewState = props.location.state.reviewState;
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [buttonText, setButtonText] = useState("Next")
   const teamMembers = props.app.data.user.pending;
 
   const next = () => {
+    if(currentIndex === facets.length - 2) {
+      setButtonText("Submit") 
+    }
+    if(currentIndex === facets.length - 1) {
+      // submitReview()
+    }
     setCurrentIndex(currentIndex + 1);
   };
 
   const back = () => {
+    if(currentIndex <= facets.length - 1) {
+      setButtonText("Next")
+    }
     if (currentIndex === 0) return history.push("/");
     setCurrentIndex(currentIndex - 1);
   };
@@ -61,6 +72,7 @@ const Review = (props) => {
         me={props.app.data.user}
         ReactGA={props.ReactGA}
         facets={facets}
+        buttonText={buttonText}
       />
     </ReviewContainer>
   );

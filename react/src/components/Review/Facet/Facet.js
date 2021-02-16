@@ -43,6 +43,7 @@ const Facet = (props) => {
   const reviewState = props.reviewState;
   const user_id = props.user_id;
   const facet = props.facet;
+  const buttonText = props.buttonText;
 
   useEffect(() => {
     if (localStorage.getItem("review")) {
@@ -116,7 +117,7 @@ const Facet = (props) => {
       <ButtonContainer>
         <Button onClick={props.back}>Back</Button>
         <Button backgroundColor={"primary"} onClick={nextHandler}>
-          Next
+          {buttonText}
         </Button>
       </ButtonContainer>
     </>
