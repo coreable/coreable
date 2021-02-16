@@ -41,7 +41,7 @@ export const TraitContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   transform: ${(props) =>
-    props.surveyOpen ? "translateY(0)" : "translateY(70%)"};
+    props.surveyOpen ? "translateY(0)" : "translateY(57%)"};
   transition: all 0.3s ease-in-out;
   box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.25);
 `;
