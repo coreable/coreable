@@ -47,7 +47,7 @@ const Review = (props) => {
     if (currentIndex === facets.length - 1) {
       const review = JSON.parse(localStorage.getItem("review"));
 
-      if(questionsAnswered >= 16 || review.length >= 16) {
+      if (questionsAnswered >= 16 || review.length >= 16) {
         submitReview2(
           AUTH_TOKEN,
           team_id,
@@ -57,11 +57,13 @@ const Review = (props) => {
           me_id
         )
           .then(() => {
-            localStorage.removeItem("review")
-            history.push("/skills")})
+            localStorage.removeItem("review");
+            history.push("/skills");
+          })
           .catch((err) => console.log(err));
       } else {
-        setDisableSubmitButton(true)
+        setDisableSubmitButton(true);
+        setButtonText("Did you miss any sections?")
       }
       return;
     }
@@ -72,7 +74,7 @@ const Review = (props) => {
   const back = () => {
     if (currentIndex <= facets.length - 1) {
       setButtonText("Next");
-      setDisableSubmitButton(false)
+      setDisableSubmitButton(false);
     }
     if (currentIndex === 0) return history.push("/");
     setCurrentIndex(currentIndex - 1);

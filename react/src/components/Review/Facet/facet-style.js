@@ -74,7 +74,7 @@ export const Button = styled.button`
   margin: 10px;
   border-radius: 4px;
   border: none;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: bold;
   background-color: ${(props) => 
     props.backgroundColor === "primary" ? "#4070e0" : "#d6d6d6"};
