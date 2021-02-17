@@ -88,7 +88,8 @@ const Navbar = (props) => {
                     </ListItems>
                   );
                 })}
-
+              </UnorderedList>
+              <UnorderedList direction={"row"} fontSize={"1.5"} color={"white"}>
                 <ListItems onClick={removeJWT}>
                   <NavLink style={{ color: "white" }} exact to="">
                     Logout

@@ -25,7 +25,7 @@ export const NavBarContents = styled.div`
   align-items: center;
   display: flex;
   @media (min-width: 768px) {
-    width: 80%;
+    width: 90%;
     justify-content: flex-start;
   }
 `;
@@ -37,6 +37,11 @@ export const Logo = styled.img`
 `;
 
 export const NavbarItems = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   @media (max-width: 768px) {
     display: none;
   }
