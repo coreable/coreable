@@ -13,8 +13,8 @@
 */
 
 import { CoreableError } from "../../global/models/CoreableError";
-import { GetUniversityAccountWithTeamsFromUser_id, GetUniversityAccountWithTeamsFromPrimaryKey } from "./GetUniversityAccountWithTeams";
-import { GetTeamSubject } from "./GetTeamSubject";
+import { GetUniversityAccountWithTeamsFromUser_id, GetUniversityAccountWithTeamsFromPrimaryKey } from "../../university/logic/GetUniversityAccountWithTeams";
+import { GetTeamSubject } from "../../university/logic/GetTeamSubject";
 import { Review } from "../models/Review";
 
 export async function SubmitReview(root: any, args: any, context: any) {
@@ -29,6 +29,17 @@ export async function SubmitReview(root: any, args: any, context: any) {
       path: 'JWT',
       message: 'User unauthenticated'
     });
+  }
+  if (!errors.length) {
+    for (let value in args) {
+      if (args[value] === 'undefined' || typeof args[value] === undefined) {
+        errors.push({
+          code: 'ER_UNDEFINED',
+          path: 'args',
+          message: 'Argument ' + value + ' is undefined'
+        });
+      }
+    }
   }
   if (!errors.length) {
     userSubmittingReview = await GetUniversityAccountWithTeamsFromUser_id(context);
