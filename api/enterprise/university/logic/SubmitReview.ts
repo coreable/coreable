@@ -23,6 +23,10 @@ export async function SubmitReview(root: any, args: any, context: any) {
   let userSubmittingReview: any;
   let userCommonTeam: any;
   let subject: any;
+
+  console.log(context);
+  console.log(args);
+
   if (!context.JWT) {
     errors.push({
       code: 'ER_AUTH_FAILURE',
