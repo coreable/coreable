@@ -21,6 +21,17 @@ export async function Login(root: any, args: any, context: any) {
   let token: string | undefined;
   context.USER = null;
   if (!errors.length) {
+    for (let value in args) {
+      if (args[value] === 'undefined' || typeof args[value] === undefined) {
+        errors.push({
+          code: 'ER_UNDEFINED',
+          path: 'args',
+          message: 'Argument ' + value + ' is undefined'
+        });
+      }
+    }
+  }
+  if (!errors.length) {
     context.USER = await User.findOne({
       where: { email: args.email.toLowerCase() }
     });

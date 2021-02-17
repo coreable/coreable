@@ -28,6 +28,17 @@ export async function LeaveTeam(root: any, args: any, context: any) {
     });
   }
   if (!errors.length) {
+    for (let value in args) {
+      if (args[value] === 'undefined' || typeof args[value] === undefined) {
+        errors.push({
+          code: 'ER_UNDEFINED',
+          path: 'args',
+          message: 'Argument ' + value + ' is undefined'
+        });
+      }
+    }
+  }
+  if (!errors.length) {
     UNIVERSITY_USER = await GetUniversityAccountWithTeamsFromUser_id(context);
     if (!UNIVERSITY_USER) {
       errors.push({
