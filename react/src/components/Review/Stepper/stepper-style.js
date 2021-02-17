@@ -2,10 +2,12 @@ import styled from "styled-components";
 
 export const StepperContainer = styled.div`
   margin-top: 70px;
+  margin-bottom: 40px;
   width: 100%;
   height: 60px;
   box-sizing: border-box;
   padding: 20px;
+  padding-left: 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -44,7 +46,7 @@ export const StepperLineContainer = styled.div`
   width: calc(14px * 9 + 20px * 8);
   background-color: lightgrey;
   position: absolute;
-  left: 20px;
+  left: 30px;
   z-index: 888;
 `;
 

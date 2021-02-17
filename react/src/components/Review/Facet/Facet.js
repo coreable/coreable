@@ -27,6 +27,7 @@ import {
   Traits,
 } from "./facet-style";
 import { SubTitle, Title } from "../../home/home-style";
+import Stepper from "../Stepper/Stepper";
 
 const Facet = (props) => {
   const facets = props.facets;
@@ -45,7 +46,7 @@ const Facet = (props) => {
   const [surveyResults, setSurveyResults] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
-  const [questionsAnswered, setQuestionsAnswered] = useState(0)
+  const [questionsAnswered, setQuestionsAnswered] = useState(0);
 
   useEffect(() => {
     if (localStorage.getItem("review-coreable")) {
@@ -63,7 +64,7 @@ const Facet = (props) => {
     });
     if (!exists) {
       surveyResults.push(data);
-      setQuestionsAnswered(questionsAnswered + 1)
+      setQuestionsAnswered(questionsAnswered + 1);
     }
   };
 
@@ -87,11 +88,11 @@ const Facet = (props) => {
     props.back();
   };
 
-
   return (
     <>
       <FacetContainer>
         <Header>
+          <Stepper facets={facets} currentIndex={currentIndex} />
           <Image src={facet.image}></Image>
           <Title fontType={true} fontSize={"2.4"} color={"primary"}>
             {facet.name}
@@ -134,7 +135,12 @@ const Facet = (props) => {
       </FacetContainer>
       <ButtonContainer>
         <Button onClick={backHandler}>Back</Button>
-        <Button backgroundColor={"primary"} onClick={nextHandler} disabled={props.disableSubmitButton} style={{backgroundColor: props.disableSubmitButton && "grey"}}>
+        <Button
+          backgroundColor={"primary"}
+          onClick={nextHandler}
+          disabled={props.disableSubmitButton}
+          style={{ backgroundColor: props.disableSubmitButton && "grey" }}
+        >
           {buttonText}
         </Button>
       </ButtonContainer>

@@ -10,12 +10,22 @@ export const FacetContainer = styled.div`
   flex-direction: column;
   position: relative;
   overflow-y: hidden;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+  }
 `;
 
 export const Header = styled.div`
   margin-top: 10px;
   padding: 20px;
   box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    width: 35%;
+    padding: 30px;
+  }
 `;
 
 export const Image = styled.img`
@@ -44,15 +54,39 @@ export const TraitContainer = styled.div`
   transform: ${(props) =>
     props.surveyOpen ? "translateY(0)" : "translateY(57%)"};
   transition: all 0.3s ease-in-out;
-  box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25);
+
+  @media (min-width: 768px) {
+    width: 65%;
+    position: relative;
+    transform: none;
+    bottom: 0;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const Traits = styled.div`
   overflow-y: scroll;
-`
+  width: 100%;
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 
 export const Icon = styled.div`
   font-size: 2rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -66,6 +100,13 @@ export const ButtonContainer = styled.div`
   align-items: center;
   border-top: 1px solid lightgrey;
   z-index: 999;
+
+  @media (min-width: 768px) {
+    width: 65%;
+    right: 0;
+    border-top: none;
+    bottom: 15px;
+  }
 `;
 
 export const Button = styled.button`
@@ -76,7 +117,7 @@ export const Button = styled.button`
   border: none;
   font-size: 1.3rem;
   font-weight: bold;
-  background-color: ${(props) => 
+  background-color: ${(props) =>
     props.backgroundColor === "primary" ? "#4070e0" : "#d6d6d6"};
   color: white;
 `;

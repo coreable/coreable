@@ -40,7 +40,7 @@ export const Title = styled.h1`
   font-family: ${(props) =>
     props.fontType && "'Times New Roman', Times, serif"};
   @media (min-width: 768px) {
-    /* font-size: 3rem !important; */
+    font-size: 2.3rem !important;
   }
 `;
 

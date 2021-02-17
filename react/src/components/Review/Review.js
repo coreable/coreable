@@ -92,7 +92,7 @@ const Review = (props) => {
 
   return (
     <ReviewContainer>
-      <Stepper facets={facets} currentIndex={currentIndex} />
+      {/* <Stepper facets={facets} currentIndex={currentIndex} /> */}
       <Facet
         next={next}
         back={back}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const TraitContainer = styled.div`
   padding: 20px;
   box-sizing: border-box;
-  width: 100vw;
+  width: 100%;
   min-height: 200px;
   background-color: white;
   display: flex;
@@ -13,6 +13,11 @@ export const TraitContainer = styled.div`
   margin-top: 15px;
   /* margin-bottom: 15px; */
   border-bottom: 1px solid lightgrey;
+
+  @media (min-width: 768px) {
+    width: 700px;
+    height: 300px;
+  }
 `;
 
 export const ButtonContainer = styled.div`
@@ -25,15 +30,15 @@ export const ButtonContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-`
+`;
 
 export const MemberButton = styled.button`
-  background-color: ${(props) => props.selected ? "#4070e0" : "lightgrey"};
+  background-color: ${(props) => (props.selected ? "#4070e0" : "lightgrey")};
   height: 30px;
-  border: ${(props) => props.selected ? "none" : "1px solid lightgrey"};
+  border: ${(props) => (props.selected ? "none" : "1px solid lightgrey")};
   padding: 5px 15px;
-  color: ${(props) => props.selected ? "white" : "lightgrey"};
+  color: ${(props) => (props.selected ? "white" : "lightgrey")};
   border-radius: 4px;
   box-sizing: border-box;
   margin-right: 10px;
-`
+`;
