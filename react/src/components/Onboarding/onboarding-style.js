@@ -8,6 +8,7 @@ export const OnboardingContainer = styled.div`
   width: 100%;
   background: whitesmoke;
   height: calc(100vh - 50px);
+
 `;
 
 export const Content = styled.div`
@@ -21,7 +22,6 @@ export const Content = styled.div`
   align-items: center;
 
   @media (min-width: 768px) {
-    margin-top: 250px;
     width: 500px;
   }
 `;
@@ -35,7 +35,7 @@ export const Card = styled.div`
   background-color: white;
 
   @media (min-width: 768px) {
-    max-height: 500px;
+    max-height: 600px;
     border-radius: 4px;
     overflow-y: scroll;
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
@@ -58,7 +58,7 @@ export const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 30px;
+  bottom: 20px;
 
   @media (min-width: 768px) {
     bottom: 130px;

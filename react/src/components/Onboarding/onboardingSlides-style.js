@@ -34,7 +34,7 @@ export const Card = styled.div`
   align-items: center;
 
   @media (min-width: 768px) {
-    max-height: 500px;
+    height: 500px;
     border-radius: 4px;
     overflow-y: scroll;
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
