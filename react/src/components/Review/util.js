@@ -147,7 +147,9 @@ export const submitReview2 = async ({
       },
       body: JSON.stringify(query),
     };
-    fetch(API_URL, options);
+    fetch(API_URL, options)
+      .then(() => console.log())
+      .catch((err) => console.log(err));
   } catch (err) {
     console.error(err);
   }

@@ -12,14 +12,15 @@ Coreable source code.
 ===========================================================================
 */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Review.scss";
 import Facet from "./Facet/Facet";
 import { API_URL } from "../../constants";
 import { useHistory } from "react-router-dom";
-import { createTeamObject, facets, submitReview, submitReview2 } from "./util";
+import { facets, submitReview, submitReview2 } from "./util";
 import { ReviewContainer } from "./review-style";
 import { set } from "react-ga";
+import Stepper from "./Stepper/Stepper";
 
 const Review = (props) => {
   const history = useHistory();
@@ -84,6 +85,7 @@ const Review = (props) => {
 
   return (
     <ReviewContainer>
+      <Stepper facets={facets} currentIndex={currentIndex}/>
       <Facet
         next={next}
         back={back}

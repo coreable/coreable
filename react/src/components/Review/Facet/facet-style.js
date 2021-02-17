@@ -13,7 +13,7 @@ export const FacetContainer = styled.div`
 `;
 
 export const Header = styled.div`
-  margin-top: 140px;
+  margin-top: 10px;
   padding: 20px;
   box-sizing: border-box;
 `;
