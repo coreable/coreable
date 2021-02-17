@@ -167,10 +167,6 @@ class App extends Component {
   };
 
   fetchMeManager = async () => {
-    const query = {
-      query: MANAGER_API.query,
-    };
-
     const options = {
       method: "POST",
       mode: "cors",
@@ -181,11 +177,14 @@ class App extends Component {
       body: JSON.stringify(MANAGER_API),
     };
 
-    const res = await fetch(API_URL, options)
-      .then((res) => res.json())
-      .catch((err) => console.log(err));
+    console.log(options);
+
+    const res = await fetch(API_URL, options).then((res) => res.json()).catch(console.log);
 
     let { data, errors } = res.data.manager;
+
+    console.log(data);
+    console.log(errors);
 
     if (!data) {
       data = {

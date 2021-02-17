@@ -62,6 +62,7 @@ app.use(cors());
 // JWT Authorization
 app.use(async (req: Request, res: Response, next: NextFunction) => {
   const JWT_TOKEN: string | undefined = req.header("JWT");
+  console.log(JWT_TOKEN);
   if (JWT_TOKEN) {
     try {
       // Decode for server sided use only
