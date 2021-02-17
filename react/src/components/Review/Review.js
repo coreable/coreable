@@ -24,7 +24,7 @@ import Stepper from "./Stepper/Stepper";
 
 const Review = (props) => {
   const history = useHistory();
-
+  const reviewState = props.location.state.reviewState;
   const AUTH_TOKEN = props.app.JWT;
   const team_id = props.location.state.pending._id;
   const tutorial_id = props.location.state.pending.tutorial._id;
@@ -32,7 +32,6 @@ const Review = (props) => {
   const organisation_id =
     props.location.state.pending.tutorial.subject.organisation._id;
   const me_id = props.app.data.user._id;
-  const reviewState = props.location.state.reviewState;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [buttonText, setButtonText] = useState("Next");
@@ -46,9 +45,17 @@ const Review = (props) => {
     }
 
     if (currentIndex === facets.length - 1) {
-      const review = JSON.parse(localStorage.getItem("review"));
+      const review = JSON.parse(localStorage.getItem("review-coreable"));
 
       if (questionsAnswered >= 16 || review.length >= 16) {
+        const AUTH_TOKEN = props.app.JWT;
+        const team_id = props.location.state.pending._id;
+        const tutorial_id = props.location.state.pending.tutorial._id;
+        const subject_id = props.location.state.pending.tutorial.subject._id;
+        const organisation_id =
+          props.location.state.pending.tutorial.subject.organisation._id;
+        const me_id = props.app.data.user._id;
+
         submitReview2(
           AUTH_TOKEN,
           team_id,
@@ -58,13 +65,13 @@ const Review = (props) => {
           me_id
         )
           .then(() => {
-            localStorage.removeItem("review");
+            localStorage.removeItem("review-coreable");
             history.push("/skills");
           })
           .catch((err) => console.log(err));
       } else {
         setDisableSubmitButton(true);
-        setButtonText("Did you miss any sections?")
+        setButtonText("Did you miss any sections?");
       }
       return;
     }
@@ -85,7 +92,7 @@ const Review = (props) => {
 
   return (
     <ReviewContainer>
-      <Stepper facets={facets} currentIndex={currentIndex}/>
+      <Stepper facets={facets} currentIndex={currentIndex} />
       <Facet
         next={next}
         back={back}

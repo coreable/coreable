@@ -48,8 +48,8 @@ const Facet = (props) => {
   const [questionsAnswered, setQuestionsAnswered] = useState(0)
 
   useEffect(() => {
-    if (localStorage.getItem("review")) {
-      setSurveyResults(JSON.parse(localStorage.getItem("review")));
+    if (localStorage.getItem("review-coreable")) {
+      setSurveyResults(JSON.parse(localStorage.getItem("review-coreable")));
     }
   }, [refresh]);
 
@@ -72,7 +72,7 @@ const Facet = (props) => {
     object.scrollTop = 0;
 
     setSurveyOpen(false);
-    localStorage.setItem("review", JSON.stringify(surveyResults));
+    localStorage.setItem("review-coreable", JSON.stringify(surveyResults));
     setRefresh(true);
     props.next(questionsAnswered);
   };
@@ -82,7 +82,7 @@ const Facet = (props) => {
     object.scrollTop = 0;
 
     setSurveyOpen(false);
-    localStorage.setItem("review", JSON.stringify(surveyResults));
+    localStorage.setItem("review-coreable", JSON.stringify(surveyResults));
     setRefresh(true);
     props.back();
   };

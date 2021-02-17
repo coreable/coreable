@@ -9,15 +9,15 @@ import nonVerbal from "../../images/NonVerbal.svg";
 import verbalAttent from "../../images/VerbalAttent.svg";
 import culture from "../../images/Culture.svg";
 
-export const submitReview2 = async ({
+export const submitReview2 = async (
   AUTH_TOKEN,
   team_id,
   tutorial_id,
   subject_id,
   organisation_id,
-  me_id,
-}) => {
-  const review = JSON.parse(localStorage.getItem("review"));
+  me_id
+) => {
+  const review = JSON.parse(localStorage.getItem("review-coreable"));
 
   let calm,
     clearInstructions,
