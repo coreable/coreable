@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  GroupStep,
   StepperContainer,
   StepperDot,
   StepperLine,
@@ -8,9 +7,6 @@ import {
 } from "./stepper-style";
 
 function Stepper({ facets, currentIndex }) {
-  const totalFacets = facets.length;
-  const [facetCounter, setFacetCounter] = useState(0);
-
   return (
     <StepperContainer>
       <StepperLineContainer>
