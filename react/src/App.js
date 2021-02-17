@@ -136,7 +136,9 @@ class App extends Component {
       body: JSON.stringify(FETCH_USER),
     };
 
-    const res = await fetch(API_URL, options).then((res) => res.json());
+    const res = await fetch(API_URL, options)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
 
     let { data, errors } = res.data.me;
 
@@ -176,10 +178,12 @@ class App extends Component {
         "Content-Type": "application/json",
         JWT: this.state.JWT,
       },
-      body: JSON.stringify(MANAGER_API.query),
+      body: JSON.stringify(MANAGER_API),
     };
 
-    const res = await fetch(API_URL, options).then((res) => res.json());
+    const res = await fetch(API_URL, options)
+      .then((res) => res.json())
+      .catch((err) => console.log(err));
 
     let { data, errors } = res.data.manager;
 

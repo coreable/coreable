@@ -5,7 +5,7 @@ export const NavBarContainer = styled.div`
   z-index: 998;
   height: 50px;
   width: 100%;
-  background-color: ${(props) => (props.scroll > 50 ? "white" : "#0653cd")};
+  background-color: #0653cd;
   box-shadow: ${(props) =>
     props.scroll > 50 && "0px 1px 9px -1px rgba(0, 56, 140, 1)"};
   opacity: ${(props) => (props.scroll > 50 ? "0.85" : "1")};
