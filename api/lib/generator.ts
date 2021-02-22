@@ -79,7 +79,7 @@ export async function generator() {
         lastName: `user ${i}`,
         email: `u${i}@${i}.com`,
         password: 'unittest',
-        industry_id: industries[i]._id
+        industry_id: industries[(Math.round(Math.random()))]._id
       });
       return users.push(user);
     });

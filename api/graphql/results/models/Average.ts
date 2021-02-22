@@ -1,6 +1,6 @@
 /*
   ===========================================================================
-    Copyright (C) 2021 Coreable
+    Copyright (C) 2020 Coreable
     This file is part of Coreable's source code.
     Coreables source code is free software; you can redistribute it
     and/or modify it under the terms of the End-user license agreement.
@@ -14,26 +14,25 @@
 
 import {
   Model,
-  DataTypes,
-  Sequelize
-} from 'sequelize';
+  Sequelize,
+  DataTypes
+} from "sequelize";
 
 // Identity
-import { User } from '../../identity/models/User';
-import { Industry } from '../../identity/models/Industry';
+import { Industry } from "../../identity/models/Industry";
+import { User } from "../../identity/models/User";
 
-// References
-import { ReferenceInvite } from '../../reference/models/Invite';
-import { ReferenceUser } from '../../reference/models/User';
+// Reference
+import { ReferenceUser } from "../../reference/models/User";
 
-// Universities
-import { UniversityUser } from '../../university/models/User';
-import { UniversitySubject } from '../../university/models/Subject';
-import { UniversityTeam } from '../../university/models/Team';
-import { UniversityTutorial } from '../../university/models/Tutorial';
-import { UniversityOrganisation } from '../../university/models/Organisation'
+// University
+import { UniversityOrganisation } from "../../university/models/Organisation";
+import { UniversitySubject } from "../../university/models/Subject";
+import { UniversityTeam } from "../../university/models/Team";
+import { UniversityTutorial } from "../../university/models/Tutorial";
+import { UniversityUser } from "../../university/models/User";
 
-class Review extends Model {
+class Average extends Model {
   /** PRIMARY KEYS */
   public _id!: string;
 
@@ -52,7 +51,6 @@ class Review extends Model {
   // Reference
   public ref_receiver_id!: string;
   public ref_submitter_id!: string;
-  public ref_invite_id!: string;
 
   /** RELATIONSHIPS */
   // Identity
@@ -69,7 +67,6 @@ class Review extends Model {
   // Reference
   public ref_receiver!: ReferenceUser;
   public ref_submitter!: ReferenceUser;
-  public ref_invite!: ReferenceInvite;
 
   /** PROPERTIES */
   public calm!: number;
@@ -89,19 +86,17 @@ class Review extends Model {
   public resilienceFeedback!: number;
   public signifiesInterest!: number;
   public workDemands!: number;
-  // University
-  public uni_state!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
 const sync = (sequelize: Sequelize) => {
-  Review.init({
+  Average.init({
     '_id': {
       type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
     },
     /** IDENTITY */
     'identity_receiver_id': {
@@ -116,7 +111,7 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.UUID,
       allowNull: true
     },
-    /** UNIVERSITIES */
+    /** UNIVERSITY */
     'uni_receiver_id': {
       type: DataTypes.UUID,
       allowNull: true
@@ -125,11 +120,11 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.UUID,
       allowNull: true
     },
-    'uni_subject_id': {
+    'uni_organisation_id': {
       type: DataTypes.UUID,
       allowNull: true
     },
-    'uni_team_id': {
+    'uni_subject_id': {
       type: DataTypes.UUID,
       allowNull: true
     },
@@ -137,17 +132,9 @@ const sync = (sequelize: Sequelize) => {
       type: DataTypes.UUID,
       allowNull: true
     },
-    'uni_organisation_id': {
+    'uni_team_id': {
       type: DataTypes.UUID,
       allowNull: true
-    },
-    'uni_state': {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      validate: {
-        min: 1,
-        max: 3
-      }
     },
     /** REFERENCE */
     'ref_receiver_id': {
@@ -230,83 +217,79 @@ const sync = (sequelize: Sequelize) => {
     'signifiesInterest': {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
-    }
+    },
   }, {
-    'tableName': 'REVIEW',
-    'sequelize': sequelize,
+    'tableName': 'AVERAGE',
+    'sequelize': sequelize
   });
-  return Review;
+
+  return Average;
 }
 
 const assosciate = () => {
   /** IDENTITY */
-  Review.belongsTo(User, {
+  Average.belongsTo(User, {
     foreignKey: 'identity_receiver_id',
     targetKey: '_id',
     as: 'identity_receiver'
   });
-  Review.belongsTo(User, {
+  Average.belongsTo(User, {
     foreignKey: 'identity_submitter_id',
     targetKey: '_id',
     as: 'identity_submitter'
   });
-  Review.belongsTo(Industry, {
+  Average.belongsTo(Industry, {
     foreignKey: 'identity_industry_id',
     targetKey: '_id',
     as: 'identity_industry'
   });
   /** UNIVERSITY */
-  Review.belongsTo(UniversityUser, {
+  Average.belongsTo(UniversityUser, {
     foreignKey: 'uni_receiver_id',
     targetKey: '_id',
     as: 'uni_receiver'
   });
-  Review.belongsTo(UniversityUser, {
+  Average.belongsTo(UniversityUser, {
     foreignKey: 'uni_submitter_id',
     targetKey: '_id',
     as: 'uni_submitter'
   });
-  Review.belongsTo(UniversitySubject, {
+  Average.belongsTo(UniversitySubject, {
     foreignKey: 'uni_subject_id',
     targetKey: '_id',
     as: 'uni_subject'
   });
-  Review.belongsTo(UniversityTeam, {
+  Average.belongsTo(UniversityTeam, {
     foreignKey: 'uni_team_id',
     targetKey: '_id',
     as: 'uni_team'
   });
-  Review.belongsTo(UniversityTutorial, {
+  Average.belongsTo(UniversityTutorial, {
     foreignKey: 'uni_tutorial_id',
     targetKey: '_id',
     as: 'uni_tutorial'
   });
-  Review.belongsTo(UniversityOrganisation, {
+  Average.belongsTo(UniversityOrganisation, {
     foreignKey: 'uni_organisation_id',
     targetKey: '_id',
     as: 'uni_organisation'
   });
   /** REFERENCE */
-  Review.belongsTo(ReferenceInvite, {
-    foreignKey: 'ref_invite_id',
-    targetKey: '_id',
-    as: 'ref_invite'
-  });
-  Review.belongsTo(ReferenceUser, {
+  Average.belongsTo(ReferenceUser, {
     foreignKey: 'ref_receiver_id',
     targetKey: '_id',
     as: 'ref_receiver'
   });
-  Review.belongsTo(ReferenceUser, {
+  Average.belongsTo(ReferenceUser, {
     foreignKey: 'ref_submitter_id',
     targetKey: '_id',
     as: 'ref_submitter'
   });
-  return Review;
+  return Average;
 }
 
 export {
-  Review,
+  Average,
   sync,
   assosciate
-};
+}

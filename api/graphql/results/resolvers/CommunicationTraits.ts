@@ -13,71 +13,53 @@
 */
 
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
-import { UniversityReview } from "../models/Review"
+import { Review } from "../models/Review"
 
-export const UniversityCollaborationTraitsResolver: GraphQLObjectType<UniversityReview> = new GraphQLObjectType({
-  name: 'UniversityCollaborationTraitsResolver',
-  description: 'The representation of Collaboration Traits',
+export const CommunicationTraitsResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
+  name: 'CommunicationTraitsResolver',
+  description: 'The representation of Communication Traits',
   fields: () => {
     return {
-      'calm': {
+      'clearInstructions': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.calm;
+          return review.clearInstructions;
         }
       },
-      'cooperatively': {
+      'easilyExplainsComplexIdeas': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.cooperatively;
+          return review.easilyExplainsComplexIdeas;
         }
       },
-      'empathy': {
+      'openToShare': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.empathy;
+          return review.openToShare;
         }
       },
-      'influences': {
+      'crossTeam': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.influences;
+          return review.crossTeam;
         }
       },
-      'managesOwn': {
+      'distractions': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.managesOwn;
+          return review.distractions;
         }
       },
-      'newIdeas': {
+      'usesRegulators': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.newIdeas;
+          return review.usesRegulators;
         }
       },
-      'positiveBelief': {
+      'signifiesInterest': {
         type: GraphQLFloat,
         resolve(review, args, context) {
-          return review.positiveBelief;
-        }
-      },
-      'proactive': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.proactive;
-        }
-      },
-      'resilienceFeedback': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.resilienceFeedback;
-        }
-      },
-      'workDemands': {
-        type: GraphQLFloat,
-        resolve(review, args, context) {
-          return review.workDemands;
+          return review.signifiesInterest;
         }
       }
     }

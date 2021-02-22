@@ -38,14 +38,23 @@ export const RootMutation: GraphQLObjectType<QueryInterface> = new GraphQLObject
   description: 'This is the root university mutation',
   fields: () => {
     return {
+      'results': {
+        'type': new GraphQLObjectType({
+          'name': 'ResultsMutation',
+          fields: () => {
+            return {
+              'submitReview': SubmitReviewMutation
+            }
+          }
+        })
+      },
       'university': {
         'type': new GraphQLObjectType({
           'name': 'UniversityMutation',
           fields: () => {
             return {
               'joinTeam': JoinTeamMutation,
-              'leaveTeam': LeaveTeamMutation,
-              'submitReview': SubmitReviewMutation
+              'leaveTeam': LeaveTeamMutation
             }
           }
         })
@@ -55,7 +64,7 @@ export const RootMutation: GraphQLObjectType<QueryInterface> = new GraphQLObject
           'name': 'ReferenceMutation',
           fields: () => {
             return {
-
+              // 'invite': InivteMutation
             }
           }
         })

@@ -22,8 +22,7 @@ import { UniversityTeam } from './Team';
 import { Review } from '../../results/models/Review';
 import { User } from '../../identity/models/User';
 import { UniversityOrganisation } from './Organisation';
-import { UniversityUserAverage } from './UserAverage';
-import { UniversityUserReflectionAverage } from './UserReflectionAverage';
+import { Average } from '../../results/models/Average';
 
 class UniversityUser extends Model {
   // Primary Key
@@ -39,8 +38,8 @@ class UniversityUser extends Model {
   public reflection!: [Review];
   public submissions!: [Review];
   public reviews!: [Review];
-  public reflectionAverages!: [UniversityUserReflectionAverage];
-  public averages!: [UniversityUserAverage];
+  public reflectionAverages!: [Average];
+  public averages!: [Average];
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -75,23 +74,23 @@ const assosciate = () => {
   });
   UniversityUser.hasMany(Review, {
     sourceKey: '_id',
-    foreignKey: 'receiver_id',
+    foreignKey: 'uni_receiver_id',
     as: 'reviews'
   });
   UniversityUser.hasMany(Review, {
     sourceKey: '_id',
-    foreignKey: 'submitter_id',
+    foreignKey: 'uni_submitter_id',
     as: 'submissions'
   });
-  UniversityUser.hasMany(UniversityUserAverage, {
+  UniversityUser.hasMany(Average, {
     sourceKey: '_id',
-    foreignKey: 'user_id',
+    foreignKey: 'uni_receiver_id',
     as: 'averages'
   });
-  UniversityUser.hasMany(UniversityUserReflectionAverage, {
+  UniversityUser.hasMany(Average, {
     sourceKey: '_id',
-    foreignKey: 'user_id',
-    as: 'reflectionAverages'
+    foreignKey: 'uni_submitter_id',
+    as: 'reflection_avg'
   });
   UniversityUser.belongsTo(User, {
     foreignKey: 'user_id',

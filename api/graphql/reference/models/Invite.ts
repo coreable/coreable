@@ -50,7 +50,7 @@ const sync = (sequelize: Sequelize) => {
       'defaultValue': DataTypes.UUIDV4,
       'primaryKey': true
     },
-    'list_id': {
+    'requester_id': {
       'type': DataTypes.UUID,
       'allowNull': false
     },
@@ -90,8 +90,8 @@ const sync = (sequelize: Sequelize) => {
 const assosciate = () => {
   // receiver
   ReferenceInvite.belongsTo(ReferenceUser, {
-    targetKey: 'requester_id',
-    foreignKey: '_id',
+    targetKey: '_id',
+    foreignKey: 'requester_id',
     as: 'requester'
   });
   // submitter

@@ -21,7 +21,7 @@ import { UniversityUser } from './User';
 import { UniversitySubject } from './Subject';
 import { Review } from '../../results/models/Review';
 import { UniversityTeam } from './Team';
-import { UniversityTutorialAverage } from './TutorialAverage';
+import { Average } from '../../results/models/Average';
 import { UniversityOrganisation } from './Organisation';
 
 class UniversityTutorial extends Model {
@@ -36,6 +36,7 @@ class UniversityTutorial extends Model {
   public teams!: [UniversityTeam];
   public users!: [UniversityUser];
   public reviews!: [Review];
+  public averages!: [Average];
   public organisation!: UniversityOrganisation;
 
   // Properties
@@ -79,14 +80,14 @@ const assosciate = () => {
     foreignKey: 'subject_id',
     as: 'subject'
   });
-  UniversityTutorial.hasMany(UniversityTutorialAverage, {
+  UniversityTutorial.hasMany(Average, {
     sourceKey: '_id',
-    foreignKey: 'team_id',
+    foreignKey: 'uni_team_id',
     as: 'averages'
   });
   UniversityTutorial.hasMany(Review, {
     sourceKey: '_id',
-    foreignKey: 'tutorial_id',
+    foreignKey: 'uni_tutorial_id',
     as: 'reviews'
   });
   return UniversityTutorial;

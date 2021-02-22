@@ -15,8 +15,8 @@
 import { GraphQLObjectType, GraphQLFloat } from "graphql"
 import { CollaborationFacets } from "../models/CollaborationFacet";
 
-export const UniversityCollaborationFacetsResolver: GraphQLObjectType<CollaborationFacets> = new GraphQLObjectType({
-  name: 'UniversityCollaborationFacetsResolver',
+export const CollaborationFacetsResolver: GraphQLObjectType<CollaborationFacets> = new GraphQLObjectType({
+  name: 'CollaborationFacetsResolver',
   description: 'The representation of Collaboration Facets',
   fields: () => {
     return {

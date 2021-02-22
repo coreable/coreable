@@ -13,7 +13,7 @@
 */
 
 import {
-  GraphQLList,
+  // GraphQLList,
   GraphQLObjectType,
   GraphQLString
 } from 'graphql';
@@ -44,7 +44,7 @@ export const IndustryResolver: GraphQLObjectType<Industry> = new GraphQLObjectTy
           // TODO:
           return await GetIndustryAverages(industry, args, context);
         }
-      }
+      },
     }
   }
 });

@@ -17,7 +17,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import { ReferenceCoreableErrorResolver } from "../resolvers/CoreableError";
+import { CoreableErrorResolver } from "../../global/resolvers/Error";
 import { ReferenceMeMediator } from "../mediators/Me";
 
 export const ReferenceMeCommand: GraphQLObjectType = new GraphQLObjectType({
@@ -32,7 +32,7 @@ export const ReferenceMeCommand: GraphQLObjectType = new GraphQLObjectType({
         }
       },
       'errors': {
-        type: new GraphQLList(ReferenceCoreableErrorResolver),
+        type: new GraphQLList(CoreableErrorResolver),
         resolve(value) {
           return value.errors;
         }

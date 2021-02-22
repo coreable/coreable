@@ -30,6 +30,9 @@ import { UniversityTutorial } from '../../university/models/Tutorial';
 import { UniversityTeam } from '../../university/models/Team';
 import { UniversityOrganisation } from '../../university/models/Organisation';
 import { UniversitySubject } from '../../university/models/Subject';
+import { IndustryResolver } from '../../identity/resolvers/Industry';
+import { UserResolver } from '../../identity/resolvers/User';
+import { Industry } from '../../identity/models/Industry';
 
 export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
   name: 'ReviewResolver',
@@ -40,6 +43,59 @@ export const ReviewResolver: GraphQLObjectType<Review> = new GraphQLObjectType({
         type: GraphQLString,
         resolve(review, args, context) {
           return review._id;
+        }
+      },
+      /** -------------------- IDENTITY -------------------- */
+      'identity_receiver_id': {
+        type: GraphQLString,
+        resolve(review, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return review.identity_receiver_id;
+        }
+      },
+      'identity_receiver': {
+        type: UserResolver,
+        async resolve(review, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await null;
+        }
+      },
+      'identity_submitter_id': {
+        type: GraphQLString,
+        resolve(review, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return review.identity_submitter_id;
+        }
+      },
+      'identity_submitter': {
+        type: UserResolver,
+        async resolve(review, args, context) {
+          if (!context.MANAGER) {
+            return null;
+          }
+          return await null;
+        }
+      },
+      'identity_industry_id': {
+        type: GraphQLString,
+        resolve(review, args, context) {
+          return review.identity_industry_id;
+        }
+      },
+      'identity_industry': {
+        type: IndustryResolver,
+        async resolve(review, args, context) {
+          return await Industry.findOne({
+            where: {
+              _id: review.identity_industry_id
+            }
+          });
         }
       },
       /** -------------------- UNIVERSITY -------------------- */

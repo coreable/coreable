@@ -21,13 +21,15 @@ import * as Manager from '../graphql/identity/models/Manager';
 import * as Industry from '../graphql/identity/models/Industry';
 import * as IndustryAverage from '../graphql/identity/models/IndustryAverage';
 
+// Results
+import * as Review from '../graphql/results/models/Review';
+
 // University
 import * as UniversityOrganisation from '../graphql/university/models/Organisation';
 import * as UniversityOrganisationAverage from '../graphql/university/models/OrganisationAverage';
 import * as UniversityUser from '../graphql/university/models/User';
 import * as UniversityUserAverage from '../graphql/university/models/UserAverage';
 import * as UniversityUserReflectionAverage from '../graphql/university/models/UserReflectionAverage';
-import * as UniversityReview from '../graphql/university/models/Review';
 import * as UniversityTeam from '../graphql/university/models/Team';
 import * as UniversityTeamAverage from '../graphql/university/models/TeamAverage';
 import * as UniveristyTutorial from '../graphql/university/models/Tutorial';
@@ -38,7 +40,6 @@ import * as UniversitySubjectAverage from '../graphql/university/models/SubjectA
 // Reference
 import * as ReferenceUser from '../graphql/reference/models/User';
 import * as ReferenceInvite from '../graphql/reference/models/Invite';
-import * as ReferenceReview from '../graphql/reference/models/Review';
 
 // Replace the sequelize object to add custom methods
 const _sequelize = Object.assign(Sequelize);
@@ -77,6 +78,9 @@ _sequelize.sync = (async () => {
   Industry.sync(sequelize);
   IndustryAverage.sync(sequelize);
 
+  // Results
+  Review.sync(sequelize);
+
   // University
   UniversityOrganisation.sync(sequelize);
   UniversityOrganisationAverage.sync(sequelize);
@@ -85,7 +89,6 @@ _sequelize.sync = (async () => {
   UniversityUserReflectionAverage.sync(sequelize);
   UniversityTeam.sync(sequelize);
   UniversityTeamAverage.sync(sequelize);
-  UniversityReview.sync(sequelize);
   UniversitySubject.sync(sequelize);
   UniversitySubjectAverage.sync(sequelize);
   UniveristyTutorial.sync(sequelize);
@@ -94,7 +97,6 @@ _sequelize.sync = (async () => {
   // Reference
   ReferenceUser.sync(sequelize);
   ReferenceInvite.sync(sequelize);
-  ReferenceReview.sync(sequelize);
 })();
 
 // Create table associations
@@ -105,6 +107,9 @@ _sequelize.assosciate = (async () => {
   Industry.assosciate();
   IndustryAverage.assosciate();
 
+  // Results
+  Review.assosciate();
+
   // University
   UniversityOrganisation.assosciate();
   UniversityOrganisationAverage.assosciate();
@@ -113,7 +118,6 @@ _sequelize.assosciate = (async () => {
   UniversityUserReflectionAverage.assosciate();
   UniversityTeam.assosciate();
   UniversityTeamAverage.assosciate();
-  UniversityReview.assosciate();
   UniversitySubject.assosciate();
   UniversitySubjectAverage.assosciate();
   UniveristyTutorial.assosciate();
@@ -122,7 +126,6 @@ _sequelize.assosciate = (async () => {
   // Reference
   ReferenceUser.assosciate();
   ReferenceInvite.assosciate();
-  ReferenceReview.assosciate();
 })();
 
 export { sequelize };

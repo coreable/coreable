@@ -46,15 +46,15 @@ export const ReferenceUserResolver: GraphQLObjectType<ReferenceUser> = new Graph
           return await GetReferenceUser(reference_user, args, context);
         }
       },
-      'report': {
+      // 'report': {
 
-      },
-      'invites': {
+      // },
+      // 'invites': {
 
-      },
-      'submissions': {
+      // },
+      // 'submissions': {
 
-      }
+      // }
     }
   }
 });

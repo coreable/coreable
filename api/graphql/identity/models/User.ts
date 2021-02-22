@@ -24,7 +24,7 @@ import { ReferenceUser } from '../../reference/models/User';
 import { Industry } from './Industry';
 import { Manager } from './Manager';
 import { ReferenceInvite } from '../../reference/models/Invite';
-import { Review } from '../../results/models/Review';
+// import { Review } from '../../results/models/Review';
 
 class User extends Model {
   // Primary Key

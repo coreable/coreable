@@ -20,7 +20,8 @@ import {
 
 import { UniversitySubject } from "./Subject";
 import { Manager } from "../../identity/models/Manager";
-import { UniversityOrganisationAverage } from "./OrganisationAverage";
+import { Average } from "../../results/models/Average";
+import { Review } from "../../results/models/Review";
 
 class UniversityOrganisation extends Model {
   // Primary Key
@@ -28,7 +29,7 @@ class UniversityOrganisation extends Model {
 
   // Relationships
   public subjects!: [UniversitySubject];
-  public averages!: [UniversityOrganisationAverage];
+  public averages!: [Average];
   public managers!: [Manager];
 
   // Properties
@@ -64,11 +65,20 @@ const assosciate = () => {
     foreignKey: 'organisation_id',
     as: 'managers'
   });
-
   UniversityOrganisation.hasMany(UniversitySubject, {
     sourceKey: '_id',
     foreignKey: 'organisation_id',
     as: 'subjects'
+  });
+  UniversityOrganisation.hasMany(Review, {
+    sourceKey: '_id',
+    foreignKey: 'uni_organisation_id',
+    as: 'reviews'
+  });
+  UniversityOrganisation.hasMany(Average, {
+    sourceKey: '_id',
+    foreignKey: 'uni_organisation_id',
+    as: 'averages'
   });
   return UniversityOrganisation;
 }

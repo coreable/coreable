@@ -17,9 +17,10 @@ import {
   DataTypes,
   Sequelize
 } from 'sequelize';
+
 import { UniversityUser } from './User';
 import { UniversitySubject } from './Subject';
-import { UniversityTeamAverage } from './TeamAverage';
+import { Average } from '../../results/models/Average';
 import { Review } from '../../results/models/Review';
 import { UniversityTutorial } from './Tutorial';
 import { UniversityOrganisation } from './Organisation';
@@ -34,7 +35,7 @@ class UniversityTeam extends Model {
   public reviews!: [Review];
   public organisation!: UniversityOrganisation;
   public tutorial!: UniversityTutorial;
-  public averages!: [UniversityTeamAverage];
+  public averages!: [Average];
 
   // Properties
   public name!: string;
@@ -93,14 +94,14 @@ const assosciate = () => {
     foreignKey: 'tutorial_id',
     as: 'tutorial'
   });
-  UniversityTeam.hasMany(UniversityTeamAverage, {
+  UniversityTeam.hasMany(Average, {
     sourceKey: '_id',
-    foreignKey: 'team_id',
+    foreignKey: 'uni_team_id',
     as: 'averages'
   });
   UniversityTeam.hasMany(Review, {
     sourceKey: '_id',
-    foreignKey: 'team_id',
+    foreignKey: 'uni_team_id',
     as: 'reviews'
   });
   return UniversityTeam;
