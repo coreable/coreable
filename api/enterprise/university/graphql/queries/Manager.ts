@@ -16,7 +16,7 @@ import { UniversityManagerObjectCommand } from "../command/object/Manager";
 import { ManagerQuery } from "../../logic/ManagerQuery";
 
 export default {
-  'type': UniversityManagerObjectCommand,
+  type: UniversityManagerObjectCommand,
   async resolve(root: any, args: any, context: any) {
     return await ManagerQuery(root, args, context);
   }

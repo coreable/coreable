@@ -35,7 +35,6 @@ class User extends Model {
   public passwordResetExpiry!: Date
   public lockoutAttempts!: number;
   public lockoutTimer!: Date;
-  // INDUSTRY TODO:
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;

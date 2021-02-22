@@ -23,7 +23,7 @@ import SubmitReviewMutation from './mutations/SubmitReview';
 
 export const UniversityMutation: GraphQLObjectType<QueryInterface> = new GraphQLObjectType({
   name: 'UniversityMutation',
-  description: 'This is the root university mutation',
+  description: 'This is the root University mutation',
   fields: () => {
     return {
       'joinTeam': JoinTeamMutation,

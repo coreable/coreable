@@ -17,7 +17,7 @@ import {
   GraphQLList
 } from "graphql";
 
-import { UniversityCoreableErrorResolver } from "../../resolvers/CoreableError";
+import { UniversityCoreableErrorResolver } from "../../resolvers/CorableError";
 import { UniversityTeamObjectMediator } from "../../mediators/object/Team";
 
 export const UniversityTeamObjectCommand: GraphQLObjectType = new GraphQLObjectType({
